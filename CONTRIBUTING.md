@@ -8,7 +8,7 @@ Before contributing, read:
 
 - README.md
 - planning/foundation/PRINCIPLES_AND_NONGOALS.md
-- planning/foundation/MASTER_ROADMAP.md
+- planning/foundation/ROADMAP.md
 - RULES_FOR_AGENTS.md
 
 ---

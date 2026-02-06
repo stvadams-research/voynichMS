@@ -62,7 +62,7 @@ Enables interpretive research, hypothesis testing, and inference. This layer con
 - **Goal**: Falsifiable interpretation and inference.
 - **Status**: Planning and Enablement.
 
-See `planning/foundation/MASTER_ROADMAP.md` for the detailed Level 0–6 progression.
+See `planning/foundation/ROADMAP.md` for the detailed Level 0–6 progression.
 
 ---
 

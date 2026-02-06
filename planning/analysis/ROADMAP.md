@@ -1,4 +1,4 @@
-# MASTER_ROADMAP.md
+# ROADMAP.md
 ## Phase 2 – Admissibility, Stress Testing, and Constrained Inference
 
 This roadmap defines the **authoritative plan** for Phase 2 of the Voynich project.

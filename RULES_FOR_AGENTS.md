@@ -15,7 +15,7 @@ Before writing any code or proposing any change, an agent must read:
 
 1. README.md  
 2. planning/foundation/PRINCIPLES_AND_NONGOALS.md  
-3. planning/foundation/MASTER_ROADMAP.md  
+3. planning/foundation/ROADMAP.md  
 
 If a proposal contradicts any of these documents, it must not be implemented.
 
