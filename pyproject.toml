@@ -1,5 +1,5 @@
 [project]
-name = "voynich-foundation"
+name = "foundation"
 version = "0.1.0"
 description = "Assumption-aware foundational infrastructure for Voynich Manuscript analysis (no translation)."
 readme = "README.md"
@@ -41,7 +41,7 @@ viz = [
 ]
 
 [project.scripts]
-voynich-foundation = "voynich.cli.main:app"
+foundation = "foundation.cli.main:app"
 
 [build-system]
 requires = ["setuptools>=69", "wheel"]
@@ -52,7 +52,7 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["voynich*"]
+include = ["foundation", "analysis"]
 
 [tool.ruff]
 line-length = 100
@@ -81,4 +81,4 @@ exclude = [
 [tool.pytest.ini_options]
 minversion = "8.0"
 addopts = "-q"
-testpaths = ["tests"]
+testpaths = ["tests/foundation", "tests/analysis"]

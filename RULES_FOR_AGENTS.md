@@ -14,8 +14,8 @@ They are not suggestions.
 Before writing any code or proposing any change, an agent must read:
 
 1. README.md  
-2. PRINCIPLES_AND_NONGOALS.md  
-3. MASTER_ROADMAP.md  
+2. planning/foundation/PRINCIPLES_AND_NONGOALS.md  
+3. planning/foundation/MASTER_ROADMAP.md  
 
 If a proposal contradicts any of these documents, it must not be implemented.
 
@@ -34,18 +34,13 @@ Current active level:
 This means:
 
 Allowed:
-- core/
-- storage/
-- runs/
-- qc/
-- cli/
+- src/foundation/
 - configs/
-- tests/
+- tests/foundation/
+- scripts/foundation/
 
 Forbidden:
-- ledger_text/
-- ledger_region/
-- integrate/
+- src/analysis/ (except scaffolding)
 - experiments/
 
 If code “feels useful later”, it belongs later.
@@ -231,7 +226,7 @@ Overreach is worse than delay.
 
 ## 15. Maintain Status Documentation
 
-Agents must ensure the `status/` folder is kept up to date. This is a critical default behavior.
+Agents must ensure the `status/foundation/` folder is kept up to date. This is a critical default behavior.
 
 - **IMMEDIATELY** upon completing a level or significant phase, update the corresponding `LEVEL_XX.md` file to **COMPLETED**.
 - Ensure all deliverables and verification steps are checked off in the status file.

@@ -28,7 +28,7 @@ These principles are non-negotiable and apply to all code, data, and experiments
 - Negative controls are mandatory.
 - No irreversible decisions are made early.
 
-See `PRINCIPLES_AND_NONGOALS.md` for the full statement.
+See `planning/foundation/PRINCIPLES_AND_NONGOALS.md` for the full statement.
 
 ---
 
@@ -48,22 +48,21 @@ Those activities may be enabled later, but they are explicitly out of scope here
 
 ---
 
-## High-Level Roadmap
+## Project Architecture
 
-The work is organized into strict levels with defined entry and exit criteria.
+The project is divided into two distinct phases to maintain epistemic discipline:
 
-- Level 0: Governing principles and safety rails
-- Level 1: Data and identity foundation
-- Level 2A: Text ledger (geometry-first, transcription-aligned)
-- Level 2B: Region ledger (visual grammar of pages)
-- Level 3: Negative controls and baselines
-- Level 4: Cross-ledger integration
-- Level 5: Measurement and decision gates
-- Level 6: Hypothesis modules (plug-in only)
+### Phase 1: Foundation (`foundation/`)
+Constructs a rigorous, assumption-aware substrate. This phase is governed by a strict 7-level roadmap (Levels 0–6) designed to create a verifiable ledger of the manuscript's physical and geometric reality without interpretive bias.
+- **Goal**: Deterministic, queryable evidence.
+- **Status**: Infrastructure established; Level 1 (Data & Identity) active.
 
-Only one level should be actively implemented at a time.
+### Phase 2: Analysis (`analysis/`)
+Enables interpretive research, hypothesis testing, and inference. This layer consumes the Foundation substrate to test specific structural and linguistic hypotheses.
+- **Goal**: Falsifiable interpretation and inference.
+- **Status**: Planning and Enablement.
 
-See `MASTER_ROADMAP.md` for the authoritative plan.
+See `planning/foundation/MASTER_ROADMAP.md` for the detailed Level 0–6 progression.
 
 ---
 
@@ -71,70 +70,44 @@ See `MASTER_ROADMAP.md` for the authoritative plan.
 
 ```
 voynich/
-├── README.md
-├── MASTER_ROADMAP.md
-├── PRINCIPLES_AND_NONGOALS.md
-├── pyproject.toml
-│
+├── planning/
+│   ├── foundation/         # Phase 1 Governance & Roadmaps
+│   └── analysis/           # Phase 2 Research Plans (Pending)
+├── status/
+│   ├── foundation/         # Phase 1 Completion Status
+│   └── analysis/           # Phase 2 Progression (Pending)
 ├── src/
-│   ├── core/
-│   ├── storage/
-│   ├── runs/
-│   ├── qc/
-│   ├── cli/
-│   │
-│   ├── ledger_text/
-│   ├── ledger_region/
-│   ├── integrate/
-│   └── experiments/
-│
-├── configs/
-├── data/
-│   ├── raw/
-│   ├── derived/
-│   └── qc/
-│
-├── runs/
-├── scripts/
-└── tests/
+│   ├── foundation/         # Phase 1: Immutable Substrate
+│   ├── analysis/           # Phase 2: Interpretive Layer
+│   └── voynich/            # Deprecated Compatibility Shim
+├── tests/
+│   ├── foundation/         # Foundation Unit & Logic Tests
+│   │   ├── dataset/        # Canonical Foundation Test Substrate
+│   │   └── dataset_2b/     # Multi-ledger test data
+│   └── analysis/           # Analysis & Hypothesis Tests
+├── configs/                # Shared Environment Configuration
+├── data/                   # Shared Data (Gitignored)
+├── runs/                   # Execution Provenance (Gitignored)
+└── scripts/                # Shared Utilities & Maintenance
 ```
 
-Empty directories are intentional. They act as guardrails against premature work.
-
 ---
 
-## Transliterations
+## Current Focus
 
-Transliterations are treated as **external interpretive artifacts**, not as truth.
+The project has transitioned into **Phase 2 Enablement**. 
 
-- Stored under `data/raw/transcriptions/`
-- Parsed via adapters in `src/transcriptions/`
-- Always associated with a `source_id`
-- Multiple transliterations may coexist
-- Never normalized, corrected, or merged
-
-They exist only to support alignment and indexing.
-
----
-
-## Current Status
-
-The project is currently focused on **Level 1: Data and Identity Foundation**.
-
-No segmentation, transcription parsing, or visual analysis should occur until Level 1 is complete and validated.
+While work continues to solidify **Phase 1: Level 1 (Data and Identity Foundation)**, the architectural split now allows for the parallel planning of **Phase 2: Analysis** modules without risking the integrity of the foundational evidence.
 
 ---
 
 ## How to Work on This Project
 
-Before writing code:
-
-1. Read `PRINCIPLES_AND_NONGOALS.md`
-2. Read `MASTER_ROADMAP.md`
-3. Identify the current active level
-4. Confirm the task belongs to that level
-
-If you are unsure where something belongs, it probably does not belong yet.
+1. **Understand the Boundary**: Determine if your task belongs in the **Foundation** (infrastructure/evidence) or **Analysis** (interpretation/hypothesis).
+2. **Consult the Phase Docs**:
+   - For Foundation work: Read `planning/foundation/PRINCIPLES_AND_NONGOALS.md`.
+   - For Analysis work: Consult the upcoming Analysis charter.
+3. **Respect the Shim**: New code should import directly from `foundation` or `analysis`. Do not use the `voynich` shim for new development.
 
 ---
 

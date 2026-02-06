@@ -7,8 +7,8 @@ Contributions are expected to improve rigor, reproducibility, and falsifiability
 Before contributing, read:
 
 - README.md
-- PRINCIPLES_AND_NONGOALS.md
-- MASTER_ROADMAP.md
+- planning/foundation/PRINCIPLES_AND_NONGOALS.md
+- planning/foundation/MASTER_ROADMAP.md
 - RULES_FOR_AGENTS.md
 
 ---
@@ -35,21 +35,15 @@ Only the current active level may be modified. Do not implement future-level wor
 Current active level:
 - Level 1, Data and Identity Foundation
 
-Allowed directories for Level 1:
-- src/core/
-- src/storage/
-- src/runs/
-- src/qc/
-- src/cli/
+Allowed directories for Level 1 (Foundation):
+- src/foundation/
+- tests/foundation/
+- scripts/foundation/
 - configs/
-- scripts/
-- tests/
 
 Forbidden (until their levels are active):
-- src/ledger_text/
-- src/ledger_region/
-- src/integrate/
-- src/experiments/
+- src/analysis/ (except for scaffolding)
+- tests/analysis/
 
 ---
 
