@@ -1,0 +1,84 @@
+[project]
+name = "voynich-foundation"
+version = "0.1.0"
+description = "Assumption-aware foundational infrastructure for Voynich Manuscript analysis (no translation)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Voynich Foundation Contributors" }
+]
+dependencies = [
+  "numpy>=1.26",
+  "pydantic>=2.7",
+  "pydantic-settings>=2.2",
+  "PyYAML>=6.0.1",
+  "opencv-python>=4.9",
+  "Pillow>=10.3",
+  "SQLAlchemy>=2.0",
+  "alembic>=1.13",
+  "rich>=13.7",
+  "typer>=0.12",
+  "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2",
+  "pytest-cov>=5.0",
+  "ruff>=0.5",
+  "mypy>=1.10",
+  "types-PyYAML",
+  "ipykernel>=6.29",
+  "matplotlib>=3.8",
+]
+duckdb = [
+  "duckdb>=1.0.0",
+  "pyarrow>=16.0.0",
+]
+viz = [
+  "matplotlib>=3.8",
+]
+
+[project.scripts]
+voynich-foundation = "voynich.cli.main:app"
+
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["voynich*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = [
+  "data",
+  "runs",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+ignore = ["E203"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+strict_optional = true
+exclude = [
+  "^data/",
+  "^runs/",
+]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-q"
+testpaths = ["tests"]

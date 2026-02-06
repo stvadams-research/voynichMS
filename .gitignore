@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+.build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+.env
+.env.*
+
+# Package managers
+poetry.lock
+uv.lock
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (never commit raw or derived data)
+data/raw/
+data/derived/
+data/qc/
+
+# Runs and experiment outputs
+runs/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+*.duckdb
+
+# Parquet / Arrow
+*.parquet
+*.arrow
+*.feather
+
+# Large binaries
+*.tif
+*.tiff
+*.png
+*.jpg
+*.jpeg
+*.zip
+*.tar
+*.gz
+
+# Logs
+*.log
+
+# Coverage and testing
+.coverage
+htmlcov/
+
+# OS-specific
+Thumbs.db
+
+# User research and scratchpad
+research/
