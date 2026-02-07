@@ -378,6 +378,73 @@ class HypothesisMetricRecord(Base):
     hypothesis = relationship("HypothesisRecord", back_populates="metrics")
 
 
+# --- Phase 2: Admissibility Tables ---
+
+class ExplanationClassRecord(Base):
+    """
+    Represents a class of possible explanations for the manuscript.
+
+    Examples: natural_language, enciphered_language, constructed_system,
+    visual_grammar, hybrid_system
+    """
+    __tablename__ = 'explanation_classes'
+
+    id = Column(String, primary_key=True)  # e.g., "natural_language"
+    name = Column(String, nullable=False)
+    description = Column(Text, nullable=True)
+    status = Column(String, nullable=False, default="underconstrained")  # admissible, inadmissible, underconstrained
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    constraints = relationship("AdmissibilityConstraintRecord", back_populates="explanation_class")
+    evidence = relationship("AdmissibilityEvidenceRecord", back_populates="explanation_class")
+
+
+class AdmissibilityConstraintRecord(Base):
+    """
+    A constraint that an explanation class must satisfy or avoid.
+
+    constraint_type:
+    - REQUIRED: The explanation class must satisfy this to be admissible
+    - FORBIDDEN: If this is true, the explanation class is inadmissible
+    - OPTIONAL: Relevant but not decisive
+    """
+    __tablename__ = 'admissibility_constraints'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    explanation_class_id = Column(String, ForeignKey('explanation_classes.id'), nullable=False)
+    constraint_type = Column(String, nullable=False)  # REQUIRED, FORBIDDEN, OPTIONAL
+    description = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    explanation_class = relationship("ExplanationClassRecord", back_populates="constraints")
+    evidence = relationship("AdmissibilityEvidenceRecord", back_populates="constraint")
+
+
+class AdmissibilityEvidenceRecord(Base):
+    """
+    Links Phase 1 structures to admissibility constraints.
+
+    support_level:
+    - SUPPORTS: The structure provides evidence for this constraint
+    - CONTRADICTS: The structure provides evidence against this constraint
+    - IRRELEVANT: The structure does not bear on this constraint
+    """
+    __tablename__ = 'admissibility_evidence'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    explanation_class_id = Column(String, ForeignKey('explanation_classes.id'), nullable=False)
+    constraint_id = Column(Integer, ForeignKey('admissibility_constraints.id'), nullable=False)
+    structure_id = Column(String, ForeignKey('structures.id'), nullable=True)  # May be null for hypothesis evidence
+    hypothesis_id = Column(String, ForeignKey('hypotheses.id'), nullable=True)  # Alternative to structure
+    support_level = Column(String, nullable=False)  # SUPPORTS, CONTRADICTS, IRRELEVANT
+    reasoning = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    explanation_class = relationship("ExplanationClassRecord", back_populates="evidence")
+    constraint = relationship("AdmissibilityConstraintRecord", back_populates="evidence")
+
+
 class MetadataStore:
     def __init__(self, db_url: str):
         self.engine = create_engine(db_url)
@@ -822,5 +889,101 @@ class MetadataStore:
             )
             session.add(record)
             session.commit()
+        finally:
+            session.close()
+
+    # --- Phase 2: Admissibility Helpers ---
+
+    def add_explanation_class(self, id: str, name: str, description: str, status: str = "underconstrained"):
+        session = self.Session()
+        try:
+            record = ExplanationClassRecord(
+                id=id,
+                name=name,
+                description=description,
+                status=status
+            )
+            session.merge(record)
+            session.commit()
+        finally:
+            session.close()
+
+    def update_explanation_class_status(self, id: str, status: str):
+        session = self.Session()
+        try:
+            record = session.query(ExplanationClassRecord).filter_by(id=id).first()
+            if record:
+                record.status = status
+                session.commit()
+        finally:
+            session.close()
+
+    def add_admissibility_constraint(self, explanation_class_id: str, constraint_type: str, description: str) -> int:
+        session = self.Session()
+        try:
+            record = AdmissibilityConstraintRecord(
+                explanation_class_id=explanation_class_id,
+                constraint_type=constraint_type,
+                description=description
+            )
+            session.add(record)
+            session.commit()
+            return record.id
+        finally:
+            session.close()
+
+    def add_admissibility_evidence(self, explanation_class_id: str, constraint_id: int, structure_id: str, support_level: str, reasoning: str):
+        session = self.Session()
+        try:
+            record = AdmissibilityEvidenceRecord(
+                explanation_class_id=explanation_class_id,
+                constraint_id=constraint_id,
+                structure_id=structure_id,
+                support_level=support_level,
+                reasoning=reasoning
+            )
+            session.add(record)
+            session.commit()
+        finally:
+            session.close()
+
+    def get_explanation_class(self, id: str):
+        session = self.Session()
+        try:
+            return session.query(ExplanationClassRecord).filter_by(id=id).first()
+        finally:
+            session.close()
+
+    def get_all_explanation_classes(self):
+        session = self.Session()
+        try:
+            return session.query(ExplanationClassRecord).all()
+        finally:
+            session.close()
+
+    def get_constraints_for_class(self, explanation_class_id: str):
+        session = self.Session()
+        try:
+            return session.query(AdmissibilityConstraintRecord).filter_by(
+                explanation_class_id=explanation_class_id
+            ).all()
+        finally:
+            session.close()
+
+    def get_evidence_for_class(self, explanation_class_id: str):
+        session = self.Session()
+        try:
+            return session.query(AdmissibilityEvidenceRecord).filter_by(
+                explanation_class_id=explanation_class_id
+            ).all()
+        finally:
+            session.close()
+
+    def get_evidence_for_constraint(self, constraint_id: int):
+        session = self.Session()
+        try:
+            return session.query(AdmissibilityEvidenceRecord).filter_by(
+                constraint_id=constraint_id
+            ).all()
         finally:
             session.close()

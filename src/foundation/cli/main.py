@@ -57,6 +57,10 @@ app.add_typer(decisions_app, name="decisions", help="Decision management command
 app.add_typer(sensitivity_app, name="sensitivity", help="Sensitivity analysis commands")
 app.add_typer(hypotheses_app, name="hypotheses", help="Hypothesis testing commands")
 
+# Phase 2 CLI apps
+admissibility_app = typer.Typer()
+app.add_typer(admissibility_app, name="admissibility", help="Phase 2: Admissibility mapping commands")
+
 console = Console()
 
 DB_PATH = "sqlite:///data/voynich.db"
@@ -789,7 +793,222 @@ def list_hypotheses():
         
         for h in hypotheses:
             table.add_row(h.id, h.status, h.description)
-            
+
+        console.print(table)
+    finally:
+        session.close()
+
+# --- Phase 2: Admissibility Commands ---
+
+@admissibility_app.command("register-class")
+def register_explanation_class(
+    id: str = typer.Option(..., help="Unique class ID (e.g., natural_language)"),
+    name: str = typer.Option(..., help="Human-readable name"),
+    description: str = typer.Option(..., help="Description of the explanation class")
+):
+    """
+    Register a new explanation class for admissibility evaluation.
+    """
+    with active_run(config={"command": "admissibility register-class", "id": id}) as run:
+        store = get_metadata_store()
+
+        # Import here to avoid circular imports
+        from analysis.admissibility.manager import AdmissibilityManager
+
+        manager = AdmissibilityManager(store)
+        manager.register_class(id, name, description)
+
+        console.print(f"[bold green]Registered explanation class: {name} ({id})[/bold green]")
+        store.save_run(run)
+
+@admissibility_app.command("add-constraint")
+def add_admissibility_constraint(
+    class_id: str = typer.Option(..., "--class", help="Explanation class ID"),
+    constraint_type: str = typer.Option(..., "--type", help="REQUIRED, FORBIDDEN, or OPTIONAL"),
+    description: str = typer.Option(..., "--desc", help="Constraint description")
+):
+    """
+    Add a constraint to an explanation class.
+    """
+    with active_run(config={"command": "admissibility add-constraint", "class": class_id}) as run:
+        store = get_metadata_store()
+
+        from analysis.admissibility.manager import AdmissibilityManager, ConstraintType
+
+        manager = AdmissibilityManager(store)
+        ctype = ConstraintType[constraint_type.upper()]
+        constraint_id = manager.add_constraint(class_id, ctype, description)
+
+        console.print(f"[bold green]Added constraint #{constraint_id} to {class_id}: {description}[/bold green]")
+        store.save_run(run)
+
+@admissibility_app.command("map-evidence")
+def map_admissibility_evidence(
+    class_id: str = typer.Option(..., "--class", help="Explanation class ID"),
+    constraint_id: int = typer.Option(..., "--constraint", help="Constraint ID"),
+    support: str = typer.Option(..., help="SUPPORTS, CONTRADICTS, or IRRELEVANT"),
+    reasoning: str = typer.Option(..., help="How the evidence relates"),
+    structure: str = typer.Option(None, help="Phase 1 structure ID"),
+    hypothesis: str = typer.Option(None, help="Phase 1 hypothesis ID")
+):
+    """
+    Map Phase 1 evidence to a constraint.
+    """
+    with active_run(config={"command": "admissibility map-evidence", "class": class_id}) as run:
+        store = get_metadata_store()
+
+        from analysis.admissibility.manager import AdmissibilityManager, SupportLevel
+
+        manager = AdmissibilityManager(store)
+        slevel = SupportLevel[support.upper()]
+        manager.map_evidence(
+            class_id=class_id,
+            constraint_id=constraint_id,
+            support_level=slevel,
+            reasoning=reasoning,
+            structure_id=structure,
+            hypothesis_id=hypothesis
+        )
+
+        console.print(f"[bold green]Mapped evidence to constraint #{constraint_id}[/bold green]")
+        store.save_run(run)
+
+@admissibility_app.command("evaluate")
+def evaluate_class(
+    class_id: str = typer.Option(..., "--class", help="Explanation class ID")
+):
+    """
+    Evaluate the admissibility status of an explanation class.
+    """
+    with active_run(config={"command": "admissibility evaluate", "class": class_id}) as run:
+        store = get_metadata_store()
+
+        from analysis.admissibility.manager import AdmissibilityManager, AdmissibilityStatus
+
+        manager = AdmissibilityManager(store)
+        result = manager.evaluate_status(class_id)
+
+        # Display result
+        color = {
+            AdmissibilityStatus.ADMISSIBLE: "green",
+            AdmissibilityStatus.INADMISSIBLE: "red",
+            AdmissibilityStatus.UNDERCONSTRAINED: "yellow",
+        }.get(result.status, "white")
+
+        console.print(f"\n[bold]Explanation Class:[/bold] {class_id}")
+        console.print(f"[bold]Status:[/bold] [{color}]{result.status.value.upper()}[/{color}]")
+
+        if result.violations:
+            console.print("\n[red]Violations:[/red]")
+            for v in result.violations:
+                console.print(f"  - {v['constraint_type']}: {v['constraint_description']}")
+                console.print(f"    [dim]{v['evidence_reasoning']}[/dim]")
+
+        if result.unmet_requirements:
+            console.print("\n[yellow]Unmet Requirements:[/yellow]")
+            for u in result.unmet_requirements:
+                console.print(f"  - {u['constraint_description']}")
+
+        if result.supporting_evidence:
+            console.print("\n[green]Supporting Evidence:[/green]")
+            for s in result.supporting_evidence:
+                console.print(f"  - {s['constraint_description']}")
+
+        console.print("\n[bold]Reversal Conditions:[/bold]")
+        for rc in result.reversal_conditions[:5]:  # Limit to first 5
+            console.print(f"  - {rc}")
+
+        store.save_run(run)
+
+@admissibility_app.command("report")
+def admissibility_report():
+    """
+    Generate the full Admissibility Matrix report.
+    """
+    store = get_metadata_store()
+
+    from analysis.admissibility.manager import AdmissibilityManager, AdmissibilityStatus
+
+    manager = AdmissibilityManager(store)
+    report = manager.generate_report()
+
+    # Summary
+    console.print("\n[bold cyan]Admissibility Matrix Report[/bold cyan]")
+    console.print("="*50)
+
+    summary = report["summary"]
+    console.print(f"\nTotal Classes: {summary['total_classes']}")
+    console.print(f"  [green]Admissible:[/green] {summary['admissible']}")
+    console.print(f"  [red]Inadmissible:[/red] {summary['inadmissible']}")
+    console.print(f"  [yellow]Underconstrained:[/yellow] {summary['underconstrained']}")
+
+    # Matrix table
+    table = Table(title="\nAdmissibility Matrix")
+    table.add_column("Class", style="cyan")
+    table.add_column("Name", style="white")
+    table.add_column("Status", style="bold")
+    table.add_column("Key Finding", style="dim")
+
+    for class_id, data in report["classes"].items():
+        status = data["status"]
+        color = {
+            "admissible": "green",
+            "inadmissible": "red",
+            "underconstrained": "yellow",
+        }.get(status, "white")
+
+        # Key finding
+        if data["violations"]:
+            finding = f"Violated: {data['violations'][0]['constraint_description'][:40]}..."
+        elif data["unmet_requirements"]:
+            finding = f"Needs: {data['unmet_requirements'][0]['constraint_description'][:40]}..."
+        elif data["supporting_evidence"]:
+            finding = f"Supported by {len(data['supporting_evidence'])} evidence items"
+        else:
+            finding = ""
+
+        table.add_row(
+            class_id,
+            data["name"],
+            f"[{color}]{status.upper()}[/{color}]",
+            finding
+        )
+
+    console.print(table)
+
+@admissibility_app.command("list")
+def list_classes():
+    """
+    List all registered explanation classes.
+    """
+    store = get_metadata_store()
+
+    from foundation.storage.metadata import ExplanationClassRecord
+
+    session = store.Session()
+    try:
+        classes = session.query(ExplanationClassRecord).all()
+
+        table = Table(title="Explanation Classes")
+        table.add_column("ID", style="cyan")
+        table.add_column("Name", style="magenta")
+        table.add_column("Status", style="bold")
+        table.add_column("Description", style="white", max_width=50)
+
+        for c in classes:
+            color = {
+                "admissible": "green",
+                "inadmissible": "red",
+                "underconstrained": "yellow",
+            }.get(c.status, "white")
+
+            table.add_row(
+                c.id,
+                c.name,
+                f"[{color}]{c.status.upper()}[/{color}]",
+                (c.description or "")[:50] + "..." if c.description and len(c.description) > 50 else c.description or ""
+            )
+
         console.print(table)
     finally:
         session.close()

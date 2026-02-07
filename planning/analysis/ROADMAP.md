@@ -27,20 +27,95 @@ Phase 2 does NOT exist to:
 
 ---
 
-## 2. Phase 2 Structure Overview
+## Phase 2 Structure Overview (Updated After Phase 2.1)
 
-Phase 2 is organized into **three parallel but coordinated tracks**:
+Phase 2 is organized into **three coordinated tracks**, with explicit dependencies established by completed admissibility results.
 
-- Track A: Admissibility Mapping
-- Track B: Constrained Translation Stress Tests
-- Track C: Alternative System Modeling
+### Track A: Admissibility Mapping  
+**Status**: COMPLETE  
 
-Each track produces structured outputs that can:
-- constrain the others
-- invalidate assumptions
-- or terminate entire lines of inquiry
+Purpose:
+- Determine which classes of explanation are structurally admissible, inadmissible, or underconstrained given Phase 1 findings.
 
-No track has priority by default.
+Outcome:
+- Natural Language: INADMISSIBLE  
+- Enciphered Language: INADMISSIBLE  
+- Constructed System: ADMISSIBLE  
+- Visual Grammar: ADMISSIBLE  
+- Hybrid System: UNDERCONSTRAINED  
+
+Track A is now closed and serves as a **hard constraint** on all subsequent Phase 2 work.
+
+---
+
+### Track B: Constrained Translation and Mapping Stress Tests  
+**Status**: ACTIVE (Narrowed Scope)  
+
+Purpose:
+- Evaluate whether any translation-like or mapping operations are structurally coherent **within admissible explanation classes only**.
+
+Clarification:
+- This track does not assume natural language or substitution ciphers.
+- “Translation” is interpreted broadly as any systematic mapping from structure to information.
+- Tests are stress tests, not decoding attempts.
+
+Inputs:
+- Phase 1 structural findings
+- Track A admissibility constraints
+
+Outputs:
+- Feasibility envelopes
+- Structural contradictions
+- Explicit failure modes
+
+---
+
+### Track C: Alternative and Non-Linguistic System Modeling  
+**Status**: ACTIVE (Primary)  
+
+Purpose:
+- Develop and evaluate explicit non-linguistic and hybrid system models on equal footing.
+
+Scope includes:
+- Constructed symbolic systems
+- Visual or spatial grammars
+- Procedural or index-like systems
+- Hybrid systems spanning multiple structural regimes
+
+Inputs:
+- Phase 1 findings
+- Track A admissibility outcomes
+
+Outputs:
+- Explicit model assumptions
+- Fit-to-structure evaluations
+- Comparative failure analysis
+
+---
+
+## Cross-Track Dynamics
+
+- Track A constrains Tracks B and C.
+- Tracks B and C may run in parallel.
+- Either Track B or Track C may:
+  - invalidate remaining explanation classes
+  - further constrain admissible systems
+  - justify termination of a line of inquiry
+
+Termination is a valid and successful outcome.
+
+---
+
+## Priority Statement
+
+No track is privileged by default.
+
+However:
+- Track A is complete and authoritative.
+- Tracks B and C are constrained by Track A results.
+- Non-linguistic systems are no longer alternatives; they are first-class candidates.
+
+This structure reflects evidence-driven progression, not conjecture-driven exploration.
 
 ---
 
