@@ -3,19 +3,21 @@
 
 This document defines the long-range vision and conceptual roadmap for the Voynich Manuscript project.
 
-It sits above all individual phases (Foundation, Analysis, and beyond).
-It exists to prevent local progress from obscuring global intent.
+It sits above all individual phases and governs their intent.
+It exists to prevent local progress from obscuring global purpose.
 
 This is a living document, but it is intentionally conservative.
-Any update must preserve its core orientation:
-**structure first, data first, assumptions last**.
+Any update must preserve the project’s core orientation:
+
+structure first  
+data first  
+assumptions last  
 
 ---
 
 ## 1. The Core Problem We Are Solving
 
-The Voynich Manuscript has resisted explanation for centuries not because it lacks structure,
-but because most attempts begin by assuming what kind of thing it is.
+The Voynich Manuscript has resisted explanation for centuries not because it lacks structure, but because most attempts begin by assuming what kind of thing it is.
 
 Common assumptions include:
 - that it is a language
@@ -27,7 +29,7 @@ This project rejects those assumptions as a starting point.
 
 The core problem addressed is:
 
-**Before asking what the Voynich Manuscript means, do we even know what kind of system it is?**
+**Before asking what the Voynich Manuscript means, do we even know what kind of system it is, and what kinds of inferences it can legitimately support?**
 
 ---
 
@@ -35,11 +37,11 @@ The core problem addressed is:
 
 The guiding vision of this project is:
 
-To build a rigorous, assumption-resistant foundation that constrains what can responsibly be said about the Voynich Manuscript, and to use that foundation to determine whether translation is even admissible in principle.
+To build a rigorous, assumption-resistant framework that constrains what can responsibly be said about the Voynich Manuscript, and to determine not only whether translation is admissible, but whether the *methods used to argue for meaning* are valid in the first place.
 
-Translation is treated as a *possible outcome*, not a driving premise.
+Translation is treated as a possible downstream activity, not a motivating premise.
 
-Negative conclusions are considered as valuable as positive ones.
+Negative conclusions and bounded results are considered as valuable as positive ones.
 
 ---
 
@@ -52,17 +54,19 @@ All work in this project follows these principles:
 - Constraints precede hypotheses
 - Rejection is progress
 - Ambiguity is information
+- Stopping cleanly is success
 
-The system is designed to make it difficult to say something wrong with confidence.
+The system is designed to make it difficult to say something wrong with confidence, and equally difficult to say something impressive without evidence.
 
 ---
 
-## 4. The Four-Layer Conceptual Roadmap (Updated)
+## 4. The Four-Layer Conceptual Roadmap (Current)
 
 The project is organized into four conceptual layers.
 Each layer depends on the integrity of the previous one.
 
-The transition from Layer 2 to Layer 3 represents a **deliberate methodological shift** informed by evidence, not a change in ambition.
+Layers are epistemic commitments.
+Phases are execution units.
 
 ---
 
@@ -78,12 +82,12 @@ Establish defensible structure without meaning.
 
 **Outputs**
 - Deterministic ledgers
-- Region and text structures
-- Negative controls
-- Anchors without semantics
+- Region, line, and token structures
+- Negative and synthetic controls
+- Provenance tracking
 - Explicit decision records
 
-This layer prevents bad explanations.
+This layer prevents false structure from entering the system.
 
 ---
 
@@ -93,151 +97,201 @@ This layer prevents bad explanations.
 Determine which classes of explanation are structurally admissible.
 
 **Key questions answered**
-- Is a linguistic explanation admissible?
-- Are cipher-based systems admissible?
-- Are non-semantic or constrained systems sufficient?
-- Is translation structurally justified?
+- Is a natural language explanation admissible?
+- Are cipher or substitution systems admissible?
+- Are non-semantic or constrained procedural systems sufficient?
+- Is translation structurally justified at all?
 
 **Outputs**
 - Admissibility boundaries
-- Stress-tested feasibility envelopes
 - Falsified explanation classes
-- Explicit termination of unjustified paths
+- Explicit rejection of unjustified paths
+- Clear stopping logic
 
 **Outcome**  
-Traditional linguistic and cipher-based translation models are structurally inadmissible.
-Non-semantic, constrained generative explanations remain viable.
+Traditional linguistic and cipher-based translation models are structurally inadmissible under the observed constraints.
+Non-semantic, constrained generative explanations remain admissible.
 
-This result motivates a change in Layer 3.
+This result motivates Layer 3.
 
 ---
 
-### Layer 3: Structural Replaceability and Continuation (Active)
+### Layer 3: Structural Sufficiency and Replaceability (Completed)
 
 **Purpose**  
-Test whether the manuscript’s structure is sufficient to support *continuation without meaning*.
-
-This layer replaces the originally planned interpretive layer.
+Test whether the manuscript’s structure is sufficient to support continuation and reconstruction without meaning.
 
 **Core question**
-> If the Voynich Manuscript is produced by a non-semantic, rule-governed process, can structurally admissible pages be generated to fill physically plausible gaps using only observed constraints?
+If the Voynich Manuscript is produced by a non-semantic, rule-governed process, can structurally admissible pages be generated using only observed constraints?
 
-This layer treats the manuscript as a *process* rather than a message.
+This layer treats the manuscript as a process, not a message.
 
 **Key characteristics**
 - No semantic assumptions
-- No privileged “correct” continuation
+- No privileged continuation
 - Codicological constraints are first-class
 - Multiple admissible outcomes are required
 - Failure is informative
 
 **Primary focus**
-- Pharmaceutical / jar section (f88r–f96v)
-- Known insertion windows based on quire evidence
-- Gap-conditioned continuation synthesis
-- Structural indistinguishability testing
+- Pharmaceutical and jar sections
+- Known quire gaps and insertion windows
+- Glyph-level grammar extraction
+- Bounded reuse and locality constraints
 
 **Outputs**
 - Synthetic but labeled continuation pages
-- Structural evaluation against real pages
-- Demonstrations of non-unique admissibility
+- Quantified real vs synthetic separation
+- Demonstration of non-unique admissibility
+- Principled termination at residual structure exhaustion
 
-This layer tests whether *meaning is necessary at all* to explain the manuscript’s form.
+**Outcome**  
+Structural anomalies, including repetition and locality, are mechanically explainable without semantics.
+Meaning is not required to explain the manuscript’s form.
+
+This result motivates Layer 4.
 
 ---
 
-### Layer 4: Translation as a Separate Endeavor (Optional, Unjustified to Date)
+### Layer 4: Inference Admissibility and Method Evaluation (Active)
 
 **Purpose**  
-Attempt translation *only if* future work demonstrates that meaning is structurally required.
+Evaluate whether the methods commonly used to argue that the Voynich Manuscript contains meaning are actually diagnostic.
 
-If this layer ever exists, translation:
-- is constrained by all prior layers
-- is treated as an engineering problem
-- must fail cleanly when wrong
-- cannot override structural evidence
+Layer 4 does not ask:
+What does the manuscript mean?
 
-This layer may never exist.
+Layer 4 asks:
+What kinds of claims can legitimately be made from the observed structure?
+
+**Core question**
+Do widely cited inference methods reliably distinguish semantic texts from non-semantic but structurally similar texts?
+
+This layer shifts the focus:
+from explaining the manuscript
+to evaluating explanations *about* the manuscript.
+
+**Key characteristics**
+- Methods, not authors, are evaluated
+- Published claims are treated as test targets
+- False positive rates are first-class results
+- Controls include non-semantic texts designed to mimic Voynich structure
+- Null results are considered valuable outcomes
+
+**Method families under evaluation**
+- Information-theoretic keyword and clustering analyses
+- Network and multi-feature language-likeness metrics
+- Topic modeling and section alignment claims
+- AI-assisted language identification and decipherment pipelines
+- Unsupervised morphology and grammar induction
+
+**Outputs**
+- A reusable inference evaluation harness
+- Method-by-method admissibility classifications
+- Explicit documentation of what each method can and cannot infer
+- Closure of semantic inference loopholes
+
+This layer determines whether meaning claims are supported by valid inference, not by appearance.
+
+---
+
+## 5. Translation as a Separate Endeavor (Unjustified to Date)
+
+Translation is not currently an admissible activity.
+
+If translation is ever attempted, it must:
+- be justified by outcomes of Layer 4
+- survive non-semantic controls
+- demonstrate diagnostic necessity
+- fail cleanly when wrong
+- respect all structural constraints
+
+Translation may never occur.
 That is an acceptable and informative outcome.
 
 ---
 
-## 5. Archived Conceptual Layer (Superseded)
+## 6. Archived Conceptual Layers
 
-### Former Layer 3: Constrained Interpretation (Archived)
+### Former Interpretive Layer (Archived)
 
-The original roadmap included a Layer 3 focused on narrow interpretive hypotheses.
+Earlier versions of the roadmap included a layer focused on constrained interpretation.
 
-This layer has been **archived, not discarded**, because:
-- Layer 2 demonstrated that translation-centric interpretations are structurally unjustified
-- Escalating to interpretation would violate the project’s discipline
-- Structural sufficiency must be tested first
+This layer has been archived, not discarded, because:
+- structural sufficiency was not yet established at the time
+- interpretation without inference validation is methodologically unsound
+- Layer 4 now supersedes it by addressing inference validity directly
 
-The original intent of disciplined interpretation is preserved, but deferred pending evidence that interpretation is required.
-
----
-
-## 6. How Phases Map to This Vision
-
-- Phase 1 corresponds to Layer 1 (Foundation)
-- Phase 2 corresponds to Layer 2 (Analysis and Admissibility)
-- Phase 3 corresponds to Layer 3 (Structural Replaceability and Continuation)
-
-Phases are execution units.
-Layers are epistemic commitments.
+Interpretation is deferred until inference itself is justified.
 
 ---
 
-## 7. What Success Looks Like
+## 7. Mapping of Phases to Layers
 
-Success for this project does not require translation.
+- Phase 1 maps to Layer 1 (Foundation)
+- Phase 2 maps to Layer 2 (Admissibility)
+- Phase 3 maps to Layer 3 (Structural Sufficiency)
+- Phase 4 maps to Layer 4 (Inference Admissibility)
+
+Phases may conclude.
+Layers define what kinds of questions are allowed.
+
+---
+
+## 8. What Success Looks Like
+
+Success does not require translation.
 
 Success means:
 - unjustified narratives are no longer viable
-- explanation space is sharply constrained
-- structural sufficiency is tested, not assumed
-- future claims must pass through evidence
-- stopping points are principled
+- inference boundaries are explicit
+- false positives are quantified, not argued
+- structure is not mistaken for meaning
+- future claims must pass through controls
+- stopping points are principled and documented
 
-A credible negative or limiting result is a success.
+A rigorous negative result is a success.
 
 ---
 
-## 8. What This Project Will Not Do
+## 9. What This Project Will Not Do
 
 This project will not:
-- force an interpretation
-- privilege intuition over data
-- optimize for plausibility or elegance
-- reintroduce meaning without necessity
+- force interpretation
+- privilege intuition over controls
+- optimize for narrative appeal
 - collapse ambiguity prematurely
+- equate structure with meaning
+- claim historical truth without admissible inference
 
 Clarity achieved by assumption is rejected.
 
 ---
 
-## 9. Evolution of This Roadmap
+## 10. Evolution of This Roadmap
 
 This document may be updated only when:
 - new evidence changes admissibility boundaries
-- structural constraints are revised with justification
-- escalation to a new conceptual layer is earned
+- inference validity is demonstrably altered
+- escalation to a new epistemic layer is earned
 
 All updates must:
 - preserve structure-first reasoning
 - document what changed and why
-- archive, not erase, prior intent
+- archive prior intent rather than overwrite it
 
 ---
 
-## 10. Final Statement
+## 11. Final Statement
 
 This project is not an attempt to solve the Voynich Manuscript.
 
 It is an attempt to determine:
-- what kinds of explanations are possible,
-- which are not,
-- and whether meaning is even required to explain what exists.
+- what kinds of systems it could be,
+- what kinds of explanations are admissible,
+- and what kinds of inferences are valid.
 
-Translation is not the starting point.
-Translation is the question this work earns the right to ask.
+Meaning is not assumed.
+Translation is not owed.
+
+Understanding begins by knowing what we are allowed to conclude.

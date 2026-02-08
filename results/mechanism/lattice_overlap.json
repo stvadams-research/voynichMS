@@ -1,0 +1,62 @@
+[
+  {
+    "s1": "astronomical",
+    "s2": "biological",
+    "common": 1,
+    "jaccard": 3.0017410097856757e-05
+  },
+  {
+    "s1": "astronomical",
+    "s2": "herbal",
+    "common": 4,
+    "jaccard": 7.585095287759553e-05
+  },
+  {
+    "s1": "astronomical",
+    "s2": "pharmaceutical",
+    "common": 2,
+    "jaccard": 0.00020498103925386903
+  },
+  {
+    "s1": "astronomical",
+    "s2": "stars",
+    "common": 2,
+    "jaccard": 4.7666714333381e-05
+  },
+  {
+    "s1": "biological",
+    "s2": "herbal",
+    "common": 19,
+    "jaccard": 0.00023268630212479335
+  },
+  {
+    "s1": "biological",
+    "s2": "pharmaceutical",
+    "common": 9,
+    "jaccard": 0.00023264831329972857
+  },
+  {
+    "s1": "biological",
+    "s2": "stars",
+    "common": 73,
+    "jaccard": 0.0010307531557990455
+  },
+  {
+    "s1": "herbal",
+    "s2": "pharmaceutical",
+    "common": 12,
+    "jaccard": 0.00020651912022854783
+  },
+  {
+    "s1": "herbal",
+    "s2": "stars",
+    "common": 22,
+    "jaccard": 0.0002436404310220716
+  },
+  {
+    "s1": "pharmaceutical",
+    "s2": "stars",
+    "common": 6,
+    "jaccard": 0.00012676145606659202
+  }
+]

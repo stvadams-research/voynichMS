@@ -30,7 +30,7 @@ Phase 4 is successful if it produces:
 - `reports/PHASE_4_RESULTS.md`
 - `reports/PHASE_4_CONCLUSIONS.md`
 - `results/phase_4/` containing run-linked tables, plots, and artifacts
-- `src/inference_suite/` code modules implementing each method with strict provenance
+- `src/inference/` code modules implementing each method with strict provenance
 
 ---
 
@@ -339,11 +339,11 @@ Each demonstration must be backed by:
 ## 9. Phase 4 Deliverables Checklist
 
 ### Code deliverables
-- `src/inference_suite/info_clustering/`
-- `src/inference_suite/network_features/`
-- `src/inference_suite/topic_models/`
-- `src/inference_suite/lang_id_transforms/`
-- `src/inference_suite/morph_induction/`
+- `src/inference/info_clustering/`
+- `src/inference/network_features/`
+- `src/inference/topic_models/`
+- `src/inference/lang_id_transforms/`
+- `src/inference/morph_induction/`
 - Shared corpus loader and sectioning utilities
 
 ### Data and run artifacts

@@ -1,0 +1,44 @@
+{
+  "Voynich (Real)": {
+    "parsimony": {
+      "vocab_size": 5214,
+      "state_count": 9708,
+      "explosion_factor": 1.8619102416570772,
+      "transition_count": 10528
+    },
+    "residual": {
+      "h_word_pos": 0.7868575828200479,
+      "h_word_pos_hist": 0.09358997258534801,
+      "entropy_reduction": 0.6932676102347,
+      "rel_reduction": 0.8810585617667591
+    }
+  },
+  "Pos-Indexed DAG (M1)": {
+    "parsimony": {
+      "vocab_size": 10011,
+      "state_count": 17422,
+      "explosion_factor": 1.7402856857456797,
+      "transition_count": 27151
+    },
+    "residual": {
+      "h_word_pos": 2.053533393732414,
+      "h_word_pos_hist": 0.08783209858940932,
+      "entropy_reduction": 1.9657012951430048,
+      "rel_reduction": 0.957228794594974
+    }
+  },
+  "Implicit Lattice (M2)": {
+    "parsimony": {
+      "vocab_size": 6100,
+      "state_count": 14294,
+      "explosion_factor": 2.34327868852459,
+      "transition_count": 20649
+    },
+    "residual": {
+      "h_word_pos": 1.3826475366161306,
+      "h_word_pos_hist": 0.27787870403618314,
+      "entropy_reduction": 1.1047688325799474,
+      "rel_reduction": 0.7990241933123036
+    }
+  }
+}

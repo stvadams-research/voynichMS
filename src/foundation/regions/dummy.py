@@ -8,10 +8,11 @@ class GridProposer(RegionProposer):
     Proposes regions by dividing the page into a grid.
     Useful for mid/large scale testing.
     """
-    def __init__(self, rows: int = 3, cols: int = 3, scale: str = "large"):
+    def __init__(self, rows: int = 3, cols: int = 3, scale: str = "large", padding: float = 0.1):
         self.rows = rows
         self.cols = cols
         self.scale = scale
+        self.padding = padding
 
     def propose_regions(self, page_id: str, image_path: str) -> List[ProposedRegion]:
         regions = []
@@ -20,11 +21,17 @@ class GridProposer(RegionProposer):
         
         for r in range(self.rows):
             for c in range(self.cols):
+                # Calculate padded box
+                x_min = c * w_step + (w_step * self.padding)
+                y_min = r * h_step + (h_step * self.padding)
+                x_max = (c + 1) * w_step - (w_step * self.padding)
+                y_max = (r + 1) * h_step - (h_step * self.padding)
+                
                 bbox = Box(
-                    x_min=c * w_step,
-                    y_min=r * h_step,
-                    x_max=(c + 1) * w_step,
-                    y_max=(r + 1) * h_step
+                    x_min=x_min,
+                    y_min=y_min,
+                    x_max=x_max,
+                    y_max=y_max
                 )
                 regions.append(ProposedRegion(
                     bbox=bbox,

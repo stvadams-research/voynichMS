@@ -207,13 +207,15 @@ def step_3_create_segmentation(store: MetadataStore, page_map: dict, source_name
             stats["pages"] += 1
 
             for trans_line in trans_lines:
-                # Create image line (dummy bounding box)
+                # Create image line (normalized bounding box)
                 line_id = id_factory.next_uuid(f"line:{page_id}")
+                # Spread lines across the page (0.1 to 0.9)
+                y_pos = 0.1 + (trans_line.line_index % 20) * 0.04
                 img_line = LineRecord(
                     id=line_id,
                     page_id=page_id,
                     line_index=trans_line.line_index,
-                    bbox={"x": 100, "y": 100 + trans_line.line_index * 50, "w": 800, "h": 40},
+                    bbox={"x_min": 0.1, "y_min": y_pos, "x_max": 0.9, "y_max": y_pos + 0.03},
                     confidence=0.9
                 )
                 session.add(img_line)
@@ -225,13 +227,16 @@ def step_3_create_segmentation(store: MetadataStore, page_map: dict, source_name
                 ).order_by(TranscriptionTokenRecord.token_index).all()
 
                 # Create words (one per token)
+                num_tokens = len(tokens)
+                word_width = 0.8 / max(num_tokens, 1)
                 for i, token in enumerate(tokens):
                     word_id = id_factory.next_uuid(f"word:{line_id}")
+                    word_x = 0.1 + i * word_width
                     word = WordRecord(
                         id=word_id,
                         line_id=line_id,
                         word_index=i,
-                        bbox={"x": 100 + i * 60, "y": 100 + trans_line.line_index * 50, "w": 50, "h": 35},
+                        bbox={"x_min": word_x, "y_min": y_pos, "x_max": word_x + word_width - 0.01, "y_max": y_pos + 0.03},
                         confidence=0.9
                     )
                     session.add(word)

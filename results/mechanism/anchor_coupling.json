@@ -1,0 +1,12 @@
+{
+  "anchored": {
+    "mean_consistency": 0.4528080290412131,
+    "num_recurring_contexts": 446,
+    "max_consistency": 1.0
+  },
+  "unanchored": {
+    "mean_consistency": 0.43493298960426946,
+    "num_recurring_contexts": 867,
+    "max_consistency": 1.0
+  }
+}

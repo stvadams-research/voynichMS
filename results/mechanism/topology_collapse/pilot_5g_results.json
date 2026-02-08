@@ -1,0 +1,87 @@
+{
+  "Voynich (Real)": {
+    "overlap": {
+      "total_prefixes": 1531,
+      "unique_prefixes": 1226,
+      "collision_rate": 0.13585891574134554,
+      "max_collision_depth": 8
+    },
+    "coverage": {
+      "unique_nodes_visited": 5214,
+      "gini_coefficient": 0.6097863733000886,
+      "mean_visitation": 3.4969313387034906
+    },
+    "convergence": {
+      "avg_successor_convergence": 2.2330376408535124,
+      "max_successor_fanout": 61
+    }
+  },
+  "Grid (60x60)": {
+    "overlap": {
+      "total_prefixes": 2000,
+      "unique_prefixes": 1502,
+      "collision_rate": 0.204,
+      "max_collision_depth": 5
+    },
+    "coverage": {
+      "unique_nodes_visited": 2044,
+      "gini_coefficient": 0.5290477005870842,
+      "mean_visitation": 7.8277886497064575
+    },
+    "convergence": {
+      "avg_successor_convergence": 1.6799802761341223,
+      "max_successor_fanout": 103
+    }
+  },
+  "Layered Table": {
+    "overlap": {
+      "total_prefixes": 2000,
+      "unique_prefixes": 1539,
+      "collision_rate": 0.1925,
+      "max_collision_depth": 10
+    },
+    "coverage": {
+      "unique_nodes_visited": 2194,
+      "gini_coefficient": 0.5559238263445762,
+      "mean_visitation": 7.292616226071103
+    },
+    "convergence": {
+      "avg_successor_convergence": 1.7311778290993072,
+      "max_successor_fanout": 141
+    }
+  },
+  "DAG (Stratified)": {
+    "overlap": {
+      "total_prefixes": 2000,
+      "unique_prefixes": 1542,
+      "collision_rate": 0.1895,
+      "max_collision_depth": 5
+    },
+    "coverage": {
+      "unique_nodes_visited": 2207,
+      "gini_coefficient": 0.5441620978704124,
+      "mean_visitation": 7.249660172179429
+    },
+    "convergence": {
+      "avg_successor_convergence": 1.7332722273143906,
+      "max_successor_fanout": 123
+    }
+  },
+  "Lattice (Implicit)": {
+    "overlap": {
+      "total_prefixes": 2000,
+      "unique_prefixes": 1497,
+      "collision_rate": 0.208,
+      "max_collision_depth": 4
+    },
+    "coverage": {
+      "unique_nodes_visited": 1575,
+      "gini_coefficient": 0.6434190476190477,
+      "mean_visitation": 10.158730158730158
+    },
+    "convergence": {
+      "avg_successor_convergence": 1.6961220597584235,
+      "max_successor_fanout": 79
+    }
+  }
+}

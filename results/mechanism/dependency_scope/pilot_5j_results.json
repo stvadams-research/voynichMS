@@ -1,0 +1,44 @@
+{
+  "Voynich (Real)": {
+    "predictive_lift": {
+      "h_node": 2.2719558407254024,
+      "h_node_feat": 2.2719558407254024,
+      "predictive_lift": 0.0,
+      "rel_lift": 0.0
+    },
+    "position_lift": {
+      "h_node": 2.2719558407254024,
+      "h_node_pos": 0.7813566201788171,
+      "pos_predictive_lift": 1.4905992205465852,
+      "pos_rel_lift": 0.656086352484148
+    }
+  },
+  "Local Transition (H1)": {
+    "predictive_lift": {
+      "h_node": 1.281090230328776,
+      "h_node_feat": 1.281090230328776,
+      "predictive_lift": 0.0,
+      "rel_lift": 0.0
+    },
+    "position_lift": {
+      "h_node": 1.281090230328776,
+      "h_node_pos": 1.1477754291583009,
+      "pos_predictive_lift": 0.133314801170475,
+      "pos_rel_lift": 0.1040635530693739
+    }
+  },
+  "Feature-Conditioned (H2)": {
+    "predictive_lift": {
+      "h_node": 1.08060099417356,
+      "h_node_feat": 1.08060099417356,
+      "predictive_lift": 0.0,
+      "rel_lift": 0.0
+    },
+    "position_lift": {
+      "h_node": 1.08060099417356,
+      "h_node_pos": 0.9041554574161949,
+      "pos_predictive_lift": 0.17644553675736507,
+      "pos_rel_lift": 0.16328463300397947
+    }
+  }
+}

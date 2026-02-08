@@ -1,0 +1,12 @@
+{
+  "real": {
+    "mean_consistency": 0.8591827558836083,
+    "num_recurring_contexts": 1976,
+    "max_consistency": 1.0
+  },
+  "sim": {
+    "mean_consistency": 0.9914337586148386,
+    "num_recurring_contexts": 2303,
+    "max_consistency": 1.0
+  }
+}

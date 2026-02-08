@@ -1,0 +1,52 @@
+{
+  "phase": 4,
+  "version": "1.0",
+  "families": {
+    "real": {
+      "voynich_real": {
+        "description": "Primary Zandbergen-Landini transliteration",
+        "tokens": 233646,
+        "source": "voynich_real dataset"
+      }
+    },
+    "semantic": {
+      "latin_classic": {
+        "description": "Classical Latin text (e.g., De Bello Gallico), matched length",
+        "status": "PENDING_INJECTION"
+      },
+      "english_mid": {
+        "description": "Middle English or Early Modern English text, matched length",
+        "status": "PENDING_INJECTION"
+      }
+    },
+    "non_semantic_structured": {
+      "self_citation": {
+        "description": "Timm/Schinner style self-citation generator",
+        "status": "PENDING_IMPLEMENTATION"
+      },
+      "table_grille": {
+        "description": "Rugg style table and grille generator",
+        "status": "PENDING_IMPLEMENTATION"
+      },
+      "voynich_synthetic_grammar": {
+        "description": "Phase 3.2 grammar-based generator",
+        "tokens": 233646,
+        "source": "voynich_synthetic_grammar dataset"
+      },
+      "mechanical_reuse": {
+        "description": "Phase 3.3 Test A style mechanical reuse generator",
+        "status": "PENDING_GENERATION"
+      }
+    },
+    "negative_controls": {
+      "shuffled_global": {
+        "description": "voynich_real with fully shuffled token order",
+        "status": "PENDING_GENERATION"
+      },
+      "shuffled_section": {
+        "description": "voynich_real with shuffled tokens within sections",
+        "status": "PENDING_GENERATION"
+      }
+    }
+  }
+}

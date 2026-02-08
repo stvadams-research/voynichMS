@@ -1,0 +1,62 @@
+{
+  "voynich_real": {
+    "num_nodes": 4477,
+    "num_edges": 13750,
+    "avg_degree": 6.142506142506143,
+    "avg_clustering": 0.1172508185021938,
+    "assortativity": -0.07347552631095637,
+    "zipf_alpha": 0.7738406947616745,
+    "vocabulary_size": 38800,
+    "ttr": 0.1684488380069203
+  },
+  "latin_classic": {
+    "num_nodes": 4671,
+    "num_edges": 13139,
+    "avg_degree": 5.625776065082423,
+    "avg_clustering": 0.10082861593181082,
+    "assortativity": -0.12151886971105098,
+    "zipf_alpha": 0.7869475471276562,
+    "vocabulary_size": 11868,
+    "ttr": 0.0516
+  },
+  "self_citation": {
+    "num_nodes": 1948,
+    "num_edges": 14833,
+    "avg_degree": 15.228952772073923,
+    "avg_clustering": 0.04367914025206661,
+    "assortativity": 0.008696149082397934,
+    "zipf_alpha": 0.24934736205224586,
+    "vocabulary_size": 20309,
+    "ttr": 0.0883
+  },
+  "table_grille": {
+    "num_nodes": 91,
+    "num_edges": 221,
+    "avg_degree": 4.857142857142857,
+    "avg_clustering": 0.0059567416710273845,
+    "assortativity": 0.29273861112888366,
+    "zipf_alpha": 0.1989205851665269,
+    "vocabulary_size": 91,
+    "ttr": 0.0003956521739130435
+  },
+  "mechanical_reuse": {
+    "num_nodes": 2667,
+    "num_edges": 12865,
+    "avg_degree": 9.647544056992876,
+    "avg_clustering": 0.33929860208191315,
+    "assortativity": -0.14228043169233576,
+    "zipf_alpha": 1.077749569712938,
+    "vocabulary_size": 29982,
+    "ttr": 0.13035652173913043
+  },
+  "shuffled_global": {
+    "num_nodes": 6155,
+    "num_edges": 14844,
+    "avg_degree": 4.823395613322502,
+    "avg_clustering": 0.039267231776381056,
+    "assortativity": -0.033755616324729995,
+    "zipf_alpha": 0.7737848443621702,
+    "vocabulary_size": 38764,
+    "ttr": 0.1685391304347826
+  }
+}

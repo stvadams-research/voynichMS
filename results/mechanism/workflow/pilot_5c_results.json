@@ -1,0 +1,23 @@
+{
+  "real": {
+    "mean_ttr": 0.9838513790460149,
+    "std_ttr": 0.04622760448479229,
+    "mean_entropy": 1.3487155646844613,
+    "std_entropy": 1.6525452841403956,
+    "num_lines": 1000
+  },
+  "sim1_independent": {
+    "mean_ttr": 0.727,
+    "std_ttr": 0.11951359755274711,
+    "mean_entropy": 2.751494986342083,
+    "std_entropy": 0.12596886010924882,
+    "num_lines": 500
+  },
+  "sim2_coupled": {
+    "mean_ttr": 0.7915,
+    "std_ttr": 0.12335011147137241,
+    "mean_entropy": 2.7751392399141297,
+    "std_entropy": 0.10481891592938462,
+    "num_lines": 500
+  }
+}

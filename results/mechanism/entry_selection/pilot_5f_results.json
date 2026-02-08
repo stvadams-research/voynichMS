@@ -1,0 +1,77 @@
+{
+  "real": {
+    "dist": {
+      "num_lines": 103003,
+      "unique_starts": 21463,
+      "start_entropy": 11.822206322851297,
+      "max_freq_start": 0.018494606953195537,
+      "top_starts": {
+        "daiin": 1905,
+        "ol": 1009,
+        "chedy": 962,
+        "shedy": 916,
+        "chol": 764,
+        "8AM": 747,
+        "aiin": 719,
+        "qokeedy": 672,
+        "or": 661,
+        "chey": 648
+      }
+    },
+    "coup": {
+      "num_pairs": 103002,
+      "start_word_matches": 955,
+      "coupling_score": 0.009271664627871304
+    }
+  },
+  "uniform": {
+    "dist": {
+      "num_lines": 2000,
+      "unique_starts": 351,
+      "start_entropy": 7.86397782801506,
+      "max_freq_start": 0.0415,
+      "top_starts": {
+        "y": 83,
+        "dy": 67,
+        "s": 60,
+        "l": 36,
+        "o": 35,
+        "qol": 32,
+        "or": 32,
+        "ar": 31,
+        "chey": 27,
+        "ol": 27
+      }
+    },
+    "coup": {
+      "num_pairs": 1999,
+      "start_word_matches": 16,
+      "coupling_score": 0.0080040020010005
+    }
+  },
+  "coupled": {
+    "dist": {
+      "num_lines": 2000,
+      "unique_starts": 352,
+      "start_entropy": 7.874944231635036,
+      "max_freq_start": 0.0485,
+      "top_starts": {
+        "y": 97,
+        "dy": 57,
+        "l": 43,
+        "s": 40,
+        "ol": 37,
+        "chey": 37,
+        "o": 35,
+        "chy": 31,
+        "qol": 31,
+        "al": 26
+      }
+    },
+    "coup": {
+      "num_pairs": 1999,
+      "start_word_matches": 19,
+      "coupling_score": 0.009504752376188095
+    }
+  }
+}

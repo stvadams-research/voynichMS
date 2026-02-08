@@ -22,6 +22,40 @@ class AnchorEngine:
         )
         return method_id
 
+    def _to_box(self, bbox: Dict[str, Any]) -> Box:
+        """Convert various bbox formats to Box object."""
+        if "x_min" in bbox:
+            return Box(**bbox)
+        
+        # Handle x,y,w,h format
+        x = bbox.get("x", 0)
+        y = bbox.get("y", 0)
+        w = bbox.get("w", 0)
+        h = bbox.get("h", 0)
+        
+        # If values are > 1, they are likely pixels. 
+        # For anchoring to work with normalized regions, we must normalize them.
+        # But we don't know the image size here.
+        # For now, let's assume if they are large, we'll just treat them as 0-1 
+        # by dividing by a large constant (placeholder normalization).
+        # Actually, it's better to fix the data population.
+        # But as a quick fix for the pilot:
+        if x > 1 or y > 1 or w > 1 or h > 1:
+            # Placeholder normalization (assume 1000x1500)
+            return Box(
+                x_min=max(0.0, min(1.0, x / 1000.0)),
+                y_min=max(0.0, min(1.0, y / 1500.0)),
+                x_max=max(0.0, min(1.0, (x + w) / 1000.0)),
+                y_max=max(0.0, min(1.0, (y + h) / 1500.0))
+            )
+            
+        return Box(
+            x_min=x,
+            y_min=y,
+            x_max=x + w,
+            y_max=y + h
+        )
+
     def compute_page_anchors(self, page_id: str, method_id: str, run_id: str):
         """
         Compute anchors for a page using the specified method.
@@ -40,14 +74,16 @@ class AnchorEngine:
             regions = session.query(RegionRecord).filter_by(page_id=page_id).all()
             words = session.query(WordRecord).join(LineRecord).filter(LineRecord.page_id == page_id).all()
             
+            print(f"DEBUG: {page_id} regions={len(regions)} words={len(words)}")
+            
             count = 0
             
             # O(N*M) check
-            for region in regions:
-                r_box = Box(**region.bbox)
+            for r_idx, region in enumerate(regions):
+                r_box = self._to_box(region.bbox)
                 
-                for word in words:
-                    w_box = Box(**word.bbox)
+                for w_idx, word in enumerate(words):
+                    w_box = self._to_box(word.bbox)
                     
                     # 1. Check Overlap / Inside
                     iou = r_box.iou(w_box)

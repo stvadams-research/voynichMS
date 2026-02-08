@@ -1,0 +1,27 @@
+{
+  "astronomical": {
+    "rank": 85,
+    "consistency": 0.91577868852459,
+    "token_count": 3331
+  },
+  "biological": {
+    "rank": 78,
+    "consistency": 0.8038950403674779,
+    "token_count": 47063
+  },
+  "herbal": {
+    "rank": 80,
+    "consistency": 0.8480073024666029,
+    "token_count": 72037
+  },
+  "pharmaceutical": {
+    "rank": 83,
+    "consistency": 0.8897402486174331,
+    "token_count": 11095
+  },
+  "stars": {
+    "rank": 81,
+    "consistency": 0.872956772473998,
+    "token_count": 63534
+  }
+}

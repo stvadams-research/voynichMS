@@ -1,0 +1,28 @@
+{
+  "copying": {
+    "real": {
+      "num_tokens": 10000,
+      "window_size": 50,
+      "local_variant_matches": 19155,
+      "clustering_score": 1.9155
+    },
+    "syn": {
+      "num_tokens": 10000,
+      "window_size": 50,
+      "local_variant_matches": 28510,
+      "clustering_score": 2.851
+    }
+  },
+  "table": {
+    "real": {
+      "num_qualified_tokens": 340,
+      "mean_successor_entropy": 3.435782091485594,
+      "min_successor_entropy": 0.7219280948873623
+    },
+    "syn": {
+      "num_qualified_tokens": 311,
+      "mean_successor_entropy": 3.8394047062370826,
+      "min_successor_entropy": 1.9182958340544896
+    }
+  }
+}
