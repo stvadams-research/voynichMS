@@ -125,6 +125,45 @@ class ExplicitModel(ABC):
         """Test a specific prediction against data."""
         pass
 
+    def test_and_update(self, prediction: ModelPrediction,
+                        dataset_id: str) -> ModelPrediction:
+        """
+        Test a prediction and update model status accordingly.
+
+        This is the recommended way to test predictions as it ensures
+        status is properly updated after each test.
+
+        Args:
+            prediction: The prediction to test.
+            dataset_id: Dataset to test against.
+
+        Returns:
+            The tested ModelPrediction with results filled in.
+        """
+        result = self.test_prediction(prediction, dataset_id)
+        self.update_status_from_predictions()
+        return result
+
+    def test_all_predictions(self, dataset_id: str) -> List[ModelPrediction]:
+        """
+        Test all predictions and update model status.
+
+        Args:
+            dataset_id: Dataset to test against.
+
+        Returns:
+            List of tested ModelPredictions.
+        """
+        predictions = self.get_predictions()
+        results = []
+        for prediction in predictions:
+            result = self.test_prediction(prediction, dataset_id)
+            results.append(result)
+
+        # Update status after all predictions are tested
+        self.update_status_from_predictions()
+        return results
+
     @abstractmethod
     def apply_perturbation(self, perturbation_type: str,
                            dataset_id: str, strength: float) -> DisconfirmationResult:
@@ -141,6 +180,33 @@ class ExplicitModel(ABC):
         elif result.degradation_score > 0.5:
             if self.status != ModelStatus.FALSIFIED:
                 self.status = ModelStatus.FRAGILE
+
+    def update_status_from_predictions(self):
+        """
+        Update model status based on prediction test results.
+
+        This ensures that failed predictions properly propagate to model status,
+        providing symmetry between disconfirmation and prediction-based testing.
+        """
+        predictions = self.get_predictions()
+        tested = [p for p in predictions if p.tested]
+        failed = [p for p in tested if not p.passed]
+
+        if not tested:
+            return  # No predictions tested yet
+
+        failure_rate = len(failed) / len(tested)
+
+        # Update status based on failure rate
+        if failure_rate > 0.5 and self.status != ModelStatus.FALSIFIED:
+            # Majority of predictions failed - falsify the model
+            self.status = ModelStatus.FALSIFIED
+        elif failure_rate > 0 and self.status == ModelStatus.UNTESTED:
+            # Some predictions failed - mark as fragile
+            self.status = ModelStatus.FRAGILE
+        elif failure_rate == 0 and self.status == ModelStatus.UNTESTED:
+            # All predictions passed - mark as surviving
+            self.status = ModelStatus.SURVIVING
 
     def get_summary(self) -> Dict[str, Any]:
         """Get a summary of the model and its test results."""

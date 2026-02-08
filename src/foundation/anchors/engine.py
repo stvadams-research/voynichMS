@@ -1,17 +1,19 @@
 import uuid
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from foundation.storage.metadata import MetadataStore, RegionRecord, WordRecord, LineRecord, AnchorMethodRecord
 from foundation.core.geometry import Box, Point
+from foundation.core.id_factory import DeterministicIDFactory
 
 class AnchorEngine:
-    def __init__(self, store: MetadataStore):
+    def __init__(self, store: MetadataStore, seed: int = 0):
         self.store = store
+        self.id_factory = DeterministicIDFactory(seed=seed)
 
     def register_method(self, name: str, description: str = None, parameters: Dict[str, Any] = None) -> str:
         """
         Register a new anchor method. Returns the method ID.
         """
-        method_id = str(uuid.uuid4())
+        method_id = self.id_factory.next_uuid("method")
         self.store.add_anchor_method(
             id=method_id,
             name=name,
@@ -55,7 +57,7 @@ class AnchorEngine:
                             relation = "inside"
                         
                         self.store.add_anchor(
-                            id=str(uuid.uuid4()),
+                            id=self.id_factory.next_uuid(f"anchor:{page_id}"),
                             run_id=run_id,
                             page_id=page_id,
                             source_type="word",
@@ -73,7 +75,7 @@ class AnchorEngine:
                     dist = r_box.distance(w_box)
                     if dist < threshold_dist:
                         self.store.add_anchor(
-                            id=str(uuid.uuid4()),
+                            id=self.id_factory.next_uuid(f"anchor:{page_id}"),
                             run_id=run_id,
                             page_id=page_id,
                             source_type="word",

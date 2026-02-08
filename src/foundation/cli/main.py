@@ -9,6 +9,7 @@ import uuid
 from foundation.configs.logging import setup_logging
 from foundation.runs.manager import active_run
 from foundation.core.ids import RunID, PageID, FolioID
+from foundation.core.id_factory import DeterministicIDFactory
 from foundation.storage.metadata import MetadataStore, PageRecord, StructureRecord, DecisionRecord, HypothesisRecord
 from foundation.core.dataset import DatasetManager
 from foundation.transcription.parsers import EVAParser
@@ -151,13 +152,15 @@ def register_dataset(
 def ingest_transcription(
     path: Path = typer.Argument(..., help="Path to transcription file"),
     source: str = typer.Option(..., help="Source name (e.g. eva_v1)"),
-    format: str = typer.Option("eva", help="Format (currently only eva)")
+    format: str = typer.Option("eva", help="Format (currently only eva)"),
+    seed: int = typer.Option(42, help="Random seed for deterministic IDs")
 ):
     """
     Ingest a transcription file into the database.
     """
-    with active_run(config={"command": "transcription ingest", "path": str(path), "source": source}) as run:
+    with active_run(config={"command": "transcription ingest", "path": str(path), "source": source, "seed": seed}) as run:
         store = get_metadata_store()
+        id_factory = DeterministicIDFactory(seed=seed)
         
         # Register source
         store.add_transcription_source(id=source, name=source)
@@ -185,7 +188,7 @@ def ingest_transcription(
                     console.print(f"Skipping line for invalid folio: {line.folio}")
                     continue
 
-                line_id = str(uuid.uuid4())
+                line_id = id_factory.next_uuid(f"trans_line:{source}:{page_id}")
                 store.add_transcription_line(
                     id=line_id,
                     source_id=source,
@@ -196,7 +199,7 @@ def ingest_transcription(
                 count_lines += 1
                 
                 for token in line.tokens:
-                    token_id = str(uuid.uuid4())
+                    token_id = id_factory.next_uuid(f"trans_token:{source}:{page_id}")
                     store.add_transcription_token(
                         id=token_id,
                         line_id=line_id,
@@ -267,12 +270,16 @@ def query_region(region_id: str):
     console.print(table)
 
 @segmentation_app.command("run-dummy")
-def run_dummy_segmentation(page_id: str):
+def run_dummy_segmentation(
+    page_id: str,
+    seed: int = typer.Option(42, help="Random seed for deterministic IDs")
+):
     """
     Run dummy segmentation on a page.
     """
-    with active_run(config={"command": "segmentation run-dummy", "page_id": page_id}) as run:
+    with active_run(config={"command": "segmentation run-dummy", "page_id": page_id, "seed": seed}) as run:
         store = get_metadata_store()
+        id_factory = DeterministicIDFactory(seed=seed)
         
         # Check if page exists
         # In real app, verify page_id in DB.
@@ -286,7 +293,7 @@ def run_dummy_segmentation(page_id: str):
         console.print(f"Generated {len(lines)} dummy lines for {page_id}")
         
         for line in lines:
-            line_id = str(uuid.uuid4())
+            line_id = id_factory.next_uuid(f"line:{page_id}")
             store.add_line(
                 id=line_id,
                 page_id=page_id,
@@ -298,7 +305,7 @@ def run_dummy_segmentation(page_id: str):
             # Segment Words
             words = word_seg.segment_line(line.bbox, "dummy_path")
             for word in words:
-                word_id = str(uuid.uuid4())
+                word_id = id_factory.next_uuid(f"word:{line_id}")
                 store.add_word(
                     id=word_id,
                     line_id=line_id,
@@ -310,7 +317,7 @@ def run_dummy_segmentation(page_id: str):
                 # Segment Glyphs
                 glyphs = glyph_seg.segment_word(word.bbox, "dummy_path")
                 for glyph in glyphs:
-                    glyph_id = str(uuid.uuid4())
+                    glyph_id = id_factory.next_uuid(f"glyph:{word_id}")
                     store.add_glyph_candidate(
                         id=glyph_id,
                         word_id=word_id,
@@ -338,12 +345,16 @@ def run_alignment(page_id: str, source_id: str):
         console.print(f"[bold green]Alignment complete.[/bold green]")
 
 @regions_app.command("propose-dummy")
-def propose_dummy_regions(page_id: str):
+def propose_dummy_regions(
+    page_id: str,
+    seed: int = typer.Option(42, help="Random seed for deterministic IDs")
+):
     """
     Run dummy region proposals (multi-scale).
     """
-    with active_run(config={"command": "regions propose-dummy", "page_id": page_id}) as run:
+    with active_run(config={"command": "regions propose-dummy", "page_id": page_id, "seed": seed}) as run:
         store = get_metadata_store()
+        id_factory = DeterministicIDFactory(seed=seed)
         
         # 1. Grid (Large/Mid)
         grid_proposer = GridProposer(rows=3, cols=3, scale="large")
@@ -351,7 +362,7 @@ def propose_dummy_regions(page_id: str):
         
         for r in regions:
             store.add_region(
-                id=str(uuid.uuid4()),
+                id=id_factory.next_uuid(f"region:grid:{page_id}"),
                 page_id=page_id,
                 scale=r.scale,
                 method=r.method,
@@ -365,7 +376,7 @@ def propose_dummy_regions(page_id: str):
         
         for r in regions:
             store.add_region(
-                id=str(uuid.uuid4()),
+                id=id_factory.next_uuid(f"region:blob:{page_id}"),
                 page_id=page_id,
                 scale=r.scale,
                 method=r.method,
@@ -526,14 +537,15 @@ def compare_datasets(
 def generate_anchors(
     dataset: str = typer.Option(..., help="Dataset ID"),
     method: str = typer.Option("geometric_v1", help="Method name"),
-    dist_threshold: float = typer.Option(0.1, help="Distance threshold for 'near' anchors")
+    dist_threshold: float = typer.Option(0.1, help="Distance threshold for 'near' anchors"),
+    seed: int = typer.Option(42, help="Random seed for deterministic IDs")
 ):
     """
     Compute anchors for all pages in a dataset.
     """
-    with active_run(config={"command": "anchors generate", "dataset": dataset, "method": method}) as run:
+    with active_run(config={"command": "anchors generate", "dataset": dataset, "method": method, "seed": seed}) as run:
         store = get_metadata_store()
-        engine = AnchorEngine(store)
+        engine = AnchorEngine(store, seed=seed)
         
         # Register method
         method_id = engine.register_method(name=method, parameters={"distance_threshold": dist_threshold})

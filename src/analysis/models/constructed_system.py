@@ -7,12 +7,22 @@ These models treat the manuscript as a deliberately constructed symbol system
 that is neither natural language nor cipher, but designed to appear linguistic.
 """
 
-from typing import List
+from typing import List, Dict, Any
 from analysis.models.interface import (
     ExplicitModel,
     ModelPrediction,
     DisconfirmationResult,
     PredictionType,
+    ModelStatus,
+)
+from analysis.models.perturbation import PerturbationCalculator
+from foundation.storage.metadata import (
+    MetadataStore,
+    PageRecord,
+    WordRecord,
+    LineRecord,
+    RegionRecord,
+    AnchorRecord,
 )
 
 
@@ -135,28 +145,33 @@ class ProceduralGenerationModel(ExplicitModel):
 
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
-        """Apply perturbation and evaluate survival."""
+        """Apply perturbation and evaluate survival using real computations."""
         # Procedural generation should be robust to most perturbations
         # because it has no semantic structure to break
-        base_degradation = {
+        model_sensitivities = {
             "segmentation": 0.20,
             "ordering": 0.30,  # Order matters for Markov chains
             "omission": 0.25,
             "anchor_disruption": 0.15,  # Doesn't rely on anchors
-        }.get(perturbation_type, 0.25)
+        }
 
-        degradation = min(1.0, base_degradation * (1 + strength * 2))
+        calculator = PerturbationCalculator(self.store)
+        result = calculator.calculate_degradation(
+            perturbation_type, dataset_id, strength, model_sensitivities
+        )
 
+        degradation = result.get("degradation", 0.5)
         survived = degradation < 0.6
+        failure_mode = None if survived else "Procedural structure collapsed"
 
         return DisconfirmationResult(
             model_id=self.model_id,
             test_id=f"{perturbation_type}_{strength:.2f}",
             perturbation_type=perturbation_type,
             survived=survived,
-            failure_mode=None if survived else "Structure collapsed",
+            failure_mode=failure_mode,
             degradation_score=degradation,
-            metrics={"final_degradation": degradation},
+            metrics=result,
             evidence=["Phase 2.2 procedural signatures"],
         )
 
@@ -260,26 +275,32 @@ class GlossalialSystemModel(ExplicitModel):
 
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
-        """Apply perturbation and evaluate survival."""
+        """Apply perturbation and evaluate survival using real computations."""
         # Glossolalia should show similar sensitivity to natural language
-        base_degradation = {
+        model_sensitivities = {
             "segmentation": 0.35,  # Sensitive like language
             "ordering": 0.40,      # Order matters somewhat
             "omission": 0.35,
             "anchor_disruption": 0.20,  # Not dependent on visual context
-        }.get(perturbation_type, 0.30)
+        }
 
-        degradation = min(1.0, base_degradation * (1 + strength * 2))
+        calculator = PerturbationCalculator(self.store)
+        result = calculator.calculate_degradation(
+            perturbation_type, dataset_id, strength, model_sensitivities
+        )
+
+        degradation = result.get("degradation", 0.5)
         survived = degradation < 0.6
+        failure_mode = None if survived else "Glossolalic structure collapsed"
 
         return DisconfirmationResult(
             model_id=self.model_id,
             test_id=f"{perturbation_type}_{strength:.2f}",
             perturbation_type=perturbation_type,
             survived=survived,
-            failure_mode=None if survived else "Structure collapsed",
+            failure_mode=failure_mode,
             degradation_score=degradation,
-            metrics={"final_degradation": degradation},
+            metrics=result,
             evidence=["Phase 1 entropy", "Phase 2.2 procedural analysis"],
         )
 
@@ -388,25 +409,31 @@ class MeaningfulConstructModel(ExplicitModel):
 
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
-        """Apply perturbation and evaluate survival."""
+        """Apply perturbation and evaluate survival using real computations."""
         # Meaningful content should show sensitivity
-        base_degradation = {
+        model_sensitivities = {
             "segmentation": 0.35,
             "ordering": 0.35,
             "omission": 0.45,  # Meaning lost when content removed
             "anchor_disruption": 0.30,  # May or may not use diagrams
-        }.get(perturbation_type, 0.35)
+        }
 
-        degradation = min(1.0, base_degradation * (1 + strength * 2))
+        calculator = PerturbationCalculator(self.store)
+        result = calculator.calculate_degradation(
+            perturbation_type, dataset_id, strength, model_sensitivities
+        )
+
+        degradation = result.get("degradation", 0.5)
         survived = degradation < 0.6
+        failure_mode = None if survived else "Meaning structure collapsed"
 
         return DisconfirmationResult(
             model_id=self.model_id,
             test_id=f"{perturbation_type}_{strength:.2f}",
             perturbation_type=perturbation_type,
             survived=survived,
-            failure_mode=None if survived else "Meaning structure collapsed",
+            failure_mode=failure_mode,
             degradation_score=degradation,
-            metrics={"final_degradation": degradation},
+            metrics=result,
             evidence=["Phase 2.2 info density"],
         )

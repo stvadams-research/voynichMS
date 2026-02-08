@@ -23,6 +23,7 @@ class ConstraintType(Enum):
     STATISTICAL = "statistical"
     BEHAVIORAL = "behavioral"
     RELATIONAL = "relational"
+    EXCLUSION_DECISION = "exclusion_decision"  # Semantic decision to exclude a class
 
 
 @dataclass
@@ -30,16 +31,20 @@ class AnomalyDefinition:
     """
     Formal definition of the Phase 2.3 anomaly.
 
-    This is fixed for Phase 2.4 analysis.
+    This is fixed for Phase 2.4 analysis. Contains only structural properties
+    that define the anomaly - NOT conclusions or test results.
+
+    Note: 'all_nonsemantic_models_failed' was removed because it is a test
+    result from SemanticNecessityAnalyzer, not a structural definition.
+    The SemanticNecessityResult tracks this outcome.
     """
     information_density_z: float = 4.0
     locality_radius: Tuple[int, int] = (2, 4)
     robustness_under_perturbation: bool = True
-    all_nonsemantic_models_failed: bool = True
 
     description: str = (
         "High information density (z≈4.0) combined with strong locality "
-        "(2-4 units) and universal failure of non-semantic explicit models."
+        "(2-4 units) and robustness under perturbation."
     )
 
     def as_dict(self) -> Dict[str, Any]:
@@ -47,7 +52,6 @@ class AnomalyDefinition:
             "information_density_z": self.information_density_z,
             "locality_radius": self.locality_radius,
             "robustness_under_perturbation": self.robustness_under_perturbation,
-            "all_nonsemantic_models_failed": self.all_nonsemantic_models_failed,
             "description": self.description,
         }
 

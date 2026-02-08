@@ -10,6 +10,9 @@ Key questions:
 """
 
 from typing import List, Dict, Any
+import math
+from collections import Counter
+
 from analysis.stress_tests.interface import (
     StressTest,
     StressTestResult,
@@ -21,9 +24,21 @@ from foundation.storage.metadata import (
     WordRecord,
     LineRecord,
     GlyphCandidateRecord,
+    GlyphAlignmentRecord,
     RegionRecord,
     RegionEdgeRecord,
+    TranscriptionTokenRecord,
+    TranscriptionLineRecord,
+    WordAlignmentRecord,
 )
+from foundation.config import use_real_computation
+
+
+# Iteration limits for bounded runtime on large datasets
+MAX_PAGES_PER_TEST = 50  # Maximum pages to analyze per test
+MAX_LINES_PER_PAGE = 100  # Maximum lines to analyze per page
+MAX_WORDS_PER_LINE = 50  # Maximum words to analyze per line
+MAX_TOKENS_ANALYZED = 10000  # Maximum tokens to analyze for entropy calculations
 
 
 class LocalityTest(StressTest):
@@ -123,8 +138,9 @@ class LocalityTest(StressTest):
         Test locality of structural dependencies.
 
         Measures how far structural influence extends.
+        Uses iteration limits for bounded runtime on large datasets.
         """
-        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
+        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
 
         if not pages:
             return {"radius": 0, "strength": 0}
@@ -134,28 +150,25 @@ class LocalityTest(StressTest):
         global_correlations = []
 
         for page in pages:
-            lines = session.query(LineRecord).filter_by(page_id=page.id).all()
+            lines = session.query(LineRecord).filter_by(page_id=page.id).limit(MAX_LINES_PER_PAGE).all()
 
             for line in lines:
-                words = session.query(WordRecord).filter_by(line_id=line.id).all()
+                words = session.query(WordRecord).filter_by(line_id=line.id).limit(MAX_WORDS_PER_LINE).all()
                 if len(words) < 4:
                     continue
 
                 # Local correlation: adjacent words
-                # This simulates bigram-like analysis
-                local_sim = self._calculate_local_similarity(words)
+                local_sim = self._calculate_local_similarity(session, words, dataset_id)
                 local_correlations.append(local_sim)
 
                 # Global correlation: first vs last word
-                # This simulates long-range dependency
-                global_sim = self._calculate_global_similarity(words)
+                global_sim = self._calculate_global_similarity(session, words, dataset_id)
                 global_correlations.append(global_sim)
 
         avg_local = sum(local_correlations) / len(local_correlations) if local_correlations else 0
         avg_global = sum(global_correlations) / len(global_correlations) if global_correlations else 0
 
         # Locality ratio: local >> global suggests local structure
-        # Phase 1 showed positional constraints, suggesting locality
         locality_ratio = avg_local / (avg_global + 0.01)
 
         # Estimate effective radius (how many words away influence extends)
@@ -176,26 +189,109 @@ class LocalityTest(StressTest):
             "locality_ratio": locality_ratio,
         }
 
-    def _calculate_local_similarity(self, words: List[WordRecord]) -> float:
-        """Calculate local (adjacent) similarity between words."""
-        # Simulate based on Phase 1 findings
-        # Positional constraints suggest adjacent words are related
-        # Real data: ~0.65 local correlation
-        return 0.65
+    def _calculate_local_similarity(self, session, words: List[WordRecord], dataset_id: str) -> float:
+        """
+        Calculate local (adjacent) similarity between words.
 
-    def _calculate_global_similarity(self, words: List[WordRecord]) -> float:
-        """Calculate global (distant) similarity between words."""
-        # Long-range dependencies should be weaker
-        # Real data: ~0.35 global correlation
-        return 0.35
+        Uses bigram transition probabilities from actual tokens.
+        """
+        if not use_real_computation("stress_tests"):
+            return 0.65  # Simulated
+
+        if len(words) < 2:
+            return 0.0
+
+        # Get tokens for each word via alignments
+        word_tokens = []
+        for word in words:
+            alignment = (
+                session.query(WordAlignmentRecord)
+                .filter_by(word_id=word.id)
+                .first()
+            )
+            if alignment and alignment.token_id:
+                token = session.query(TranscriptionTokenRecord).filter_by(id=alignment.token_id).first()
+                if token:
+                    word_tokens.append(token.content)
+                else:
+                    word_tokens.append(None)
+            else:
+                word_tokens.append(None)
+
+        # Filter out None tokens
+        valid_tokens = [t for t in word_tokens if t is not None]
+
+        if len(valid_tokens) < 2:
+            return 0.0
+
+        # Calculate bigram overlap (how often adjacent tokens share characters)
+        adjacent_similarities = []
+        for i in range(len(valid_tokens) - 1):
+            t1, t2 = valid_tokens[i], valid_tokens[i + 1]
+
+            # Character-level Jaccard similarity
+            chars1 = set(t1)
+            chars2 = set(t2)
+
+            if chars1 or chars2:
+                jaccard = len(chars1 & chars2) / len(chars1 | chars2)
+                adjacent_similarities.append(jaccard)
+
+        return sum(adjacent_similarities) / len(adjacent_similarities) if adjacent_similarities else 0.0
+
+    def _calculate_global_similarity(self, session, words: List[WordRecord], dataset_id: str) -> float:
+        """
+        Calculate global (distant) similarity between words.
+
+        Compares first and last tokens in the line.
+        """
+        if not use_real_computation("stress_tests"):
+            return 0.35  # Simulated
+
+        if len(words) < 4:
+            return 0.0
+
+        # Get tokens for first and last quarter of words
+        first_quarter = words[:len(words) // 4]
+        last_quarter = words[-(len(words) // 4):]
+
+        first_tokens = []
+        last_tokens = []
+
+        for word in first_quarter:
+            alignment = session.query(WordAlignmentRecord).filter_by(word_id=word.id).first()
+            if alignment and alignment.token_id:
+                token = session.query(TranscriptionTokenRecord).filter_by(id=alignment.token_id).first()
+                if token:
+                    first_tokens.append(token.content)
+
+        for word in last_quarter:
+            alignment = session.query(WordAlignmentRecord).filter_by(word_id=word.id).first()
+            if alignment and alignment.token_id:
+                token = session.query(TranscriptionTokenRecord).filter_by(id=alignment.token_id).first()
+                if token:
+                    last_tokens.append(token.content)
+
+        if not first_tokens or not last_tokens:
+            return 0.0
+
+        # Token-level Jaccard similarity
+        first_set = set(first_tokens)
+        last_set = set(last_tokens)
+
+        if first_set or last_set:
+            return len(first_set & last_set) / len(first_set | last_set)
+
+        return 0.0
 
     def _test_compositionality(self, session, dataset_id: str) -> Dict[str, Any]:
         """
         Test compositionality of structure.
 
         Do parts combine in predictable ways?
+        Uses iteration limits for bounded runtime.
         """
-        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
+        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
 
         if not pages:
             return {"score": 0, "type": "unknown"}
@@ -204,10 +300,10 @@ class LocalityTest(StressTest):
         composition_scores = []
 
         for page in pages:
-            lines = session.query(LineRecord).filter_by(page_id=page.id).all()
+            lines = session.query(LineRecord).filter_by(page_id=page.id).limit(MAX_LINES_PER_PAGE).all()
 
             for line in lines:
-                words = session.query(WordRecord).filter_by(line_id=line.id).all()
+                words = session.query(WordRecord).filter_by(line_id=line.id).limit(MAX_WORDS_PER_LINE).all()
 
                 for word in words:
                     glyphs = session.query(GlyphCandidateRecord).filter_by(word_id=word.id).all()
@@ -215,8 +311,7 @@ class LocalityTest(StressTest):
                         continue
 
                     # Test: do glyph combinations follow patterns?
-                    # Phase 1 showed positional constraints on glyphs
-                    score = self._analyze_glyph_composition(glyphs)
+                    score = self._analyze_glyph_composition(session, glyphs, dataset_id)
                     composition_scores.append(score)
 
         avg_score = sum(composition_scores) / len(composition_scores) if composition_scores else 0
@@ -237,14 +332,47 @@ class LocalityTest(StressTest):
             "sample_size": len(composition_scores),
         }
 
-    def _analyze_glyph_composition(self, glyphs: List[GlyphCandidateRecord]) -> float:
-        """Analyze glyph composition patterns."""
-        # Based on Phase 1: glyphs show positional constraints
-        # This suggests some compositional structure
-        # But glyph identity is unstable, limiting strong compositionality
+    def _analyze_glyph_composition(self, session, glyphs: List[GlyphCandidateRecord], dataset_id: str) -> float:
+        """
+        Analyze glyph composition patterns using n-gram statistics.
+        """
+        if not use_real_computation("stress_tests"):
+            return 0.55  # Simulated
 
-        # Moderate compositionality score
-        return 0.55
+        if len(glyphs) < 2:
+            return 0.0
+
+        # Get glyph symbols
+        symbols = []
+        for glyph in glyphs:
+            alignment = session.query(GlyphAlignmentRecord).filter_by(glyph_id=glyph.id).first()
+            if alignment and alignment.symbol:
+                symbols.append(alignment.symbol)
+            else:
+                # Use position-based proxy
+                symbols.append(f"g{glyph.glyph_index}")
+
+        if len(symbols) < 2:
+            return 0.0
+
+        # Count bigram types vs tokens
+        bigrams = []
+        for i in range(len(symbols) - 1):
+            bigrams.append((symbols[i], symbols[i + 1]))
+
+        bigram_types = len(set(bigrams))
+        bigram_tokens = len(bigrams)
+
+        # Type/token ratio: high ratio means more variety (less compositional)
+        # Low ratio means repetitive patterns (more compositional)
+        if bigram_tokens > 0:
+            ttr = bigram_types / bigram_tokens
+            # Invert: high compositional = low type/token ratio
+            compositionality = 1.0 - min(1.0, ttr)
+        else:
+            compositionality = 0.0
+
+        return compositionality
 
     def _test_procedural_signatures(self, session, dataset_id: str) -> Dict[str, Any]:
         """
@@ -254,8 +382,10 @@ class LocalityTest(StressTest):
         - Excessive regularity
         - Bounded state patterns
         - Deterministic-looking sequences
+
+        Uses iteration limits for bounded runtime.
         """
-        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
+        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
 
         if not pages:
             return {"signature_strength": 0, "indicators": []}
@@ -263,19 +393,16 @@ class LocalityTest(StressTest):
         indicators = []
 
         # Test 1: Repetition patterns
-        # Procedural generation often produces bounded repetition
         word_repetition = self._analyze_repetition_patterns(session, dataset_id)
         if word_repetition > 0.15:  # More than 15% exact repetition
             indicators.append("high_repetition")
 
         # Test 2: Sequence regularity
-        # Look for suspiciously regular patterns
         regularity = self._analyze_sequence_regularity(session, dataset_id)
         if regularity > 0.7:
             indicators.append("excessive_regularity")
 
         # Test 3: State-based patterns
-        # Markov-like generation shows bounded transition states
         state_boundedness = self._analyze_state_patterns(session, dataset_id)
         if state_boundedness > 0.6:
             indicators.append("bounded_states")
@@ -292,21 +419,168 @@ class LocalityTest(StressTest):
         }
 
     def _analyze_repetition_patterns(self, session, dataset_id: str) -> float:
-        """Analyze word/pattern repetition."""
-        # Voynich shows bounded vocabulary and repetition
-        # This is consistent with procedural generation OR natural language
-        return 0.20  # 20% repetition rate
+        """
+        Analyze word/pattern repetition from actual token data.
+
+        Uses MAX_TOKENS_ANALYZED limit for bounded runtime.
+        """
+        if not use_real_computation("stress_tests"):
+            return 0.20  # Simulated
+
+        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
+        if not pages:
+            return 0.0
+
+        page_ids = [p.id for p in pages]
+
+        # Get tokens for this dataset with limit
+        tokens = (
+            session.query(TranscriptionTokenRecord.content)
+            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
+            .filter(TranscriptionLineRecord.page_id.in_(page_ids))
+            .limit(MAX_TOKENS_ANALYZED)
+            .all()
+        )
+
+        if not tokens:
+            return 0.0
+
+        token_contents = [t[0] for t in tokens]
+        token_counts = Counter(token_contents)
+
+        total = len(token_contents)
+        repeated = sum(c for c in token_counts.values() if c > 1)
+
+        return repeated / total if total > 0 else 0.0
 
     def _analyze_sequence_regularity(self, session, dataset_id: str) -> float:
-        """Analyze sequence regularity."""
-        # Phase 1 showed positional constraints
-        # This suggests some regularity
-        return 0.55
+        """
+        Analyze sequence regularity using n-gram entropy.
+
+        Low entropy = high regularity (procedural)
+        High entropy = low regularity (organic)
+
+        Uses iteration limits for bounded runtime.
+        """
+        if not use_real_computation("stress_tests"):
+            return 0.55  # Simulated
+
+        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
+        if not pages:
+            return 0.0
+
+        page_ids = [p.id for p in pages]
+
+        # Get tokens in order with limits
+        all_tokens = []
+        tokens_collected = 0
+
+        for page_id in page_ids:
+            if tokens_collected >= MAX_TOKENS_ANALYZED:
+                break
+
+            lines = (
+                session.query(TranscriptionLineRecord)
+                .filter_by(page_id=page_id)
+                .order_by(TranscriptionLineRecord.line_index)
+                .limit(MAX_LINES_PER_PAGE)
+                .all()
+            )
+
+            for line in lines:
+                if tokens_collected >= MAX_TOKENS_ANALYZED:
+                    break
+
+                tokens = (
+                    session.query(TranscriptionTokenRecord)
+                    .filter_by(line_id=line.id)
+                    .order_by(TranscriptionTokenRecord.token_index)
+                    .all()
+                )
+                for t in tokens:
+                    if tokens_collected >= MAX_TOKENS_ANALYZED:
+                        break
+                    all_tokens.append(t.content)
+                    tokens_collected += 1
+
+        if len(all_tokens) < 10:
+            return 0.0
+
+        # Calculate bigram entropy
+        bigrams = []
+        for i in range(len(all_tokens) - 1):
+            bigrams.append((all_tokens[i], all_tokens[i + 1]))
+
+        bigram_counts = Counter(bigrams)
+        total_bigrams = len(bigrams)
+
+        if total_bigrams == 0:
+            return 0.0
+
+        # Shannon entropy
+        entropy = 0.0
+        for count in bigram_counts.values():
+            p = count / total_bigrams
+            if p > 0:
+                entropy -= p * math.log2(p)
+
+        # Normalize by max possible entropy
+        max_entropy = math.log2(total_bigrams) if total_bigrams > 1 else 1
+
+        normalized_entropy = entropy / max_entropy if max_entropy > 0 else 0
+
+        # Invert: regularity = 1 - normalized_entropy
+        regularity = 1.0 - normalized_entropy
+
+        return regularity
 
     def _analyze_state_patterns(self, session, dataset_id: str) -> float:
-        """Analyze state-based transition patterns."""
-        # Bounded vocabulary suggests limited states
-        return 0.50
+        """
+        Analyze state-based transition patterns.
+
+        Measures transition matrix sparsity (bounded states = sparse matrix).
+        Uses iteration limits for bounded runtime.
+        """
+        if not use_real_computation("stress_tests"):
+            return 0.50  # Simulated
+
+        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
+        if not pages:
+            return 0.0
+
+        page_ids = [p.id for p in pages]
+
+        # Get tokens with limit
+        tokens = (
+            session.query(TranscriptionTokenRecord.content)
+            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
+            .filter(TranscriptionLineRecord.page_id.in_(page_ids))
+            .limit(MAX_TOKENS_ANALYZED)
+            .all()
+        )
+
+        if len(tokens) < 10:
+            return 0.0
+
+        token_contents = [t[0] for t in tokens]
+        unique_tokens = set(token_contents)
+        vocab_size = len(unique_tokens)
+
+        if vocab_size < 2:
+            return 0.0
+
+        # Count observed transitions
+        transitions = set()
+        for i in range(len(token_contents) - 1):
+            transitions.add((token_contents[i], token_contents[i + 1]))
+
+        # Maximum possible transitions
+        max_transitions = vocab_size * vocab_size
+
+        # Sparsity = 1 - (observed / possible)
+        sparsity = 1.0 - (len(transitions) / max_transitions) if max_transitions > 0 else 0
+
+        return sparsity
 
     def _analyze_results(self, explanation_class: str,
                          locality: Dict, compositionality: Dict,

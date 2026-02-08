@@ -3,15 +3,21 @@ Track D4: Semantic Necessity Test (Negative Form)
 
 Tests whether *absence* of semantics forces contradiction.
 Constructs maximally expressive non-semantic systems to test sufficiency.
+
+IMPORTANT: This test should NOT pre-determine outcomes with hardcoded values.
+Non-semantic systems are tested against actual stress test results.
 """
 
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Tuple, Optional, TYPE_CHECKING
 from dataclasses import dataclass, field
 
 from analysis.anomaly.interface import (
     SemanticNecessity,
     SemanticNecessityResult,
 )
+
+if TYPE_CHECKING:
+    from foundation.storage.metadata import MetadataStore
 
 
 @dataclass
@@ -25,10 +31,16 @@ class NonSemanticSystem:
     uses_reference: bool = False
     uses_syntax: bool = True  # Structural rules only
 
-    # Performance on constraints
-    info_density_achievable: float = 0.0
-    locality_achievable: float = 0.0
-    robustness_achievable: float = 0.0
+    # Theoretical bounds - these are upper limits on what the system CAN achieve,
+    # NOT predictions of what it WILL achieve. Actual performance is measured.
+    max_info_density: Optional[float] = None  # Upper bound on achievable density
+    min_locality: Optional[float] = None  # Lower bound on dependency radius
+    max_robustness: Optional[float] = None  # Upper bound on perturbation survival
+
+    # Measured results (filled by actual testing)
+    measured_info_density: Optional[float] = None
+    measured_locality: Optional[float] = None
+    measured_robustness: Optional[float] = None
 
     # Test results
     passes_all_constraints: bool = False
@@ -41,24 +53,104 @@ class SemanticNecessityAnalyzer:
 
     This is a negative test: we construct the most powerful non-semantic
     systems possible and check if they can still fail to explain the data.
+
+    IMPORTANT: This analyzer now uses actual measured thresholds from Phase 2.2
+    stress tests, NOT hardcoded constants. This prevents circular reasoning.
     """
 
-    # Constraint thresholds from observations
-    REQUIRED_INFO_DENSITY = 4.0
-    REQUIRED_LOCALITY_MAX = 4.0
-    REQUIRED_ROBUSTNESS = 0.60
+    def __init__(self, store: Optional["MetadataStore"] = None):
+        """
+        Initialize analyzer.
 
-    def __init__(self):
+        Args:
+            store: MetadataStore for running actual stress tests. If None,
+                   uses theoretical bounds only (less rigorous).
+        """
+        self.store = store
         self.systems: List[NonSemanticSystem] = []
         self.result: SemanticNecessityResult = SemanticNecessityResult(
             assessment=SemanticNecessity.POSSIBLY_NECESSARY
         )
+
+        # Thresholds are derived from Phase 2.2 measurements, not hardcoded
+        # These will be populated by _load_measured_thresholds()
+        self._observed_info_density: Optional[float] = None
+        self._observed_locality_radius: Optional[Tuple[int, int]] = None
+        self._observed_robustness: Optional[float] = None
+
+    def _load_measured_thresholds(self, dataset_id: str) -> Dict[str, float]:
+        """
+        Load actual measured thresholds from Phase 2.2 stress test results.
+
+        These are the observed values from the real manuscript, which
+        non-semantic systems must match or exceed to pass.
+        """
+        thresholds = {}
+
+        if self.store is None:
+            # Fallback: use default thresholds from AnomalyDefinition
+            # These should be updated to match actual Phase 2.2 results
+            thresholds["info_density"] = 4.0
+            thresholds["locality_max"] = 4.0
+            thresholds["robustness_min"] = 0.60
+            return thresholds
+
+        # Query actual Phase 2.2 results from the database
+        session = self.store.Session()
+        try:
+            from foundation.storage.metadata import MetricResultRecord
+
+            # Get information density z-score from Phase 2.2
+            info_result = (
+                session.query(MetricResultRecord)
+                .filter_by(dataset_id=dataset_id, metric_name="information_density")
+                .order_by(MetricResultRecord.created_at.desc())
+                .first()
+            )
+            if info_result and info_result.details:
+                thresholds["info_density"] = info_result.details.get("z_score", 4.0)
+            else:
+                thresholds["info_density"] = 4.0
+
+            # Get locality radius from Phase 2.2
+            locality_result = (
+                session.query(MetricResultRecord)
+                .filter_by(dataset_id=dataset_id, metric_name="locality_radius")
+                .order_by(MetricResultRecord.created_at.desc())
+                .first()
+            )
+            if locality_result and locality_result.value is not None:
+                thresholds["locality_max"] = locality_result.value
+            else:
+                thresholds["locality_max"] = 4.0
+
+            # Get robustness from Phase 2.2
+            robustness_result = (
+                session.query(MetricResultRecord)
+                .filter_by(dataset_id=dataset_id, metric_name="mapping_stability")
+                .order_by(MetricResultRecord.created_at.desc())
+                .first()
+            )
+            if robustness_result and robustness_result.value is not None:
+                thresholds["robustness_min"] = robustness_result.value
+            else:
+                thresholds["robustness_min"] = 0.60
+
+        finally:
+            session.close()
+
+        self._observed_info_density = thresholds.get("info_density")
+        self._observed_locality_radius = (2, int(thresholds.get("locality_max", 4)))
+        self._observed_robustness = thresholds.get("robustness_min")
+
+        return thresholds
 
     def construct_maximal_nonsemantic_systems(self) -> List[NonSemanticSystem]:
         """
         Construct maximally expressive non-semantic systems.
 
         These are the strongest possible systems that don't invoke meaning.
+        Theoretical bounds are specified, but actual performance will be measured.
         """
         systems = [
             # High-order Markov chain
@@ -68,10 +160,10 @@ class SemanticNecessityAnalyzer:
                 uses_meaning=False,
                 uses_reference=False,
                 uses_syntax=True,
-                # High-order Markov can achieve good info density but struggles with locality
-                info_density_achievable=3.5,
-                locality_achievable=4.0,
-                robustness_achievable=0.65,
+                # Theoretical bounds only - actual testing needed
+                max_info_density=4.5,  # Can be high with enough context
+                min_locality=3.0,  # Locality limited by Markov order
+                max_robustness=0.70,  # Moderate robustness
             ),
 
             # Positionally constrained generator
@@ -81,10 +173,9 @@ class SemanticNecessityAnalyzer:
                 uses_meaning=False,
                 uses_reference=False,
                 uses_syntax=True,
-                # Good at locality but limited info density
-                info_density_achievable=3.2,
-                locality_achievable=3.0,
-                robustness_achievable=0.70,
+                max_info_density=4.0,
+                min_locality=2.0,  # Strong locality from positional constraints
+                max_robustness=0.75,
             ),
 
             # Context-free non-semantic grammar
@@ -94,10 +185,9 @@ class SemanticNecessityAnalyzer:
                 uses_meaning=False,
                 uses_reference=False,
                 uses_syntax=True,
-                # Can achieve structure but typically lower info density
-                info_density_achievable=3.8,
-                locality_achievable=5.0,  # CFGs can have longer dependencies
-                robustness_achievable=0.55,
+                max_info_density=4.2,
+                min_locality=6.0,  # CFGs can have longer dependencies
+                max_robustness=0.60,
             ),
 
             # Procedural table-based system
@@ -107,10 +197,9 @@ class SemanticNecessityAnalyzer:
                 uses_meaning=False,
                 uses_reference=False,
                 uses_syntax=True,
-                # Tables can achieve high density but are rigid
-                info_density_achievable=4.2,
-                locality_achievable=2.0,
-                robustness_achievable=0.40,  # Fragile under perturbation
+                max_info_density=5.0,  # Tables can encode anything
+                min_locality=2.0,  # Very local lookups
+                max_robustness=0.45,  # Fragile under perturbation
             ),
 
             # Hybrid statistical-structural
@@ -120,10 +209,9 @@ class SemanticNecessityAnalyzer:
                 uses_meaning=False,
                 uses_reference=False,
                 uses_syntax=True,
-                # Best non-semantic approach
-                info_density_achievable=4.0,
-                locality_achievable=3.5,
-                robustness_achievable=0.60,
+                max_info_density=4.5,
+                min_locality=3.0,
+                max_robustness=0.65,
             ),
 
             # Visual-spatial encoding (no semantics)
@@ -133,42 +221,126 @@ class SemanticNecessityAnalyzer:
                 uses_meaning=False,
                 uses_reference=True,  # References visual elements but no meaning
                 uses_syntax=True,
-                # Good locality due to spatial nature
-                info_density_achievable=3.6,
-                locality_achievable=3.0,
-                robustness_achievable=0.50,  # Sensitive to anchor disruption
+                max_info_density=4.0,
+                min_locality=2.5,  # Good locality from spatial constraints
+                max_robustness=0.55,  # Sensitive to anchor disruption
             ),
         ]
 
         return systems
 
-    def test_system(self, system: NonSemanticSystem) -> bool:
+    def _run_stress_tests_for_system(
+        self, system: NonSemanticSystem, dataset_id: str, control_ids: List[str]
+    ) -> Dict[str, float]:
+        """
+        Run actual stress tests to measure system performance.
+
+        This replaces hardcoded achievable values with real measurements.
+        """
+        if self.store is None:
+            # No store available - use theoretical bounds as estimates
+            return {
+                "info_density": system.max_info_density or 3.0,
+                "locality": system.min_locality or 5.0,
+                "robustness": system.max_robustness or 0.5,
+            }
+
+        # Import stress tests
+        from analysis.stress_tests.information_preservation import InformationPreservationTest
+        from analysis.stress_tests.locality import LocalityTest
+        from analysis.stress_tests.mapping_stability import MappingStabilityTest
+
+        results = {}
+
+        # Run information preservation test
+        info_test = InformationPreservationTest(self.store)
+        info_result = info_test.run(
+            explanation_class=system.name,
+            dataset_id=dataset_id,
+            control_ids=control_ids
+        )
+        results["info_density"] = info_result.metrics.get("z_score", 0)
+        system.measured_info_density = results["info_density"]
+
+        # Run locality test
+        locality_test = LocalityTest(self.store)
+        locality_result = locality_test.run(
+            explanation_class=system.name,
+            dataset_id=dataset_id,
+            control_ids=control_ids
+        )
+        results["locality"] = locality_result.metrics.get("locality_radius", 5)
+        system.measured_locality = results["locality"]
+
+        # Run mapping stability test
+        stability_test = MappingStabilityTest(self.store)
+        stability_result = stability_test.run(
+            explanation_class=system.name,
+            dataset_id=dataset_id,
+            control_ids=control_ids
+        )
+        results["robustness"] = stability_result.stability_score
+        system.measured_robustness = results["robustness"]
+
+        return results
+
+    def test_system(
+        self, system: NonSemanticSystem, thresholds: Dict[str, float],
+        dataset_id: str = "", control_ids: Optional[List[str]] = None
+    ) -> bool:
         """
         Test if a non-semantic system can satisfy all constraints.
+
+        Now uses measured values from actual stress tests when available,
+        falling back to theoretical bounds comparison otherwise.
 
         Returns True if system passes all constraints.
         """
         failures = []
 
+        # Get required thresholds
+        required_info_density = thresholds.get("info_density", 4.0)
+        required_locality_max = thresholds.get("locality_max", 4.0)
+        required_robustness = thresholds.get("robustness_min", 0.60)
+
+        # Run actual stress tests if store is available
+        if self.store and dataset_id:
+            measured = self._run_stress_tests_for_system(
+                system, dataset_id, control_ids or []
+            )
+            info_density = measured["info_density"]
+            locality = measured["locality"]
+            robustness = measured["robustness"]
+        else:
+            # Use theoretical bounds as upper limits
+            info_density = system.max_info_density or 3.0
+            locality = system.min_locality or 5.0
+            robustness = system.max_robustness or 0.5
+
+        # Tolerance margins for comparison
+        info_density_margin = 0.5
+        locality_margin = 1.0
+        robustness_margin = 0.1
+
         # Check info density
-        if system.info_density_achievable < self.REQUIRED_INFO_DENSITY - 0.5:
+        if info_density < required_info_density - info_density_margin:
             failures.append(
-                f"info density ({system.info_density_achievable:.1f}) "
-                f"below required ({self.REQUIRED_INFO_DENSITY})"
+                f"info density ({info_density:.1f}) "
+                f"below required ({required_info_density})"
             )
 
-        # Check locality
-        if system.locality_achievable > self.REQUIRED_LOCALITY_MAX + 1.0:
+        # Check locality (lower is better - more local)
+        if locality > required_locality_max + locality_margin:
             failures.append(
-                f"locality ({system.locality_achievable:.1f}) "
-                f"exceeds maximum ({self.REQUIRED_LOCALITY_MAX})"
+                f"locality ({locality:.1f}) "
+                f"exceeds maximum ({required_locality_max})"
             )
 
         # Check robustness
-        if system.robustness_achievable < self.REQUIRED_ROBUSTNESS - 0.1:
+        if robustness < required_robustness - robustness_margin:
             failures.append(
-                f"robustness ({system.robustness_achievable:.2f}) "
-                f"below required ({self.REQUIRED_ROBUSTNESS})"
+                f"robustness ({robustness:.2f}) "
+                f"below required ({required_robustness})"
             )
 
         if failures:
@@ -205,6 +377,8 @@ class SemanticNecessityAnalyzer:
     def compile_evidence(self) -> Tuple[List[str], List[str]]:
         """
         Compile evidence for and against semantic necessity.
+
+        Uses measured values when available, theoretical bounds otherwise.
         """
         evidence_for = []
         evidence_against = []
@@ -213,19 +387,33 @@ class SemanticNecessityAnalyzer:
         if all(not s.passes_all_constraints for s in self.systems):
             evidence_for.append("No non-semantic system satisfies all constraints")
 
-        # High info density is problematic for non-semantic systems
-        if any(s.info_density_achievable < 3.5 for s in self.systems if not s.passes_all_constraints):
-            evidence_for.append("Most non-semantic systems cannot achieve observed info density (z=4.0)")
+        # Check measured or theoretical info density
+        for s in self.systems:
+            if not s.passes_all_constraints:
+                density = s.measured_info_density or s.max_info_density or 3.0
+                if density < 3.5:
+                    evidence_for.append(
+                        f"{s.name}: cannot achieve observed info density "
+                        f"(measured/max: {density:.1f}, required: ~4.0)"
+                    )
+                    break  # Only add once
 
-        # Robustness failures
-        fragile_systems = [s for s in self.systems if s.robustness_achievable < 0.5]
+        # Robustness failures - check measured or theoretical
+        fragile_systems = []
+        for s in self.systems:
+            robustness = s.measured_robustness or s.max_robustness or 0.5
+            if robustness < 0.5:
+                fragile_systems.append(s)
+
         if len(fragile_systems) > len(self.systems) / 2:
             evidence_for.append("Most non-semantic systems are fragile under perturbation")
 
-        # Phase 2.3 finding: procedural generation failed prediction
-        evidence_for.append(
-            "Phase 2.3: Procedural Generation model failed info density prediction (z=4.0 too high)"
-        )
+        # Only add Phase 2.3 finding if we have actual measured data
+        if self._observed_info_density and self._observed_info_density > 3.5:
+            evidence_for.append(
+                f"Phase 2.2: Observed info density z={self._observed_info_density:.1f} "
+                "exceeds what most non-semantic systems can achieve"
+            )
 
         # Evidence AGAINST semantics
         if any(s.passes_all_constraints for s in self.systems):
@@ -287,14 +475,25 @@ class SemanticNecessityAnalyzer:
 
         return conditions
 
-    def analyze(self) -> Dict[str, Any]:
-        """Run full semantic necessity analysis."""
+    def analyze(
+        self, dataset_id: str = "", control_ids: Optional[List[str]] = None
+    ) -> Dict[str, Any]:
+        """
+        Run full semantic necessity analysis.
+
+        Args:
+            dataset_id: Dataset to test against (uses measured thresholds).
+            control_ids: Control datasets for comparison.
+        """
+        # Load measured thresholds from Phase 2.2 results
+        thresholds = self._load_measured_thresholds(dataset_id)
+
         # Construct systems
         self.systems = self.construct_maximal_nonsemantic_systems()
 
-        # Test each system
+        # Test each system against actual measured constraints
         for system in self.systems:
-            self.test_system(system)
+            self.test_system(system, thresholds, dataset_id, control_ids)
 
         # Assess necessity
         assessment = self.assess_necessity()
@@ -316,7 +515,7 @@ class SemanticNecessityAnalyzer:
             semantic_conditions=conditions,
         )
 
-        # Compute confidence
+        # Compute confidence based on how decisively systems failed/passed
         total_tests = len(self.systems)
         passed = len(self.result.systems_passed)
         failed = len(self.result.systems_failed)
@@ -344,14 +543,22 @@ class SemanticNecessityAnalyzer:
             "evidence_for_semantics": evidence_for,
             "evidence_against_semantics": evidence_against,
             "semantic_conditions": conditions,
+            "thresholds_used": thresholds,
             "system_details": [
                 {
                     "name": s.name,
                     "passes": s.passes_all_constraints,
                     "failure_reason": s.failure_reason,
-                    "info_density": s.info_density_achievable,
-                    "locality": s.locality_achievable,
-                    "robustness": s.robustness_achievable,
+                    "theoretical_bounds": {
+                        "max_info_density": s.max_info_density,
+                        "min_locality": s.min_locality,
+                        "max_robustness": s.max_robustness,
+                    },
+                    "measured_values": {
+                        "info_density": s.measured_info_density,
+                        "locality": s.measured_locality,
+                        "robustness": s.measured_robustness,
+                    },
                 }
                 for s in self.systems
             ],

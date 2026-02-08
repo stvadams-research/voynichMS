@@ -47,8 +47,7 @@ def display_anomaly_definition(anomaly: AnomalyDefinition):
     console.print(Panel(
         f"[bold]Information Density:[/bold] z = {anomaly.information_density_z}\n"
         f"[bold]Locality Radius:[/bold] {anomaly.locality_radius[0]}-{anomaly.locality_radius[1]} units\n"
-        f"[bold]Robust Under Perturbation:[/bold] {anomaly.robustness_under_perturbation}\n"
-        f"[bold]All Non-Semantic Models Failed:[/bold] {anomaly.all_nonsemantic_models_failed}\n\n"
+        f"[bold]Robust Under Perturbation:[/bold] {anomaly.robustness_under_perturbation}\n\n"
         f"[dim]{anomaly.description}[/dim]",
         title="Anomaly Definition (Fixed for Phase 2.4)",
         border_style="yellow",
@@ -165,11 +164,22 @@ def display_semantic_results(results: Dict[str, Any]):
 
     for s in results["system_details"]:
         passes = "[green]YES[/green]" if s["passes"] else "[red]NO[/red]"
+        # Use measured values if available, otherwise use theoretical bounds
+        measured = s.get("measured_values", {})
+        bounds = s.get("theoretical_bounds", {})
+        info_density = measured.get("info_density") or bounds.get("max_info_density", 0)
+        locality = measured.get("locality") or bounds.get("min_locality", 0)
+        robustness = measured.get("robustness") or bounds.get("max_robustness", 0)
+
+        info_str = f"{info_density:.1f}" if info_density else "-"
+        loc_str = f"{locality:.1f}" if locality else "-"
+        rob_str = f"{robustness:.2f}" if robustness else "-"
+
         table.add_row(
             s["name"][:25],
-            f"{s['info_density']:.1f}",
-            f"{s['locality']:.1f}",
-            f"{s['robustness']:.2f}",
+            info_str,
+            loc_str,
+            rob_str,
             passes,
         )
 

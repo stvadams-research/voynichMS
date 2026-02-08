@@ -12,7 +12,9 @@ Per PRINCIPLES_AND_NONGOALS.md:
 """
 
 from typing import List, Dict, Any
-import random
+import math
+from collections import Counter
+
 from foundation.hypotheses.interface import Hypothesis, HypothesisResult
 from foundation.storage.metadata import (
     MetadataStore,
@@ -21,10 +23,12 @@ from foundation.storage.metadata import (
     GlyphCandidateRecord,
     TranscriptionTokenRecord,
     TranscriptionLineRecord,
+    TranscriptionSourceRecord,
     RegionRecord,
     AnchorRecord,
     PageRecord,
 )
+from foundation.config import use_real_computation
 
 
 class FixedGlyphIdentityHypothesis(Hypothesis):
@@ -65,44 +69,84 @@ class FixedGlyphIdentityHypothesis(Hypothesis):
         )
 
     def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        """
-        Simulate boundary perturbation test.
+        if not use_real_computation("hypotheses"):
+            return self._run_simulated(real_dataset_id, control_dataset_ids)
 
-        In a real implementation, this would:
-        1. Load glyph candidates from the dataset
-        2. Perturb word boundaries by 5% of word width
-        3. Re-run glyph segmentation
-        4. Measure identity stability (% of glyphs that changed class)
+        return self._run_real(real_dataset_id, control_dataset_ids)
+
+    def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+        """
+        Simulate boundary perturbation and count affected glyphs.
+
+        For each word, shift boundaries by perturbation_strength and count
+        how many glyphs would be "collapsed" (fall too close to boundary).
         """
         session = self.store.Session()
         try:
-            # Fetch sample data to make metrics realistic
+            # Fetch all words and glyphs
             pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
             word_count = 0
             glyph_count = 0
 
-            for page in pages:
-                lines = session.query(LineRecord).filter_by(page_id=page.id).all()
-                for line in lines:
-                    words = session.query(WordRecord).filter_by(line_id=line.id).all()
-                    word_count += len(words)
-                    for word in words:
-                        glyphs = session.query(GlyphCandidateRecord).filter_by(word_id=word.id).all()
-                        glyph_count += len(glyphs)
-
-            # Simulate perturbation analysis
-            # Key finding: Small boundary shifts cause significant identity collapse
             perturbation_levels = [0.01, 0.05, 0.10, 0.15, 0.20]
             identity_collapse = {}
 
-            # Simulate: identity collapse increases rapidly with perturbation
-            # At 5% perturbation, we expect ~35% collapse (well above 20% threshold)
-            for p in perturbation_levels:
-                # Exponential-ish collapse curve
-                collapse_rate = min(0.95, 0.15 + (p * 4.0) + (p ** 2 * 10))
-                identity_collapse[p] = collapse_rate
+            for p_level in perturbation_levels:
+                collapsed_count = 0
+                total_glyphs = 0
 
-            collapse_at_5pct = identity_collapse[0.05]
+                for page in pages:
+                    lines = session.query(LineRecord).filter_by(page_id=page.id).all()
+                    for line in lines:
+                        words = session.query(WordRecord).filter_by(line_id=line.id).all()
+                        word_count += len(words)
+
+                        for word in words:
+                            glyphs = (
+                                session.query(GlyphCandidateRecord)
+                                .filter_by(word_id=word.id)
+                                .order_by(GlyphCandidateRecord.glyph_index)
+                                .all()
+                            )
+
+                            if not glyphs:
+                                continue
+
+                            glyph_count += len(glyphs)
+                            total_glyphs += len(glyphs)
+
+                            # Get word bbox
+                            word_bbox = word.bbox
+                            if not word_bbox:
+                                continue
+
+                            word_width = word_bbox.get("x_max", 1) - word_bbox.get("x_min", 0)
+                            shift = p_level * word_width
+
+                            # Count glyphs that would be affected by boundary shift
+                            for glyph in glyphs:
+                                glyph_bbox = glyph.bbox
+                                if not glyph_bbox:
+                                    continue
+
+                                glyph_center = (
+                                    glyph_bbox.get("x_min", 0) + glyph_bbox.get("x_max", 0)
+                                ) / 2
+
+                                # Distance from word left boundary
+                                dist_from_left = glyph_center - word_bbox.get("x_min", 0)
+                                # Distance from word right boundary
+                                dist_from_right = word_bbox.get("x_max", 1) - glyph_center
+
+                                # Glyph is affected if it's within shift distance of either boundary
+                                if dist_from_left < shift or dist_from_right < shift:
+                                    collapsed_count += 1
+
+                # Calculate collapse rate for this perturbation level
+                collapse_rate = collapsed_count / total_glyphs if total_glyphs > 0 else 0
+                identity_collapse[p_level] = collapse_rate
+
+            collapse_at_5pct = identity_collapse.get(0.05, 0)
 
             # Falsified if >20% collapse at 5% perturbation
             if collapse_at_5pct > 0.20:
@@ -129,8 +173,66 @@ class FixedGlyphIdentityHypothesis(Hypothesis):
                     "perturbation_threshold": 0.05,
                     "identity_collapse_rate": collapse_at_5pct,
                     "collapse_threshold": 0.20,
+                    "verdict": "Glyph identity collapses under minor segmentation changes" if outcome == "FALSIFIED" else "Glyph identity is relatively stable",
+                    "collapse_curve": identity_collapse,
+                }
+            )
+        finally:
+            session.close()
+
+    def _run_simulated(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+        """Legacy simulated implementation."""
+        session = self.store.Session()
+        try:
+            pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
+            word_count = 0
+            glyph_count = 0
+
+            for page in pages:
+                lines = session.query(LineRecord).filter_by(page_id=page.id).all()
+                for line in lines:
+                    words = session.query(WordRecord).filter_by(line_id=line.id).all()
+                    word_count += len(words)
+                    for word in words:
+                        glyphs = session.query(GlyphCandidateRecord).filter_by(word_id=word.id).all()
+                        glyph_count += len(glyphs)
+
+            perturbation_levels = [0.01, 0.05, 0.10, 0.15, 0.20]
+            identity_collapse = {}
+
+            for p in perturbation_levels:
+                collapse_rate = min(0.95, 0.15 + (p * 4.0) + (p ** 2 * 10))
+                identity_collapse[p] = collapse_rate
+
+            collapse_at_5pct = identity_collapse[0.05]
+
+            if collapse_at_5pct > 0.20:
+                outcome = "FALSIFIED"
+            elif collapse_at_5pct > 0.10:
+                outcome = "WEAKLY_SUPPORTED"
+            else:
+                outcome = "SUPPORTED"
+
+            metrics = {
+                f"{real_dataset_id}:word_count": float(word_count),
+                f"{real_dataset_id}:glyph_count": float(glyph_count),
+                f"{real_dataset_id}:collapse_at_5pct": collapse_at_5pct,
+            }
+
+            for p, rate in identity_collapse.items():
+                metrics[f"{real_dataset_id}:collapse_at_{int(p*100)}pct"] = rate
+
+            return HypothesisResult(
+                outcome=outcome,
+                metrics=metrics,
+                summary={
+                    "test": "segmentation_perturbation",
+                    "perturbation_threshold": 0.05,
+                    "identity_collapse_rate": collapse_at_5pct,
+                    "collapse_threshold": 0.20,
                     "verdict": "Glyph identity collapses under minor segmentation changes",
                     "collapse_curve": identity_collapse,
+                    "simulated": True
                 }
             )
         finally:
@@ -176,45 +278,102 @@ class WordBoundaryStabilityHypothesis(Hypothesis):
         )
 
     def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        """
-        Compare word boundary agreement across transcription sources.
+        if not use_real_computation("hypotheses"):
+            return self._run_simulated(real_dataset_id, control_dataset_ids)
 
-        In a real implementation, this would:
-        1. Load transcription lines from multiple sources
-        2. Align lines to the same page/line indices
-        3. Compare token counts and boundary positions
-        4. Calculate agreement metrics (Jaccard, exact match, etc.)
+        return self._run_real(real_dataset_id, control_dataset_ids)
+
+    def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+        """
+        Compare word/token counts across transcription sources.
+
+        Agreement is measured by comparing the number of tokens per line
+        across different transcription sources.
         """
         session = self.store.Session()
         try:
-            # Count available transcription sources
-            from foundation.storage.metadata import TranscriptionSourceRecord
+            # Get all transcription sources
             sources = session.query(TranscriptionSourceRecord).all()
             source_count = len(sources)
 
-            # Simulate cross-source comparison
-            # Known issue: EVA and Currier often disagree on word boundaries
-            # particularly for ligatures and space-like gaps
+            if source_count < 2:
+                return HypothesisResult(
+                    outcome="INCONCLUSIVE",
+                    metrics={f"{real_dataset_id}:source_count": float(source_count)},
+                    summary={
+                        "error": "Need at least 2 transcription sources to compare",
+                        "sources_found": source_count
+                    }
+                )
 
-            # Simulated agreement rates (based on published literature)
-            # These are realistic estimates for Voynich transcription disagreement
-            simulated_comparisons = {
-                ("eva", "currier"): 0.72,      # ~72% agreement
-                ("eva", "bennett"): 0.78,      # ~78% agreement
-                ("currier", "bennett"): 0.75,  # ~75% agreement
-            }
+            # Get pages for this dataset
+            pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
+            page_ids = [p.id for p in pages]
+
+            # Compare token counts per line across sources
+            source_comparisons = {}
+            source_ids = [s.id for s in sources]
+
+            for i, src1 in enumerate(source_ids):
+                for src2 in source_ids[i + 1:]:
+                    matching_lines = 0
+                    total_lines = 0
+
+                    for page_id in page_ids:
+                        # Get lines from source 1
+                        lines1 = (
+                            session.query(TranscriptionLineRecord)
+                            .filter_by(source_id=src1, page_id=page_id)
+                            .order_by(TranscriptionLineRecord.line_index)
+                            .all()
+                        )
+
+                        # Get lines from source 2
+                        lines2 = (
+                            session.query(TranscriptionLineRecord)
+                            .filter_by(source_id=src2, page_id=page_id)
+                            .order_by(TranscriptionLineRecord.line_index)
+                            .all()
+                        )
+
+                        # Compare token counts for matching line indices
+                        lines1_by_idx = {l.line_index: l for l in lines1}
+                        lines2_by_idx = {l.line_index: l for l in lines2}
+
+                        common_indices = set(lines1_by_idx.keys()) & set(lines2_by_idx.keys())
+
+                        for idx in common_indices:
+                            total_lines += 1
+
+                            # Count tokens in each line
+                            tokens1 = (
+                                session.query(TranscriptionTokenRecord)
+                                .filter_by(line_id=lines1_by_idx[idx].id)
+                                .count()
+                            )
+                            tokens2 = (
+                                session.query(TranscriptionTokenRecord)
+                                .filter_by(line_id=lines2_by_idx[idx].id)
+                                .count()
+                            )
+
+                            # Lines "match" if token counts are equal
+                            if tokens1 == tokens2:
+                                matching_lines += 1
+
+                    agreement = matching_lines / total_lines if total_lines > 0 else 0
+                    source_comparisons[(src1, src2)] = agreement
 
             # Calculate aggregate metrics
-            if source_count >= 2:
-                agreement_rates = list(simulated_comparisons.values())
+            if source_comparisons:
+                agreement_rates = list(source_comparisons.values())
                 avg_agreement = sum(agreement_rates) / len(agreement_rates)
                 min_agreement = min(agreement_rates)
                 max_agreement = max(agreement_rates)
             else:
-                # Fallback for single source
-                avg_agreement = 0.75
-                min_agreement = 0.75
-                max_agreement = 0.75
+                avg_agreement = 0
+                min_agreement = 0
+                max_agreement = 0
 
             # Determine outcome
             if avg_agreement < 0.70:
@@ -224,12 +383,59 @@ class WordBoundaryStabilityHypothesis(Hypothesis):
             else:
                 outcome = "SUPPORTED"
 
-            # Additional analysis: identify systematic disagreement patterns
-            disagreement_patterns = {
-                "ligature_handling": "EVA treats as single token; Currier often splits",
-                "space_interpretation": "Inconsistent treatment of subtle spacing",
-                "line_end_ambiguity": "Unclear if gap is space or line break",
+            metrics = {
+                f"{real_dataset_id}:source_count": float(source_count),
+                f"{real_dataset_id}:avg_agreement": avg_agreement,
+                f"{real_dataset_id}:min_agreement": min_agreement,
+                f"{real_dataset_id}:max_agreement": max_agreement,
             }
+
+            for pair, rate in source_comparisons.items():
+                metrics[f"{real_dataset_id}:{pair[0]}_vs_{pair[1]}"] = rate
+
+            return HypothesisResult(
+                outcome=outcome,
+                metrics=metrics,
+                summary={
+                    "test": "cross_source_boundary_agreement",
+                    "sources_compared": list(source_comparisons.keys()),
+                    "average_agreement": avg_agreement,
+                    "agreement_threshold": 0.80,
+                    "verdict": "Word boundaries show significant inter-source disagreement" if outcome == "FALSIFIED" else "Word boundaries are reasonably consistent",
+                }
+            )
+        finally:
+            session.close()
+
+    def _run_simulated(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+        """Legacy simulated implementation."""
+        session = self.store.Session()
+        try:
+            sources = session.query(TranscriptionSourceRecord).all()
+            source_count = len(sources)
+
+            simulated_comparisons = {
+                ("eva", "currier"): 0.72,
+                ("eva", "bennett"): 0.78,
+                ("currier", "bennett"): 0.75,
+            }
+
+            if source_count >= 2:
+                agreement_rates = list(simulated_comparisons.values())
+                avg_agreement = sum(agreement_rates) / len(agreement_rates)
+                min_agreement = min(agreement_rates)
+                max_agreement = max(agreement_rates)
+            else:
+                avg_agreement = 0.75
+                min_agreement = 0.75
+                max_agreement = 0.75
+
+            if avg_agreement < 0.70:
+                outcome = "FALSIFIED"
+            elif avg_agreement < 0.80:
+                outcome = "WEAKLY_SUPPORTED"
+            else:
+                outcome = "SUPPORTED"
 
             metrics = {
                 f"{real_dataset_id}:source_count": float(source_count),
@@ -250,7 +456,7 @@ class WordBoundaryStabilityHypothesis(Hypothesis):
                     "average_agreement": avg_agreement,
                     "agreement_threshold": 0.80,
                     "verdict": "Word boundaries show significant inter-source disagreement",
-                    "disagreement_patterns": disagreement_patterns,
+                    "simulated": True
                 }
             )
         finally:
@@ -271,8 +477,6 @@ class DiagramTextAlignmentHypothesis(Hypothesis):
     Expected Outcome: Depends on data quality
     - If alignment score degrades significantly on scrambled data: SUPPORTED
     - If alignment score is similar: FALSIFIED (relationship is geometric accident)
-
-    We deliberately seek cases that LOOK meaningful but fail this test.
     """
 
     @property
@@ -299,62 +503,61 @@ class DiagramTextAlignmentHypothesis(Hypothesis):
         )
 
     def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        """
-        Compare text-diagram alignment scores between real and scrambled data.
+        if not use_real_computation("hypotheses"):
+            return self._run_simulated(real_dataset_id, control_dataset_ids)
 
-        In a real implementation, this would:
-        1. Load anchors linking text objects to diagram regions
-        2. Calculate a meaningful alignment score (e.g., IoU-weighted density)
-        3. Repeat for scrambled controls
-        4. Statistical test for significant difference
+        return self._run_real(real_dataset_id, control_dataset_ids)
+
+    def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+        """
+        Count real anchors and compare to controls.
+
+        Computes a label density metric: proportion of text objects
+        that have anchors to diagram regions.
         """
         session = self.store.Session()
         try:
-            # Count real anchors
-            real_anchor_count = 0
-            real_pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
-            for page in real_pages:
-                anchors = session.query(AnchorRecord).filter_by(page_id=page.id).all()
-                real_anchor_count += len(anchors)
+            def calculate_alignment_score(dataset_id: str) -> tuple:
+                """Calculate alignment score as anchor density."""
+                pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
+                if not pages:
+                    return 0.0, 0
 
-            # Count control anchors
+                page_ids = [p.id for p in pages]
+
+                # Count total anchors
+                anchor_count = (
+                    session.query(AnchorRecord)
+                    .filter(AnchorRecord.page_id.in_(page_ids))
+                    .count()
+                )
+
+                # Count total text objects (words)
+                text_count = (
+                    session.query(WordRecord)
+                    .join(LineRecord, WordRecord.line_id == LineRecord.id)
+                    .filter(LineRecord.page_id.in_(page_ids))
+                    .count()
+                )
+
+                # Alignment score = anchors / text objects
+                score = anchor_count / text_count if text_count > 0 else 0
+                return score, anchor_count
+
+            real_score, real_anchor_count = calculate_alignment_score(real_dataset_id)
+
+            control_scores = {}
             control_anchor_counts = {}
             for ctrl_id in control_dataset_ids:
-                count = 0
-                ctrl_pages = session.query(PageRecord).filter_by(dataset_id=ctrl_id).all()
-                for page in ctrl_pages:
-                    anchors = session.query(AnchorRecord).filter_by(page_id=page.id).all()
-                    count += len(anchors)
+                score, count = calculate_alignment_score(ctrl_id)
+                control_scores[ctrl_id] = score
                 control_anchor_counts[ctrl_id] = count
 
-            # Calculate alignment quality score
-            # Real data: Text is positioned intentionally near diagrams
-            # Scrambled: Random positioning should reduce meaningful proximity
-
-            # Simulate alignment scores
-            # Metric: "label density" = (text objects within 50px of diagram) / total text
-            real_score = 0.45  # 45% of text appears to be near diagrams
-
-            # For scrambled data, we expect much lower scores if relationship is real
-            # BUT: if relationship is purely geometric (dense text + dense diagrams),
-            # scrambling won't help much
-            control_scores = {}
-            for ctrl_id in control_dataset_ids:
-                if "scrambled" in ctrl_id:
-                    # Scrambled regions move, so proximity should degrade
-                    control_scores[ctrl_id] = 0.38  # Only slight degradation
-                elif "synthetic" in ctrl_id:
-                    # Random synthetic should have lower baseline
-                    control_scores[ctrl_id] = 0.25
-                else:
-                    control_scores[ctrl_id] = 0.40
-
-            # Statistical test simulation
-            # Calculate z-score: (real - mean_control) / std_control
+            # Statistical test
             if control_scores:
                 mean_control = sum(control_scores.values()) / len(control_scores)
                 variance = sum((s - mean_control) ** 2 for s in control_scores.values()) / len(control_scores)
-                std_control = variance ** 0.5 if variance > 0 else 0.1
+                std_control = math.sqrt(variance) if variance > 0 else 0.1
 
                 z_score = (real_score - mean_control) / std_control if std_control > 0 else 0
             else:
@@ -363,25 +566,12 @@ class DiagramTextAlignmentHypothesis(Hypothesis):
                 z_score = 0
 
             # Determine outcome based on z-score
-            # We want to find cases that FAIL (look meaningful but aren't)
-            # z > 2: SUPPORTED (real difference exists)
-            # 1 < z < 2: WEAKLY_SUPPORTED
-            # z < 1: FALSIFIED (not distinguishable from chance)
-
             if z_score >= 2.0:
                 outcome = "SUPPORTED"
             elif z_score >= 1.0:
                 outcome = "WEAKLY_SUPPORTED"
             else:
                 outcome = "FALSIFIED"
-
-            # Key finding for audit: even when real > control,
-            # the margin is often small, suggesting geometric coincidence
-            audit_note = (
-                "Alignment scores show only modest degradation under scrambling. "
-                "This suggests text-diagram proximity may be a geometric artifact "
-                "of page layout density rather than intentional labeling."
-            )
 
             metrics = {
                 f"{real_dataset_id}:anchor_count": float(real_anchor_count),
@@ -403,7 +593,282 @@ class DiagramTextAlignmentHypothesis(Hypothesis):
                     "control_std": std_control,
                     "z_score": z_score,
                     "significance_threshold": 2.0,
-                    "verdict": audit_note,
+                    "verdict": "Text-diagram alignment is significant" if outcome == "SUPPORTED" else "Alignment may be geometric artifact",
+                }
+            )
+        finally:
+            session.close()
+
+    def _run_simulated(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+        """Legacy simulated implementation."""
+        session = self.store.Session()
+        try:
+            real_anchor_count = 0
+            real_pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
+            for page in real_pages:
+                anchors = session.query(AnchorRecord).filter_by(page_id=page.id).all()
+                real_anchor_count += len(anchors)
+
+            control_anchor_counts = {}
+            for ctrl_id in control_dataset_ids:
+                count = 0
+                ctrl_pages = session.query(PageRecord).filter_by(dataset_id=ctrl_id).all()
+                for page in ctrl_pages:
+                    anchors = session.query(AnchorRecord).filter_by(page_id=page.id).all()
+                    count += len(anchors)
+                control_anchor_counts[ctrl_id] = count
+
+            real_score = 0.45
+            control_scores = {}
+            for ctrl_id in control_dataset_ids:
+                if "scrambled" in ctrl_id:
+                    control_scores[ctrl_id] = 0.38
+                elif "synthetic" in ctrl_id:
+                    control_scores[ctrl_id] = 0.25
+                else:
+                    control_scores[ctrl_id] = 0.40
+
+            if control_scores:
+                mean_control = sum(control_scores.values()) / len(control_scores)
+                variance = sum((s - mean_control) ** 2 for s in control_scores.values()) / len(control_scores)
+                std_control = variance ** 0.5 if variance > 0 else 0.1
+                z_score = (real_score - mean_control) / std_control if std_control > 0 else 0
+            else:
+                mean_control = 0
+                std_control = 0.1
+                z_score = 0
+
+            if z_score >= 2.0:
+                outcome = "SUPPORTED"
+            elif z_score >= 1.0:
+                outcome = "WEAKLY_SUPPORTED"
+            else:
+                outcome = "FALSIFIED"
+
+            metrics = {
+                f"{real_dataset_id}:anchor_count": float(real_anchor_count),
+                f"{real_dataset_id}:alignment_score": real_score,
+                f"{real_dataset_id}:z_score": z_score,
+            }
+
+            for ctrl_id, score in control_scores.items():
+                metrics[f"{ctrl_id}:alignment_score"] = score
+                metrics[f"{ctrl_id}:anchor_count"] = float(control_anchor_counts.get(ctrl_id, 0))
+
+            return HypothesisResult(
+                outcome=outcome,
+                metrics=metrics,
+                summary={
+                    "test": "scrambling_survival",
+                    "real_alignment_score": real_score,
+                    "control_mean": mean_control,
+                    "control_std": std_control,
+                    "z_score": z_score,
+                    "significance_threshold": 2.0,
+                    "verdict": "Alignment scores show only modest degradation under scrambling.",
+                    "simulated": True
+                }
+            )
+        finally:
+            session.close()
+
+
+class AnchorDisruptionHypothesis(Hypothesis):
+    """
+    Tests if anchor relationships survive region perturbation.
+
+    Measures how many anchors break when regions are geometrically shifted.
+    """
+
+    @property
+    def id(self) -> str:
+        return "anchor_disruption"
+
+    @property
+    def description(self) -> str:
+        return "Anchor relationships between text and regions are robust to geometric perturbation."
+
+    @property
+    def assumptions(self) -> str:
+        return (
+            "Text-region anchors represent intentional relationships. "
+            "Small geometric shifts should not break these relationships."
+        )
+
+    @property
+    def falsification_criteria(self) -> str:
+        return (
+            "If >50% of anchors break under 10% region shift, "
+            "the anchoring is geometrically fragile and FALSIFIED."
+        )
+
+    def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+        if not use_real_computation("hypotheses"):
+            return self._run_simulated(real_dataset_id, control_dataset_ids)
+
+        return self._run_real(real_dataset_id, control_dataset_ids)
+
+    def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+        """
+        Measure anchor survival after simulated region shift.
+
+        For each anchor, check if the overlap would survive a shift.
+        """
+        session = self.store.Session()
+        try:
+            pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
+            page_ids = [p.id for p in pages]
+
+            # Get all anchors
+            anchors = (
+                session.query(AnchorRecord)
+                .filter(AnchorRecord.page_id.in_(page_ids))
+                .all()
+            )
+
+            if not anchors:
+                return HypothesisResult(
+                    outcome="INCONCLUSIVE",
+                    metrics={f"{real_dataset_id}:anchor_count": 0},
+                    summary={"error": "No anchors found to test"}
+                )
+
+            # Perturbation levels
+            perturbation_levels = [0.05, 0.10, 0.15, 0.20]
+            survival_rates = {}
+
+            for p_level in perturbation_levels:
+                surviving = 0
+                total = len(anchors)
+
+                for anchor in anchors:
+                    # Get source (text) and target (region) bboxes
+                    source_id = anchor.source_id
+                    target_id = anchor.target_id
+
+                    # Get source bbox (word)
+                    word = session.query(WordRecord).filter_by(id=source_id).first()
+                    if not word or not word.bbox:
+                        surviving += 1  # Can't test, assume survives
+                        continue
+
+                    # Get target bbox (region)
+                    region = session.query(RegionRecord).filter_by(id=target_id).first()
+                    if not region or not region.bbox:
+                        surviving += 1
+                        continue
+
+                    word_bbox = word.bbox
+                    region_bbox = region.bbox
+
+                    # Simulate region shift
+                    region_width = region_bbox.get("x_max", 1) - region_bbox.get("x_min", 0)
+                    region_height = region_bbox.get("y_max", 1) - region_bbox.get("y_min", 0)
+
+                    shift_x = p_level * region_width
+                    shift_y = p_level * region_height
+
+                    # Check if word center is still within shifted region
+                    word_cx = (word_bbox.get("x_min", 0) + word_bbox.get("x_max", 1)) / 2
+                    word_cy = (word_bbox.get("y_min", 0) + word_bbox.get("y_max", 1)) / 2
+
+                    # Shifted region boundaries (shift in random direction - use positive for consistency)
+                    new_x_min = region_bbox.get("x_min", 0) + shift_x
+                    new_x_max = region_bbox.get("x_max", 1) + shift_x
+                    new_y_min = region_bbox.get("y_min", 0) + shift_y
+                    new_y_max = region_bbox.get("y_max", 1) + shift_y
+
+                    # Check containment after shift
+                    if (new_x_min <= word_cx <= new_x_max and
+                            new_y_min <= word_cy <= new_y_max):
+                        surviving += 1
+
+                survival_rate = surviving / total if total > 0 else 1.0
+                survival_rates[p_level] = survival_rate
+
+            survival_at_10pct = survival_rates.get(0.10, 1.0)
+
+            # Falsified if <50% survive at 10% shift
+            if survival_at_10pct < 0.50:
+                outcome = "FALSIFIED"
+            elif survival_at_10pct < 0.70:
+                outcome = "WEAKLY_SUPPORTED"
+            else:
+                outcome = "SUPPORTED"
+
+            metrics = {
+                f"{real_dataset_id}:anchor_count": float(len(anchors)),
+                f"{real_dataset_id}:survival_at_10pct": survival_at_10pct,
+            }
+
+            for p, rate in survival_rates.items():
+                metrics[f"{real_dataset_id}:survival_at_{int(p*100)}pct"] = rate
+
+            return HypothesisResult(
+                outcome=outcome,
+                metrics=metrics,
+                summary={
+                    "test": "anchor_disruption",
+                    "perturbation_tested": 0.10,
+                    "survival_rate": survival_at_10pct,
+                    "survival_threshold": 0.50,
+                    "survival_curve": survival_rates,
+                    "verdict": "Anchors are fragile under geometric shift" if outcome == "FALSIFIED" else "Anchors survive moderate perturbation",
+                }
+            )
+        finally:
+            session.close()
+
+    def _run_simulated(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+        """Legacy simulated implementation."""
+        session = self.store.Session()
+        try:
+            pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
+            page_ids = [p.id for p in pages]
+
+            anchor_count = (
+                session.query(AnchorRecord)
+                .filter(AnchorRecord.page_id.in_(page_ids))
+                .count()
+            )
+
+            # Simulated survival rates (anchors are fragile)
+            perturbation_levels = [0.05, 0.10, 0.15, 0.20]
+            survival_rates = {}
+
+            for p in perturbation_levels:
+                # Exponential decay
+                survival = max(0.1, 1.0 - (p * 5))
+                survival_rates[p] = survival
+
+            survival_at_10pct = survival_rates.get(0.10, 0.5)
+
+            if survival_at_10pct < 0.50:
+                outcome = "FALSIFIED"
+            elif survival_at_10pct < 0.70:
+                outcome = "WEAKLY_SUPPORTED"
+            else:
+                outcome = "SUPPORTED"
+
+            metrics = {
+                f"{real_dataset_id}:anchor_count": float(anchor_count),
+                f"{real_dataset_id}:survival_at_10pct": survival_at_10pct,
+            }
+
+            for p, rate in survival_rates.items():
+                metrics[f"{real_dataset_id}:survival_at_{int(p*100)}pct"] = rate
+
+            return HypothesisResult(
+                outcome=outcome,
+                metrics=metrics,
+                summary={
+                    "test": "anchor_disruption",
+                    "perturbation_tested": 0.10,
+                    "survival_rate": survival_at_10pct,
+                    "survival_threshold": 0.50,
+                    "survival_curve": survival_rates,
+                    "verdict": "Anchors are fragile under geometric shift",
+                    "simulated": True
                 }
             )
         finally:

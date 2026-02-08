@@ -11,7 +11,9 @@ Key questions:
 """
 
 from typing import List, Dict, Any
-import random
+import math
+from collections import Counter
+
 from analysis.stress_tests.interface import (
     StressTest,
     StressTestResult,
@@ -23,7 +25,19 @@ from foundation.storage.metadata import (
     WordRecord,
     LineRecord,
     GlyphCandidateRecord,
+    GlyphAlignmentRecord,
+    TranscriptionTokenRecord,
+    TranscriptionLineRecord,
+    WordAlignmentRecord,
+    AnchorRecord,
 )
+from foundation.config import use_real_computation
+
+
+# Iteration limits for bounded runtime on large datasets
+MAX_PAGES_PER_TEST = 50  # Maximum pages to analyze per test
+MAX_LINES_PER_PAGE = 100  # Maximum lines to analyze per page
+MAX_WORDS_PER_LINE = 50  # Maximum words to analyze per line
 
 
 class MappingStabilityTest(StressTest):
@@ -63,8 +77,8 @@ class MappingStabilityTest(StressTest):
         """
         session = self.store.Session()
         try:
-            # Gather test data
-            pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
+            # Gather test data with limits for bounded runtime
+            pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
 
             # Initialize metrics
             segmentation_stability = []
@@ -72,26 +86,23 @@ class MappingStabilityTest(StressTest):
             omission_stability = []
 
             for page in pages:
-                lines = session.query(LineRecord).filter_by(page_id=page.id).all()
+                lines = session.query(LineRecord).filter_by(page_id=page.id).limit(MAX_LINES_PER_PAGE).all()
 
                 for line in lines:
-                    words = session.query(WordRecord).filter_by(line_id=line.id).all()
+                    words = session.query(WordRecord).filter_by(line_id=line.id).limit(MAX_WORDS_PER_LINE).all()
                     if len(words) < 2:
                         continue
 
                     # Test 1: Segmentation Perturbation
-                    # Simulate boundary shift by merging adjacent words
-                    seg_score = self._test_segmentation_stability(words)
+                    seg_score = self._test_segmentation_stability(session, words, dataset_id)
                     segmentation_stability.append(seg_score)
 
                     # Test 2: Ordering Perturbation
-                    # Test if structure depends on specific ordering
-                    ord_score = self._test_ordering_stability(words)
+                    ord_score = self._test_ordering_stability(session, words, dataset_id)
                     ordering_stability.append(ord_score)
 
                     # Test 3: Omission Perturbation
-                    # Test if structure survives element removal
-                    omit_score = self._test_omission_stability(words)
+                    omit_score = self._test_omission_stability(session, words, dataset_id)
                     omission_stability.append(omit_score)
 
             # Calculate aggregate scores
@@ -100,7 +111,7 @@ class MappingStabilityTest(StressTest):
             avg_omit = sum(omission_stability) / len(omission_stability) if omission_stability else 0
 
             # Overall stability is the minimum (weakest link)
-            overall_stability = min(avg_seg, avg_ord, avg_omit)
+            overall_stability = min(avg_seg, avg_ord, avg_omit) if (avg_seg and avg_ord and avg_omit) else 0
 
             # Determine outcome based on class-specific thresholds
             outcome, collapse_threshold = self._determine_outcome(
@@ -113,7 +124,7 @@ class MappingStabilityTest(StressTest):
             )
 
             # Control comparison
-            control_stability = self._test_controls(control_ids)
+            control_stability = self._test_controls(session, control_ids, dataset_id)
             control_differential = overall_stability - control_stability
 
             return StressTestResult(
@@ -141,82 +152,191 @@ class MappingStabilityTest(StressTest):
         finally:
             session.close()
 
-    def _test_segmentation_stability(self, words: List[WordRecord]) -> float:
+    def _test_segmentation_stability(self, session, words: List[WordRecord], dataset_id: str) -> float:
         """
         Test stability under segmentation perturbation.
 
         Simulates what happens when word boundaries shift.
-        From Phase 1: glyph identity collapses at 37.5% under 5% perturbation.
+        Measures how many glyphs would be affected.
         """
+        if not use_real_computation("stress_tests"):
+            # Legacy simulated value
+            return 1.0 - 0.375  # 37.5% collapse = 62.5% stability
+
         if len(words) < 2:
             return 1.0
 
-        # Simulate: if we merge two adjacent words, does the "meaning" change?
-        # For constructed systems: structure might be local, so merging is catastrophic
-        # For visual grammar: spatial relationships matter more than boundaries
+        total_glyphs = 0
+        affected_glyphs = 0
+        perturbation = 0.05  # 5% boundary shift
 
-        # Model based on Phase 1 findings
-        # Glyph identity collapse rate was 37.5% at 5% perturbation
-        # This means segmentation is unstable
-        base_collapse_rate = 0.375
+        for word in words:
+            glyphs = session.query(GlyphCandidateRecord).filter_by(word_id=word.id).all()
+            if not glyphs:
+                continue
 
-        # Constructed systems are MORE sensitive to segmentation
-        # Visual grammar is LESS sensitive (spatial relationships dominate)
-        return 1.0 - base_collapse_rate
+            word_bbox = word.bbox
+            if not word_bbox:
+                continue
 
-    def _test_ordering_stability(self, words: List[WordRecord]) -> float:
+            word_width = word_bbox.get("x_max", 1) - word_bbox.get("x_min", 0)
+            shift = perturbation * word_width
+
+            for glyph in glyphs:
+                total_glyphs += 1
+                glyph_bbox = glyph.bbox
+                if not glyph_bbox:
+                    continue
+
+                glyph_center = (glyph_bbox.get("x_min", 0) + glyph_bbox.get("x_max", 0)) / 2
+
+                # Distance from word boundaries
+                dist_from_left = glyph_center - word_bbox.get("x_min", 0)
+                dist_from_right = word_bbox.get("x_max", 1) - glyph_center
+
+                # Affected if within shift distance of boundary
+                if dist_from_left < shift or dist_from_right < shift:
+                    affected_glyphs += 1
+
+        if total_glyphs == 0:
+            return 1.0
+
+        collapse_rate = affected_glyphs / total_glyphs
+        return 1.0 - collapse_rate
+
+    def _test_ordering_stability(self, session, words: List[WordRecord], dataset_id: str) -> float:
         """
         Test stability under ordering perturbation.
 
-        Simulates what happens when sequence order changes.
+        Measures correlation of metric values when word order is changed.
         """
+        if not use_real_computation("stress_tests"):
+            return 0.70  # Legacy simulated value
+
         if len(words) < 3:
             return 1.0
 
-        # For constructed systems: order might be generative rule
-        # For visual grammar: spatial order matters, but locally
+        # Get tokens for words
+        tokens = []
+        for word in words:
+            alignment = session.query(WordAlignmentRecord).filter_by(word_id=word.id).first()
+            if alignment and alignment.token_id:
+                token = session.query(TranscriptionTokenRecord).filter_by(id=alignment.token_id).first()
+                if token:
+                    tokens.append(token.content)
 
-        # Simulate: swap two adjacent words
-        # If system is purely sequential (language-like), order matters a lot
-        # If system is spatial, local order matters less
+        if len(tokens) < 3:
+            return 1.0
 
-        # Phase 1 showed positional constraints exist (entropy difference)
-        # So order does matter somewhat
+        # Calculate bigram statistics for original order
+        original_bigrams = Counter()
+        for i in range(len(tokens) - 1):
+            original_bigrams[(tokens[i], tokens[i + 1])] += 1
 
-        # Model: moderate ordering sensitivity
-        return 0.70  # 70% stability under ordering perturbation
+        # Simulate perturbation: swap adjacent pairs
+        perturbed_tokens = tokens.copy()
+        for i in range(0, len(perturbed_tokens) - 1, 2):
+            perturbed_tokens[i], perturbed_tokens[i + 1] = perturbed_tokens[i + 1], perturbed_tokens[i]
 
-    def _test_omission_stability(self, words: List[WordRecord]) -> float:
+        perturbed_bigrams = Counter()
+        for i in range(len(perturbed_tokens) - 1):
+            perturbed_bigrams[(perturbed_tokens[i], perturbed_tokens[i + 1])] += 1
+
+        # Calculate overlap (Jaccard)
+        original_set = set(original_bigrams.keys())
+        perturbed_set = set(perturbed_bigrams.keys())
+
+        if not original_set and not perturbed_set:
+            return 1.0
+
+        intersection = original_set & perturbed_set
+        union = original_set | perturbed_set
+
+        return len(intersection) / len(union) if union else 1.0
+
+    def _test_omission_stability(self, session, words: List[WordRecord], dataset_id: str) -> float:
         """
         Test stability under omission perturbation.
 
-        Simulates what happens when elements are removed.
+        Measures reconstruction accuracy when words are removed.
         """
+        if not use_real_computation("stress_tests"):
+            return 0.65  # Legacy simulated value
+
         if len(words) < 3:
             return 1.0
 
-        # For constructed systems: omission might break generative pattern
-        # For visual grammar: omission of labels might be tolerable
+        # Get tokens
+        tokens = []
+        for word in words:
+            alignment = session.query(WordAlignmentRecord).filter_by(word_id=word.id).first()
+            if alignment and alignment.token_id:
+                token = session.query(TranscriptionTokenRecord).filter_by(id=alignment.token_id).first()
+                if token:
+                    tokens.append(token.content)
 
-        # Model: depends on redundancy in the system
-        # Phase 1 showed bounded vocabulary, suggesting some redundancy
+        if len(tokens) < 3:
+            return 1.0
 
-        return 0.65  # 65% stability under omission
+        # Calculate unigram statistics for original
+        original_counts = Counter(tokens)
 
-    def _test_controls(self, control_ids: List[str]) -> float:
-        """Test stability on control datasets."""
-        # Scrambled data should have LOWER stability
-        # because relationships are random
+        # Simulate omission: remove every 3rd token
+        omitted_tokens = [t for i, t in enumerate(tokens) if i % 3 != 0]
+
+        if not omitted_tokens:
+            return 0.0
+
+        omitted_counts = Counter(omitted_tokens)
+
+        # Calculate what proportion of the distribution is preserved
+        preserved = 0
+        total = sum(original_counts.values())
+
+        for token, count in original_counts.items():
+            if token in omitted_counts:
+                preserved += min(count, omitted_counts[token])
+
+        return preserved / total if total > 0 else 0.0
+
+    def _test_controls(self, session, control_ids: List[str], dataset_id: str) -> float:
+        """
+        Test stability on control datasets.
+
+        Returns average stability across controls.
+        Uses iteration limits for bounded runtime.
+        """
+        if not use_real_computation("stress_tests"):
+            return 0.30  # Legacy simulated value
+
         if not control_ids:
             return 0.3
 
-        # Controls typically show ~30% stability (near random)
-        return 0.30
+        control_stabilities = []
+
+        for ctrl_id in control_ids:
+            pages = session.query(PageRecord).filter_by(dataset_id=ctrl_id).limit(MAX_PAGES_PER_TEST).all()
+            if not pages:
+                continue
+
+            stabilities = []
+            for page in pages:
+                lines = session.query(LineRecord).filter_by(page_id=page.id).limit(MAX_LINES_PER_PAGE).all()
+                for line in lines:
+                    words = session.query(WordRecord).filter_by(line_id=line.id).limit(MAX_WORDS_PER_LINE).all()
+                    if len(words) >= 2:
+                        seg = self._test_segmentation_stability(session, words, ctrl_id)
+                        stabilities.append(seg)
+
+            if stabilities:
+                control_stabilities.append(sum(stabilities) / len(stabilities))
+
+        return sum(control_stabilities) / len(control_stabilities) if control_stabilities else 0.3
 
     def _determine_outcome(self, explanation_class: str,
                            seg: float, ord: float, omit: float) -> tuple:
         """Determine outcome based on stability scores."""
-        min_stability = min(seg, ord, omit)
+        min_stability = min(seg, ord, omit) if (seg and ord and omit) else 0
 
         # Class-specific thresholds
         if explanation_class == "constructed_system":
@@ -239,7 +359,7 @@ class MappingStabilityTest(StressTest):
 
         elif explanation_class == "hybrid_system":
             # Hybrid should show variable stability across tests
-            variance = max(seg, ord, omit) - min(seg, ord, omit)
+            variance = max(seg, ord, omit) - min(seg, ord, omit) if (seg and ord and omit) else 0
             if variance > 0.3:
                 return StressTestOutcome.FRAGILE, min_stability
             else:

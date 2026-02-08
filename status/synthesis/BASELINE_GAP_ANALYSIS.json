@@ -1,0 +1,16 @@
+{
+  "repetition_rate": {
+    "target": 0.9,
+    "synthetic": 1.0,
+    "gap": -0.09999999999999998
+  },
+  "info_density_z": {
+    "target": 5.68,
+    "synthetic": 0.0,
+    "gap": 5.68
+  },
+  "locality": {
+    "target": "2-4",
+    "synthetic": 0
+  }
+}

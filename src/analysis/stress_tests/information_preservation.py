@@ -12,6 +12,8 @@ Key questions:
 
 from typing import List, Dict, Any
 import math
+from collections import Counter
+
 from analysis.stress_tests.interface import (
     StressTest,
     StressTestResult,
@@ -25,7 +27,16 @@ from foundation.storage.metadata import (
     GlyphCandidateRecord,
     RegionRecord,
     AnchorRecord,
+    TranscriptionTokenRecord,
+    TranscriptionLineRecord,
 )
+from foundation.config import use_real_computation
+
+
+# Iteration limits for bounded runtime on large datasets
+MAX_PAGES_PER_TEST = 50  # Maximum pages to analyze per test
+MAX_LINES_PER_PAGE = 100  # Maximum lines to analyze per page
+MAX_TOKENS_ANALYZED = 10000  # Maximum tokens for entropy calculations
 
 
 class InformationPreservationTest(StressTest):
@@ -116,20 +127,27 @@ class InformationPreservationTest(StressTest):
             session.close()
 
     def _calculate_information_metrics(self, session, dataset_id: str) -> Dict[str, float]:
-        """Calculate information-theoretic metrics for a dataset."""
-        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
+        """
+        Calculate information-theoretic metrics for a dataset.
+
+        Uses Shannon entropy from actual token distribution.
+        Uses iteration limits for bounded runtime.
+        """
+        pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
 
         if not pages:
             return {"information_density": 0, "redundancy_ratio": 0, "cross_scale_correlation": 0}
 
-        # Collect statistics
+        page_ids = [p.id for p in pages]
+
+        # Collect statistics with limits
         word_counts = []
         glyph_counts = []
         region_counts = []
         anchor_counts = []
 
         for page in pages:
-            lines = session.query(LineRecord).filter_by(page_id=page.id).all()
+            lines = session.query(LineRecord).filter_by(page_id=page.id).limit(MAX_LINES_PER_PAGE).all()
             page_words = 0
             page_glyphs = 0
 
@@ -149,34 +167,25 @@ class InformationPreservationTest(StressTest):
             anchors = session.query(AnchorRecord).filter_by(page_id=page.id).all()
             anchor_counts.append(len(anchors))
 
-        # Calculate information density
-        # Based on Phase 1: positional entropy was 0.40 for real (vs 0.95 scrambled)
-        # This suggests significant structure
-        total_elements = sum(word_counts) + sum(glyph_counts)
-        avg_per_page = total_elements / len(pages) if pages else 0
-
-        # Normalize to 0-1 scale
-        # Real data should show LOWER entropy (more structure)
-        # which means HIGHER information density
-        if "scrambled" in dataset_id or "synthetic" in dataset_id:
-            information_density = 0.3  # Low structure
+        # Calculate information density using real entropy
+        if use_real_computation("stress_tests"):
+            information_density = self._compute_entropy_density(session, page_ids)
+            redundancy_ratio = self._compute_redundancy_ratio(session, page_ids)
         else:
-            information_density = 0.7  # Higher structure (based on Phase 1 entropy findings)
+            # Legacy string-matching fallback
+            if "scrambled" in dataset_id or "synthetic" in dataset_id:
+                information_density = 0.3  # Low structure
+            else:
+                information_density = 0.7  # Higher structure
 
-        # Calculate redundancy ratio
-        # Repetition indicates redundancy
-        if sum(word_counts) > 0:
-            # Simulate: real language has ~20-30% redundancy
-            # Constructed systems might have more or less
-            redundancy_ratio = 0.25
-        else:
-            redundancy_ratio = 0
+            if sum(word_counts) > 0:
+                redundancy_ratio = 0.25
+            else:
+                redundancy_ratio = 0
 
         # Calculate cross-scale correlation
-        # Do word patterns correlate with region patterns?
-        # Phase 1 anchors showed text-diagram relationships
         if sum(anchor_counts) > 0:
-            cross_scale_correlation = 0.65  # Significant correlation
+            cross_scale_correlation = self._compute_cross_scale_correlation(session, page_ids)
         else:
             cross_scale_correlation = 0.2
 
@@ -189,6 +198,129 @@ class InformationPreservationTest(StressTest):
             "total_regions": sum(region_counts),
             "total_anchors": sum(anchor_counts),
         }
+
+    def _compute_entropy_density(self, session, page_ids: List[str]) -> float:
+        """
+        Compute normalized entropy from actual token distribution.
+
+        Formula: entropy = -sum(p * log2(p)) normalized by log2(vocabulary_size)
+        Uses MAX_TOKENS_ANALYZED limit for bounded runtime.
+        """
+        # Get tokens with limit
+        tokens = (
+            session.query(TranscriptionTokenRecord.content)
+            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
+            .filter(TranscriptionLineRecord.page_id.in_(page_ids))
+            .limit(MAX_TOKENS_ANALYZED)
+            .all()
+        )
+
+        if not tokens:
+            return 0.0
+
+        token_contents = [t[0] for t in tokens]
+        token_counts = Counter(token_contents)
+
+        total = len(token_contents)
+        vocab_size = len(token_counts)
+
+        if vocab_size < 2:
+            return 0.0
+
+        # Shannon entropy
+        entropy = 0.0
+        for count in token_counts.values():
+            p = count / total
+            if p > 0:
+                entropy -= p * math.log2(p)
+
+        # Maximum entropy for this vocabulary
+        max_entropy = math.log2(vocab_size)
+
+        # Normalized entropy (0 = completely predictable, 1 = maximum entropy)
+        normalized = entropy / max_entropy if max_entropy > 0 else 0
+
+        # Information density: higher is more structured
+        # Invert because high entropy means less structure
+        # But also high vocab means potentially more meaning
+        # Combine: density = (1 - normalized_entropy) * vocab_complexity
+        vocab_complexity = min(1.0, math.log2(vocab_size) / 10)  # Normalize vocab contribution
+
+        # Real data typically has moderate entropy (not too random, not too predictable)
+        # with reasonably high vocabulary - indicating structured content
+        information_density = (1.0 - abs(normalized - 0.5) * 2) * 0.5 + vocab_complexity * 0.5
+
+        return information_density
+
+    def _compute_redundancy_ratio(self, session, page_ids: List[str]) -> float:
+        """
+        Compute redundancy ratio from token repetition patterns.
+
+        Uses MAX_TOKENS_ANALYZED limit for bounded runtime.
+        """
+        tokens = (
+            session.query(TranscriptionTokenRecord.content)
+            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
+            .filter(TranscriptionLineRecord.page_id.in_(page_ids))
+            .limit(MAX_TOKENS_ANALYZED)
+            .all()
+        )
+
+        if not tokens:
+            return 0.0
+
+        token_contents = [t[0] for t in tokens]
+        token_counts = Counter(token_contents)
+
+        total = len(token_contents)
+        unique = len(token_counts)
+
+        # Redundancy: proportion of non-unique tokens
+        redundancy = 1.0 - (unique / total) if total > 0 else 0
+
+        return redundancy
+
+    def _compute_cross_scale_correlation(self, session, page_ids: List[str]) -> float:
+        """
+        Compute correlation between text and region scales.
+
+        Measures how much text structure correlates with visual structure.
+        """
+        correlations = []
+
+        for page_id in page_ids:
+            # Count words per region via anchors
+            anchors = session.query(AnchorRecord).filter_by(page_id=page_id).all()
+
+            if not anchors:
+                continue
+
+            # Group by region
+            region_word_counts = Counter()
+            for anchor in anchors:
+                if anchor.source_type == "word":
+                    region_word_counts[anchor.target_id] += 1
+
+            if len(region_word_counts) < 2:
+                continue
+
+            # Correlation: variance of word counts per region
+            counts = list(region_word_counts.values())
+            mean = sum(counts) / len(counts)
+
+            if mean == 0:
+                continue
+
+            # Coefficient of variation (lower = more consistent = higher correlation)
+            variance = sum((c - mean) ** 2 for c in counts) / len(counts)
+            std = math.sqrt(variance)
+            cv = std / mean if mean > 0 else 0
+
+            # Convert to 0-1 scale (lower CV = higher correlation)
+            correlation = max(0, 1.0 - cv)
+            correlations.append(correlation)
+
+        return sum(correlations) / len(correlations) if correlations else 0.2
 
     def _compare_to_controls(self, real: Dict, controls: Dict) -> Dict[str, Any]:
         """Compare real data metrics to control metrics."""

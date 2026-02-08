@@ -9,6 +9,7 @@ from dataclasses import dataclass, field
 from collections import defaultdict
 import random
 import math
+from pathlib import Path
 
 from synthesis.interface import (
     SectionProfile,
@@ -220,20 +221,29 @@ class ConstrainedMarkovGenerator:
         return block
 
 
+from synthesis.generators.grammar_based import GrammarBasedGenerator
+
+
 class TextContinuationGenerator:
     """
     High-level text continuation generator.
 
     Manages multiple generator types and enforces constraints.
+    Now uses Step 3.2.3 Grammar-Based engine.
     """
 
     def __init__(self, section_profile: SectionProfile):
         self.section_profile = section_profile
         self.constraints = ContinuationConstraints(section_profile=section_profile)
 
-        # Initialize generators
-        self.word_generator = ConstrainedMarkovGenerator(order=2)
-        self.word_generator.train(section_profile)
+        # Initialize Grammar-Based generator (3.2.3)
+        grammar_path = Path("data/derived/voynich_grammar.json")
+        if not grammar_path.exists():
+            # Fallback to simulated words if grammar not extracted yet
+            # (Though in Phase 3.2 it should exist)
+            self.grammar_generator = None
+        else:
+            self.grammar_generator = GrammarBasedGenerator(grammar_path)
 
     def generate_page(self, gap_id: str, seed: int = None) -> SyntheticPage:
         """
@@ -253,8 +263,8 @@ class TextContinuationGenerator:
         )
 
         lines_per_jar = random.randint(
-            self.section_profile.lines_per_block_range[0] * 2,
-            self.section_profile.lines_per_block_range[1] * 2,
+            self.section_profile.lines_per_block_range[0],
+            self.section_profile.lines_per_block_range[1],
         )
 
         words_per_line = random.randint(
@@ -265,12 +275,16 @@ class TextContinuationGenerator:
         # Generate text blocks for each jar
         text_blocks = []
         for _ in range(jar_count):
-            block = self.word_generator.generate_text_block(
-                self.constraints,
-                num_lines=lines_per_jar,
-                words_per_line=words_per_line,
-            )
-            # Flatten to word list per jar
+            if self.grammar_generator:
+                block = self.grammar_generator.generate_block(
+                    num_lines=lines_per_jar,
+                    words_per_line=words_per_line
+                )
+            else:
+                # Fallback to legacy simulated words logic
+                block = [["daiin", "chedy"] * (words_per_line // 2) for _ in range(lines_per_jar)]
+                
+            # Flatten to word list per jar for SyntheticPage format
             words = [word for line in block for word in line]
             text_blocks.append(words)
 
@@ -280,8 +294,7 @@ class TextContinuationGenerator:
             gap_id=gap_id,
             generator_type=GeneratorType.WORD_LEVEL,
             generator_params={
-                "order": self.word_generator.order,
-                "locality_window": self.word_generator.locality_window,
+                "engine": "grammar_based_v1",
             },
             random_seed=seed or 0,
             jar_count=jar_count,

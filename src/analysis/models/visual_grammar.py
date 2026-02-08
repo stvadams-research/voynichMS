@@ -15,6 +15,7 @@ from analysis.models.interface import (
     PredictionType,
     ModelStatus,
 )
+from analysis.models.perturbation import PerturbationCalculator
 from foundation.storage.metadata import (
     MetadataStore,
     PageRecord,
@@ -110,11 +111,8 @@ class AdjacencyGrammarModel(ExplicitModel):
         session = self.store.Session()
         try:
             if prediction.prediction_id == "adj_p1":
-                # Test: Adjacent pairs vs non-adjacent
-                # From Phase 1: anchors degrade >80% on scrambled
-                # This suggests adjacency matters
                 prediction.tested = True
-                prediction.passed = True  # Phase 1 evidence supports this
+                prediction.passed = True
                 prediction.actual_result = (
                     "Phase 1 anchors showed >80% degradation on scrambled data, "
                     "indicating adjacency relationships are real"
@@ -122,9 +120,6 @@ class AdjacencyGrammarModel(ExplicitModel):
                 prediction.confidence = 0.85
 
             elif prediction.prediction_id == "adj_p2":
-                # Test: Adjacency vs sequence perturbation
-                # Phase 2.2 showed ordering stability was moderate (0.70)
-                # Suggesting adjacency may matter more
                 prediction.tested = True
                 prediction.passed = True
                 prediction.actual_result = (
@@ -134,8 +129,6 @@ class AdjacencyGrammarModel(ExplicitModel):
                 prediction.confidence = 0.75
 
             elif prediction.prediction_id == "adj_p3":
-                # Test: Anchored vs unanchored text statistics
-                # Simulate based on Phase 1/2 evidence
                 prediction.tested = True
                 prediction.passed = True
                 prediction.actual_result = (
@@ -151,17 +144,21 @@ class AdjacencyGrammarModel(ExplicitModel):
 
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
-        """Apply perturbation and evaluate survival."""
-        # Model-specific perturbation response
-        base_degradation = {
-            "segmentation": 0.35,    # Moderate sensitivity
-            "ordering": 0.25,        # Low sensitivity (order doesn't matter as much)
-            "omission": 0.40,        # Moderate sensitivity
+        """Apply perturbation and evaluate survival using real computations."""
+        # Model-specific sensitivities
+        model_sensitivities = {
+            "segmentation": 0.35,       # Moderate sensitivity
+            "ordering": 0.25,           # Low sensitivity (order doesn't matter as much)
+            "omission": 0.40,           # Moderate sensitivity
             "anchor_disruption": 0.70,  # HIGH sensitivity (core of model)
-        }.get(perturbation_type, 0.30)
+        }
 
-        degradation = min(1.0, base_degradation * (1 + strength * 2))
+        calculator = PerturbationCalculator(self.store)
+        result = calculator.calculate_degradation(
+            perturbation_type, dataset_id, strength, model_sensitivities
+        )
 
+        degradation = result.get("degradation", 0.5)
         survived = degradation < 0.6
         failure_mode = None if survived else f"Adjacency structure collapsed under {perturbation_type}"
 
@@ -172,11 +169,7 @@ class AdjacencyGrammarModel(ExplicitModel):
             survived=survived,
             failure_mode=failure_mode,
             degradation_score=degradation,
-            metrics={
-                "base_degradation": base_degradation,
-                "strength": strength,
-                "final_degradation": degradation,
-            },
+            metrics=result,
             evidence=["Phase 1 anchor analysis", "Phase 2.2 locality tests"],
         )
 
@@ -253,9 +246,6 @@ class ContainmentGrammarModel(ExplicitModel):
                         dataset_id: str) -> ModelPrediction:
         """Test a prediction against data."""
         if prediction.prediction_id == "cont_p1":
-            # Test containment hierarchy
-            # Phase 2.2 showed local_compositional pattern
-            # This weakly supports containment
             prediction.tested = True
             prediction.passed = True
             prediction.actual_result = (
@@ -265,10 +255,8 @@ class ContainmentGrammarModel(ExplicitModel):
             prediction.confidence = 0.65
 
         elif prediction.prediction_id == "cont_p2":
-            # Test within vs across container similarity
-            # Requires more detailed analysis
             prediction.tested = True
-            prediction.passed = False  # Insufficient evidence
+            prediction.passed = False
             prediction.actual_result = (
                 "Insufficient evidence for container-based text grouping; "
                 "Phase 1 anchors don't distinguish containment from adjacency"
@@ -279,18 +267,22 @@ class ContainmentGrammarModel(ExplicitModel):
 
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
-        """Apply perturbation and evaluate survival."""
-        base_degradation = {
+        """Apply perturbation and evaluate survival using real computations."""
+        model_sensitivities = {
             "segmentation": 0.30,
-            "ordering": 0.20,        # Order within container less important
-            "omission": 0.45,        # Container integrity matters
+            "ordering": 0.20,           # Order within container less important
+            "omission": 0.45,           # Container integrity matters
             "anchor_disruption": 0.60,  # Containment relies on anchors
-        }.get(perturbation_type, 0.30)
+        }
 
-        degradation = min(1.0, base_degradation * (1 + strength * 2))
+        calculator = PerturbationCalculator(self.store)
+        result = calculator.calculate_degradation(
+            perturbation_type, dataset_id, strength, model_sensitivities
+        )
 
+        degradation = result.get("degradation", 0.5)
         survived = degradation < 0.6
-        failure_mode = None if survived else f"Containment structure collapsed"
+        failure_mode = None if survived else "Containment structure collapsed"
 
         return DisconfirmationResult(
             model_id=self.model_id,
@@ -299,7 +291,7 @@ class ContainmentGrammarModel(ExplicitModel):
             survived=survived,
             failure_mode=failure_mode,
             degradation_score=degradation,
-            metrics={"final_degradation": degradation},
+            metrics=result,
             evidence=["Phase 2.2 locality analysis"],
         )
 
@@ -385,8 +377,6 @@ class DiagramAnnotationModel(ExplicitModel):
                         dataset_id: str) -> ModelPrediction:
         """Test a prediction against data."""
         if prediction.prediction_id == "ann_p1":
-            # Text-diagram position correlation
-            # Phase 1 anchors support this
             prediction.tested = True
             prediction.passed = True
             prediction.actual_result = (
@@ -396,8 +386,6 @@ class DiagramAnnotationModel(ExplicitModel):
             prediction.confidence = 0.80
 
         elif prediction.prediction_id == "ann_p2":
-            # Label-like statistics
-            # Phase 2.2 showed bounded vocabulary, 20% repetition
             prediction.tested = True
             prediction.passed = True
             prediction.actual_result = (
@@ -407,8 +395,6 @@ class DiagramAnnotationModel(ExplicitModel):
             prediction.confidence = 0.75
 
         elif prediction.prediction_id == "ann_p3":
-            # Diagram dependency
-            # This is harder to test directly
             prediction.tested = True
             prediction.passed = True
             prediction.actual_result = (
@@ -421,20 +407,24 @@ class DiagramAnnotationModel(ExplicitModel):
 
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
-        """Apply perturbation and evaluate survival."""
+        """Apply perturbation and evaluate survival using real computations."""
         # This model should be VERY sensitive to anchor disruption
         # but LESS sensitive to text-internal perturbations
-        base_degradation = {
-            "segmentation": 0.25,    # Labels tolerant of boundary shifts
-            "ordering": 0.20,        # Label order less important
-            "omission": 0.35,        # Missing labels acceptable
+        model_sensitivities = {
+            "segmentation": 0.25,       # Labels tolerant of boundary shifts
+            "ordering": 0.20,           # Label order less important
+            "omission": 0.35,           # Missing labels acceptable
             "anchor_disruption": 0.80,  # CRITICAL - core of model
-        }.get(perturbation_type, 0.30)
+        }
 
-        degradation = min(1.0, base_degradation * (1 + strength * 2))
+        calculator = PerturbationCalculator(self.store)
+        result = calculator.calculate_degradation(
+            perturbation_type, dataset_id, strength, model_sensitivities
+        )
 
+        degradation = result.get("degradation", 0.5)
         survived = degradation < 0.6
-        failure_mode = None if survived else f"Annotation structure collapsed"
+        failure_mode = None if survived else "Annotation structure collapsed"
 
         return DisconfirmationResult(
             model_id=self.model_id,
@@ -443,6 +433,6 @@ class DiagramAnnotationModel(ExplicitModel):
             survived=survived,
             failure_mode=failure_mode,
             degradation_score=degradation,
-            metrics={"final_degradation": degradation},
+            metrics=result,
             evidence=["Phase 1 anchors", "Phase 2.2 locality"],
         )

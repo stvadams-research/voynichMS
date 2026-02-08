@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import random
 from foundation.regions.interface import RegionProposer, ProposedRegion
 from foundation.core.geometry import Box
@@ -39,19 +39,23 @@ class RandomBlobProposer(RegionProposer):
     Proposes random small regions.
     Useful for primitive scale testing.
     """
-    def __init__(self, count: int = 20, scale: str = "primitive"):
+    def __init__(self, count: int = 20, scale: str = "primitive", seed: Optional[int] = 42):
         self.count = count
         self.scale = scale
+        self.seed = seed
 
     def propose_regions(self, page_id: str, image_path: str) -> List[ProposedRegion]:
         regions = []
+        # Use a local RNG for reproducibility
+        rng = random.Random(self.seed)
+        
         for _ in range(self.count):
             # Random center
-            cx = random.uniform(0.1, 0.9)
-            cy = random.uniform(0.1, 0.9)
+            cx = rng.uniform(0.1, 0.9)
+            cy = rng.uniform(0.1, 0.9)
             # Random size
-            w = random.uniform(0.01, 0.05)
-            h = random.uniform(0.01, 0.05)
+            w = rng.uniform(0.01, 0.05)
+            h = rng.uniform(0.01, 0.05)
             
             bbox = Box(
                 x_min=max(0, cx - w/2),
@@ -63,6 +67,6 @@ class RandomBlobProposer(RegionProposer):
                 bbox=bbox,
                 scale=self.scale,
                 method="random_blob",
-                confidence=random.uniform(0.5, 0.9)
+                confidence=rng.uniform(0.5, 0.9)
             ))
         return regions

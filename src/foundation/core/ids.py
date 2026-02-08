@@ -1,6 +1,7 @@
+import hashlib
 import re
 import uuid
-from typing import NewType
+from typing import NewType, Optional
 from pydantic import BaseModel, Field, field_validator
 
 class FolioID(str):
@@ -42,10 +43,26 @@ class PageID(BaseModel):
 class RunID(str):
     """
     UUID-based identifier for a specific execution run.
+
+    For reproducibility, provide a seed parameter to generate deterministic IDs:
+        RunID(seed=42)  # Always produces the same ID for seed=42
+
+    For random (non-reproducible) runs:
+        RunID()  # Uses uuid4()
+
+    To reuse an existing ID:
+        RunID("existing-uuid-string")
     """
-    def __new__(cls, value: str | None = None):
+    def __new__(cls, value: Optional[str] = None, seed: Optional[int] = None):
         if value is None:
-            value = str(uuid.uuid4())
+            if seed is not None:
+                # Deterministic generation from seed
+                from foundation.core.id_factory import DeterministicIDFactory
+                factory = DeterministicIDFactory(seed=seed)
+                value = factory.next_uuid("run")
+            else:
+                # Random generation (no longer allowed for reproducibility)
+                raise ValueError("RunID must be provided or generated from a seed for reproducibility")
         else:
             # Validate it's a UUID
             try:

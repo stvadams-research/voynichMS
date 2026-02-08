@@ -1,5 +1,7 @@
+import struct
 from typing import List, Dict, Any
-from foundation.storage.metadata import MetadataStore, WordRecord, TranscriptionTokenRecord, WordAlignmentRecord, GlyphCandidateRecord, RegionRecord, RegionEdgeRecord, AnchorRecord
+import numpy as np
+from foundation.storage.metadata import MetadataStore, WordRecord, TranscriptionTokenRecord, WordAlignmentRecord, GlyphCandidateRecord, RegionRecord, RegionEdgeRecord, AnchorRecord, RegionEmbeddingRecord
 
 class QueryEngine:
     def __init__(self, store: MetadataStore):
@@ -45,17 +47,77 @@ class QueryEngine:
 
     def find_similar_regions(self, region_id: str, limit: int = 10) -> List[Dict[str, Any]]:
         """
-        Mock similarity search. In real implementation, would use vector search.
+        Find regions similar to the given region using embedding cosine similarity.
+
+        Uses stored region embeddings to compute real similarity scores.
+        Returns empty list if source region has no embedding.
         """
         session = self.store.Session()
         try:
-            # Just return random other regions for Level 2B demo
-            # Real impl: cosine similarity on embeddings
-            import random
-            all_regions = session.query(RegionRecord).filter(RegionRecord.id != region_id).limit(limit).all()
-            return [{"region_id": r.id, "score": random.random(), "page_id": r.page_id} for r in all_regions]
+            # Get source region embedding
+            source_embedding = (
+                session.query(RegionEmbeddingRecord)
+                .filter_by(region_id=region_id)
+                .first()
+            )
+
+            if not source_embedding or not source_embedding.vector:
+                return []  # No embedding available for source region
+
+            source_vector = self._bytes_to_vector(source_embedding.vector)
+            if source_vector is None:
+                return []
+
+            # Get all other regions
+            all_regions = (
+                session.query(RegionRecord)
+                .filter(RegionRecord.id != region_id)
+                .all()
+            )
+
+            # Score each region by cosine similarity
+            scored = []
+            for region in all_regions:
+                embedding = (
+                    session.query(RegionEmbeddingRecord)
+                    .filter_by(region_id=region.id)
+                    .first()
+                )
+                if embedding and embedding.vector:
+                    target_vector = self._bytes_to_vector(embedding.vector)
+                    if target_vector is not None:
+                        score = self._cosine_similarity(source_vector, target_vector)
+                        scored.append({
+                            "region_id": region.id,
+                            "score": score,
+                            "page_id": region.page_id
+                        })
+
+            # Sort by score descending and return top results
+            scored.sort(key=lambda x: x["score"], reverse=True)
+            return scored[:limit]
         finally:
             session.close()
+
+    def _bytes_to_vector(self, data: bytes) -> np.ndarray:
+        """Convert binary blob to numpy array."""
+        try:
+            return np.frombuffer(data, dtype=np.float32)
+        except (ValueError, struct.error):
+            return None
+
+    def _cosine_similarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
+        """Compute cosine similarity between two vectors."""
+        if vec1.shape != vec2.shape:
+            return 0.0
+
+        norm1 = np.linalg.norm(vec1)
+        norm2 = np.linalg.norm(vec2)
+
+        if norm1 == 0 or norm2 == 0:
+            return 0.0
+
+        return float(np.dot(vec1, vec2) / (norm1 * norm2))
 
     # --- Level 4 Queries ---
 

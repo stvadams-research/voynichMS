@@ -98,12 +98,15 @@ class ConstraintIntersectionAnalyzer:
         ])
 
         # Phase 2.1 Constraints (from admissibility mapping)
+        # Note: These are EXCLUSION_DECISION constraints, not STRUCTURAL constraints.
+        # They represent Phase 2.1 decisions based on structural test failures,
+        # not direct structural measurements.
         constraints.extend([
             ConstraintRecord(
                 constraint_id="P21_C1",
                 source=ConstraintSource.PHASE_2_1,
-                constraint_type=ConstraintType.STRUCTURAL,
-                description="Natural language ruled inadmissible",
+                constraint_type=ConstraintType.EXCLUSION_DECISION,
+                description="Natural language models excluded based on structural test failures in Phase 2.1",
                 excludes_models=[
                     "natural_language_latin",
                     "natural_language_germanic",
@@ -114,8 +117,8 @@ class ConstraintIntersectionAnalyzer:
             ConstraintRecord(
                 constraint_id="P21_C2",
                 source=ConstraintSource.PHASE_2_1,
-                constraint_type=ConstraintType.STRUCTURAL,
-                description="Enciphered language ruled inadmissible",
+                constraint_type=ConstraintType.EXCLUSION_DECISION,
+                description="Enciphered language models excluded based on structural test failures in Phase 2.1",
                 excludes_models=[
                     "simple_substitution_cipher",
                     "polyalphabetic_cipher",

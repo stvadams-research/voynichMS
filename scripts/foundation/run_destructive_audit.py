@@ -43,13 +43,13 @@ from foundation.controls.synthetic import SyntheticNullGenerator
 from foundation.segmentation.dummy import DummyLineSegmenter, DummyWordSegmenter, DummyGlyphSegmenter
 from foundation.regions.dummy import GridProposer, RandomBlobProposer
 from foundation.anchors.engine import AnchorEngine
-import uuid
+from foundation.core.id_factory import DeterministicIDFactory
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
 
-def setup_test_infrastructure(store: MetadataStore, run_id: str):
+def setup_test_infrastructure(store: MetadataStore, run_id: str, seed: int = 42):
     """Set up minimal test data if needed."""
     session = store.Session()
     try:
@@ -62,6 +62,7 @@ def setup_test_infrastructure(store: MetadataStore, run_id: str):
             return
 
         console.print("[yellow]Setting up test infrastructure...[/yellow]")
+        id_factory = DeterministicIDFactory(seed=seed)
 
         # Create test dataset
         store.add_dataset("audit_real", "tests/foundation/dataset")
@@ -85,7 +86,7 @@ def setup_test_infrastructure(store: MetadataStore, run_id: str):
 
             lines = line_seg.segment_page(page_id, "dummy")
             for line in lines:
-                line_id = str(uuid.uuid4())
+                line_id = id_factory.next_uuid(f"line:{page_id}")
                 store.add_line(
                     id=line_id,
                     page_id=page_id,
@@ -96,7 +97,7 @@ def setup_test_infrastructure(store: MetadataStore, run_id: str):
 
                 words = word_seg.segment_line(line.bbox, "dummy")
                 for word in words:
-                    word_id = str(uuid.uuid4())
+                    word_id = id_factory.next_uuid(f"word:{line_id}")
                     store.add_word(
                         id=word_id,
                         line_id=line_id,
@@ -107,7 +108,7 @@ def setup_test_infrastructure(store: MetadataStore, run_id: str):
 
                     glyphs = glyph_seg.segment_word(word.bbox, "dummy")
                     for glyph in glyphs:
-                        glyph_id = str(uuid.uuid4())
+                        glyph_id = id_factory.next_uuid(f"glyph:{word_id}")
                         store.add_glyph_candidate(
                             id=glyph_id,
                             word_id=word_id,
@@ -121,7 +122,7 @@ def setup_test_infrastructure(store: MetadataStore, run_id: str):
             regions = grid_proposer.propose_regions(page_id, "dummy")
             for r in regions:
                 store.add_region(
-                    id=str(uuid.uuid4()),
+                    id=id_factory.next_uuid(f"region:{page_id}"),
                     page_id=page_id,
                     scale=r.scale,
                     method=r.method,
@@ -140,7 +141,7 @@ def setup_test_infrastructure(store: MetadataStore, run_id: str):
         session.close()
 
 
-def setup_control_datasets(store: MetadataStore, run_id: str):
+def setup_control_datasets(store: MetadataStore, run_id: str, seed: int = 42):
     """Generate control datasets for comparison."""
     session = store.Session()
     try:
@@ -156,19 +157,19 @@ def setup_control_datasets(store: MetadataStore, run_id: str):
 
         # Generate scrambled control
         scrambler = ScrambledControlGenerator(store)
-        scrambler.generate("audit_real", "audit_scrambled", seed=42)
+        scrambler.generate("audit_real", "audit_scrambled", seed=seed)
         console.print("  [green]Generated: audit_scrambled[/green]")
 
         # Generate synthetic control
         synthetic = SyntheticNullGenerator(store)
-        synthetic.generate("audit_real", "audit_synthetic", seed=42, params={"num_pages": 3})
+        synthetic.generate("audit_real", "audit_synthetic", seed=seed, params={"num_pages": 3})
         console.print("  [green]Generated: audit_synthetic[/green]")
 
     finally:
         session.close()
 
 
-def generate_anchors(store: MetadataStore, run_id: str):
+def generate_anchors(store: MetadataStore, run_id: str, seed: int = 42):
     """Generate anchors for all datasets."""
     from foundation.storage.metadata import PageRecord
 
@@ -184,7 +185,7 @@ def generate_anchors(store: MetadataStore, run_id: str):
 
         console.print("[yellow]Generating geometric anchors...[/yellow]")
 
-        engine = AnchorEngine(store)
+        engine = AnchorEngine(store, seed=seed)
         method_id = engine.register_method(name="geometric_v1", parameters={"distance_threshold": 0.1})
 
         for dataset_id in ["audit_real", "audit_scrambled", "audit_synthetic"]:
@@ -199,7 +200,7 @@ def generate_anchors(store: MetadataStore, run_id: str):
         session.close()
 
 
-def run_destructive_audit():
+def run_destructive_audit(seed: int = 42):
     """Execute the Phase 1 Destructive Audit."""
     console.print(Panel.fit(
         "[bold cyan]Phase 1 Destructive Audit[/bold cyan]\n"
@@ -207,14 +208,14 @@ def run_destructive_audit():
         border_style="cyan"
     ))
 
-    with active_run(config={"command": "destructive_audit"}) as run:
+    with active_run(config={"command": "destructive_audit", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
 
         # Phase 0: Setup
         console.print("\n[bold]Phase 0: Infrastructure Setup[/bold]")
-        setup_test_infrastructure(store, run.run_id)
-        setup_control_datasets(store, run.run_id)
-        generate_anchors(store, run.run_id)
+        setup_test_infrastructure(store, run.run_id, seed=seed)
+        setup_control_datasets(store, run.run_id, seed=seed)
+        generate_anchors(store, run.run_id, seed=seed)
 
         # Phase 1: Register hypotheses
         console.print("\n[bold]Phase 1: Registering Destructive Hypotheses[/bold]")
@@ -373,5 +374,5 @@ def print_findings_for_document(findings: dict):
 
 
 if __name__ == "__main__":
-    findings = run_destructive_audit()
+    findings = run_destructive_audit(seed=42)
     print_findings_for_document(findings)
