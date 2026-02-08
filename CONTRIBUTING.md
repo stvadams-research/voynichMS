@@ -10,146 +10,93 @@ Before contributing, read:
 - planning/foundation/PRINCIPLES_AND_NONGOALS.md
 - planning/foundation/ROADMAP.md
 - RULES_FOR_AGENTS.md
+- docs/RUNBOOK.md
 
 ---
 
-## Guiding Commitments
+## 1. Audit-Ready Standards (Non-Negotiable)
 
-All contributions must:
+This codebase is maintained in an **Audit-Ready** state. Any contribution that breaks these invariants will be rejected.
 
-- Respect the current active level in the roadmap
-- Preserve ambiguity unless the change is explicitly reversible and justified
-- Treat transliterations as third-party indexes, not truth
-- Log failures and anomalies as first-class data
-- Enforce scale boundaries in code and data
-- Include negative controls for any claim of “structure”
+### Determinism
+- **No `uuid.uuid4()`:** You must use `foundation.core.id_factory.DeterministicIDFactory`.
+- **No `random.` or `np.random`:** You must use seeded generators passed from the config.
+- **Seeded Runs:** Every CLI command or script must accept a `--seed` argument.
 
----
+### Enforcement
+- **REQUIRE_COMPUTED=1:** All pipeline code must run successfully with this environment variable set.
+- **No Simulations:** Do not add "placeholder" values for metrics. If you cannot compute it, fail.
 
-## Active Level Policy
-
-Work proceeds level by level.
-
-Only the current active level may be modified. Do not implement future-level work “because it will be useful later”. That is how this project becomes unmaintainable.
-
-Current active level:
-- Level 1, Data and Identity Foundation
-
-Allowed directories for Level 1 (Foundation):
-- src/foundation/
-- tests/foundation/
-- scripts/foundation/
-- configs/
-
-Forbidden (until their levels are active):
-- src/analysis/ (except for scaffolding)
-- tests/analysis/
+### Provenance
+- **Artifact Schema:** All runs must produce `run.json`, `config.json`, `inputs.json`, and `outputs.json`.
+- **Traceability:** Every metric output must be traceable to a specific RunID and dataset hash.
 
 ---
 
-## Branch and PR Workflow
+## 2. Active Level Policy
+
+Work proceeds level by level. Do not implement future-level work “because it will be useful later”.
+
+**Current Phase:** Phase 3 (Synthesis) - Terminal / Maintenance Mode.
+
+Allowed directories:
+- `src/`
+- `tests/`
+- `scripts/`
+- `configs/`
+
+---
+
+## 3. Branch and PR Workflow
 
 - Create a feature branch per change.
 - Keep PRs small. One conceptual change per PR.
 - Include a clear PR description:
   - What problem does this solve?
   - What assumptions does it make?
-  - What does it explicitly not assume?
-  - How can it fail?
   - How is it tested?
+  - Does it preserve determinism?
 
 ---
 
-## Coding Standards
+## 4. Coding Standards
 
-- Prefer explicit data models (Pydantic) over ad hoc dicts.
-- Prefer deterministic IDs over random IDs for core objects.
-- No “magic numbers”. All thresholds and costs belong in config.
-- Use the shared geometry primitives and coordinate conventions.
-- No silent error suppression.
-- If you add a warning, also add a way to query it later.
+- **Explicit Data Models:** Use Pydantic schemas for all internal data structures.
+- **No Magic Numbers:** All thresholds and costs belong in `configs/`.
+- **Shared Primitives:** Use `foundation.core.geometry` for all spatial logic.
+- **Error Handling:** No silent error suppression. Fail fast or log an anomaly.
 
 ---
 
-## Testing Requirements
+## 5. Testing Requirements
 
-All non-trivial changes must include tests.
+All changes must include tests.
 
-Minimum expectations:
-- Unit tests for logic and invariants
-- Golden tests for determinism (IDs, hashes, schemas)
+**Minimum expectations:**
+- **Unit tests:** For logic and invariants.
+- **Enforcement tests:** Prove that your code respects `REQUIRE_COMPUTED`.
+- **Determinism tests:** Prove that running twice with the same seed yields identical output.
 
-Do not merge changes that reduce test coverage unless the reduction is justified and temporary.
-
----
-
-## Provenance and Reproducibility Requirements
-
-Any new artifact or derived data output must record:
-- run_id
-- config hash
-- method identifier
-- parameter snapshot
-- checksums for files
-
-If a change makes outputs non-reproducible, it must not be merged.
+Run `scripts/ci_check.sh` locally before pushing.
 
 ---
 
-## Failure and Anomaly Handling
-
-Failures are data.
-
-If you encounter cases where the pipeline cannot proceed cleanly:
-- Record an anomaly with severity and category
-- Attach diagnostic data and IDs
-- Do not “fix” by forcing alignment or collapsing categories
-
-A system that never fails is likely hiding failure modes.
-
----
-
-## Negative Controls and “Structure” Claims
-
-If a contribution introduces an analysis that discovers structure, it must include at least one of:
-
-- Synthetic null data baseline
-- Scrambled Voynich baseline
-
-A result that does not survive controls is likely an artifact of the pipeline.
-
----
-
-## Review Checklist
+## 6. Review Checklist
 
 Reviewers should verify:
 
-- The change belongs to the active level
-- The change respects PRINCIPLES_AND_NONGOALS.md
-- Assumptions are stated explicitly
-- No irreversible normalization was introduced
-- Failures are logged, not suppressed
-- Tests exist and pass
-- Outputs are reproducible
-
-If any of these fail, request changes.
+- The change respects `PRINCIPLES_AND_NONGOALS.md`.
+- No `uuid.uuid4()` or unseeded randomness exists.
+- `REQUIRE_COMPUTED` is respected.
+- Artifacts are generated correctly.
+- Tests pass and cover the new logic.
 
 ---
 
-## Versioning and Backward Compatibility
-
-- Avoid breaking schema changes unless necessary.
-- If schema changes are required:
-  - include migrations
-  - bump internal schema version
-  - update docs
-
----
-
-## Security and Data Policy
+## 7. Security and Data Policy
 
 - Do not commit raw images, transliterations, databases, or run artifacts.
-- Keep data in data/raw, data/derived, and runs (all gitignored).
+- Keep data in `data/raw`, `data/derived`, and `runs` (all gitignored).
 - Do not redistribute copyrighted material improperly.
 
 ---

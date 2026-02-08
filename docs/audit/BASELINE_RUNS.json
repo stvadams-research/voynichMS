@@ -1,0 +1,18 @@
+{
+  "phase_2_1": {
+    "run_id": "2472c74e-0a80-f6bf-1077-aa932966ae98",
+    "description": "Phase 2.1 Admissibility Mapping"
+  },
+  "phase_2_2": {
+    "run_id": "6a3fe7c8-977e-0641-b30b-6ee05b405323",
+    "description": "Phase 2.2 Stress Tests"
+  },
+  "phase_3_3_test_a": {
+    "run_id": "90a855cf-0c59-4960-8b2f-58a3c31536d1",
+    "description": "Phase 3.3 Test A (Mechanical Reuse) - Inferred from timing"
+  },
+  "phase_3_3_test_c": {
+    "run_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "description": "Phase 3.3 Test C (Glyph Variant Sensitivity)"
+  }
+}

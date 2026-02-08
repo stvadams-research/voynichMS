@@ -15,55 +15,48 @@ Before writing any code or proposing any change, an agent must read:
 
 1. README.md  
 2. planning/foundation/PRINCIPLES_AND_NONGOALS.md  
-3. planning/foundation/ROADMAP.md  
+3. CONTRIBUTING.md
 
 If a proposal contradicts any of these documents, it must not be implemented.
 
 ---
 
-## 2. Respect the Active Level
+## 2. Determinism Is Absolute
 
-Work is organized into strict levels.
+Agents must NEVER introduce non-deterministic behavior.
 
-- Only the **current active level** may be modified.
-- Code or artifacts belonging to future levels are forbidden.
-
-Current active level:
-- **Level 1: Data and Identity Foundation**
-
-This means:
-
-Allowed:
-- src/foundation/
-- configs/
-- tests/foundation/
-- scripts/foundation/
-
-Forbidden:
-- src/analysis/ (except scaffolding)
-- experiments/
-
-If code “feels useful later”, it belongs later.
+- **Forbidden:** `uuid.uuid4()`, `random.random()`, `np.random.rand()` (without seed).
+- **Mandatory:** Use `foundation.core.id_factory.DeterministicIDFactory` for all IDs.
+- **Mandatory:** Use seeded `random.Random(seed)` or `np.random.RandomState(seed)` for stochastic logic.
+- **Mandatory:** Expose a `seed` parameter in all entry points (CLI, scripts).
 
 ---
 
-## 3. No Interpretation, No Meaning
+## 3. Computation, Not Simulation
+
+Agents must respect the `REQUIRE_COMPUTED=1` standard.
+
+- Do not write code that returns hardcoded "placeholder" values for metrics.
+- Do not use "simulated" fallbacks in production paths.
+- If a metric cannot be computed from data, raise an error or log an anomaly.
+
+---
+
+## 4. No Interpretation, No Meaning
 
 Agents must not:
 
 - speculate about meaning
 - assume language
-- identify symbols
-- normalize glyphs
+- identify symbols (beyond visual similarity)
+- normalize glyphs (without explicit justification)
 - infer semantics
-- “clean up” variation
 
-This project is not about being clever.
-It is about being correct.
+This project is about **structure**, not meaning.
 
 ---
 
-## 4. Image Geometry Is Law
+## 5. Image Geometry Is Law
 
 When there is disagreement between:
 
@@ -76,36 +69,14 @@ Agents must never adjust geometry to fit transcription.
 
 ---
 
-## 5. Transliterations Are Indexes Only
+## 6. Transliterations Are Indexes Only
 
-Transliterations:
-
-- are third-party artifacts
-- encode assumptions we do not accept
-- may be wrong or inconsistent
+Transliterations are third-party artifacts, not truth.
 
 Agents must not:
-
-- treat them as truth
-- normalize them
-- “fix” them
-- prefer one source silently
-
-Multiple transliterations must be allowed to coexist.
-
----
-
-## 6. Preserve Ambiguity
-
-Agents must not force decisions early.
-
-Forbidden behaviors include:
-- collapsing categories prematurely
-- choosing “best” segmentation
-- enforcing 1:1 mappings
-- deleting uncertainty
-
-If something is ambiguous, it must remain ambiguous.
+- Treat them as ground truth.
+- "Fix" them to match expectations.
+- Depend on a single source without verifying invariance (Test B).
 
 ---
 
@@ -114,124 +85,49 @@ If something is ambiguous, it must remain ambiguous.
 Errors and anomalies are valuable.
 
 Agents must:
-
-- log failures explicitly
-- store anomalies in the database
-- avoid suppressing warnings
-- never “fix” failures silently
-
-A system that never fails is lying.
+- Log failures explicitly.
+- Store anomalies in the database.
+- Never "fix" failures silently.
 
 ---
 
-## 8. Enforce Scale Boundaries
+## 8. Scale Boundaries
 
-Every object belongs to a scale.
-
-Examples:
-- page
-- line
-- word
-- glyph_candidate
-- region
+Every object belongs to a scale (Page, Line, Word, Glyph, Region).
 
 Agents must not:
-- mix scales implicitly
-- apply word-level logic to glyphs
-- apply region-level logic to words
-
-Cross-scale operations must be explicit and validated.
+- Mix scales implicitly.
+- Apply word-level logic to glyphs without explicit adaptation.
 
 ---
 
 ## 9. Negative Controls Are Mandatory
 
-If an agent proposes an analysis that finds “structure”, they must also propose:
+If an agent proposes an analysis that finds "structure", they must also propose:
+- A synthetic null control.
+- A scrambled baseline.
 
-- a synthetic null control, or
-- a scrambling test
-
-If a result survives controls, it matters.
-If it does not, it is an artifact.
+A result that does not survive controls is an artifact.
 
 ---
 
 ## 10. No Irreversible Decisions
 
 Agents must not introduce:
-
-- fixed alphabets
-- canonical symbol sets
-- irreversible normalization
-- semantic labels
+- Fixed alphabets.
+- Canonical symbol sets.
+- Irreversible normalization.
 
 Reversibility is a hard requirement.
 
 ---
 
-## 11. Prefer Ledgers Over Models
+## 11. Maintenance of Status
 
-This project prefers:
+Agents must ensure `results/reports/` and `docs/` are kept up to date.
 
-- explicit data tables
-- queryable artifacts
-- clear provenance
-
-Over:
-- opaque end-to-end models
-- black-box inference
-- hidden assumptions
-
-Models may come later. Ledgers come first.
-
----
-
-## 12. Document Assumptions Explicitly
-
-Every non-trivial function, module, or script must declare:
-
-- what it assumes
-- what it does not assume
-- what would falsify its usefulness
-
-If assumptions cannot be stated, the code is not ready.
-
----
-
-## 13. Stop Conditions Are Required
-
-Agents must define:
-
-- success criteria
-- failure criteria
-- stop conditions
-
-“Looks promising” is not a criterion.
-
----
-
-## 14. When in Doubt, Stop
-
-If an agent is unsure whether something belongs:
-
-- in the current level
-- in this project at all
-- or violates a principle
-
-The correct action is to stop and ask.
-
-Overreach is worse than delay.
-
----
-
-## 15. Maintain Status Documentation
-
-Agents must ensure the `status/foundation/` folder is kept up to date. This is a critical default behavior.
-
-- **IMMEDIATELY** upon completing a level or significant phase, update the corresponding `LEVEL_XX.md` file to **COMPLETED**.
-- Ensure all deliverables and verification steps are checked off in the status file.
-- Create the next level's status file as **PENDING** if it does not exist.
-- This ensures the project state is always instantly queryable and prevents "lost" progress.
+- Upon completing a phase, generate a `FINAL_REPORT_PHASE_X.md`.
+- Ensure `docs/RUNBOOK.md` reflects the current execution commands.
 
 ---
 
@@ -239,10 +135,8 @@ Agents must ensure the `status/foundation/` folder is kept up to date. This is a
 
 This project values:
 
-- rigor over speed
-- clarity over novelty
-- falsifiability over excitement
-
-Agents are expected to act accordingly.
+- **Rigor** over speed.
+- **Clarity** over novelty.
+- **Falsifiability** over excitement.
 
 If you find yourself trying to be clever, you are probably doing the wrong thing.

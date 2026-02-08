@@ -10,9 +10,23 @@ The goal is to remove foundational uncertainty about what kind of system the man
 
 Everything in this repository must justify itself by answering:
 
-Does this reduce uncertainty about the structure of the system, or does it merely add structure?
+**Does this reduce uncertainty about the structure of the system, or does it merely add structure?**
 
 If it only adds structure, it does not belong here.
+
+---
+
+## Current Status: AUDIT-READY (Phase 3 Completed)
+
+The project has successfully completed **Phase 2 (Analysis)** and **Phase 3 (Synthesis)**.
+
+### Key Findings
+1.  **Language Hypothesis Falsified:** Mapping stability tests (0.02) confirm the manuscript is not a natural language or simple cipher.
+2.  **Structural Anomaly:** High information density (z=5.68) and strong locality (2-4 units) persist.
+3.  **Mechanism Identified:** The manuscript is mechanically explainable as a two-stage procedural system: a rigid glyph-level grammar combined with a bounded selection pool.
+4.  **Generative Reconstruction:** We have successfully reverse-engineered the grammar but identified that the selection process is not purely stochastic.
+
+See `results/reports/FINAL_REPORT_PHASE_3.md` for the full conclusion.
 
 ---
 
@@ -20,107 +34,52 @@ If it only adds structure, it does not belong here.
 
 These principles are non-negotiable and apply to all code, data, and experiments.
 
-- Image geometry is the highest authority.
-- Transliterations are third-party indices, never ground truth.
-- Ambiguity is preserved, not resolved.
-- Failures and anomalies are first-class data.
-- Scale boundaries are enforced by design.
-- Negative controls are mandatory.
-- No irreversible decisions are made early.
+- **Determinism is Mandatory:** All runs must be reproducible from a seed.
+- **Computed, Not Simulated:** No placeholders allowed in final analysis (`REQUIRE_COMPUTED=1`).
+- **Image Geometry is Law:** When there is disagreement, the image wins.
+- **Ambiguity is Preserved:** Do not force decisions early.
+- **Failures are Data:** Anomalies are valuable signals, not bugs to be squashed.
 
 See `planning/foundation/PRINCIPLES_AND_NONGOALS.md` for the full statement.
 
 ---
 
-## What This Project Is Not
-
-This repository does **not** attempt:
-
-- Translation
-- Language identification
-- Phonetic interpretation
-- Entropy comparison to known languages
-- Symbol inventories
-- Alphabet discovery
-- Semantic labeling
-
-Those activities may be enabled later, but they are explicitly out of scope here.
-
----
-
-## Project Architecture
-
-The project is divided into two distinct phases to maintain epistemic discipline:
-
-### Phase 1: Foundation (`foundation/`)
-Constructs a rigorous, assumption-aware substrate. This phase is governed by a strict 7-level roadmap (Levels 0–6) designed to create a verifiable ledger of the manuscript's physical and geometric reality without interpretive bias.
-- **Goal**: Deterministic, queryable evidence.
-- **Status**: Infrastructure established; Level 1 (Data & Identity) active.
-
-### Phase 2: Analysis (`analysis/`)
-Enables interpretive research, hypothesis testing, and inference. This layer consumes the Foundation substrate to test specific structural and linguistic hypotheses.
-- **Goal**: Falsifiable interpretation and inference.
-- **Status**: Planning and Enablement.
-
-See `planning/foundation/ROADMAP.md` for the detailed Level 0–6 progression.
-
----
-
 ## Repository Structure
+
+The repository follows a strict "Audit-Ready" structure:
 
 ```
 voynich/
-├── planning/
-│   ├── foundation/         # Phase 1 Governance & Roadmaps
-│   └── analysis/           # Phase 2 Research Plans (Pending)
-├── status/
-│   ├── foundation/         # Phase 1 Completion Status
-│   └── analysis/           # Phase 2 Progression (Pending)
-├── src/
-│   ├── foundation/         # Phase 1: Immutable Substrate
-│   ├── analysis/           # Phase 2: Interpretive Layer
-│   └── voynich/            # Deprecated Compatibility Shim
-├── tests/
-│   ├── foundation/         # Foundation Unit & Logic Tests
-│   │   ├── dataset/        # Canonical Foundation Test Substrate
-│   │   └── dataset_2b/     # Multi-ledger test data
-│   └── analysis/           # Analysis & Hypothesis Tests
-├── configs/                # Shared Environment Configuration
-├── data/                   # Shared Data (Gitignored)
-├── runs/                   # Execution Provenance (Gitignored)
-└── scripts/                # Shared Utilities & Maintenance
+├── src/                # Core library code (Foundation, Analysis, Synthesis)
+├── scripts/            # Execution entry points (Phase runners)
+├── tests/              # Unit, integration, and enforcement tests
+├── configs/            # Canonical configuration files
+├── docs/               # Technical documentation (Runbook, Architecture)
+├── results/            # Human-facing reports and data
+├── runs/               # Immutable execution artifacts (gitignored)
+├── data/               # Raw and derived ledgers (gitignored)
+└── planning/           # Governance and roadmaps
 ```
-
----
-
-## Current Focus
-
-The project has transitioned into **Phase 2 Enablement**. 
-
-While work continues to solidify **Phase 1: Level 1 (Data and Identity Foundation)**, the architectural split now allows for the parallel planning of **Phase 2: Analysis** modules without risking the integrity of the foundational evidence.
 
 ---
 
 ## How to Work on This Project
 
-1. **Understand the Boundary**: Determine if your task belongs in the **Foundation** (infrastructure/evidence) or **Analysis** (interpretation/hypothesis).
-2. **Consult the Phase Docs**:
-   - For Foundation work: Read `planning/foundation/PRINCIPLES_AND_NONGOALS.md`.
-   - For Analysis work: Consult the upcoming Analysis charter.
-3. **Respect the Shim**: New code should import directly from `foundation` or `analysis`. Do not use the `voynich` shim for new development.
+1.  **Read the Runbook:** `docs/RUNBOOK.md` explains how to reproduce the baseline.
+2.  **Check the Rules:** `RULES_FOR_AGENTS.md` defines the strict constraints on AI and human contributors.
+3.  **Enforce Standards:** All contributions must pass the CI check (`scripts/ci_check.sh`) and adhere to the `REQUIRE_COMPUTED` standard.
 
 ---
 
 ## Success Criteria
 
-This project is successful if it produces:
+This project is successful because it produced:
 
 - A foundation where assumptions are explicit
 - Infrastructure that survives changing hypotheses
-- Data products that enable translation without forcing it
-- Evidence-based conclusions about what the manuscript is, or is not
+- Evidence-based conclusions about what the manuscript is (Procedural) and is not (Linguistic).
 
-A translation is not required for success.
+A translation was not required for success.
 
 ---
 
@@ -129,5 +88,4 @@ A translation is not required for success.
 This repository prioritizes **epistemic discipline** over speed, novelty, or cleverness.
 
 If something feels exciting but is not falsifiable, it is probably out of scope.
-
 If something feels boring but reduces uncertainty, it probably belongs here.
