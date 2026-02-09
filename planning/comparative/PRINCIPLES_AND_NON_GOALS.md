@@ -1,160 +1,153 @@
 # PRINCIPLES_AND_NON_GOALS.md
-## Voynich Project, Phase B, Comparative and Historical Extension
+## Voynich Project, Phase B, Comparative and Contextual Classification
+
+---
+
+## Phase Context
+
+Phase B begins **after the exhaustion of text-only inference**.
+
+All claims established in Phases 1–7 remain invariant:
+- The text stream has been fully exploited for structural and identifiability inference.
+- No further narrowing of mechanism or semantics is possible from text alone.
+- Any additional work must therefore operate under a **different evidentiary regime**.
+
+Phase B is not a continuation of decoding.
+It is a **new project** with different inputs, risks, and failure modes.
 
 ---
 
 ## High-Level Objective
 
-The objective of Phase B is to situate the Voynich Manuscript within a broader space of human-produced formal artifacts by comparative analysis, without reintroducing semantic assumptions or attempting further mechanism narrowing from the text alone.
+The objective of Phase B is to **classify the Voynich Manuscript as a human-produced formal artifact** by comparison with other structured human artifacts, without reintroducing semantic interpretation or text-only inference.
 
-This phase explicitly begins after the exhaustion of text-only identifiability. It operates under a different evidentiary regime and accepts different risks, while preserving the epistemic boundaries established in earlier phases.
+Specifically, Phase B seeks to determine:
 
-Phase B is not a continuation of decoding or mechanism discovery. It is a classification and contextualization effort focused on human practice rather than textual meaning.
+- Whether the Voynich Manuscript belongs to an existing class of human formal artifacts.
+- Whether it occupies an intersection of multiple classes.
+- Or whether it remains structurally isolated even under broad comparative analysis.
+
+The goal is **proximity and differentiation**, not explanation or interpretation.
+
+---
+
+## Phase B Contract (Non-Negotiable)
+
+### Evidence-Class Expansion
+
+Phase B explicitly allows evidence **outside the symbol stream**, including:
+
+- Codicology and material constraints.
+- Scribal execution characteristics.
+- Known human practices and artifact ecologies.
+- Historically documented production contexts.
+- Comparative artifacts with known purpose or usage.
+
+### Evidence-Class Prohibitions
+
+The following remain strictly out of scope:
+
+- Semantic interpretation of Voynich tokens.
+- Assigning meaning to words, glyphs, or sections.
+- Decoding, translation, or cipher recovery.
+- Any new inference based solely on Voynich text statistics.
+- Retroactive historical narrative built to fit conclusions.
+
+If an argument requires assuming what the text is “about,” it is invalid.
 
 ---
 
 ## Core Principles
 
-The following principles are invariant throughout Phase B.
-
 ### 1. Evidence-Class Separation
 
-Phase B does not revisit text-only inference.
+The Voynich symbol stream is a **closed evidentiary domain**.
 
-- No new claims about semantics, language, or encoding are permitted.
-- The symbol stream is treated as a closed evidentiary domain whose inferential capacity is exhausted.
-- All new claims must be grounded in non-textual or meta-textual evidence.
+- No new claims about structure, mechanism, or semantics may be derived from it.
+- All Phase B claims must be grounded in **comparative or contextual evidence**.
 
 ### 2. Non-Semantic Discipline
 
-Semantic interpretation remains explicitly out of scope.
+Phase B does not relax semantic quarantine.
 
-- Tokens are not assigned meaning.
-- Sections are not labeled by presumed content.
-- Analogies must not rely on what texts are “about.”
+- Tokens remain uninterpreted.
+- Illustrations are not treated as semantic labels.
+- Analogies must not rely on content similarity.
 
-If semantic reasoning becomes necessary to sustain an argument, that argument is invalid.
+Semantic plausibility is not evidence.
 
-### 3. Comparison Over Explanation
+### 3. Comparison, Not Explanation
 
-Phase B prioritizes proximity and difference, not causation.
+Phase B compares artifacts; it does not explain Voynich.
 
-- The goal is to identify structural neighbors, not origins.
-- Analogues are used to bound plausibility, not to assert identity.
-- No single comparison is treated as explanatory on its own.
+- Similarity does not imply derivation.
+- Analogy does not imply intent.
+- Classification does not imply purpose.
 
-### 4. Artifact-Centered Analysis
+The strongest admissible claim is “Voynich is closer to X than to Y along defined dimensions.”
 
-The Voynich Manuscript is treated as a physical and procedural artifact, not primarily as a message.
+### 4. Artifact-Centered Framing
 
-Primary focus includes:
+Voynich is treated as an **executed object**, not a message.
 
-- Production discipline and duration.
-- Error tolerance and correction behavior.
-- Relationship between execution and output.
-- Degree of indifference to efficiency or communication.
+Primary focus areas include:
+- Execution determinism.
+- Error tolerance and correction norms.
+- Layout sensitivity vs indifference.
+- Tool reliance or absence.
+- Efficiency indifference.
+- Human labor ecology.
 
 ### 5. Asymmetric Burden of Proof
 
-Claims of similarity require positive evidence. Claims of difference default to caution.
+- Claims of similarity require positive evidence.
+- Claims of difference default to caution.
+- Failure to find analogues is a valid and meaningful outcome.
 
-- Superficial resemblance is insufficient.
-- Absence of analogy is a valid outcome.
-- Failure to classify is informative, not a deficiency.
+Phase B is allowed to conclude that Voynich remains unclassifiable.
 
 ---
 
 ## Explicit Non-Goals
 
-Phase B does not attempt the following.
+Phase B does **not** attempt to:
 
-- Decoding, translation, or semantic recovery.
-- Further narrowing of the generative mechanism class.
-- Proving authorial intent.
-- Establishing historical authorship or provenance beyond what is already known.
-- Demonstrating that the manuscript “has meaning” or “has no meaning.”
-- Rehabilitating cipher or language hypotheses under new terminology.
+- Recover meaning, plaintext, or translation.
+- Identify the author or historical origin beyond known facts.
+- Argue that Voynich was intended to deceive.
+- Rehabilitate cipher or language hypotheses under new labels.
+- Narrow the generative mechanism class further.
+- Infer purpose unless historically documented independent of Voynich.
 
-Any work that drifts toward these goals is out of scope.
+Any drift toward these goals constitutes scope violation.
 
 ---
 
 ## Key Research Questions
 
-Phase B is structured around the following questions.
+Phase B addresses the following questions only:
 
-- What kinds of human activities produce long, disciplined, non-semantic formal artifacts?
-- Under what institutional, ritual, cognitive, or pedagogical contexts do such artifacts arise?
-- How common or rare are artifacts that prioritize correctness of execution over communicative value?
-- Is the Voynich Manuscript structurally isolated even among non-semantic human practices?
+- What kinds of human activities reliably produce long, disciplined, formally constrained artifacts without communicative optimization?
+- Under what institutional, ritual, pedagogical, or cognitive contexts do such artifacts arise?
+- How common are artifacts where correctness of execution dominates efficiency or intelligibility?
+- Does the Voynich Manuscript resemble any known artifact ecologies along non-semantic dimensions?
+- If not, in what ways is it structurally isolated?
 
-These questions are descriptive and classificatory, not interpretive.
-
----
-
-## Major Execution Steps (High-Level)
-
-The phase proceeds through the following major steps. Each will be expanded into its own execution plan.
-
-### Step 1. Define Comparison Dimensions
-
-- Derive comparison axes from completed Voynich analysis.
-- Ensure all dimensions are measurable without semantic assumptions.
-- Examples include execution determinism, error tolerance, layout sensitivity, and efficiency indifference.
-
-### Step 2. Assemble Candidate Artifact Classes
-
-- Identify known human practices that generate formal artifacts without primary communicative intent.
-- Exclude artifacts whose interpretation depends on semantic decoding.
-- Treat this as hypothesis generation, not selection.
-
-### Step 3. Comparative Scoring and Mapping
-
-- Evaluate candidate artifacts against the defined dimensions.
-- Document both alignments and divergences.
-- Avoid collapsing distinct practices into a single category prematurely.
-
-### Step 4. Structural Proximity Analysis
-
-- Assess whether Voynich occupies an existing region of artifact space or remains isolated.
-- Identify whether similarities are systemic or incidental.
-- Explicitly track uncertainty and ambiguity.
-
-### Step 5. Synthesis and Boundary Statement
-
-- Summarize what Phase B adds and what it does not resolve.
-- Reaffirm boundaries between comparison and interpretation.
-- State clearly whether classification succeeded, failed, or remained indeterminate.
+These questions are classificatory, not interpretive.
 
 ---
 
-## Success Criteria
+## Major Execution Steps (Phase B)
 
-Phase B is considered successful if it achieves one or more of the following without violating prior constraints:
+Each step will be expanded into a separate execution plan.
 
-- Demonstrates that Voynich belongs to a sparse but real class of human formal artifacts.
-- Sharpens understanding of what makes Voynich unusual even among non-semantic productions.
-- Clarifies the human contexts in which such an artifact would be coherent to produce.
-- Establishes that no strong comparative analogues exist, strengthening the case for isolation.
+### Step B1. Define Comparison Dimensions
 
-Success is not measured by explanatory closure.
+- Derive dimensions from Phase 7 findings.
+- Ensure each dimension is observable without semantic assumptions.
+- Define scoring scales and confounds.
+- Score Voynich first as the anchor reference.
 
----
+### Step B2. Assemble Artifact Comparison Library
 
-## Failure Modes to Avoid
-
-- Semantic leakage through analogy.
-- Retrofitting historical narratives to fit the artifact.
-- Treating comparison as explanation.
-- Reopening exhausted text-only questions.
-- Overweighting single analogues or anecdotal evidence.
-
----
-
-## Phase Boundary Statement
-
-Phase B begins only because Phase A demonstrated that no further narrowing is possible from the text alone.
-
-Phase B ends when comparative analysis no longer produces meaningful constraint without interpretation.
-
-Anything beyond that point belongs to a different project entirely.
+- Identify ca
