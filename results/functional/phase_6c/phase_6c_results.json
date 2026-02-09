@@ -1,0 +1,125 @@
+{
+  "Voynich (Real)": {
+    "learnability": {
+      "fractions": [
+        0.1,
+        0.2,
+        0.30000000000000004,
+        0.4,
+        0.5,
+        0.6,
+        0.7000000000000001,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "accuracies": [
+        0.0003540449637103912,
+        0.0003540449637103912,
+        0.0007080899274207824,
+        0.0007080899274207824,
+        0.0007080899274207824,
+        0.0008851124092759781,
+        0.0012391573729863693,
+        0.0014161798548415648,
+        0.0015932023366967605,
+        0.0019472473004071517
+      ],
+      "is_monotonic": true,
+      "final_accuracy": 0.0019472473004071517
+    },
+    "decoy_regularity": {
+      "decoy_rule_count": 0,
+      "mean_decoy_strength": 0.0,
+      "decoy_rate": 0.0
+    },
+    "conditioning_sensitivity": {
+      "h_base": 3.8007632675991796,
+      "h_conditioned": 0.2998662561824107,
+      "entropy_reduction": 3.500897011416769,
+      "is_paradoxical": false
+    }
+  },
+  "Indifferent (H6C.1)": {
+    "learnability": {
+      "fractions": [
+        0.1,
+        0.2,
+        0.30000000000000004,
+        0.4,
+        0.5,
+        0.6,
+        0.7000000000000001,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "accuracies": [
+        0.04942385117312231,
+        0.10037484381507705,
+        0.15465778147993892,
+        0.19408579758433986,
+        0.23281965847563516,
+        0.27585728168818546,
+        0.32236568096626406,
+        0.3509648757462169,
+        0.37539913924753576,
+        0.41649312786339027
+      ],
+      "is_monotonic": true,
+      "final_accuracy": 0.41649312786339027
+    },
+    "decoy_regularity": {
+      "decoy_rule_count": 0,
+      "mean_decoy_strength": 0.0,
+      "decoy_rate": 0.0
+    },
+    "conditioning_sensitivity": {
+      "h_base": 2.4306314324165506,
+      "h_conditioned": 0.06188560177865607,
+      "entropy_reduction": 2.3687458306378946,
+      "is_paradoxical": false
+    }
+  },
+  "Adversarial (H6C.2)": {
+    "learnability": {
+      "fractions": [
+        0.1,
+        0.2,
+        0.30000000000000004,
+        0.4,
+        0.5,
+        0.6,
+        0.7000000000000001,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "accuracies": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "is_monotonic": true,
+      "final_accuracy": 0.0
+    },
+    "decoy_regularity": {
+      "decoy_rule_count": 0,
+      "mean_decoy_strength": 0.0,
+      "decoy_rate": 0.0
+    },
+    "conditioning_sensitivity": {
+      "h_base": 2.929499337386386,
+      "h_conditioned": 0.12332502488171741,
+      "entropy_reduction": 2.8061743125046683,
+      "is_paradoxical": false
+    }
+  }
+}

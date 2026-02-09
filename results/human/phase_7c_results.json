@@ -1,0 +1,33 @@
+{
+  "fingerprints": {
+    "voynich_real": {
+      "ttr": 0.1684488380069203,
+      "determinism": 0.7119865835138351,
+      "sparsity": 0.8358359180822874,
+      "convergence": 0.4063409899708832
+    },
+    "latin_classic": {
+      "ttr": 0.0516,
+      "determinism": 0.9924475980537675,
+      "sparsity": 0.9959307306327255,
+      "convergence": 0.006103342815550898
+    },
+    "table_grille": {
+      "ttr": 0.0003956521739130435,
+      "determinism": 0.6920715164041388,
+      "sparsity": 0.5197165742452249,
+      "convergence": 0.5855058248584654
+    },
+    "self_citation": {
+      "ttr": 0.0883,
+      "determinism": 0.999939073216586,
+      "sparsity": 0.9999695338239838,
+      "convergence": 3.666776669968582e-05
+    }
+  },
+  "distances_from_voynich": {
+    "latin_classic": 0.5273827403568795,
+    "table_grille": 0.40083657614403967,
+    "self_citation": 0.5304371014720937
+  }
+}

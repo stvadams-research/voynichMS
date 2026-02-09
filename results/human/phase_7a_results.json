@@ -1,0 +1,18 @@
+{
+  "corrections": {
+    "total_lines": 5145,
+    "correction_count": 768,
+    "uncertainty_count": 429,
+    "corrections_per_100_lines": 14.927113702623906
+  },
+  "fatigue": {
+    "avg_line_length_correlation": -0.292107162423526,
+    "avg_word_length_correlation": -0.024878145672605146
+  },
+  "cost": {
+    "total_chars": 208907,
+    "total_strokes": 356109,
+    "mean_strokes_per_char": 1.7046293326695612,
+    "mean_strokes_per_token": 10.281766998700736
+  }
+}

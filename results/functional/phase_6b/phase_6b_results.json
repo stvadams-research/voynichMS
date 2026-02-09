@@ -1,0 +1,77 @@
+{
+  "Voynich (Real)": {
+    "reuse_suppression": {
+      "total_visits": 34635,
+      "unique_states": 31754,
+      "state_entropy": 14.79853158108817,
+      "reuse_suppression_index": 0.9895604960149607
+    },
+    "path_efficiency": {
+      "total_tokens": 34635,
+      "unique_tokens": 11178,
+      "tokens_per_unique": 3.09849704777241,
+      "path_efficiency": 0.3227371156344738
+    },
+    "redundancy_cost": {
+      "total_lines": 5145,
+      "unique_lines": 5063,
+      "redundancy_rate": 0.015937803692905733,
+      "cost_per_unique_line": 1.0161959312660478
+    },
+    "compressibility": {
+      "raw_size": 243541,
+      "compressed_size": 83424,
+      "compression_ratio": 0.3425460189454753
+    }
+  },
+  "Indifferent (H6B.2)": {
+    "reuse_suppression": {
+      "total_visits": 41160,
+      "unique_states": 29704,
+      "state_entropy": 14.710585038952473,
+      "reuse_suppression_index": 0.9900537834983112
+    },
+    "path_efficiency": {
+      "total_tokens": 41160,
+      "unique_tokens": 4990,
+      "tokens_per_unique": 8.248496993987976,
+      "path_efficiency": 0.12123420796890184
+    },
+    "redundancy_cost": {
+      "total_lines": 5145,
+      "unique_lines": 4155,
+      "redundancy_rate": 0.1924198250728863,
+      "cost_per_unique_line": 1.2382671480144405
+    },
+    "compressibility": {
+      "raw_size": 237685,
+      "compressed_size": 85995,
+      "compression_ratio": 0.36180238551023414
+    }
+  },
+  "Optimized (H6B.1)": {
+    "reuse_suppression": {
+      "total_visits": 41160,
+      "unique_states": 519,
+      "state_entropy": 8.865162820858288,
+      "reuse_suppression_index": 0.9828786125501163
+    },
+    "path_efficiency": {
+      "total_tokens": 41160,
+      "unique_tokens": 206,
+      "tokens_per_unique": 199.80582524271844,
+      "path_efficiency": 0.0050048590864917395
+    },
+    "redundancy_cost": {
+      "total_lines": 5145,
+      "unique_lines": 80,
+      "redundancy_rate": 0.9844509232264335,
+      "cost_per_unique_line": 64.3125
+    },
+    "compressibility": {
+      "raw_size": 174853,
+      "compressed_size": 12754,
+      "compression_ratio": 0.07294127066736059
+    }
+  }
+}
