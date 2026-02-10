@@ -18,44 +18,15 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.queries import get_lines_from_store
 from foundation.runs.manager import active_run
-from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from foundation.storage.metadata import MetadataStore
 from mechanism.deterministic_grammar.simulators import DeterministicSlotSimulator
 from mechanism.deterministic_grammar.boundary_detection import SlotBoundaryDetector
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
-
-def get_lines(store, dataset_id):
-    session = store.Session()
-    try:
-        from foundation.storage.metadata import PageRecord
-        tokens_recs = (
-            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
-            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
-            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
-            .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
-            .all()
-        )
-        
-        lines = []
-        current_line = []
-        last_line_id = None
-        
-        for content, line_id in tokens_recs:
-            if last_line_id and line_id != last_line_id:
-                lines.append(current_line)
-                current_line = []
-            current_line.append(content)
-            last_line_id = line_id
-        if current_line:
-            lines.append(current_line)
-            
-        return lines
-    finally:
-        session.close()
 
 def run_pilot_5d():
     console.print(Panel.fit(
@@ -70,12 +41,12 @@ def run_pilot_5d():
         
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Detecting Boundaries in Real Data[/bold yellow]")
-        real_lines = get_lines(store, "voynich_real")
+        real_lines = get_lines_from_store(store, "voynich_real")
         real_profile = detector.calculate_successor_sharpness(real_lines[:2000])
         
         # 2. Run Simulator
         console.print("\n[bold yellow]Step 2: Executing Deterministic Simulator[/bold yellow]")
-        sim = DeterministicSlotSimulator(GRAMMAR_PATH, num_slots=6)
+        sim = DeterministicSlotSimulator(GRAMMAR_PATH, num_slots=6, seed=42)
         sim_lines = sim.generate_corpus(num_lines=1000)
         sim_profile = detector.calculate_successor_sharpness(sim_lines)
         

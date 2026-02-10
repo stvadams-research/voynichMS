@@ -8,6 +8,8 @@ Phase 7B implementation.
 import numpy as np
 from collections import defaultdict
 from typing import List, Dict, Any, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 class PageBoundaryAnalyzer:
     """

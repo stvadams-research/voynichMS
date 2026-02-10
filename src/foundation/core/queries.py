@@ -1,7 +1,89 @@
 import struct
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 import numpy as np
-from foundation.storage.metadata import MetadataStore, WordRecord, TranscriptionTokenRecord, WordAlignmentRecord, GlyphCandidateRecord, RegionRecord, RegionEdgeRecord, AnchorRecord, RegionEmbeddingRecord
+from foundation.storage.metadata import (
+    MetadataStore,
+    PageRecord,
+    WordRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+    WordAlignmentRecord,
+    GlyphCandidateRecord,
+    RegionRecord,
+    RegionEdgeRecord,
+    AnchorRecord,
+    RegionEmbeddingRecord,
+)
+import logging
+logger = logging.getLogger(__name__)
+
+
+def get_lines_from_store(store: MetadataStore, dataset_id: str) -> List[List[str]]:
+    """Extract tokenized lines from the database in page/line order."""
+    session = store.Session()
+    try:
+        rows = (
+            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
+            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
+            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
+            .filter(PageRecord.dataset_id == dataset_id)
+            .order_by(
+                PageRecord.id,
+                TranscriptionLineRecord.line_index,
+                TranscriptionTokenRecord.token_index,
+            )
+            .all()
+        )
+
+        lines: List[List[str]] = []
+        current_line: List[str] = []
+        last_line_id = None
+        for content, line_id in rows:
+            if last_line_id is not None and line_id != last_line_id:
+                lines.append(current_line)
+                current_line = []
+            current_line.append(content)
+            last_line_id = line_id
+        if current_line:
+            lines.append(current_line)
+        return lines
+    finally:
+        session.close()
+
+
+def get_tokens_and_boundaries(store: MetadataStore, dataset_id: str) -> Tuple[List[str], List[int]]:
+    """
+    Extract flat token list and line-boundary indices.
+
+    Boundary indices are the final token index of each completed line.
+    """
+    session = store.Session()
+    try:
+        rows = (
+            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
+            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
+            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
+            .filter(PageRecord.dataset_id == dataset_id)
+            .order_by(
+                PageRecord.id,
+                TranscriptionLineRecord.line_index,
+                TranscriptionTokenRecord.token_index,
+            )
+            .all()
+        )
+
+        tokens: List[str] = []
+        boundaries: List[int] = []
+        last_line_id = None
+        for idx, (content, line_id) in enumerate(rows):
+            tokens.append(content)
+            if last_line_id is not None and line_id != last_line_id:
+                boundaries.append(idx - 1)
+            last_line_id = line_id
+        return tokens, boundaries
+    finally:
+        session.close()
+
 
 class QueryEngine:
     def __init__(self, store: MetadataStore):

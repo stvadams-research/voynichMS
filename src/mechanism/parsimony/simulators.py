@@ -9,14 +9,18 @@ Models:
 """
 
 import random
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 from synthesis.generators.grammar_based import GrammarBasedGenerator
 from pathlib import Path
 from mechanism.dependency_scope.features import TokenFeatureExtractor
+import logging
+logger = logging.getLogger(__name__)
 
 class ParsimonySimulator:
-    def __init__(self, grammar_path: Path, vocab_size: int = 1000):
-        self.generator = GrammarBasedGenerator(grammar_path)
+    def __init__(self, grammar_path: Path, vocab_size: int = 1000, seed: Optional[int] = None):
+        # Intentional controller bypass: simulators keep local RNG state per run.
+        self.rng = random.Random(seed)
+        self.generator = GrammarBasedGenerator(grammar_path, seed=seed)
         self.nodes = [self.generator.generate_word() for _ in range(vocab_size)]
         self.extractor = TokenFeatureExtractor()
 
@@ -27,8 +31,8 @@ class PositionIndexedDAGSimulator(ParsimonySimulator):
     """
     M1: Explodes state space to (Word, Position).
     """
-    def __init__(self, grammar_path: Path, vocab_size: int = 1000, max_len: int = 10):
-        super().__init__(grammar_path, vocab_size)
+    def __init__(self, grammar_path: Path, vocab_size: int = 1000, max_len: int = 10, seed: Optional[int] = None):
+        super().__init__(grammar_path, vocab_size, seed=seed)
         self.max_len = max_len
         self.transitions = {} # Key: (node_idx, pos), Value: next_node_idx
         
@@ -37,13 +41,15 @@ class PositionIndexedDAGSimulator(ParsimonySimulator):
             for p in range(max_len):
                 # Arbitrary deterministic rule simulating a lookup table
                 # We use a hash to make it look like a random table
-                seed = i * 1000 + p
-                rng = random.Random(seed)
+                trans_seed = i * 1000 + p
+                if seed is not None:
+                    trans_seed += seed
+                rng = random.Random(trans_seed)
                 self.transitions[(i, p)] = rng.randint(0, vocab_size - 1)
 
     def generate_line(self, length: int) -> List[str]:
         # Start node depends on nothing (or random)
-        idx = random.randint(0, len(self.nodes) - 1)
+        idx = self.rng.randint(0, len(self.nodes) - 1)
         line = []
         for p in range(length):
             line.append(self.nodes[idx])
@@ -59,8 +65,8 @@ class ImplicitLatticeSimulator(ParsimonySimulator):
     """
     M2: Implicit constraints based on features and position.
     """
-    def __init__(self, grammar_path: Path, vocab_size: int = 1000):
-        super().__init__(grammar_path, vocab_size)
+    def __init__(self, grammar_path: Path, vocab_size: int = 1000, seed: Optional[int] = None):
+        super().__init__(grammar_path, vocab_size, seed=seed)
         # Rule: Next word matches a feature condition derived from current word + position
         self.node_features = [self.extractor.extract_features(w) for w in self.nodes]
         
@@ -73,7 +79,7 @@ class ImplicitLatticeSimulator(ParsimonySimulator):
             self.feature_map[key].append(i)
 
     def generate_line(self, length: int) -> List[str]:
-        idx = random.randint(0, len(self.nodes) - 1)
+        idx = self.rng.randint(0, len(self.nodes) - 1)
         line = []
         for p in range(length):
             line.append(self.nodes[idx])

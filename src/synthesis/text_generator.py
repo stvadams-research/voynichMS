@@ -6,7 +6,7 @@ Constrained text generators for pharmaceutical section continuation.
 
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
-from collections import defaultdict
+from collections import Counter, defaultdict
 import random
 import math
 from pathlib import Path
@@ -17,6 +17,7 @@ from synthesis.interface import (
     SyntheticPage,
     GeneratorType,
 )
+from foundation.config import POSITIONAL_BIAS_PROBABILITY
 
 
 @dataclass
@@ -25,8 +26,12 @@ class MarkovState:
     context: Tuple[str, ...]
     transitions: Dict[str, int] = field(default_factory=dict)
     total: int = 0
+    seed: Optional[int] = None
 
-    def add_transition(self, token: str):
+    def __post_init__(self) -> None:
+        self.rng = random.Random(self.seed)
+
+    def add_transition(self, token: str) -> None:
         self.transitions[token] = self.transitions.get(token, 0) + 1
         self.total += 1
 
@@ -35,7 +40,7 @@ class MarkovState:
         if self.total == 0:
             return "<UNK>"
 
-        r = random.random() * self.total
+        r = self.rng.random() * self.total
         cumulative = 0
         for token, count in self.transitions.items():
             cumulative += count
@@ -53,83 +58,68 @@ class ConstrainedMarkovGenerator:
     Enforces locality window 2-4.
     """
 
-    # Simulated Voynichese vocabulary (pharmaceutical section)
-    VOCABULARY = [
-        # Common word patterns
-        "daiin", "chedy", "qokedy", "shedy", "qokeedy", "otedy",
-        "chol", "chor", "cheol", "shor", "shol", "dol",
-        "okedy", "okeedy", "okaiin", "otedy", "oteey", "okey",
-        "ar", "or", "al", "ol", "am", "om", "an", "on",
-        "qokaiin", "qotedy", "qokeey", "qokain", "qokal",
-        "dain", "chain", "shain", "kain", "rain",
-        "chey", "shey", "dey", "key", "ley",
-        "chy", "shy", "dy", "ky", "ly", "ty",
-        "dar", "char", "shar", "kar", "rar",
-        "dol", "chol", "shol", "kol", "rol",
-        "otal", "okal", "ochal", "oshal",
-        "ykeedy", "ykedy", "ykaiin", "ykain",
-        # Less common
-        "qol", "qor", "qal", "qar",
-        "cthy", "sthy", "dthy",
-        "otar", "okar", "ochar", "oshar",
-        "lchedy", "lshedy", "ldaiin",
-    ]
-
-    # Positional constraints (beginning, middle, end of line)
-    POSITION_BIAS = {
-        "start": ["daiin", "chedy", "qokedy", "shedy", "otedy", "okaiin"],
-        "middle": ["chol", "shor", "ar", "or", "al", "ol", "am"],
-        "end": ["dy", "ky", "ly", "ty", "chy", "shy", "dey", "chey"],
-    }
-
-    def __init__(self, order: int = 2, locality_window: Tuple[int, int] = (2, 4)):
+    def __init__(self, order: int = 2, locality_window: Tuple[int, int] = (2, 4), seed: Optional[int] = None):
         self.order = order
         self.locality_window = locality_window
+        self.seed = seed
+        self.rng = random.Random(seed)
+        
+        # Neutral vocabulary to avoid bias
+        from synthesis.profile_extractor import NeutralTokenGenerator
+        self.token_gen = NeutralTokenGenerator(seed=seed)
+        self.VOCABULARY = self.token_gen.generate_tokens(50)
+        
+        self.POSITION_BIAS = {
+            "start": self.token_gen.generate_tokens(6),
+            "middle": self.token_gen.generate_tokens(7),
+            "end": self.token_gen.generate_tokens(8),
+        }
+        
         self.states: Dict[Tuple[str, ...], MarkovState] = {}
         self.start_contexts: List[Tuple[str, ...]] = []
 
-    def train(self, section_profile: SectionProfile):
+    def train(self, section_profile: SectionProfile) -> None:
         """
         Train on pharmaceutical section.
-
-        Uses simulated data since actual text would come from Phase 1 ledger.
         """
         # Generate training sequences from simulated page data
-        for page in section_profile.pages:
-            for _ in range(page.jar_count):
+        for i, page in enumerate(section_profile.pages):
+            for j in range(page.jar_count):
                 # Generate a typical jar's worth of text
-                lines = page.total_lines // page.jar_count
+                lines = page.total_lines // max(1, page.jar_count)
                 words_per_line = page.total_words // max(1, page.total_lines)
 
-                for line_idx in range(lines):
-                    sequence = self._generate_training_line(words_per_line, line_idx, lines)
+                for k in range(lines):
+                    line_seed = self.seed + (i*100 + j*10 + k) if self.seed is not None else None
+                    sequence = self._generate_training_line(words_per_line, k, lines, seed=line_seed)
                     self._train_on_sequence(sequence)
 
-    def _generate_training_line(self, word_count: int, line_idx: int,
-                                total_lines: int) -> List[str]:
+    def _generate_training_line(self, token_count: int, line_idx: int,
+                                total_lines: int, seed: Optional[int] = None) -> List[str]:
         """Generate a training line with positional constraints."""
+        line_rng = random.Random(seed)
         line = []
-        for i in range(word_count):
+        for i in range(token_count):
             # Determine position
             if i == 0:
                 position = "start"
-            elif i == word_count - 1:
+            elif i == token_count - 1:
                 position = "end"
             else:
                 position = "middle"
 
             # Sample with positional bias
-            if random.random() < 0.4:  # 40% chance of positional word
+            if line_rng.random() < POSITIONAL_BIAS_PROBABILITY:
                 candidates = self.POSITION_BIAS[position]
-                word = random.choice(candidates)
+                token = line_rng.choice(candidates)
             else:
-                word = random.choice(self.VOCABULARY)
+                token = line_rng.choice(self.VOCABULARY)
 
-            line.append(word)
+            line.append(token)
 
         return line
 
-    def _train_on_sequence(self, sequence: List[str]):
+    def _train_on_sequence(self, sequence: List[str]) -> None:
         """Train Markov chain on a sequence."""
         if len(sequence) < self.order + 1:
             return
@@ -145,7 +135,8 @@ class ConstrainedMarkovGenerator:
             next_token = sequence[i + self.order]
 
             if context not in self.states:
-                self.states[context] = MarkovState(context=context)
+                state_seed = self.seed + hash(context) % 1000000 if self.seed is not None else None
+                self.states[context] = MarkovState(context=context, seed=state_seed)
 
             self.states[context].add_transition(next_token)
 
@@ -154,11 +145,6 @@ class ConstrainedMarkovGenerator:
                       position_in_block: str = "middle") -> List[str]:
         """
         Generate a single line of text.
-
-        Args:
-            target_length: Target number of tokens
-            preceding_tokens: Context from previous line (for continuity)
-            position_in_block: "start", "middle", or "end" of text block
         """
         line = []
 
@@ -166,9 +152,9 @@ class ConstrainedMarkovGenerator:
         if preceding_tokens and len(preceding_tokens) >= self.order:
             context = tuple(preceding_tokens[-self.order:])
         elif self.start_contexts:
-            context = random.choice(self.start_contexts)
+            context = self.rng.choice(self.start_contexts)
         else:
-            context = tuple(random.choices(self.VOCABULARY, k=self.order))
+            context = tuple(self.rng.choices(self.VOCABULARY, k=self.order))
 
         line.extend(context)
 
@@ -178,18 +164,18 @@ class ConstrainedMarkovGenerator:
                 next_token = self.states[context].sample()
             else:
                 # Fallback: sample with positional bias
-                word_pos = len(line)
-                if word_pos == 0:
+                token_pos = len(line)
+                if token_pos == 0:
                     position = "start"
-                elif word_pos >= target_length - 1:
+                elif token_pos >= target_length - 1:
                     position = "end"
                 else:
                     position = "middle"
 
-                if random.random() < 0.3:
-                    next_token = random.choice(self.POSITION_BIAS[position])
+                if self.rng.random() < 0.3:
+                    next_token = self.rng.choice(self.POSITION_BIAS[position])
                 else:
-                    next_token = random.choice(self.VOCABULARY)
+                    next_token = self.rng.choice(self.VOCABULARY)
 
             line.append(next_token)
             context = tuple(line[-self.order:])
@@ -222,6 +208,8 @@ class ConstrainedMarkovGenerator:
 
 
 from synthesis.generators.grammar_based import GrammarBasedGenerator
+import logging
+logger = logging.getLogger(__name__)
 
 
 class TextContinuationGenerator:
@@ -232,57 +220,60 @@ class TextContinuationGenerator:
     Now uses Step 3.2.3 Grammar-Based engine.
     """
 
-    def __init__(self, section_profile: SectionProfile):
+    def __init__(self, section_profile: SectionProfile, seed: Optional[int] = None):
         self.section_profile = section_profile
+        self.seed = seed
+        # Intentional controller bypass: this generator keeps a local seeded RNG
+        # to avoid mutating module-level global random state.
+        self.rng = random.Random(seed)
         self.constraints = ContinuationConstraints(section_profile=section_profile)
 
         # Initialize Grammar-Based generator (3.2.3)
         grammar_path = Path("data/derived/voynich_grammar.json")
         if not grammar_path.exists():
-            # Fallback to simulated words if grammar not extracted yet
-            # (Though in Phase 3.2 it should exist)
+            # Fallback to legacy simulated words logic if grammar not extracted yet
             self.grammar_generator = None
+            from synthesis.profile_extractor import NeutralTokenGenerator
+            self.token_gen = NeutralTokenGenerator(seed=seed)
         else:
-            self.grammar_generator = GrammarBasedGenerator(grammar_path)
+            self.grammar_generator = GrammarBasedGenerator(grammar_path, seed=seed)
 
-    def generate_page(self, gap_id: str, seed: int = None) -> SyntheticPage:
+    def generate_page(self, gap_id: str, seed: Optional[int] = None) -> SyntheticPage:
         """
         Generate a complete synthetic page.
-
-        Args:
-            gap_id: Which gap this page is filling
-            seed: Random seed for reproducibility
         """
-        if seed is not None:
-            random.seed(seed)
+        # Intentional controller bypass: page-level local RNG keeps generation
+        # deterministic while isolating state from unrelated modules.
+        page_rng = random.Random(seed) if seed is not None else self.rng
 
         # Determine page structure from section profile
-        jar_count = random.randint(
+        jar_count = page_rng.randint(
             self.section_profile.jar_count_range[0],
             self.section_profile.jar_count_range[1],
         )
 
-        lines_per_jar = random.randint(
+        lines_per_jar = page_rng.randint(
             self.section_profile.lines_per_block_range[0],
             self.section_profile.lines_per_block_range[1],
         )
 
-        words_per_line = random.randint(
+        words_per_line = page_rng.randint(
             self.section_profile.words_per_line_range[0],
             self.section_profile.words_per_line_range[1],
         )
 
         # Generate text blocks for each jar
         text_blocks = []
-        for _ in range(jar_count):
+        for i in range(jar_count):
             if self.grammar_generator:
                 block = self.grammar_generator.generate_block(
                     num_lines=lines_per_jar,
                     words_per_line=words_per_line
                 )
             else:
-                # Fallback to legacy simulated words logic
-                block = [["daiin", "chedy"] * (words_per_line // 2) for _ in range(lines_per_jar)]
+                # Fallback to neutral tokens
+                tokens = self.token_gen.generate_tokens(2)
+                block = [tokens * (words_per_line // 2) for _ in range(lines_per_jar)]
                 
             # Flatten to word list per jar for SyntheticPage format
             words = [word for line in block for word in line]
@@ -290,7 +281,7 @@ class TextContinuationGenerator:
 
         # Create synthetic page
         page = SyntheticPage(
-            page_id=f"SYNTHETIC_{gap_id}_{seed or random.randint(0, 99999):05d}",
+            page_id=f"SYNTHETIC_{gap_id}_{seed or page_rng.randint(0, 99999):05d}",
             gap_id=gap_id,
             generator_type=GeneratorType.WORD_LEVEL,
             generator_params={
@@ -302,7 +293,11 @@ class TextContinuationGenerator:
         )
 
         # Compute metrics
-        page.metrics = self._compute_metrics(page)
+        page.metrics = self._compute_metrics(page, seed=seed)
+        page.generator_params["metric_calculation_method"] = page.metrics.get(
+            "calculation_method",
+            "computed",
+        )
 
         # Check constraints
         passed, violations = self.constraints.check_text(page.metrics)
@@ -314,38 +309,80 @@ class TextContinuationGenerator:
 
         return page
 
-    def _compute_metrics(self, page: SyntheticPage) -> Dict[str, float]:
-        """Compute structural metrics for a synthetic page."""
+    def _compute_metrics(self, page: SyntheticPage, seed: Optional[int] = None) -> Dict[str, Any]:
+        """Compute structural metrics directly from generated page content."""
         all_words = []
         for block in page.text_blocks:
             all_words.extend(block)
 
         if not all_words:
-            return {}
+            return {"calculation_method": "computed", "word_count": 0}
 
         # Word length
-        mean_length = sum(len(w) for w in all_words) / len(all_words)
+        mean_length = sum(len(w) for w in all_words) / len(all_words) if len(all_words) > 0 else 0
 
         # Repetition rate
         unique = len(set(all_words))
-        repetition = 1 - (unique / len(all_words))
+        repetition = 1 - (unique / len(all_words)) if len(all_words) > 0 else 0
 
-        # Simulated locality (based on bigram patterns)
-        # In production, this would use Phase 2 methodology
-        locality = 3.0 + random.uniform(-0.5, 0.5)
+        # Locality proxy: mean distance between repeated token occurrences.
+        token_positions: Dict[str, List[int]] = defaultdict(list)
+        for idx, token in enumerate(all_words):
+            token_positions[token].append(idx)
+        spacings: List[int] = []
+        for positions in token_positions.values():
+            if len(positions) > 1:
+                for i in range(1, len(positions)):
+                    spacings.append(positions[i] - positions[i - 1])
+        locality = (sum(spacings) / len(spacings)) if spacings else float(len(all_words))
 
-        # Simulated information density
-        # Higher vocabulary diversity = higher density
-        vocab_ratio = unique / len(all_words)
-        info_density = 3.5 + vocab_ratio * 1.5
+        # Information density proxy: Shannon entropy of token distribution.
+        counts = Counter(all_words)
+        total = len(all_words)
+        info_density = 0.0
+        for count in counts.values():
+            p = count / total
+            if p > 0:
+                info_density -= p * math.log2(p)
+
+        # Positional entropy proxy computed from token-initial and token-final chars.
+        pos_counts = {"start": Counter(), "mid": Counter(), "end": Counter()}
+        for token in all_words:
+            if not token:
+                continue
+            pos_counts["start"][token[0]] += 1
+            pos_counts["end"][token[-1]] += 1
+            if len(token) > 2:
+                for char in token[1:-1]:
+                    pos_counts["mid"][char] += 1
+
+        positional_entropy_values: List[float] = []
+        for counts_by_pos in pos_counts.values():
+            if not counts_by_pos:
+                continue
+            pos_total = sum(counts_by_pos.values())
+            entropy = 0.0
+            for count in counts_by_pos.values():
+                p = count / pos_total
+                if p > 0:
+                    entropy -= p * math.log2(p)
+            max_entropy = math.log2(len(counts_by_pos)) if len(counts_by_pos) > 1 else 1.0
+            positional_entropy_values.append(entropy / max_entropy if max_entropy > 0 else 0.0)
+        positional_entropy = (
+            sum(positional_entropy_values) / len(positional_entropy_values)
+            if positional_entropy_values
+            else 0.0
+        )
 
         return {
+            "calculation_method": "computed",
             "word_count": len(all_words),
             "unique_words": unique,
             "mean_word_length": mean_length,
             "repetition_rate": repetition,
             "locality": locality,
             "info_density": info_density,
+            "positional_entropy": positional_entropy,
         }
 
     def generate_multiple(self, gap_id: str, count: int = 10) -> List[SyntheticPage]:
@@ -357,7 +394,7 @@ class TextContinuationGenerator:
         max_attempts = count * 5
 
         while len(pages) < count and attempts < max_attempts:
-            seed = random.randint(0, 999999)
+            seed = self.rng.randint(0, 999999)
             page = self.generate_page(gap_id, seed=seed)
 
             # Check for uniqueness

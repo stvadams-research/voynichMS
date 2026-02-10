@@ -57,7 +57,7 @@ def run_pilot():
         console.print("\n[bold yellow]Step 1: Preparing Data[/bold yellow]")
         real_tokens = get_tokens(store, "voynich_real")
         
-        generator = PoolGenerator(GRAMMAR_PATH, pool_size=25)
+        generator = PoolGenerator(GRAMMAR_PATH, pool_size=25, seed=42)
         syn_tokens = generator.generate(target_tokens=10000) # Pilot scale
         
         # 2. Run Signature Tests

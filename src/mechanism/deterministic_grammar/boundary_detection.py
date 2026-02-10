@@ -9,6 +9,8 @@ from collections import Counter, defaultdict
 from typing import List, Dict, Any, Tuple
 import numpy as np
 import math
+import logging
+logger = logging.getLogger(__name__)
 
 class SlotBoundaryDetector:
     """

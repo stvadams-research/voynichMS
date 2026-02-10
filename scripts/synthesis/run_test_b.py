@@ -27,6 +27,8 @@ from foundation.storage.metadata import MetadataStore
 from foundation.metrics.library import RepetitionRate
 from foundation.hypotheses.library import GlyphPositionHypothesis
 
+from foundation.core.provenance import ProvenanceWriter
+
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
@@ -114,8 +116,7 @@ def run_test_b():
         console.print(table)
         
         # Save results
-        with open("status/synthesis/TEST_B_RESULTS.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, "status/synthesis/TEST_B_RESULTS.json")
             
         store.save_run(run)
 

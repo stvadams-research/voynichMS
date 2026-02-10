@@ -8,12 +8,16 @@ CRITICAL: REQUIRE_COMPUTED mode enforces that no simulated fallbacks are allowed
 When enabled, any simulation causes immediate pipeline failure.
 """
 
+import json
 import os
 import threading
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
 from typing import Dict, List, Any, Optional
 from enum import Enum
+import logging
+logger = logging.getLogger(__name__)
 
 
 class ComputationMethod(Enum):
@@ -259,6 +263,26 @@ def get_tracker() -> ComputationTracker:
     return _tracker
 
 
+# Generation Constants
+POSITIONAL_BIAS_PROBABILITY = 0.4
+DEFAULT_SEED = 42
+
+# Analysis Limits
+MAX_PAGES_PER_TEST = 50
+MAX_TOKENS_ANALYZED = 10000
+
+SCRAMBLED_CONTROL_PARAMS = {
+    "jar_count_range": (2, 6),
+    "word_count_range": (40, 120),
+    "mean_word_length": {"baseline": 5.0, "spread": 1.5},
+    "repetition_rate": {"baseline": 0.10, "offset_min": -0.05, "offset_max": 0.15},
+    "positional_entropy": {"baseline": 0.80, "offset_min": -0.10, "offset_max": 0.15},
+    "locality_radius": {"baseline": 6.0, "offset_min": -1.0, "offset_max": 3.0},
+    "information_density": {"baseline": 2.0, "offset_min": -0.5, "offset_max": 1.0},
+    "layout_density_range": (5, 25)
+}
+
+
 # Feature flags for real vs simulated computations
 # Set to True to enable real database-driven computations
 # Set to False to use legacy simulated values
@@ -295,3 +319,29 @@ def use_real_computation(category: str) -> bool:
     to record and enforce what actually happened.
     """
     return USE_REAL_COMPUTATIONS.get(category, False)
+
+
+def get_model_params() -> Dict[str, Any]:
+    """
+    Load externalized model parameters from JSON config.
+    """
+    config_path = Path("configs/functional/model_params.json")
+    if not config_path.exists():
+        logger.warning("Model params config not found at %s, using empty dict", config_path)
+        return {}
+    
+    with open(config_path, "r") as f:
+        return json.load(f)
+
+
+def get_analysis_thresholds() -> Dict[str, Any]:
+    """
+    Load centralized analysis thresholds from JSON config.
+    """
+    config_path = Path("configs/analysis/thresholds.json")
+    if not config_path.exists():
+        logger.warning("Analysis thresholds config not found at %s, using empty dict", config_path)
+        return {}
+
+    with open(config_path, "r") as f:
+        return json.load(f)

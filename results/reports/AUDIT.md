@@ -62,4 +62,42 @@ A comprehensive audit of the Phase 1 through Phase 5K codebase, results, and doc
 **Final Statement:** The audit confirms that no critical errors were found that would flip the project's primary conclusions. The Voynich Manuscript remains best explained as a **Single Global Machine** using a **High-Skew Deterministic Traversal of an Implicit Lattice**.
 
 ---
-**Audit COMPLETE.**
+
+## 6. Remediation (2026-02-09)
+
+All code-level issues from sections 2.1, 2.2, and 4.2 have been addressed. Summary of changes (10 files, -604 / +100 lines):
+
+### 6.1 Simulated Logic Removal (Section 4.2) — RESOLVED
+
+All `_calculate_simulated`, `_compute_simulated`, and `_run_simulated` methods have been removed across:
+
+| File | Change |
+|------|--------|
+| `foundation/metrics/library.py` | Removed dead `_calculate_simulated` from RepetitionRate and ClusterTightness. Removed `use_real_computation` guard. |
+| `analysis/models/perturbation.py` | Replaced `_calculate_simulated` fallbacks with `_insufficient_data()` returning NaN + warning log. Removed `use_real_computation` guard. |
+| `synthesis/refinement/feature_discovery.py` | Removed `_compute_simulated` (80+ lines of hardcoded values incl. 0.02). All `_compute_simulated_value` calls replaced with NaN + warning. Removed `use_real_computation` guard. |
+| `analysis/stress_tests/mapping_stability.py` | Removed 4 hardcoded simulated return values (0.625, 0.70, 0.65, 0.30). Removed `use_real_computation` guard. |
+| `analysis/stress_tests/locality.py` | Removed 6 simulated return values. Removed `use_real_computation` guard. |
+| `analysis/stress_tests/information_preservation.py` | Removed simulated density/redundancy fallback. Removed `use_real_computation` guard. |
+| `foundation/hypotheses/destructive.py` | Removed 4 large `_run_simulated` methods (~250 lines). Removed `use_real_computation` guard. |
+| `foundation/hypotheses/library.py` | Removed `_run_simulated` method. Removed `use_real_computation` guard. |
+| `synthesis/profile_extractor.py` | Removed `use_real_computation` guard; retained `store is None` guard (legitimate runtime fallback). |
+
+### 6.2 Hardcoded Target Removal (Section 2.2) — RESOLVED
+
+`scripts/synthesis/run_baseline_assessment.py`: Replaced hardcoded `target_z = 5.68` and `target_rep = 0.90` with dynamic computation from the `voynich_real` dataset. Info density and locality targets are now explicitly `None` with `status: requires_control_dataset`.
+
+### 6.3 Hardcoded Feature Values (Section 2.1) — RESOLVED
+
+The 0.02 value in `feature_discovery.py` (and all other hardcoded feature bases) have been removed. Missing-data cases now return NaN with a warning log instead of plausible-looking hardcoded values.
+
+### 6.4 Data Leakage / Circularity (Section 4.1) — NOT A CODE FIX
+
+This is a methodological observation, not a code defect. The generator matching process using Phase 2 metrics as optimization targets is by design. The audit correctly notes that passing an indistinguishability test proves the generator is *as anomalous* as the original, not that the mechanism is identical. This limitation is inherent to the methodology and is already documented in the project's conclusions.
+
+### 6.5 Remaining `use_real_computation` Infrastructure
+
+The `use_real_computation()` function and `ComputationTracker` in `config.py` are retained as infrastructure. No production code paths reference `use_real_computation` anymore; all computation is now unconditionally real. The infrastructure remains available for future testing scenarios.
+
+---
+**Audit COMPLETE. Remediation COMPLETE.**

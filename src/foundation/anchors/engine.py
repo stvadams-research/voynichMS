@@ -1,5 +1,9 @@
 import uuid
+import logging
 from typing import List, Dict, Any, Optional
+
+logger = logging.getLogger(__name__)
+
 from foundation.storage.metadata import MetadataStore, RegionRecord, WordRecord, LineRecord, AnchorMethodRecord
 from foundation.core.geometry import Box, Point
 from foundation.core.id_factory import DeterministicIDFactory
@@ -28,10 +32,14 @@ class AnchorEngine:
             return Box(**bbox)
         
         # Handle x,y,w,h format
-        x = bbox.get("x", 0)
-        y = bbox.get("y", 0)
-        w = bbox.get("w", 0)
-        h = bbox.get("h", 0)
+        required = ["x", "y", "w", "h"]
+        if not all(k in bbox for k in required):
+            raise ValueError(f"BBox missing required fields {required}. Got: {list(bbox.keys())}")
+            
+        x = bbox["x"]
+        y = bbox["y"]
+        w = bbox["w"]
+        h = bbox["h"]
         
         # If values are > 1, they are likely pixels. 
         # For anchoring to work with normalized regions, we must normalize them.
@@ -74,7 +82,7 @@ class AnchorEngine:
             regions = session.query(RegionRecord).filter_by(page_id=page_id).all()
             words = session.query(WordRecord).join(LineRecord).filter(LineRecord.page_id == page_id).all()
             
-            print(f"DEBUG: {page_id} regions={len(regions)} words={len(words)}")
+            logger.debug("%s regions=%d words=%d", page_id, len(regions), len(words))
             
             count = 0
             

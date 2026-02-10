@@ -10,11 +10,14 @@ Non-semantic systems are tested against actual stress test results.
 
 from typing import Dict, List, Any, Tuple, Optional, TYPE_CHECKING
 from dataclasses import dataclass, field
+import logging
 
 from analysis.anomaly.interface import (
     SemanticNecessity,
     SemanticNecessityResult,
 )
+
+logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from foundation.storage.metadata import MetadataStore

@@ -20,6 +20,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any, List
+from foundation.core.provenance import ProvenanceWriter
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -396,8 +397,7 @@ def run_phase_2_2():
             "success_criteria": criteria,
         }
 
-        with open(report_path, "w") as f:
-            json.dump(serializable_report, f, indent=2, default=str)
+        ProvenanceWriter.save_results(serializable_report, report_path)
 
         console.print(f"\n[dim]Report saved to: {report_path}[/dim]")
 

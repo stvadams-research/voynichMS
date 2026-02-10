@@ -1,11 +1,21 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Dict, Any, List
+from enum import Enum
 from foundation.storage.metadata import MetadataStore
+import logging
+logger = logging.getLogger(__name__)
+
+class HypothesisOutcome(Enum):
+    SUPPORTED = "SUPPORTED"
+    WEAKLY_SUPPORTED = "WEAKLY_SUPPORTED"
+    NOT_SUPPORTED = "NOT_SUPPORTED"
+    FALSIFIED = "FALSIFIED"
+    INCONCLUSIVE = "INCONCLUSIVE"
 
 @dataclass
 class HypothesisResult:
-    outcome: str # SUPPORTED, WEAKLY_SUPPORTED, NOT_SUPPORTED, FALSIFIED
+    outcome: HypothesisOutcome
     metrics: Dict[str, float]
     summary: Dict[str, Any]
 

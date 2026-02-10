@@ -3,6 +3,9 @@ Track A: Discriminative Feature Discovery
 
 Identifies which measurable properties separate real pharmaceutical pages
 from Phase 3 synthetic pages.
+
+Feature computation methods may return ``float("nan")`` when data is
+unavailable. Downstream aggregation filters non-finite values.
 """
 
 from typing import Dict, List, Any, Tuple, Optional
@@ -29,7 +32,9 @@ from foundation.storage.metadata import (
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from foundation.config import use_real_computation
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -44,19 +49,30 @@ class FeatureVector:
 class FeatureComputer:
     """Registry of real feature computation functions."""
 
-    def __init__(self, store: Optional[MetadataStore] = None):
+    def __init__(self, store: Optional[MetadataStore] = None, seed: Optional[int] = None):
         self.store = store
+        self.fallback_seed = seed
+        self.fallback_rng = random.Random(seed)
+        self._active_seed: Optional[int] = None
 
     def compute(self, feature_id: str, page: PageProfile = None,
-                synthetic: SyntheticPage = None, is_scrambled: bool = False) -> float:
-        """Compute a feature value using real or simulated methods."""
-        if not use_real_computation("synthesis") or self.store is None:
-            return self._compute_simulated(feature_id, page, synthetic, is_scrambled)
+                synthetic: SyntheticPage = None, is_scrambled: bool = False,
+                seed: Optional[int] = None) -> float:
+        """Compute a feature value from real data."""
+        self._active_seed = seed
+        if self.store is None and (page is not None or synthetic is not None):
+            logger.warning("No MetadataStore available for feature %s, returning NaN", feature_id)
+            self._active_seed = None
+            return float("nan")
 
-        return self._compute_real(feature_id, page, synthetic, is_scrambled)
+        try:
+            return self._compute_real(feature_id, page, synthetic, is_scrambled, seed)
+        finally:
+            self._active_seed = None
 
     def _compute_real(self, feature_id: str, page: PageProfile = None,
-                      synthetic: SyntheticPage = None, is_scrambled: bool = False) -> float:
+                      synthetic: SyntheticPage = None, is_scrambled: bool = False,
+                      seed: Optional[int] = None) -> float:
         """Compute feature from actual database records."""
         # Map feature_id to computation method
         compute_methods = {
@@ -78,16 +94,66 @@ class FeatureComputer:
 
         method = compute_methods.get(feature_id)
         if method is None:
-            return self._compute_simulated(feature_id, page, synthetic, is_scrambled)
+            raise ValueError(f"Unknown feature_id: {feature_id}")
 
+        if seed is not None:
+            from foundation.core.randomness import get_randomness_controller
+            controller = get_randomness_controller()
+            with controller.seeded_context(f"feature_{feature_id}", seed):
+                return method(page, synthetic, is_scrambled)
+        
         return method(page, synthetic, is_scrambled)
+
+    def _warn_fallback(self, feature_id: str, is_scrambled: bool) -> None:
+        """Warn when falling back to random/hardcoded values."""
+        context = "scrambled" if is_scrambled else "missing data"
+        logger.warning(
+            "Feature %s: No page/synthetic data provided. "
+            "Returning %s value.",
+            feature_id, context
+        )
+
+    def _fallback_value(
+        self,
+        feature_id: str,
+        is_scrambled: bool,
+        scrambled_range: Tuple[float, float],
+        default_value: float,
+    ) -> float:
+        """
+        Return a deterministic fallback value and log provenance.
+
+        Scrambled fallbacks use a seeded RNG; non-scrambled fallbacks use a
+        fixed default that is explicitly logged for circularity/sensitivity audits.
+        """
+        if is_scrambled:
+            if self._active_seed is not None:
+                rng = random.Random(self._active_seed + (hash(feature_id) % 100000))
+            else:
+                rng = self.fallback_rng
+            value = rng.uniform(*scrambled_range)
+            logger.warning(
+                "Feature %s fallback used (seeded scrambled range %s): %.6f",
+                feature_id,
+                scrambled_range,
+                value,
+            )
+            return value
+
+        logger.warning(
+            "Feature %s fallback used (fixed default): %.6f",
+            feature_id,
+            default_value,
+        )
+        return default_value
 
     def _compute_spatial_jar_variance(self, page: PageProfile = None,
                                        synthetic: SyntheticPage = None,
                                        is_scrambled: bool = False) -> float:
         """Compute variance in jar positions across page."""
         if page is None and synthetic is None:
-            return random.uniform(0.3, 0.5) if is_scrambled else 0.2
+            self._warn_fallback("spatial_jar_variance", is_scrambled)
+            return self._fallback_value("spatial_jar_variance", is_scrambled, (0.3, 0.5), 0.2)
 
         session = self.store.Session()
         try:
@@ -95,9 +161,8 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.15 if page else 0.25, is_scrambled, 0.40
-                )
+                logger.warning("No DB page for spatial_jar_variance, returning NaN")
+                return float("nan")
 
             # Get jar regions (mid-scale)
             regions = (
@@ -132,7 +197,8 @@ class FeatureComputer:
                                         is_scrambled: bool = False) -> float:
         """Compute gradient of text density from top to bottom."""
         if page is None and synthetic is None:
-            return random.uniform(-0.1, 0.1) if is_scrambled else 0.02
+            self._warn_fallback("spatial_text_density_gradient", is_scrambled)
+            return self._fallback_value("spatial_text_density_gradient", is_scrambled, (-0.1, 0.1), 0.02)
 
         session = self.store.Session()
         try:
@@ -140,9 +206,8 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.02 if page else 0.00, is_scrambled, 0.0
-                )
+                logger.warning("No DB page for text_density_gradient, returning NaN")
+                return float("nan")
 
             lines = session.query(LineRecord).filter_by(page_id=db_page.id).all()
             if len(lines) < 4:
@@ -179,7 +244,8 @@ class FeatureComputer:
                                 is_scrambled: bool = False) -> float:
         """Compute how well jars align horizontally/vertically."""
         if page is None and synthetic is None:
-            return random.uniform(0.2, 0.6) if is_scrambled else 0.7
+            self._warn_fallback("spatial_jar_alignment", is_scrambled)
+            return self._fallback_value("spatial_jar_alignment", is_scrambled, (0.2, 0.6), 0.7)
 
         session = self.store.Session()
         try:
@@ -187,9 +253,8 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.75 if page else 0.60, is_scrambled, 0.40
-                )
+                logger.warning("No DB page for jar_alignment, returning NaN")
+                return float("nan")
 
             regions = (
                 session.query(RegionRecord)
@@ -246,7 +311,8 @@ class FeatureComputer:
                                        is_scrambled: bool = False) -> float:
         """Compute average similarity between text in different jars."""
         if page is None and synthetic is None:
-            return random.uniform(0.05, 0.15) if is_scrambled else 0.35
+            self._warn_fallback("text_inter_jar_similarity", is_scrambled)
+            return self._fallback_value("text_inter_jar_similarity", is_scrambled, (0.05, 0.15), 0.35)
 
         session = self.store.Session()
         try:
@@ -254,9 +320,8 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.35 if page else 0.20, is_scrambled, 0.10
-                )
+                logger.warning("No DB page for inter_jar_similarity, returning NaN")
+                return float("nan")
 
             # Get regions and their anchored tokens
             regions = (
@@ -324,7 +389,8 @@ class FeatureComputer:
                                      is_scrambled: bool = False) -> float:
         """Compute consistency of bigram patterns across page."""
         if page is None and synthetic is None:
-            return random.uniform(0.2, 0.4) if is_scrambled else 0.70
+            self._warn_fallback("text_bigram_consistency", is_scrambled)
+            return self._fallback_value("text_bigram_consistency", is_scrambled, (0.2, 0.4), 0.70)
 
         session = self.store.Session()
         try:
@@ -332,15 +398,14 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.70 if page else 0.55, is_scrambled, 0.30
-                )
+                logger.warning("No DB page for bigram_consistency, returning NaN")
+                return float("nan")
 
             # Get all tokens in order
             trans_lines = (
                 session.query(TranscriptionLineRecord)
                 .filter_by(page_id=db_page.id)
-                .order_by(TranscriptionLineRecord.line_number)
+                .order_by(TranscriptionLineRecord.line_index)
                 .all()
             )
 
@@ -380,7 +445,8 @@ class FeatureComputer:
                                is_scrambled: bool = False) -> float:
         """Compute difference in text properties left vs right."""
         if page is None and synthetic is None:
-            return random.uniform(0, 0.2) if is_scrambled else 0.08
+            self._warn_fallback("pos_left_right_asymmetry", is_scrambled)
+            return self._fallback_value("pos_left_right_asymmetry", is_scrambled, (0.0, 0.2), 0.08)
 
         session = self.store.Session()
         try:
@@ -388,9 +454,8 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.08 if page else 0.02, is_scrambled, 0.10
-                )
+                logger.warning("No DB page for lr_asymmetry, returning NaN")
+                return float("nan")
 
             lines = session.query(LineRecord).filter_by(page_id=db_page.id).all()
             if not lines:
@@ -426,7 +491,8 @@ class FeatureComputer:
                                   is_scrambled: bool = False) -> float:
         """Compute statistical difference between first and last lines."""
         if page is None and synthetic is None:
-            return random.uniform(0.1, 0.5) if is_scrambled else 0.15
+            self._warn_fallback("pos_first_last_line_diff", is_scrambled)
+            return self._fallback_value("pos_first_last_line_diff", is_scrambled, (0.1, 0.5), 0.15)
 
         session = self.store.Session()
         try:
@@ -434,9 +500,8 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.15 if page else 0.10, is_scrambled, 0.30
-                )
+                logger.warning("No DB page for first_last_diff, returning NaN")
+                return float("nan")
 
             lines = (
                 session.query(LineRecord)
@@ -475,7 +540,8 @@ class FeatureComputer:
                                     is_scrambled: bool = False) -> float:
         """Compute variance of locality metric across jars."""
         if page is None and synthetic is None:
-            return random.uniform(0.3, 0.5) if is_scrambled else 0.10
+            self._warn_fallback("var_locality_variance", is_scrambled)
+            return self._fallback_value("var_locality_variance", is_scrambled, (0.3, 0.5), 0.10)
 
         session = self.store.Session()
         try:
@@ -483,9 +549,8 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.10 if page else 0.20, is_scrambled, 0.40
-                )
+                logger.warning("No DB page for locality_variance, returning NaN")
+                return float("nan")
 
             # Compute locality per region
             regions = (
@@ -538,7 +603,8 @@ class FeatureComputer:
                                        is_scrambled: bool = False) -> float:
         """Compute variance of mean word length across jars."""
         if page is None and synthetic is None:
-            return random.uniform(0.3, 0.6) if is_scrambled else 0.12
+            self._warn_fallback("var_word_length_variance", is_scrambled)
+            return self._fallback_value("var_word_length_variance", is_scrambled, (0.3, 0.6), 0.12)
 
         session = self.store.Session()
         try:
@@ -546,9 +612,8 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.12 if page else 0.18, is_scrambled, 0.45
-                )
+                logger.warning("No DB page for word_length_variance, returning NaN")
+                return float("nan")
 
             # Compute mean word length per region
             regions = (
@@ -596,7 +661,8 @@ class FeatureComputer:
                                      is_scrambled: bool = False) -> float:
         """Compute average distance between repeated tokens."""
         if page is None and synthetic is None:
-            return random.uniform(1, 10) if is_scrambled else 4.5
+            self._warn_fallback("temp_repetition_spacing", is_scrambled)
+            return self._fallback_value("temp_repetition_spacing", is_scrambled, (1.0, 10.0), 4.5)
 
         session = self.store.Session()
         try:
@@ -604,15 +670,14 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    4.5 if page else 3.0, is_scrambled, 5.5
-                )
+                logger.warning("No DB page for repetition_spacing, returning NaN")
+                return float("nan")
 
             # Get all tokens in order
             trans_lines = (
                 session.query(TranscriptionLineRecord)
                 .filter_by(page_id=db_page.id)
-                .order_by(TranscriptionLineRecord.line_number)
+                .order_by(TranscriptionLineRecord.line_index)
                 .all()
             )
 
@@ -653,7 +718,8 @@ class FeatureComputer:
                              is_scrambled: bool = False) -> float:
         """Compute rate of token bursts (clusters of same token)."""
         if page is None and synthetic is None:
-            return random.uniform(0.02, 0.15) if is_scrambled else 0.05
+            self._warn_fallback("temp_token_burst_rate", is_scrambled)
+            return self._fallback_value("temp_token_burst_rate", is_scrambled, (0.02, 0.15), 0.05)
 
         session = self.store.Session()
         try:
@@ -661,15 +727,14 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    0.05 if page else 0.08, is_scrambled, 0.10
-                )
+                logger.warning("No DB page for burst_rate, returning NaN")
+                return float("nan")
 
             # Get all tokens in order
             trans_lines = (
                 session.query(TranscriptionLineRecord)
                 .filter_by(page_id=db_page.id)
-                .order_by(TranscriptionLineRecord.line_number)
+                .order_by(TranscriptionLineRecord.line_index)
                 .all()
             )
 
@@ -702,7 +767,8 @@ class FeatureComputer:
                                 is_scrambled: bool = False) -> float:
         """Compute change in entropy from start to end of page."""
         if page is None and synthetic is None:
-            return random.uniform(-0.1, 0.1) if is_scrambled else -0.02
+            self._warn_fallback("grad_entropy_slope", is_scrambled)
+            return self._fallback_value("grad_entropy_slope", is_scrambled, (-0.1, 0.1), -0.02)
 
         session = self.store.Session()
         try:
@@ -710,9 +776,8 @@ class FeatureComputer:
             db_page = session.query(PageRecord).filter_by(page_name=page_id).first()
 
             if not db_page:
-                return self._compute_simulated_value(
-                    -0.02 if page else 0.00, is_scrambled, 0.0
-                )
+                logger.warning("No DB page for entropy_slope, returning NaN")
+                return float("nan")
 
             # Split page into top and bottom halves
             trans_lines = (
@@ -769,93 +834,6 @@ class FeatureComputer:
         # Similar to entropy slope
         return self._compute_entropy_slope(page, synthetic, is_scrambled) * 0.8
 
-    def _compute_simulated_value(self, base: float, is_scrambled: bool,
-                                  scrambled_base: float) -> float:
-        """Compute a simulated value with noise."""
-        if is_scrambled:
-            return scrambled_base + random.uniform(-0.1, 0.1)
-        return base + random.uniform(-0.05, 0.05)
-
-    def _compute_simulated(self, feature_id: str, page: PageProfile = None,
-                           synthetic: SyntheticPage = None,
-                           is_scrambled: bool = False) -> float:
-        """Legacy simulated feature computation."""
-        base_value = 0.0
-        noise = random.uniform(-0.1, 0.1)
-
-        if feature_id == "spatial_jar_variance":
-            if page:
-                base_value = 0.15 + random.uniform(-0.05, 0.05)
-            elif synthetic:
-                base_value = 0.25 + random.uniform(-0.05, 0.05)
-            if is_scrambled:
-                base_value = 0.40 + random.uniform(-0.1, 0.1)
-
-        elif feature_id == "spatial_text_density_gradient":
-            if page:
-                base_value = 0.02 + random.uniform(-0.01, 0.01)
-            elif synthetic:
-                base_value = 0.00 + random.uniform(-0.02, 0.02)
-            if is_scrambled:
-                base_value = random.uniform(-0.1, 0.1)
-
-        elif feature_id == "text_inter_jar_similarity":
-            if page:
-                base_value = 0.35 + random.uniform(-0.05, 0.05)
-            elif synthetic:
-                base_value = 0.20 + random.uniform(-0.05, 0.05)
-            if is_scrambled:
-                base_value = 0.10 + random.uniform(-0.05, 0.05)
-
-        elif feature_id == "text_bigram_consistency":
-            if page:
-                base_value = 0.70 + random.uniform(-0.05, 0.05)
-            elif synthetic:
-                base_value = 0.55 + random.uniform(-0.05, 0.05)
-            if is_scrambled:
-                base_value = 0.30 + random.uniform(-0.1, 0.1)
-
-        elif feature_id == "pos_left_right_asymmetry":
-            if page:
-                base_value = 0.08 + random.uniform(-0.02, 0.02)
-            elif synthetic:
-                base_value = 0.02 + random.uniform(-0.02, 0.02)
-            if is_scrambled:
-                base_value = random.uniform(0, 0.2)
-
-        elif feature_id == "var_locality_variance":
-            if page:
-                base_value = 0.10 + random.uniform(-0.03, 0.03)
-            elif synthetic:
-                base_value = 0.20 + random.uniform(-0.05, 0.05)
-            if is_scrambled:
-                base_value = 0.40 + random.uniform(-0.1, 0.1)
-
-        elif feature_id == "temp_repetition_spacing":
-            if page:
-                base_value = 4.5 + random.uniform(-0.5, 0.5)
-            elif synthetic:
-                base_value = 3.0 + random.uniform(-0.5, 0.5)
-            if is_scrambled:
-                base_value = random.uniform(1, 10)
-
-        elif feature_id == "grad_entropy_slope":
-            if page:
-                base_value = -0.02 + random.uniform(-0.01, 0.01)
-            elif synthetic:
-                base_value = 0.00 + random.uniform(-0.02, 0.02)
-            if is_scrambled:
-                base_value = random.uniform(-0.1, 0.1)
-
-        else:
-            if page:
-                base_value = 0.5 + random.uniform(-0.1, 0.1)
-            elif synthetic:
-                base_value = 0.4 + random.uniform(-0.1, 0.1)
-            if is_scrambled:
-                base_value = random.uniform(0, 1)
-
-        return base_value + noise
 
 
 class DiscriminativeFeatureDiscovery:
@@ -874,6 +852,25 @@ class DiscriminativeFeatureDiscovery:
         self.synthetic_vectors: List[FeatureVector] = []
         self.scrambled_vectors: List[FeatureVector] = []
         self.discovered_features: List[DiscriminativeFeature] = []
+
+    def _sanitize_feature_map(self, features: Dict[str, float], page_id: str) -> Dict[str, float]:
+        """Drop non-finite feature values before downstream aggregation."""
+        cleaned: Dict[str, float] = {}
+        for feature_id, value in features.items():
+            if isinstance(value, (int, float)) and math.isfinite(value):
+                cleaned[feature_id] = float(value)
+            else:
+                logger.warning(
+                    "Dropping non-finite feature value for %s on %s: %r",
+                    feature_id,
+                    page_id,
+                    value,
+                )
+        return cleaned
+
+    def _finite_values(self, values: List[float]) -> List[float]:
+        """Keep only finite numeric values."""
+        return [v for v in values if isinstance(v, (int, float)) and math.isfinite(v)]
 
     def define_candidate_features(self) -> List[DiscriminativeFeature]:
         """
@@ -984,20 +981,23 @@ class DiscriminativeFeatureDiscovery:
     def compute_feature(self, feature: DiscriminativeFeature,
                         page: PageProfile = None,
                         synthetic: SyntheticPage = None,
-                        is_scrambled: bool = False) -> float:
+                        is_scrambled: bool = False,
+                        seed: Optional[int] = None) -> float:
         """Compute a feature value for a page."""
         return self.feature_computer.compute(
-            feature.feature_id, page, synthetic, is_scrambled
+            feature.feature_id, page, synthetic, is_scrambled, seed
         )
 
-    def extract_features_real(self):
+    def extract_features_real(self, seed: Optional[int] = None) -> None:
         """Extract features from real pharmaceutical pages."""
         candidates = self.define_candidate_features()
 
-        for page in self.section_profile.pages:
+        for i, page in enumerate(self.section_profile.pages):
             features = {}
+            page_seed = seed + i if seed is not None else None
             for feat in candidates:
-                features[feat.feature_id] = self.compute_feature(feat, page=page)
+                features[feat.feature_id] = self.compute_feature(feat, page=page, seed=page_seed)
+            features = self._sanitize_feature_map(features, page.page_id)
 
             self.real_vectors.append(FeatureVector(
                 page_id=page.page_id,
@@ -1006,14 +1006,20 @@ class DiscriminativeFeatureDiscovery:
                 features=features,
             ))
 
-    def extract_features_synthetic(self, synthetic_pages: List[SyntheticPage]):
+    def extract_features_synthetic(
+        self,
+        synthetic_pages: List[SyntheticPage],
+        seed: Optional[int] = None,
+    ) -> None:
         """Extract features from synthetic pages."""
         candidates = self.define_candidate_features()
 
-        for page in synthetic_pages:
+        for i, page in enumerate(synthetic_pages):
             features = {}
+            page_seed = seed + 1000 + i if seed is not None else None
             for feat in candidates:
-                features[feat.feature_id] = self.compute_feature(feat, synthetic=page)
+                features[feat.feature_id] = self.compute_feature(feat, synthetic=page, seed=page_seed)
+            features = self._sanitize_feature_map(features, page.page_id)
 
             self.synthetic_vectors.append(FeatureVector(
                 page_id=page.page_id,
@@ -1022,16 +1028,18 @@ class DiscriminativeFeatureDiscovery:
                 features=features,
             ))
 
-    def extract_features_scrambled(self, count: int = 10):
+    def extract_features_scrambled(self, count: int = 10, seed: Optional[int] = None) -> None:
         """Extract features from scrambled controls."""
         candidates = self.define_candidate_features()
 
         for i in range(count):
             features = {}
+            page_seed = seed + 2000 + i if seed is not None else None
             for feat in candidates:
                 features[feat.feature_id] = self.compute_feature(
-                    feat, is_scrambled=True
+                    feat, is_scrambled=True, seed=page_seed
                 )
+            features = self._sanitize_feature_map(features, f"scrambled_{i:03d}")
 
             self.scrambled_vectors.append(FeatureVector(
                 page_id=f"scrambled_{i:03d}",
@@ -1051,9 +1059,15 @@ class DiscriminativeFeatureDiscovery:
 
         for i, feat in enumerate(candidates):
             # Get values for each group
-            real_vals = [v.features.get(feat.feature_id, 0) for v in self.real_vectors]
-            synth_vals = [v.features.get(feat.feature_id, 0) for v in self.synthetic_vectors]
-            scrambled_vals = [v.features.get(feat.feature_id, 0) for v in self.scrambled_vectors]
+            real_vals = self._finite_values(
+                [v.features.get(feat.feature_id, 0) for v in self.real_vectors]
+            )
+            synth_vals = self._finite_values(
+                [v.features.get(feat.feature_id, 0) for v in self.synthetic_vectors]
+            )
+            scrambled_vals = self._finite_values(
+                [v.features.get(feat.feature_id, 0) for v in self.scrambled_vectors]
+            )
 
             # Compute means and stds
             real_mean = sum(real_vals) / max(1, len(real_vals))
@@ -1104,12 +1118,16 @@ class DiscriminativeFeatureDiscovery:
 
         return importances
 
-    def analyze(self, synthetic_pages: List[SyntheticPage]) -> Dict[str, Any]:
+    def analyze(self, synthetic_pages: List[SyntheticPage], seed: Optional[int] = None) -> Dict[str, Any]:
         """Run full discriminative feature discovery."""
+        if seed is not None:
+            self.feature_computer.fallback_seed = seed
+            self.feature_computer.fallback_rng = random.Random(seed)
+
         # Extract features
-        self.extract_features_real()
-        self.extract_features_synthetic(synthetic_pages)
-        self.extract_features_scrambled(count=len(synthetic_pages))
+        self.extract_features_real(seed=seed)
+        self.extract_features_synthetic(synthetic_pages, seed=seed)
+        self.extract_features_scrambled(count=len(synthetic_pages), seed=seed)
 
         # Train discriminator
         importances = self.train_discriminator()

@@ -1,5 +1,7 @@
 from typing import Callable, List, Dict, Any
 from foundation.storage.metadata import MetadataStore
+import logging
+logger = logging.getLogger(__name__)
 
 class SensitivityAnalyzer:
     def __init__(self, store: MetadataStore):
@@ -31,6 +33,12 @@ class SensitivityAnalyzer:
                 results.append({"param": val, "score": score})
             except Exception as e:
                 # Log error but continue sweep
-                print(f"Error in sensitivity sweep for {param_name}={val}: {e}")
+                logger.error(
+                    "Sensitivity sweep error for %s=%s: %s",
+                    param_name,
+                    val,
+                    e,
+                    exc_info=True,
+                )
                 
         return results

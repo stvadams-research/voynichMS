@@ -9,6 +9,8 @@ import numpy as np
 from collections import Counter, defaultdict
 from typing import List, Dict, Any, Tuple
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 class FormalSystemAnalyzer:
     """

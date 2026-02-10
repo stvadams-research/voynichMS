@@ -6,6 +6,8 @@ Identifies stable prefixes and suffixes and measures their consistency.
 
 from collections import Counter
 from typing import List, Dict, Any, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 class MorphologyAnalyzer:
     """
@@ -20,17 +22,25 @@ class MorphologyAnalyzer:
         Induce affixes and measure consistency.
         """
         if not tokens:
-            return {}
+            logger.warning("MorphologyAnalyzer.analyze received no tokens")
+            return {
+                "status": "no_data",
+                "metrics": {},
+                "num_unique_tokens": 0,
+                "top_suffixes": [],
+                "morph_consistency": 0.0,
+                "reused_stems_count": 0,
+            }
 
         counts = Counter(tokens)
-        unique_words = list(counts.keys())
+        unique_tokens = list(counts.keys())
         
         # 1. Induce Suffixes
         suffixes = Counter()
-        for word in unique_words:
-            if len(word) > self.max_affix_len:
+        for token in unique_tokens:
+            if len(token) > self.max_affix_len:
                 for l in range(self.min_affix_len, self.max_affix_len + 1):
-                    suffixes[word[-l:]] += 1
+                    suffixes[token[-l:]] += 1
                     
         # Filter for top suffixes (top 5% or threshold)
         top_suffixes = [s for s, count in suffixes.most_common(20)]
@@ -39,22 +49,22 @@ class MorphologyAnalyzer:
         # If we remove a common suffix, does the remaining stem appear elsewhere?
         stems = Counter()
         stem_with_affix_count = 0
-        for word in unique_words:
+        for token in unique_tokens:
             for s in top_suffixes:
-                if word.endswith(s):
-                    stem = word[:-len(s)]
+                if token.endswith(s):
+                    stem = token[:-len(s)]
                     if stem:
                         stems[stem] += 1
                         stem_with_affix_count += 1
                         break
                         
         # Morphological Consistency Score: 
-        # (Stem reuse count / Total words with affixes)
+        # (Stem reuse count / Total tokens with affixes)
         reused_stems = sum(1 for s, count in stems.items() if count > 1)
-        consistency = reused_stems / len(unique_words) if unique_words else 0.0
+        consistency = reused_stems / len(unique_tokens) if unique_tokens else 0.0
         
         return {
-            "num_unique_words": len(unique_words),
+            "num_unique_tokens": len(unique_tokens),
             "top_suffixes": suffixes.most_common(10),
             "morph_consistency": float(consistency),
             "reused_stems_count": reused_stems

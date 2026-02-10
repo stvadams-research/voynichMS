@@ -7,6 +7,8 @@ Implements simulators for Phase 6A evaluation.
 import random
 from typing import List, Dict, Any, Tuple
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 class LatticeTraversalSimulator:
     """

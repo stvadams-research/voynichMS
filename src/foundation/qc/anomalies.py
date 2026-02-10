@@ -1,6 +1,8 @@
 from typing import Dict, Optional
 from foundation.runs.manager import RunManager
 from foundation.storage.metadata import MetadataStore
+import logging
+logger = logging.getLogger(__name__)
 
 class AnomalyLogger:
     def __init__(self, metadata_store: MetadataStore):
@@ -22,4 +24,4 @@ class AnomalyLogger:
             # Also print to console/log if critical?
             # For now, just DB.
         except RuntimeError:
-            print(f"WARNING: Anomaly occurred outside active run: {message}")
+            logger.warning("Anomaly occurred outside active run: %s", message)

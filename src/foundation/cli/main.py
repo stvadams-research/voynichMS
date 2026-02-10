@@ -28,6 +28,8 @@ from foundation.decisions.registry import StructureRegistry
 from foundation.analysis.sensitivity import SensitivityAnalyzer
 from foundation.hypotheses.manager import HypothesisManager
 from foundation.hypotheses.library import GlyphPositionHypothesis
+import logging
+logger = logging.getLogger(__name__)
 
 app = typer.Typer()
 data_app = typer.Typer()
@@ -45,13 +47,13 @@ sensitivity_app = typer.Typer()
 hypotheses_app = typer.Typer()
 
 app.add_typer(data_app, name="data", help="Data management commands")
-app.add_typer(transcription_app, name="transcription", help="Transcription management commands")
-app.add_typer(query_app, name="query", help="Query the ledger")
-app.add_typer(segmentation_app, name="segmentation", help="Segmentation commands")
-app.add_typer(alignment_app, name="alignment", help="Alignment commands")
+app.add_typer(transcription_app, name="transcription", help="Transcription management (Token-level text data)")
+app.add_typer(query_app, name="query", help="Query the ledger (Tokens=transcript text, Words=visual segments)")
+app.add_typer(segmentation_app, name="segmentation", help="Image segmentation (produces visual Words and Glyphs)")
+app.add_typer(alignment_app, name="alignment", help="Align transcription Tokens to visual Words")
 app.add_typer(regions_app, name="regions", help="Region commands")
-app.add_typer(controls_app, name="controls", help="Control dataset commands")
-app.add_typer(metrics_app, name="metrics", help="Metric calculation commands")
+app.add_typer(controls_app, name="controls", help="Control dataset commands (Token-level scrambled/synthetic)")
+app.add_typer(metrics_app, name="metrics", help="Metric calculation (Token-level and region-level)")
 app.add_typer(analysis_app, name="analysis", help="Analysis and comparison commands")
 app.add_typer(anchors_app, name="anchors", help="Anchor management commands")
 app.add_typer(decisions_app, name="decisions", help="Decision management commands")
@@ -67,6 +69,12 @@ console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
 def get_metadata_store():
+    # Ensure database exists before returning store
+    db_file = DB_PATH.replace("sqlite:///", "")
+    if not os.path.exists(db_file):
+        console.print(f"[bold red]Error:[/bold red] Database not found at {db_file}")
+        console.print("[yellow]Hint:[/yellow] Run 'python scripts/foundation/acceptance_test.py' or similar initialization script.")
+        raise typer.Exit(code=1)
     return MetadataStore(DB_PATH)
 
 @app.callback()
@@ -156,7 +164,7 @@ def ingest_transcription(
     seed: int = typer.Option(42, help="Random seed for deterministic IDs")
 ):
     """
-    Ingest a transcription file into the database.
+    Ingest a transcription file into the database as Tokens (text units from transcript).
     """
     with active_run(config={"command": "transcription ingest", "path": str(path), "source": source, "seed": seed}) as run:
         store = get_metadata_store()
@@ -218,13 +226,13 @@ def ingest_transcription(
 @query_app.command("token")
 def query_token(token: str):
     """
-    Find all word images aligned to a specific transcription token.
+    Find all visual Word images aligned to a specific transcription Token string.
     """
     store = get_metadata_store()
     engine = QueryEngine(store)
     results = engine.get_words_for_token(token)
     
-    table = Table(title=f"Occurrences of '{token}'")
+    table = Table(title=f"Occurrences of Token '{token}'")
     table.add_column("Word ID", style="cyan")
     table.add_column("Page", style="magenta")
     table.add_column("BBox", style="green")
@@ -236,7 +244,7 @@ def query_token(token: str):
 @query_app.command("word")
 def query_word(word_id: str):
     """
-    Show glyph candidates for a specific word.
+    Show Glyph candidates for a specific visual Word ID.
     """
     store = get_metadata_store()
     engine = QueryEngine(store)
@@ -275,7 +283,7 @@ def run_dummy_segmentation(
     seed: int = typer.Option(42, help="Random seed for deterministic IDs")
 ):
     """
-    Run dummy segmentation on a page.
+    Run dummy segmentation on a page, producing visual Words and Glyphs (image segments).
     """
     with active_run(config={"command": "segmentation run-dummy", "page_id": page_id, "seed": seed}) as run:
         store = get_metadata_store()
@@ -330,9 +338,12 @@ def run_dummy_segmentation(
         console.print(f"[bold green]Dummy segmentation complete for {page_id}[/bold green]")
 
 @alignment_app.command("run")
-def run_alignment(page_id: str, source_id: str):
+def run_alignment(
+    page_id: str = typer.Argument(..., help="Page to align"),
+    source_id: str = typer.Argument(..., help="Transcription source ID (Token source)")
+):
     """
-    Run alignment for a page and source.
+    Align transcription Tokens (text) to visual Words (image segments) for a page.
     """
     with active_run(config={"command": "alignment run", "page_id": page_id, "source_id": source_id}) as run:
         store = get_metadata_store()
@@ -411,7 +422,7 @@ def generate_scrambled(
     seed: int = typer.Option(42, help="Random seed")
 ):
     """
-    Generate a scrambled control dataset.
+    Generate a scrambled control dataset from Token-level content.
     """
     with active_run(config={"command": "controls generate-scrambled", "source": source, "name": name}) as run:
         store = get_metadata_store()
@@ -431,7 +442,7 @@ def generate_synthetic(
     seed: int = typer.Option(42, help="Random seed")
 ):
     """
-    Generate a synthetic null dataset.
+    Generate a synthetic null dataset with procedurally generated Token content.
     """
     with active_run(config={"command": "controls generate-synthetic", "name": name}) as run:
         store = get_metadata_store()
@@ -445,14 +456,25 @@ def generate_synthetic(
 
 @metrics_app.command("run")
 def run_metric(
-    dataset: str = typer.Option(..., help="Dataset ID"),
-    metric: str = typer.Option(..., help="Metric name (RepetitionRate, ClusterTightness)")
+    dataset: str = typer.Option(..., help="ID of the dataset to analyze (e.g., 'voynich_real')"),
+    metric: str = typer.Option(..., help="Name of the metric to compute (RepetitionRate, ClusterTightness)")
 ):
     """
-    Run a metric on a dataset.
+    Execute a quantitative metric on a dataset (Token-level or region-level) and store the result.
     """
     with active_run(config={"command": "metrics run", "dataset": dataset, "metric": metric}) as run:
         store = get_metadata_store()
+        
+        # Validate dataset exists
+        from foundation.storage.metadata import DatasetRecord
+        session = store.Session()
+        ds_exists = session.query(DatasetRecord).filter_by(id=dataset).first() is not None
+        session.close()
+        
+        if not ds_exists:
+            console.print(f"[bold red]Error:[/bold red] Dataset '{dataset}' not found.")
+            console.print("[yellow]Hint:[/yellow] Use 'voynich data list' to see available datasets.")
+            raise typer.Exit(code=1)
         
         metric_cls = None
         if metric == "RepetitionRate":

@@ -9,6 +9,8 @@ import numpy as np
 from collections import Counter, defaultdict
 from typing import List, Dict, Any, Tuple
 import re
+import logging
+logger = logging.getLogger(__name__)
 
 class ErgonomicsAnalyzer:
     """
@@ -73,7 +75,7 @@ class ErgonomicsAnalyzer:
         for token in tokens:
             for char in token:
                 total_chars += 1
-                total_strokes += self.stroke_map.get(char, 2) # Default 2 for unknown
+                total_strokes += self.stroke_map.get(char, 2)  # Fallback 2 for unknown symbols
                 
         return {
             "total_chars": total_chars,

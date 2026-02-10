@@ -1,4 +1,6 @@
 from enum import Enum, auto
+import logging
+logger = logging.getLogger(__name__)
 
 class Scale(str, Enum):
     """

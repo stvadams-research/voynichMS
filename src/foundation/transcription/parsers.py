@@ -3,6 +3,8 @@ from typing import List, Generator
 from pathlib import Path
 from pydantic import BaseModel
 import re
+import logging
+logger = logging.getLogger(__name__)
 
 class ParsedToken(BaseModel):
     token_index: int

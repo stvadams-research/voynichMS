@@ -1,6 +1,8 @@
 import csv
 import numpy as np
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 def load_matrix(csv_path):
     matrix = {}

@@ -16,9 +16,11 @@ If it only adds structure, it does not belong here.
 
 ---
 
-## Current Status: AUDIT-READY (Phase 3 Completed)
+## Current Status: AUDIT-REMEDIATED (Phases 2-7 Implemented)
 
-The project has successfully completed **Phase 2 (Analysis)** and **Phase 3 (Synthesis)**.
+The project has executable phase runners through **Phase 7** (analysis,
+synthesis, mechanism, inference, and human/codicological tracks), with
+ongoing audit hardening and reproducibility verification.
 
 ### Key Findings
 1.  **Language Hypothesis Falsified:** Mapping stability tests (0.02) confirm the manuscript is not a natural language or simple cipher.

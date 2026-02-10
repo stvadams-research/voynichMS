@@ -1,0 +1,22 @@
+{
+  "continuation": {
+    "locality_window": [2, 4],
+    "information_density_tolerance": 0.5,
+    "positional_entropy_tolerance": 0.2,
+    "repetition_rate_tolerance": 0.05,
+    "min_perturbation_robustness": 0.50,
+    "max_novel_tokens": 0.10,
+    "check_text_slack": {
+      "locality": 1.0,
+      "info_density": 1.0
+    }
+  },
+  "indistinguishability": {
+    "scrambled_separation_threshold": 0.7,
+    "real_separation_threshold": 0.3
+  },
+  "equivalence": {
+    "equivalence_threshold": 0.30,
+    "improvement_threshold": 0.10
+  }
+}

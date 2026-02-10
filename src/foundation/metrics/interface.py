@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Literal, Optional
 from foundation.storage.metadata import MetadataStore
+from foundation.core.profiling import timing_profile
+import logging
+logger = logging.getLogger(__name__)
 
 
 # Type for calculation method tracking
@@ -60,6 +63,11 @@ class MetricResult:
 class Metric(ABC):
     def __init__(self, store: MetadataStore):
         self.store = store
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if "calculate" in cls.__dict__:
+            cls.calculate = timing_profile(cls.calculate)
 
     @abstractmethod
     def calculate(self, dataset_id: str) -> List[MetricResult]:

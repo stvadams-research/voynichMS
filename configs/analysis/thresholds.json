@@ -1,0 +1,54 @@
+{
+  "mapping_stability": {
+    "perturbation_strength": 0.05,
+    "constructed_system": {
+      "ordering_collapse": 0.5,
+      "min_stable": 0.6
+    },
+    "visual_grammar": {
+      "segmentation_collapse": 0.4,
+      "min_stable": 0.5
+    },
+    "hybrid_system": {
+      "variance_limit": 0.3
+    },
+    "standard_high_confidence": 0.7
+  },
+  "locality": {
+    "radius_thresholds": [2.0, 1.5, 1.0],
+    "compositional_scores": [0.7, 0.5, 0.3],
+    "procedural_signature": {
+      "repetition": 0.15,
+      "regularity": 0.7,
+      "combined": 0.6
+    },
+    "pattern_type": {
+      "min_radius": 4,
+      "max_radius": 8,
+      "score_threshold": 0.5
+    },
+    "outcome": {
+      "stable": 0.6,
+      "collapsed": 0.4
+    }
+  },
+  "indistinguishability": {
+    "separation_success": 0.7,
+    "separation_failure": 0.3
+  },
+  "comparator": {
+    "significant_difference": 0.05,
+    "negligible_difference": 0.02
+  },
+  "stability_analysis": {
+    "representation_sensitivity": {
+      "high": 1.0,
+      "moderate": 0.5,
+      "low": 0.3
+    }
+  },
+  "constraint_formalization": {
+    "feature_importance_threshold": 0.2,
+    "separation_threshold": 0.3
+  }
+}

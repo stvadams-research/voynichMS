@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, Dict
 from pydantic import BaseModel
 from foundation.core.geometry import Box
+import logging
+logger = logging.getLogger(__name__)
 
 class SegmentedLine(BaseModel):
     line_index: int

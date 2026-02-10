@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Any
 from foundation.storage.metadata import MetadataStore
+import logging
+logger = logging.getLogger(__name__)
 
 class ControlGenerator(ABC):
     def __init__(self, store: MetadataStore):

@@ -3,6 +3,8 @@ import tempfile
 from pathlib import Path
 from typing import Union
 from foundation.storage.interface import StorageInterface
+import logging
+logger = logging.getLogger(__name__)
 
 
 class FileSystemStorage(StorageInterface):
@@ -50,6 +52,7 @@ class FileSystemStorage(StorageInterface):
         mode = "wb" if isinstance(data, bytes) else "w"
 
         # Write to temporary file in the same directory (same filesystem for atomic rename)
+        tmp_path = None
         try:
             with tempfile.NamedTemporaryFile(
                 mode=mode,
@@ -63,13 +66,14 @@ class FileSystemStorage(StorageInterface):
 
             # Atomic rename (on POSIX systems; on Windows, replaces if exists)
             os.replace(tmp_path, target)
-        except Exception:
+        except (OSError, TypeError):
+            logger.warning("Atomic write failed for %s", target, exc_info=True)
             # Clean up temp file on failure
             try:
-                if 'tmp_path' in locals():
+                if tmp_path is not None:
                     os.unlink(tmp_path)
             except OSError:
-                pass
+                logger.warning("Atomic write cleanup failed for %s", target, exc_info=True)
             raise
 
         return target

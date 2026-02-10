@@ -8,6 +8,8 @@ Phase 7B implementation.
 import numpy as np
 from collections import defaultdict
 from typing import List, Dict, Any, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 class ScribeAnalyzer:
     """
@@ -29,7 +31,8 @@ class ScribeAnalyzer:
             if 75 <= num <= 84: return "Hand 2"
             if 103 <= num <= 116: return "Hand 2"
             return "Unknown"
-        except:
+        except (ValueError, IndexError):
+            logger.warning("Failed to parse scribal hand from folio_id=%r", folio_id, exc_info=True)
             return "Unknown"
 
     def analyze_hand_coupling(self, pages: Dict[str, List[List[str]]]) -> Dict[str, Any]:
@@ -48,7 +51,7 @@ class ScribeAnalyzer:
             tokens = [w for line in lines for w in line]
             if not tokens: continue
             
-            ttr = len(set(tokens)) / len(tokens)
+            ttr = len(set(tokens)) / len(tokens) if len(tokens) > 0 else 0
             hand_metrics[hand].append(ttr)
             
         results = {}

@@ -7,6 +7,7 @@ Real implementations that compute hypothesis metrics from actual database record
 from typing import List, Dict
 import math
 from collections import Counter
+import logging
 
 from foundation.hypotheses.interface import Hypothesis, HypothesisResult
 from foundation.storage.metadata import (
@@ -16,7 +17,8 @@ from foundation.storage.metadata import (
     LineRecord,
     PageRecord,
 )
-from foundation.config import use_real_computation
+
+logger = logging.getLogger(__name__)
 
 
 class GlyphPositionHypothesis(Hypothesis):
@@ -44,9 +46,6 @@ class GlyphPositionHypothesis(Hypothesis):
         return "If positional entropy in Real data is >= Scrambled data, the constraints are artifacts."
 
     def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        if not use_real_computation("hypotheses"):
-            return self._run_simulated(real_dataset_id, control_dataset_ids)
-
         return self._run_real(real_dataset_id, control_dataset_ids)
 
     def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
@@ -102,7 +101,8 @@ class GlyphPositionHypothesis(Hypothesis):
             pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
 
             if not pages:
-                return 1.0  # Max entropy if no data
+                logger.warning("No pages found for dataset %s, returning NaN entropy", dataset_id)
+                return float("nan")
 
             page_ids = [p.id for p in pages]
 
@@ -148,7 +148,8 @@ class GlyphPositionHypothesis(Hypothesis):
                             glyph_positions[glyph_symbol][position] += 1
 
             if not glyph_positions:
-                return 1.0  # Max entropy if no glyph data
+                logger.warning("No glyph data found for dataset %s, returning NaN entropy", dataset_id)
+                return float("nan")
 
             # Compute entropy for each glyph and average
             entropies = []
@@ -170,9 +171,14 @@ class GlyphPositionHypothesis(Hypothesis):
                 entropies.append(normalized_entropy)
 
             if not entropies:
-                return 1.0
+                logger.warning("No entropy values computed for dataset %s, returning NaN", dataset_id)
+                return float("nan")
 
             # Return average normalized entropy
+            if not entropies:
+                logger.warning("No entropies available for dataset %s, returning NaN", dataset_id)
+                return float("nan")
+                
             return sum(entropies) / len(entropies)
 
         finally:
@@ -206,42 +212,3 @@ class GlyphPositionHypothesis(Hypothesis):
             return f"g_{w_bucket}_{h_bucket}"
 
         return f"glyph_{glyph.id[:8]}"
-
-    def _run_simulated(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        """Legacy simulated implementation for backward compatibility."""
-
-        def calculate_entropy(dataset_id):
-            if "scrambled" in dataset_id:
-                return 0.95  # High entropy (random)
-            elif "synthetic" in dataset_id:
-                return 0.90  # High entropy
-            else:
-                return 0.40  # Low entropy (constrained)
-
-        real_entropy = calculate_entropy(real_dataset_id)
-        control_entropies = {cid: calculate_entropy(cid) for cid in control_dataset_ids}
-
-        outcome = "SUPPORTED"
-        min_control = min(control_entropies.values()) if control_entropies else 1.0
-
-        if real_entropy >= min_control:
-            outcome = "FALSIFIED"
-        elif real_entropy > (min_control * 0.8):
-            outcome = "WEAKLY_SUPPORTED"
-
-        metrics = {
-            f"{real_dataset_id}:entropy": real_entropy
-        }
-        for cid, val in control_entropies.items():
-            metrics[f"{cid}:entropy"] = val
-
-        return HypothesisResult(
-            outcome=outcome,
-            metrics=metrics,
-            summary={
-                "real_entropy": real_entropy,
-                "control_entropies": control_entropies,
-                "margin": min_control - real_entropy,
-                "simulated": True
-            }
-        )

@@ -12,6 +12,7 @@ Key questions:
 from typing import List, Dict, Any
 import math
 from collections import Counter
+from datetime import datetime, timezone
 
 from analysis.stress_tests.interface import (
     StressTest,
@@ -31,14 +32,16 @@ from foundation.storage.metadata import (
     TranscriptionLineRecord,
     WordAlignmentRecord,
 )
-from foundation.config import use_real_computation
 
 
-# Iteration limits for bounded runtime on large datasets
-MAX_PAGES_PER_TEST = 50  # Maximum pages to analyze per test
+from foundation.config import MAX_PAGES_PER_TEST, MAX_TOKENS_ANALYZED, get_analysis_thresholds
+from foundation.runs.manager import RunManager
+import logging
+logger = logging.getLogger(__name__)
+
+# Local limits
 MAX_LINES_PER_PAGE = 100  # Maximum lines to analyze per page
 MAX_WORDS_PER_LINE = 50  # Maximum words to analyze per line
-MAX_TOKENS_ANALYZED = 10000  # Maximum tokens to analyze for entropy calculations
 
 
 class LocalityTest(StressTest):
@@ -50,6 +53,24 @@ class LocalityTest(StressTest):
     - Compositional structure
     - Procedural generation signatures
     """
+
+    def __init__(self, store):
+        super().__init__(store)
+        self.thresholds = get_analysis_thresholds().get("locality", {})
+
+    def _threshold(self, *keys: str, default: float) -> float:
+        node: Any = self.thresholds
+        for key in keys:
+            if not isinstance(node, dict):
+                return default
+            node = node.get(key)
+        return float(node) if node is not None else default
+
+    def _threshold_list(self, key: str, default: List[float]) -> List[float]:
+        values = self.thresholds.get(key)
+        if isinstance(values, list) and len(values) == len(default):
+            return [float(v) for v in values]
+        return default
 
     @property
     def test_id(self) -> str:
@@ -107,10 +128,22 @@ class LocalityTest(StressTest):
 
             # Determine outcome
             outcome = self._determine_outcome(explanation_class, analysis)
+            try:
+                run_id = str(RunManager.get_current_run().run_id)
+            except RuntimeError:
+                run_id = None
 
             return StressTestResult(
                 test_id=self.test_id,
                 explanation_class=explanation_class,
+                run_id=run_id,
+                dataset_id=dataset_id,
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                parameters={
+                    "num_controls": len(control_ids),
+                    "max_pages_per_test": MAX_PAGES_PER_TEST,
+                    "max_tokens_analyzed": MAX_TOKENS_ANALYZED,
+                },
                 outcome=outcome,
                 stability_score=analysis.get("overall_score", 0.5),
                 control_differential=analysis.get("control_differential", 0),
@@ -172,11 +205,12 @@ class LocalityTest(StressTest):
         locality_ratio = avg_local / (avg_global + 0.01)
 
         # Estimate effective radius (how many words away influence extends)
-        if locality_ratio > 2.0:
+        radius_thresholds = self._threshold_list("radius_thresholds", [2.0, 1.5, 1.0])
+        if locality_ratio > radius_thresholds[0]:
             radius = 2  # Very local (2-word context)
-        elif locality_ratio > 1.5:
+        elif locality_ratio > radius_thresholds[1]:
             radius = 4  # Moderately local
-        elif locality_ratio > 1.0:
+        elif locality_ratio > radius_thresholds[2]:
             radius = 8  # Wider context
         else:
             radius = -1  # Global dependencies dominate
@@ -195,9 +229,6 @@ class LocalityTest(StressTest):
 
         Uses bigram transition probabilities from actual tokens.
         """
-        if not use_real_computation("stress_tests"):
-            return 0.65  # Simulated
-
         if len(words) < 2:
             return 0.0
 
@@ -245,9 +276,6 @@ class LocalityTest(StressTest):
 
         Compares first and last tokens in the line.
         """
-        if not use_real_computation("stress_tests"):
-            return 0.35  # Simulated
-
         if len(words) < 4:
             return 0.0
 
@@ -317,11 +345,12 @@ class LocalityTest(StressTest):
         avg_score = sum(composition_scores) / len(composition_scores) if composition_scores else 0
 
         # Determine composition type
-        if avg_score > 0.7:
+        compositional_scores = self._threshold_list("compositional_scores", [0.7, 0.5, 0.3])
+        if avg_score > compositional_scores[0]:
             comp_type = "strongly_compositional"
-        elif avg_score > 0.5:
+        elif avg_score > compositional_scores[1]:
             comp_type = "weakly_compositional"
-        elif avg_score > 0.3:
+        elif avg_score > compositional_scores[2]:
             comp_type = "partially_compositional"
         else:
             comp_type = "non_compositional"
@@ -336,9 +365,6 @@ class LocalityTest(StressTest):
         """
         Analyze glyph composition patterns using n-gram statistics.
         """
-        if not use_real_computation("stress_tests"):
-            return 0.55  # Simulated
-
         if len(glyphs) < 2:
             return 0.0
 
@@ -394,17 +420,21 @@ class LocalityTest(StressTest):
 
         # Test 1: Repetition patterns
         word_repetition = self._analyze_repetition_patterns(session, dataset_id)
-        if word_repetition > 0.15:  # More than 15% exact repetition
+        repetition_threshold = self._threshold("procedural_signature", "repetition", default=0.15)
+        regularity_threshold = self._threshold("procedural_signature", "regularity", default=0.7)
+        combined_threshold = self._threshold("procedural_signature", "combined", default=0.6)
+
+        if word_repetition > repetition_threshold:
             indicators.append("high_repetition")
 
         # Test 2: Sequence regularity
         regularity = self._analyze_sequence_regularity(session, dataset_id)
-        if regularity > 0.7:
+        if regularity > regularity_threshold:
             indicators.append("excessive_regularity")
 
         # Test 3: State-based patterns
         state_boundedness = self._analyze_state_patterns(session, dataset_id)
-        if state_boundedness > 0.6:
+        if state_boundedness > combined_threshold:
             indicators.append("bounded_states")
 
         # Calculate signature strength
@@ -424,9 +454,6 @@ class LocalityTest(StressTest):
 
         Uses MAX_TOKENS_ANALYZED limit for bounded runtime.
         """
-        if not use_real_computation("stress_tests"):
-            return 0.20  # Simulated
-
         pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
         if not pages:
             return 0.0
@@ -462,9 +489,6 @@ class LocalityTest(StressTest):
 
         Uses iteration limits for bounded runtime.
         """
-        if not use_real_computation("stress_tests"):
-            return 0.55  # Simulated
-
         pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
         if not pages:
             return 0.0
@@ -541,9 +565,6 @@ class LocalityTest(StressTest):
         Measures transition matrix sparsity (bounded states = sparse matrix).
         Uses iteration limits for bounded runtime.
         """
-        if not use_real_computation("stress_tests"):
-            return 0.50  # Simulated
-
         pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).limit(MAX_PAGES_PER_TEST).all()
         if not pages:
             return 0.0
@@ -593,11 +614,15 @@ class LocalityTest(StressTest):
         }
 
         # Determine dominant pattern type
-        if locality.get("radius", 0) <= 4 and compositionality.get("score", 0) > 0.5:
+        pattern_min_radius = self._threshold("pattern_type", "min_radius", default=4.0)
+        pattern_max_radius = self._threshold("pattern_type", "max_radius", default=8.0)
+        pattern_score_threshold = self._threshold("pattern_type", "score_threshold", default=0.5)
+
+        if locality.get("radius", 0) <= pattern_min_radius and compositionality.get("score", 0) > pattern_score_threshold:
             pattern_type = "local_compositional"
-        elif procedural.get("signature_strength", 0) > 0.5:
+        elif procedural.get("signature_strength", 0) > pattern_score_threshold:
             pattern_type = "procedural"
-        elif locality.get("radius", 0) > 8:
+        elif locality.get("radius", 0) > pattern_max_radius:
             pattern_type = "global_dependent"
         else:
             pattern_type = "mixed"
@@ -666,12 +691,14 @@ class LocalityTest(StressTest):
         """Determine outcome based on analysis."""
         score = analysis.get("overall_score", 0.5)
         has_failures = len(analysis.get("failures", [])) > 0
+        stable_threshold = self._threshold("outcome", "stable", default=0.6)
+        collapsed_threshold = self._threshold("outcome", "collapsed", default=0.4)
 
         if has_failures:
             return StressTestOutcome.FRAGILE
-        elif score > 0.6:
+        elif score > stable_threshold:
             return StressTestOutcome.STABLE
-        elif score > 0.4:
+        elif score > collapsed_threshold:
             return StressTestOutcome.FRAGILE
         else:
             return StressTestOutcome.COLLAPSED

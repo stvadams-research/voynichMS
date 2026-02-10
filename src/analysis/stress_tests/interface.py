@@ -8,6 +8,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional
 from enum import Enum
+import logging
+logger = logging.getLogger(__name__)
 
 
 class StressTestOutcome(Enum):
@@ -26,10 +28,16 @@ class StressTestResult:
     explanation_class: str
     outcome: StressTestOutcome
 
+    # Provenance
+    run_id: Optional[str] = None
+    timestamp: Optional[str] = None
+    dataset_id: Optional[str] = None
+    parameters: Dict[str, Any] = field(default_factory=dict)
+
     # Quantitative results
-    stability_score: float              # 0.0 (collapsed) to 1.0 (perfectly stable)
-    control_differential: float         # How much better than controls
-    collapse_threshold: Optional[float] # Perturbation level at which collapse occurs
+    stability_score: float = 0.0             # 0.0 (collapsed) to 1.0 (perfectly stable)
+    control_differential: float = 0.0        # How much better than controls
+    collapse_threshold: Optional[float] = None  # Perturbation level at which collapse occurs
 
     # Detailed findings
     metrics: Dict[str, float] = field(default_factory=dict)

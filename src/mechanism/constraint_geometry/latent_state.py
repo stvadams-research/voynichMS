@@ -10,6 +10,8 @@ from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import svds
 from collections import Counter, defaultdict
 from typing import List, Dict, Any, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 class LatentStateAnalyzer:
     """

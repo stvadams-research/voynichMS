@@ -8,6 +8,7 @@ that is neither natural language nor cipher, but designed to appear linguistic.
 """
 
 from typing import List, Dict, Any
+import logging
 from analysis.models.interface import (
     ExplicitModel,
     ModelPrediction,
@@ -24,6 +25,8 @@ from foundation.storage.metadata import (
     RegionRecord,
     AnchorRecord,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class ProceduralGenerationModel(ExplicitModel):
@@ -146,14 +149,18 @@ class ProceduralGenerationModel(ExplicitModel):
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
         """Apply perturbation and evaluate survival using real computations."""
-        # Procedural generation should be robust to most perturbations
-        # because it has no semantic structure to break
-        model_sensitivities = {
-            "segmentation": 0.20,
-            "ordering": 0.30,  # Order matters for Markov chains
-            "omission": 0.25,
-            "anchor_disruption": 0.15,  # Doesn't rely on anchors
-        }
+        from foundation.config import get_model_params
+        params = get_model_params()
+        model_sensitivities = params.get("models", {}).get(self.model_id, {}).get("sensitivities", {})
+        
+        # Fallback to defaults if config lookup fails
+        if not model_sensitivities:
+            model_sensitivities = {
+                "segmentation": 0.20,
+                "ordering": 0.30,
+                "omission": 0.25,
+                "anchor_disruption": 0.15,
+            }
 
         calculator = PerturbationCalculator(self.store)
         result = calculator.calculate_degradation(
@@ -276,13 +283,19 @@ class GlossalialSystemModel(ExplicitModel):
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
         """Apply perturbation and evaluate survival using real computations."""
-        # Glossolalia should show similar sensitivity to natural language
-        model_sensitivities = {
-            "segmentation": 0.35,  # Sensitive like language
-            "ordering": 0.40,      # Order matters somewhat
-            "omission": 0.35,
-            "anchor_disruption": 0.20,  # Not dependent on visual context
-        }
+        from foundation.config import get_model_params
+        params = get_model_params()
+        model_sensitivities = params.get("models", {}).get(self.model_id, {}).get("sensitivities", {})
+
+        # Fallback
+        if not model_sensitivities:
+            # Glossolalia should show similar sensitivity to natural language
+            model_sensitivities = {
+                "segmentation": 0.35,  # Sensitive like language
+                "ordering": 0.40,      # Order matters somewhat
+                "omission": 0.35,
+                "anchor_disruption": 0.20,  # Not dependent on visual context
+            }
 
         calculator = PerturbationCalculator(self.store)
         result = calculator.calculate_degradation(
@@ -410,13 +423,19 @@ class MeaningfulConstructModel(ExplicitModel):
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
         """Apply perturbation and evaluate survival using real computations."""
-        # Meaningful content should show sensitivity
-        model_sensitivities = {
-            "segmentation": 0.35,
-            "ordering": 0.35,
-            "omission": 0.45,  # Meaning lost when content removed
-            "anchor_disruption": 0.30,  # May or may not use diagrams
-        }
+        from foundation.config import get_model_params
+        params = get_model_params()
+        model_sensitivities = params.get("models", {}).get(self.model_id, {}).get("sensitivities", {})
+
+        # Fallback
+        if not model_sensitivities:
+            # Meaningful content should show sensitivity
+            model_sensitivities = {
+                "segmentation": 0.35,
+                "ordering": 0.35,
+                "omission": 0.45,  # Meaning lost when content removed
+                "anchor_disruption": 0.30,  # May or may not use diagrams
+            }
 
         calculator = PerturbationCalculator(self.store)
         result = calculator.calculate_degradation(

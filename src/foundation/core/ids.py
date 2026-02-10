@@ -3,6 +3,8 @@ import re
 import uuid
 from typing import NewType, Optional
 from pydantic import BaseModel, Field, field_validator
+import logging
+logger = logging.getLogger(__name__)
 
 class FolioID(str):
     """
@@ -44,14 +46,11 @@ class RunID(str):
     """
     UUID-based identifier for a specific execution run.
 
-    For reproducibility, provide a seed parameter to generate deterministic IDs:
-        RunID(seed=42)  # Always produces the same ID for seed=42
-
-    For random (non-reproducible) runs:
-        RunID()  # Uses uuid4()
-
-    To reuse an existing ID:
-        RunID("existing-uuid-string")
+    For reproducibility, IDs are deterministic by construction:
+    - Provide a seed to generate an ID via DeterministicIDFactory:
+      ``RunID(seed=42)``
+    - Or provide an existing UUID string directly:
+      ``RunID("existing-uuid-string")``
     """
     def __new__(cls, value: Optional[str] = None, seed: Optional[int] = None):
         if value is None:

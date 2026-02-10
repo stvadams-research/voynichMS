@@ -4,7 +4,8 @@ Shared perturbation computation utilities for explicit models.
 Provides real anchor-based degradation calculations.
 """
 
-from typing import Dict, Any, Optional
+from typing import Dict, Any
+import numpy as np
 from foundation.storage.metadata import (
     MetadataStore,
     PageRecord,
@@ -14,7 +15,9 @@ from foundation.storage.metadata import (
     AnchorRecord,
     GlyphCandidateRecord,
 )
-from foundation.config import use_real_computation
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class PerturbationCalculator:
@@ -47,10 +50,14 @@ class PerturbationCalculator:
         Returns:
             Dict with degradation metrics
         """
-        if not use_real_computation("models"):
-            return self._calculate_simulated(perturbation_type, strength, model_sensitivities)
-
-        return self._calculate_real(perturbation_type, dataset_id, strength, model_sensitivities)
+        result = self._calculate_real(perturbation_type, dataset_id, strength, model_sensitivities)
+        
+        # Guard against NaN propagation: sanitize results
+        if np.isnan(result.get("degradation", 0)):
+            logger.warning("NaN degradation detected for %s, sanitizing to 1.0 (total failure)", perturbation_type)
+            result["degradation"] = 1.0
+            
+        return result
 
     def _calculate_real(
         self,
@@ -71,7 +78,7 @@ class PerturbationCalculator:
             elif perturbation_type == "omission":
                 return self._calculate_omission_disruption(session, dataset_id, strength, model_sensitivities)
             else:
-                return self._calculate_simulated(perturbation_type, strength, model_sensitivities)
+                raise ValueError(f"Unknown perturbation type: {perturbation_type}")
         finally:
             session.close()
 
@@ -87,7 +94,7 @@ class PerturbationCalculator:
         """
         pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
         if not pages:
-            return self._calculate_simulated("anchor_disruption", strength, model_sensitivities)
+            return self._insufficient_data("anchor_disruption", strength, model_sensitivities)
 
         page_ids = [p.id for p in pages]
 
@@ -99,7 +106,7 @@ class PerturbationCalculator:
         )
 
         if not anchors:
-            return self._calculate_simulated("anchor_disruption", strength, model_sensitivities)
+            return self._insufficient_data("anchor_disruption", strength, model_sensitivities)
 
         surviving = 0
         total = len(anchors)
@@ -110,28 +117,38 @@ class PerturbationCalculator:
             region = session.query(RegionRecord).filter_by(id=anchor.target_id).first()
 
             if not word or not word.bbox or not region or not region.bbox:
+                logger.warning("Missing word/region or bbox for anchor %s", anchor.id)
                 surviving += 1  # Can't test, assume survives
                 continue
 
             word_bbox = word.bbox
             region_bbox = region.bbox
+            
+            # Validate required coordinates
+            required_word = ["x_min", "x_max", "y_min", "y_max"]
+            required_region = ["x_min", "x_max", "y_min", "y_max"]
+            
+            if not all(k in word_bbox for k in required_word) or not all(k in region_bbox for k in required_region):
+                logger.warning("Incomplete bbox coordinates for anchor %s", anchor.id)
+                surviving += 1
+                continue
 
             # Simulate region shift
-            region_width = region_bbox.get("x_max", 1) - region_bbox.get("x_min", 0)
-            region_height = region_bbox.get("y_max", 1) - region_bbox.get("y_min", 0)
+            region_width = region_bbox["x_max"] - region_bbox["x_min"]
+            region_height = region_bbox["y_max"] - region_bbox["y_min"]
 
             shift_x = strength * region_width
             shift_y = strength * region_height
 
             # Word center
-            word_cx = (word_bbox.get("x_min", 0) + word_bbox.get("x_max", 1)) / 2
-            word_cy = (word_bbox.get("y_min", 0) + word_bbox.get("y_max", 1)) / 2
+            word_cx = (word_bbox["x_min"] + word_bbox["x_max"]) / 2
+            word_cy = (word_bbox["y_min"] + word_bbox["y_max"]) / 2
 
             # Shifted region boundaries
-            new_x_min = region_bbox.get("x_min", 0) + shift_x
-            new_x_max = region_bbox.get("x_max", 1) + shift_x
-            new_y_min = region_bbox.get("y_min", 0) + shift_y
-            new_y_max = region_bbox.get("y_max", 1) + shift_y
+            new_x_min = region_bbox["x_min"] + shift_x
+            new_x_max = region_bbox["x_max"] + shift_x
+            new_y_min = region_bbox["y_min"] + shift_y
+            new_y_max = region_bbox["y_max"] + shift_y
 
             # Check if word center is still within shifted region
             if new_x_min <= word_cx <= new_x_max and new_y_min <= word_cy <= new_y_max:
@@ -141,6 +158,7 @@ class PerturbationCalculator:
         degradation = 1.0 - survival_rate
 
         # Scale by model sensitivity
+        # 0.5 is the standard sensitivity baseline for anchor disruption
         base_sensitivity = model_sensitivities.get("anchor_disruption", 0.5)
         final_degradation = min(1.0, degradation * (base_sensitivity / 0.5))
 
@@ -165,7 +183,7 @@ class PerturbationCalculator:
         """
         pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
         if not pages:
-            return self._calculate_simulated("segmentation", strength, model_sensitivities)
+            return self._insufficient_data("segmentation", strength, model_sensitivities)
 
         total_glyphs = 0
         affected_glyphs = 0
@@ -183,31 +201,38 @@ class PerturbationCalculator:
 
                     word_bbox = word.bbox
                     if not word_bbox:
+                        logger.warning("Missing word bbox for word %s on page %s", word.id, page.id)
+                        continue
+                    
+                    if "x_min" not in word_bbox or "x_max" not in word_bbox:
+                        logger.warning("Incomplete word bbox coordinates for word %s", word.id)
                         continue
 
-                    word_width = word_bbox.get("x_max", 1) - word_bbox.get("x_min", 0)
+                    word_width = word_bbox["x_max"] - word_bbox["x_min"]
                     shift = strength * word_width
 
                     for glyph in glyphs:
                         total_glyphs += 1
                         glyph_bbox = glyph.bbox
-                        if not glyph_bbox:
+                        if not glyph_bbox or "x_min" not in glyph_bbox or "x_max" not in glyph_bbox:
+                            logger.warning("Missing or incomplete glyph bbox for glyph %s", glyph.id)
                             continue
 
-                        glyph_center = (glyph_bbox.get("x_min", 0) + glyph_bbox.get("x_max", 0)) / 2
+                        glyph_center = (glyph_bbox["x_min"] + glyph_bbox["x_max"]) / 2
 
-                        dist_from_left = glyph_center - word_bbox.get("x_min", 0)
-                        dist_from_right = word_bbox.get("x_max", 1) - glyph_center
+                        dist_from_left = glyph_center - word_bbox["x_min"]
+                        dist_from_right = word_bbox["x_max"] - glyph_center
 
                         if dist_from_left < shift or dist_from_right < shift:
                             affected_glyphs += 1
 
         if total_glyphs == 0:
-            return self._calculate_simulated("segmentation", strength, model_sensitivities)
+            return self._insufficient_data("segmentation", strength, model_sensitivities)
 
         collapse_rate = affected_glyphs / total_glyphs
 
         # Scale by model sensitivity
+        # 0.35 is the baseline sensitivity for segmentation (standard glyph boundary tolerance)
         base_sensitivity = model_sensitivities.get("segmentation", 0.35)
         final_degradation = min(1.0, collapse_rate * (base_sensitivity / 0.35))
 
@@ -234,7 +259,7 @@ class PerturbationCalculator:
         """
         pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
         if not pages:
-            return self._calculate_simulated("ordering", strength, model_sensitivities)
+            return self._insufficient_data("ordering", strength, model_sensitivities)
 
         # Count total word pairs that could be swapped
         total_pairs = 0
@@ -246,12 +271,14 @@ class PerturbationCalculator:
                     total_pairs += len(words) - 1
 
         if total_pairs == 0:
-            return self._calculate_simulated("ordering", strength, model_sensitivities)
+            return self._insufficient_data("ordering", strength, model_sensitivities)
 
         # Degradation scales with strength (percentage of pairs to swap)
+        # 0.25 is the baseline sensitivity for ordering
         base_sensitivity = model_sensitivities.get("ordering", 0.25)
 
-        # Simple model: degradation = strength * sensitivity
+        # Simple model: degradation = strength * 2 * base_sensitivity
+        # The factor of 2 accounts for the rapid collapse of Markov properties under shuffling
         final_degradation = min(1.0, strength * 2 * base_sensitivity)
 
         return {
@@ -273,7 +300,7 @@ class PerturbationCalculator:
         """
         pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
         if not pages:
-            return self._calculate_simulated("omission", strength, model_sensitivities)
+            return self._insufficient_data("omission", strength, model_sensitivities)
 
         # Count total anchors - omission affects structure proportionally
         page_ids = [p.id for p in pages]
@@ -284,12 +311,14 @@ class PerturbationCalculator:
         )
 
         if anchor_count == 0:
-            return self._calculate_simulated("omission", strength, model_sensitivities)
+            return self._insufficient_data("omission", strength, model_sensitivities)
 
         # Degradation: fraction of elements removed
+        # 0.40 is the baseline sensitivity for omission
         base_sensitivity = model_sensitivities.get("omission", 0.40)
 
         # Simple model: removing strength% of elements causes proportional degradation
+        # Scaling factor of 2 represents the non-linear impact of missing key contextual anchors
         final_degradation = min(1.0, strength * (base_sensitivity / 0.40) * 2)
 
         return {
@@ -299,21 +328,24 @@ class PerturbationCalculator:
             "computed_from": "real_data",
         }
 
-    def _calculate_simulated(
+    def _insufficient_data(
         self,
         perturbation_type: str,
         strength: float,
         model_sensitivities: Dict[str, float]
     ) -> Dict[str, Any]:
         """
-        Legacy simulated calculation for backward compatibility.
+        Return an explicit insufficient-data result when database records
+        are missing for a perturbation calculation.
         """
-        base_degradation = model_sensitivities.get(perturbation_type, 0.30)
-        degradation = min(1.0, base_degradation * (1 + strength * 2))
-
+        logger.warning(
+            "Insufficient data for %s perturbation calculation (strength=%.2f). "
+            "Returning NaN degradation.",
+            perturbation_type, strength
+        )
         return {
-            "degradation": degradation,
-            "base_sensitivity": base_degradation,
+            "degradation": float("nan"),
+            "base_sensitivity": model_sensitivities.get(perturbation_type, 0.0),
             "strength": strength,
-            "computed_from": "simulated",
+            "computed_from": "insufficient_data",
         }

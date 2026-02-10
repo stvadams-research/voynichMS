@@ -5,10 +5,13 @@ Computes Word Adjacency Network (WAN) metrics and statistical distributions.
 """
 
 import networkx as nx
+from networkx.exception import NetworkXException
 import numpy as np
 from typing import List, Dict, Any, Tuple
 from collections import Counter
 import math
+import logging
+logger = logging.getLogger(__name__)
 
 class NetworkAnalyzer:
     """
@@ -23,7 +26,19 @@ class NetworkAnalyzer:
         Compute network and distribution features.
         """
         if not tokens:
-            return {}
+            logger.warning("NetworkAnalyzer.analyze received no tokens")
+            return {
+                "status": "no_data",
+                "metrics": {},
+                "num_nodes": 0,
+                "num_edges": 0,
+                "avg_degree": 0.0,
+                "avg_clustering": 0.0,
+                "assortativity": 0.0,
+                "zipf_alpha": 0.0,
+                "vocabulary_size": 0,
+                "ttr": 0.0,
+            }
 
         # Limit scale for network metrics
         subset = tokens[:self.max_tokens]
@@ -48,7 +63,11 @@ class NetworkAnalyzer:
         # Assortativity (Degree correlation)
         try:
             assortativity = nx.degree_assortativity_coefficient(G)
-        except:
+        except (NetworkXException, ZeroDivisionError, ValueError):
+            logger.warning(
+                "Assortativity computation failed; using 0.0 fallback",
+                exc_info=True,
+            )
             assortativity = 0.0
             
         # 3. Distribution Metrics

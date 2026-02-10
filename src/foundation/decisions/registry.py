@@ -1,5 +1,7 @@
 from typing import Dict, Any, Optional
 from foundation.storage.metadata import MetadataStore, StructureRecord
+import logging
+logger = logging.getLogger(__name__)
 
 class StructureRegistry:
     def __init__(self, store: MetadataStore):

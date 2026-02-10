@@ -1,6 +1,8 @@
 from typing import List
 from foundation.storage.metadata import MetadataStore, RegionRecord, RegionEdgeRecord
 from foundation.core.geometry import Box
+import logging
+logger = logging.getLogger(__name__)
 
 class GraphBuilder:
     def __init__(self, store: MetadataStore):

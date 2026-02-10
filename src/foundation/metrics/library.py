@@ -5,9 +5,9 @@ Real implementations that compute metrics from actual database records.
 """
 
 import math
-from typing import List, Dict, Any
+import logging
+from typing import List
 from collections import Counter
-from sqlalchemy import func
 
 from foundation.metrics.interface import Metric, MetricResult
 from foundation.storage.metadata import (
@@ -20,24 +20,19 @@ from foundation.storage.metadata import (
     RegionRecord,
     RegionEmbeddingRecord,
 )
-from foundation.config import use_real_computation
+
+logger = logging.getLogger(__name__)
 
 
 class RepetitionRate(Metric):
     """
-    Calculates the repetition rate of tokens/words.
+    Calculates the repetition rate of tokens.
 
     Real implementation queries TranscriptionTokenRecord to count
     repeated tokens vs total tokens.
     """
 
     def calculate(self, dataset_id: str) -> List[MetricResult]:
-        if not use_real_computation("metrics"):
-            return self._calculate_simulated(dataset_id)
-
-        return self._calculate_real(dataset_id)
-
-    def _calculate_real(self, dataset_id: str) -> List[MetricResult]:
         """
         Calculate repetition rate from actual token frequencies.
 
@@ -54,7 +49,7 @@ class RepetitionRate(Metric):
                     metric_name="RepetitionRate",
                     dataset_id=dataset_id,
                     scope="global",
-                    value=0.0,
+                    value=float("nan"),
                     details={"error": "no_pages_found"}
                 )]
 
@@ -70,6 +65,7 @@ class RepetitionRate(Metric):
 
             if not tokens:
                 # Fallback: try to get tokens via word alignments
+                logger.warning("No direct transcription tokens found for dataset %s, falling back to word alignments", dataset_id)
                 tokens = self._get_tokens_via_alignments(session, page_ids)
 
             if not tokens:
@@ -77,7 +73,7 @@ class RepetitionRate(Metric):
                     metric_name="RepetitionRate",
                     dataset_id=dataset_id,
                     scope="global",
-                    value=0.0,
+                    value=float("nan"),
                     details={"error": "no_tokens_found"}
                 )]
 
@@ -90,20 +86,21 @@ class RepetitionRate(Metric):
 
             # Repetition rate: tokens that appear more than once / total occurrences
             repeated_occurrences = sum(count for count in token_counts.values() if count > 1)
-            repetition_rate = repeated_occurrences / total_tokens if total_tokens > 0 else 0.0
+            token_repetition_rate = repeated_occurrences / total_tokens if total_tokens > 0 else 0.0
 
-            # Alternative metric: 1 - (unique / total) measures how non-unique the vocabulary is
-            vocabulary_repetition = 1 - (unique_tokens / total_tokens) if total_tokens > 0 else 0.0
+            # Supplementary statistic: 1 - type/token ratio.
+            vocabulary_coverage = 1 - (unique_tokens / total_tokens) if total_tokens > 0 else 0.0
 
             return [MetricResult(
                 metric_name="RepetitionRate",
                 dataset_id=dataset_id,
                 scope="global",
-                value=repetition_rate,
+                value=token_repetition_rate,
                 details={
                     "total_tokens": total_tokens,
                     "unique_tokens": unique_tokens,
-                    "vocabulary_repetition": vocabulary_repetition,
+                    "token_repetition_rate": token_repetition_rate,
+                    "vocabulary_coverage": vocabulary_coverage,
                     "top_5_tokens": dict(token_counts.most_common(5)),
                 }
             )]
@@ -123,36 +120,6 @@ class RepetitionRate(Metric):
         )
         return [t[0] for t in tokens] if tokens else []
 
-    def _calculate_simulated(self, dataset_id: str) -> List[MetricResult]:
-        """Legacy simulated implementation for backward compatibility."""
-        import random
-        # Use a deterministic local RNG for simulated results
-        # Deriving seed from dataset_id ensures stability across runs
-        import hashlib
-        seed_hash = int(hashlib.sha256(dataset_id.encode()).hexdigest()[:8], 16)
-        rng = random.Random(seed_hash)
-
-        dataset_type = "real"
-        if "scrambled" in dataset_id:
-            dataset_type = "scrambled"
-        elif "synthetic" in dataset_id:
-            dataset_type = "synthetic"
-
-        if dataset_type == "real":
-            val = 0.15 + rng.uniform(-0.02, 0.02)
-        elif dataset_type == "scrambled":
-            val = 0.02 + rng.uniform(0.0, 0.01)
-        else:
-            val = 0.05 + rng.uniform(-0.01, 0.01)
-
-        return [MetricResult(
-            metric_name="RepetitionRate",
-            dataset_id=dataset_id,
-            scope="global",
-            value=val,
-            details={"type": dataset_type, "simulated": True}
-        )]
-
 
 class ClusterTightness(Metric):
     """
@@ -163,12 +130,6 @@ class ClusterTightness(Metric):
     """
 
     def calculate(self, dataset_id: str) -> List[MetricResult]:
-        if not use_real_computation("metrics"):
-            return self._calculate_simulated(dataset_id)
-
-        return self._calculate_real(dataset_id)
-
-    def _calculate_real(self, dataset_id: str) -> List[MetricResult]:
         """
         Compute cluster tightness from region embedding vectors.
 
@@ -182,12 +143,13 @@ class ClusterTightness(Metric):
             pages = session.query(PageRecord).filter_by(dataset_id=dataset_id).all()
 
             if not pages:
+                logger.warning("ClusterTightness: no pages found for dataset %s", dataset_id)
                 return [MetricResult(
                     metric_name="ClusterTightness",
                     dataset_id=dataset_id,
                     scope="global",
-                    value=0.5,
-                    details={"error": "no_pages_found"}
+                    value=float("nan"),
+                    details={"status": "no_data", "error": "no_pages_found", "method": "none"}
                 )]
 
             page_ids = [p.id for p in pages]
@@ -202,6 +164,10 @@ class ClusterTightness(Metric):
 
             if not embeddings:
                 # Fallback: compute from region bounding boxes if no embeddings
+                logger.warning(
+                    "ClusterTightness falling back to bbox computation for dataset %s",
+                    dataset_id,
+                )
                 return self._compute_from_bboxes(session, page_ids, dataset_id)
 
             # Convert binary vectors to numpy arrays
@@ -210,20 +176,34 @@ class ClusterTightness(Metric):
                 try:
                     vec = np.frombuffer(emb.vector, dtype=np.float32)
                     vectors.append(vec)
-                except Exception:
+                except Exception as e:
+                    logger.warning("Failed to decode embedding %s: %s", emb.id, e)
                     continue
 
             if len(vectors) < 2:
+                logger.warning(
+                    "ClusterTightness: insufficient embeddings (%d) for dataset %s",
+                    len(vectors),
+                    dataset_id,
+                )
                 return [MetricResult(
                     metric_name="ClusterTightness",
                     dataset_id=dataset_id,
                     scope="global",
-                    value=0.5,
-                    details={"error": "insufficient_embeddings", "count": len(vectors)}
+                    value=float("nan"),
+                    details={
+                        "status": "no_data",
+                        "error": "insufficient_embeddings",
+                        "count": len(vectors),
+                        "method": "embeddings",
+                    },
                 )]
 
             # Stack into matrix
             vectors = np.array(vectors)
+            
+            if vectors.ndim != 2:
+                raise ValueError(f"Expected 2D embedding array, got {vectors.ndim}D")
 
             # Compute centroid
             centroid = np.mean(vectors, axis=0)
@@ -241,6 +221,8 @@ class ClusterTightness(Metric):
                 scope="global",
                 value=tightness,
                 details={
+                    "method": "embeddings",
+                    "computation_path": "embeddings",
                     "embedding_count": len(vectors),
                     "mean_distance": mean_distance,
                     "std_distance": float(np.std(distances)),
@@ -249,8 +231,13 @@ class ClusterTightness(Metric):
                 }
             )]
 
-        except ImportError:
-            # numpy not available, use fallback
+        except Exception as e:
+            # numpy not available or other error, use bbox fallback
+            logger.warning(
+                "Error in embedding-based ClusterTightness for %s; falling back to bboxes",
+                dataset_id,
+                exc_info=True,
+            )
             return self._compute_from_bboxes(session, page_ids, dataset_id)
         finally:
             session.close()
@@ -269,12 +256,22 @@ class ClusterTightness(Metric):
         )
 
         if len(regions) < 2:
+            logger.warning(
+                "ClusterTightness bbox fallback: insufficient regions (%d) for dataset %s",
+                len(regions),
+                dataset_id,
+            )
             return [MetricResult(
                 metric_name="ClusterTightness",
                 dataset_id=dataset_id,
                 scope="global",
-                value=0.5,
-                details={"error": "insufficient_regions", "count": len(regions)}
+                value=float("nan"),
+                details={
+                    "status": "no_data",
+                    "error": "insufficient_regions",
+                    "count": len(regions),
+                    "method": "bboxes",
+                },
             )]
 
         # Extract centroids from bboxes
@@ -287,24 +284,28 @@ class ClusterTightness(Metric):
                 centroids.append((cx, cy))
 
         if len(centroids) < 2:
+            logger.warning(
+                "ClusterTightness bbox fallback: invalid region bboxes for dataset %s",
+                dataset_id,
+            )
             return [MetricResult(
                 metric_name="ClusterTightness",
                 dataset_id=dataset_id,
                 scope="global",
-                value=0.5,
-                details={"error": "invalid_bboxes"}
+                value=float("nan"),
+                details={"status": "no_data", "error": "invalid_bboxes", "method": "bboxes"}
             )]
 
         # Compute mean centroid
-        mean_x = sum(c[0] for c in centroids) / len(centroids)
-        mean_y = sum(c[1] for c in centroids) / len(centroids)
+        mean_x = sum(c[0] for c in centroids) / len(centroids) if len(centroids) > 0 else 0
+        mean_y = sum(c[1] for c in centroids) / len(centroids) if len(centroids) > 0 else 0
 
         # Compute distances
         distances = [
             math.sqrt((c[0] - mean_x) ** 2 + (c[1] - mean_y) ** 2)
             for c in centroids
         ]
-        mean_distance = sum(distances) / len(distances)
+        mean_distance = sum(distances) / len(distances) if len(distances) > 0 else 0
 
         # Compute tightness
         tightness = 1.0 / (1.0 + mean_distance)
@@ -315,24 +316,9 @@ class ClusterTightness(Metric):
             scope="global",
             value=tightness,
             details={
+                "method": "bboxes",
+                "computation_path": "bboxes",
                 "region_count": len(regions),
                 "mean_distance": mean_distance,
-                "computed_from": "bboxes",
             }
-        )]
-
-    def _calculate_simulated(self, dataset_id: str) -> List[MetricResult]:
-        """Legacy simulated implementation for backward compatibility."""
-        import random
-        import hashlib
-        seed_hash = int(hashlib.sha256(dataset_id.encode()).hexdigest()[:8], 16)
-        rng = random.Random(seed_hash)
-        
-        val = rng.uniform(0.5, 0.8)
-        return [MetricResult(
-            metric_name="ClusterTightness",
-            dataset_id=dataset_id,
-            scope="global",
-            value=val,
-            details={"simulated": True}
         )]

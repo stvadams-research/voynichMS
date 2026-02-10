@@ -8,6 +8,8 @@ and equivalence testing.
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple, Callable
 from enum import Enum
+import logging
+logger = logging.getLogger(__name__)
 
 
 class FeatureCategory(Enum):

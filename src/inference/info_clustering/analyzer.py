@@ -9,6 +9,8 @@ import numpy as np
 from typing import List, Dict, Any, Tuple
 from collections import Counter, defaultdict
 import math
+import logging
+logger = logging.getLogger(__name__)
 
 class MontemurroAnalyzer:
     """
@@ -24,7 +26,15 @@ class MontemurroAnalyzer:
         Formula: i(w) = sum_s p(s|w) * log2( p(s|w) / p(s) )
         """
         if not tokens:
-            return {}
+            logger.warning("MontemurroAnalyzer.calculate_information received no tokens")
+            return {
+                "status": "no_data",
+                "metrics": {},
+                "num_tokens": 0,
+                "num_unique": 0,
+                "word_info": [],
+                "top_keywords": [],
+            }
 
         # 1. Partition tokens into sections
         section_size = len(tokens) // self.num_sections
@@ -72,9 +82,9 @@ class MontemurroAnalyzer:
 
     def get_summary_metrics(self, info_results: Dict[str, Any]) -> Dict[str, float]:
         """Compute aggregate metrics like average information."""
-        sorted_info = info_results["word_info"]
+        sorted_info = info_results.get("word_info", [])
         if not sorted_info:
-            return {"avg_info": 0.0}
+            return {"avg_info": 0.0, "max_info": 0.0, "num_keywords": 0}
             
         avg_info = sum(val for word, val in sorted_info) / len(sorted_info)
         max_info = sorted_info[0][1] if sorted_info else 0.0

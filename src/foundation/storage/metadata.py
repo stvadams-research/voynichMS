@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine, Column, String, DateTime, JSON, Boolean, Integer, ForeignKey, Text, Float, LargeBinary
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime
+import logging
+logger = logging.getLogger(__name__)
 
 Base = declarative_base()
 
@@ -31,6 +33,13 @@ class DatasetRecord(Base):
     pages = relationship("PageRecord", back_populates="dataset")
 
 class PageRecord(Base):
+    """
+    Database page container.
+
+    Convention note: ``PageRecord.id`` stores folio-style identifiers
+    (e.g., ``f1r``, ``f2v``). "Page" here means a database record; "folio"
+    refers to the manuscript leaf designation carried in ``id``.
+    """
     __tablename__ = 'pages'
 
     id = Column(String, primary_key=True) # PageID string (e.g. "f1r")
@@ -112,6 +121,10 @@ class WordRecord(Base):
     alignments = relationship("WordAlignmentRecord", back_populates="word")
 
 class GlyphCandidateRecord(Base):
+    """
+    Visual unit in the manuscript image (e.g., a specific ink blob).
+    Represents a candidate glyph before final identification.
+    """
     __tablename__ = 'glyph_candidates'
     id = Column(String, primary_key=True) # UUID
     word_id = Column(String, ForeignKey('words.id'), nullable=False)
@@ -135,6 +148,10 @@ class TranscriptionSourceRecord(Base):
     lines = relationship("TranscriptionLineRecord", back_populates="source")
 
 class TranscriptionLineRecord(Base):
+    """
+    A single line of transcription.
+    line_index: 0-based relative order of the line on the page (usually top-to-bottom).
+    """
     __tablename__ = 'transcription_lines'
     id = Column(String, primary_key=True) # UUID
     source_id = Column(String, ForeignKey('transcription_sources.id'), nullable=False)
@@ -148,6 +165,10 @@ class TranscriptionLineRecord(Base):
     tokens = relationship("TranscriptionTokenRecord", back_populates="line")
 
 class TranscriptionTokenRecord(Base):
+    """
+    A single transcribed token.
+    token_index: 0-based relative order of the token within the line (usually left-to-right).
+    """
     __tablename__ = 'transcription_tokens'
     id = Column(String, primary_key=True) # UUID
     line_id = Column(String, ForeignKey('transcription_lines.id'), nullable=False)
@@ -173,6 +194,9 @@ class WordAlignmentRecord(Base):
     token = relationship("TranscriptionTokenRecord", back_populates="alignments")
 
 class GlyphAlignmentRecord(Base):
+    """
+    Links a visual GlyphCandidate to a specific transcription symbol.
+    """
     __tablename__ = 'glyph_alignments'
     id = Column(Integer, primary_key=True, autoincrement=True)
     glyph_id = Column(String, ForeignKey('glyph_candidates.id'), nullable=False)

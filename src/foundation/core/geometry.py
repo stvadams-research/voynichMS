@@ -1,6 +1,8 @@
 from typing import List, Tuple, Optional
 from pydantic import BaseModel, Field, field_validator, model_validator
 import math
+import logging
+logger = logging.getLogger(__name__)
 
 class Point(BaseModel):
     """
@@ -152,11 +154,15 @@ class Transform(BaseModel):
         a, b, c, d, tx, ty = self.matrix
         new_x = a * point.x + b * point.y + tx
         new_y = c * point.x + d * point.y + ty
+        
         # Clamp to 0-1 range to ensure valid Point
-        return Point(
-            x=max(0.0, min(1.0, new_x)),
-            y=max(0.0, min(1.0, new_y))
-        )
+        clamped_x = max(0.0, min(1.0, new_x))
+        clamped_y = max(0.0, min(1.0, new_y))
+        
+        if clamped_x != new_x or clamped_y != new_y:
+            logger.warning("Transform result clipped to [0,1] range: (%f, %f) -> (%f, %f)", new_x, new_y, clamped_x, clamped_y)
+            
+        return Point(x=clamped_x, y=clamped_y)
 
     def invert(self) -> 'Transform':
         a, b, c, d, tx, ty = self.matrix

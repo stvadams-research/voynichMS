@@ -1,0 +1,193 @@
+{
+  "observations": {
+    "info_density_z": 4.0,
+    "locality_min": 2.0,
+    "locality_max": 4.0,
+    "locality_baseline": 3.0,
+    "repetition_rate": 0.20,
+    "vocabulary_size": 8000,
+    "robustness_baseline": 0.70
+  },
+  "controls": {
+    "info_density_mean": 1.2,
+    "info_density_std": 0.5,
+    "locality_mean": 8.0,
+    "locality_std": 2.0,
+    "robustness_mean": 0.30,
+    "robustness_std": 0.10
+  },
+  "capacity_bounds": [
+    {
+      "property": "memory",
+      "type": "lower",
+      "value": 12.0,
+      "comparisons": {
+        "random_markov": 8.0,
+        "natural_language": 15.0,
+        "simple_cipher": 5.0
+      }
+    },
+    {
+      "property": "state_complexity",
+      "type": "lower",
+      "value": 16.0,
+      "comparisons": {
+        "markov_order_1": 8.0,
+        "markov_order_2": 64.0,
+        "natural_language": 1000.0
+      }
+    },
+    {
+      "property": "dependency_depth",
+      "type": "lower",
+      "value": 2.0,
+      "comparisons": {
+        "flat_encoding": 1.0,
+        "hierarchical_grammar": 4.0,
+        "natural_language": 6.0
+      }
+    },
+    {
+      "property": "locality_radius",
+      "type": "upper",
+      "value": 4.0,
+      "comparisons": {
+        "random_sequence": 0.0,
+        "natural_language": 8.0,
+        "local_grammar": 3.0
+      }
+    },
+    {
+      "property": "compositional_complexity",
+      "type": "upper",
+      "value": 3.0,
+      "comparisons": {
+        "flat_labels": 1.0,
+        "simple_grammar": 2.0,
+        "context_free_grammar": 5.0
+      }
+    },
+    {
+      "property": "semantic_dependency",
+      "type": "upper",
+      "value": 0.5,
+      "comparisons": {
+        "random_nonsense": 0.0,
+        "meaningful_text": 1.0,
+        "glossolalia": 0.2
+      }
+    }
+  ],
+  "system_classes": [
+    {
+      "name": "random_markov_order_1",
+      "memory_range": [3, 8],
+      "state_range": [8, 64],
+      "dependency_depth": [1, 1],
+      "locality_range": [1, 1],
+      "info_density_range": [0.5, 1.5]
+    },
+    {
+      "name": "random_markov_order_2",
+      "memory_range": [6, 12],
+      "state_range": [64, 256],
+      "dependency_depth": [1, 2],
+      "locality_range": [1, 2],
+      "info_density_range": [1.0, 2.5]
+    },
+    {
+      "name": "constrained_markov",
+      "memory_range": [8, 14],
+      "state_range": [32, 128],
+      "dependency_depth": [1, 2],
+      "locality_range": [2, 4],
+      "info_density_range": [2.0, 3.5]
+    },
+    {
+      "name": "glossolalia_human",
+      "memory_range": [10, 15],
+      "state_range": [50, 200],
+      "dependency_depth": [1, 3],
+      "locality_range": [2, 5],
+      "info_density_range": [2.5, 4.0]
+    },
+    {
+      "name": "local_notation_system",
+      "memory_range": [10, 16],
+      "state_range": [100, 500],
+      "dependency_depth": [2, 4],
+      "locality_range": [2, 6],
+      "info_density_range": [3.0, 5.0]
+    },
+    {
+      "name": "simple_substitution_cipher",
+      "memory_range": [4, 6],
+      "state_range": [26, 30],
+      "dependency_depth": [0, 0],
+      "locality_range": [0, 0],
+      "info_density_range": [4.0, 5.0]
+    },
+    {
+      "name": "natural_language",
+      "memory_range": [12, 20],
+      "state_range": [500, 5000],
+      "dependency_depth": [3, 8],
+      "locality_range": [4, 15],
+      "info_density_range": [4.0, 6.0]
+    },
+    {
+      "name": "diagram_label_system",
+      "memory_range": [8, 14],
+      "state_range": [50, 500],
+      "dependency_depth": [1, 2],
+      "locality_range": [1, 3],
+      "info_density_range": [2.5, 4.5]
+    }
+  ],
+  "stability_variants": [
+    {
+      "name": "coarse_segmentation",
+      "info_density": 3.6,
+      "locality_radius": 2.5,
+      "robustness": 0.68
+    },
+    {
+      "name": "fine_segmentation",
+      "info_density": 4.3,
+      "locality_radius": 3.5,
+      "robustness": 0.65
+    },
+    {
+      "name": "word_units",
+      "info_density": 3.8,
+      "locality_radius": 2.8,
+      "robustness": 0.72
+    },
+    {
+      "name": "line_units",
+      "info_density": 3.5,
+      "locality_radius": 2.0,
+      "robustness": 0.75
+    },
+    {
+      "name": "shannon_entropy",
+      "info_density": 4.1,
+      "locality_radius": 3.2,
+      "robustness": 0.69
+    },
+    {
+      "name": "normalized_entropy",
+      "info_density": 3.9,
+      "locality_radius": 3.0,
+      "robustness": 0.70
+    }
+  ],
+  "stability_thresholds": {
+    "separation_z_confirmed": 3.0,
+    "separation_z_weakly_confirmed": 2.0,
+    "segmentation_sensitivity_high": 1.0,
+    "segmentation_sensitivity_medium": 0.5,
+    "unit_sensitivity_medium": 0.5,
+    "metric_sensitivity_medium": 0.3
+  }
+}

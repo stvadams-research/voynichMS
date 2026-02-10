@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from collections import Counter
 import math
 import random
+import os
 
 from synthesis.interface import (
     SectionProfile,
@@ -18,6 +19,9 @@ from synthesis.interface import (
     GapDefinition,
     GapStrength,
 )
+import logging
+logger = logging.getLogger(__name__)
+
 from foundation.storage.metadata import (
     MetadataStore,
     PageRecord,
@@ -29,8 +33,20 @@ from foundation.storage.metadata import (
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from foundation.config import use_real_computation
 
+
+class NeutralTokenGenerator:
+    """Generates neutral, procedurally generated tokens to avoid bias."""
+    def __init__(self, seed: Optional[int] = None):
+        self.rng = random.Random(seed)
+        self.chars = "abcdefghijklmnopqrstuvwxyz"
+        
+    def generate_token(self, length_range: Tuple[int, int] = (3, 8)) -> str:
+        length = self.rng.randint(*length_range)
+        return "".join(self.rng.choice(self.chars) for _ in range(length))
+        
+    def generate_tokens(self, count: int) -> List[str]:
+        return [self.generate_token() for _ in range(count)]
 
 class PharmaceuticalProfileExtractor:
     """
@@ -52,7 +68,9 @@ class PharmaceuticalProfileExtractor:
         "f96r", "f96v",
     ]
 
-    # Legacy simulated data for backward compatibility
+    # Legacy simulated data for backward compatibility and as a fallback
+    # when the primary metadata store is unavailable. These values reflect
+    # typical pharmaceutical page layouts (4-5 jars, 70-90 words).
     SIMULATED_PAGE_DATA = {
         "f88r": {"jars": 4, "blocks": 8, "lines": 24, "words": 72},
         "f88v": {"jars": 4, "blocks": 8, "lines": 26, "words": 78},
@@ -74,13 +92,30 @@ class PharmaceuticalProfileExtractor:
         "f96v": {"jars": 3, "blocks": 6, "lines": 18, "words": 54},
     }
 
-    def __init__(self, store: Optional[MetadataStore] = None):
+    def __init__(self, store: Optional[MetadataStore] = None, seed: Optional[int] = None):
         self.store = store
+        self.seed = seed
+        self.rng = random.Random(seed)
+        self.token_gen = NeutralTokenGenerator(seed=seed)
         self.section_profile = SectionProfile()
+
+    def _default_or_raise(self, metric_name: str, default_value: float, reason: str) -> float:
+        """Return a logged fallback value unless REQUIRE_COMPUTED forbids it."""
+        if os.environ.get("REQUIRE_COMPUTED", "0") == "1":
+            raise NotImplementedError(
+                f"{metric_name} could not be computed: {reason} (REQUIRE_COMPUTED=1)"
+            )
+        logger.warning(
+            "Using fallback value for %s (%s): %.4f",
+            metric_name,
+            reason,
+            default_value,
+        )
+        return default_value
 
     def extract_page_profile(self, page_id: str) -> PageProfile:
         """Extract structural profile for a single page."""
-        if not use_real_computation("synthesis") or self.store is None:
+        if self.store is None:
             return self._extract_simulated_profile(page_id)
 
         return self._extract_real_profile(page_id)
@@ -162,7 +197,7 @@ class PharmaceuticalProfileExtractor:
 
             profile = PageProfile(
                 page_id=page_id,
-                jar_count=jar_count if jar_count > 0 else 4,  # Default if no regions
+                jar_count=jar_count if jar_count > 0 else 4,
                 jars=jars,
                 total_text_blocks=total_blocks,
                 total_lines=total_lines if total_lines > 0 else 24,
@@ -200,7 +235,7 @@ class PharmaceuticalProfileExtractor:
                     total_words += 1
 
         if total_words == 0:
-            return 5.2  # Default
+            return self._default_or_raise("mean_word_length", 5.2, "no glyph-bearing words")
 
         return total_glyphs / total_words
 
@@ -213,7 +248,7 @@ class PharmaceuticalProfileExtractor:
         )
 
         if not trans_lines:
-            return 0.20  # Default
+            return self._default_or_raise("token_repetition_rate", 0.20, "no transcription lines")
 
         tokens = []
         for line in trans_lines:
@@ -225,7 +260,7 @@ class PharmaceuticalProfileExtractor:
             tokens.extend([t.content for t in line_tokens])
 
         if not tokens:
-            return 0.20
+            return self._default_or_raise("token_repetition_rate", 0.20, "no transcription tokens")
 
         token_counts = Counter(tokens)
         total = len(tokens)
@@ -289,14 +324,20 @@ class PharmaceuticalProfileExtractor:
             normalized = entropy / max_entropy if max_entropy > 0 else 0.0
             entropies.append(normalized)
 
-        return sum(entropies) / len(entropies) if entropies else 0.40
+        if not entropies:
+            return self._default_or_raise(
+                "positional_entropy",
+                0.40,
+                "no positional glyph distributions",
+            )
+        return sum(entropies) / len(entropies)
 
     def _compute_locality_radius(self, session, page_id: str) -> float:
         """Compute locality radius from anchor distances."""
         anchors = session.query(AnchorRecord).filter_by(page_id=page_id).all()
 
         if not anchors:
-            return 3.0  # Default
+            return self._default_or_raise("locality_radius", 3.0, "no anchors")
 
         distances = []
         for anchor in anchors:
@@ -321,7 +362,7 @@ class PharmaceuticalProfileExtractor:
             distances.append(dist)
 
         if not distances:
-            return 3.0
+            return self._default_or_raise("locality_radius", 3.0, "no valid anchor distances")
 
         # Convert average distance to locality radius (inverse relationship)
         avg_dist = sum(distances) / len(distances)
@@ -337,7 +378,7 @@ class PharmaceuticalProfileExtractor:
         )
 
         if not trans_lines:
-            return 4.0  # Default
+            return self._default_or_raise("information_density", 4.0, "no transcription lines")
 
         tokens = []
         for line in trans_lines:
@@ -349,7 +390,7 @@ class PharmaceuticalProfileExtractor:
             tokens.extend([t.content for t in line_tokens])
 
         if len(tokens) < 2:
-            return 4.0
+            return self._default_or_raise("information_density", 4.0, "insufficient token count")
 
         token_counts = Counter(tokens)
         total = len(tokens)
@@ -374,6 +415,7 @@ class PharmaceuticalProfileExtractor:
 
     def _extract_simulated_profile(self, page_id: str) -> PageProfile:
         """Legacy simulated profile extraction."""
+        logger.warning("No MetadataStore or page records found for %s, falling back to simulated profile.", page_id)
         data = self.SIMULATED_PAGE_DATA.get(page_id, {})
 
         jar_count = data.get("jars", 4)
@@ -386,8 +428,8 @@ class PharmaceuticalProfileExtractor:
         for i in range(jar_count):
             x = 0.1 + (i % 2) * 0.45
             y = 0.1 + (i // 2) * 0.25
-            width = 0.35 + random.uniform(-0.05, 0.05)
-            height = 0.20 + random.uniform(-0.03, 0.03)
+            width = 0.35 + self.rng.uniform(-0.05, 0.05)
+            height = 0.20 + self.rng.uniform(-0.03, 0.03)
 
             jar = JarProfile(
                 jar_id=f"{page_id}_jar_{i}",
@@ -406,11 +448,11 @@ class PharmaceuticalProfileExtractor:
             total_lines=total_lines,
             total_words=total_words,
             layout_density=total_words / max(1, total_blocks),
-            mean_word_length=5.2 + random.uniform(-0.3, 0.3),
-            token_repetition_rate=0.20 + random.uniform(-0.02, 0.02),
-            positional_entropy=0.40 + random.uniform(-0.05, 0.05),
-            locality_radius=3.0 + random.uniform(-0.5, 0.5),
-            information_density=4.0 + random.uniform(-0.3, 0.3),
+            mean_word_length=5.2 + self.rng.uniform(-0.3, 0.3),
+            token_repetition_rate=0.20 + self.rng.uniform(-0.02, 0.02),
+            positional_entropy=0.40 + self.rng.uniform(-0.05, 0.05),
+            locality_radius=3.0 + self.rng.uniform(-0.5, 0.5),
+            information_density=4.0 + self.rng.uniform(-0.3, 0.3),
         )
 
         return profile
@@ -578,7 +620,7 @@ class PharmaceuticalProfileExtractor:
 
         Uses actual transcription data if available, otherwise falls back to simulated.
         """
-        if not use_real_computation("synthesis") or self.store is None:
+        if self.store is None:
             return self._extract_simulated_seam_tokens()
 
         session = self.store.Session()
@@ -623,19 +665,9 @@ class PharmaceuticalProfileExtractor:
             session.close()
 
     def _extract_simulated_seam_tokens(self) -> List[str]:
-        """Simulated Voynichese-like tokens for seam context."""
-        voynich_tokens = [
-            "daiin", "chedy", "qokedy", "shedy", "qokeedy",
-            "chol", "chor", "cheol", "shor", "shol",
-            "okedy", "okeedy", "okaiin", "otedy", "oteey",
-            "ar", "or", "al", "ol", "am", "om",
-            "qokaiin", "qotedy", "qokeey", "qokain",
-            "dain", "chain", "shain", "kain",
-            "chey", "shey", "dey", "key",
-        ]
-
-        num_tokens = random.randint(4, 6)
-        return random.sample(voynich_tokens, num_tokens)
+        """Procedurally generated tokens for seam context."""
+        num_tokens = self.rng.randint(4, 6)
+        return self.token_gen.generate_tokens(num_tokens)
 
     def get_profile_summary(self) -> Dict[str, Any]:
         """Get a summary of the section profile."""

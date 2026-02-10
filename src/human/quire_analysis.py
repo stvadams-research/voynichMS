@@ -8,6 +8,8 @@ Phase 7B implementation.
 import numpy as np
 from collections import defaultdict
 from typing import List, Dict, Any, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 class QuireAnalyzer:
     """
@@ -26,7 +28,8 @@ class QuireAnalyzer:
         try:
             num = int("".join([c for c in folio_id if c.isdigit()]))
             return (num - 1) // 8 + 1
-        except:
+        except (ValueError, IndexError):
+            logger.warning("Failed to parse quire from folio_id=%r", folio_id, exc_info=True)
             return 0
 
     def analyze_continuity(self, pages: Dict[str, List[List[str]]]) -> Dict[str, Any]:

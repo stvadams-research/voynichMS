@@ -6,33 +6,34 @@ from typing import List, Dict, Any, Tuple
 from collections import Counter, defaultdict
 import math
 from mechanism.dependency_scope.features import TokenFeatureExtractor
+import logging
+logger = logging.getLogger(__name__)
 
 class DependencyScopeAnalyzer:
-    """
-    Measures predictive lift of features over nodes.
-    """
+    """Measures predictive lift of features over nodes."""
+
     def __init__(self):
         self.extractor = TokenFeatureExtractor()
 
     def _calculate_conditional_entropy(self, successors_map: Dict[Any, Counter]) -> float:
-        """Helper to calculate H(S|Context)"""
+        """Helper to calculate H(S|Context)."""
         entropies = []
         weights = []
         for context, counts in successors_map.items():
             total = sum(counts.values())
-            if total == 0: continue
+            if total == 0:
+                continue
             probs = [c / total for c in counts.values()]
             ent = -sum(p * math.log2(p) for p in probs if p > 0)
             entropies.append(ent)
             weights.append(total)
         
-        if not weights: return 0.0
+        if not weights:
+            return 0.0
         return sum(e * w for e, w in zip(entropies, weights)) / sum(weights)
 
     def analyze_predictive_lift(self, lines: List[List[str]]) -> Dict[str, Any]:
-        """
-        Compares successor entropy: H(S|Node) vs H(S|Node, Features)
-        """
+        """Compares successor entropy: H(S|Node) vs H(S|Node, Features)."""
         node_successors = defaultdict(Counter)
         node_feature_successors = defaultdict(Counter)
         
@@ -58,10 +59,7 @@ class DependencyScopeAnalyzer:
         }
 
     def analyze_equivalence_splitting(self, lines: List[List[str]]) -> Dict[str, Any]:
-        """
-        Tests if identical words split into distinct classes based on position.
-        H(S|Node) vs H(S|Node, Position)
-        """
+        """Tests if identical words split into distinct classes based on position."""
         node_successors = defaultdict(Counter)
         pos_node_successors = defaultdict(Counter)
         

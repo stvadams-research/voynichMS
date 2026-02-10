@@ -3,11 +3,18 @@ Track D1: Constraint Intersection Analysis
 
 Identifies which constraints jointly force model failure.
 Computes minimal impossibility sets.
+
+Methodological note on circularity:
+- ``observed_value`` fields encode Phase 1-3 measurements as constraint inputs.
+- Intersections here test logical compatibility of model classes with those
+  fixed constraints; they do not independently validate the measurements.
+- See docs/METHODS_REFERENCE.md for full provenance and caveats.
 """
 
 from typing import Dict, List, Set, Any, Tuple
 from itertools import combinations
 from dataclasses import dataclass, field
+import logging
 
 from analysis.anomaly.interface import (
     ConstraintRecord,
@@ -15,6 +22,8 @@ from analysis.anomaly.interface import (
     ConstraintSource,
     ConstraintType,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass

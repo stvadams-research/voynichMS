@@ -21,6 +21,7 @@ from rich.panel import Panel
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore
 from foundation.core.id_factory import DeterministicIDFactory
+from foundation.config import DEFAULT_SEED
 
 from synthesis.profile_extractor import PharmaceuticalProfileExtractor
 from synthesis.text_generator import TextContinuationGenerator
@@ -28,6 +29,7 @@ from synthesis.interface import GapDefinition, GapStrength
 
 # Metrics
 from foundation.metrics.library import RepetitionRate
+from foundation.core.provenance import ProvenanceWriter
 from analysis.stress_tests.information_preservation import InformationPreservationTest
 from analysis.stress_tests.locality import LocalityTest
 
@@ -41,9 +43,9 @@ def run_turing_test():
         border_style="blue"
     ))
 
-    with active_run(config={"command": "turing_test", "seed": 42}) as run:
+    with active_run(config={"command": "turing_test", "seed": DEFAULT_SEED}) as run:
         store = MetadataStore(DB_PATH)
-        id_factory = DeterministicIDFactory(seed=42)
+        id_factory = DeterministicIDFactory(seed=DEFAULT_SEED)
         
         # 1. Setup
         extractor = PharmaceuticalProfileExtractor(store)
@@ -142,8 +144,7 @@ def run_turing_test():
                 "locality": {"real": real_rad, "syn": syn_rad}
             }
         }
-        with open("status/synthesis/TURING_TEST_RESULTS.json", "w") as f:
-            json.dump(findings, f, indent=2)
+        ProvenanceWriter.save_results(findings, "status/synthesis/TURING_TEST_RESULTS.json")
             
         store.save_run(run)
 

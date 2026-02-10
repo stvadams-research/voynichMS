@@ -1,0 +1,104 @@
+{
+  "disconfirmation": {
+    "perturbation_battery": [
+      {
+        "perturbation_type": "segmentation",
+        "description": "Shift word/glyph boundaries",
+        "strength_levels": [0.05, 0.1, 0.15],
+        "failure_threshold": 0.6
+      },
+      {
+        "perturbation_type": "ordering",
+        "description": "Reorder elements within context",
+        "strength_levels": [0.1, 0.2, 0.3],
+        "failure_threshold": 0.6
+      },
+      {
+        "perturbation_type": "omission",
+        "description": "Remove elements",
+        "strength_levels": [0.05, 0.1, 0.2],
+        "failure_threshold": 0.7
+      },
+      {
+        "perturbation_type": "anchor_disruption",
+        "description": "Disrupt text-region anchors",
+        "strength_levels": [0.1, 0.25, 0.5],
+        "failure_threshold": 0.5
+      }
+    ],
+    "default_failure_threshold": 0.6
+  },
+  "models": {
+    "cs_procedural_generation": {
+      "sensitivities": {
+        "segmentation": 0.2,
+        "ordering": 0.3,
+        "omission": 0.25,
+        "anchor_disruption": 0.15
+      }
+    },
+    "cs_glossolalia": {
+      "sensitivities": {
+        "segmentation": 0.35,
+        "ordering": 0.4,
+        "omission": 0.35,
+        "anchor_disruption": 0.2
+      }
+    },
+    "cs_meaningful_construct": {
+      "sensitivities": {
+        "segmentation": 0.35,
+        "ordering": 0.35,
+        "omission": 0.45,
+        "anchor_disruption": 0.3
+      }
+    },
+    "vg_adjacency_grammar": {
+      "sensitivities": {
+        "segmentation": 0.35,
+        "ordering": 0.25,
+        "omission": 0.4,
+        "anchor_disruption": 0.7
+      }
+    },
+    "vg_containment_grammar": {
+      "sensitivities": {
+        "segmentation": 0.3,
+        "ordering": 0.2,
+        "omission": 0.45,
+        "anchor_disruption": 0.6
+      }
+    },
+    "vg_diagram_annotation": {
+      "sensitivities": {
+        "segmentation": 0.25,
+        "ordering": 0.2,
+        "omission": 0.35,
+        "anchor_disruption": 0.8
+      }
+    }
+  },
+  "evaluation": {
+    "dimensions": [
+      "prediction_accuracy",
+      "robustness",
+      "explanatory_scope",
+      "parsimony",
+      "falsifiability"
+    ],
+    "dimension_weights": {
+      "prediction_accuracy": 0.3,
+      "robustness": 0.25,
+      "explanatory_scope": 0.2,
+      "parsimony": 0.1,
+      "falsifiability": 0.15
+    },
+    "scaling": {
+      "explanatory_scope_divisor": 5.0,
+      "parsimony_base_rules": 3,
+      "parsimony_divisor": 7.0,
+      "falsifiability_divisor": 4.0
+    },
+    "comparison_threshold": 0.05
+  }
+}

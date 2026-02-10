@@ -4,6 +4,8 @@ Feature Extraction for Dependency Scope Analysis.
 
 from typing import List, Dict, Any, Tuple
 import numpy as np
+import logging
+logger = logging.getLogger(__name__)
 
 class TokenFeatureExtractor:
     """

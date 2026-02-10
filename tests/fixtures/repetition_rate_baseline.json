@@ -1,0 +1,22 @@
+[
+  {
+    "calculation_method": "computed",
+    "dataset_id": "test_ds",
+    "details": {
+      "token_repetition_rate": 0.7018331462775907,
+      "top_5_tokens": {
+        "('chol',)": 49,
+        "('cthy',)": 28,
+        "('daiin',)": 40,
+        "('dain',)": 28,
+        "('shol',)": 29
+      },
+      "total_tokens": 2673,
+      "unique_tokens": 1215,
+      "vocabulary_entropy_rate": 0.5454545454545454
+    },
+    "metric_name": "RepetitionRate",
+    "scope": "global",
+    "value": 0.7018331462775907
+  }
+]

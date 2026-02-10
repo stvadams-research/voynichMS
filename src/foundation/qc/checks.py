@@ -1,5 +1,7 @@
 from typing import List
 from foundation.core.ids import FolioID
+import logging
+logger = logging.getLogger(__name__)
 
 def check_unique_ids(ids: List[str]) -> bool:
     """
@@ -16,5 +18,6 @@ def check_folio_format(ids: List[str]) -> List[str]:
         try:
             FolioID(i)
         except ValueError:
+            logger.warning("Invalid folio ID detected during QC: %s", i)
             invalid.append(i)
     return invalid

@@ -1,10 +1,16 @@
 from typing import List, Dict, Any
 from foundation.storage.metadata import MetadataStore
 from foundation.metrics.interface import MetricResult
+from foundation.config import get_analysis_thresholds
+import logging
+logger = logging.getLogger(__name__)
 
 class Comparator:
     def __init__(self, store: MetadataStore):
         self.store = store
+        thresholds = get_analysis_thresholds().get("comparator", {})
+        self.significant_difference = float(thresholds.get("significant_difference", 0.05))
+        self.negligible_difference = float(thresholds.get("negligible_difference", 0.02))
 
     def compare_datasets(self, real_id: str, control_id: str, metric_results: List[MetricResult]) -> Dict[str, Any]:
         """
@@ -26,11 +32,11 @@ class Comparator:
             if real_val is not None and control_val is not None:
                 diff = real_val - control_val
                 # Simple logic for Level 3 demo
-                # If difference is significant (> 0.05), it survives
+                # If difference is significant, it survives
                 classification = "FAILS"
-                if abs(diff) > 0.05:
+                if abs(diff) > self.significant_difference:
                     classification = "SURVIVES"
-                elif abs(diff) > 0.02:
+                elif abs(diff) > self.negligible_difference:
                     classification = "PARTIAL"
                 
                 comparison[metric_name] = {

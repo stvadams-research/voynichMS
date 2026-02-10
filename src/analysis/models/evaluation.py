@@ -7,6 +7,9 @@ Compares models across tracks and produces comparative evaluation matrices.
 from typing import Dict, List, Any, Tuple
 from dataclasses import dataclass
 from analysis.models.interface import ExplicitModel, ModelStatus
+from foundation.config import get_model_params
+import logging
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -110,13 +113,14 @@ class CrossModelEvaluator:
             rankings[dim] = [mid for mid, _ in dim_scores]
 
         # Overall ranking (weighted average)
-        weights = {
+        params = get_model_params()
+        weights = params.get("evaluation", {}).get("dimension_weights", {
             "prediction_accuracy": 0.30,
             "robustness": 0.25,
             "explanatory_scope": 0.20,
             "parsimony": 0.10,
             "falsifiability": 0.15,
-        }
+        })
 
         overall = []
         for model_id in self.models:

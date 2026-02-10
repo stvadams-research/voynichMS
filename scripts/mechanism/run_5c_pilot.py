@@ -18,44 +18,15 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.queries import get_lines_from_store
 from foundation.runs.manager import active_run
-from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from foundation.storage.metadata import MetadataStore
 from mechanism.workflow.simulators import LineScopedPoolSimulator, WeaklyCoupledPoolSimulator
 from mechanism.workflow.parameter_inference import WorkflowParameterInferrer
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
-
-def get_lines(store, dataset_id):
-    session = store.Session()
-    try:
-        from foundation.storage.metadata import PageRecord
-        tokens_recs = (
-            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
-            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
-            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
-            .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
-            .all()
-        )
-        
-        lines = []
-        current_line = []
-        last_line_id = None
-        
-        for content, line_id in tokens_recs:
-            if last_line_id and line_id != last_line_id:
-                lines.append(current_line)
-                current_line = []
-            current_line.append(content)
-            last_line_id = line_id
-        if current_line:
-            lines.append(current_line)
-            
-        return lines
-    finally:
-        session.close()
 
 def run_pilot_5c():
     console.print(Panel.fit(
@@ -70,19 +41,19 @@ def run_pilot_5c():
         
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Inferring Parameters from Real Data[/bold yellow]")
-        real_lines = get_lines(store, "voynich_real")
+        real_lines = get_lines_from_store(store, "voynich_real")
         real_dist = inferrer.aggregate_distributions(real_lines[:1000]) # Pilot scale
         
         # 2. Run Simulators
         console.print("\n[bold yellow]Step 2: Executing Workflow Simulators[/bold yellow]")
         
         # Family 1: Independent Pool
-        sim1 = LineScopedPoolSimulator(GRAMMAR_PATH, mean_pool_size=12.0)
+        sim1 = LineScopedPoolSimulator(GRAMMAR_PATH, mean_pool_size=12.0, seed=42)
         sim1_lines = sim1.generate_corpus(num_lines=500, line_len=8)
         sim1_dist = inferrer.aggregate_distributions(sim1_lines)
         
         # Family 2: Weakly Coupled Pool
-        sim2 = WeaklyCoupledPoolSimulator(GRAMMAR_PATH, reservoir_size=50, drift_rate=0.1)
+        sim2 = WeaklyCoupledPoolSimulator(GRAMMAR_PATH, reservoir_size=50, drift_rate=0.1, seed=42)
         sim2_lines = sim2.generate_corpus(num_lines=500, line_len=8)
         sim2_dist = inferrer.aggregate_distributions(sim2_lines)
         

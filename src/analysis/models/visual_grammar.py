@@ -8,6 +8,7 @@ text-like elements serve a diagrammatic rather than linguistic function.
 """
 
 from typing import List, Dict, Any
+import logging
 from analysis.models.interface import (
     ExplicitModel,
     ModelPrediction,
@@ -24,6 +25,8 @@ from foundation.storage.metadata import (
     RegionRecord,
     AnchorRecord,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class AdjacencyGrammarModel(ExplicitModel):
@@ -145,13 +148,19 @@ class AdjacencyGrammarModel(ExplicitModel):
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
         """Apply perturbation and evaluate survival using real computations."""
-        # Model-specific sensitivities
-        model_sensitivities = {
-            "segmentation": 0.35,       # Moderate sensitivity
-            "ordering": 0.25,           # Low sensitivity (order doesn't matter as much)
-            "omission": 0.40,           # Moderate sensitivity
-            "anchor_disruption": 0.70,  # HIGH sensitivity (core of model)
-        }
+        from foundation.config import get_model_params
+        params = get_model_params()
+        model_sensitivities = params.get("models", {}).get(self.model_id, {}).get("sensitivities", {})
+
+        # Fallback
+        if not model_sensitivities:
+            # Model-specific sensitivities
+            model_sensitivities = {
+                "segmentation": 0.35,       # Moderate sensitivity
+                "ordering": 0.25,           # Low sensitivity (order doesn't matter as much)
+                "omission": 0.40,           # Moderate sensitivity
+                "anchor_disruption": 0.70,  # HIGH sensitivity (core of model)
+            }
 
         calculator = PerturbationCalculator(self.store)
         result = calculator.calculate_degradation(
@@ -268,12 +277,18 @@ class ContainmentGrammarModel(ExplicitModel):
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
         """Apply perturbation and evaluate survival using real computations."""
-        model_sensitivities = {
-            "segmentation": 0.30,
-            "ordering": 0.20,           # Order within container less important
-            "omission": 0.45,           # Container integrity matters
-            "anchor_disruption": 0.60,  # Containment relies on anchors
-        }
+        from foundation.config import get_model_params
+        params = get_model_params()
+        model_sensitivities = params.get("models", {}).get(self.model_id, {}).get("sensitivities", {})
+
+        # Fallback
+        if not model_sensitivities:
+            model_sensitivities = {
+                "segmentation": 0.30,
+                "ordering": 0.20,           # Order within container less important
+                "omission": 0.45,           # Container integrity matters
+                "anchor_disruption": 0.60,  # Containment relies on anchors
+            }
 
         calculator = PerturbationCalculator(self.store)
         result = calculator.calculate_degradation(
@@ -408,14 +423,20 @@ class DiagramAnnotationModel(ExplicitModel):
     def apply_perturbation(self, perturbation_type: str, dataset_id: str,
                            strength: float) -> DisconfirmationResult:
         """Apply perturbation and evaluate survival using real computations."""
-        # This model should be VERY sensitive to anchor disruption
-        # but LESS sensitive to text-internal perturbations
-        model_sensitivities = {
-            "segmentation": 0.25,       # Labels tolerant of boundary shifts
-            "ordering": 0.20,           # Label order less important
-            "omission": 0.35,           # Missing labels acceptable
-            "anchor_disruption": 0.80,  # CRITICAL - core of model
-        }
+        from foundation.config import get_model_params
+        params = get_model_params()
+        model_sensitivities = params.get("models", {}).get(self.model_id, {}).get("sensitivities", {})
+
+        # Fallback
+        if not model_sensitivities:
+            # This model should be VERY sensitive to anchor disruption
+            # but LESS sensitive to text-internal perturbations
+            model_sensitivities = {
+                "segmentation": 0.25,       # Labels tolerant of boundary shifts
+                "ordering": 0.20,           # Label order less important
+                "omission": 0.35,           # Missing labels acceptable
+                "anchor_disruption": 0.80,  # CRITICAL - core of model
+            }
 
         calculator = PerturbationCalculator(self.store)
         result = calculator.calculate_degradation(

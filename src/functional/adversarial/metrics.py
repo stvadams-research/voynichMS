@@ -10,6 +10,8 @@ Implementation of metrics for Phase 6C:
 import numpy as np
 from collections import Counter, defaultdict
 from typing import List, Dict, Any, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 class AdversarialAnalyzer:
     """

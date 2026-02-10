@@ -5,13 +5,16 @@ Matches Voynich structural summaries while enforcing pool constraints.
 """
 
 import random
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from synthesis.generators.grammar_based import GrammarBasedGenerator
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 class PoolGenerator:
-    def __init__(self, grammar_path: Path, pool_size: int = 20):
-        self.generator = GrammarBasedGenerator(grammar_path)
+    def __init__(self, grammar_path: Path, pool_size: int = 20, seed: Optional[int] = None):
+        self.rng = random.Random(seed)
+        self.generator = GrammarBasedGenerator(grammar_path, seed=seed)
         self.pool_size = pool_size
         self.pool = []
 
@@ -22,10 +25,10 @@ class PoolGenerator:
         
         while len(tokens) < target_tokens:
             # Randomly reuse from pool
-            tokens.append(random.choice(self.pool))
+            tokens.append(self.rng.choice(self.pool))
             
             # 5% chance to replenish one pool slot
-            if random.random() < 0.05:
-                self.pool[random.randint(0, self.pool_size - 1)] = self.generator.generate_word()
+            if self.rng.random() < 0.05:
+                self.pool[self.rng.randint(0, self.pool_size - 1)] = self.generator.generate_word()
                 
         return tokens

@@ -4,6 +4,8 @@ from typing import Dict, Any, List
 from foundation.controls.interface import ControlGenerator
 from foundation.storage.metadata import PageRecord, GlyphCandidateRecord, WordRecord, LineRecord
 from foundation.core.id_factory import DeterministicIDFactory
+import logging
+logger = logging.getLogger(__name__)
 
 class ScrambledControlGenerator(ControlGenerator):
     """

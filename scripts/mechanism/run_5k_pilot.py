@@ -19,44 +19,15 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.queries import get_lines_from_store
 from foundation.runs.manager import active_run
-from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from foundation.storage.metadata import MetadataStore
 from mechanism.parsimony.simulators import PositionIndexedDAGSimulator, ImplicitLatticeSimulator
 from mechanism.parsimony.analysis import ParsimonyAnalyzer
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
-
-def get_lines(store, dataset_id):
-    session = store.Session()
-    try:
-        from foundation.storage.metadata import PageRecord
-        tokens_recs = (
-            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
-            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
-            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
-            .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
-            .all()
-        )
-        
-        lines = []
-        current_line = []
-        last_line_id = None
-        
-        for content, line_id in tokens_recs:
-            if last_line_id and line_id != last_line_id:
-                lines.append(current_line)
-                current_line = []
-            current_line.append(content)
-            last_line_id = line_id
-        if current_line:
-            lines.append(current_line)
-            
-        return lines
-    finally:
-        session.close()
 
 def run_pilot_5k():
     console.print(Panel.fit(
@@ -71,17 +42,17 @@ def run_pilot_5k():
         
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Preparing Data[/bold yellow]")
-        real_lines = get_lines(store, "voynich_real")
+        real_lines = get_lines_from_store(store, "voynich_real")
         
         # Generator Setup
         # We match vocab size to Voynich roughly
         vocab = set(w for l in real_lines for w in l)
         vocab_size = len(vocab)
         
-        sim_m1 = PositionIndexedDAGSimulator(GRAMMAR_PATH, vocab_size=vocab_size)
+        sim_m1 = PositionIndexedDAGSimulator(GRAMMAR_PATH, vocab_size=vocab_size, seed=42)
         m1_lines = sim_m1.generate_corpus(num_lines=5000, line_len=8)
         
-        sim_m2 = ImplicitLatticeSimulator(GRAMMAR_PATH, vocab_size=vocab_size)
+        sim_m2 = ImplicitLatticeSimulator(GRAMMAR_PATH, vocab_size=vocab_size, seed=42)
         m2_lines = sim_m2.generate_corpus(num_lines=5000, line_len=8)
         
         datasets = {

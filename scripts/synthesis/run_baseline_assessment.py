@@ -15,7 +15,6 @@ Objectives:
 import sys
 from pathlib import Path
 import json
-import uuid
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -29,7 +28,8 @@ from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, PageRecord, LineRecord, WordRecord
 from foundation.core.ids import PageID
 from foundation.core.id_factory import DeterministicIDFactory
-from foundation.config import use_real_computation
+from foundation.core.provenance import ProvenanceWriter
+from foundation.config import DEFAULT_SEED
 
 from synthesis.profile_extractor import PharmaceuticalProfileExtractor
 from synthesis.text_generator import TextContinuationGenerator
@@ -53,9 +53,9 @@ def main():
     # Force real computation
     # (In a real scenario, we might set an env var, but here we assume config defaults or env is set)
     
-    with active_run(config={"command": "baseline_assessment", "seed": 42}) as run:
+    with active_run(config={"command": "baseline_assessment", "seed": DEFAULT_SEED}) as run:
         store = MetadataStore(DB_PATH)
-        id_factory = DeterministicIDFactory(seed=42)
+        id_factory = DeterministicIDFactory(seed=DEFAULT_SEED)
         
         # 1. Setup Generator
         console.print("\n[bold yellow]Step 1: initializing Generator[/bold yellow]")
@@ -158,77 +158,67 @@ def main():
         
         # 4. Run Metrics
         console.print("\n[bold yellow]Step 4: Benchmarking[/bold yellow]")
-        
-        # Metric 1: Repetition Rate
+
         rep_metric = RepetitionRate(store)
-        rep_result = rep_metric.calculate(dataset_id)[0]
-        
-        # Metric 2: Info Density (Z-Score)
-        # We need a control dataset for z-score... 
-        # For baseline, we'll just check entropy/density raw values or run against 'voynich_scrambled' if available.
-        # Let's check raw entropy from InfoTest if possible, or run full test.
-        # info_test = InformationPreservationTest(store)
-        # We need to make sure 'audit_scrambled' exists from previous steps
-        # info_result = info_test.run(
-        #     explanation_class="baseline_model", 
-        #     dataset_id=dataset_id, 
-        #     control_ids=["audit_scrambled"]
-        # )
-        
-        # Metric 3: Locality
-        # loc_test = LocalityTest(store)
-        # loc_result = loc_test.run(
-        #     explanation_class="baseline_model",
-        #     dataset_id=dataset_id,
-        #     control_ids=["audit_scrambled"]
-        # )
-        
+
+        # Compute targets from actual voynich_real dataset (not hardcoded)
+        real_rep_results = rep_metric.calculate("voynich_real")
+        target_rep = real_rep_results[0].value if real_rep_results else None
+
+        # Synthetic repetition rate
+        syn_rep_results = rep_metric.calculate(dataset_id)
+        syn_rep = syn_rep_results[0].value if syn_rep_results else None
+
+        # TODO: Info Density and Locality require control datasets (audit_scrambled)
+        # that may not exist yet. These should be computed, not hardcoded.
+        # See InformationPreservationTest and LocalityTest.
+        target_z = None  # Must be computed from voynich_real vs scrambled control
+        syn_z = None      # Must be computed from synthesis_baseline vs scrambled control
+        target_loc = None  # Must be computed from LocalityTest
+        syn_loc = None
+
         # 5. Display Results
         table = Table(title="Baseline Gap Analysis")
         table.add_column("Metric", style="cyan")
-        table.add_column("Real Target", style="green")
+        table.add_column("Real (Computed)", style="green")
         table.add_column("Baseline Synthetic", style="yellow")
         table.add_column("Gap", style="red")
-        
-        # Repetition
-        target_rep = 0.90
-        syn_rep = rep_result.value
-        table.add_row("Repetition Rate", f"{target_rep:.2f}", f"{syn_rep:.2f}", f"{target_rep - syn_rep:.2f}")
-        
-        # Info Density (Z)
-        target_z = 5.68
-        syn_z = 0.0 # Placeholder
-        table.add_row("Info Density (Z)", f"{target_z:.2f}", f"{syn_z:.2f}", f"{target_z - syn_z:.2f}")
-        
-        # Locality
-        # Real is 2-4 (local). If synthetic is Markov(2), it might be 2.
-        # But we want to see if it captures the *strength*.
-        target_loc = "2-4"
-        syn_loc = 0 # Placeholder
-        table.add_row("Locality Radius", target_loc, f"{syn_loc}", "N/A")
-        
+
+        def fmt(val):
+            return f"{val:.4f}" if val is not None else "NOT COMPUTED"
+
+        def gap(a, b):
+            if a is not None and b is not None:
+                return f"{a - b:.4f}"
+            return "N/A"
+
+        table.add_row("Repetition Rate", fmt(target_rep), fmt(syn_rep), gap(target_rep, syn_rep))
+        table.add_row("Info Density (Z)", fmt(target_z), fmt(syn_z), gap(target_z, syn_z))
+        table.add_row("Locality Radius", fmt(target_loc), fmt(syn_loc), gap(target_loc, syn_loc))
+
         console.print(table)
-        
+
         # Save Gap Analysis
         findings = {
             "repetition_rate": {
                 "target": target_rep,
                 "synthetic": syn_rep,
-                "gap": target_rep - syn_rep
+                "gap": (target_rep - syn_rep) if target_rep is not None and syn_rep is not None else None,
             },
             "info_density_z": {
                 "target": target_z,
                 "synthetic": syn_z,
-                "gap": target_z - syn_z
+                "status": "requires_control_dataset",
             },
             "locality": {
                 "target": target_loc,
-                "synthetic": syn_loc
+                "synthetic": syn_loc,
+                "status": "requires_control_dataset",
             }
         }
         
-        with open("status/synthesis/BASELINE_GAP_ANALYSIS.json", "w") as f:
-            json.dump(findings, f, indent=2)
+        # Save results with provenance
+        ProvenanceWriter.save_results(findings, "status/synthesis/BASELINE_GAP_ANALYSIS.json")
             
         store.save_run(run)
 

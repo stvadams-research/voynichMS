@@ -8,6 +8,8 @@ Phase 7C implementation.
 import numpy as np
 from collections import Counter, defaultdict
 from typing import List, Dict, Any, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 class ComparativeAnalyzer:
     """
@@ -21,7 +23,8 @@ class ComparativeAnalyzer:
         Calculates the structural fingerprint of a corpus.
         """
         if not lines:
-            return {}
+            logger.warning("ComparativeAnalyzer.calculate_fingerprint received no lines")
+            return {"metrics": {}, "status": "no_data"}
 
         # 1. TTR
         tokens = [t for line in lines for t in line]

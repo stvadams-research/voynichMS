@@ -13,6 +13,7 @@ Key questions:
 from typing import List, Dict, Any
 import math
 from collections import Counter
+from datetime import datetime, timezone
 
 from analysis.stress_tests.interface import (
     StressTest,
@@ -30,13 +31,15 @@ from foundation.storage.metadata import (
     TranscriptionTokenRecord,
     TranscriptionLineRecord,
 )
-from foundation.config import use_real_computation
 
 
-# Iteration limits for bounded runtime on large datasets
-MAX_PAGES_PER_TEST = 50  # Maximum pages to analyze per test
+from foundation.config import MAX_PAGES_PER_TEST, MAX_TOKENS_ANALYZED
+from foundation.runs.manager import RunManager
+import logging
+logger = logging.getLogger(__name__)
+
+# Local limits
 MAX_LINES_PER_PAGE = 100  # Maximum lines to analyze per page
-MAX_TOKENS_ANALYZED = 10000  # Maximum tokens for entropy calculations
 
 
 class InformationPreservationTest(StressTest):
@@ -99,10 +102,22 @@ class InformationPreservationTest(StressTest):
             ) / len(control_metrics) if control_metrics else 0
 
             control_differential = real_metrics.get("information_density", 0) - avg_control_density
+            try:
+                run_id = str(RunManager.get_current_run().run_id)
+            except RuntimeError:
+                run_id = None
 
             return StressTestResult(
                 test_id=self.test_id,
                 explanation_class=explanation_class,
+                run_id=run_id,
+                dataset_id=dataset_id,
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                parameters={
+                    "num_controls": len(control_ids),
+                    "max_pages_per_test": MAX_PAGES_PER_TEST,
+                    "max_tokens_analyzed": MAX_TOKENS_ANALYZED,
+                },
                 outcome=outcome,
                 stability_score=comparison.get("preservation_score", 0.5),
                 control_differential=control_differential,
@@ -168,20 +183,8 @@ class InformationPreservationTest(StressTest):
             anchor_counts.append(len(anchors))
 
         # Calculate information density using real entropy
-        if use_real_computation("stress_tests"):
-            information_density = self._compute_entropy_density(session, page_ids)
-            redundancy_ratio = self._compute_redundancy_ratio(session, page_ids)
-        else:
-            # Legacy string-matching fallback
-            if "scrambled" in dataset_id or "synthetic" in dataset_id:
-                information_density = 0.3  # Low structure
-            else:
-                information_density = 0.7  # Higher structure
-
-            if sum(word_counts) > 0:
-                redundancy_ratio = 0.25
-            else:
-                redundancy_ratio = 0
+        information_density = self._compute_entropy_density(session, page_ids)
+        redundancy_ratio = self._compute_redundancy_ratio(session, page_ids)
 
         # Calculate cross-scale correlation
         if sum(anchor_counts) > 0:
@@ -306,13 +309,13 @@ class InformationPreservationTest(StressTest):
 
             # Correlation: variance of word counts per region
             counts = list(region_word_counts.values())
-            mean = sum(counts) / len(counts)
+            mean = sum(counts) / len(counts) if len(counts) > 0 else 0
 
             if mean == 0:
                 continue
 
             # Coefficient of variation (lower = more consistent = higher correlation)
-            variance = sum((c - mean) ** 2 for c in counts) / len(counts)
+            variance = sum((c - mean) ** 2 for c in counts) / len(counts) if len(counts) > 0 else 0
             std = math.sqrt(variance)
             cv = std / mean if mean > 0 else 0
 
@@ -320,7 +323,7 @@ class InformationPreservationTest(StressTest):
             correlation = max(0, 1.0 - cv)
             correlations.append(correlation)
 
-        return sum(correlations) / len(correlations) if correlations else 0.2
+        return sum(correlations) / len(correlations) if len(correlations) > 0 else 0.2
 
     def _compare_to_controls(self, real: Dict, controls: Dict) -> Dict[str, Any]:
         """Compare real data metrics to control metrics."""
@@ -333,8 +336,8 @@ class InformationPreservationTest(StressTest):
 
         # Calculate mean and std of control information density
         control_densities = [c.get("information_density", 0) for c in controls.values()]
-        mean_control = sum(control_densities) / len(control_densities)
-        variance = sum((d - mean_control) ** 2 for d in control_densities) / len(control_densities)
+        mean_control = sum(control_densities) / len(control_densities) if len(control_densities) > 0 else 0
+        variance = sum((d - mean_control) ** 2 for d in control_densities) / len(control_densities) if len(control_densities) > 0 else 0
         std_control = math.sqrt(variance) if variance > 0 else 0.1
 
         real_density = real.get("information_density", 0)

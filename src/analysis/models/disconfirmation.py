@@ -6,11 +6,14 @@ Actively attempts to break models through systematic perturbation testing.
 
 from typing import Dict, List, Any
 from dataclasses import dataclass
+import logging
 from analysis.models.interface import (
     ExplicitModel,
     DisconfirmationResult,
     ModelStatus,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass

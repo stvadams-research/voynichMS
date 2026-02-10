@@ -1,6 +1,8 @@
 from typing import Dict, Type, List
 from foundation.storage.metadata import MetadataStore
 from foundation.hypotheses.interface import Hypothesis, HypothesisResult
+import logging
+logger = logging.getLogger(__name__)
 
 class HypothesisManager:
     def __init__(self, store: MetadataStore):

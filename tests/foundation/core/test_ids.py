@@ -26,11 +26,15 @@ def test_page_id_validation():
         PageID(folio="invalid")
 
 def test_run_id():
-    r1 = RunID()
+    r1 = RunID(seed=42)
     assert len(r1) > 0
+    r2 = RunID(seed=42)
+    assert r1 == r2
     r2 = RunID(str(r1))
     assert r1 == r2
 
 def test_run_id_invalid():
+    with pytest.raises(ValueError):
+        RunID()
     with pytest.raises(ValueError):
         RunID("not-a-uuid")

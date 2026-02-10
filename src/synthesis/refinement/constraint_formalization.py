@@ -7,13 +7,17 @@ as a non-semantic structural constraint.
 
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+import logging
 
+from foundation.config import get_analysis_thresholds
 from synthesis.refinement.interface import (
     DiscriminativeFeature,
     StructuralConstraint,
     ConstraintStatus,
     FeatureCategory,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -40,24 +44,33 @@ class ConstraintFormalization:
         self.proposed: List[StructuralConstraint] = []
         self.validated: List[StructuralConstraint] = []
         self.rejected: List[StructuralConstraint] = []
+        thresholds = get_analysis_thresholds().get("constraint_formalization", {})
+        self.feature_importance_threshold = float(
+            thresholds.get("feature_importance_threshold", 0.2)
+        )
+        self.separation_threshold = float(thresholds.get("separation_threshold", 0.3))
 
     def formalize_feature(self, feature: DiscriminativeFeature) -> FormalizationAttempt:
         """
         Attempt to formalize a single feature as a constraint.
         """
         # Check if feature is suitable for formalization
-        if feature.importance_score < 0.2:
+        if feature.importance_score < self.feature_importance_threshold:
             return FormalizationAttempt(
                 feature_id=feature.feature_id,
                 success=False,
-                rejection_reason="Importance score too low (<0.2)"
+                rejection_reason=(
+                    f"Importance score too low (<{self.feature_importance_threshold})"
+                ),
             )
 
-        if feature.real_vs_scrambled_separation < 0.3:
+        if feature.real_vs_scrambled_separation < self.separation_threshold:
             return FormalizationAttempt(
                 feature_id=feature.feature_id,
                 success=False,
-                rejection_reason="Poor separation from scrambled controls"
+                rejection_reason=(
+                    f"Poor separation from scrambled controls (<{self.separation_threshold})"
+                ),
             )
 
         # Formalize based on feature category

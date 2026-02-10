@@ -17,6 +17,8 @@ from synthesis.interface import (
     GapStrength,
 )
 from synthesis.text_generator import TextContinuationGenerator
+import logging
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -62,9 +64,10 @@ class GapConditionedContinuation:
     Multiple non-unique continuations are required.
     """
 
-    def __init__(self, section_profile: SectionProfile):
+    def __init__(self, section_profile: SectionProfile, seed: Optional[int] = None):
         self.section_profile = section_profile
-        self.generator = TextContinuationGenerator(section_profile)
+        self.rng = random.Random(seed)
+        self.generator = TextContinuationGenerator(section_profile, seed=seed)
 
     def generate_for_gap(self, gap: GapDefinition,
                          pages_to_generate: int = 10,
@@ -96,7 +99,7 @@ class GapConditionedContinuation:
         rejection_reasons = {}
 
         for i in range(pages_to_generate):
-            seed = random.randint(0, 999999)
+            seed = self.rng.randint(0, 999999)
             page = self.generator.generate_page(gap.gap_id, seed=seed)
 
             # Check seam constraints
@@ -137,7 +140,7 @@ class GapConditionedContinuation:
         preceding_tokens = gap.left_seam_tokens
 
         for i in range(num_pages):
-            seed = random.randint(0, 999999)
+            seed = self.rng.randint(0, 999999)
             page = self.generator.generate_page(gap.gap_id, seed=seed)
 
             # Ensure continuity with preceding page
@@ -173,10 +176,15 @@ class MultiGapContinuation:
     Manages continuation across all defined gaps.
     """
 
-    def __init__(self, section_profile: SectionProfile, gaps: List[GapDefinition]):
+    def __init__(
+        self,
+        section_profile: SectionProfile,
+        gaps: List[GapDefinition],
+        seed: Optional[int] = None,
+    ):
         self.section_profile = section_profile
         self.gaps = gaps
-        self.continuator = GapConditionedContinuation(section_profile)
+        self.continuator = GapConditionedContinuation(section_profile, seed=seed)
         self.results: Dict[str, ContinuationResult] = {}
 
     def run_all(self, pages_per_gap: int = 10) -> Dict[str, ContinuationResult]:

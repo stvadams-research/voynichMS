@@ -4,10 +4,11 @@ Indistinguishability Testing Framework
 Evaluates whether synthetic pages are distinguishable from real pharmaceutical pages.
 """
 
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Tuple, Optional
 from dataclasses import dataclass, field
 import random
 import math
+import os
 
 from synthesis.interface import (
     SectionProfile,
@@ -15,6 +16,9 @@ from synthesis.interface import (
     SyntheticPage,
     IndistinguishabilityResult,
 )
+from foundation.config import SCRAMBLED_CONTROL_PARAMS, get_analysis_thresholds
+import logging
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -73,8 +77,8 @@ class IndistinguishabilityTester:
     Tests whether synthetic pages are distinguishable from real pages.
 
     Success criteria:
-    - Strong separation from scrambled controls (>0.7)
-    - Weak separation from real pages (<0.3, near chance)
+    - Strong separation from scrambled controls (configurable threshold)
+    - Weak separation from real pages (configurable threshold)
     """
 
     def __init__(self, section_profile: SectionProfile):
@@ -82,6 +86,43 @@ class IndistinguishabilityTester:
         self.real_vectors: List[MetricVector] = []
         self.synthetic_vectors: List[MetricVector] = []
         self.scrambled_vectors: List[MetricVector] = []
+        thresholds = get_analysis_thresholds().get("indistinguishability", {})
+        self.success_threshold = float(thresholds.get("separation_success", 0.7))
+        self.failure_threshold = float(thresholds.get("separation_failure", 0.3))
+        self.require_computed = os.environ.get("REQUIRE_COMPUTED", "0") == "1"
+
+    def _compute_positional_entropy(self, text_blocks: List[List[str]]) -> float:
+        """
+        Compute positional entropy from generated token character positions.
+        """
+        from collections import Counter
+
+        counts = {"start": Counter(), "mid": Counter(), "end": Counter()}
+        tokens = [token for block in text_blocks for token in block]
+        if not tokens:
+            return 0.0
+
+        for token in tokens:
+            if not token:
+                continue
+            counts["start"][token[0]] += 1
+            counts["end"][token[-1]] += 1
+            for char in token[1:-1]:
+                counts["mid"][char] += 1
+
+        entropies = []
+        for counter in counts.values():
+            if not counter:
+                continue
+            total = sum(counter.values())
+            entropy = 0.0
+            for count in counter.values():
+                p = count / total
+                if p > 0:
+                    entropy -= p * math.log2(p)
+            max_entropy = math.log2(len(counter)) if len(counter) > 1 else 1.0
+            entropies.append(entropy / max_entropy if max_entropy > 0 else 0.0)
+        return sum(entropies) / len(entropies) if entropies else 0.0
 
     def load_real_pages(self):
         """Load metric vectors for real pharmaceutical pages."""
@@ -106,6 +147,32 @@ class IndistinguishabilityTester:
         for page in pages:
             metrics = page.metrics
 
+            positional_entropy = metrics.get("positional_entropy")
+            if positional_entropy is None:
+                positional_entropy = self._compute_positional_entropy(page.text_blocks)
+                logger.warning(
+                    "Synthetic page %s missing positional entropy metric; computed from generated tokens.",
+                    page.page_id,
+                )
+
+            locality_radius = metrics.get("locality")
+            if locality_radius is None:
+                if self.require_computed:
+                    raise NotImplementedError(
+                        f"Missing computed locality for synthetic page {page.page_id} while REQUIRE_COMPUTED=1"
+                    )
+                logger.warning("Synthetic page %s missing locality; using 0.0 fallback.", page.page_id)
+                locality_radius = 0.0
+
+            information_density = metrics.get("info_density")
+            if information_density is None:
+                if self.require_computed:
+                    raise NotImplementedError(
+                        f"Missing computed information density for synthetic page {page.page_id} while REQUIRE_COMPUTED=1"
+                    )
+                logger.warning("Synthetic page %s missing info_density; using 0.0 fallback.", page.page_id)
+                information_density = 0.0
+
             vector = MetricVector(
                 page_id=page.page_id,
                 is_synthetic=True,
@@ -114,29 +181,37 @@ class IndistinguishabilityTester:
                 word_count=metrics.get("word_count", 0),
                 mean_word_length=metrics.get("mean_word_length", 0),
                 repetition_rate=metrics.get("repetition_rate", 0),
-                positional_entropy=0.40,  # Simulated
-                locality_radius=metrics.get("locality", 3.0),
-                information_density=metrics.get("info_density", 4.0),
+                positional_entropy=positional_entropy,
+                locality_radius=locality_radius,
+                information_density=information_density,
                 layout_density=metrics.get("word_count", 0) / max(1, page.jar_count),
             )
             self.synthetic_vectors.append(vector)
 
-    def generate_scrambled_controls(self, count: int = 10):
+    def generate_scrambled_controls(self, count: int = 10, seed: Optional[int] = None):
         """Generate scrambled control pages for comparison."""
+        from foundation.core.randomness import get_randomness_controller
+        controller = get_randomness_controller()
+
         for i in range(count):
+            page_seed = seed + i if seed is not None else i
+            controller.register_seed(f"scrambled_{i}", page_seed, "indistinguishability_control")
+            rng = random.Random(page_seed)
+
             # Scrambled pages have degraded metrics
+            p = SCRAMBLED_CONTROL_PARAMS
             vector = MetricVector(
                 page_id=f"scrambled_{i:03d}",
                 is_synthetic=False,
                 is_scrambled=True,
-                jar_count=random.randint(2, 6),
-                word_count=random.randint(40, 120),
-                mean_word_length=5.0 + random.uniform(-1.5, 1.5),
-                repetition_rate=0.10 + random.uniform(-0.05, 0.15),  # Lower repetition
-                positional_entropy=0.80 + random.uniform(-0.10, 0.15),  # Higher entropy
-                locality_radius=6.0 + random.uniform(-1.0, 3.0),  # Weaker locality
-                information_density=2.0 + random.uniform(-0.5, 1.0),  # Lower density
-                layout_density=random.uniform(5, 25),
+                jar_count=rng.randint(*p["jar_count_range"]),
+                word_count=rng.randint(*p["word_count_range"]),
+                mean_word_length=p["mean_word_length"]["baseline"] + rng.uniform(-p["mean_word_length"]["spread"], p["mean_word_length"]["spread"]),
+                repetition_rate=p["repetition_rate"]["baseline"] + rng.uniform(p["repetition_rate"]["offset_min"], p["repetition_rate"]["offset_max"]),
+                positional_entropy=p["positional_entropy"]["baseline"] + rng.uniform(p["positional_entropy"]["offset_min"], p["positional_entropy"]["offset_max"]),
+                locality_radius=p["locality_radius"]["baseline"] + rng.uniform(p["locality_radius"]["offset_min"], p["locality_radius"]["offset_max"]),
+                information_density=p["information_density"]["baseline"] + rng.uniform(p["information_density"]["offset_min"], p["information_density"]["offset_max"]),
+                layout_density=rng.uniform(*p["layout_density_range"]),
             )
             self.scrambled_vectors.append(vector)
 
@@ -206,7 +281,7 @@ class IndistinguishabilityTester:
             normalized = normalize_vector(v.as_vector(), mins, maxs)
             total_dist += euclidean_distance(normalized, centroid)
 
-        return total_dist / len(vectors)
+        return total_dist / len(vectors) if len(vectors) > 0 else 0.0
 
     def run_test(self, gap_id: str) -> IndistinguishabilityResult:
         """Run indistinguishability test."""
@@ -216,6 +291,8 @@ class IndistinguishabilityTester:
             synthetic_pages_count=len(self.synthetic_vectors),
             scrambled_count=len(self.scrambled_vectors),
         )
+        result.separation_success_threshold = self.success_threshold
+        result.separation_failure_threshold = self.failure_threshold
 
         # Compute separations
         result.real_vs_scrambled_separation = self.compute_separation(
@@ -269,20 +346,24 @@ class FullIndistinguishabilityTest:
         self.section_profile = section_profile
         self.results: Dict[str, IndistinguishabilityResult] = {}
 
-    def run(self, gap_pages: Dict[str, List[SyntheticPage]]) -> Dict[str, IndistinguishabilityResult]:
+    def run(self, gap_pages: Dict[str, List[SyntheticPage]], seed: Optional[int] = None) -> Dict[str, IndistinguishabilityResult]:
         """
         Run tests for all gaps.
 
         Args:
             gap_pages: Dict mapping gap_id to list of synthetic pages
+            seed: Optional seed for reproducibility
         """
-        for gap_id, pages in gap_pages.items():
+        for i, (gap_id, pages) in enumerate(gap_pages.items()):
             tester = IndistinguishabilityTester(self.section_profile)
 
             # Load data
             tester.load_real_pages()
             tester.load_synthetic_pages(pages)
-            tester.generate_scrambled_controls(count=len(pages))
+            
+            # Derive seed for this gap
+            gap_seed = seed + i * 1000 if seed is not None else None
+            tester.generate_scrambled_controls(count=len(pages), seed=gap_seed)
 
             # Run test
             result = tester.run_test(gap_id)

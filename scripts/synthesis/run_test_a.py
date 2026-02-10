@@ -28,8 +28,11 @@ from rich.panel import Panel
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore
 from foundation.core.id_factory import DeterministicIDFactory
+from foundation.config import DEFAULT_SEED
 from synthesis.generators.grammar_based import GrammarBasedGenerator
 from foundation.metrics.library import RepetitionRate
+
+from foundation.core.provenance import ProvenanceWriter
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -46,9 +49,9 @@ def run_test_a():
         console.print("[bold red]Error: Grammar file not found. Run Step 3.2.2 first.[/bold red]")
         return
 
-    with active_run(config={"command": "test_a_mechanical_reuse", "seed": 42}) as run:
+    with active_run(config={"command": "test_a_mechanical_reuse", "seed": DEFAULT_SEED}) as run:
         store = MetadataStore(DB_PATH)
-        id_factory = DeterministicIDFactory(seed=42)
+        id_factory = DeterministicIDFactory(seed=DEFAULT_SEED)
         generator = GrammarBasedGenerator(GRAMMAR_PATH)
         
         pool_sizes = [10, 20, 30]
@@ -115,8 +118,7 @@ def run_test_a():
         console.print(table)
         
         # Save results
-        with open("status/synthesis/TEST_A_RESULTS.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, "status/synthesis/TEST_A_RESULTS.json")
             
         store.save_run(run)
 

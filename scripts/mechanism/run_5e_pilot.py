@@ -18,44 +18,15 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.queries import get_lines_from_store
 from foundation.runs.manager import active_run
-from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from foundation.storage.metadata import MetadataStore
 from mechanism.large_object.simulators import LargeGridSimulator
 from mechanism.large_object.collision_testing import PathCollisionTester
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
-
-def get_lines(store, dataset_id):
-    session = store.Session()
-    try:
-        from foundation.storage.metadata import PageRecord
-        tokens_recs = (
-            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
-            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
-            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
-            .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
-            .all()
-        )
-        
-        lines = []
-        current_line = []
-        last_line_id = None
-        
-        for content, line_id in tokens_recs:
-            if last_line_id and line_id != last_line_id:
-                lines.append(current_line)
-                current_line = []
-            current_line.append(content)
-            last_line_id = line_id
-        if current_line:
-            lines.append(current_line)
-            
-        return lines
-    finally:
-        session.close()
 
 def run_pilot_5e():
     console.print(Panel.fit(
@@ -70,10 +41,10 @@ def run_pilot_5e():
         
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Preparing Data[/bold yellow]")
-        real_lines = get_lines(store, "voynich_real")
+        real_lines = get_lines_from_store(store, "voynich_real")
         
         # Generator: Large 50x50 Grid
-        sim = LargeGridSimulator(GRAMMAR_PATH, rows=50, cols=50)
+        sim = LargeGridSimulator(GRAMMAR_PATH, rows=50, cols=50, seed=42)
         sim_lines = sim.generate_corpus(num_lines=2000, line_len=8)
         
         # 2. Run Collision Tests

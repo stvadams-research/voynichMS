@@ -5,13 +5,16 @@ Produces text using tables of varying dimensions to test dimensionality signatur
 """
 
 import random
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 from synthesis.generators.grammar_based import GrammarBasedGenerator
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 class GeometricTableGenerator:
-    def __init__(self, grammar_path: Path, rows: int = 10, cols: int = 10):
-        self.generator = GrammarBasedGenerator(grammar_path)
+    def __init__(self, grammar_path: Path, rows: int = 10, cols: int = 10, seed: Optional[int] = None):
+        self.generator = GrammarBasedGenerator(grammar_path, seed=seed)
+        self.rng = random.Random(seed)
         self.rows = rows
         self.cols = cols
         self.table = self._build_table()
@@ -42,7 +45,7 @@ class GeometricTableGenerator:
                 c = (c + 1) % self.cols
             else:
                 # Random walk on table
-                r = (r + random.randint(-1, 1)) % self.rows
-                c = (c + random.randint(-1, 1)) % self.cols
+                r = (r + self.rng.randint(-1, 1)) % self.rows
+                c = (c + self.rng.randint(-1, 1)) % self.cols
                 
         return tokens

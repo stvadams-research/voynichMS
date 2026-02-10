@@ -8,6 +8,7 @@ synthetic pages for all gap scenarios.
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 import random
+import logging
 
 from synthesis.interface import (
     SectionProfile,
@@ -20,6 +21,8 @@ from synthesis.refinement.interface import (
     StructuralConstraint,
     RefinementResult,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -39,9 +42,14 @@ class RefinedGenerator(TextContinuationGenerator):
     Extends the base generator with new structural constraints.
     """
 
-    def __init__(self, section_profile: SectionProfile,
-                 constraints: List[StructuralConstraint]):
-        super().__init__(section_profile)
+    def __init__(
+        self,
+        section_profile: SectionProfile,
+        constraints: List[StructuralConstraint],
+        seed: Optional[int] = None,
+    ):
+        super().__init__(section_profile, seed=seed)
+        self.rng = random.Random(seed)
         self.refinement_constraints = constraints
 
     def check_constraints(self, page: SyntheticPage) -> List[ConstraintCheck]:
@@ -76,7 +84,7 @@ class RefinedGenerator(TextContinuationGenerator):
     def _compute_constraint_value(self, constraint: StructuralConstraint,
                                   page: SyntheticPage) -> float:
         """Compute the value of a constraint for a page."""
-        # Simulated computation based on constraint type
+        # Placeholder computation based on constraint type
         # In production, this would use the actual measurement
 
         if "similarity" in constraint.constraint_id:
@@ -168,8 +176,8 @@ class RefinedGenerator(TextContinuationGenerator):
             return slope_num / max(0.01, slope_den)
 
         else:
-            # Default: return target with small noise
-            return (constraint.target_mean or 0.5) + random.uniform(-0.1, 0.1)
+            # Fallback branch: perturb target with bounded noise
+            return (constraint.target_mean or 0.5) + self.rng.uniform(-0.1, 0.1)
 
     def generate_page_refined(self, gap_id: str, seed: int = None,
                               max_attempts: int = 20) -> Optional[SyntheticPage]:
@@ -180,7 +188,7 @@ class RefinedGenerator(TextContinuationGenerator):
         """
         for attempt in range(max_attempts):
             # Generate base page
-            attempt_seed = (seed or random.randint(0, 999999)) + attempt * 1000
+            attempt_seed = (seed if seed is not None else self.rng.randint(0, 999999)) + attempt * 1000
             page = self.generate_page(gap_id, seed=attempt_seed)
 
             # Check refinement constraints
@@ -204,11 +212,13 @@ class RefinedSynthesis:
 
     def __init__(self, section_profile: SectionProfile,
                  gaps: List[GapDefinition],
-                 constraints: List[StructuralConstraint]):
+                 constraints: List[StructuralConstraint],
+                 seed: Optional[int] = None):
         self.section_profile = section_profile
         self.gaps = gaps
         self.constraints = constraints
-        self.generator = RefinedGenerator(section_profile, constraints)
+        self.rng = random.Random(seed)
+        self.generator = RefinedGenerator(section_profile, constraints, seed=seed)
         self.results: Dict[str, RefinementResult] = {}
 
     def synthesize_for_gap(self, gap: GapDefinition,
@@ -223,7 +233,7 @@ class RefinedSynthesis:
         hashes = set()
 
         for i in range(pages_to_generate):
-            seed = random.randint(0, 999999)
+            seed = self.rng.randint(0, 999999)
             page = self.generator.generate_page_refined(gap.gap_id, seed=seed)
 
             if page and page.content_hash not in hashes:
@@ -260,7 +270,7 @@ class RefinedSynthesis:
         for gap in self.gaps:
             pages = []
             for i in range(10):
-                seed = random.randint(0, 999999)
+                seed = self.rng.randint(0, 999999)
                 page = self.generator.generate_page_refined(gap.gap_id, seed=seed)
                 if page:
                     pages.append(page)

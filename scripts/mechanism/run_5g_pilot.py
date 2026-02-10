@@ -18,8 +18,9 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.queries import get_lines_from_store
 from foundation.runs.manager import active_run
-from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from foundation.storage.metadata import MetadataStore
 from mechanism.topology_collapse.simulators import (
     GridTopologySimulator, LayeredTableSimulator, DAGTopologySimulator, LatticeTopologySimulator
 )
@@ -28,36 +29,6 @@ from mechanism.topology_collapse.signatures import TopologySignatureAnalyzer
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
-
-def get_lines(store, dataset_id):
-    session = store.Session()
-    try:
-        from foundation.storage.metadata import PageRecord
-        tokens_recs = (
-            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
-            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
-            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
-            .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
-            .all()
-        )
-        
-        lines = []
-        current_line = []
-        last_line_id = None
-        
-        for content, line_id in tokens_recs:
-            if last_line_id and line_id != last_line_id:
-                lines.append(current_line)
-                current_line = []
-            current_line.append(content)
-            last_line_id = line_id
-        if current_line:
-            lines.append(current_line)
-            
-        return lines
-    finally:
-        session.close()
 
 def run_pilot_5g():
     console.print(Panel.fit(
@@ -72,13 +43,13 @@ def run_pilot_5g():
         
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Preparing Data[/bold yellow]")
-        real_lines = get_lines(store, "voynich_real")
+        real_lines = get_lines_from_store(store, "voynich_real")
         
         sims = {
-            "Grid (60x60)": GridTopologySimulator(GRAMMAR_PATH),
-            "Layered Table": LayeredTableSimulator(GRAMMAR_PATH),
-            "DAG (Stratified)": DAGTopologySimulator(GRAMMAR_PATH),
-            "Lattice (Implicit)": LatticeTopologySimulator(GRAMMAR_PATH)
+            "Grid (60x60)": GridTopologySimulator(GRAMMAR_PATH, seed=42),
+            "Layered Table": LayeredTableSimulator(GRAMMAR_PATH, seed=42),
+            "DAG (Stratified)": DAGTopologySimulator(GRAMMAR_PATH, seed=42),
+            "Lattice (Implicit)": LatticeTopologySimulator(GRAMMAR_PATH, seed=42)
         }
         
         corpus_data = {"Voynich (Real)": real_lines[:5000]}

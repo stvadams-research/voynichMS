@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import Dict, Any, Type, TypeVar
 from pydantic import BaseModel
 import hashlib
+import logging
+logger = logging.getLogger(__name__)
 
 T = TypeVar("T", bound=BaseModel)
 

@@ -6,6 +6,8 @@ Detects if identical local contexts force identical successors across different 
 
 from collections import Counter, defaultdict
 from typing import List, Dict, Any, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 class PathCollisionTester:
     """

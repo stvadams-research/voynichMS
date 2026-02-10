@@ -1,17 +1,28 @@
+"""
+Alignment engine mapping transcript Tokens to visual Words.
+
+Terminology:
+- Token: transcript text unit (TranscriptionTokenRecord).
+- Word: visual image segment (WordRecord).
+"""
+
 from typing import List, Optional
+import logging
 from sqlalchemy.orm import Session
 from foundation.storage.metadata import (
-    MetadataStore, LineRecord, WordRecord, TranscriptionLineRecord, 
+    MetadataStore, LineRecord, WordRecord, TranscriptionLineRecord,
     TranscriptionTokenRecord, WordAlignmentRecord
 )
+
+logger = logging.getLogger(__name__)
 
 class AlignmentEngine:
     def __init__(self, store: MetadataStore):
         self.store = store
 
-    def align_page_lines(self, page_id: str, source_id: str):
+    def align_page_lines(self, page_id: str, source_id: str) -> None:
         """
-        Align image lines to transcription lines based on index.
+        Align image lines to transcription lines based on line index.
         """
         session = self.store.Session()
         try:
@@ -41,9 +52,14 @@ class AlignmentEngine:
         finally:
             session.close()
 
-    def _align_words_in_line(self, session: Session, img_line: LineRecord, trans_line: TranscriptionLineRecord):
+    def _align_words_in_line(
+        self,
+        session: Session,
+        img_line: LineRecord,
+        trans_line: TranscriptionLineRecord,
+    ) -> None:
         """
-        Align words in a line to tokens.
+        Align visual Words in a line to transcript Tokens.
         """
         words = session.query(WordRecord).filter_by(line_id=img_line.id).order_by(WordRecord.word_index).all()
         tokens = session.query(TranscriptionTokenRecord).filter_by(line_id=trans_line.id).order_by(TranscriptionTokenRecord.token_index).all()

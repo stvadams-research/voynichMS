@@ -18,44 +18,15 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.queries import get_lines_from_store
 from foundation.runs.manager import active_run
-from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from foundation.storage.metadata import MetadataStore
 from mechanism.entry_selection.simulators import EntryMechanismSimulator
 from mechanism.entry_selection.prefix_analysis import EntryPointAnalyzer
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
-
-def get_lines(store, dataset_id):
-    session = store.Session()
-    try:
-        from foundation.storage.metadata import PageRecord
-        tokens_recs = (
-            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
-            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
-            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
-            .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
-            .all()
-        )
-        
-        lines = []
-        current_line = []
-        last_line_id = None
-        
-        for content, line_id in tokens_recs:
-            if last_line_id and line_id != last_line_id:
-                lines.append(current_line)
-                current_line = []
-            current_line.append(content)
-            last_line_id = line_id
-        if current_line:
-            lines.append(current_line)
-            
-        return lines
-    finally:
-        session.close()
 
 def run_pilot_5f():
     console.print(Panel.fit(
@@ -70,13 +41,13 @@ def run_pilot_5f():
         
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Analyzing Real Start-Words[/bold yellow]")
-        real_lines = get_lines(store, "voynich_real")
+        real_lines = get_lines_from_store(store, "voynich_real")
         real_dist = analyzer.calculate_start_distribution(real_lines)
         real_coup = analyzer.calculate_adjacency_coupling(real_lines)
         
         # 2. Run Simulators
         console.print("\n[bold yellow]Step 2: Executing Entry Simulators[/bold yellow]")
-        sim = EntryMechanismSimulator(GRAMMAR_PATH, vocab_size=500)
+        sim = EntryMechanismSimulator(GRAMMAR_PATH, vocab_size=500, seed=42)
         
         # Family 1: Uniform
         syn_uni_lines = sim.generate_uniform_independent(num_lines=2000, line_len=8)

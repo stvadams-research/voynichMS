@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 import numpy as np
 from typing import List, Optional
+import logging
+logger = logging.getLogger(__name__)
 
 class RegionEncoder(ABC):
     @abstractmethod

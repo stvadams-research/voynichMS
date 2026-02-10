@@ -7,22 +7,27 @@ Produces text using a grid of prefixes, infixes, and suffixes selected by a gril
 import random
 from typing import List, Dict, Any
 from foundation.controls.interface import ControlGenerator
+import logging
+logger = logging.getLogger(__name__)
 
 class TableGrilleGenerator(ControlGenerator):
     """
     Generates text using a table-and-grille mechanism.
+
+    Generated tokens bypass EVAParser normalization intentionally: control
+    tokens are emitted directly from an already-normalized synthetic alphabet.
     """
     def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: Dict[str, Any] = None) -> str:
-        random.seed(seed)
+        rng = random.Random(seed)
         params = params or {}
-        
+
         target_tokens = params.get("target_tokens", 230000)
-        
+
         # 1. Define table components (Voynich-like)
         prefixes = ["q", "y", "d", "ch", "sh", "s", "o"]
         infixes = ["ol", "or", "al", "ar", "ee", "e", "aiin", "ain"]
         suffixes = ["y", "dy", "ky", "ty", "m", "n", "s"]
-        
+
         # 2. Build Table
         table_rows = 10
         table_cols = 10
@@ -30,60 +35,53 @@ class TableGrilleGenerator(ControlGenerator):
         for _ in range(table_rows):
             row = []
             for _ in range(table_cols):
-                word = random.choice(prefixes) + random.choice(infixes) + random.choice(suffixes)
+                word = rng.choice(prefixes) + rng.choice(infixes) + rng.choice(suffixes)
                 row.append(word)
             table.append(row)
-            
+
         # 3. Generate tokens by moving a 'grille' over the table
         tokens = []
         grille_x, grille_y = 0, 0
-        
+
         while len(tokens) < target_tokens:
             # Select word from current grille position
             word = table[grille_y][grille_x]
             tokens.append(word)
-            
+
             # Move grille
-            grille_x = (grille_x + random.randint(0, 1)) % table_cols
+            grille_x = (grille_x + rng.randint(0, 1)) % table_cols
             if grille_x == 0:
                 grille_y = (grille_y + 1) % table_rows
-                
+
             # Periodically jitter the table or grille to simulate page shifts
             if len(tokens) % 500 == 0:
-                grille_x = random.randint(0, table_cols-1)
-                grille_y = random.randint(0, table_rows-1)
-                
+                grille_x = rng.randint(0, table_cols-1)
+                grille_y = rng.randint(0, table_rows-1)
+
         # 4. Ingest
-        self._ingest_tokens(control_id, tokens)
-        
+        self._ingest_tokens(control_id, tokens, seed=seed)
+
         return control_id
 
-    def _ingest_tokens(self, dataset_id: str, tokens: List[str]):
+    def _ingest_tokens(self, dataset_id: str, tokens: List[str], seed: int):
         """Helper to register synthetic tokens in the database."""
         from foundation.core.id_factory import DeterministicIDFactory
-        id_factory = DeterministicIDFactory(seed=42)
-        
+        id_factory = DeterministicIDFactory(seed=seed)
+
         self.store.add_dataset(dataset_id, "generated_table_grille")
-        
+        self.store.add_transcription_source("synthetic", "Synthetic Control Generator")
+
         tokens_per_page = 1000
-        num_pages = len(tokens) // tokens_per_page
-        
-        session = self.store.Session()
-        try:
-            for p_idx in range(num_pages):
-                page_id = f"{dataset_id}_p{p_idx}"
-                self.store.add_page(page_id, dataset_id, "synthetic", f"hash_{page_id}", 1000, 1500)
-                
-                start = p_idx * tokens_per_page
-                end = start + tokens_per_page
-                page_tokens = tokens[start:end]
-                
-                trans_line_id = id_factory.next_uuid(f"line:{page_id}")
-                self.store.add_transcription_line(trans_line_id, "synthetic", page_id, 0, " ".join(page_tokens))
-                
-                for w_idx, token in enumerate(page_tokens):
-                    token_id = id_factory.next_uuid(f"token:{trans_line_id}:{w_idx}")
-                    self.store.add_transcription_token(token_id, trans_line_id, w_idx, token)
-            session.commit()
-        finally:
-            session.close()
+        for p_idx, start in enumerate(range(0, len(tokens), tokens_per_page)):
+            page_id = f"{dataset_id}_p{p_idx}"
+            self.store.add_page(page_id, dataset_id, "synthetic", f"hash_{page_id}", 1000, 1500)
+
+            end = start + tokens_per_page
+            page_tokens = tokens[start:end]
+
+            trans_line_id = id_factory.next_uuid(f"line:{page_id}")
+            self.store.add_transcription_line(trans_line_id, "synthetic", page_id, 0, " ".join(page_tokens))
+
+            for w_idx, token in enumerate(page_tokens):
+                token_id = id_factory.next_uuid(f"token:{trans_line_id}:{w_idx}")
+                self.store.add_transcription_token(token_id, trans_line_id, w_idx, token)

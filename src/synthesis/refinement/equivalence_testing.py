@@ -7,6 +7,7 @@ and determines the outcome.
 
 from typing import Dict, List, Any
 from dataclasses import dataclass
+import logging
 
 from synthesis.interface import SectionProfile, SyntheticPage
 from synthesis.indistinguishability import (
@@ -17,6 +18,8 @@ from synthesis.refinement.interface import (
     EquivalenceTest,
     EquivalenceOutcome,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class EquivalenceReTest:

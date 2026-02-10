@@ -7,6 +7,8 @@ Analyzes path overlap, coverage uniformity, and successor convergence.
 from collections import Counter, defaultdict
 from typing import List, Dict, Any, Tuple
 import numpy as np
+import logging
+logger = logging.getLogger(__name__)
 
 class TopologySignatureAnalyzer:
     """

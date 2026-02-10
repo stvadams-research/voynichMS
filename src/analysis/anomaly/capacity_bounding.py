@@ -3,12 +3,20 @@ Track D3: Structural Capacity Bounding
 
 Derives bounds on what kinds of systems could theoretically satisfy the constraints.
 Compares against known system classes.
+
+Methodological note on circularity:
+- ``OBSERVED_*`` constants are Phase 2.2/2.3 measurements used as INPUTS.
+- This module asks whether non-semantic systems could produce those values.
+- It does not re-test whether those observed values are themselves anomalous.
+- See docs/METHODS_REFERENCE.md for the full cross-phase data-flow disclosure.
 """
 
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 
 from analysis.anomaly.interface import CapacityBound, StructuralFeasibilityRegion
+import logging
+logger = logging.getLogger(__name__)
 
 
 @dataclass

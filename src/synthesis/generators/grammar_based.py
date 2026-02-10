@@ -9,18 +9,22 @@ import json
 import random
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple, Any
+import logging
+logger = logging.getLogger(__name__)
 
 class GrammarBasedGenerator:
     """
     Generates words glyph-by-glyph using a probabilistic grammar.
     """
-    def __init__(self, grammar_path: Path):
+    def __init__(self, grammar_path: Path, seed: Optional[int] = None):
         with open(grammar_path, "r") as f:
             self.grammar = json.load(f)
         
         self.transitions = self.grammar["transitions"]
         self.positions = self.grammar["positions"]
         self.word_lengths = self.grammar["word_lengths"]
+        
+        self.rng = random.Random(seed)
         
         # Pre-process for weighted sampling
         self.len_values, self.len_weights = self._prepare_weights(self.word_lengths)
@@ -45,7 +49,7 @@ class GrammarBasedGenerator:
             next_probs = self.transitions[current]
             symbols, weights = self._prepare_weights(next_probs)
             
-            next_sym = random.choices(symbols, weights=weights, k=1)[0]
+            next_sym = self.rng.choices(symbols, weights=weights, k=1)[0]
             
             if next_sym == "<END>":
                 break

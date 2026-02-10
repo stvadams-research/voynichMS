@@ -10,9 +10,10 @@ Key questions:
 - Do mappings survive omission/addition?
 """
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import math
 from collections import Counter
+from datetime import datetime, timezone
 
 from analysis.stress_tests.interface import (
     StressTest,
@@ -31,11 +32,14 @@ from foundation.storage.metadata import (
     WordAlignmentRecord,
     AnchorRecord,
 )
-from foundation.config import use_real_computation
 
 
-# Iteration limits for bounded runtime on large datasets
-MAX_PAGES_PER_TEST = 50  # Maximum pages to analyze per test
+from foundation.config import MAX_PAGES_PER_TEST, get_analysis_thresholds
+from foundation.runs.manager import RunManager
+import logging
+logger = logging.getLogger(__name__)
+
+# Local limits
 MAX_LINES_PER_PAGE = 100  # Maximum lines to analyze per page
 MAX_WORDS_PER_LINE = 50  # Maximum words to analyze per line
 
@@ -49,6 +53,18 @@ class MappingStabilityTest(StressTest):
     - Small perturbations produce small changes (Lipschitz-like)
     - It degrades gracefully rather than catastrophically
     """
+
+    def __init__(self, store):
+        super().__init__(store)
+        self.thresholds = get_analysis_thresholds().get("mapping_stability", {})
+
+    def _threshold(self, *keys: str, default: float) -> float:
+        node: Any = self.thresholds
+        for key in keys:
+            if not isinstance(node, dict):
+                return default
+            node = node.get(key)
+        return float(node) if node is not None else default
 
     @property
     def test_id(self) -> str:
@@ -111,7 +127,7 @@ class MappingStabilityTest(StressTest):
             avg_omit = sum(omission_stability) / len(omission_stability) if omission_stability else 0
 
             # Overall stability is the minimum (weakest link)
-            overall_stability = min(avg_seg, avg_ord, avg_omit) if (avg_seg and avg_ord and avg_omit) else 0
+            overall_stability = min(avg_seg, avg_ord, avg_omit) if all(v is not None for v in [avg_seg, avg_ord, avg_omit]) else 0
 
             # Determine outcome based on class-specific thresholds
             outcome, collapse_threshold = self._determine_outcome(
@@ -125,11 +141,26 @@ class MappingStabilityTest(StressTest):
 
             # Control comparison
             control_stability = self._test_controls(session, control_ids, dataset_id)
-            control_differential = overall_stability - control_stability
+            control_differential = (
+                overall_stability - control_stability
+                if control_stability is not None
+                else float("nan")
+            )
+            try:
+                run_id = str(RunManager.get_current_run().run_id)
+            except RuntimeError:
+                run_id = None
 
             return StressTestResult(
                 test_id=self.test_id,
                 explanation_class=explanation_class,
+                run_id=run_id,
+                dataset_id=dataset_id,
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                parameters={
+                    "num_controls": len(control_ids),
+                    "max_pages_per_test": MAX_PAGES_PER_TEST,
+                },
                 outcome=outcome,
                 stability_score=overall_stability,
                 control_differential=control_differential,
@@ -138,7 +169,7 @@ class MappingStabilityTest(StressTest):
                     "segmentation_stability": avg_seg,
                     "ordering_stability": avg_ord,
                     "omission_stability": avg_omit,
-                    "control_stability": control_stability,
+                    "control_stability": control_stability if control_stability is not None else float("nan"),
                     "line_count": len(segmentation_stability),
                 },
                 failure_cases=self._identify_failure_cases(avg_seg, avg_ord, avg_omit),
@@ -159,16 +190,12 @@ class MappingStabilityTest(StressTest):
         Simulates what happens when word boundaries shift.
         Measures how many glyphs would be affected.
         """
-        if not use_real_computation("stress_tests"):
-            # Legacy simulated value
-            return 1.0 - 0.375  # 37.5% collapse = 62.5% stability
-
         if len(words) < 2:
             return 1.0
 
         total_glyphs = 0
         affected_glyphs = 0
-        perturbation = 0.05  # 5% boundary shift
+        perturbation = self._threshold("perturbation_strength", default=0.05)
 
         for word in words:
             glyphs = session.query(GlyphCandidateRecord).filter_by(word_id=word.id).all()
@@ -210,9 +237,6 @@ class MappingStabilityTest(StressTest):
 
         Measures correlation of metric values when word order is changed.
         """
-        if not use_real_computation("stress_tests"):
-            return 0.70  # Legacy simulated value
-
         if len(words) < 3:
             return 1.0
 
@@ -260,9 +284,6 @@ class MappingStabilityTest(StressTest):
 
         Measures reconstruction accuracy when words are removed.
         """
-        if not use_real_computation("stress_tests"):
-            return 0.65  # Legacy simulated value
-
         if len(words) < 3:
             return 1.0
 
@@ -299,18 +320,16 @@ class MappingStabilityTest(StressTest):
 
         return preserved / total if total > 0 else 0.0
 
-    def _test_controls(self, session, control_ids: List[str], dataset_id: str) -> float:
+    def _test_controls(self, session, control_ids: List[str], dataset_id: str) -> Optional[float]:
         """
         Test stability on control datasets.
 
         Returns average stability across controls.
         Uses iteration limits for bounded runtime.
         """
-        if not use_real_computation("stress_tests"):
-            return 0.30  # Legacy simulated value
-
         if not control_ids:
-            return 0.3
+            logger.warning("No controls provided for mapping stability on dataset %s", dataset_id)
+            return None
 
         control_stabilities = []
 
@@ -331,36 +350,57 @@ class MappingStabilityTest(StressTest):
             if stabilities:
                 control_stabilities.append(sum(stabilities) / len(stabilities))
 
-        return sum(control_stabilities) / len(control_stabilities) if control_stabilities else 0.3
+        if not control_stabilities:
+            logger.warning("No control stability values available for dataset %s", dataset_id)
+            return None
+        return sum(control_stabilities) / len(control_stabilities)
 
     def _determine_outcome(self, explanation_class: str,
                            seg: float, ord: float, omit: float) -> tuple:
-        """Determine outcome based on stability scores."""
-        min_stability = min(seg, ord, omit) if (seg and ord and omit) else 0
+        """
+        Determine outcome based on stability scores.
+        
+        Thresholds are based on the following benchmarks:
+        - 0.7: High-confidence stability (standard baseline)
+        - 0.6: Acceptable stability for noisy data
+        - 0.5: Random chance / Toss-up (failure for structured systems)
+        - 0.4: Catastrophic collapse threshold
+        - 0.3: Maximum allowable variance for hybrid systems
+        """
+        min_stability = min(seg, ord, omit) if all(v is not None for v in [seg, ord, omit]) else 0
+
+        ordering_collapse = self._threshold("constructed_system", "ordering_collapse", default=0.5)
+        constructed_min_stable = self._threshold("constructed_system", "min_stable", default=0.6)
+        segmentation_collapse = self._threshold("visual_grammar", "segmentation_collapse", default=0.4)
+        visual_min_stable = self._threshold("visual_grammar", "min_stable", default=0.5)
+        hybrid_variance_limit = self._threshold("hybrid_system", "variance_limit", default=0.3)
 
         # Class-specific thresholds
         if explanation_class == "constructed_system":
-            # Constructed systems should show high ordering stability
-            if ord < 0.5:
+            # Constructed systems should show high ordering stability (>0.5)
+            # because they rely on mechanical rules.
+            if ord < ordering_collapse:
                 return StressTestOutcome.COLLAPSED, ord
-            elif min_stability < 0.6:
+            elif min_stability < constructed_min_stable:
                 return StressTestOutcome.FRAGILE, min_stability
             else:
                 return StressTestOutcome.STABLE, None
 
         elif explanation_class == "visual_grammar":
-            # Visual grammar should tolerate segmentation changes
-            if seg < 0.4:
+            # Visual grammar should tolerate segmentation changes better than 
+            # text-based systems but collapses below 0.4.
+            if seg < segmentation_collapse:
                 return StressTestOutcome.COLLAPSED, seg
-            elif min_stability < 0.5:
+            elif min_stability < visual_min_stable:
                 return StressTestOutcome.FRAGILE, min_stability
             else:
                 return StressTestOutcome.STABLE, None
 
         elif explanation_class == "hybrid_system":
-            # Hybrid should show variable stability across tests
-            variance = max(seg, ord, omit) - min(seg, ord, omit) if (seg and ord and omit) else 0
-            if variance > 0.3:
+            # Hybrid should show variable stability across tests.
+            # Variance > 0.3 indicates excessive instability in one track.
+            variance = max(seg, ord, omit) - min(seg, ord, omit) if all(v is not None for v in [seg, ord, omit]) else 0
+            if variance > hybrid_variance_limit:
                 return StressTestOutcome.FRAGILE, min_stability
             else:
                 return StressTestOutcome.STABLE, None
@@ -370,22 +410,27 @@ class MappingStabilityTest(StressTest):
     def _generate_implications(self, explanation_class: str,
                                seg: float, ord: float, omit: float,
                                outcome: StressTestOutcome) -> List[str]:
-        """Generate constraint implications from results."""
+        """
+        Generate constraint implications from results.
+        
+        Uses 0.7 as the standard high-confidence stability baseline.
+        """
         implications = []
+        confidence_threshold = self._threshold("standard_high_confidence", default=0.7)
 
-        if seg < 0.7:
+        if seg < confidence_threshold:
             implications.append(
                 "Segmentation-dependent mappings are fragile; "
                 "any mapping must be robust to boundary uncertainty"
             )
 
-        if ord < 0.7:
+        if ord < confidence_threshold:
             implications.append(
                 "Order-dependent mappings are fragile; "
                 "strict sequential decoding is structurally unsupported"
             )
 
-        if omit < 0.7:
+        if omit < confidence_threshold:
             implications.append(
                 "Omission-sensitive mappings are fragile; "
                 "system lacks redundancy expected for robust communication"
@@ -402,22 +447,23 @@ class MappingStabilityTest(StressTest):
     def _identify_failure_cases(self, seg: float, ord: float, omit: float) -> List[Dict[str, Any]]:
         """Identify specific failure cases."""
         failures = []
+        confidence_threshold = self._threshold("standard_high_confidence", default=0.7)
 
-        if seg < 0.7:
+        if seg < confidence_threshold:
             failures.append({
                 "type": "segmentation_collapse",
                 "stability": seg,
                 "detail": "Boundary shifts cause mapping inconsistency"
             })
 
-        if ord < 0.7:
+        if ord < confidence_threshold:
             failures.append({
                 "type": "ordering_sensitivity",
                 "stability": ord,
                 "detail": "Sequence reordering disrupts structure"
             })
 
-        if omit < 0.7:
+        if omit < confidence_threshold:
             failures.append({
                 "type": "omission_fragility",
                 "stability": omit,

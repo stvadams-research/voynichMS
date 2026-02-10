@@ -6,6 +6,8 @@ Maintains a registry of all explicit models being evaluated.
 
 from typing import Dict, List, Any, Type
 from analysis.models.interface import ExplicitModel, ModelStatus
+import logging
+logger = logging.getLogger(__name__)
 
 
 class ModelRegistry:

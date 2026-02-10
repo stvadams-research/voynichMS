@@ -4,6 +4,8 @@ from foundation.segmentation.interface import (
     SegmentedLine, SegmentedWord, SegmentedGlyph
 )
 from foundation.core.geometry import Box
+import logging
+logger = logging.getLogger(__name__)
 
 class DummyLineSegmenter(LineSegmenter):
     def segment_page(self, page_id: str, image_path: str) -> List[SegmentedLine]:

@@ -5,6 +5,8 @@ Adversarial Simulators for Phase 6C
 import random
 from typing import List, Dict, Any, Tuple
 from functional.formal_system.simulators import LatticeTraversalSimulator
+import logging
+logger = logging.getLogger(__name__)
 
 class AdversarialLatticeSimulator(LatticeTraversalSimulator):
     """

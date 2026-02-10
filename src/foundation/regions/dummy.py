@@ -2,6 +2,8 @@ from typing import List, Optional
 import random
 from foundation.regions.interface import RegionProposer, ProposedRegion
 from foundation.core.geometry import Box
+import logging
+logger = logging.getLogger(__name__)
 
 class GridProposer(RegionProposer):
     """
@@ -53,7 +55,8 @@ class RandomBlobProposer(RegionProposer):
 
     def propose_regions(self, page_id: str, image_path: str) -> List[ProposedRegion]:
         regions = []
-        # Use a local RNG for reproducibility
+        # Intentional controller bypass: this dummy proposer is used for synthetic
+        # region stubs and keeps deterministic randomness fully local.
         rng = random.Random(self.seed)
         
         for _ in range(self.count):

@@ -14,8 +14,9 @@ Per PRINCIPLES_AND_NONGOALS.md:
 from typing import List, Dict, Any
 import math
 from collections import Counter
+import logging
 
-from foundation.hypotheses.interface import Hypothesis, HypothesisResult
+from foundation.hypotheses.interface import Hypothesis, HypothesisResult, HypothesisOutcome
 from foundation.storage.metadata import (
     MetadataStore,
     WordRecord,
@@ -28,7 +29,8 @@ from foundation.storage.metadata import (
     AnchorRecord,
     PageRecord,
 )
-from foundation.config import use_real_computation
+
+logger = logging.getLogger(__name__)
 
 
 class FixedGlyphIdentityHypothesis(Hypothesis):
@@ -69,9 +71,6 @@ class FixedGlyphIdentityHypothesis(Hypothesis):
         )
 
     def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        if not use_real_computation("hypotheses"):
-            return self._run_simulated(real_dataset_id, control_dataset_ids)
-
         return self._run_real(real_dataset_id, control_dataset_ids)
 
     def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
@@ -150,11 +149,11 @@ class FixedGlyphIdentityHypothesis(Hypothesis):
 
             # Falsified if >20% collapse at 5% perturbation
             if collapse_at_5pct > 0.20:
-                outcome = "FALSIFIED"
+                outcome = HypothesisOutcome.FALSIFIED
             elif collapse_at_5pct > 0.10:
-                outcome = "WEAKLY_SUPPORTED"
+                outcome = HypothesisOutcome.WEAKLY_SUPPORTED
             else:
-                outcome = "SUPPORTED"
+                outcome = HypothesisOutcome.SUPPORTED
 
             metrics = {
                 f"{real_dataset_id}:word_count": float(word_count),
@@ -180,63 +179,6 @@ class FixedGlyphIdentityHypothesis(Hypothesis):
         finally:
             session.close()
 
-    def _run_simulated(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        """Legacy simulated implementation."""
-        session = self.store.Session()
-        try:
-            pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
-            word_count = 0
-            glyph_count = 0
-
-            for page in pages:
-                lines = session.query(LineRecord).filter_by(page_id=page.id).all()
-                for line in lines:
-                    words = session.query(WordRecord).filter_by(line_id=line.id).all()
-                    word_count += len(words)
-                    for word in words:
-                        glyphs = session.query(GlyphCandidateRecord).filter_by(word_id=word.id).all()
-                        glyph_count += len(glyphs)
-
-            perturbation_levels = [0.01, 0.05, 0.10, 0.15, 0.20]
-            identity_collapse = {}
-
-            for p in perturbation_levels:
-                collapse_rate = min(0.95, 0.15 + (p * 4.0) + (p ** 2 * 10))
-                identity_collapse[p] = collapse_rate
-
-            collapse_at_5pct = identity_collapse[0.05]
-
-            if collapse_at_5pct > 0.20:
-                outcome = "FALSIFIED"
-            elif collapse_at_5pct > 0.10:
-                outcome = "WEAKLY_SUPPORTED"
-            else:
-                outcome = "SUPPORTED"
-
-            metrics = {
-                f"{real_dataset_id}:word_count": float(word_count),
-                f"{real_dataset_id}:glyph_count": float(glyph_count),
-                f"{real_dataset_id}:collapse_at_5pct": collapse_at_5pct,
-            }
-
-            for p, rate in identity_collapse.items():
-                metrics[f"{real_dataset_id}:collapse_at_{int(p*100)}pct"] = rate
-
-            return HypothesisResult(
-                outcome=outcome,
-                metrics=metrics,
-                summary={
-                    "test": "segmentation_perturbation",
-                    "perturbation_threshold": 0.05,
-                    "identity_collapse_rate": collapse_at_5pct,
-                    "collapse_threshold": 0.20,
-                    "verdict": "Glyph identity collapses under minor segmentation changes",
-                    "collapse_curve": identity_collapse,
-                    "simulated": True
-                }
-            )
-        finally:
-            session.close()
 
 
 class WordBoundaryStabilityHypothesis(Hypothesis):
@@ -278,9 +220,6 @@ class WordBoundaryStabilityHypothesis(Hypothesis):
         )
 
     def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        if not use_real_computation("hypotheses"):
-            return self._run_simulated(real_dataset_id, control_dataset_ids)
-
         return self._run_real(real_dataset_id, control_dataset_ids)
 
     def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
@@ -298,7 +237,7 @@ class WordBoundaryStabilityHypothesis(Hypothesis):
 
             if source_count < 2:
                 return HypothesisResult(
-                    outcome="INCONCLUSIVE",
+                    outcome=HypothesisOutcome.INCONCLUSIVE,
                     metrics={f"{real_dataset_id}:source_count": float(source_count)},
                     summary={
                         "error": "Need at least 2 transcription sources to compare",
@@ -377,11 +316,11 @@ class WordBoundaryStabilityHypothesis(Hypothesis):
 
             # Determine outcome
             if avg_agreement < 0.70:
-                outcome = "FALSIFIED"
+                outcome = HypothesisOutcome.FALSIFIED
             elif avg_agreement < 0.80:
-                outcome = "WEAKLY_SUPPORTED"
+                outcome = HypothesisOutcome.WEAKLY_SUPPORTED
             else:
-                outcome = "SUPPORTED"
+                outcome = HypothesisOutcome.SUPPORTED
 
             metrics = {
                 f"{real_dataset_id}:source_count": float(source_count),
@@ -407,60 +346,6 @@ class WordBoundaryStabilityHypothesis(Hypothesis):
         finally:
             session.close()
 
-    def _run_simulated(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        """Legacy simulated implementation."""
-        session = self.store.Session()
-        try:
-            sources = session.query(TranscriptionSourceRecord).all()
-            source_count = len(sources)
-
-            simulated_comparisons = {
-                ("eva", "currier"): 0.72,
-                ("eva", "bennett"): 0.78,
-                ("currier", "bennett"): 0.75,
-            }
-
-            if source_count >= 2:
-                agreement_rates = list(simulated_comparisons.values())
-                avg_agreement = sum(agreement_rates) / len(agreement_rates)
-                min_agreement = min(agreement_rates)
-                max_agreement = max(agreement_rates)
-            else:
-                avg_agreement = 0.75
-                min_agreement = 0.75
-                max_agreement = 0.75
-
-            if avg_agreement < 0.70:
-                outcome = "FALSIFIED"
-            elif avg_agreement < 0.80:
-                outcome = "WEAKLY_SUPPORTED"
-            else:
-                outcome = "SUPPORTED"
-
-            metrics = {
-                f"{real_dataset_id}:source_count": float(source_count),
-                f"{real_dataset_id}:avg_agreement": avg_agreement,
-                f"{real_dataset_id}:min_agreement": min_agreement,
-                f"{real_dataset_id}:max_agreement": max_agreement,
-            }
-
-            for pair, rate in simulated_comparisons.items():
-                metrics[f"{real_dataset_id}:{pair[0]}_vs_{pair[1]}"] = rate
-
-            return HypothesisResult(
-                outcome=outcome,
-                metrics=metrics,
-                summary={
-                    "test": "cross_source_boundary_agreement",
-                    "sources_compared": list(simulated_comparisons.keys()),
-                    "average_agreement": avg_agreement,
-                    "agreement_threshold": 0.80,
-                    "verdict": "Word boundaries show significant inter-source disagreement",
-                    "simulated": True
-                }
-            )
-        finally:
-            session.close()
 
 
 class DiagramTextAlignmentHypothesis(Hypothesis):
@@ -502,10 +387,12 @@ class DiagramTextAlignmentHypothesis(Hypothesis):
             "relationship is indistinguishable from chance and FALSIFIED."
         )
 
-    def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        if not use_real_computation("hypotheses"):
-            return self._run_simulated(real_dataset_id, control_dataset_ids)
+    # Statistical baseline for control standard deviation to prevent division by zero
+    # and provide a conservative estimate when control variance is suspiciously low.
+    # 0.1 represents a 10% expected variation in alignment scores due to chance.
+    DEFAULT_CONTROL_STD = 0.1
 
+    def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
         return self._run_real(real_dataset_id, control_dataset_ids)
 
     def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
@@ -557,21 +444,21 @@ class DiagramTextAlignmentHypothesis(Hypothesis):
             if control_scores:
                 mean_control = sum(control_scores.values()) / len(control_scores)
                 variance = sum((s - mean_control) ** 2 for s in control_scores.values()) / len(control_scores)
-                std_control = math.sqrt(variance) if variance > 0 else 0.1
+                std_control = math.sqrt(variance) if variance > 0 else self.DEFAULT_CONTROL_STD
 
                 z_score = (real_score - mean_control) / std_control if std_control > 0 else 0
             else:
                 mean_control = 0
-                std_control = 0.1
+                std_control = self.DEFAULT_CONTROL_STD
                 z_score = 0
 
             # Determine outcome based on z-score
             if z_score >= 2.0:
-                outcome = "SUPPORTED"
+                outcome = HypothesisOutcome.SUPPORTED
             elif z_score >= 1.0:
-                outcome = "WEAKLY_SUPPORTED"
+                outcome = HypothesisOutcome.WEAKLY_SUPPORTED
             else:
-                outcome = "FALSIFIED"
+                outcome = HypothesisOutcome.FALSIFIED
 
             metrics = {
                 f"{real_dataset_id}:anchor_count": float(real_anchor_count),
@@ -599,78 +486,6 @@ class DiagramTextAlignmentHypothesis(Hypothesis):
         finally:
             session.close()
 
-    def _run_simulated(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        """Legacy simulated implementation."""
-        session = self.store.Session()
-        try:
-            real_anchor_count = 0
-            real_pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
-            for page in real_pages:
-                anchors = session.query(AnchorRecord).filter_by(page_id=page.id).all()
-                real_anchor_count += len(anchors)
-
-            control_anchor_counts = {}
-            for ctrl_id in control_dataset_ids:
-                count = 0
-                ctrl_pages = session.query(PageRecord).filter_by(dataset_id=ctrl_id).all()
-                for page in ctrl_pages:
-                    anchors = session.query(AnchorRecord).filter_by(page_id=page.id).all()
-                    count += len(anchors)
-                control_anchor_counts[ctrl_id] = count
-
-            real_score = 0.45
-            control_scores = {}
-            for ctrl_id in control_dataset_ids:
-                if "scrambled" in ctrl_id:
-                    control_scores[ctrl_id] = 0.38
-                elif "synthetic" in ctrl_id:
-                    control_scores[ctrl_id] = 0.25
-                else:
-                    control_scores[ctrl_id] = 0.40
-
-            if control_scores:
-                mean_control = sum(control_scores.values()) / len(control_scores)
-                variance = sum((s - mean_control) ** 2 for s in control_scores.values()) / len(control_scores)
-                std_control = variance ** 0.5 if variance > 0 else 0.1
-                z_score = (real_score - mean_control) / std_control if std_control > 0 else 0
-            else:
-                mean_control = 0
-                std_control = 0.1
-                z_score = 0
-
-            if z_score >= 2.0:
-                outcome = "SUPPORTED"
-            elif z_score >= 1.0:
-                outcome = "WEAKLY_SUPPORTED"
-            else:
-                outcome = "FALSIFIED"
-
-            metrics = {
-                f"{real_dataset_id}:anchor_count": float(real_anchor_count),
-                f"{real_dataset_id}:alignment_score": real_score,
-                f"{real_dataset_id}:z_score": z_score,
-            }
-
-            for ctrl_id, score in control_scores.items():
-                metrics[f"{ctrl_id}:alignment_score"] = score
-                metrics[f"{ctrl_id}:anchor_count"] = float(control_anchor_counts.get(ctrl_id, 0))
-
-            return HypothesisResult(
-                outcome=outcome,
-                metrics=metrics,
-                summary={
-                    "test": "scrambling_survival",
-                    "real_alignment_score": real_score,
-                    "control_mean": mean_control,
-                    "control_std": std_control,
-                    "z_score": z_score,
-                    "significance_threshold": 2.0,
-                    "verdict": "Alignment scores show only modest degradation under scrambling.",
-                    "simulated": True
-                }
-            )
-        finally:
-            session.close()
 
 
 class AnchorDisruptionHypothesis(Hypothesis):
@@ -703,9 +518,6 @@ class AnchorDisruptionHypothesis(Hypothesis):
         )
 
     def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        if not use_real_computation("hypotheses"):
-            return self._run_simulated(real_dataset_id, control_dataset_ids)
-
         return self._run_real(real_dataset_id, control_dataset_ids)
 
     def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
@@ -728,7 +540,7 @@ class AnchorDisruptionHypothesis(Hypothesis):
 
             if not anchors:
                 return HypothesisResult(
-                    outcome="INCONCLUSIVE",
+                    outcome=HypothesisOutcome.INCONCLUSIVE,
                     metrics={f"{real_dataset_id}:anchor_count": 0},
                     summary={"error": "No anchors found to test"}
                 )
@@ -790,11 +602,11 @@ class AnchorDisruptionHypothesis(Hypothesis):
 
             # Falsified if <50% survive at 10% shift
             if survival_at_10pct < 0.50:
-                outcome = "FALSIFIED"
+                outcome = HypothesisOutcome.FALSIFIED
             elif survival_at_10pct < 0.70:
-                outcome = "WEAKLY_SUPPORTED"
+                outcome = HypothesisOutcome.WEAKLY_SUPPORTED
             else:
-                outcome = "SUPPORTED"
+                outcome = HypothesisOutcome.SUPPORTED
 
             metrics = {
                 f"{real_dataset_id}:anchor_count": float(len(anchors)),
@@ -814,61 +626,6 @@ class AnchorDisruptionHypothesis(Hypothesis):
                     "survival_threshold": 0.50,
                     "survival_curve": survival_rates,
                     "verdict": "Anchors are fragile under geometric shift" if outcome == "FALSIFIED" else "Anchors survive moderate perturbation",
-                }
-            )
-        finally:
-            session.close()
-
-    def _run_simulated(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
-        """Legacy simulated implementation."""
-        session = self.store.Session()
-        try:
-            pages = session.query(PageRecord).filter_by(dataset_id=real_dataset_id).all()
-            page_ids = [p.id for p in pages]
-
-            anchor_count = (
-                session.query(AnchorRecord)
-                .filter(AnchorRecord.page_id.in_(page_ids))
-                .count()
-            )
-
-            # Simulated survival rates (anchors are fragile)
-            perturbation_levels = [0.05, 0.10, 0.15, 0.20]
-            survival_rates = {}
-
-            for p in perturbation_levels:
-                # Exponential decay
-                survival = max(0.1, 1.0 - (p * 5))
-                survival_rates[p] = survival
-
-            survival_at_10pct = survival_rates.get(0.10, 0.5)
-
-            if survival_at_10pct < 0.50:
-                outcome = "FALSIFIED"
-            elif survival_at_10pct < 0.70:
-                outcome = "WEAKLY_SUPPORTED"
-            else:
-                outcome = "SUPPORTED"
-
-            metrics = {
-                f"{real_dataset_id}:anchor_count": float(anchor_count),
-                f"{real_dataset_id}:survival_at_10pct": survival_at_10pct,
-            }
-
-            for p, rate in survival_rates.items():
-                metrics[f"{real_dataset_id}:survival_at_{int(p*100)}pct"] = rate
-
-            return HypothesisResult(
-                outcome=outcome,
-                metrics=metrics,
-                summary={
-                    "test": "anchor_disruption",
-                    "perturbation_tested": 0.10,
-                    "survival_rate": survival_at_10pct,
-                    "survival_threshold": 0.50,
-                    "survival_curve": survival_rates,
-                    "verdict": "Anchors are fragile under geometric shift",
-                    "simulated": True
                 }
             )
         finally:

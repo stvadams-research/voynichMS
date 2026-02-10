@@ -8,6 +8,9 @@ Replaces random uuid4() calls to enable reproducibility.
 import hashlib
 import uuid
 from typing import Optional
+import logging
+logger = logging.getLogger(__name__)
+from foundation.config import DEFAULT_SEED
 
 
 class DeterministicIDFactory:
@@ -15,17 +18,17 @@ class DeterministicIDFactory:
     Factory for generating deterministic IDs based on a seed.
 
     Usage:
-        factory = DeterministicIDFactory(seed=42)
+        factory = DeterministicIDFactory(seed=DEFAULT_SEED)
         id1 = factory.next_id("region")  # Deterministic based on seed + prefix + counter
         id2 = factory.next_id("anchor")  # Different prefix, still deterministic
 
     For reproducibility:
-        factory1 = DeterministicIDFactory(seed=42)
-        factory2 = DeterministicIDFactory(seed=42)
+        factory1 = DeterministicIDFactory(seed=DEFAULT_SEED)
+        factory2 = DeterministicIDFactory(seed=DEFAULT_SEED)
         assert factory1.next_id("test") == factory2.next_id("test")  # True
     """
 
-    def __init__(self, seed: int = 0):
+    def __init__(self, seed: int = DEFAULT_SEED):
         """
         Initialize the factory with a seed.
 

@@ -15,6 +15,8 @@ from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional, TypeVar
+import logging
+logger = logging.getLogger(__name__)
 
 
 class RandomnessViolationError(Exception):
@@ -76,7 +78,7 @@ class RandomnessController:
 
     def _get_mode(self) -> str:
         """Get current thread's randomness mode."""
-        return getattr(self._thread_local, "mode", self.UNRESTRICTED)
+        return getattr(self._thread_local, "mode", self.FORBIDDEN)
 
     def _set_mode(self, mode: str):
         """Set current thread's randomness mode."""
@@ -126,6 +128,7 @@ class RandomnessController:
             return controller._original_choice(seq)
 
         def guarded_shuffle(x, random_func=None):
+            """Wrapper around ``random.shuffle``. Mutates ``x`` in-place."""
             controller._check_allowed()
             return controller._original_shuffle(x, random_func)
 
@@ -211,6 +214,20 @@ class RandomnessController:
         finally:
             self._set_mode(old_mode)
             self._set_context(old_context)
+
+    @contextmanager
+    def unrestricted_context(self):
+        """
+        Context where any randomness is allowed.
+
+        Use for legacy code or where seeding is not yet implemented.
+        """
+        old_mode = self._get_mode()
+        self._set_mode(self.UNRESTRICTED)
+        try:
+            yield
+        finally:
+            self._set_mode(old_mode)
 
 
 # Global controller instance

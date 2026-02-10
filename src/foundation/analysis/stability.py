@@ -1,5 +1,7 @@
 from typing import Dict, Any
 from foundation.storage.metadata import MetadataStore, AnchorRecord, AnchorMetricRecord
+import logging
+logger = logging.getLogger(__name__)
 
 class AnchorStabilityAnalyzer:
     def __init__(self, store: MetadataStore):

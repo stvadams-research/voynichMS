@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Any, BinaryIO, Optional
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 class StorageInterface(ABC):
     """

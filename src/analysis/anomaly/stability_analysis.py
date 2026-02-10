@@ -10,6 +10,9 @@ from dataclasses import dataclass, field
 import math
 
 from analysis.anomaly.interface import StabilityEnvelope
+from foundation.config import get_analysis_thresholds
+import logging
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -32,12 +35,11 @@ class RepresentationVariant:
 class AnomalyStabilityAnalyzer:
     """
     Tests whether the Phase 2.3 anomaly is stable under representation changes.
-    """
 
-    # Baseline values from Phase 2.2/2.3
-    BASELINE_INFO_DENSITY = 4.0
-    BASELINE_LOCALITY = 3.0  # midpoint of 2-4
-    BASELINE_ROBUSTNESS = 0.70
+    NOTE: Baseline values are caller-provided reference points from Phase 2.2.
+    This analysis tests stability under representation perturbation; it is not
+    an independent derivation of the baseline itself.
+    """
 
     # Control values (scrambled/synthetic)
     CONTROL_INFO_DENSITY_MEAN = 1.2
@@ -45,9 +47,22 @@ class AnomalyStabilityAnalyzer:
     CONTROL_LOCALITY_MEAN = 8.0
     CONTROL_LOCALITY_STD = 2.0
 
-    def __init__(self):
+    def __init__(
+        self,
+        baseline_info_density: float = 4.0,
+        baseline_locality: float = 3.0,
+        baseline_robustness: float = 0.70,
+    ):
+        self.baseline_info_density = baseline_info_density
+        self.baseline_locality = baseline_locality
+        self.baseline_robustness = baseline_robustness
         self.variants: List[RepresentationVariant] = []
         self.envelopes: List[StabilityEnvelope] = []
+        self.sensitivity_thresholds = (
+            get_analysis_thresholds()
+            .get("stability_analysis", {})
+            .get("representation_sensitivity", {})
+        )
 
     def generate_variants(self) -> List[RepresentationVariant]:
         """
@@ -60,9 +75,9 @@ class AnomalyStabilityAnalyzer:
             RepresentationVariant(
                 name="baseline",
                 description="Original Phase 2.2/2.3 representation",
-                info_density=self.BASELINE_INFO_DENSITY,
-                locality_radius=self.BASELINE_LOCALITY,
-                robustness=self.BASELINE_ROBUSTNESS,
+                info_density=self.baseline_info_density,
+                locality_radius=self.baseline_locality,
+                robustness=self.baseline_robustness,
             ),
 
             # Segmentation variants
@@ -160,19 +175,19 @@ class AnomalyStabilityAnalyzer:
         self.envelopes = [
             self.compute_stability_envelope(
                 "info_density",
-                self.BASELINE_INFO_DENSITY,
+                self.baseline_info_density,
                 self.CONTROL_INFO_DENSITY_MEAN,
                 self.CONTROL_INFO_DENSITY_STD,
             ),
             self.compute_stability_envelope(
                 "locality_radius",
-                self.BASELINE_LOCALITY,
+                self.baseline_locality,
                 self.CONTROL_LOCALITY_MEAN,
                 self.CONTROL_LOCALITY_STD,
             ),
             self.compute_stability_envelope(
                 "robustness",
-                self.BASELINE_ROBUSTNESS,
+                self.baseline_robustness,
                 0.30,  # Control robustness is low
                 0.10,
             ),
@@ -222,11 +237,15 @@ class AnomalyStabilityAnalyzer:
         coarse = next(v for v in self.variants if v.name == "coarse_segmentation")
         fine = next(v for v in self.variants if v.name == "fine_segmentation")
 
+        high_threshold = float(self.sensitivity_thresholds.get("high", 1.0))
+        moderate_threshold = float(self.sensitivity_thresholds.get("moderate", 0.5))
+        low_threshold = float(self.sensitivity_thresholds.get("low", 0.3))
+
         seg_range = abs(fine.info_density - coarse.info_density)
-        if seg_range > 1.0:
+        if seg_range > high_threshold:
             report["segmentation_sensitivity"] = "high"
             report["notes"].append("Info density varies significantly with segmentation")
-        elif seg_range > 0.5:
+        elif seg_range > moderate_threshold:
             report["segmentation_sensitivity"] = "medium"
 
         # Check unit sensitivity
@@ -234,7 +253,7 @@ class AnomalyStabilityAnalyzer:
         line = next(v for v in self.variants if v.name == "line_units")
 
         unit_range = abs(word.info_density - line.info_density)
-        if unit_range > 0.5:
+        if unit_range > moderate_threshold:
             report["unit_sensitivity"] = "medium"
 
         # Check metric sensitivity
@@ -242,7 +261,7 @@ class AnomalyStabilityAnalyzer:
         normalized = next(v for v in self.variants if v.name == "normalized_entropy")
 
         metric_range = abs(shannon.info_density - normalized.info_density)
-        if metric_range > 0.3:
+        if metric_range > low_threshold:
             report["metric_sensitivity"] = "medium"
 
         # Overall assessment

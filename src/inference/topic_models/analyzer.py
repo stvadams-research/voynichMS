@@ -8,6 +8,8 @@ from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 from typing import List, Dict, Any, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 class TopicAnalyzer:
     """
@@ -22,7 +24,16 @@ class TopicAnalyzer:
         Run LDA and measure topic-section alignment.
         """
         if not tokens:
-            return {}
+            logger.warning("TopicAnalyzer.analyze received no tokens")
+            return {
+                "status": "no_data",
+                "metrics": {},
+                "num_topics": self.num_topics,
+                "num_sections": self.num_sections,
+                "unique_dominant_topics": 0,
+                "avg_section_topic_kl": 0.0,
+                "topic_words": [],
+            }
 
         # 1. Prepare Documents (One per section)
         section_size = len(tokens) // self.num_sections

@@ -9,6 +9,8 @@ from collections import Counter
 import numpy as np
 from typing import List, Dict, Any, Tuple
 import re
+import logging
+logger = logging.getLogger(__name__)
 
 class LanguageIDAnalyzer:
     """

@@ -14,6 +14,7 @@ Per Phase 2 Principles:
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from enum import Enum
+import logging
 from foundation.storage.metadata import (
     MetadataStore,
     ExplanationClassRecord,
@@ -22,6 +23,8 @@ from foundation.storage.metadata import (
     StructureRecord,
     HypothesisRecord,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class ConstraintType(Enum):

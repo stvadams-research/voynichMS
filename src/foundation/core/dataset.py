@@ -6,6 +6,8 @@ import re
 
 from foundation.core.ids import FolioID, PageID
 from foundation.storage.metadata import MetadataStore
+import logging
+logger = logging.getLogger(__name__)
 
 class DatasetManager:
     def __init__(self, metadata_store: MetadataStore):
@@ -39,11 +41,14 @@ class DatasetManager:
                 return None
         return None
 
-    def register_dataset(self, name: str, path: Path) -> List[str]:
+    def register_dataset(self, name: str, path: Path | str) -> List[str]:
         """
         Register a dataset and its pages.
         Returns a list of registered PageIDs.
         """
+        if not isinstance(path, (str, Path)):
+            raise TypeError(f"path must be str or Path, got {type(path)}")
+            
         path = Path(path).resolve()
         if not path.exists():
             raise FileNotFoundError(f"Dataset path not found: {path}")
@@ -63,7 +68,7 @@ class DatasetManager:
                     
                     folio_id = self.infer_folio_id(file)
                     if not folio_id:
-                        print(f"Skipping {file}: Could not infer FolioID")
+                        logger.warning("Skipping %s: Could not infer FolioID", file)
                         continue
 
                     page_id = str(PageID(folio=folio_id))
@@ -77,8 +82,8 @@ class DatasetManager:
                         from PIL import Image
                         with Image.open(file_path) as img:
                             width, height = img.size
-                    except Exception:
-                        pass
+                    except Exception as e:
+                        logger.warning("Failed to load image dimensions for %s: %s", file, e)
 
                     self.store.add_page(
                         page_id=page_id,

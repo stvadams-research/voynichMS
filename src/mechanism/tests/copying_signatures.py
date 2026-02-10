@@ -8,6 +8,8 @@ near-identical tokens (edit distance <= 1).
 from typing import List, Dict, Any, Tuple
 from collections import Counter
 import Levenshtein # We might need to install this or use a simple implementation
+import logging
+logger = logging.getLogger(__name__)
 
 class CopyingSignatureTest:
     """

@@ -18,8 +18,9 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.queries import get_tokens_and_boundaries
 from foundation.runs.manager import active_run
-from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from foundation.storage.metadata import MetadataStore
 from mechanism.generators.pool_generator import PoolGenerator
 from mechanism.generators.constraint_geometry.table_variants import GeometricTableGenerator
 from mechanism.constraint_geometry.latent_state import LatentStateAnalyzer
@@ -28,33 +29,6 @@ from mechanism.constraint_geometry.locality_resets import LocalityResetAnalyzer
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
-
-def get_tokens_and_boundaries(store, dataset_id):
-    session = store.Session()
-    try:
-        from foundation.storage.metadata import PageRecord
-        tokens_recs = (
-            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
-            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
-            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
-            .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
-            .all()
-        )
-        
-        tokens = []
-        boundaries = []
-        last_line_id = None
-        
-        for i, (content, line_id) in enumerate(tokens_recs):
-            tokens.append(content)
-            if last_line_id and line_id != last_line_id:
-                boundaries.append(i - 1) # Last index of the previous line
-            last_line_id = line_id
-            
-        return tokens, boundaries
-    finally:
-        session.close()
 
 def run_pilot_5b():
     console.print(Panel.fit(
@@ -71,11 +45,11 @@ def run_pilot_5b():
         real_tokens, real_boundaries = get_tokens_and_boundaries(store, "voynich_real")
         
         # Generator A: Pool (Size 25)
-        pool_gen = PoolGenerator(GRAMMAR_PATH, pool_size=25)
+        pool_gen = PoolGenerator(GRAMMAR_PATH, pool_size=25, seed=42)
         pool_tokens = pool_gen.generate(10000)
         
         # Generator B: Table (10x10 Snake)
-        table_gen = GeometricTableGenerator(GRAMMAR_PATH, rows=10, cols=10)
+        table_gen = GeometricTableGenerator(GRAMMAR_PATH, rows=10, cols=10, seed=42)
         table_tokens = table_gen.generate(10000, walk_type="snake")
         
         # 2. Run Geometry Tests

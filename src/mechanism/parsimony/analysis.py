@@ -5,6 +5,8 @@ Parsimony and Residual Dependency Analysis.
 from typing import List, Dict, Any, Tuple
 from collections import Counter, defaultdict
 import math
+import logging
+logger = logging.getLogger(__name__)
 
 class ParsimonyAnalyzer:
     def __init__(self):

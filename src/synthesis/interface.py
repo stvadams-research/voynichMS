@@ -9,6 +9,8 @@ from typing import Dict, List, Any, Optional, Tuple
 from enum import Enum
 import hashlib
 from datetime import datetime
+import logging
+logger = logging.getLogger(__name__)
 
 
 class GapStrength(Enum):
@@ -283,20 +285,24 @@ class IndistinguishabilityResult:
     # Success criteria
     scrambled_clearly_separated: bool = False
     synthetic_indistinguishable: bool = False
+    separation_success_threshold: float = 0.7
+    separation_failure_threshold: float = 0.3
 
     # Detailed metrics
     metric_comparisons: Dict[str, Dict[str, float]] = field(default_factory=dict)
 
     def evaluate_success(self):
         """Evaluate success criteria."""
-        # Strong separation from scrambled (>0.7)
+        # Strong separation from scrambled.
         self.scrambled_clearly_separated = (
-            self.real_vs_scrambled_separation > 0.7 and
-            self.synthetic_vs_scrambled_separation > 0.7
+            self.real_vs_scrambled_separation > self.separation_success_threshold and
+            self.synthetic_vs_scrambled_separation > self.separation_success_threshold
         )
 
-        # Weak separation from real (<0.3, near chance)
-        self.synthetic_indistinguishable = self.real_vs_synthetic_separation < 0.3
+        # Weak separation from real (near chance).
+        self.synthetic_indistinguishable = (
+            self.real_vs_synthetic_separation < self.separation_failure_threshold
+        )
 
 
 @dataclass

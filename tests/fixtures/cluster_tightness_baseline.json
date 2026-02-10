@@ -1,0 +1,13 @@
+[
+  {
+    "calculation_method": "computed",
+    "dataset_id": "test_ds",
+    "details": {
+      "count": 0,
+      "error": "insufficient_regions"
+    },
+    "metric_name": "ClusterTightness",
+    "scope": "global",
+    "value": 0.5
+  }
+]

@@ -7,6 +7,8 @@ Evaluates if transition rules persist globally or reset at boundaries.
 from collections import Counter, defaultdict
 from typing import List, Dict, Any, Tuple
 import math
+import logging
+logger = logging.getLogger(__name__)
 
 class LocalityResetAnalyzer:
     """

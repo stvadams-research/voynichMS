@@ -16,9 +16,8 @@ echo "2. Linting..."
 echo "3. Running Tests..."
 pytest tests/foundation/test_enforcement.py
 
-# 4. Determinism Check (Simulated)
+# 4. Determinism Check
 echo "4. Checking Determinism..."
-# In a real CI, we would run a script twice and compare outputs.
-# For now, we trust the recent manual verification.
+./scripts/verify_reproduction.sh
 
 echo "--- CI Check PASSED ---"

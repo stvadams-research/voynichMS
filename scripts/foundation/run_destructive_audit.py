@@ -21,6 +21,7 @@ import sys
 import json
 from pathlib import Path
 from datetime import datetime
+from foundation.core.provenance import ProvenanceWriter
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -44,12 +45,13 @@ from foundation.segmentation.dummy import DummyLineSegmenter, DummyWordSegmenter
 from foundation.regions.dummy import GridProposer, RandomBlobProposer
 from foundation.anchors.engine import AnchorEngine
 from foundation.core.id_factory import DeterministicIDFactory
+from foundation.config import DEFAULT_SEED
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
 
-def setup_test_infrastructure(store: MetadataStore, run_id: str, seed: int = 42):
+def setup_test_infrastructure(store: MetadataStore, run_id: str, seed: int = DEFAULT_SEED):
     """Set up minimal test data if needed."""
     session = store.Session()
     try:
@@ -200,7 +202,7 @@ def generate_anchors(store: MetadataStore, run_id: str, seed: int = 42):
         session.close()
 
 
-def run_destructive_audit(seed: int = 42):
+def run_destructive_audit(seed: int = DEFAULT_SEED):
     """Execute the Phase 1 Destructive Audit."""
     console.print(Panel.fit(
         "[bold cyan]Phase 1 Destructive Audit[/bold cyan]\n"
@@ -229,8 +231,8 @@ def run_destructive_audit(seed: int = 42):
 
         for hyp_cls in destructive_hypotheses:
             manager.register_hypothesis(hyp_cls)
-            temp = hyp_cls(store)
-            console.print(f"  Registered: [cyan]{temp.id}[/cyan]")
+            hyp_instance = hyp_cls(store)
+            console.print(f"  Registered: [cyan]{hyp_instance.id}[/cyan]")
 
         # Phase 2: Run hypotheses
         console.print("\n[bold]Phase 2: Executing Destructive Tests[/bold]")
@@ -239,11 +241,11 @@ def run_destructive_audit(seed: int = 42):
         control_ids = ["audit_scrambled", "audit_synthetic"]
 
         for hyp_cls in destructive_hypotheses:
-            temp = hyp_cls(store)
-            hyp_id = temp.id
+            hyp_instance = hyp_cls(store)
+            hyp_id = hyp_instance.id
 
             console.print(f"\n[yellow]Testing: {hyp_id}[/yellow]")
-            console.print(f"  [dim]{temp.description}[/dim]")
+            console.print(f"  [dim]{hyp_instance.description}[/dim]")
 
             result = manager.run_hypothesis(hyp_id, "audit_real", control_ids, run.run_id)
             results[hyp_id] = result
@@ -321,10 +323,7 @@ def run_destructive_audit(seed: int = 42):
 
         # Save findings to file
         findings_path = Path("runs") / run.run_id / "destructive_audit_findings.json"
-        findings_path.parent.mkdir(parents=True, exist_ok=True)
-
-        with open(findings_path, "w") as f:
-            json.dump(findings, f, indent=2, default=str)
+        ProvenanceWriter.save_results(findings, findings_path)
 
         console.print(f"\n[dim]Findings saved to: {findings_path}[/dim]")
 
@@ -374,5 +373,5 @@ def print_findings_for_document(findings: dict):
 
 
 if __name__ == "__main__":
-    findings = run_destructive_audit(seed=42)
+    findings = run_destructive_audit(seed=DEFAULT_SEED)
     print_findings_for_document(findings)

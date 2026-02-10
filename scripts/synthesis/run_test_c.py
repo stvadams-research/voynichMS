@@ -26,6 +26,8 @@ from rich.panel import Panel
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, GlyphAlignmentRecord, GlyphCandidateRecord
 
+from foundation.core.provenance import ProvenanceWriter
+
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
@@ -130,8 +132,7 @@ def run_test_c():
             console.print(table)
             
             # Save results
-            with open("status/synthesis/TEST_C_RESULTS.json", "w") as f:
-                json.dump(results, f, indent=2)
+            ProvenanceWriter.save_results(results, "status/synthesis/TEST_C_RESULTS.json")
                 
         finally:
             session.close()
