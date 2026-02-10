@@ -47,6 +47,10 @@ def summarize_illustration_coupling(status_payload: Dict[str, Any] | None) -> Di
         return {
             "status": "MISSING_ARTIFACT",
             "conclusive": False,
+            "h1_4_closure_lane": "H1_4_INCONCLUSIVE",
+            "h1_5_closure_lane": "H1_5_INCONCLUSIVE",
+            "robustness_class": "UNKNOWN",
+            "entitlement_robustness_class": "UNKNOWN",
             "statement": (
                 "Illustration-coupling artifact is missing; no coupling claim is licensed."
             ),
@@ -56,19 +60,59 @@ def summarize_illustration_coupling(status_payload: Dict[str, Any] | None) -> Di
         }
 
     status = str(status_payload.get("status", "UNKNOWN"))
+    h1_4_closure_lane = str(status_payload.get("h1_4_closure_lane", "H1_4_INCONCLUSIVE"))
+    raw_h1_5_closure_lane = status_payload.get("h1_5_closure_lane")
+    if isinstance(raw_h1_5_closure_lane, str) and raw_h1_5_closure_lane.strip():
+        h1_5_closure_lane = raw_h1_5_closure_lane.strip()
+    elif "h1_4_closure_lane" in status_payload:
+        if h1_4_closure_lane == "H1_4_ALIGNED":
+            h1_5_closure_lane = "H1_5_ALIGNED"
+        elif h1_4_closure_lane == "H1_4_QUALIFIED":
+            h1_5_closure_lane = "H1_5_QUALIFIED"
+        elif h1_4_closure_lane == "H1_4_BLOCKED":
+            h1_5_closure_lane = "H1_5_BLOCKED"
+        else:
+            h1_5_closure_lane = "H1_5_INCONCLUSIVE"
+    elif status.startswith("CONCLUSIVE_"):
+        h1_5_closure_lane = "H1_5_ALIGNED"
+    else:
+        h1_5_closure_lane = "H1_5_INCONCLUSIVE"
+    robustness = status_payload.get("robustness")
+    robustness_class = "UNKNOWN"
+    entitlement_robustness_class = "UNKNOWN"
+    if isinstance(robustness, dict):
+        robustness_class = str(robustness.get("robustness_class", "UNKNOWN"))
+        entitlement_robustness_class = str(
+            robustness.get("entitlement_robustness_class", robustness_class)
+        )
     allowed_claim = str(
         status_payload.get(
             "allowed_claim",
             "No conclusive statement about illustration coupling is available.",
         )
     )
-    conclusive = status.startswith("CONCLUSIVE_")
+    conclusive = status.startswith("CONCLUSIVE_") and h1_5_closure_lane == "H1_5_ALIGNED"
 
     if status == "CONCLUSIVE_NO_COUPLING":
-        statement = (
-            "Confirmatory coupling analysis did not detect a robust illustration/layout "
-            "coupling signal under configured adequacy criteria."
-        )
+        if h1_5_closure_lane == "H1_5_BOUNDED":
+            statement = (
+                "Confirmatory coupling analysis did not detect a robust illustration/layout "
+                "coupling signal in entitlement lanes, robustness remains qualified across "
+                "registered lanes, and diagnostic lanes remain non-conclusive monitoring signals; "
+                "no claim is allowed beyond bounded entitlement scope."
+            )
+        elif h1_4_closure_lane == "H1_4_QUALIFIED":
+            statement = (
+                "Confirmatory coupling analysis did not detect a robust illustration/layout "
+                "coupling signal in the canonical lane, but robustness remains qualified "
+                "across registered lanes; no conclusive claim is allowed beyond canonical "
+                "lane scope."
+            )
+        else:
+            statement = (
+                "Confirmatory coupling analysis did not detect a robust illustration/layout "
+                "coupling signal under configured adequacy criteria."
+            )
     elif status == "CONCLUSIVE_COUPLING_PRESENT":
         statement = (
             "Confirmatory coupling analysis detected a coupling signal; interpretation "
@@ -81,7 +125,12 @@ def summarize_illustration_coupling(status_payload: Dict[str, Any] | None) -> Di
         )
     elif status == "INCONCLUSIVE_UNDERPOWERED":
         statement = (
-            "Coupling analysis is underpowered or inferentially ambiguous; "
+            "Coupling analysis remains underpowered due adequacy constraints; "
+            "no conclusive claim is allowed."
+        )
+    elif status == "INCONCLUSIVE_INFERENTIAL_AMBIGUITY":
+        statement = (
+            "Coupling analysis meets adequacy thresholds but remains inferentially ambiguous; "
             "no conclusive claim is allowed."
         )
     else:
@@ -92,6 +141,10 @@ def summarize_illustration_coupling(status_payload: Dict[str, Any] | None) -> Di
     return {
         "status": status,
         "conclusive": conclusive,
+        "h1_4_closure_lane": h1_4_closure_lane,
+        "h1_5_closure_lane": h1_5_closure_lane,
+        "robustness_class": robustness_class,
+        "entitlement_robustness_class": entitlement_robustness_class,
         "statement": statement,
         "allowed_claim": allowed_claim,
     }
@@ -219,6 +272,13 @@ def run_phase_7b():
 
             f.write("\n## Illustration Proximity Evidence Grade\n\n")
             f.write(f"- **Status:** {multimodal_res['status']}\n")
+            f.write(f"- **H1.4 Closure Lane:** {multimodal_res['h1_4_closure_lane']}\n")
+            f.write(f"- **H1.5 Closure Lane:** {multimodal_res['h1_5_closure_lane']}\n")
+            f.write(f"- **Robustness Class:** {multimodal_res['robustness_class']}\n")
+            f.write(
+                "- **Entitlement Robustness Class:** "
+                f"{multimodal_res['entitlement_robustness_class']}\n"
+            )
             f.write(f"- **Interpretation:** {multimodal_res['statement']}\n")
             f.write(f"- **Allowed Claim:** {multimodal_res['allowed_claim']}\n")
             

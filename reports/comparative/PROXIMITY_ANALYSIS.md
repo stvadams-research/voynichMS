@@ -24,7 +24,17 @@
 - **Rank Stability:** 0.457 (top-3 set stability)
 - **Nearest-Neighbor Margin (P1-P2):** 0.067
 - **Top-2 Gap Robustness (CI Lower):** 0.0263
+- **M2.5 Closure Lane:** `M2_5_BOUNDED`
+- **M2.5 Residual Reason:** `top2_identity_flip_rate_remains_dominant`
+- **M2.4 Closure Lane (Compatibility):** `M2_4_BOUNDED`
+- **Top-2 Identity Flip Rate:** 0.442
+- **Top-2 Order Flip Rate:** 0.722
+- **Nearest Rank Entropy:** 1.747
+- **Runner-up Rank Entropy:** 2.082
+- **Dominant Fragility Signal:** `TOP2_IDENTITY_FLIP_DOMINANT`
 - **Comparative Uncertainty Status:** `INCONCLUSIVE_UNCERTAINTY`
-- **Reason Code:** `TOP2_GAP_FRAGILE`
-- **Allowed Claim:** Comparative claim remains provisional pending uncertainty-complete evidence.
+- **Reason Code:** `TOP2_IDENTITY_FLIP_DOMINANT`
+- **Allowed Claim:** Comparative claim remains provisional; nearest-neighbor identity is unstable across perturbation lanes.
+- **Missing-Folio Blocking Claimed:** `False`
+- **Objective Comparative Validity Failure:** `False`
 - **Uncertainty Artifact:** `results/human/phase_7c_uncertainty.json`

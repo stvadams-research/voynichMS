@@ -1,6 +1,6 @@
 {
-  "version": "2026-02-10",
-  "description": "SK-H3.2 data-availability policy for bounded control-comparability outcomes.",
+  "version": "2026-02-10-h3.5",
+  "description": "SK-H3.5 data-availability policy for terminal-qualified closure classification and bounded control-comparability outcomes.",
   "dataset_id": "voynich_real",
   "expected_pages": [
     "f88r",
@@ -28,6 +28,73 @@
     "f92r",
     "f92v"
   ],
+  "approved_lost_pages_source_note_path": "reports/skeptic/SK_H3_5_BASELINE_REGISTER.md",
+  "feasibility_policy": {
+    "allowed_full_data_feasibility": [
+      "feasible",
+      "irrecoverable"
+    ],
+    "required_fields": [
+      "full_data_feasibility",
+      "full_data_closure_terminal_reason",
+      "full_data_closure_reopen_conditions",
+      "h3_4_closure_lane"
+    ],
+    "feasible_terminal_reason": "full_data_pages_available",
+    "irrecoverable_terminal_reason": "approved_lost_pages_not_in_source_corpus",
+    "review_required_terminal_reason": "unexpected_missing_pages_require_recovery",
+    "aligned_lane": "H3_4_ALIGNED",
+    "qualified_lane": "H3_4_QUALIFIED",
+    "blocked_lane": "H3_4_BLOCKED"
+  },
+  "h3_5_policy": {
+    "required_fields": [
+      "h3_5_closure_lane",
+      "h3_5_residual_reason",
+      "h3_5_reopen_conditions"
+    ],
+    "aligned_lane": "H3_5_ALIGNED",
+    "terminal_qualified_lane": "H3_5_TERMINAL_QUALIFIED",
+    "blocked_lane": "H3_5_BLOCKED",
+    "inconclusive_lane": "H3_5_INCONCLUSIVE",
+    "aligned_residual_reason": "full_data_closure_aligned",
+    "terminal_qualified_residual_reason": "approved_lost_pages_not_in_source_corpus",
+    "blocked_residual_reason": "artifact_or_policy_contract_incoherence_detected",
+    "inconclusive_residual_reason": "evidence_incomplete_for_deterministic_lane",
+    "aligned_reopen_conditions": [
+      "none_required_full_data_available"
+    ],
+    "terminal_qualified_reopen_conditions": [
+      "new_primary_source_pages_added_to_dataset",
+      "approved_lost_pages_policy_updated_with_new_evidence",
+      "artifact_parity_or_freshness_contract_failed",
+      "claim_boundaries_exceeded_terminal_qualified_scope"
+    ],
+    "blocked_reopen_conditions": [
+      "repair_artifact_parity_and_freshness_contracts",
+      "rerun_control_matching_and_data_availability_checks"
+    ],
+    "inconclusive_reopen_conditions": [
+      "complete_evidence_bundle_for_lane_classification",
+      "rerun_control_matching_with_full_contract_coverage"
+    ]
+  },
+  "freshness_policy": {
+    "require_matching_run_id": true,
+    "require_timestamps": true,
+    "max_timestamp_skew_seconds": 600
+  },
+  "irrecoverability_policy": {
+    "clear_classification": "FULL_DATA_AVAILABLE",
+    "approved_lost_classification": "APPROVED_LOST_IRRECOVERABLE",
+    "unexpected_missing_classification": "UNEXPECTED_MISSING_REVIEW_REQUIRED",
+    "required_fields": [
+      "recoverable",
+      "approved_lost",
+      "unexpected_missing",
+      "classification"
+    ]
+  },
   "allowed_reason_codes": [
     "DATA_AVAILABILITY"
   ],
@@ -42,7 +109,9 @@
         "DATA_AVAILABILITY",
         "evidence_scope",
         "full_data_closure_eligible",
-        "available_subset"
+        "available_subset",
+        "irrecoverability",
+        "H3_5_TERMINAL_QUALIFIED"
       ]
     },
     {
@@ -53,7 +122,8 @@
       "markers": [
         "check_control_data_availability.py",
         "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json",
-        "available_subset"
+        "available_subset",
+        "h3_5_closure_lane"
       ]
     },
     {
@@ -63,7 +133,8 @@
       ],
       "markers": [
         "check_control_data_availability.py",
-        "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json"
+        "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json",
+        "h3_5_closure_lane"
       ]
     }
   ],
@@ -110,8 +181,22 @@
           "full_data_closure_eligible",
           "available_subset_status",
           "available_subset_reason_code",
+          "available_subset_confidence",
+          "available_subset_diagnostics",
+          "available_subset_reproducibility",
+          "available_subset_confidence_provenance",
           "missing_pages",
           "missing_count",
+          "full_data_feasibility",
+          "full_data_closure_terminal_reason",
+          "full_data_closure_reopen_conditions",
+          "h3_4_closure_lane",
+          "h3_5_closure_lane",
+          "h3_5_residual_reason",
+          "h3_5_reopen_conditions",
+          "approved_lost_pages_policy_version",
+          "approved_lost_pages_source_note_path",
+          "irrecoverability",
           "data_availability_policy_pass"
         ]
       },
@@ -136,7 +221,17 @@
           "missing_pages",
           "missing_count",
           "approved_lost_pages",
+          "approved_lost_pages_policy_version",
+          "approved_lost_pages_source_note_path",
           "unexpected_missing_pages",
+          "full_data_feasibility",
+          "full_data_closure_terminal_reason",
+          "full_data_closure_reopen_conditions",
+          "h3_4_closure_lane",
+          "h3_5_closure_lane",
+          "h3_5_residual_reason",
+          "h3_5_reopen_conditions",
+          "irrecoverability",
           "strict_preflight_status",
           "strict_preflight_reason_code",
           "strict_computed",

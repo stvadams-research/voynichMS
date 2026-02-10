@@ -1,8 +1,16 @@
 {
-  "version": "2026-02-10",
-  "description": "SK-C1.2 sensitivity artifact/report contract for CI and release gating.",
+  "version": "2026-02-10-c1.5",
+  "description": "SK-C1.5 sensitivity artifact/report contract for CI and release gating.",
   "artifact_path": "status/audit/sensitivity_sweep.json",
   "report_path": "reports/audit/SENSITIVITY_RESULTS.md",
+  "artifact_path_by_mode": {
+    "ci": "status/audit/sensitivity_sweep.json",
+    "release": "status/audit/sensitivity_sweep_release.json"
+  },
+  "report_path_by_mode": {
+    "ci": "reports/audit/SENSITIVITY_RESULTS.md",
+    "release": "reports/audit/SENSITIVITY_RESULTS_RELEASE.md"
+  },
   "required_summary_fields": [
     "schema_version",
     "policy_version",
@@ -101,6 +109,13 @@
     "robustness_conclusive": true,
     "scenario_counts_must_match": true,
     "release_readiness_failures_must_be_empty": true
+  },
+  "runtime_contract": {
+    "preflight_path": "status/audit/sensitivity_release_preflight.json",
+    "run_status_path": "status/audit/sensitivity_release_run_status.json",
+    "max_preflight_age_seconds": 21600,
+    "max_release_artifact_age_seconds": 259200,
+    "max_run_heartbeat_age_seconds": 1800
   },
   "caveat_policy": {
     "forbid_none_phrase_when_warnings_present": true,

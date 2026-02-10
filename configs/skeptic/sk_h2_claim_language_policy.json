@@ -1,10 +1,12 @@
 {
-  "version": "2026-02-10-h2m1.2",
+  "version": "2026-02-10-h2.4",
   "description": "SK-H2 claim boundary policy for public-facing conclusion language with gate-dependent entitlement controls.",
   "tracked_files": [
     "README.md",
     "results/reports/PHASE_4_5_CLOSURE_STATEMENT.md",
-    "results/reports/FINAL_PHASE_3_3_REPORT.md"
+    "results/reports/FINAL_PHASE_3_3_REPORT.md",
+    "reports/comparative/PHASE_B_BOUNDARY_STATEMENT.md",
+    "reports/comparative/PHASE_B_SYNTHESIS.md"
   ],
   "banned_patterns": [
     {
@@ -75,6 +77,28 @@
         "## 6. Operational Entitlement State",
         "status/audit/release_gate_health_status.json"
       ]
+    },
+    {
+      "id": "phaseb_boundary_scope_markers",
+      "scopes": [
+        "reports/comparative/PHASE_B_BOUNDARY_STATEMENT.md"
+      ],
+      "markers": [
+        "### 3. Closure of Text-Internal Comparison (Framework-Bounded)",
+        "### Operational Entitlement State",
+        "status/audit/release_gate_health_status.json"
+      ]
+    },
+    {
+      "id": "phaseb_synthesis_scope_markers",
+      "scopes": [
+        "reports/comparative/PHASE_B_SYNTHESIS.md"
+      ],
+      "markers": [
+        "### Conditionally Closed Statement",
+        "### Operational Entitlement State",
+        "status/audit/release_gate_health_status.json"
+      ]
     }
   ],
   "gate_health_policy": {
@@ -89,8 +113,17 @@
       "entitlement_class",
       "allowed_claim_class",
       "allowed_closure_class",
-      "gates"
+      "gates",
+      "generated_utc",
+      "h2_4_closure_lane",
+      "h2_4_residual_reason",
+      "h2_4_reopen_conditions"
     ],
+    "timestamp_keys": [
+      "generated_utc",
+      "generated_at"
+    ],
+    "max_age_seconds": 86400,
     "allowed_statuses": [
       "GATE_HEALTH_OK",
       "GATE_HEALTH_DEGRADED"
@@ -106,7 +139,8 @@
         ],
         "markers": [
           "Current gate-health class: `GATE_HEALTH_DEGRADED`",
-          "claims in this repository are operationally contingent"
+          "claims in this repository are operationally contingent",
+          "SK-C1 release sensitivity evidence contract"
         ]
       },
       {
@@ -116,7 +150,8 @@
         ],
         "markers": [
           "Current gate-health class: `GATE_HEALTH_DEGRADED`",
-          "closure language is operationally contingent"
+          "closure language is operationally contingent",
+          "SK-C1 release sensitivity evidence contract"
         ]
       },
       {
@@ -126,7 +161,30 @@
         ],
         "markers": [
           "Current gate-health class: `GATE_HEALTH_DEGRADED`",
-          "provisional and operationally contingent"
+          "provisional and operationally contingent",
+          "SK-C1 release sensitivity evidence contract"
+        ]
+      },
+      {
+        "id": "phaseb_boundary_degraded_entitlement_marker",
+        "scopes": [
+          "reports/comparative/PHASE_B_BOUNDARY_STATEMENT.md"
+        ],
+        "markers": [
+          "Current gate-health class: `GATE_HEALTH_DEGRADED`",
+          "closure claims remain operationally contingent",
+          "SK-C1 release sensitivity evidence contract"
+        ]
+      },
+      {
+        "id": "phaseb_synthesis_degraded_entitlement_marker",
+        "scopes": [
+          "reports/comparative/PHASE_B_SYNTHESIS.md"
+        ],
+        "markers": [
+          "Current gate-health class: `GATE_HEALTH_DEGRADED`",
+          "closure and comparative claims remain operationally contingent",
+          "SK-C1 release sensitivity evidence contract"
         ]
       }
     ],
@@ -138,6 +196,35 @@
           "results/reports/FINAL_PHASE_3_3_REPORT.md"
         ]
       }
+    ]
+  },
+  "h2_4_policy": {
+    "version": "2026-02-10-h2.4",
+    "aligned_lane": "H2_4_ALIGNED",
+    "qualified_lane": "H2_4_QUALIFIED",
+    "blocked_lane": "H2_4_BLOCKED",
+    "inconclusive_lane": "H2_4_INCONCLUSIVE",
+    "allowed_lanes": [
+      "H2_4_ALIGNED",
+      "H2_4_QUALIFIED",
+      "H2_4_BLOCKED",
+      "H2_4_INCONCLUSIVE"
+    ],
+    "lane_by_gate_status": {
+      "GATE_HEALTH_OK": "H2_4_ALIGNED",
+      "GATE_HEALTH_DEGRADED": "H2_4_QUALIFIED"
+    },
+    "required_claim_class_by_lane": {
+      "H2_4_ALIGNED": "CONCLUSIVE_WITHIN_SCOPE",
+      "H2_4_QUALIFIED": "QUALIFIED"
+    },
+    "required_closure_class_by_lane": {
+      "H2_4_ALIGNED": "CONDITIONAL_CLOSURE_ALIGNED",
+      "H2_4_QUALIFIED": "CONDITIONAL_CLOSURE_QUALIFIED"
+    },
+    "reopen_conditions": [
+      "release gate health transitions to GATE_HEALTH_OK with passing release sensitivity contract",
+      "claim entitlement policy is revised with documented rationale and parity-tested checker updates"
     ]
   },
   "allowlist": []

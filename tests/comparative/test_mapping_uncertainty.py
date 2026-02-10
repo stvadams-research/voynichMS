@@ -41,8 +41,20 @@ def test_compute_distance_uncertainty_returns_expected_keys() -> None:
     assert 0.0 <= result["rank_stability"] <= 1.0
     assert "rank_stability_components" in result
     assert "nearest_neighbor_probability_margin" in result
+    assert "fragility_diagnostics" in result
+    assert "m2_4_closure_lane" in result
+    assert "m2_4_residual_reason" in result
+    assert "m2_4_reopen_triggers" in result
+    assert "m2_5_closure_lane" in result
+    assert "m2_5_residual_reason" in result
+    assert "m2_5_reopen_triggers" in result
+    assert "m2_5_data_availability_linkage" in result
+    assert result["m2_5_data_availability_linkage"][
+        "missing_folio_blocking_claimed"
+    ] is False
     assert "metric_validity" in result
     assert result["metric_validity"]["required_fields_present"] is True
+    assert result["parameters"]["run_profile"] == "custom"
     assert "distance_summary" in result
     assert "Lullian" in result["distance_summary"]
     assert "ci95_lower" in result["distance_summary"]["Lullian"]
@@ -81,14 +93,20 @@ def test_run_analysis_writes_report_and_uncertainty_artifact(tmp_path) -> None:
         "INCONCLUSIVE_UNCERTAINTY",
     }
     assert "reason_code" in summary
+    assert "m2_4_closure_lane" in summary
+    assert "m2_5_closure_lane" in summary
     assert "rank_stability" in summary
     assert report_path.exists()
     report_text = report_path.read_text(encoding="utf-8")
     assert "95% CI" in report_text
     assert "Nearest-Neighbor Stability" in report_text
     assert "Rank Stability" in report_text
+    assert "M2.5 Closure Lane" in report_text
 
     payload = json.loads(artifact_path.read_text(encoding="utf-8"))
     assert "results" in payload
     assert "distance_summary" in payload["results"]
     assert "rank_stability" in payload["results"]
+    assert "fragility_diagnostics" in payload["results"]
+    assert "m2_5_closure_lane" in payload["results"]
+    assert payload["results"]["parameters"]["run_profile"] == "custom"

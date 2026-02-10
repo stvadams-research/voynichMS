@@ -69,14 +69,14 @@ Is the formal system adaptively coupled to the physical manuscript (pages, layou
 ### 4.2 Key Findings
 
 - **Weak or absent page-boundary effects** on line length and structure.
-- **Layout geometry adaptation is weak**, and illustration-proximity claims are status-gated by `results/mechanism/anchor_coupling_confirmatory.json`.
+- **Layout geometry adaptation is weak**, and illustration-proximity claims are status-gated by `results/mechanism/anchor_coupling_confirmatory.json` with explicit robustness class qualifiers and H1.5 lane controls.
 - **Strong coupling to scribal identity**, with large differences in execution signatures (e.g., TTR) between hands.
 - **No evidence of section-specific algorithms**; the mechanism is globally invariant.
 
 ### 4.3 Interpretation
 
 - The formal system shows **weak coupling to page geometry** under current codicological tests.
-- Illustration/layout coupling remains **status-gated and currently non-conclusive** (`INCONCLUSIVE_UNDERPOWERED`).
+- Illustration/layout coupling remains **status-gated by `results/mechanism/anchor_coupling_confirmatory.json`** and is currently `CONCLUSIVE_NO_COUPLING` with H1.4 lane `H1_4_QUALIFIED` (robustness class `MIXED`) and H1.5 lane `H1_5_BOUNDED` (diagnostic lanes remain non-conclusive monitoring signals).
 - Control resides with the **scribe executing an abstract system**, not the page.
 - Multiple scribes can execute the same system with measurably different styles.
 
@@ -132,7 +132,7 @@ Across Phases 7A–7C, the following conclusions are jointly supported:
    The manuscript was produced by humans exercising discipline, not automation or deception.
 
 2. **Abstract Control (Qualified):**  
-   Current evidence supports weak page-geometry coupling, while illustration/layout coupling remains status-gated and non-conclusive.
+   Current evidence supports weak page-geometry coupling, while illustration/layout coupling remains status-gated with robustness class qualifiers and H1.5 lane boundaries.
 
 3. **Agent Modulation:**  
    Individual scribes significantly influence execution style without altering the underlying rules.

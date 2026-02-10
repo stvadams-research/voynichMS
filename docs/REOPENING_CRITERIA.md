@@ -45,3 +45,13 @@ Operational reason-code taxonomy used for entitlement downgrade:
 - `PROVENANCE_RUNNER_CONTRACT_BLOCKED`
 
 When gate health is degraded, conclusions remain framework-bounded and reopenable, but claim strength is downgraded to qualified operational contingency.
+
+## SK-H2.4 Entitlement Reopen Triggers
+
+SK-H2.4 claim-entitlement classification must be revisited when either trigger
+occurs:
+
+1. Gate health transitions from `GATE_HEALTH_DEGRADED` to `GATE_HEALTH_OK`
+   with passing release sensitivity contract evidence.
+2. Claim/closure entitlement policies are revised with documented rationale and
+   parity-tested checker updates.

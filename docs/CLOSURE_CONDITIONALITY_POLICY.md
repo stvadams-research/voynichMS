@@ -57,6 +57,17 @@ Downgrade reason-code family:
 - `SENSITIVITY_RELEASE_CONTRACT_BLOCKED`
 - `PROVENANCE_RUNNER_RELEASE_CONTRACT_BLOCKED`
 
+## Deterministic H2.4 Lane Coupling
+
+Closure conditionality is now coupled to H2.4 entitlement lanes:
+
+- `H2_4_ALIGNED` -> closure class must be `CONDITIONAL_CLOSURE_ALIGNED`.
+- `H2_4_QUALIFIED` -> closure class must be `CONDITIONAL_CLOSURE_QUALIFIED`.
+
+Gate-health freshness is enforced from the canonical gate-health artifact.
+If the artifact is stale or lane/class mapping is inconsistent, closure
+conditionality checks must fail.
+
 ## Verification
 
 ```bash

@@ -15,12 +15,19 @@
       "status",
       "status_reason",
       "allowed_claim",
+      "h1_4_closure_lane",
+      "h1_4_residual_reason",
+      "h1_4_reopen_conditions",
+      "h1_5_closure_lane",
+      "h1_5_residual_reason",
+      "h1_5_reopen_conditions",
       "anchor_method",
       "policy",
       "cohorts",
       "effect",
       "adequacy",
-      "inference"
+      "inference",
+      "robustness"
     ],
     "required_nested_keys": {
       "anchor_method": [
@@ -47,6 +54,34 @@
         "no_coupling_delta_abs_max",
         "ci_crosses_zero",
         "abs_delta"
+      ],
+      "robustness": [
+        "matrix_id",
+        "matrix_version",
+        "lane_id",
+        "lane_purpose",
+        "lane_class",
+        "publication_lane_id",
+        "is_publication_lane",
+        "robustness_class",
+        "classification_basis",
+        "expected_lane_count",
+        "observed_lane_count",
+        "conclusive_lane_count",
+        "ambiguity_lane_count",
+        "underpowered_lane_count",
+        "blocked_lane_count",
+        "agreement_ratio",
+        "lane_outcomes_considered",
+        "reopen_conditions",
+        "entitlement_lane_outcomes",
+        "diagnostic_lane_outcomes",
+        "stress_lane_outcomes",
+        "entitlement_robustness_class",
+        "entitlement_agreement_ratio",
+        "robust_closure_reachable",
+        "robust_closure_reachable_reason",
+        "h1_5_reopen_conditions"
       ]
     }
   },
@@ -55,6 +90,7 @@
       "CONCLUSIVE_NO_COUPLING",
       "CONCLUSIVE_COUPLING_PRESENT",
       "INCONCLUSIVE_UNDERPOWERED",
+      "INCONCLUSIVE_INFERENTIAL_AMBIGUITY",
       "BLOCKED_DATA_GEOMETRY"
     ],
     "conclusive_statuses": [
@@ -63,7 +99,125 @@
     ],
     "non_conclusive_statuses": [
       "INCONCLUSIVE_UNDERPOWERED",
+      "INCONCLUSIVE_INFERENTIAL_AMBIGUITY",
       "BLOCKED_DATA_GEOMETRY"
+    ]
+  },
+  "coherence_policy": {
+    "allowed_status_reason_by_status": {
+      "CONCLUSIVE_NO_COUPLING": [
+        "adequacy_and_inference_support_no_coupling"
+      ],
+      "CONCLUSIVE_COUPLING_PRESENT": [
+        "adequacy_and_inference_support_coupling"
+      ],
+      "INCONCLUSIVE_UNDERPOWERED": [
+        "adequacy_thresholds_not_met"
+      ],
+      "INCONCLUSIVE_INFERENTIAL_AMBIGUITY": [
+        "inferential_ambiguity"
+      ],
+      "BLOCKED_DATA_GEOMETRY": [
+        "geometry_or_data_block"
+      ]
+    },
+    "required_adequacy_pass_by_status": {
+      "CONCLUSIVE_NO_COUPLING": true,
+      "CONCLUSIVE_COUPLING_PRESENT": true,
+      "INCONCLUSIVE_UNDERPOWERED": false,
+      "INCONCLUSIVE_INFERENTIAL_AMBIGUITY": true,
+      "BLOCKED_DATA_GEOMETRY": false
+    },
+    "required_adequacy_blocked_by_status": {
+      "BLOCKED_DATA_GEOMETRY": true
+    },
+    "required_inference_decision_by_status": {
+      "CONCLUSIVE_NO_COUPLING": "NO_COUPLING",
+      "CONCLUSIVE_COUPLING_PRESENT": "COUPLING_PRESENT",
+      "INCONCLUSIVE_INFERENTIAL_AMBIGUITY": "INCONCLUSIVE"
+    }
+  },
+  "h1_4_policy": {
+    "version": "2026-02-10-h1.4",
+    "aligned_lane": "H1_4_ALIGNED",
+    "qualified_lane": "H1_4_QUALIFIED",
+    "blocked_lane": "H1_4_BLOCKED",
+    "inconclusive_lane": "H1_4_INCONCLUSIVE",
+    "allowed_robustness_classes": [
+      "ROBUST",
+      "MIXED",
+      "FRAGILE"
+    ],
+    "conclusive_statuses": [
+      "CONCLUSIVE_NO_COUPLING",
+      "CONCLUSIVE_COUPLING_PRESENT"
+    ],
+    "inconclusive_statuses": [
+      "INCONCLUSIVE_UNDERPOWERED",
+      "INCONCLUSIVE_INFERENTIAL_AMBIGUITY"
+    ],
+    "blocked_statuses": [
+      "BLOCKED_DATA_GEOMETRY"
+    ],
+    "required_robustness_keys": [
+      "matrix_id",
+      "lane_id",
+      "publication_lane_id",
+      "robustness_class",
+      "agreement_ratio",
+      "lane_outcomes_considered",
+      "reopen_conditions"
+    ]
+  },
+  "h1_5_policy": {
+    "version": "2026-02-10-h1.5",
+    "aligned_lane": "H1_5_ALIGNED",
+    "bounded_lane": "H1_5_BOUNDED",
+    "qualified_lane": "H1_5_QUALIFIED",
+    "blocked_lane": "H1_5_BLOCKED",
+    "inconclusive_lane": "H1_5_INCONCLUSIVE",
+    "allowed_entitlement_robustness_classes": [
+      "ROBUST",
+      "MIXED",
+      "FRAGILE"
+    ],
+    "conclusive_statuses": [
+      "CONCLUSIVE_NO_COUPLING",
+      "CONCLUSIVE_COUPLING_PRESENT"
+    ],
+    "inconclusive_statuses": [
+      "INCONCLUSIVE_UNDERPOWERED",
+      "INCONCLUSIVE_INFERENTIAL_AMBIGUITY"
+    ],
+    "blocked_statuses": [
+      "BLOCKED_DATA_GEOMETRY"
+    ],
+    "required_robustness_keys": [
+      "entitlement_lane_outcomes",
+      "diagnostic_lane_outcomes",
+      "stress_lane_outcomes",
+      "entitlement_robustness_class",
+      "entitlement_agreement_ratio",
+      "robust_closure_reachable",
+      "robust_closure_reachable_reason",
+      "h1_5_reopen_conditions"
+    ]
+  },
+  "non_blocking_h3_irrecoverability_guard": {
+    "enabled": true,
+    "blocked_status_required_for_h1_5_blocked": true,
+    "disallow_folio_block_terms_for_non_blocked_status": true,
+    "blocked_residual_keywords": [
+      "data_geometry",
+      "contract_unreachable",
+      "cohort_geometry",
+      "geometry"
+    ],
+    "forbidden_non_blocked_residual_keywords": [
+      "folio",
+      "missing_page",
+      "lost_page",
+      "irrecoverable"
     ]
   },
   "required_markers": [
@@ -83,7 +237,8 @@
       ],
       "markers": [
         "results/mechanism/anchor_coupling_confirmatory.json` -> `results.status`",
-        "results/mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`"
+        "results/mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`",
+        "results.h1_5_closure_lane"
       ]
     },
     {
@@ -92,13 +247,44 @@
         "reports/human/PHASE_7_FINDINGS_SUMMARY.md"
       ],
       "markers": [
-        "status-gated by `results/mechanism/anchor_coupling_confirmatory.json`"
+        "status-gated by `results/mechanism/anchor_coupling_confirmatory.json`",
+        "robustness class",
+        "H1.5 lane"
+      ]
+    },
+    {
+      "id": "h1_4_qualified_boundary_marker",
+      "for_h1_4_lanes": [
+        "H1_4_QUALIFIED"
+      ],
+      "scopes": [
+        "results/reports/PHASE_5I_RESULTS.md",
+        "reports/human/PHASE_7B_RESULTS.md"
+      ],
+      "markers": [
+        "H1_4_QUALIFIED",
+        "robustness remains qualified across registered lanes"
+      ]
+    },
+    {
+      "id": "h1_5_bounded_boundary_marker",
+      "for_h1_5_lanes": [
+        "H1_5_BOUNDED"
+      ],
+      "scopes": [
+        "results/reports/PHASE_5I_RESULTS.md",
+        "reports/human/PHASE_7B_RESULTS.md"
+      ],
+      "markers": [
+        "H1_5_BOUNDED",
+        "diagnostic lanes remain non-conclusive monitoring signals"
       ]
     },
     {
       "id": "non_conclusive_claim_guardrail",
       "for_statuses": [
         "INCONCLUSIVE_UNDERPOWERED",
+        "INCONCLUSIVE_INFERENTIAL_AMBIGUITY",
         "BLOCKED_DATA_GEOMETRY"
       ],
       "scopes": [
@@ -114,6 +300,7 @@
       "id": "non_conclusive_no_unqualified_resolution",
       "for_statuses": [
         "INCONCLUSIVE_UNDERPOWERED",
+        "INCONCLUSIVE_INFERENTIAL_AMBIGUITY",
         "BLOCKED_DATA_GEOMETRY"
       ],
       "regex": true,

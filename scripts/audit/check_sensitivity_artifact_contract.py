@@ -9,6 +9,7 @@ import argparse
 import json
 import re
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
@@ -25,8 +26,31 @@ def _read_json(path: Path) -> Dict[str, Any]:
     return payload
 
 
+def _read_optional_json(path: Path) -> Dict[str, Any]:
+    if not path.exists():
+        return {}
+    try:
+        payload = _read_json(path)
+    except Exception:
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
 def _as_list(value: Any) -> List[Any]:
     return value if isinstance(value, list) else []
+
+
+def _resolve_mode_path(policy: Dict[str, Any], *, key: str, mode: str, default: str) -> str:
+    by_mode_key = f"{key}_by_mode"
+    by_mode = policy.get(by_mode_key)
+    if isinstance(by_mode, dict):
+        mode_value = by_mode.get(mode)
+        if isinstance(mode_value, str) and mode_value.strip():
+            return mode_value
+    value = policy.get(key, default)
+    if isinstance(value, str) and value.strip():
+        return value
+    return default
 
 
 def _extract_results_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
@@ -34,6 +58,48 @@ def _extract_results_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
     if isinstance(results, dict):
         return results
     return payload
+
+
+def _parse_iso_timestamp(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    raw = value.strip()
+    if raw.endswith("Z"):
+        raw = raw[:-1] + "+00:00"
+    try:
+        dt = datetime.fromisoformat(raw)
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
+def _as_nonnegative_int(value: Any) -> int | None:
+    if value is None:
+        return None
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return None
+    return parsed if parsed >= 0 else None
+
+
+def _age_seconds(*, now_utc: datetime, then_utc: datetime | None) -> float | None:
+    if then_utc is None:
+        return None
+    return max((now_utc - then_utc).total_seconds(), 0.0)
+
+
+def _extract_generated_utc(payload: Dict[str, Any]) -> datetime | None:
+    results_payload = _extract_results_payload(payload)
+    ts = _parse_iso_timestamp(results_payload.get("generated_utc"))
+    if ts is not None:
+        return ts
+    provenance = payload.get("provenance")
+    if isinstance(provenance, dict):
+        return _parse_iso_timestamp(provenance.get("timestamp"))
+    return None
 
 
 def _extract_report_value_map(report_text: str) -> Dict[str, str]:
@@ -214,16 +280,176 @@ def _check_release_mode_requirements(summary: Dict[str, Any], policy: Dict[str, 
     return errors
 
 
+def _check_release_runtime_freshness(
+    *,
+    summary: Dict[str, Any],
+    artifact_payload: Dict[str, Any],
+    preflight_payload: Dict[str, Any],
+    run_status_payload: Dict[str, Any],
+    runtime_policy: Dict[str, Any],
+    now_utc: datetime,
+) -> List[str]:
+    errors: List[str] = []
+    max_release_age = _as_nonnegative_int(runtime_policy.get("max_release_artifact_age_seconds"))
+    max_preflight_age = _as_nonnegative_int(runtime_policy.get("max_preflight_age_seconds"))
+    max_heartbeat_age = _as_nonnegative_int(runtime_policy.get("max_run_heartbeat_age_seconds"))
+
+    release_ts = _parse_iso_timestamp(summary.get("generated_utc"))
+    if release_ts is None:
+        release_ts = _extract_generated_utc(artifact_payload)
+    if max_release_age is not None:
+        release_age = _age_seconds(now_utc=now_utc, then_utc=release_ts)
+        if release_age is None:
+            errors.append(
+                "[freshness] release artifact timestamp missing; cannot evaluate release freshness"
+            )
+        elif release_age > max_release_age:
+            errors.append(
+                "[freshness] release artifact stale: "
+                f"age_seconds={release_age:.1f} limit_seconds={max_release_age}"
+            )
+
+    if preflight_payload:
+        preflight_ts = _extract_generated_utc(preflight_payload)
+        if max_preflight_age is not None:
+            preflight_age = _age_seconds(now_utc=now_utc, then_utc=preflight_ts)
+            if preflight_age is None:
+                errors.append(
+                    "[freshness] release preflight timestamp missing; cannot evaluate preflight freshness"
+                )
+            elif preflight_age > max_preflight_age:
+                errors.append(
+                    "[freshness] release preflight stale: "
+                    f"age_seconds={preflight_age:.1f} limit_seconds={max_preflight_age}"
+                )
+
+    if run_status_payload:
+        run_status = _extract_results_payload(run_status_payload)
+        run_state = run_status.get("status")
+        heartbeat_ts = _parse_iso_timestamp(run_status.get("generated_utc"))
+        heartbeat_age = _age_seconds(now_utc=now_utc, then_utc=heartbeat_ts)
+        if run_state in {"STARTED", "RUNNING"} and max_heartbeat_age is not None:
+            if heartbeat_age is None:
+                errors.append(
+                    "[release-run-status] stale-heartbeat: heartbeat timestamp missing"
+                )
+            elif heartbeat_age > max_heartbeat_age:
+                errors.append(
+                    "[release-run-status] stale-heartbeat: "
+                    f"status={run_state!r} age_seconds={heartbeat_age:.1f} "
+                    f"limit_seconds={max_heartbeat_age}"
+                )
+        if run_state == "FAILED":
+            errors.append("[release-run-status] latest release run status is FAILED")
+
+    return errors
+
+
 def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> Tuple[List[str], Dict[str, Any]]:
     errors: List[str] = []
 
-    artifact_rel = str(policy.get("artifact_path", "status/audit/sensitivity_sweep.json"))
-    report_rel = str(policy.get("report_path", "reports/audit/SENSITIVITY_RESULTS.md"))
+    artifact_rel = _resolve_mode_path(
+        policy,
+        key="artifact_path",
+        mode=mode,
+        default="status/audit/sensitivity_sweep.json",
+    )
+    report_rel = _resolve_mode_path(
+        policy,
+        key="report_path",
+        mode=mode,
+        default="reports/audit/SENSITIVITY_RESULTS.md",
+    )
     artifact_path = root / artifact_rel
     report_path = root / report_rel
+    runtime_policy = (
+        policy.get("runtime_contract")
+        if isinstance(policy.get("runtime_contract"), dict)
+        else {}
+    )
+    preflight_rel = str(
+        runtime_policy.get(
+            "preflight_path", "status/audit/sensitivity_release_preflight.json"
+        )
+    )
+    run_status_rel = str(
+        runtime_policy.get(
+            "run_status_path", "status/audit/sensitivity_release_run_status.json"
+        )
+    )
+    preflight_path = root / preflight_rel
+    run_status_path = root / run_status_rel
+    preflight_payload = _read_optional_json(preflight_path)
+    run_status_payload = _read_optional_json(run_status_path)
+    now_utc = datetime.now(timezone.utc)
 
     if not artifact_path.exists():
         errors.append(f"[missing-artifact] {artifact_rel}")
+        if mode == "release":
+            preflight_results = _extract_results_payload(preflight_payload)
+            preflight_status = preflight_results.get("status")
+            preflight_reason_codes = preflight_results.get("reason_codes")
+            if preflight_payload:
+                errors.append(
+                    "[missing-artifact] latest release preflight: "
+                    f"status={preflight_status!r} reason_codes={preflight_reason_codes!r}"
+                )
+            elif preflight_path.exists():
+                errors.append(
+                    "[missing-artifact] release preflight artifact exists but could not be parsed: "
+                    f"{preflight_rel}"
+                )
+            else:
+                errors.append(
+                    "[missing-artifact] release preflight artifact missing: "
+                    f"{preflight_rel}"
+                )
+            if preflight_status == "PREFLIGHT_OK":
+                errors.append(
+                    "[preflight-ok-but-release-artifact-missing] "
+                    "preflight_ok_but_release_artifact_missing"
+                )
+
+            if run_status_payload:
+                run_status = _extract_results_payload(run_status_payload)
+                run_state = run_status.get("status")
+                run_reasons = run_status.get("reason_codes")
+                run_generated_utc = run_status.get("generated_utc")
+                errors.append(
+                    "[release-run-status] "
+                    f"status={run_state!r} reason_codes={run_reasons!r} "
+                    f"generated_utc={run_generated_utc!r}"
+                )
+                max_heartbeat_age = _as_nonnegative_int(
+                    runtime_policy.get("max_run_heartbeat_age_seconds")
+                )
+                if max_heartbeat_age is not None and run_state in {"STARTED", "RUNNING"}:
+                    heartbeat_ts = _parse_iso_timestamp(run_generated_utc)
+                    heartbeat_age = _age_seconds(now_utc=now_utc, then_utc=heartbeat_ts)
+                    if heartbeat_age is None:
+                        errors.append(
+                            "[release-run-status] stale-heartbeat: heartbeat timestamp missing"
+                        )
+                    elif heartbeat_age > max_heartbeat_age:
+                        errors.append(
+                            "[release-run-status] stale-heartbeat: "
+                            f"status={run_state!r} age_seconds={heartbeat_age:.1f} "
+                            f"limit_seconds={max_heartbeat_age}"
+                        )
+            else:
+                errors.append(
+                    "[release-run-status] missing run status artifact: "
+                    f"{run_status_rel}"
+                )
+            errors.append(
+                "[missing-artifact] run release preflight first: "
+                "python3 scripts/analysis/run_sensitivity_sweep.py --mode release "
+                "--dataset-id voynich_real --preflight-only"
+            )
+            errors.append(
+                "[missing-artifact] run release sweep first: "
+                "python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real"
+            )
         return errors, {}
     if not report_path.exists():
         errors.append(f"[missing-report] {report_rel}")
@@ -245,6 +471,16 @@ def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> Tuple[List[s
 
     if mode == "release":
         errors.extend(_check_release_mode_requirements(summary, policy))
+        errors.extend(
+            _check_release_runtime_freshness(
+                summary=summary,
+                artifact_payload=artifact_payload,
+                preflight_payload=preflight_payload,
+                run_status_payload=run_status_payload,
+                runtime_policy=runtime_policy,
+                now_utc=now_utc,
+            )
+        )
 
     return errors, summary
 

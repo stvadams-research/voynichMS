@@ -122,7 +122,8 @@ Actions:
 Outcome:
 - Phase B reached a formal stopping point.
 - No unresolved analytical threads remained.
-- Current comparative uncertainty status is `INCONCLUSIVE_UNCERTAINTY` with reason `TOP2_GAP_FRAGILE`, so nearest-neighbor claims remain directional and caveated.
+- Current comparative uncertainty status is `INCONCLUSIVE_UNCERTAINTY`, so nearest-neighbor claims remain directional and caveated.
+- Under SK-M2.5, this uncertainty class maps to `M2_5_BOUNDED` only when diagnostic completeness and claim-boundary checks are satisfied.
 
 ---
 

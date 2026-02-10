@@ -76,6 +76,139 @@ def _as_list(value: Any) -> List[str]:
     return []
 
 
+def _as_dict(value: Any) -> Dict[str, Any]:
+    if isinstance(value, dict):
+        return dict(value)
+    return {}
+
+
+def _to_float(value: Any, default: float) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _to_int(value: Any, default: int) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _derive_h3_5_closure_lane(
+    *,
+    status: str,
+    reason_code: str,
+    evidence_scope: str,
+    full_data_closure_eligible: bool,
+    full_data_feasibility: str,
+    missing_count: int,
+    policy: Dict[str, Any],
+) -> str:
+    aligned_lane = str(policy.get("aligned_lane", "H3_5_ALIGNED"))
+    terminal_lane = str(
+        policy.get("terminal_qualified_lane", "H3_5_TERMINAL_QUALIFIED")
+    )
+    blocked_lane = str(policy.get("blocked_lane", "H3_5_BLOCKED"))
+    inconclusive_lane = str(policy.get("inconclusive_lane", "H3_5_INCONCLUSIVE"))
+
+    if (
+        full_data_feasibility == "feasible"
+        and missing_count == 0
+        and evidence_scope == "full_dataset"
+        and full_data_closure_eligible is True
+        and status in {"COMPARABLE_CONFIRMED", "COMPARABLE_QUALIFIED", "DATA_AVAILABILITY_CLEAR"}
+    ):
+        return aligned_lane
+
+    if (
+        full_data_feasibility == "irrecoverable"
+        and missing_count > 0
+        and reason_code == "DATA_AVAILABILITY"
+        and evidence_scope == "available_subset"
+        and full_data_closure_eligible is False
+    ):
+        return terminal_lane
+
+    if status == "INCONCLUSIVE_DATA_LIMITED":
+        return inconclusive_lane
+
+    return blocked_lane
+
+
+def _resolve_h3_5_contract(
+    *,
+    lane: str,
+    policy: Dict[str, Any],
+    full_data_terminal_reason: str,
+    full_data_reopen_conditions: List[str],
+) -> Dict[str, Any]:
+    aligned_lane = str(policy.get("aligned_lane", "H3_5_ALIGNED"))
+    terminal_lane = str(
+        policy.get("terminal_qualified_lane", "H3_5_TERMINAL_QUALIFIED")
+    )
+    blocked_lane = str(policy.get("blocked_lane", "H3_5_BLOCKED"))
+    inconclusive_lane = str(policy.get("inconclusive_lane", "H3_5_INCONCLUSIVE"))
+
+    if lane == aligned_lane:
+        residual_reason = str(
+            policy.get("aligned_residual_reason", "full_data_closure_aligned")
+        )
+        reopen_conditions = _as_list(
+            policy.get("aligned_reopen_conditions")
+        ) or ["none_required_full_data_available"]
+    elif lane == terminal_lane:
+        residual_reason = str(
+            policy.get(
+                "terminal_qualified_residual_reason",
+                full_data_terminal_reason or "approved_lost_pages_not_in_source_corpus",
+            )
+        )
+        reopen_conditions = _as_list(
+            policy.get("terminal_qualified_reopen_conditions")
+        ) or list(full_data_reopen_conditions)
+    elif lane == inconclusive_lane:
+        residual_reason = str(
+            policy.get(
+                "inconclusive_residual_reason",
+                "evidence_incomplete_for_deterministic_lane",
+            )
+        )
+        reopen_conditions = _as_list(
+            policy.get("inconclusive_reopen_conditions")
+        ) or [
+            "complete_evidence_bundle_for_lane_classification",
+            "rerun_control_matching_with_full_contract_coverage",
+        ]
+    elif lane == blocked_lane:
+        residual_reason = str(
+            policy.get(
+                "blocked_residual_reason",
+                "artifact_or_policy_contract_incoherence_detected",
+            )
+        )
+        reopen_conditions = _as_list(policy.get("blocked_reopen_conditions")) or [
+            "repair_artifact_parity_and_freshness_contracts",
+            "rerun_control_matching_and_data_availability_checks",
+        ]
+    else:
+        residual_reason = str(
+            policy.get(
+                "fallback_residual_reason",
+                "h3_5_lane_unrecognized_contract_review_required",
+            )
+        )
+        reopen_conditions = _as_list(policy.get("fallback_reopen_conditions")) or [
+            "review_h3_5_lane_contract_configuration"
+        ]
+
+    return {
+        "h3_5_residual_reason": residual_reason,
+        "h3_5_reopen_conditions": reopen_conditions,
+    }
+
+
 def _normalize_page_id(page_id: str) -> str:
     match = SPLIT_PAGE_ID_PATTERN.match(page_id)
     if match:
@@ -139,21 +272,112 @@ def _build_data_availability_snapshot(*, dataset_id: str, policy: Dict[str, Any]
     strict_reason_code = str(turing_results.get("reason_code", ""))
     strict_computed = bool(turing_results.get("strict_computed", False))
 
-    strict_preflight_policy_pass = (
-        strict_computed
-        and strict_status == "BLOCKED"
-        and strict_reason_code == "DATA_AVAILABILITY"
-        and missing_count > 0
+    if missing_count > 0:
+        strict_preflight_policy_pass = (
+            strict_computed
+            and strict_status == "BLOCKED"
+            and strict_reason_code == "DATA_AVAILABILITY"
+        )
+    else:
+        strict_preflight_policy_pass = strict_computed and strict_status == "PREFLIGHT_OK"
+
+    approved_lost_pages_match = (
+        sorted(missing_pages) == approved_lost_pages if missing_count > 0 else True
     )
-    approved_lost_pages_match = sorted(missing_pages) == approved_lost_pages
-    missing_count_consistent = int(preflight.get("missing_count", missing_count)) == missing_count
+    missing_count_consistent = _to_int(preflight.get("missing_count"), missing_count) == missing_count
+    approved_lost_pages_policy_version = str(policy.get("version", "unknown"))
+    approved_lost_pages_source_note_path = str(
+        policy.get("approved_lost_pages_source_note_path", "")
+    )
+
+    has_unexpected_missing = len(unexpected_missing_pages) > 0
+    has_approved_lost_only = missing_count > 0 and not has_unexpected_missing
+    feasibility_policy = _as_dict(policy.get("feasibility_policy"))
+    feasible_terminal_reason = str(
+        feasibility_policy.get("feasible_terminal_reason", "full_data_pages_available")
+    )
+    irrecoverable_terminal_reason = str(
+        feasibility_policy.get(
+            "irrecoverable_terminal_reason",
+            "approved_lost_pages_not_in_source_corpus",
+        )
+    )
+    review_required_terminal_reason = str(
+        feasibility_policy.get(
+            "review_required_terminal_reason",
+            "unexpected_missing_pages_require_recovery",
+        )
+    )
+    aligned_lane = str(feasibility_policy.get("aligned_lane", "H3_4_ALIGNED"))
+    qualified_lane = str(feasibility_policy.get("qualified_lane", "H3_4_QUALIFIED"))
+    blocked_lane = str(feasibility_policy.get("blocked_lane", "H3_4_BLOCKED"))
+    h3_5_policy = _as_dict(policy.get("h3_5_policy"))
+
+    if missing_count == 0:
+        irrecoverability_classification = "FULL_DATA_AVAILABLE"
+        full_data_feasibility = "feasible"
+        full_data_closure_terminal_reason = feasible_terminal_reason
+        h3_4_closure_lane = aligned_lane
+    elif has_unexpected_missing:
+        irrecoverability_classification = "UNEXPECTED_MISSING_REVIEW_REQUIRED"
+        full_data_feasibility = "feasible"
+        full_data_closure_terminal_reason = review_required_terminal_reason
+        h3_4_closure_lane = blocked_lane
+    else:
+        irrecoverability_classification = "APPROVED_LOST_IRRECOVERABLE"
+        full_data_feasibility = "irrecoverable"
+        full_data_closure_terminal_reason = irrecoverable_terminal_reason
+        h3_4_closure_lane = qualified_lane
+
+    full_data_closure_reopen_conditions = (
+        [
+            "new_primary_source_pages_added_to_dataset",
+            "approved_lost_pages_policy_updated_with_new_evidence",
+        ]
+        if missing_count > 0
+        else ["none_required_full_data_available"]
+    )
+
+    irrecoverability = {
+        "recoverable": missing_count == 0 or has_unexpected_missing,
+        "approved_lost": has_approved_lost_only,
+        "unexpected_missing": has_unexpected_missing,
+        "classification": irrecoverability_classification,
+    }
 
     policy_checks = {
         "strict_preflight_policy_pass": strict_preflight_policy_pass,
         "approved_lost_pages_match": approved_lost_pages_match,
         "missing_count_consistent": missing_count_consistent,
-        "unexpected_missing_pages_empty": len(unexpected_missing_pages) == 0,
+        "unexpected_missing_pages_empty": not has_unexpected_missing,
+        "irrecoverability_metadata_complete": all(
+            key in irrecoverability
+            for key in ("recoverable", "approved_lost", "unexpected_missing", "classification")
+        ),
+        "source_reference_pinned": bool(approved_lost_pages_policy_version)
+        and bool(approved_lost_pages_source_note_path),
+        "full_data_feasibility_declared": full_data_feasibility in {"feasible", "irrecoverable"},
+        "closure_lane_declared": bool(h3_4_closure_lane),
     }
+    h3_5_closure_lane = _derive_h3_5_closure_lane(
+        status="DATA_AVAILABILITY_BLOCKED" if missing_count > 0 else "DATA_AVAILABILITY_CLEAR",
+        reason_code="DATA_AVAILABILITY" if missing_count > 0 else "NONE",
+        evidence_scope=evidence_scope,
+        full_data_closure_eligible=missing_count == 0,
+        full_data_feasibility=full_data_feasibility,
+        missing_count=missing_count,
+        policy=h3_5_policy,
+    )
+    h3_5_contract = _resolve_h3_5_contract(
+        lane=h3_5_closure_lane,
+        policy=h3_5_policy,
+        full_data_terminal_reason=full_data_closure_terminal_reason,
+        full_data_reopen_conditions=full_data_closure_reopen_conditions,
+    )
+    policy_checks["h3_5_closure_lane_declared"] = bool(h3_5_closure_lane)
+    policy_checks["h3_5_reopen_conditions_declared"] = bool(
+        h3_5_contract.get("h3_5_reopen_conditions")
+    )
     policy_pass = all(policy_checks.values())
 
     return {
@@ -172,8 +396,18 @@ def _build_data_availability_snapshot(*, dataset_id: str, policy: Dict[str, Any]
         "missing_pages": missing_pages,
         "missing_count": missing_count,
         "approved_lost_pages": approved_lost_pages,
+        "approved_lost_pages_policy_version": approved_lost_pages_policy_version,
+        "approved_lost_pages_source_note_path": approved_lost_pages_source_note_path,
         "approved_missing_pages": approved_missing_pages,
         "unexpected_missing_pages": unexpected_missing_pages,
+        "full_data_feasibility": full_data_feasibility,
+        "full_data_closure_terminal_reason": full_data_closure_terminal_reason,
+        "full_data_closure_reopen_conditions": full_data_closure_reopen_conditions,
+        "h3_4_closure_lane": h3_4_closure_lane,
+        "h3_5_closure_lane": h3_5_closure_lane,
+        "h3_5_residual_reason": h3_5_contract.get("h3_5_residual_reason"),
+        "h3_5_reopen_conditions": h3_5_contract.get("h3_5_reopen_conditions", []),
+        "irrecoverability": irrecoverability,
         "policy_checks": policy_checks,
         "policy_pass": policy_pass,
     }
@@ -316,16 +550,133 @@ def run_audit(*, policy_path: Path, preflight_only: bool, seed: int, dataset_id:
 
     normalization = policy.get("normalization_policy", {})
     normalization_mode = str(normalization.get("default_mode", "parser"))
+    available_subset_policy = dict(policy.get("available_subset_policy", {}))
+    thresholds = dict(available_subset_policy.get("thresholds", {}))
+
+    control_card_paths = [
+        f"status/synthesis/control_matching_cards/{card['control_class']}.json"
+        for card in class_cards
+    ]
+    selected_composite_scores = [
+        float(card.get("selected", {}).get("scores", {}).get("composite_score", 0.0))
+        for card in class_cards
+    ]
+    stability_margins = []
+    for card in class_cards:
+        selected_score = float(card.get("selected", {}).get("scores", {}).get("composite_score", 0.0))
+        rejected = list(card.get("rejected_preview", []))
+        if rejected:
+            alt_score = float(rejected[0].get("scores", {}).get("composite_score", selected_score))
+            stability_margins.append(max(0.0, alt_score - selected_score))
+
+    control_card_count = len(class_cards)
+    expected_control_class_count = len(SEARCH_SPACES)
+    control_class_coverage_ratio = (
+        control_card_count / expected_control_class_count
+        if expected_control_class_count > 0
+        else 0.0
+    )
+    mean_selected_score = (
+        sum(selected_composite_scores) / len(selected_composite_scores)
+        if selected_composite_scores
+        else 0.0
+    )
+    max_selected_score = max(selected_composite_scores) if selected_composite_scores else 0.0
+    stability_margin_min = min(stability_margins) if stability_margins else 0.0
+    stability_margin_mean = (
+        sum(stability_margins) / len(stability_margins) if stability_margins else 0.0
+    )
+
+    min_control_card_count = _to_int(
+        thresholds.get("min_control_card_count"), expected_control_class_count
+    )
+    min_control_class_coverage_ratio = _to_float(
+        thresholds.get("min_control_class_coverage_ratio"), 1.0
+    )
+    max_mean_selected_composite_score = _to_float(
+        thresholds.get("max_mean_selected_composite_score"), 0.5
+    )
+    min_stability_margin = _to_float(thresholds.get("min_stability_margin"), 0.05)
+
+    available_subset_thresholds = {
+        "min_control_card_count": min_control_card_count,
+        "min_control_class_coverage_ratio": min_control_class_coverage_ratio,
+        "max_mean_selected_composite_score": max_mean_selected_composite_score,
+        "min_stability_margin": min_stability_margin,
+    }
+    available_subset_passes_thresholds = (
+        control_card_count >= min_control_card_count
+        and control_class_coverage_ratio >= min_control_class_coverage_ratio
+        and mean_selected_score <= max_mean_selected_composite_score
+        and stability_margin_min >= min_stability_margin
+    )
+    available_subset_diagnostics = {
+        "control_card_count": control_card_count,
+        "expected_control_class_count": expected_control_class_count,
+        "control_class_coverage_ratio": control_class_coverage_ratio,
+        "mean_selected_composite_score": mean_selected_score,
+        "max_selected_composite_score": max_selected_score,
+        "stability_margin_min": stability_margin_min,
+        "stability_margin_mean": stability_margin_mean,
+        "stability_envelope": {
+            "min_selected_composite_score": min(selected_composite_scores)
+            if selected_composite_scores
+            else 0.0,
+            "max_selected_composite_score": max_selected_score,
+            "range_selected_composite_score": (
+                (max_selected_score - min(selected_composite_scores))
+                if selected_composite_scores
+                else 0.0
+            ),
+        },
+        "power_indicator": (
+            "ADEQUATE" if control_card_count >= min_control_card_count else "UNDERPOWERED"
+        ),
+        "coverage_indicator": (
+            "SUFFICIENT"
+            if control_class_coverage_ratio >= min_control_class_coverage_ratio
+            else "INSUFFICIENT"
+        ),
+        "thresholds": available_subset_thresholds,
+        "passes_thresholds": available_subset_passes_thresholds,
+    }
+    available_subset_reproducibility = {
+        "preflight_only": preflight_only,
+        "dataset_id": dataset_id,
+        "seed": seed,
+        "control_card_paths": control_card_paths,
+        "control_card_count": control_card_count,
+    }
+    available_subset_confidence_provenance = {
+        "thresholds_passed": available_subset_passes_thresholds,
+        "preflight_only": preflight_only,
+        "evidence_scope": evidence_scope,
+        "control_card_count": control_card_count,
+        "control_class_coverage_ratio": control_class_coverage_ratio,
+        "stability_margin_min": stability_margin_min,
+        "mean_selected_composite_score": mean_selected_score,
+        "source_artifacts": control_card_paths,
+    }
+    available_subset_confidence = (
+        "UNDERPOWERED" if not available_subset_passes_thresholds else "QUALIFIED"
+    )
 
     if leakage_detected:
         available_subset_status = "NON_COMPARABLE_BLOCKED"
         available_subset_reason_code = "TARGET_LEAKAGE"
+        available_subset_confidence = "BLOCKED"
         available_subset_allowed_claim = (
             "Available-subset comparability is blocked due target leakage."
         )
+    elif not available_subset_passes_thresholds:
+        available_subset_status = "INCONCLUSIVE_DATA_LIMITED"
+        available_subset_reason_code = "AVAILABLE_SUBSET_UNDERPOWERED"
+        available_subset_allowed_claim = (
+            "Available-subset comparability is underpowered; additional evidence is required."
+        )
     elif preflight_only:
         available_subset_status = "COMPARABLE_QUALIFIED"
-        available_subset_reason_code = "AVAILABLE_SUBSET_PREFLIGHT"
+        available_subset_reason_code = "AVAILABLE_SUBSET_QUALIFIED"
         available_subset_allowed_claim = (
             "Available-subset comparability is qualified and non-conclusive for full-dataset closure."
         )
@@ -351,6 +702,14 @@ def run_audit(*, policy_path: Path, preflight_only: bool, seed: int, dataset_id:
         allowed_claim = (
             "Control-based inferential claims blocked until metric overlap is eliminated."
         )
+    elif available_subset_status == "INCONCLUSIVE_DATA_LIMITED":
+        status = "INCONCLUSIVE_DATA_LIMITED"
+        reason_code = "AVAILABLE_SUBSET_UNDERPOWERED"
+        grade = "C"
+        allowed_claim = (
+            "Comparability remains underpowered on available-subset evidence; "
+            "full-dataset closure is not permitted."
+        )
     elif preflight_only:
         status = "INCONCLUSIVE_DATA_LIMITED"
         reason_code = "PREFLIGHT_ONLY"
@@ -373,6 +732,41 @@ def run_audit(*, policy_path: Path, preflight_only: bool, seed: int, dataset_id:
     full_data_closure_eligible = (
         missing_count == 0 and status in {"COMPARABLE_CONFIRMED", "COMPARABLE_QUALIFIED"}
     )
+    full_data_feasibility = str(data_availability.get("full_data_feasibility", "feasible"))
+    h3_5_policy = _as_dict(data_availability_policy.get("h3_5_policy"))
+    if (
+        full_data_feasibility == "irrecoverable"
+        and status == "NON_COMPARABLE_BLOCKED"
+        and reason_code == "DATA_AVAILABILITY"
+        and evidence_scope == "available_subset"
+        and full_data_closure_eligible is False
+    ):
+        h3_4_closure_lane = "H3_4_QUALIFIED"
+    elif full_data_closure_eligible:
+        h3_4_closure_lane = "H3_4_ALIGNED"
+    elif status == "INCONCLUSIVE_DATA_LIMITED":
+        h3_4_closure_lane = "H3_4_INCONCLUSIVE"
+    else:
+        h3_4_closure_lane = "H3_4_BLOCKED"
+    h3_5_closure_lane = _derive_h3_5_closure_lane(
+        status=status,
+        reason_code=reason_code,
+        evidence_scope=evidence_scope,
+        full_data_closure_eligible=full_data_closure_eligible,
+        full_data_feasibility=full_data_feasibility,
+        missing_count=missing_count,
+        policy=h3_5_policy,
+    )
+    h3_5_contract = _resolve_h3_5_contract(
+        lane=h3_5_closure_lane,
+        policy=h3_5_policy,
+        full_data_terminal_reason=str(
+            data_availability.get("full_data_closure_terminal_reason", "")
+        ),
+        full_data_reopen_conditions=_as_list(
+            data_availability.get("full_data_closure_reopen_conditions", [])
+        ),
+    )
 
     summary = {
         "status": status,
@@ -385,7 +779,11 @@ def run_audit(*, policy_path: Path, preflight_only: bool, seed: int, dataset_id:
         "full_data_closure_eligible": full_data_closure_eligible,
         "available_subset_status": available_subset_status,
         "available_subset_reason_code": available_subset_reason_code,
+        "available_subset_confidence": available_subset_confidence,
         "available_subset_allowed_claim": available_subset_allowed_claim,
+        "available_subset_diagnostics": available_subset_diagnostics,
+        "available_subset_reproducibility": available_subset_reproducibility,
+        "available_subset_confidence_provenance": available_subset_confidence_provenance,
         "matching_metrics": matching_metrics,
         "holdout_evaluation_metrics": holdout_metrics,
         "metric_overlap": metric_overlap,
@@ -393,13 +791,31 @@ def run_audit(*, policy_path: Path, preflight_only: bool, seed: int, dataset_id:
         "normalization_mode": normalization_mode,
         "missing_pages": missing_pages,
         "missing_count": missing_count,
+        "full_data_feasibility": full_data_feasibility,
+        "full_data_closure_terminal_reason": data_availability.get(
+            "full_data_closure_terminal_reason"
+        ),
+        "full_data_closure_reopen_conditions": data_availability.get(
+            "full_data_closure_reopen_conditions", []
+        ),
+        "h3_4_closure_lane": h3_4_closure_lane,
+        "h3_5_closure_lane": h3_5_closure_lane,
+        "h3_5_residual_reason": h3_5_contract.get("h3_5_residual_reason"),
+        "h3_5_reopen_conditions": h3_5_contract.get("h3_5_reopen_conditions", []),
         "approved_lost_pages": _as_list(data_availability.get("approved_lost_pages")),
+        "approved_lost_pages_policy_version": data_availability.get(
+            "approved_lost_pages_policy_version"
+        ),
+        "approved_lost_pages_source_note_path": data_availability.get(
+            "approved_lost_pages_source_note_path"
+        ),
         "unexpected_missing_pages": _as_list(data_availability.get("unexpected_missing_pages")),
+        "irrecoverability": data_availability.get("irrecoverability", {}),
         "data_availability_policy_pass": bool(data_availability.get("policy_pass", False)),
         "data_availability_status_path": "status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json",
         "secondary_blockers": secondary_blockers,
         "control_classes": [card["control_class"] for card in class_cards],
-        "control_card_paths": [f"status/synthesis/control_matching_cards/{card['control_class']}.json" for card in class_cards],
+        "control_card_paths": control_card_paths,
     }
     return summary
 

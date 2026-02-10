@@ -35,6 +35,18 @@ def _as_float(value: Any) -> float | None:
         return None
 
 
+def _as_bool(value: Any) -> bool | None:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        lowered = value.strip().lower()
+        if lowered in {"true", "1", "yes"}:
+            return True
+        if lowered in {"false", "0", "no"}:
+            return False
+    return None
+
+
 def _is_allowlisted(allowlist: Sequence[Dict[str, Any]], pattern_id: str, scope: str) -> bool:
     for entry in allowlist:
         if entry.get("pattern_id") == pattern_id and entry.get("scope") == scope:
@@ -161,8 +173,10 @@ def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
             )
 
         metric_validity = results.get("metric_validity")
+        required_fields_present = False
         if isinstance(metric_validity, dict):
-            if metric_validity.get("required_fields_present") is not True:
+            required_fields_present = metric_validity.get("required_fields_present") is True
+            if not required_fields_present:
                 errors.append(
                     f"[artifact-validity] {rel_path}: metric_validity.required_fields_present must be true"
                 )
@@ -170,6 +184,239 @@ def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
                 errors.append(
                     f"[artifact-validity] {rel_path}: release mode requires sufficient_iterations=true"
                 )
+
+        m2_4_policy = dict(policy.get("m2_4_policy", {}))
+        if m2_4_policy:
+            lane = str(results.get("m2_4_closure_lane", "")).strip()
+            required_lane_by_status = dict(m2_4_policy.get("required_lane_by_status", {}))
+            expected_lane = str(required_lane_by_status.get(status_value, "")).strip()
+            inconclusive_missing_lane = str(
+                m2_4_policy.get("inconclusive_lane_when_fields_missing", "")
+            ).strip()
+
+            if status_value == "INCONCLUSIVE_UNCERTAINTY":
+                if required_fields_present and expected_lane and lane != expected_lane:
+                    errors.append(
+                        f"[artifact-lane] {rel_path}: status `{status_value}` requires lane "
+                        f"`{expected_lane}` (observed `{lane}`)"
+                    )
+                if (
+                    not required_fields_present
+                    and inconclusive_missing_lane
+                    and lane != inconclusive_missing_lane
+                ):
+                    errors.append(
+                        f"[artifact-lane] {rel_path}: incomplete INCONCLUSIVE_UNCERTAINTY "
+                        f"requires lane `{inconclusive_missing_lane}` (observed `{lane}`)"
+                    )
+            elif expected_lane and lane != expected_lane:
+                errors.append(
+                    f"[artifact-lane] {rel_path}: status `{status_value}` requires lane "
+                    f"`{expected_lane}` (observed `{lane}`)"
+                )
+
+            required_trigger_lanes = set(
+                _as_list(m2_4_policy.get("require_reopen_triggers_for_lanes"))
+            )
+            if lane in required_trigger_lanes:
+                triggers = results.get("m2_4_reopen_triggers")
+                if not isinstance(triggers, list) or not any(
+                    isinstance(item, str) and item.strip() for item in triggers
+                ):
+                    errors.append(
+                        f"[artifact-lane] {rel_path}: lane `{lane}` requires non-empty "
+                        "m2_4_reopen_triggers list"
+                    )
+
+            required_residual_lanes = set(
+                _as_list(m2_4_policy.get("require_residual_reason_for_lanes"))
+            )
+            if lane in required_residual_lanes:
+                residual_reason = str(results.get("m2_4_residual_reason", "")).strip()
+                if not residual_reason:
+                    errors.append(
+                        f"[artifact-lane] {rel_path}: lane `{lane}` requires non-empty "
+                        "m2_4_residual_reason"
+                    )
+
+            if status_value == "INCONCLUSIVE_UNCERTAINTY":
+                fragility = results.get("fragility_diagnostics")
+                if isinstance(fragility, dict):
+                    dominant_signal = str(
+                        fragility.get("dominant_fragility_signal", "")
+                    ).strip()
+                    if dominant_signal and dominant_signal != reason_code:
+                        errors.append(
+                            f"[artifact-fragility] {rel_path}: dominant_fragility_signal "
+                            f"`{dominant_signal}` does not match reason_code `{reason_code}`"
+                        )
+
+        m2_5_policy = dict(policy.get("m2_5_policy", {}))
+        if m2_5_policy:
+            m2_5_lane = str(results.get("m2_5_closure_lane", "")).strip()
+            allowed_lanes = set(_as_list(m2_5_policy.get("allowed_lanes")))
+            if allowed_lanes and m2_5_lane not in allowed_lanes:
+                errors.append(
+                    f"[artifact-lane] {rel_path}: m2_5_closure_lane `{m2_5_lane}` not in "
+                    f"{sorted(allowed_lanes)}"
+                )
+
+            required_lane_by_status = dict(m2_5_policy.get("required_lane_by_status", {}))
+            expected_lane = str(required_lane_by_status.get(status_value, "")).strip()
+            inconclusive_missing_lane = str(
+                m2_5_policy.get("inconclusive_lane_when_fields_missing", "")
+            ).strip()
+            if status_value == "INCONCLUSIVE_UNCERTAINTY":
+                if required_fields_present and expected_lane and m2_5_lane != expected_lane:
+                    errors.append(
+                        f"[artifact-lane] {rel_path}: status `{status_value}` requires "
+                        f"m2_5_closure_lane `{expected_lane}` (observed `{m2_5_lane}`)"
+                    )
+                if (
+                    not required_fields_present
+                    and inconclusive_missing_lane
+                    and m2_5_lane != inconclusive_missing_lane
+                ):
+                    errors.append(
+                        f"[artifact-lane] {rel_path}: incomplete INCONCLUSIVE_UNCERTAINTY "
+                        f"requires m2_5_closure_lane `{inconclusive_missing_lane}` "
+                        f"(observed `{m2_5_lane}`)"
+                    )
+            elif expected_lane and m2_5_lane != expected_lane:
+                errors.append(
+                    f"[artifact-lane] {rel_path}: status `{status_value}` requires "
+                    f"m2_5_closure_lane `{expected_lane}` (observed `{m2_5_lane}`)"
+                )
+
+            required_trigger_lanes = set(
+                _as_list(m2_5_policy.get("require_reopen_triggers_for_lanes"))
+            )
+            if m2_5_lane in required_trigger_lanes:
+                triggers = results.get("m2_5_reopen_triggers")
+                if not isinstance(triggers, list) or not any(
+                    isinstance(item, str) and item.strip() for item in triggers
+                ):
+                    errors.append(
+                        f"[artifact-lane] {rel_path}: lane `{m2_5_lane}` requires non-empty "
+                        "m2_5_reopen_triggers list"
+                    )
+
+            required_residual_lanes = set(
+                _as_list(m2_5_policy.get("require_residual_reason_for_lanes"))
+            )
+            if m2_5_lane in required_residual_lanes:
+                residual_reason = str(results.get("m2_5_residual_reason", "")).strip()
+                if not residual_reason:
+                    errors.append(
+                        f"[artifact-lane] {rel_path}: lane `{m2_5_lane}` requires non-empty "
+                        "m2_5_residual_reason"
+                    )
+
+        guard_policy = dict(policy.get("non_blocking_h3_irrecoverability_guard", {}))
+        if bool(guard_policy.get("enabled")):
+            blocked_lane = str(
+                m2_5_policy.get("blocked_lane", "M2_5_BLOCKED")
+                if m2_5_policy
+                else "M2_5_BLOCKED"
+            )
+            m2_5_lane = str(results.get("m2_5_closure_lane", "")).strip()
+            residual_text = str(results.get("m2_5_residual_reason", "")).lower()
+            reason_text = str(results.get("reason_code", "")).lower()
+            combined_text = f"{residual_text} {reason_text}"
+            linkage = results.get("m2_5_data_availability_linkage")
+            if not isinstance(linkage, dict):
+                errors.append(
+                    "[artifact-m2_5] m2_5_data_availability_linkage must be an object"
+                )
+                linkage = {}
+
+            blocking_claimed = _as_bool(linkage.get("missing_folio_blocking_claimed"))
+            objective_failure = _as_bool(
+                linkage.get("objective_comparative_validity_failure")
+            )
+            if blocking_claimed is None:
+                errors.append(
+                    "[artifact-m2_5] m2_5_data_availability_linkage."
+                    "missing_folio_blocking_claimed must be boolean"
+                )
+            if objective_failure is None:
+                errors.append(
+                    "[artifact-m2_5] m2_5_data_availability_linkage."
+                    "objective_comparative_validity_failure must be boolean"
+                )
+                objective_failure = False
+
+            if blocking_claimed and not objective_failure:
+                errors.append(
+                    "[artifact-m2_5] missing-folio blocking claim requires "
+                    "objective_comparative_validity_failure=true"
+                )
+
+            if (
+                bool(guard_policy.get("require_objective_linkage_for_blocked_lane"))
+                and m2_5_lane == blocked_lane
+                and not objective_failure
+            ):
+                errors.append(
+                    "[artifact-m2_5] blocked lane requires objective comparative "
+                    "validity linkage for missing-folio/data-availability objections"
+                )
+
+            forbidden = [
+                s.lower()
+                for s in _as_list(
+                    guard_policy.get("forbidden_non_blocked_residual_keywords")
+                )
+            ]
+            if (
+                bool(guard_policy.get("disallow_folio_block_terms_for_non_blocked_lane"))
+                and m2_5_lane != blocked_lane
+            ):
+                for keyword in forbidden:
+                    if keyword and keyword in combined_text:
+                        errors.append(
+                            "[artifact-m2_5] non-blocked lane contains blocked residual "
+                            f"keyword `{keyword}` without objective linkage"
+                        )
+
+            blocked_keywords = [
+                s.lower()
+                for s in _as_list(guard_policy.get("blocked_residual_keywords"))
+            ]
+            if m2_5_lane == blocked_lane and blocked_keywords:
+                if not any(keyword and keyword in combined_text for keyword in blocked_keywords):
+                    errors.append(
+                        "[artifact-m2_5] blocked lane residual/reason should include one of "
+                        f"{blocked_keywords}"
+                    )
+
+        matrix_policy = dict(policy.get("registered_confidence_matrix", {}))
+        run_profiles = matrix_policy.get("run_profiles")
+        parameters = results.get("parameters")
+        if isinstance(run_profiles, dict) and isinstance(parameters, dict):
+            run_profile = str(parameters.get("run_profile", "")).strip()
+            iterations = _as_float(parameters.get("iterations"))
+            if not run_profile:
+                errors.append(
+                    f"[artifact-parameters] {rel_path}: parameters.run_profile is required"
+                )
+            elif run_profile != "custom":
+                if run_profile not in run_profiles:
+                    errors.append(
+                        f"[artifact-parameters] {rel_path}: run_profile `{run_profile}` "
+                        f"not registered in run_profiles={sorted(run_profiles.keys())}"
+                    )
+                expected_iterations = _as_float(run_profiles.get(run_profile))
+                if (
+                    expected_iterations is not None
+                    and iterations is not None
+                    and int(iterations) != int(expected_iterations)
+                ):
+                    errors.append(
+                        f"[artifact-parameters] {rel_path}: run_profile `{run_profile}` "
+                        f"requires iterations={int(expected_iterations)} "
+                        f"(observed={iterations})"
+                    )
 
         nearest_stability = _as_float(results.get("nearest_neighbor_stability"))
         jackknife_stability = _as_float(results.get("jackknife_nearest_neighbor_stability"))

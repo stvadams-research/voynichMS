@@ -1,0 +1,321 @@
+{
+  "provenance": {
+    "run_id": "8b5f965c-aa34-4004-cbbc-75652ca39f47",
+    "git_commit": "41097c90b32d26e807113f1865def2f92e79995e",
+    "timestamp": "2026-02-10T20:40:21.547362+00:00",
+    "seed": 2718,
+    "experiment_id": "ea8741e3-5325-9767-3622-bf47f940ba43",
+    "run_nonce": 1770756021547321000,
+    "command": "run_proximity_uncertainty"
+  },
+  "results": {
+    "target_artifact": "Voynich",
+    "parameters": {
+      "seed": 2718,
+      "iterations": 400,
+      "dimension_count": 12,
+      "bootstrap_dimensions": true,
+      "weight_jitter_range": [
+        0.85,
+        1.15
+      ],
+      "jackknife_dimensions": true,
+      "status_thresholds": {
+        "min_nearest_neighbor_stability_for_confirmed": 0.75,
+        "min_jackknife_stability_for_confirmed": 0.75,
+        "min_rank_stability_for_confirmed": 0.65,
+        "min_probability_margin_for_confirmed": 0.1,
+        "min_top2_gap_ci_lower_for_confirmed": 0.05,
+        "min_nearest_neighbor_stability_for_qualified": 0.5,
+        "min_jackknife_stability_for_qualified": 0.7,
+        "min_rank_stability_for_qualified": 0.55,
+        "min_probability_margin_for_qualified": 0.03,
+        "min_top2_set_stability_for_identity_flip_dominant": 0.6,
+        "min_rank_entropy_for_high": 1.5
+      }
+    },
+    "status": "INCONCLUSIVE_UNCERTAINTY",
+    "reason_code": "TOP2_IDENTITY_FLIP_DOMINANT",
+    "allowed_claim": "Comparative claim remains provisional; nearest-neighbor identity is unstable across perturbation lanes.",
+    "nearest_neighbor": "Lullian Wheels",
+    "nearest_neighbor_distance": 5.0990195135927845,
+    "nearest_neighbor_stability": 0.3775,
+    "jackknife_nearest_neighbor_stability": 0.8333333333333334,
+    "rank_stability": 0.4275,
+    "rank_stability_components": {
+      "top2_set_stability": 0.55,
+      "top3_set_stability": 0.4275,
+      "full_ranking_match_rate": 0.0
+    },
+    "nearest_neighbor_alternative": "Lullian Wheels",
+    "nearest_neighbor_alternative_probability": 0.3775,
+    "nearest_neighbor_probability_margin": 0.0,
+    "distance_summary": {
+      "Latin": {
+        "mean": 8.402782743517742,
+        "std": 1.1415615046242829,
+        "ci95_lower": 6.101152408673105,
+        "ci95_upper": 10.487819555324165,
+        "point_estimate": 8.48528137423857,
+        "nearest_probability": 0.015,
+        "top3_probability": 0.0775,
+        "rank_probability": {
+          "1": 0.015,
+          "2": 0.02,
+          "3": 0.0425,
+          "4": 0.1125,
+          "5": 0.2525,
+          "6": 0.1275,
+          "7": 0.1525,
+          "8": 0.175,
+          "9": 0.0975,
+          "10": 0.005
+        },
+        "expected_rank": 6.055,
+        "rank_entropy": 2.8517097893802803
+      },
+      "Table-Grille": {
+        "mean": 8.325262496533417,
+        "std": 1.5967653349461526,
+        "ci95_lower": 5.092582142956788,
+        "ci95_upper": 11.248053164575195,
+        "point_estimate": 8.426149773176359,
+        "nearest_probability": 0.0025,
+        "top3_probability": 0.1525,
+        "rank_probability": {
+          "1": 0.0025,
+          "2": 0.0225,
+          "3": 0.1275,
+          "4": 0.135,
+          "5": 0.18,
+          "6": 0.155,
+          "7": 0.13,
+          "8": 0.2125,
+          "9": 0.0325,
+          "10": 0.0025
+        },
+        "expected_rank": 5.7275,
+        "rank_entropy": 2.8155848768376406
+      },
+      "Magic Squares": {
+        "mean": 5.327916533497248,
+        "std": 1.578368161317735,
+        "ci95_lower": 2.411759380193379,
+        "ci95_upper": 8.225924232125625,
+        "point_estimate": 5.5677643628300215,
+        "nearest_probability": 0.435,
+        "top3_probability": 0.8725,
+        "rank_probability": {
+          "1": 0.435,
+          "2": 0.265,
+          "3": 0.1725,
+          "4": 0.0575,
+          "5": 0.035,
+          "6": 0.02,
+          "7": 0.015
+        },
+        "expected_rank": 2.1125,
+        "rank_entropy": 2.077419707560835
+      },
+      "Vedic Chanting": {
+        "mean": 8.389972702514672,
+        "std": 1.3868127441236275,
+        "ci95_lower": 5.91488061695581,
+        "ci95_upper": 11.057769292078056,
+        "point_estimate": 8.426149773176359,
+        "nearest_probability": 0.0175,
+        "top3_probability": 0.15,
+        "rank_probability": {
+          "1": 0.0175,
+          "2": 0.025,
+          "3": 0.1075,
+          "4": 0.105,
+          "5": 0.11,
+          "6": 0.1725,
+          "7": 0.2,
+          "8": 0.13,
+          "9": 0.1325
+        },
+        "expected_rank": 6.0275,
+        "rank_entropy": 2.943512296321528
+      },
+      "Codex Seraph.": {
+        "mean": 7.803907467148106,
+        "std": 1.0820919179552995,
+        "ci95_lower": 5.658444934083256,
+        "ci95_upper": 9.695407915161493,
+        "point_estimate": 7.937253933193772,
+        "nearest_probability": 0.0025,
+        "top3_probability": 0.1525,
+        "rank_probability": {
+          "1": 0.0025,
+          "2": 0.0275,
+          "3": 0.1225,
+          "4": 0.3075,
+          "5": 0.0725,
+          "6": 0.12,
+          "7": 0.1525,
+          "8": 0.0875,
+          "9": 0.095,
+          "10": 0.0125
+        },
+        "expected_rank": 5.485,
+        "rank_entropy": 2.8228706087942976
+      },
+      "Lingua Ignota": {
+        "mean": 6.838794495683537,
+        "std": 1.9566858167136376,
+        "ci95_lower": 2.8601108056569635,
+        "ci95_upper": 10.07745305277655,
+        "point_estimate": 7.14142842854285,
+        "nearest_probability": 0.135,
+        "top3_probability": 0.5375,
+        "rank_probability": {
+          "1": 0.135,
+          "2": 0.1725,
+          "3": 0.23,
+          "4": 0.1,
+          "5": 0.0975,
+          "6": 0.0575,
+          "7": 0.035,
+          "8": 0.07,
+          "9": 0.1025
+        },
+        "expected_rank": 4.13,
+        "rank_entropy": 2.986260972691839
+      },
+      "Trithemius": {
+        "mean": 8.578898481871,
+        "std": 1.5024850187738,
+        "ci95_lower": 5.406081999126766,
+        "ci95_upper": 11.482146628621608,
+        "point_estimate": 8.660254037844387,
+        "nearest_probability": 0.015,
+        "top3_probability": 0.125,
+        "rank_probability": {
+          "1": 0.015,
+          "2": 0.025,
+          "3": 0.085,
+          "4": 0.065,
+          "5": 0.105,
+          "6": 0.2125,
+          "7": 0.145,
+          "8": 0.1525,
+          "9": 0.165,
+          "10": 0.03
+        },
+        "expected_rank": 6.4,
+        "rank_entropy": 2.997163130383197
+      },
+      "Lullian Wheels": {
+        "mean": 4.9143493399247795,
+        "std": 1.5186205225974274,
+        "ci95_lower": 2.527294059605469,
+        "ci95_upper": 7.9998477055793025,
+        "point_estimate": 5.0990195135927845,
+        "nearest_probability": 0.3775,
+        "top3_probability": 0.915,
+        "rank_probability": {
+          "1": 0.3775,
+          "2": 0.4425,
+          "3": 0.095,
+          "4": 0.0425,
+          "5": 0.025,
+          "6": 0.0125,
+          "7": 0.005
+        },
+        "expected_rank": 1.9525,
+        "rank_entropy": 1.8176003566691257
+      },
+      "Penmanship": {
+        "mean": 11.947848760387888,
+        "std": 1.5662839026536688,
+        "ci95_lower": 8.489985648985133,
+        "ci95_upper": 14.616455041585002,
+        "point_estimate": 11.958260743101398,
+        "nearest_probability": 0.0,
+        "top3_probability": 0.0,
+        "rank_probability": {
+          "4": 0.0025,
+          "7": 0.0075,
+          "8": 0.015,
+          "9": 0.0275,
+          "10": 0.9475
+        },
+        "expected_rank": 9.905,
+        "rank_entropy": 0.3817239628216501
+      },
+      "Enochian": {
+        "mean": 8.885853412817733,
+        "std": 1.6277174899551772,
+        "ci95_lower": 5.717128196179656,
+        "ci95_upper": 11.813194455967144,
+        "point_estimate": 8.94427190999916,
+        "nearest_probability": 0.0,
+        "top3_probability": 0.0175,
+        "rank_probability": {
+          "3": 0.0175,
+          "4": 0.0725,
+          "5": 0.1225,
+          "6": 0.1225,
+          "7": 0.1575,
+          "8": 0.1575,
+          "9": 0.3475,
+          "10": 0.0025
+        },
+        "expected_rank": 7.205,
+        "rank_entropy": 2.5102447459983073
+      }
+    },
+    "ranking_point_estimate": [
+      "Lullian Wheels",
+      "Magic Squares",
+      "Lingua Ignota",
+      "Codex Seraph.",
+      "Table-Grille",
+      "Vedic Chanting",
+      "Latin",
+      "Trithemius",
+      "Enochian",
+      "Penmanship"
+    ],
+    "top2_gap": {
+      "mean": 0.9464440389725567,
+      "std": 0.8194993878202662,
+      "ci95_lower": 0.007960765215831785,
+      "ci95_upper": 3.0910251041271426
+    },
+    "top2_gap_fragile": true,
+    "fragility_diagnostics": {
+      "top2_set_stability": 0.55,
+      "top2_identity_flip_rate": 0.44999999999999996,
+      "top2_order_match_rate": 0.235,
+      "top2_order_flip_rate": 0.765,
+      "nearest_rank_entropy": 1.8176003566691257,
+      "runner_up_rank_entropy": 1.8176003566691257,
+      "margin_volatility_std": 0.8194993878202662,
+      "top2_competition_ratio": 1.0,
+      "identity_flip_dominant": true,
+      "margin_volatility_dominant": true,
+      "rank_entropy_high": true,
+      "dominant_fragility_signal": "TOP2_IDENTITY_FLIP_DOMINANT"
+    },
+    "m2_4_closure_lane": "M2_4_BOUNDED",
+    "m2_4_reopen_triggers": [
+      "Promote to M2_4_ALIGNED only when nearest_neighbor_stability, jackknife_nearest_neighbor_stability, rank_stability, nearest_neighbor_probability_margin, and top2_gap.ci95_lower all clear confirmed thresholds.",
+      "Exit bounded lane if confidence diagnostics become incomplete or checker/report entitlement coherence fails."
+    ],
+    "metric_validity": {
+      "required_fields_present": true,
+      "missing_required_fields": [],
+      "sufficient_iterations": true,
+      "status_inputs": {
+        "nearest_neighbor_stability": 0.3775,
+        "jackknife_nearest_neighbor_stability": 0.8333333333333334,
+        "rank_stability": 0.4275,
+        "nearest_neighbor_probability_margin": 0.0,
+        "top2_gap_ci95_lower": 0.007960765215831785
+      }
+    }
+  }
+}

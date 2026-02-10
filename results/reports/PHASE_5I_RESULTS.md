@@ -52,15 +52,22 @@ Pilot delta estimates are small, but this table is exploratory only. Conclusive 
 
 - `results/mechanism/anchor_coupling_confirmatory.json` -> `results.status`
 - `results/mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.h1_5_closure_lane`
 
-Interpretation must not exceed the emitted status class (`CONCLUSIVE_*`, `INCONCLUSIVE_UNDERPOWERED`, or `BLOCKED_DATA_GEOMETRY`).
+Interpretation must not exceed the emitted status class (`CONCLUSIVE_*`, `INCONCLUSIVE_UNDERPOWERED`, `INCONCLUSIVE_INFERENTIAL_AMBIGUITY`, or `BLOCKED_DATA_GEOMETRY`).
 
 ### Current Confirmatory Status Snapshot
 
-- `results.status`: `INCONCLUSIVE_UNDERPOWERED`
-- `results.status_reason`: `inferential_ambiguity`
-- `results.allowed_claim`: Current evidence is underpowered or ambiguous; no conclusive coupling claim is allowed.
-- Latest run reference: `results/mechanism/anchor_coupling_confirmatory.json` (`run_id=23ac26fe-d2b2-d437-570f-e87bbab32411`)
+- `results.status`: `CONCLUSIVE_NO_COUPLING`
+- `results.status_reason`: `adequacy_and_inference_support_no_coupling`
+- `results.allowed_claim`: No robust image/layout coupling signal was detected under the configured adequacy and inference criteria.
+- `results.h1_4_closure_lane`: `H1_4_QUALIFIED`
+- `results.h1_5_closure_lane`: `H1_5_BOUNDED`
+- `results.robustness.robustness_class`: `MIXED`
+- `results.robustness.entitlement_robustness_class`: `ROBUST`
+- H1.4 qualifier: robustness remains qualified across registered lanes.
+- H1.5 boundary: diagnostic lanes remain non-conclusive monitoring signals.
+- Latest run reference: `results/mechanism/anchor_coupling_confirmatory.json` (`run_id=a2c8da85-c0f5-874c-27d1-8455688f98a9`)
 
 ---
 
@@ -78,4 +85,4 @@ While a single global machine is confirmed, the following internal properties re
 - **Dependency Scope:** The exact locality versus global-feature dependence of the constraints.
 
 ---
-**Conclusion:** Phase 5I completes the mechanism integrity audit. Current illustration-coupling evidence is status-gated as `INCONCLUSIVE_UNDERPOWERED`; no conclusive coupling claim is licensed at this time.
+**Conclusion:** Phase 5I completes the mechanism integrity audit. Current illustration-coupling evidence is status-gated as `CONCLUSIVE_NO_COUPLING`, with H1.4 closure lane `H1_4_QUALIFIED` because robustness remains qualified across registered lanes, and H1.5 closure lane `H1_5_BOUNDED` because diagnostic lanes remain non-conclusive monitoring signals.

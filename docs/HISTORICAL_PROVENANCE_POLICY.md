@@ -1,4 +1,4 @@
-# Historical Provenance Policy (SK-M4)
+# Historical Provenance Policy (SK-M4 / SK-M4.5)
 
 ## Purpose
 
@@ -24,6 +24,14 @@ Canonical provenance-health artifact:
 - `PROVENANCE_BLOCKED`: thresholds or required markers are violated; provenance confidence claims are blocked.
 - `INCONCLUSIVE_PROVENANCE_SCOPE`: evidence is insufficient to classify confidence safely.
 
+## SK-M4.5 Historical Lanes
+
+- `M4_5_ALIGNED`: provenance status and historical evidence support aligned confidence.
+- `M4_5_QUALIFIED`: provenance remains qualified but synchronized and contract-entitled.
+- `M4_5_BOUNDED`: historical uncertainty remains explicitly bounded by irrecoverable legacy gaps.
+- `M4_5_BLOCKED`: provenance contract or threshold state is blocked.
+- `M4_5_INCONCLUSIVE`: evidence is insufficient for deterministic lane assignment.
+
 ## Core Rules
 
 1. Historical orphaned/backfilled run history must be explicitly quantified.
@@ -47,18 +55,29 @@ Register synchronization artifact:
 
 This artifact is the source of truth for provenance register drift detection.
 
-## Source-of-Truth Precedence
+SK-M4.5 lane keys emitted in canonical artifacts:
 
-When provenance counts differ across surfaces, resolve in this order:
+- `status/audit/provenance_health_status.json`:
+  - `m4_5_historical_lane`
+  - `m4_5_residual_reason`
+  - `m4_5_reopen_conditions`
+  - `m4_5_data_availability_linkage`
+  - `m4_4_historical_lane` (legacy mirror)
+  - `m4_4_residual_reason` (legacy mirror)
+  - `m4_4_reopen_conditions` (legacy mirror)
+- `status/audit/provenance_register_sync_status.json`:
+  - `provenance_health_m4_5_lane`
+  - `provenance_health_m4_5_residual_reason`
+  - `provenance_health_lane` (resolved lane, backward-compatible alias)
+  - `provenance_health_residual_reason` (resolved residual, backward-compatible alias)
 
-1. Runtime DB status counts (`data/voynich.db`, `runs` table).
-2. Canonical provenance-health artifact (`status/audit/provenance_health_status.json`).
-3. Skeptic register markdown snapshot (`reports/skeptic/SK_M4_PROVENANCE_REGISTER.md`).
+## Missing-Folio Non-Blocker Rule
 
-The skeptic register must be generated/synchronized from canonical artifacts and
-must include `generated_utc` + `source_snapshot` markers.
+- Missing folio objections route to SK-H3 by default and do not auto-block SK-M4.
+- SK-M4 folio-based blocking requires objective provenance-contract incompleteness linkage in `m4_5_data_availability_linkage`.
+- Approved irrecoverable-loss classifications are bounded constraints, not standalone SK-M4 blockers.
 
-## Operational Contract Coupling (SK-M4.2)
+## Operational Contract Coupling (SK-M4.5)
 
 Provenance confidence is coupled to operational gate health:
 
@@ -66,10 +85,20 @@ Provenance confidence is coupled to operational gate health:
 - If gate health is degraded, provenance confidence must not be escalated to
   `PROVENANCE_ALIGNED` unless coupling checks pass with explicit reason-code support.
 
-Required contract-coupling reason-code family:
+Required contract-coupling reason-code family (degraded gate path):
 
 - `PROVENANCE_CONTRACT_BLOCKED`
 - `REGISTER_DRIFT_DETECTED`
+
+Under degraded gate state, SK-M4.5 provenance lane must remain in:
+
+- `M4_5_QUALIFIED`
+- `M4_5_BOUNDED`
+
+Legacy SK-M4.4 lane mirrors are retained for backward compatibility:
+
+- `M4_4_QUALIFIED`
+- `M4_4_BOUNDED`
 
 ## Register Synchronization Path
 

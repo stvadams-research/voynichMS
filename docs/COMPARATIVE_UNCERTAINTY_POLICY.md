@@ -1,9 +1,10 @@
-# Comparative Uncertainty Policy (SK-M2)
+# Comparative Uncertainty Policy (SK-M2 / SK-M2.5)
 
 ## Purpose
 
 This policy constrains comparative-distance claims so nearest-neighbor and
-structural-isolation conclusions are uncertainty-qualified.
+structural-isolation conclusions are uncertainty-qualified, lane-entitled, and
+reopenable under explicit criteria.
 
 Machine-readable policy:
 
@@ -15,10 +16,17 @@ Automated checker:
 
 ## Status Taxonomy
 
-- `STABILITY_CONFIRMED`: distance uncertainty intervals and perturbation stability support a robust comparative claim.
-- `DISTANCE_QUALIFIED`: directionality is supported, but rank/nearest-neighbor stability is moderate and caveats are required.
-- `INCONCLUSIVE_UNCERTAINTY`: point estimates exist but uncertainty evidence is insufficient for robust comparative claims.
-- `SUBJECTIVITY_RISK_BLOCKED`: policy violations or unqualified deterministic claims are present.
+- `STABILITY_CONFIRMED`: uncertainty diagnostics support robust comparative claims.
+- `DISTANCE_QUALIFIED`: directional comparative claims are supported with caveats.
+- `INCONCLUSIVE_UNCERTAINTY`: comparative claims remain bounded and non-conclusive.
+
+## M2.5 Closure Lanes
+
+- `M2_5_ALIGNED`: `STABILITY_CONFIRMED` with full confirmed-threshold support.
+- `M2_5_QUALIFIED`: `DISTANCE_QUALIFIED` with bounded directional entitlement.
+- `M2_5_BOUNDED`: `INCONCLUSIVE_UNCERTAINTY` with complete diagnostics and non-overreach boundaries.
+- `M2_5_BLOCKED`: uncertainty contract fields or parity requirements are not satisfied.
+- `M2_5_INCONCLUSIVE`: evidence is not sufficient to classify the lane deterministically.
 
 ## Required Evidence
 
@@ -29,7 +37,7 @@ Comparative conclusions must cite:
 3. Jackknife stability under leave-one-dimension-out checks.
 4. Rank-stability diagnostics (top-k set stability).
 5. Nearest-neighbor probability margin and top-2 gap robustness.
-6. Policy status and allowed-claim text from uncertainty artifact.
+6. Lane, residual reason, and reopen triggers from the uncertainty artifact.
 
 Primary artifact:
 
@@ -41,14 +49,25 @@ Required artifact semantics include:
 - `rank_stability_components`
 - `nearest_neighbor_probability_margin`
 - `top2_gap` and `top2_gap_fragile`
+- `fragility_diagnostics`
+- `m2_4_closure_lane`, `m2_4_residual_reason`, `m2_4_reopen_triggers` (compatibility)
+- `m2_5_closure_lane`, `m2_5_residual_reason`, `m2_5_reopen_triggers`
+- `m2_5_data_availability_linkage`
 - `metric_validity`
 
 ## Narrative Guardrails
 
-1. Do not present nearest-neighbor outcomes as deterministic when stability is below policy threshold.
+1. Do not present nearest-neighbor outcomes as deterministic when stability is below policy floors.
 2. Public comparative prose must link to the uncertainty artifact.
-3. Structural-isolation claims must be framed as uncertainty-qualified.
+3. Structural-isolation claims must remain uncertainty-qualified.
 4. If status is `INCONCLUSIVE_UNCERTAINTY`, nearest-neighbor language must stay directional and caveated.
+5. If lane is `M2_5_BOUNDED`, language must explicitly state that confidence remains non-conclusive and reopenable.
+
+## Missing-Folio Boundary
+
+- Missing-folio objections map to SK-H3 by default.
+- missing-folio objections are non-blocking for SK-M2 unless objective comparative-input validity failure is demonstrated.
+- If blocked-lane language references missing folios, the uncertainty artifact must include explicit objective linkage evidence in `m2_5_data_availability_linkage`.
 
 ## Enforcement
 

@@ -1,10 +1,23 @@
 from mechanism.anchor_coupling import (
+    H1_4_LANE_ALIGNED,
+    H1_5_LANE_ALIGNED,
+    H1_5_LANE_BLOCKED,
+    H1_5_LANE_BOUNDED,
+    H1_5_LANE_INCONCLUSIVE,
+    H1_5_LANE_QUALIFIED,
+    H1_4_LANE_INCONCLUSIVE,
+    H1_4_LANE_QUALIFIED,
+    ROBUSTNESS_CLASS_MIXED,
+    ROBUSTNESS_CLASS_ROBUST,
     STATUS_BLOCKED_DATA_GEOMETRY,
     STATUS_CONCLUSIVE_COUPLING_PRESENT,
     STATUS_CONCLUSIVE_NO_COUPLING,
+    STATUS_INCONCLUSIVE_INFERENTIAL_AMBIGUITY,
     STATUS_INCONCLUSIVE_UNDERPOWERED,
     classify_line_cohort,
     decide_status,
+    derive_h1_4_closure_lane,
+    derive_h1_5_closure_lane,
     evaluate_adequacy,
     evaluate_inference,
 )
@@ -125,3 +138,99 @@ def test_inference_decision_and_status_mapping() -> None:
         inference={"decision": "INCONCLUSIVE"},
     )
     assert underpowered_status["status"] == STATUS_INCONCLUSIVE_UNDERPOWERED
+
+    inferential_ambiguity_status = decide_status(
+        adequacy={"pass": True, "blocked": False},
+        inference={"decision": "INCONCLUSIVE"},
+    )
+    assert (
+        inferential_ambiguity_status["status"]
+        == STATUS_INCONCLUSIVE_INFERENTIAL_AMBIGUITY
+    )
+
+
+def test_h1_4_closure_lane_mapping_uses_robustness_class() -> None:
+    assert (
+        derive_h1_4_closure_lane(
+            status=STATUS_CONCLUSIVE_NO_COUPLING,
+            robustness_class=ROBUSTNESS_CLASS_ROBUST,
+        )
+        == H1_4_LANE_ALIGNED
+    )
+    assert (
+        derive_h1_4_closure_lane(
+            status=STATUS_CONCLUSIVE_NO_COUPLING,
+            robustness_class=ROBUSTNESS_CLASS_MIXED,
+        )
+        == H1_4_LANE_QUALIFIED
+    )
+    assert (
+        derive_h1_4_closure_lane(
+            status=STATUS_INCONCLUSIVE_INFERENTIAL_AMBIGUITY,
+            robustness_class=ROBUSTNESS_CLASS_MIXED,
+        )
+        == H1_4_LANE_INCONCLUSIVE
+    )
+
+
+def test_h1_5_closure_lane_mapping_respects_entitlement_and_diagnostic_lanes() -> None:
+    assert (
+        derive_h1_5_closure_lane(
+            status=STATUS_CONCLUSIVE_NO_COUPLING,
+            entitlement_robustness_class=ROBUSTNESS_CLASS_ROBUST,
+            diagnostic_lane_count=2,
+            diagnostic_non_conclusive_count=1,
+            robust_closure_reachable=True,
+        )
+        == H1_5_LANE_BOUNDED
+    )
+    assert (
+        derive_h1_5_closure_lane(
+            status=STATUS_CONCLUSIVE_NO_COUPLING,
+            entitlement_robustness_class=ROBUSTNESS_CLASS_ROBUST,
+            diagnostic_lane_count=0,
+            diagnostic_non_conclusive_count=0,
+            robust_closure_reachable=True,
+        )
+        == H1_5_LANE_ALIGNED
+    )
+    assert (
+        derive_h1_5_closure_lane(
+            status=STATUS_CONCLUSIVE_NO_COUPLING,
+            entitlement_robustness_class=ROBUSTNESS_CLASS_MIXED,
+            diagnostic_lane_count=1,
+            diagnostic_non_conclusive_count=1,
+            robust_closure_reachable=True,
+        )
+        == H1_5_LANE_QUALIFIED
+    )
+    assert (
+        derive_h1_5_closure_lane(
+            status=STATUS_BLOCKED_DATA_GEOMETRY,
+            entitlement_robustness_class=ROBUSTNESS_CLASS_MIXED,
+            diagnostic_lane_count=0,
+            diagnostic_non_conclusive_count=0,
+            robust_closure_reachable=True,
+        )
+        == H1_5_LANE_BLOCKED
+    )
+    assert (
+        derive_h1_5_closure_lane(
+            status=STATUS_INCONCLUSIVE_UNDERPOWERED,
+            entitlement_robustness_class=ROBUSTNESS_CLASS_MIXED,
+            diagnostic_lane_count=0,
+            diagnostic_non_conclusive_count=0,
+            robust_closure_reachable=True,
+        )
+        == H1_5_LANE_INCONCLUSIVE
+    )
+    assert (
+        derive_h1_5_closure_lane(
+            status=STATUS_CONCLUSIVE_NO_COUPLING,
+            entitlement_robustness_class=ROBUSTNESS_CLASS_ROBUST,
+            diagnostic_lane_count=0,
+            diagnostic_non_conclusive_count=0,
+            robust_closure_reachable=False,
+        )
+        == H1_5_LANE_BLOCKED
+    )

@@ -18,7 +18,9 @@ Phase B aimed to situate the Voynich Manuscript within the space of human-produc
 - This synthesis is explicitly **uncertainty-qualified**.
 - Primary uncertainty artifact: `results/human/phase_7c_uncertainty.json`.
 - Current nearest-neighbor stability, rank stability, and top-2 gap robustness are reported there and should gate claim strength.
-- Current status from that artifact is `INCONCLUSIVE_UNCERTAINTY` with reason `TOP2_GAP_FRAGILE`; comparative claims remain directional and caveated.
+- Current status from that artifact is `INCONCLUSIVE_UNCERTAINTY`; comparative claims remain directional and caveated.
+- Under SK-M2.5 lane semantics, this state is interpreted as `M2_5_BOUNDED` when diagnostic completeness and claim-boundary checks pass.
+- Missing-folio objections are non-blocking for SK-M2 unless comparative artifacts show objective comparative-input validity failure caused by missing source pages.
 
 ### Non-Semantic Conclusion
 The Voynich Manuscript behaves structurally like a **complex, memory-augmented combinatorial engine**. It belongs to the class of **formal, disciplined executions** where state-exhaustion and rule-adherence override communicative efficiency.
@@ -41,3 +43,4 @@ This conclusion is framework-bounded, uncertainty-qualified, and reopenable unde
 - Canonical operational entitlement source: `status/audit/release_gate_health_status.json`
 - Current gate-health class: `GATE_HEALTH_DEGRADED`
 - Under this state, closure and comparative claims remain operationally contingent and should be interpreted as qualified/reopenable rather than terminal.
+- Current degraded-state dependency is the SK-C1 release sensitivity evidence contract (`status/audit/sensitivity_sweep_release.json`).

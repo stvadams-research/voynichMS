@@ -1,5 +1,538 @@
 # Audit Log
 
+## 2026-02-10 - Skeptic SK-M4.5 Provenance Closure Hardening
+
+Source plan: `planning/skeptic/SKEPTIC_M4_5_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_5.md` (`SK-M4`)
+
+### Opened
+
+- SK-M4 continued to recur because provenance remained bounded while contract surfaces were still M4.4-only.
+- Missing-folio objections risked repeated SK-M4 reopening without objective provenance-contract linkage.
+- Gate dependency snapshots lacked explicit SK-M4 lane/reason projection, reducing auditability under degraded release health.
+
+### Decisions
+
+- Preserve SK-M4.4 compatibility fields, and introduce deterministic SK-M4.5 semantics:
+  - `M4_5_ALIGNED`
+  - `M4_5_QUALIFIED`
+  - `M4_5_BOUNDED`
+  - `M4_5_BLOCKED`
+  - `M4_5_INCONCLUSIVE`
+- Require explicit residual/reopen/linkage fields in canonical provenance artifacts.
+- Enforce missing-folio non-blocking rule for SK-M4 unless objective provenance-contract incompleteness is demonstrated.
+- Keep SK-C1 release artifact failure explicitly out-of-scope for SK-M4 blocker classification.
+
+### Execution Notes
+
+- Producer/checker/policy/register updates:
+  - `scripts/audit/build_provenance_health_status.py`
+  - `scripts/skeptic/check_provenance_uncertainty.py`
+  - `configs/skeptic/sk_m4_provenance_policy.json`
+  - `scripts/audit/sync_provenance_register.py`
+- Gate/dependency updates:
+  - `scripts/audit/build_release_gate_health_status.py`
+  - `scripts/ci_check.sh`
+  - `scripts/audit/pre_release_check.sh`
+  - `scripts/verify_reproduction.sh`
+- Narrative/contract surfaces:
+  - `README.md`
+  - `docs/PROVENANCE.md`
+  - `docs/HISTORICAL_PROVENANCE_POLICY.md`
+  - `results/reports/PHASE_4_5_CLOSURE_STATEMENT.md`
+  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `reports/skeptic/SK_M4_PROVENANCE_REGISTER.md`
+- Governance outputs:
+  - `reports/skeptic/SK_M4_5_BASELINE_REGISTER.md`
+  - `reports/skeptic/SK_M4_5_CLAIM_BOUNDARY_REGISTER.md`
+  - `reports/skeptic/SK_M4_5_DECISION_RECORD.md`
+  - `reports/skeptic/SKEPTIC_M4_5_EXECUTION_STATUS.md`
+
+### Verification
+
+- `python3 -m py_compile scripts/audit/build_provenance_health_status.py scripts/audit/sync_provenance_register.py scripts/skeptic/check_provenance_uncertainty.py scripts/audit/build_release_gate_health_status.py` -> PASS
+- `python3 scripts/audit/build_release_gate_health_status.py` -> PASS
+- `python3 scripts/audit/build_provenance_health_status.py` -> PASS (`m4_5_historical_lane=M4_5_BOUNDED`)
+- `python3 scripts/audit/sync_provenance_register.py` -> PASS (`IN_SYNC`, `drift_detected=false`)
+- `python3 scripts/skeptic/check_provenance_uncertainty.py --mode ci` -> PASS
+- `python3 scripts/skeptic/check_provenance_uncertainty.py --mode release` -> PASS
+- `python3 -m pytest -q tests/skeptic/test_provenance_uncertainty_checker.py tests/audit/test_sync_provenance_register.py tests/audit/test_release_gate_health_status_builder.py tests/audit/test_ci_check_contract.py tests/audit/test_pre_release_contract.py tests/audit/test_verify_reproduction_contract.py` -> PASS (`27 tests`)
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-M4.5 execution verification on active worktree' bash scripts/audit/pre_release_check.sh` -> expected SK-C1 failure only (missing release sensitivity artifact)
+- `bash scripts/ci_check.sh` -> expected SK-C1 release artifact contract failure only
+- `bash scripts/verify_reproduction.sh` -> expected SK-C1 release artifact contract failure only
+
+### Current State
+
+- SK-M4 is closed for this cycle as `M4_5_BOUNDED`.
+- Canonical state:
+  - `status=PROVENANCE_QUALIFIED`
+  - `reason_code=HISTORICAL_ORPHANED_ROWS_PRESENT`
+  - `recoverability_class=HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED`
+  - `m4_5_historical_lane=M4_5_BOUNDED`
+  - `m4_5_data_availability_linkage.objective_provenance_contract_incompleteness=false`
+  - sync `status=IN_SYNC`, `drift_detected=false`
+- Explicit blocker classification:
+  - fixable SK-M4 contract defects addressed,
+  - bounded non-fixable historical residual remains explicit,
+  - out-of-scope SK-C1 release-evidence production remains open.
+
+## 2026-02-10 - Skeptic SK-H3.5 Terminal-Qualified Closure Hardening
+
+Source plan: `planning/skeptic/SKEPTIC_H3_5_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_5.md` (`SK-H3`)
+
+### Opened
+
+- SK-H3 kept recurring because approved irrecoverable missing pages were still treated as an open engineering defect instead of a terminal-qualified external constraint.
+- H3.4 fields existed but there was no explicit H3.5 contract (`lane + residual reason + reopen triggers`) across producer/checkers/gates.
+- Shell gate scripts enforced H3.4 parity only, allowing H3.5 drift risk.
+
+### Decisions
+
+- Preserve H3.4 backward compatibility, and add deterministic H3.5 semantics:
+  - `H3_5_ALIGNED`
+  - `H3_5_TERMINAL_QUALIFIED`
+  - `H3_5_BLOCKED`
+  - `H3_5_INCONCLUSIVE`
+- Classify approved irrecoverable missing pages as terminal-qualified when canonical parity is coherent.
+- Require objective reopen triggers to prevent repeat-loop reopening on unchanged missing-page facts.
+
+### Execution Notes
+
+- Producer/checker/policy updates:
+  - `scripts/synthesis/run_control_matching_audit.py`
+  - `scripts/skeptic/check_control_comparability.py`
+  - `scripts/skeptic/check_control_data_availability.py`
+  - `configs/skeptic/sk_h3_control_comparability_policy.json`
+  - `configs/skeptic/sk_h3_data_availability_policy.json`
+- Gate and shell parity updates:
+  - `scripts/audit/build_release_gate_health_status.py`
+  - `scripts/audit/pre_release_check.sh`
+  - `scripts/verify_reproduction.sh`
+  - `scripts/ci_check.sh`
+- Governance/report updates:
+  - `reports/skeptic/SK_H3_5_BASELINE_REGISTER.md`
+  - `reports/skeptic/SK_H3_5_CLAIM_BOUNDARY_REGISTER.md`
+  - `reports/skeptic/SK_H3_5_DECISION_RECORD.md`
+  - `reports/skeptic/SKEPTIC_H3_5_EXECUTION_STATUS.md`
+  - `docs/CONTROL_COMPARABILITY_POLICY.md`
+  - `docs/REPRODUCIBILITY.md`
+  - `docs/RUNBOOK.md`
+  - `docs/METHODS_REFERENCE.md`
+  - `planning/skeptic/ADVERSARIAL_SKEPTIC_PLAYBOOK.md`
+
+### Verification
+
+- `python3 scripts/synthesis/run_control_matching_audit.py --preflight-only` -> PASS
+- `python3 scripts/skeptic/check_control_comparability.py --mode ci` -> PASS
+- `python3 scripts/skeptic/check_control_comparability.py --mode release` -> PASS
+- `python3 scripts/skeptic/check_control_data_availability.py --mode ci` -> PASS
+- `python3 scripts/skeptic/check_control_data_availability.py --mode release` -> PASS
+- `python3 scripts/audit/build_release_gate_health_status.py` -> PASS (`control_h3_5_closure_lane=H3_5_TERMINAL_QUALIFIED`)
+- `python3 -m pytest -q tests/skeptic/test_control_comparability_checker.py tests/skeptic/test_control_data_availability_checker.py tests/audit/test_pre_release_contract.py tests/audit/test_verify_reproduction_contract.py tests/audit/test_ci_check_contract.py tests/audit/test_release_gate_health_status_builder.py` -> PASS (`29 passed`)
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-H3.5: contract parity validation' bash scripts/audit/pre_release_check.sh` -> expected SK-C1 failure only (missing release sensitivity artifact)
+- `bash scripts/verify_reproduction.sh` -> expected SK-C1 release artifact contract failure only
+- `bash scripts/ci_check.sh` -> expected SK-C1 release artifact contract failure only
+
+### Current State
+
+- SK-H3 is closed for this cycle as `H3_5_TERMINAL_QUALIFIED`.
+- Fixable SK-H3 contract defects were addressed.
+- Non-fixable external blocker remains explicit:
+  - approved irrecoverable source gaps: `f91r`, `f91v`, `f92r`, `f92v`.
+- Reopen SK-H3 only on objective triggers (new primary pages, policy-evidence change, parity/freshness break, or claim-boundary violation).
+
+## 2026-02-10 - Skeptic SK-H1.5 Remediation
+
+Source plan: `planning/skeptic/SKEPTIC_H1_5_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_5.md` (`SK-H1`)
+
+### Opened
+
+- Pass-5 SK-H1 repeatedly reopened because canonical conclusive status coexisted with mixed matrix robustness.
+- Legacy lane scoring treated diagnostic/stress probes as publication entitlement blockers, causing repeat `H1_4_QUALIFIED`.
+- Team requested explicit blocker classification to separate fixable defects from true external constraints.
+
+### Decisions
+
+- Preserve H1.4 fields for backward compatibility, but add deterministic H1.5 lane semantics.
+- Split matrix lanes into `entitlement`, `diagnostic`, and `stress` classes.
+- Score entitlement robustness separately and classify conclusive + robust entitlement + non-conclusive diagnostic/stress as `H1_5_BOUNDED`.
+- Enforce non-blocking missing-folio guardrails for SK-H1 unless status is explicitly `BLOCKED_DATA_GEOMETRY`.
+
+### Execution Notes
+
+- Core semantics and policy:
+  - `src/mechanism/anchor_coupling.py`
+  - `configs/skeptic/sk_h1_multimodal_policy.json`
+  - `configs/skeptic/sk_h1_multimodal_status_policy.json`
+- Producer/checker/gate updates:
+  - `scripts/mechanism/run_5i_anchor_coupling.py`
+  - `scripts/skeptic/check_multimodal_coupling.py`
+  - `scripts/audit/build_release_gate_health_status.py`
+  - `scripts/audit/pre_release_check.sh`
+  - `scripts/verify_reproduction.sh`
+  - `scripts/ci_check.sh`
+- Claim/report synchronization:
+  - `results/reports/PHASE_5H_RESULTS.md`
+  - `results/reports/PHASE_5I_RESULTS.md`
+  - `results/reports/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
+  - `reports/human/PHASE_7_FINDINGS_SUMMARY.md`
+  - `reports/human/PHASE_7B_RESULTS.md`
+  - `scripts/human/run_7b_codicology.py`
+- Governance outputs:
+  - `reports/skeptic/SK_H1_5_BASELINE_REGISTER.md`
+  - `reports/skeptic/SK_H1_5_FEASIBILITY_REGISTER.md`
+  - `reports/skeptic/SK_H1_5_CLAIM_BOUNDARY_REGISTER.md`
+  - `reports/skeptic/SK_H1_5_DECISION_RECORD.md`
+  - `reports/skeptic/SKEPTIC_H1_5_EXECUTION_STATUS.md`
+
+### Verification
+
+- `python3 scripts/mechanism/run_5i_anchor_coupling.py` -> canonical `h1_5_closure_lane=H1_5_BOUNDED`
+- `python3 scripts/human/run_7b_codicology.py` -> Phase 7B report emits H1.5-bounded guardrail text
+- `python3 scripts/skeptic/check_multimodal_coupling.py --mode ci` -> PASS
+- `python3 scripts/skeptic/check_multimodal_coupling.py --mode release` -> PASS
+- `python3 scripts/audit/build_release_gate_health_status.py` -> PASS (`GATE_HEALTH_DEGRADED`, SK-C1 residual)
+- `python3 -m pytest -q tests/mechanism/test_anchor_coupling.py tests/mechanism/test_anchor_coupling_contract.py tests/skeptic/test_multimodal_coupling_checker.py tests/human/test_phase7_claim_guardrails.py tests/audit/test_ci_check_contract.py tests/audit/test_pre_release_contract.py tests/audit/test_verify_reproduction_contract.py tests/audit/test_release_gate_health_status_builder.py` -> PASS (`37 passed`)
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-H1.5 semantic parity verification' bash scripts/audit/pre_release_check.sh` -> expected SK-C1 failure only (missing release sensitivity artifact)
+- `bash scripts/verify_reproduction.sh` -> expected SK-C1 failure only; SK-H1.4/SK-H1.5 checks pass
+- `bash scripts/ci_check.sh` -> expected SK-C1 release contract failure only
+
+### Current State
+
+- SK-H1 is closed for this cycle as `H1_5_BOUNDED`.
+- Canonical artifact state:
+  - `status=CONCLUSIVE_NO_COUPLING`
+  - `h1_4_closure_lane=H1_4_QUALIFIED`
+  - `h1_5_closure_lane=H1_5_BOUNDED`
+  - `entitlement_robustness_class=ROBUST`
+  - `robust_closure_reachable=true`
+- Explicit blocker classification:
+  - fixable SK-H1 contract issues were addressed in this pass,
+  - no remaining SK-H1 blocker requires unavailable source data,
+  - out-of-scope SK-C1 release evidence production remains open.
+
+## 2026-02-10 - Skeptic SK-C1.5 Release Contract Closure Hardening
+
+Source plan: `planning/skeptic/SKEPTIC_C1_5_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_5.md` (`SK-C1`)
+
+### Opened
+
+- Pass-5 SK-C1 remained blocked by missing release sensitivity artifact/report despite `PREFLIGHT_OK`.
+- Long release runs remained expensive and difficult to distinguish between slow execution and true stalls.
+- Prior gate diagnostics lacked explicit pass-5 classing for preflight success with missing release evidence.
+
+### Decisions
+
+- Add deterministic release run-state lifecycle artifact:
+  - `status/audit/sensitivity_release_run_status.json`
+  - states: `STARTED`, `RUNNING`, `COMPLETED`, `FAILED`
+- Add explicit checker reason class:
+  - `preflight_ok_but_release_artifact_missing`
+- Add runtime freshness/run-state checks and gate-health run-status dependency snapshot.
+- Keep H3 approved irrecoverable folio constraints out of SK-C1 blocker scope.
+
+### Execution Notes
+
+- Runner hardening:
+  - `scripts/analysis/run_sensitivity_sweep.py`
+  - added run-status writes, failure-state persistence, and periodic full-battery heartbeat events.
+- Checker/policy hardening:
+  - `scripts/audit/check_sensitivity_artifact_contract.py`
+  - `configs/audit/sensitivity_artifact_contract.json`
+- Gate-health integration:
+  - `scripts/audit/build_release_gate_health_status.py`
+- Docs/test/governance:
+  - `docs/SENSITIVITY_ANALYSIS.md`
+  - `tests/analysis/test_sensitivity_sweep_end_to_end.py`
+  - `tests/audit/test_sensitivity_artifact_contract.py`
+  - `tests/audit/test_release_gate_health_status_builder.py`
+  - `reports/skeptic/SK_C1_5_CONTRACT_REGISTER.md`
+  - `reports/skeptic/SKEPTIC_C1_5_EXECUTION_STATUS.md`
+
+### Verification
+
+- `python3 -m py_compile scripts/analysis/run_sensitivity_sweep.py scripts/audit/check_sensitivity_artifact_contract.py scripts/audit/build_release_gate_health_status.py` -> PASS
+- `bash -n scripts/audit/pre_release_check.sh scripts/verify_reproduction.sh scripts/ci_check.sh` -> PASS
+- `python3 -m pytest -q tests/analysis/test_sensitivity_sweep_end_to_end.py tests/audit/test_sensitivity_artifact_contract.py tests/audit/test_pre_release_contract.py tests/audit/test_verify_reproduction_contract.py tests/audit/test_ci_check_contract.py tests/audit/test_release_gate_health_status_builder.py` -> PASS (`33 passed`)
+- `python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real --preflight-only` -> `PREFLIGHT_OK`
+- `python3 scripts/audit/check_sensitivity_artifact_contract.py --mode release` -> expected fail with explicit C1.5 diagnostics
+- `python3 scripts/audit/build_release_gate_health_status.py` -> `GATE_HEALTH_DEGRADED` with explicit SK-C1.5 failure families
+
+### Current State
+
+- SK-C1.5 diagnostic and runtime contract integrity is hardened and deterministic.
+- SK-C1 remains open due operational completion blocker:
+  - release artifact/report still missing (`sensitivity_sweep_release.json`, `SENSITIVITY_RESULTS_RELEASE.md`)
+  - latest run-status captures explicit failed run state (interrupted long release execution).
+- Approved irrecoverable H3 folio/page loss remains explicitly non-blocking for SK-C1 scope.
+
+## 2026-02-10 - Skeptic SK-M2.4 Remediation
+
+Source plan: `planning/skeptic/SKEPTIC_M2_4_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_4.md` (`SK-M2`)
+
+### Opened
+
+- SK-M2 remained repeatedly medium-risk because uncertainty stayed inconclusive across passes.
+- Prior M2.2 hardening improved schema/checker rigor but did not provide deterministic anti-repeat closure semantics.
+- `TOP2_GAP_FRAGILE` diagnosis lacked enough granularity to distinguish identity-flip versus other fragility drivers.
+
+### Decisions
+
+- Adopt deterministic SK-M2.4 closure lanes:
+  - `M2_4_ALIGNED`
+  - `M2_4_QUALIFIED`
+  - `M2_4_BOUNDED`
+  - `M2_4_BLOCKED` / `M2_4_INCONCLUSIVE`
+- Expand inconclusive reason taxonomy with explicit fragility classes.
+- Require artifact-level lane + fragility diagnostics and reopen triggers.
+- Keep anti-tuning method-selection rule with registered matrix/profile execution.
+
+### Execution Notes
+
+- Extended comparative uncertainty producer:
+  - `src/comparative/mapping.py`
+  - new fields: `fragility_diagnostics`, `m2_4_closure_lane`, `m2_4_reopen_triggers`
+- Added profile-based runner support:
+  - `scripts/comparative/run_proximity_uncertainty.py`
+  - profiles: `smoke`, `standard`, `release-depth`
+- Hardened SK-M2 policy and checker:
+  - `configs/skeptic/sk_m2_comparative_uncertainty_policy.json`
+  - `scripts/skeptic/check_comparative_uncertainty.py`
+- Updated tests:
+  - `tests/comparative/test_mapping_uncertainty.py`
+  - `tests/skeptic/test_comparative_uncertainty_checker.py`
+- Updated comparative/report policy docs:
+  - `reports/comparative/PROXIMITY_ANALYSIS.md`
+  - `reports/comparative/PHASE_B_SYNTHESIS.md`
+  - `reports/comparative/PHASE_B_BOUNDARY_STATEMENT.md`
+  - `reports/comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md`
+  - `docs/COMPARATIVE_UNCERTAINTY_POLICY.md`
+- Added SK-M2.4 governance artifacts:
+  - `reports/skeptic/SK_M2_4_BASELINE_REGISTER.md`
+  - `reports/skeptic/SK_M2_4_DIAGNOSTIC_MATRIX.md`
+  - `reports/skeptic/SK_M2_4_METHOD_SELECTION.md`
+  - `reports/skeptic/SK_M2_4_CLAIM_BOUNDARY_REGISTER.md`
+  - `reports/skeptic/SK_M2_4_DECISION_RECORD.md`
+  - `reports/skeptic/SKEPTIC_M2_4_EXECUTION_STATUS.md`
+
+### Current State
+
+- SK-M2 classified as `M2_4_BOUNDED`.
+- Canonical artifact reports:
+  - `status=INCONCLUSIVE_UNCERTAINTY`
+  - `reason_code=TOP2_IDENTITY_FLIP_DOMINANT`
+  - `m2_4_closure_lane=M2_4_BOUNDED`
+- Matrix sweep (`/tmp/m2_4_sweep/summary.json`) remained homogeneous across 9 lanes, supporting bounded non-conclusive closure rather than stronger confidence claims.
+
+## 2026-02-10 - Skeptic SK-H2.4 Remediation
+
+Source plan: `planning/skeptic/SKEPTIC_H2_4_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_4.md` (`SK-H2`)
+
+### Opened
+
+- SK-H2 remained repeatedly reopenable because claim entitlement was still an operational dependency state rather than an explicit closure lane.
+- Existing H2/M1 controls were strong but susceptible to drift from stale gate-health context and expanding public summary surfaces.
+- Pass-4 required a deterministic anti-repeat model that ties claim/closure class directly to canonical gate-health semantics.
+
+### Decisions
+
+- Adopt deterministic SK-H2.4 lanes:
+  - `H2_4_ALIGNED`
+  - `H2_4_QUALIFIED`
+  - `H2_4_BLOCKED` / `H2_4_INCONCLUSIVE`
+- Require freshness-aware gate-health coupling in H2/M1 checkers.
+- Expand H2 claim-surface coverage to include comparative boundary/synthesis documents.
+- Enforce cross-policy H2/M1 entitlement coherence in CI, pre-release, and reproduction scripts.
+
+### Execution Notes
+
+- Added H2.4 lane fields to canonical gate-health artifact:
+  - `scripts/audit/build_release_gate_health_status.py`
+- Hardened claim/closure checkers with freshness and lane/class parity checks:
+  - `scripts/skeptic/check_claim_boundaries.py`
+  - `scripts/skeptic/check_closure_conditionality.py`
+- Added cross-policy entitlement checker:
+  - `scripts/skeptic/check_claim_entitlement_coherence.py`
+- Updated policy contracts:
+  - `configs/skeptic/sk_h2_claim_language_policy.json`
+  - `configs/skeptic/sk_m1_closure_policy.json`
+- Integrated coherence check into enforcement scripts:
+  - `scripts/ci_check.sh`
+  - `scripts/audit/pre_release_check.sh`
+  - `scripts/verify_reproduction.sh`
+- Added H2.4 governance artifacts:
+  - `reports/skeptic/SK_H2_4_ASSERTION_REGISTER.md`
+  - `reports/skeptic/SK_H2_4_GATE_DEPENDENCY_MATRIX.md`
+  - `reports/skeptic/SK_H2_4_CLAIM_BOUNDARY_REGISTER.md`
+  - `reports/skeptic/SK_H2_4_DECISION_RECORD.md`
+  - `reports/skeptic/SKEPTIC_H2_4_EXECUTION_STATUS.md`
+
+### Current State
+
+- SK-H2 classified as `H2_4_QUALIFIED`.
+- Canonical gate-health artifact reports:
+  - `status=GATE_HEALTH_DEGRADED`
+  - `allowed_claim_class=QUALIFIED`
+  - `allowed_closure_class=CONDITIONAL_CLOSURE_QUALIFIED`
+  - `h2_4_closure_lane=H2_4_QUALIFIED`
+- Residual dependency remains SK-C1 release sensitivity evidence contract (`SENSITIVITY_RELEASE_CONTRACT_BLOCKED`).
+
+## 2026-02-10 - Skeptic SK-H1.4 Remediation
+
+Source plan: `planning/skeptic/SKEPTIC_H1_4_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_4.md` (`SK-H1`)
+
+### Opened
+
+- SK-H1 remained recurrently high-risk because canonical no-coupling status was not sufficient to resolve cross-lane robustness fragility.
+- Prior passes improved adequacy and status taxonomy, but did not hard-lock mixed-lane outcomes into deterministic closure semantics.
+- Historical by-run artifacts lacked H1.4 lane fields and needed explicit reconciliation to avoid repeated misclassification.
+
+### Decisions
+
+- Adopt deterministic SK-H1.4 closure lanes:
+  - `H1_4_ALIGNED`
+  - `H1_4_QUALIFIED`
+  - `H1_4_BLOCKED` / `H1_4_INCONCLUSIVE`
+- Bind canonical conclusive + mixed matrix outcomes to `H1_4_QUALIFIED` with explicit reopen conditions.
+- Require lane-bound claim language and marker checks in Phase 5/7 report surfaces.
+- Surface multimodal H1.4 lane/class/residual fields in gate-health dependency snapshots.
+
+### Execution Notes
+
+- Added H1.4 status and robustness semantics in mechanism and checker paths:
+  - `src/mechanism/anchor_coupling.py`
+  - `scripts/mechanism/run_5i_anchor_coupling.py`
+  - `configs/skeptic/sk_h1_multimodal_policy.json`
+  - `configs/skeptic/sk_h1_multimodal_status_policy.json`
+  - `scripts/skeptic/check_multimodal_coupling.py`
+- Added H1.4 gate-script and gate-health parity checks:
+  - `scripts/audit/pre_release_check.sh`
+  - `scripts/verify_reproduction.sh`
+  - `scripts/ci_check.sh`
+  - `scripts/audit/build_release_gate_health_status.py`
+- Added H1.4 governance outputs:
+  - `reports/skeptic/SK_H1_4_ROBUSTNESS_REGISTER.md`
+  - `reports/skeptic/SK_H1_4_LANE_MATRIX.md`
+  - `reports/skeptic/SK_H1_4_LEGACY_RECONCILIATION.md`
+  - `reports/skeptic/SK_H1_4_CLAIM_BOUNDARY_REGISTER.md`
+  - `reports/skeptic/SK_H1_4_DECISION_RECORD.md`
+  - `reports/skeptic/SKEPTIC_H1_4_EXECUTION_STATUS.md`
+- Updated documentation and report language to enforce qualified-lane wording:
+  - `docs/MULTIMODAL_COUPLING_POLICY.md`
+  - `docs/REPRODUCIBILITY.md`
+  - `docs/RUNBOOK.md`
+  - `results/reports/PHASE_5H_RESULTS.md`
+  - `results/reports/PHASE_5I_RESULTS.md`
+  - `results/reports/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
+  - `reports/human/PHASE_7_FINDINGS_SUMMARY.md`
+  - `reports/human/PHASE_7B_RESULTS.md`
+
+### Current State
+
+- SK-H1 classified as `H1_4_QUALIFIED`.
+- Canonical artifact remains conclusive while matrix robustness remains mixed:
+  - `status=CONCLUSIVE_NO_COUPLING`
+  - `h1_4_closure_lane=H1_4_QUALIFIED`
+  - `robustness_class=MIXED`
+- Reopen conditions are objective and pre-registered:
+  - matrix reaches robust class without inferential ambiguity, or
+  - policy thresholds are revised with documented rationale and rerun evidence.
+
+## 2026-02-10 - Skeptic SK-H3.4 Remediation
+
+Source plan: `planning/skeptic/SKEPTIC_H3_4_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_4.md` (`SK-H3`)
+
+### Opened
+
+- SK-H3 remained recurrently high-risk because full-data closure stayed blocked while governance semantics were repeatedly reopened.
+- Prior passes had improved parity but did not hard-lock terminal feasibility classification for irrecoverable-source scenarios.
+- Gate diagnostics needed explicit freshness and lane metadata parity to prevent stale narrative drift.
+
+### Decisions
+
+- Adopt deterministic SK-H3.4 closure lanes:
+  - `H3_4_ALIGNED`
+  - `H3_4_QUALIFIED`
+  - `H3_4_BLOCKED` / `H3_4_INCONCLUSIVE`
+- Treat approved-lost pages as a terminal feasibility class (`full_data_feasibility=irrecoverable`) with explicit reopen conditions.
+- Require cross-artifact parity and freshness checks for run-id/timestamp/feasibility/lane semantics.
+
+### Execution Notes
+
+- Added H3.4 feasibility/lane fields to status producers/checkers and gate scripts:
+  - `scripts/synthesis/run_control_matching_audit.py`
+  - `scripts/skeptic/check_control_data_availability.py`
+  - `scripts/skeptic/check_control_comparability.py`
+  - `scripts/audit/pre_release_check.sh`
+  - `scripts/verify_reproduction.sh`
+  - `scripts/ci_check.sh`
+  - `scripts/audit/build_release_gate_health_status.py`
+- Added H3.4 governance artifacts:
+  - `reports/skeptic/SK_H3_4_GAP_REGISTER.md`
+  - `reports/skeptic/SK_H3_4_CLAIM_BOUNDARY_REGISTER.md`
+  - `reports/skeptic/SK_H3_4_DECISION_RECORD.md`
+  - `reports/skeptic/SKEPTIC_H3_4_EXECUTION_STATUS.md`
+- Updated SK-H3 docs to reflect H3.4 closure semantics and source-note path:
+  - `docs/CONTROL_COMPARABILITY_POLICY.md`
+  - `docs/REPRODUCIBILITY.md`
+  - `docs/RUNBOOK.md`
+  - `docs/METHODS_REFERENCE.md`
+
+### Current State
+
+- SK-H3 classified as `H3_4_QUALIFIED`.
+- Full-dataset closure remains infeasible under current source availability; available-subset evidence remains bounded and non-conclusive.
+- Reopen is restricted to objective triggers (new primary pages or policy-evidence revision).
+
+## 2026-02-10 - Skeptic SK-C1.4 Remediation
+
+Source plan: `planning/skeptic/SKEPTIC_C1_4_EXECUTION_PLAN.md`  
+Source finding: `reports/skepitic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_4.md` (`SK-C1`)
+
+### Opened
+
+- Repeated release-path blocker: missing `status/audit/sensitivity_sweep_release.json`.
+- Release gates lacked an explicit sensitivity preflight path and reason-code parity context.
+- Long-running sensitivity release execution needed restart-safe and visible progress behavior.
+
+### Decisions
+
+- Add release preflight contract path:
+  - `python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real --preflight-only`
+  - canonical artifact: `status/audit/sensitivity_release_preflight.json`
+- Add scenario-level checkpoint/resume:
+  - `status/audit/sensitivity_checkpoint.json`
+- Add richer progress heartbeat with elapsed/ETA counters:
+  - `status/audit/sensitivity_progress.json`
+- Keep strict release contract fail-closed; do not treat iterative/ci artifacts as release evidence.
+
+### Execution Notes
+
+- `scripts/analysis/run_sensitivity_sweep.py` now supports:
+  - `--preflight-only`
+  - `--no-resume`
+  - atomic writes for status/report/diagnostics/progress/checkpoint outputs
+- Gate scripts updated to run sensitivity preflight before release contract checks:
+  - `scripts/audit/pre_release_check.sh`
+  - `scripts/verify_reproduction.sh`
+  - `scripts/ci_check.sh`
+- Release sensitivity checker now emits preflight-context remediation details on missing artifact:
+  - `scripts/audit/check_sensitivity_artifact_contract.py`
+- Gate-health builder now captures sensitivity subreasons and preflight snapshot fields:
+  - `scripts/audit/build_release_gate_health_status.py`
+- Targeted SK-C1.4 test suite passed (`28 passed`).
+
+### Current State
+
+- SK-C1.4 contract integrity is aligned, but SK-C1 remains operationally open until full release sweep artifact generation is rerun and release gates pass end-to-end.
+
 ## 2026-02-10 - Audit 6 Remediation
 
 Source plan: `planning/audit/AUDIT_6_EXECUTION_PLAN.md`  
@@ -983,3 +1516,297 @@ Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_2.md`
   - `recoverability_class=HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED`
   - `contract_coupling_state=COUPLED_DEGRADED`
 - SK-M4.2 closure outcome is `M4_2_QUALIFIED`: drift is remediated and policy-coupled, while historical uncertainty remains explicitly bounded.
+
+
+## 2026-02-10 - Skeptic SK-H3.3 Control Comparability Residual Closure
+
+Source plan: `planning/skeptic/SKEPTIC_H3_3_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_3.md` (`SK-H3` pass-3 residual)
+
+### Opened
+
+- Pass-3 SK-H3 remained policy-bounded but blocked at full-dataset level due missing source pages.
+- Irrecoverability semantics and source-note provenance needed stronger machine-checkable guarantees.
+- Available-subset lane needed explicit thresholded transitions and stronger script/gate semantic parity checks.
+
+### Decisions
+
+- Add explicit irrecoverability metadata contract (`recoverable`, `approved_lost`, `unexpected_missing`, `classification`) with pinned policy version/source note.
+- Add available-subset diagnostics and transition reason codes (`AVAILABLE_SUBSET_QUALIFIED`, `AVAILABLE_SUBSET_UNDERPOWERED`).
+- Add parity checks in CI/pre-release/verify and include SK-H3 dependency snapshot fields in release gate-health artifact.
+- Keep SK-H3 closure qualified while full dataset remains unavailable.
+
+### Execution Notes
+
+- Added SK-H3.3 residual register:
+  - `reports/skeptic/SK_H3_3_RESIDUAL_REGISTER.md`
+- Updated policies:
+  - `configs/skeptic/sk_h3_data_availability_policy.json`
+  - `configs/skeptic/sk_h3_control_comparability_policy.json`
+- Updated SK-H3 runner/checkers:
+  - `scripts/synthesis/run_control_matching_audit.py`
+  - `scripts/skeptic/check_control_data_availability.py`
+  - `scripts/skeptic/check_control_comparability.py`
+- Updated gate scripts and dependency snapshot builder:
+  - `scripts/audit/pre_release_check.sh`
+  - `scripts/verify_reproduction.sh`
+  - `scripts/ci_check.sh`
+  - `scripts/audit/build_release_gate_health_status.py`
+- Updated docs:
+  - `docs/CONTROL_COMPARABILITY_POLICY.md`
+  - `docs/GENERATOR_MATCHING.md`
+  - `docs/METHODS_REFERENCE.md`
+  - `docs/REPRODUCIBILITY.md`
+  - `docs/RUNBOOK.md`
+- Updated tests:
+  - `tests/skeptic/test_control_data_availability_checker.py`
+  - `tests/skeptic/test_control_comparability_checker.py`
+  - `tests/audit/test_pre_release_contract.py`
+  - `tests/audit/test_verify_reproduction_contract.py`
+  - `tests/audit/test_ci_check_contract.py`
+
+### Verification
+
+- `python3 scripts/synthesis/run_control_matching_audit.py --preflight-only` -> PASS
+- `python3 scripts/skeptic/check_control_data_availability.py --mode ci` -> PASS
+- `python3 scripts/skeptic/check_control_data_availability.py --mode release` -> PASS
+- `python3 scripts/skeptic/check_control_comparability.py --mode ci` -> PASS
+- `python3 scripts/skeptic/check_control_comparability.py --mode release` -> PASS
+- `python3 -m pytest -q tests/skeptic/test_control_comparability_checker.py tests/skeptic/test_control_data_availability_checker.py tests/audit/test_pre_release_contract.py tests/audit/test_verify_reproduction_contract.py tests/audit/test_ci_check_contract.py tests/audit/test_release_gate_health_status_builder.py` -> PASS (`26 passed`)
+- `python3 scripts/audit/build_release_gate_health_status.py` -> PASS (artifact emitted with SK-H3 dependency snapshot)
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-H3.3 semantic parity verification' bash scripts/audit/pre_release_check.sh` -> FAIL (missing `status/audit/sensitivity_sweep_release.json`, out-of-scope SK-C1 prerequisite)
+- `bash scripts/verify_reproduction.sh` -> FAIL (same out-of-scope SK-C1 release sensitivity prerequisite)
+- `bash scripts/ci_check.sh` -> FAIL at release sensitivity contract stage for same out-of-scope prerequisite; SK-H3 semantic parity stage passed
+
+### Current Evidence State
+
+- `status/synthesis/CONTROL_COMPARABILITY_STATUS.json` now includes:
+  - `status=NON_COMPARABLE_BLOCKED`
+  - `reason_code=DATA_AVAILABILITY`
+  - `available_subset_reason_code=AVAILABLE_SUBSET_QUALIFIED`
+  - `available_subset_confidence=QUALIFIED`
+  - `approved_lost_pages_policy_version=2026-02-10-h3.3`
+  - `approved_lost_pages_source_note_path=reports/skeptic/SK_H3_3_RESIDUAL_REGISTER.md`
+  - `irrecoverability.classification=APPROVED_LOST_IRRECOVERABLE`
+- `status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json` now includes matching source-note and irrecoverability fields with policy checks:
+  - `irrecoverability_metadata_complete=true`
+  - `source_reference_pinned=true`
+- SK-H3.3 closure outcome is `H3_3_QUALIFIED`: blocked full-dataset closure is now explicitly governed, fail-closed, and semantically synchronized.
+
+## 2026-02-10 - Skeptic SK-H1.3 Multimodal Inferential-Semantic Closure
+
+Source plan: `planning/skeptic/SKEPTIC_H1_3_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_3.md` (`SK-H1` pass-3 residual)
+
+### Opened
+
+- Pass-3 SK-H1 residual showed adequacy-pass runs still labeled `INCONCLUSIVE_UNDERPOWERED` when `status_reason=inferential_ambiguity`.
+- Status semantics conflated data adequacy shortfall and inferential ambiguity.
+- Existing checker validated status membership but not status/reason/adequacy/inference coherence.
+
+### Decisions
+
+- Add a distinct inferential-ambiguity status class (`INCONCLUSIVE_INFERENTIAL_AMBIGUITY`).
+- Keep `INCONCLUSIVE_UNDERPOWERED` exclusively for adequacy-threshold failures.
+- Enforce coherence in policy and checker (status_reason + adequacy flags + inference decision compatibility).
+- Execute a minimal registered seed/size matrix to validate all SK-H1 non-conclusive/conclusive branches.
+- Restore canonical publication artifact to policy defaults after matrix probes.
+
+### Execution Notes
+
+- Updated SK-H1 status logic:
+  - `src/mechanism/anchor_coupling.py`
+- Updated SK-H1 status policy:
+  - `configs/skeptic/sk_h1_multimodal_status_policy.json`
+  - added `INCONCLUSIVE_INFERENTIAL_AMBIGUITY` and `coherence_policy`
+- Updated SK-H1 checker coherence enforcement:
+  - `scripts/skeptic/check_multimodal_coupling.py`
+- Updated status consumer wording:
+  - `scripts/human/run_7b_codicology.py`
+- Updated report status language:
+  - `results/reports/PHASE_5H_RESULTS.md`
+  - `results/reports/PHASE_5I_RESULTS.md`
+  - `results/reports/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
+  - `reports/human/PHASE_7_FINDINGS_SUMMARY.md`
+  - refreshed `reports/human/PHASE_7B_RESULTS.md`
+- Added governance artifacts:
+  - `reports/skeptic/SK_H1_3_INFERENCE_REGISTER.md`
+  - `reports/skeptic/SK_H1_3_METHOD_SELECTION.md`
+  - `reports/skeptic/SKEPTIC_H1_3_EXECUTION_STATUS.md`
+- Updated tests:
+  - `tests/mechanism/test_anchor_coupling.py`
+  - `tests/mechanism/test_anchor_coupling_contract.py`
+  - `tests/skeptic/test_multimodal_coupling_checker.py`
+  - `tests/human/test_phase7_claim_guardrails.py`
+
+### Verification
+
+- `python3 scripts/mechanism/run_5i_anchor_coupling.py --seed 42 --max-lines-per-cohort 1600` -> `CONCLUSIVE_NO_COUPLING`
+- `python3 scripts/mechanism/run_5i_anchor_coupling.py --seed 2718 --max-lines-per-cohort 1600` -> `INCONCLUSIVE_INFERENTIAL_AMBIGUITY`
+- `python3 scripts/mechanism/run_5i_anchor_coupling.py --seed 42 --max-lines-per-cohort 20` -> `INCONCLUSIVE_UNDERPOWERED`
+- `python3 scripts/skeptic/check_multimodal_coupling.py --mode ci` -> PASS
+- `python3 scripts/skeptic/check_multimodal_coupling.py --mode release` -> PASS
+- `python3 -m pytest -q tests/mechanism/test_anchor_coupling.py tests/mechanism/test_anchor_coupling_contract.py tests/skeptic/test_multimodal_coupling_checker.py tests/human/test_phase7_claim_guardrails.py` -> PASS (`14 passed`)
+
+### Current Evidence State
+
+- Canonical SK-H1 publication artifact (`run_id=741db1ce-bdb0-44e8-6cc7-aec70ae8b30f`) is currently `CONCLUSIVE_NO_COUPLING`.
+- Inferential ambiguity remains observable in alternate seed-lane runs and is now explicitly represented by `INCONCLUSIVE_INFERENTIAL_AMBIGUITY`.
+- SK-H1.3 closure class is `H1_3_QUALIFIED`: semantic coherence is closed; cross-seed inferential fragility remains bounded and documented.
+
+## 2026-02-10 - Skeptic SK-M4.4 Historical Provenance Confidence Closure
+
+Source plan: `planning/skeptic/SKEPTIC_M4_4_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_4.md` (`SK-M4` pass-4 residual)
+
+### Opened
+
+- Pass-4 SK-M4 remained qualified despite synchronized provenance/register posture.
+- Prior passes resolved drift but did not formalize deterministic anti-repeat lane semantics.
+- Freshness/parity/entitlement checks needed to be tightened so unchanged bounded evidence does not repeatedly reopen SK-M4.
+
+### Decisions
+
+- Formalize deterministic SK-M4.4 lanes directly in canonical provenance artifacts.
+- Map bounded historical recoverability classes to `M4_4_BOUNDED` and require reopen conditions.
+- Enforce sync-artifact freshness and strict cross-artifact parity checks in the SK-M4 checker.
+- Synchronize closure-facing claim boundaries to lane-entitled language only.
+
+### Execution Notes
+
+- Extended provenance health builder and lane derivation:
+  - `scripts/audit/build_provenance_health_status.py`
+- Extended register sync payload and markdown rendering:
+  - `scripts/audit/sync_provenance_register.py`
+- Extended SK-M4 policy and checker semantics:
+  - `configs/skeptic/sk_m4_provenance_policy.json`
+  - `scripts/skeptic/check_provenance_uncertainty.py`
+- Updated and expanded tests:
+  - `tests/skeptic/test_provenance_uncertainty_checker.py`
+  - `tests/audit/test_sync_provenance_register.py`
+  - `tests/audit/test_ci_check_contract.py`
+  - `tests/audit/test_pre_release_contract.py`
+  - `tests/audit/test_verify_reproduction_contract.py`
+- Updated tracked docs/reports/register surfaces:
+  - `README.md`
+  - `docs/PROVENANCE.md`
+  - `docs/HISTORICAL_PROVENANCE_POLICY.md`
+  - `results/reports/PHASE_4_5_CLOSURE_STATEMENT.md`
+  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `reports/skeptic/SK_M4_PROVENANCE_REGISTER.md`
+- Added SK-M4.4 governance artifacts:
+  - `reports/skeptic/SK_M4_4_BASELINE_REGISTER.md`
+  - `reports/skeptic/SK_M4_4_DIAGNOSTIC_MATRIX.md`
+  - `reports/skeptic/SK_M4_4_CLAIM_BOUNDARY_REGISTER.md`
+  - `reports/skeptic/SK_M4_4_DECISION_RECORD.md`
+  - `reports/skeptic/SKEPTIC_M4_4_EXECUTION_STATUS.md`
+
+### Verification
+
+- `python3 scripts/audit/build_release_gate_health_status.py` -> PASS
+- `python3 scripts/audit/build_provenance_health_status.py` -> PASS
+- `python3 scripts/audit/sync_provenance_register.py` -> PASS
+- `python3 scripts/skeptic/check_provenance_uncertainty.py --mode ci` -> PASS
+- `python3 scripts/skeptic/check_provenance_uncertainty.py --mode release` -> PASS
+- `python3 -m pytest -q tests/skeptic/test_provenance_uncertainty_checker.py tests/audit/test_sync_provenance_register.py tests/audit/test_ci_check_contract.py tests/audit/test_pre_release_contract.py tests/audit/test_verify_reproduction_contract.py` -> PASS (`21 passed`)
+- `python3 -m py_compile scripts/audit/build_provenance_health_status.py scripts/audit/sync_provenance_register.py scripts/skeptic/check_provenance_uncertainty.py` -> PASS
+
+### Current Evidence State
+
+- `status/audit/provenance_health_status.json` currently reports:
+  - `status=PROVENANCE_QUALIFIED`
+  - `reason_code=HISTORICAL_ORPHANED_ROWS_PRESENT`
+  - `recoverability_class=HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED`
+  - `m4_4_historical_lane=M4_4_BOUNDED`
+  - `m4_4_residual_reason=historical_orphaned_rows_irrecoverable_with_current_source_scope`
+  - `orphaned_rows=63`
+  - `threshold_policy_pass=true`
+  - `contract_coupling_pass=true`
+- `status/audit/provenance_register_sync_status.json` currently reports:
+  - `status=IN_SYNC`
+  - `drift_detected=false`
+  - `provenance_health_lane=M4_4_BOUNDED`
+  - `contract_coupling_state=COUPLED_DEGRADED`
+
+- SK-M4.4 closure outcome is `M4_4_BOUNDED`: synchronization/coupling are closed, while historical confidence remains explicitly bounded under current source constraints.
+
+## 2026-02-10 - Skeptic SK-M2.5 Comparative Uncertainty Closure Hardening
+
+Source plan: `planning/skeptic/SKEPTIC_M2_5_EXECUTION_PLAN.md`  
+Source finding: `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_5.md` (`SK-M2` pass-5 residual)
+
+### Opened
+
+- Pass-5 SK-M2 remained bounded/inconclusive with persistent top-2 identity fragility.
+- Prior pass left contract gaps (`m2_4_residual_reason` null; no deterministic `m2_5_*` closure fields).
+- Missing-folio objections continued to be reused as SK-M2 blockers without objective comparative validity linkage.
+
+### Decisions
+
+- Introduce deterministic SK-M2.5 lane semantics (`M2_5_ALIGNED`, `M2_5_QUALIFIED`, `M2_5_BOUNDED`, `M2_5_BLOCKED`, `M2_5_INCONCLUSIVE`).
+- Require non-null residual reason and reopen triggers for M2.4 and M2.5 lanes.
+- Enforce missing-folio non-blocking criteria for SK-M2 unless objective comparative-input validity failure is explicitly evidenced.
+- Add SK-M2 dependency lane/reason projection to release gate-health snapshots.
+
+### Execution Notes
+
+- Updated SK-M2 producer and report writer:
+  - `src/comparative/mapping.py`
+- Updated SK-M2 runner profile tagging:
+  - `scripts/comparative/run_proximity_uncertainty.py`
+- Updated SK-M2 policy and checker:
+  - `configs/skeptic/sk_m2_comparative_uncertainty_policy.json`
+  - `scripts/skeptic/check_comparative_uncertainty.py`
+- Updated comparative narrative surfaces:
+  - `reports/comparative/PROXIMITY_ANALYSIS.md`
+  - `reports/comparative/PHASE_B_SYNTHESIS.md`
+  - `reports/comparative/PHASE_B_BOUNDARY_STATEMENT.md`
+  - `reports/comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md`
+  - `docs/COMPARATIVE_UNCERTAINTY_POLICY.md`
+- Updated gate scripts and dependency snapshot builder:
+  - `scripts/ci_check.sh`
+  - `scripts/audit/pre_release_check.sh`
+  - `scripts/verify_reproduction.sh`
+  - `scripts/audit/build_release_gate_health_status.py`
+- Updated tests:
+  - `tests/comparative/test_mapping_uncertainty.py`
+  - `tests/skeptic/test_comparative_uncertainty_checker.py`
+  - `tests/audit/test_ci_check_contract.py`
+  - `tests/audit/test_pre_release_contract.py`
+  - `tests/audit/test_verify_reproduction_contract.py`
+  - `tests/audit/test_release_gate_health_status_builder.py`
+- Added SK-M2.5 governance artifacts:
+  - `reports/skeptic/SK_M2_5_BASELINE_REGISTER.md`
+  - `reports/skeptic/SK_M2_5_CLAIM_BOUNDARY_REGISTER.md`
+  - `reports/skeptic/SK_M2_5_DECISION_RECORD.md`
+  - `reports/skeptic/SKEPTIC_M2_5_EXECUTION_STATUS.md`
+
+### Verification
+
+- `python3 scripts/comparative/run_proximity_uncertainty.py --iterations 2000 --seed 42` -> PASS
+- `python3 scripts/skeptic/check_comparative_uncertainty.py --mode ci` -> PASS
+- `python3 scripts/skeptic/check_comparative_uncertainty.py --mode release` -> PASS
+- `python3 -m py_compile src/comparative/mapping.py scripts/comparative/run_proximity_uncertainty.py scripts/skeptic/check_comparative_uncertainty.py scripts/audit/build_release_gate_health_status.py` -> PASS
+- `python3 -m pytest -q tests/comparative/test_mapping_uncertainty.py tests/skeptic/test_comparative_uncertainty_checker.py tests/audit/test_ci_check_contract.py tests/audit/test_pre_release_contract.py tests/audit/test_verify_reproduction_contract.py tests/audit/test_release_gate_health_status_builder.py` -> PASS (`28 passed`)
+- `python3 scripts/audit/build_release_gate_health_status.py` -> PASS
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-M2.5 execution verification on active worktree' bash scripts/audit/pre_release_check.sh` -> FAIL (missing `status/audit/sensitivity_sweep_release.json`, out-of-scope SK-C1)
+- `bash scripts/ci_check.sh` -> FAIL at release sensitivity contract stage for same out-of-scope SK-C1 dependency
+- `bash scripts/verify_reproduction.sh` -> FAIL at release sensitivity contract stage for same out-of-scope SK-C1 dependency
+
+### Current Evidence State
+
+- `results/human/phase_7c_uncertainty.json` now reports:
+  - `status=INCONCLUSIVE_UNCERTAINTY`
+  - `reason_code=TOP2_IDENTITY_FLIP_DOMINANT`
+  - `m2_4_closure_lane=M2_4_BOUNDED`
+  - `m2_4_residual_reason=top2_identity_flip_rate_remains_dominant`
+  - `m2_5_closure_lane=M2_5_BOUNDED`
+  - `m2_5_residual_reason=top2_identity_flip_rate_remains_dominant`
+  - `m2_5_data_availability_linkage.missing_folio_blocking_claimed=false`
+  - `m2_5_data_availability_linkage.objective_comparative_validity_failure=false`
+- `status/audit/release_gate_health_status.json` dependency snapshot now carries comparative lane/reason fields:
+  - `comparative_status=INCONCLUSIVE_UNCERTAINTY`
+  - `comparative_reason_code=TOP2_IDENTITY_FLIP_DOMINANT`
+  - `comparative_m2_5_derived_closure_lane=M2_5_BOUNDED`
+
+- SK-M2.5 closure outcome is `M2_5_BOUNDED`: process/contract defects are closed; empirical comparative instability remains explicitly bounded and reopenable.

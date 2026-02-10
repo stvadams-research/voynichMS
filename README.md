@@ -54,6 +54,8 @@ Current gate-health class: `GATE_HEALTH_DEGRADED`.
 
 When gate health is degraded, claims in this repository are operationally contingent and must remain qualified/reopenable pending restored CI, pre-release, and reproduction gate integrity.
 
+Current degraded-state dependency is the SK-C1 release sensitivity evidence contract (`status/audit/sensitivity_sweep_release.json`).
+
 ## What This Does Not Claim
 
 This project does not claim:
@@ -69,6 +71,9 @@ Historical run-traceability confidence is explicitly bounded and policy-governed
 
 - Canonical source of truth: `status/audit/provenance_health_status.json`
 - Current expected class while legacy rows remain: `PROVENANCE_QUALIFIED`
+- SK-M4.5 lane key in canonical artifact: `m4_5_historical_lane`
+- Current expected SK-M4.5 lane while legacy orphan rows remain in-scope: `M4_5_BOUNDED`
+- Compatibility mirror key retained for legacy consumers: `m4_4_historical_lane`
 - Policy and allowed-claim contract: `docs/HISTORICAL_PROVENANCE_POLICY.md`
 - Operational provenance mechanics: `docs/PROVENANCE.md`
 

@@ -2,21 +2,21 @@
   "anchored": {
     "line_count": 1600,
     "max_consistency": 1.0,
-    "mean_consistency": 0.4725097056366406,
-    "num_recurring_contexts": 323,
-    "token_count": 11160
+    "mean_consistency": 0.4490372105126203,
+    "num_recurring_contexts": 305,
+    "token_count": 10797
   },
-  "delta_ci_high": 0.006578109825654784,
-  "delta_ci_low": -0.007172607108255044,
-  "delta_mean_consistency": 0.02458605260735386,
-  "p_value": 0.7544910179640718,
-  "status": "INCONCLUSIVE_UNDERPOWERED",
-  "status_reason": "inferential_ambiguity",
+  "delta_ci_high": 0.006080443157031187,
+  "delta_ci_low": -0.007546361981998625,
+  "delta_mean_consistency": 0.0013083150328599413,
+  "p_value": 0.8842315369261478,
+  "status": "CONCLUSIVE_NO_COUPLING",
+  "status_reason": "adequacy_and_inference_support_no_coupling",
   "unanchored": {
     "line_count": 1600,
     "max_consistency": 1.0,
-    "mean_consistency": 0.4479236530292867,
-    "num_recurring_contexts": 284,
-    "token_count": 10613
+    "mean_consistency": 0.44772889547976036,
+    "num_recurring_contexts": 289,
+    "token_count": 10674
   }
 }

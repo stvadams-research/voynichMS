@@ -19,11 +19,15 @@
 
 ## Illustration Proximity Evidence Grade
 
-- **Status:** INCONCLUSIVE_UNDERPOWERED
-- **Interpretation:** Coupling analysis is underpowered or inferentially ambiguous; no conclusive claim is allowed.
-- **Allowed Claim:** Current evidence is underpowered or ambiguous; no conclusive coupling claim is allowed.
+- **Status:** CONCLUSIVE_NO_COUPLING
+- **H1.4 Closure Lane:** H1_4_QUALIFIED
+- **H1.5 Closure Lane:** H1_5_BOUNDED
+- **Robustness Class:** MIXED
+- **Entitlement Robustness Class:** ROBUST
+- **Interpretation:** Confirmatory coupling analysis did not detect a robust illustration/layout coupling signal in entitlement lanes, robustness remains qualified across registered lanes, and diagnostic lanes remain non-conclusive monitoring signals; no claim is allowed beyond bounded entitlement scope.
+- **Allowed Claim:** No robust image/layout coupling signal was detected under the configured adequacy and inference criteria.
 
 ## Final Determination
 
 - **H7B.2 Supported:** Lack of significant boundary adaptation suggests the text may have been copied from an external source.
-- **Illustration-Coupling Guardrail:** Coupling analysis is underpowered or inferentially ambiguous; no conclusive claim is allowed.
+- **Illustration-Coupling Guardrail:** Confirmatory coupling analysis did not detect a robust illustration/layout coupling signal in entitlement lanes, robustness remains qualified across registered lanes, and diagnostic lanes remain non-conclusive monitoring signals; no claim is allowed beyond bounded entitlement scope.

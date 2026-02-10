@@ -1,6 +1,6 @@
 {
-  "version": "2026-02-10",
-  "description": "SK-H3 control comparability policy for anti-circularity and normalization symmetry.",
+  "version": "2026-02-10-h3.5",
+  "description": "SK-H3.5 control comparability policy for anti-circularity, terminal-qualified closure semantics, and bounded available-subset diagnostics.",
   "tracked_files": [
     "docs/GENERATOR_MATCHING.md",
     "docs/METHODS_REFERENCE.md",
@@ -42,7 +42,9 @@
         "check_control_comparability.py",
         "run_control_matching_audit.py",
         "check_control_data_availability.py",
-        "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json"
+        "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json",
+        "AVAILABLE_SUBSET_UNDERPOWERED",
+        "h3_5_closure_lane"
       ]
     }
   ],
@@ -109,8 +111,22 @@
           "full_data_closure_eligible",
           "available_subset_status",
           "available_subset_reason_code",
+          "available_subset_confidence",
+          "available_subset_diagnostics",
+          "available_subset_reproducibility",
+          "available_subset_confidence_provenance",
           "missing_pages",
           "missing_count",
+          "full_data_feasibility",
+          "full_data_closure_terminal_reason",
+          "full_data_closure_reopen_conditions",
+          "h3_4_closure_lane",
+          "h3_5_closure_lane",
+          "h3_5_residual_reason",
+          "h3_5_reopen_conditions",
+          "approved_lost_pages_policy_version",
+          "approved_lost_pages_source_note_path",
+          "irrecoverability",
           "data_availability_policy_pass"
         ],
         "status_policy": {
@@ -150,6 +166,99 @@
       "pre_normalized_with_assertions"
     ],
     "default_mode": "parser"
+  },
+  "available_subset_policy": {
+    "allowed_statuses": [
+      "COMPARABLE_CONFIRMED",
+      "COMPARABLE_QUALIFIED",
+      "INCONCLUSIVE_DATA_LIMITED",
+      "NON_COMPARABLE_BLOCKED"
+    ],
+    "allowed_reason_codes": [
+      "AVAILABLE_SUBSET_CONFIRMED",
+      "AVAILABLE_SUBSET_QUALIFIED",
+      "AVAILABLE_SUBSET_UNDERPOWERED",
+      "TARGET_LEAKAGE"
+    ],
+    "underpowered_reason_code": "AVAILABLE_SUBSET_UNDERPOWERED",
+    "qualified_reason_code": "AVAILABLE_SUBSET_QUALIFIED",
+    "required_diagnostic_keys": [
+      "control_card_count",
+      "expected_control_class_count",
+      "control_class_coverage_ratio",
+      "mean_selected_composite_score",
+      "max_selected_composite_score",
+      "stability_margin_min",
+      "stability_margin_mean",
+      "stability_envelope",
+      "power_indicator",
+      "coverage_indicator",
+      "thresholds",
+      "passes_thresholds"
+    ],
+    "required_reproducibility_keys": [
+      "preflight_only",
+      "dataset_id",
+      "seed",
+      "control_card_paths",
+      "control_card_count"
+    ],
+    "thresholds": {
+      "min_control_card_count": 3,
+      "min_control_class_coverage_ratio": 1.0,
+      "max_mean_selected_composite_score": 0.5,
+      "min_stability_margin": 0.05
+    }
+  },
+  "freshness_policy": {
+    "required_artifacts": [
+      "status/synthesis/CONTROL_COMPARABILITY_STATUS.json",
+      "status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json"
+    ],
+    "require_matching_run_id": true,
+    "require_timestamps": true,
+    "max_timestamp_skew_seconds": 600
+  },
+  "feasibility_policy": {
+    "allowed_full_data_feasibility": [
+      "feasible",
+      "irrecoverable"
+    ],
+    "aligned_lane": "H3_4_ALIGNED",
+    "qualified_lane": "H3_4_QUALIFIED",
+    "blocked_lane": "H3_4_BLOCKED"
+  },
+  "h3_5_policy": {
+    "required_fields": [
+      "h3_5_closure_lane",
+      "h3_5_residual_reason",
+      "h3_5_reopen_conditions"
+    ],
+    "aligned_lane": "H3_5_ALIGNED",
+    "terminal_qualified_lane": "H3_5_TERMINAL_QUALIFIED",
+    "blocked_lane": "H3_5_BLOCKED",
+    "inconclusive_lane": "H3_5_INCONCLUSIVE",
+    "aligned_residual_reason": "full_data_closure_aligned",
+    "terminal_qualified_residual_reason": "approved_lost_pages_not_in_source_corpus",
+    "blocked_residual_reason": "artifact_or_policy_contract_incoherence_detected",
+    "inconclusive_residual_reason": "evidence_incomplete_for_deterministic_lane",
+    "aligned_reopen_conditions": [
+      "none_required_full_data_available"
+    ],
+    "terminal_qualified_reopen_conditions": [
+      "new_primary_source_pages_added_to_dataset",
+      "approved_lost_pages_policy_updated_with_new_evidence",
+      "artifact_parity_or_freshness_contract_failed",
+      "claim_boundaries_exceeded_terminal_qualified_scope"
+    ],
+    "blocked_reopen_conditions": [
+      "repair_artifact_parity_and_freshness_contracts",
+      "rerun_control_matching_and_data_availability_checks"
+    ],
+    "inconclusive_reopen_conditions": [
+      "complete_evidence_bundle_for_lane_classification",
+      "rerun_control_matching_with_full_contract_coverage"
+    ]
   },
   "allowlist": []
 }

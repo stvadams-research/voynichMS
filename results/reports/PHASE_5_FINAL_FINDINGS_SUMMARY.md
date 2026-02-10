@@ -312,8 +312,12 @@ Phase 5 follows a repeating loop:
 
 - `results/mechanism/anchor_coupling_confirmatory.json` -> `results.status`
 - `results/mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.h1_4_closure_lane`
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.robustness.robustness_class`
 
-If status is non-conclusive (`INCONCLUSIVE_UNDERPOWERED` or `BLOCKED_DATA_GEOMETRY`), no categorical image/layout coupling claim is licensed.
+If status is non-conclusive (`INCONCLUSIVE_UNDERPOWERED`, `INCONCLUSIVE_INFERENTIAL_AMBIGUITY`, or `BLOCKED_DATA_GEOMETRY`), no categorical image/layout coupling claim is licensed.
+If `h1_4_closure_lane=H1_4_QUALIFIED`, robustness remains qualified across registered lanes and claims must retain that qualifier.
+If `h1_5_closure_lane=H1_5_BOUNDED`, diagnostic lanes remain non-conclusive monitoring signals and claims must remain bounded to entitlement-lane scope.
 
 **Phase 5I conclusion:** the mechanism is a single global machine invariant across codicological sections; physical anchoring effects are not supported by current evidence.
 

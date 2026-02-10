@@ -29,3 +29,10 @@ def test_sync_provenance_register_emits_sync_artifact_and_register(tmp_path) -> 
     assert payload.get("status") in {"IN_SYNC", "DRIFT_DETECTED"}
     assert "drift_detected" in payload
     assert "contract_coupling_state" in payload
+    assert "provenance_health_lane" in payload
+    assert "provenance_health_residual_reason" in payload
+    assert "provenance_health_m4_5_lane" in payload
+    assert "provenance_health_m4_5_residual_reason" in payload
+    assert "provenance_health_m4_5_data_availability_linkage" in payload
+    assert "health_orphaned_rows" in payload
+    assert "register_orphaned_rows" in payload

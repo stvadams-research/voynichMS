@@ -76,6 +76,8 @@ Current gate-health class: `GATE_HEALTH_DEGRADED`.
 
 Accordingly, the closure interpretation in this report is provisional and operationally contingent pending restored release/reproduction gate health.
 
+Current degraded-state dependency is the SK-C1 release sensitivity evidence contract (`status/audit/sensitivity_sweep_release.json`).
+
 ---
 
 ## 7. Metadata and Provenance
@@ -84,6 +86,7 @@ Accordingly, the closure interpretation in this report is provisional and operat
 - **Runs:** Full provenance recorded in `runs/` directory.
 - **Repository State:** Deterministic and verified under current framework checks, with historical provenance qualifiers.
 - **Historical provenance confidence:** `PROVENANCE_QUALIFIED` pending full elimination of legacy orphaned run rows.
+- **SK-M4.5 provenance lane:** `M4_5_BOUNDED` while legacy orphaned rows remain bounded under current source scope.
 - **Canonical provenance source:** `status/audit/provenance_health_status.json`
 
 ---

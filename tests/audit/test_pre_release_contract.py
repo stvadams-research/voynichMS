@@ -3,6 +3,14 @@ from pathlib import Path
 
 def test_pre_release_check_script_enforces_sensitivity_release_readiness() -> None:
     script = Path("scripts/audit/pre_release_check.sh").read_text(encoding="utf-8")
+    assert "SENSITIVITY_RELEASE_STATUS_PATH" in script
+    assert "SENSITIVITY_RELEASE_REPORT_PATH" in script
+    assert "SENSITIVITY_RELEASE_PREFLIGHT_PATH" in script
+    assert "sensitivity_sweep_release.json" in script
+    assert "SENSITIVITY_RESULTS_RELEASE.md" in script
+    assert "sensitivity_release_preflight.json" in script
+    assert "run_sensitivity_sweep.py" in script
+    assert "--preflight-only" in script
     assert "release_evidence_ready" in script
     assert "execution_mode" in script
     assert "dataset_policy_pass" in script
@@ -27,19 +35,56 @@ def test_pre_release_check_script_enforces_sensitivity_release_readiness() -> No
     assert "check_control_data_availability.py --mode release" in script
     assert "evidence_scope" in script
     assert "full_data_closure_eligible" in script
+    assert "approved_lost_pages_policy_version" in script
+    assert "approved_lost_pages_source_note_path" in script
+    assert "irrecoverability" in script
+    assert "full_data_feasibility" in script
+    assert "full_data_closure_terminal_reason" in script
+    assert "full_data_closure_reopen_conditions" in script
+    assert "h3_4_closure_lane" in script
+    assert "h3_5_closure_lane" in script
+    assert "h3_5_residual_reason" in script
+    assert "h3_5_reopen_conditions" in script
+    assert "provenance" in script
+    assert "run_id" in script
+    assert "timestamp" in script
+    assert "available_subset_confidence" in script
     assert "missing_count mismatch across artifacts" in script
     assert "check_control_comparability.py --mode release" in script
     assert "build_release_gate_health_status.py" in script
     assert "check_claim_boundaries.py --mode release" in script
     assert "check_closure_conditionality.py --mode release" in script
+    assert "check_claim_entitlement_coherence.py --mode release" in script
     assert "run_proximity_uncertainty.py --iterations 2000 --seed 42" in script
     assert "check_comparative_uncertainty.py --mode release" in script
+    assert "SK-M2 release contract checks passed" in script
+    assert "m2_4_residual_reason" in script
+    assert "m2_5_closure_lane" in script
+    assert "m2_5_residual_reason" in script
+    assert "m2_5_reopen_triggers" in script
+    assert "m2_5_data_availability_linkage" in script
     assert "check_report_coherence.py --mode release" in script
     assert "build_provenance_health_status.py" in script
     assert "sync_provenance_register.py" in script
     assert "check_provenance_uncertainty.py --mode release" in script
+    assert "m4_5_historical_lane" in script
+    assert "m4_5_residual_reason" in script
+    assert "m4_5_reopen_conditions" in script
+    assert "m4_5_data_availability_linkage" in script
+    assert "objective_provenance_contract_incompleteness" in script
+    assert "provenance_health_m4_5_lane" in script
+    assert "provenance_health_m4_5_residual_reason" in script
     assert "check_provenance_runner_contract.py --mode release" in script
     assert "check_multimodal_coupling.py --mode release" in script
+    assert "SK-H1.4/SK-H1.5 multimodal robustness contract" in script
+    assert "h1_4_closure_lane" in script
+    assert "h1_4_residual_reason" in script
+    assert "h1_4_reopen_conditions" in script
+    assert "h1_5_closure_lane" in script
+    assert "h1_5_residual_reason" in script
+    assert "h1_5_reopen_conditions" in script
+    assert "robustness_class" in script
+    assert "entitlement_robustness_class" in script
     assert "run_control_matching_audit.py --preflight-only" in script
     assert "leakage_detected" in script
     assert "check_sensitivity_artifact_contract.py --mode release" in script

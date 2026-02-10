@@ -16,7 +16,11 @@ Within the current comparative library and text-internal feature set, additional
 
 This boundary is conditionally bounded, not terminal. It remains reopenable under the canonical criteria in `docs/REOPENING_CRITERIA.md`.
 
-Comparative-distance interpretation is uncertainty-qualified and must be read with `results/human/phase_7c_uncertainty.json` (currently `INCONCLUSIVE_UNCERTAINTY`, reason `TOP2_GAP_FRAGILE`).
+Comparative-distance interpretation is uncertainty-qualified and must be read with `results/human/phase_7c_uncertainty.json` (currently `INCONCLUSIVE_UNCERTAINTY`).
+
+Under SK-M2.5 governance, this non-conclusive state is treated as `M2_5_BOUNDED` only when diagnostic completeness and claim-boundary checks pass.
+
+Approved-lost missing folio objections remain non-blocking for SK-M2 unless objective comparative-input validity failure is demonstrated in canonical comparative artifacts.
 
 ### 4. Required Evidence for Extension
 To move beyond Phase B requires evidence that satisfies reopening criteria (for example irreducible signal, external grounding, or framework shift), including **new non-textual evidence** such as physical discovery of tools or direct historical testimony.
@@ -29,3 +33,5 @@ Canonical operational entitlement source:
 Current gate-health class: `GATE_HEALTH_DEGRADED`.
 
 Under this degraded gate state, closure claims remain operationally contingent and should be treated as bounded pending restoration of release/reproduction gate integrity.
+
+Current degraded-state dependency is the SK-C1 release sensitivity evidence contract (`status/audit/sensitivity_sweep_release.json`).

@@ -3,6 +3,16 @@ set -euo pipefail
 
 echo "--- Voynich MS Reproduction Verification ---"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
+SENSITIVITY_RELEASE_STATUS_PATH="${SENSITIVITY_RELEASE_STATUS_PATH:-status/audit/sensitivity_sweep_release.json}"
+SENSITIVITY_RELEASE_REPORT_PATH="${SENSITIVITY_RELEASE_REPORT_PATH:-reports/audit/SENSITIVITY_RESULTS_RELEASE.md}"
+SENSITIVITY_RELEASE_PREFLIGHT_PATH="${SENSITIVITY_RELEASE_PREFLIGHT_PATH:-status/audit/sensitivity_release_preflight.json}"
+SENSITIVITY_RELEASE_RUN_STATUS_PATH="${SENSITIVITY_RELEASE_RUN_STATUS_PATH:-status/audit/sensitivity_release_run_status.json}"
+SENSITIVITY_RELEASE_DATASET_ID="${SENSITIVITY_RELEASE_DATASET_ID:-voynich_real}"
+export SENSITIVITY_RELEASE_STATUS_PATH
+export SENSITIVITY_RELEASE_REPORT_PATH
+export SENSITIVITY_RELEASE_PREFLIGHT_PATH
+export SENSITIVITY_RELEASE_RUN_STATUS_PATH
+export SENSITIVITY_RELEASE_DATASET_ID
 CLEAN_VERIFY_DB=0
 VERIFICATION_COMPLETE=0
 VERIFY_SUCCESS_TOKEN="VERIFY_REPRODUCTION_COMPLETED"
@@ -112,21 +122,172 @@ echo "5b. Checking provenance runner contract..."
 # 5c. Multimodal Coupling Status Check
 echo "5c. Checking multimodal coupling policy..."
 "${PYTHON_BIN}" scripts/skeptic/check_multimodal_coupling.py --mode release
-
-# 6. Sensitivity Artifact Integrity Check
-echo "6. Checking sensitivity artifact integrity..."
-"${PYTHON_BIN}" scripts/audit/check_sensitivity_artifact_contract.py --mode release
+echo "5d. Verifying SK-H1.4/SK-H1.5 multimodal robustness semantics..."
 "${PYTHON_BIN}" - <<'PY'
 import json
 from pathlib import Path
 
-status_path = Path("status/audit/sensitivity_sweep.json")
-report_path = Path("reports/audit/SENSITIVITY_RESULTS.md")
+path = Path("results/mechanism/anchor_coupling_confirmatory.json")
+if not path.exists():
+    raise SystemExit("Missing results/mechanism/anchor_coupling_confirmatory.json for SK-H1 checks.")
+
+payload = json.loads(path.read_text(encoding="utf-8"))
+results = payload.get("results", {})
+status = results.get("status")
+robustness = results.get("robustness") or {}
+robustness_class = robustness.get("robustness_class")
+entitlement_robustness_class = robustness.get("entitlement_robustness_class")
+robust_closure_reachable = robustness.get("robust_closure_reachable")
+diagnostic_non_conclusive = int(robustness.get("diagnostic_non_conclusive_lane_count", 0) or 0)
+diagnostic_total = int(robustness.get("observed_diagnostic_lane_count", 0) or 0) + int(
+    robustness.get("observed_stress_lane_count", 0) or 0
+)
+h1_4_lane = results.get("h1_4_closure_lane")
+h1_4_reason = results.get("h1_4_residual_reason")
+h1_4_reopen_conditions = results.get("h1_4_reopen_conditions")
+h1_5_lane = results.get("h1_5_closure_lane")
+h1_5_reason = results.get("h1_5_residual_reason")
+h1_5_reopen_conditions = results.get("h1_5_reopen_conditions")
+
+if not isinstance(robustness, dict) or not robustness:
+    raise SystemExit("SK-H1 artifact missing robustness block.")
+if h1_4_lane not in {"H1_4_ALIGNED", "H1_4_QUALIFIED", "H1_4_BLOCKED", "H1_4_INCONCLUSIVE"}:
+    raise SystemExit(f"Invalid SK-H1.4 h1_4_closure_lane: {h1_4_lane!r}")
+if h1_5_lane not in {"H1_5_ALIGNED", "H1_5_BOUNDED", "H1_5_QUALIFIED", "H1_5_BLOCKED", "H1_5_INCONCLUSIVE"}:
+    raise SystemExit(f"Invalid SK-H1.5 h1_5_closure_lane: {h1_5_lane!r}")
+if robustness_class not in {"ROBUST", "MIXED", "FRAGILE"}:
+    raise SystemExit(f"Invalid SK-H1.4 robustness_class: {robustness_class!r}")
+if entitlement_robustness_class not in {"ROBUST", "MIXED", "FRAGILE"}:
+    raise SystemExit(
+        "Invalid SK-H1.5 entitlement_robustness_class: "
+        f"{entitlement_robustness_class!r}"
+    )
+if not isinstance(robust_closure_reachable, bool):
+    raise SystemExit("SK-H1.5 robust_closure_reachable must be boolean.")
+if not isinstance(h1_4_reason, str) or not h1_4_reason.strip():
+    raise SystemExit("SK-H1.4 h1_4_residual_reason is missing.")
+if not isinstance(h1_5_reason, str) or not h1_5_reason.strip():
+    raise SystemExit("SK-H1.5 h1_5_residual_reason is missing.")
+if not isinstance(h1_4_reopen_conditions, list) or len(h1_4_reopen_conditions) == 0:
+    raise SystemExit("SK-H1.4 h1_4_reopen_conditions must be a non-empty list.")
+if not isinstance(h1_5_reopen_conditions, list) or len(h1_5_reopen_conditions) == 0:
+    raise SystemExit("SK-H1.5 h1_5_reopen_conditions must be a non-empty list.")
+
+if status in {"CONCLUSIVE_NO_COUPLING", "CONCLUSIVE_COUPLING_PRESENT"}:
+    expected_lane = "H1_4_ALIGNED" if robustness_class == "ROBUST" else "H1_4_QUALIFIED"
+elif status in {"INCONCLUSIVE_UNDERPOWERED", "INCONCLUSIVE_INFERENTIAL_AMBIGUITY"}:
+    expected_lane = "H1_4_INCONCLUSIVE"
+elif status == "BLOCKED_DATA_GEOMETRY":
+    expected_lane = "H1_4_BLOCKED"
+else:
+    expected_lane = "H1_4_INCONCLUSIVE"
+
+if h1_4_lane != expected_lane:
+    raise SystemExit(
+        "SK-H1.4 status/robustness mismatch: "
+        f"status={status!r} robustness_class={robustness_class!r} "
+        f"declared_lane={h1_4_lane!r} expected_lane={expected_lane!r}"
+    )
+
+if robust_closure_reachable is False:
+    expected_h1_5_lane = "H1_5_BLOCKED"
+elif status in {"CONCLUSIVE_NO_COUPLING", "CONCLUSIVE_COUPLING_PRESENT"}:
+    if entitlement_robustness_class == "ROBUST":
+        if diagnostic_total > 0 and diagnostic_non_conclusive > 0:
+            expected_h1_5_lane = "H1_5_BOUNDED"
+        else:
+            expected_h1_5_lane = "H1_5_ALIGNED"
+    else:
+        expected_h1_5_lane = "H1_5_QUALIFIED"
+elif status in {"INCONCLUSIVE_UNDERPOWERED", "INCONCLUSIVE_INFERENTIAL_AMBIGUITY"}:
+    expected_h1_5_lane = "H1_5_INCONCLUSIVE"
+elif status == "BLOCKED_DATA_GEOMETRY":
+    expected_h1_5_lane = "H1_5_BLOCKED"
+else:
+    expected_h1_5_lane = "H1_5_INCONCLUSIVE"
+
+if h1_5_lane != expected_h1_5_lane:
+    raise SystemExit(
+        "SK-H1.5 status/entitlement mismatch: "
+        f"status={status!r} entitlement_robustness_class={entitlement_robustness_class!r} "
+        f"reachable={robust_closure_reachable!r} "
+        f"declared_lane={h1_5_lane!r} expected_lane={expected_h1_5_lane!r}"
+    )
+
+print(
+    "  [OK] SK-H1.4/SK-H1.5 multimodal robustness checks passed "
+    f"(status={status}, robustness_class={robustness_class}, "
+    f"h1_4_closure_lane={h1_4_lane}, h1_5_closure_lane={h1_5_lane})."
+)
+PY
+
+# 6. Sensitivity Artifact Integrity Check
+echo "6. Checking sensitivity artifact integrity..."
+echo "6a. Running release sensitivity preflight..."
+"${PYTHON_BIN}" scripts/analysis/run_sensitivity_sweep.py \
+  --mode release \
+  --dataset-id "${SENSITIVITY_RELEASE_DATASET_ID}" \
+  --preflight-only > /dev/null
+"${PYTHON_BIN}" - <<'PY'
+import json
+import os
+from pathlib import Path
+
+path = Path(
+    os.environ.get(
+        "SENSITIVITY_RELEASE_PREFLIGHT_PATH",
+        "status/audit/sensitivity_release_preflight.json",
+    )
+)
+if not path.exists():
+    raise SystemExit(
+        "Missing sensitivity release preflight artifact "
+        "(status/audit/sensitivity_release_preflight.json)."
+    )
+
+payload = json.loads(path.read_text(encoding="utf-8"))
+results = payload.get("results", {})
+if not isinstance(results, dict):
+    results = payload
+status = results.get("status")
+reason_codes = results.get("reason_codes")
+if status != "PREFLIGHT_OK":
+    raise SystemExit(
+        "Sensitivity release preflight is not PREFLIGHT_OK: "
+        f"status={status!r} reason_codes={reason_codes!r}"
+    )
+print("  [OK] Sensitivity release preflight passed.")
+PY
+
+"${PYTHON_BIN}" scripts/audit/check_sensitivity_artifact_contract.py --mode release
+"${PYTHON_BIN}" - <<'PY'
+import json
+import os
+from pathlib import Path
+
+status_path = Path(
+    os.environ.get(
+        "SENSITIVITY_RELEASE_STATUS_PATH",
+        "status/audit/sensitivity_sweep_release.json",
+    )
+)
+report_path = Path(
+    os.environ.get(
+        "SENSITIVITY_RELEASE_REPORT_PATH",
+        "reports/audit/SENSITIVITY_RESULTS_RELEASE.md",
+    )
+)
 
 if not status_path.exists():
-    raise SystemExit("Missing status/audit/sensitivity_sweep.json")
+    raise SystemExit(
+        f"Missing {status_path}. Run "
+        "python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real"
+    )
 if not report_path.exists():
-    raise SystemExit("Missing reports/audit/SENSITIVITY_RESULTS.md")
+    raise SystemExit(
+        f"Missing {report_path}. Run "
+        "python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real"
+    )
 
 payload = json.loads(status_path.read_text(encoding="utf-8"))
 results = payload.get("results", {})
@@ -299,6 +460,7 @@ echo "9. Checking SK-H3 control comparability policy..."
 "${PYTHON_BIN}" scripts/skeptic/check_control_data_availability.py --mode release > /dev/null
 "${PYTHON_BIN}" - <<'PY'
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 status_path = Path("status/synthesis/CONTROL_COMPARABILITY_STATUS.json")
@@ -308,8 +470,10 @@ if not status_path.exists():
 if not availability_path.exists():
     raise SystemExit("Missing status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json")
 
-results = json.loads(status_path.read_text(encoding="utf-8")).get("results", {})
-availability = json.loads(availability_path.read_text(encoding="utf-8")).get("results", {})
+status_payload = json.loads(status_path.read_text(encoding="utf-8"))
+availability_payload = json.loads(availability_path.read_text(encoding="utf-8"))
+results = status_payload.get("results", {})
+availability = availability_payload.get("results", {})
 required = [
     "status",
     "reason_code",
@@ -325,16 +489,198 @@ required = [
     "metric_overlap",
     "leakage_detected",
     "normalization_mode",
+    "available_subset_confidence",
+    "available_subset_diagnostics",
+    "available_subset_reproducibility",
+    "approved_lost_pages_policy_version",
+    "approved_lost_pages_source_note_path",
+    "irrecoverability",
+    "full_data_feasibility",
+    "full_data_closure_terminal_reason",
+    "full_data_closure_reopen_conditions",
+    "h3_4_closure_lane",
+    "h3_5_closure_lane",
+    "h3_5_residual_reason",
+    "h3_5_reopen_conditions",
 ]
 missing = [k for k in required if k not in results]
 if missing:
     raise SystemExit(f"SK-H3 comparability artifact missing keys: {missing}")
 if results.get("leakage_detected") is True:
     raise SystemExit("SK-H3 comparability artifact indicates leakage_detected=true")
+
+if results.get("evidence_scope") != availability.get("evidence_scope"):
+    raise SystemExit("SK-H3 comparability/data-availability evidence_scope mismatch.")
+if results.get("full_data_closure_eligible") != availability.get("full_data_closure_eligible"):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability full_data_closure_eligible mismatch."
+    )
+if results.get("approved_lost_pages_policy_version") != availability.get(
+    "approved_lost_pages_policy_version"
+):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability approved_lost_pages_policy_version mismatch."
+    )
+if results.get("approved_lost_pages_source_note_path") != availability.get(
+    "approved_lost_pages_source_note_path"
+):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability approved_lost_pages_source_note_path mismatch."
+    )
+if results.get("irrecoverability") != availability.get("irrecoverability"):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability irrecoverability metadata mismatch."
+    )
+if results.get("full_data_feasibility") != availability.get("full_data_feasibility"):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability full_data_feasibility mismatch."
+    )
+if results.get("full_data_closure_terminal_reason") != availability.get(
+    "full_data_closure_terminal_reason"
+):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability full_data_closure_terminal_reason mismatch."
+    )
+if results.get("full_data_closure_reopen_conditions") != availability.get(
+    "full_data_closure_reopen_conditions"
+):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability full_data_closure_reopen_conditions mismatch."
+    )
+if results.get("h3_4_closure_lane") != availability.get("h3_4_closure_lane"):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability h3_4_closure_lane mismatch."
+    )
+if results.get("h3_5_closure_lane") != availability.get("h3_5_closure_lane"):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability h3_5_closure_lane mismatch."
+    )
+if results.get("h3_5_residual_reason") != availability.get("h3_5_residual_reason"):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability h3_5_residual_reason mismatch."
+    )
+if results.get("h3_5_reopen_conditions") != availability.get("h3_5_reopen_conditions"):
+    raise SystemExit(
+        "SK-H3 comparability/data-availability h3_5_reopen_conditions mismatch."
+    )
+
+h3_5_lane = results.get("h3_5_closure_lane")
+h3_5_reason = results.get("h3_5_residual_reason")
+h3_5_reopen_conditions = results.get("h3_5_reopen_conditions")
+if h3_5_lane not in {
+    "H3_5_ALIGNED",
+    "H3_5_TERMINAL_QUALIFIED",
+    "H3_5_BLOCKED",
+    "H3_5_INCONCLUSIVE",
+}:
+    raise SystemExit(f"SK-H3 invalid h3_5_closure_lane={h3_5_lane!r}.")
+if not isinstance(h3_5_reason, str) or not h3_5_reason.strip():
+    raise SystemExit("SK-H3 h3_5_residual_reason must be non-empty.")
+if not isinstance(h3_5_reopen_conditions, list) or len(h3_5_reopen_conditions) == 0:
+    raise SystemExit("SK-H3 h3_5_reopen_conditions must be non-empty list.")
+
+if (
+    results.get("full_data_feasibility") == "irrecoverable"
+    and results.get("status") == "NON_COMPARABLE_BLOCKED"
+    and results.get("reason_code") == "DATA_AVAILABILITY"
+    and results.get("evidence_scope") == "available_subset"
+    and results.get("full_data_closure_eligible") is False
+):
+    expected_h3_5_lane = "H3_5_TERMINAL_QUALIFIED"
+elif (
+    results.get("full_data_feasibility") == "feasible"
+    and results.get("status") in {"COMPARABLE_CONFIRMED", "COMPARABLE_QUALIFIED"}
+    and results.get("evidence_scope") == "full_dataset"
+    and results.get("full_data_closure_eligible") is True
+    and results.get("missing_count") == 0
+):
+    expected_h3_5_lane = "H3_5_ALIGNED"
+elif results.get("status") == "INCONCLUSIVE_DATA_LIMITED":
+    expected_h3_5_lane = "H3_5_INCONCLUSIVE"
+else:
+    expected_h3_5_lane = "H3_5_BLOCKED"
+if h3_5_lane != expected_h3_5_lane:
+    raise SystemExit(
+        "SK-H3 h3_5_closure_lane mismatch with status semantics "
+        f"(declared={h3_5_lane!r}, expected={expected_h3_5_lane!r})."
+    )
+
+if h3_5_lane == "H3_5_TERMINAL_QUALIFIED":
+    required_terminal_reopen = {
+        "new_primary_source_pages_added_to_dataset",
+        "approved_lost_pages_policy_updated_with_new_evidence",
+        "artifact_parity_or_freshness_contract_failed",
+        "claim_boundaries_exceeded_terminal_qualified_scope",
+    }
+    if not required_terminal_reopen.issubset(set(h3_5_reopen_conditions)):
+        raise SystemExit(
+            "SK-H3 terminal-qualified lane missing required reopen triggers."
+        )
+
+status_provenance = status_payload.get("provenance", {}) or {}
+availability_provenance = availability_payload.get("provenance", {}) or {}
+status_run_id = status_provenance.get("run_id")
+availability_run_id = availability_provenance.get("run_id")
+if not status_run_id or not availability_run_id:
+    raise SystemExit(
+        "SK-H3 freshness check requires provenance.run_id in both artifacts."
+    )
+if status_run_id != availability_run_id:
+    raise SystemExit(
+        "SK-H3 freshness run_id mismatch across artifacts "
+        f"(comparability={status_run_id!r}, availability={availability_run_id!r})."
+    )
+
+def _parse_ts(value):
+    if not isinstance(value, str) or not value:
+        return None
+    raw = value[:-1] + "+00:00" if value.endswith("Z") else value
+    try:
+        dt = datetime.fromisoformat(raw)
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+status_ts = _parse_ts(status_provenance.get("timestamp"))
+availability_ts = _parse_ts(availability_provenance.get("timestamp"))
+if status_ts is None or availability_ts is None:
+    raise SystemExit(
+        "SK-H3 freshness check requires valid provenance.timestamp in both artifacts."
+    )
+skew_seconds = abs((status_ts - availability_ts).total_seconds())
+if skew_seconds > 600:
+    raise SystemExit(
+        f"SK-H3 freshness timestamp skew exceeds 600s (skew_seconds={skew_seconds:.1f})."
+    )
+
+subset_diagnostics = results.get("available_subset_diagnostics") or {}
+passes_thresholds = subset_diagnostics.get("passes_thresholds")
+if isinstance(passes_thresholds, bool):
+    if (not passes_thresholds) and results.get("available_subset_reason_code") != "AVAILABLE_SUBSET_UNDERPOWERED":
+        raise SystemExit(
+            "SK-H3 subset thresholds failed without reason_code=AVAILABLE_SUBSET_UNDERPOWERED."
+        )
+else:
+    raise SystemExit("SK-H3 available_subset_diagnostics.passes_thresholds must be boolean.")
+if results.get("available_subset_confidence") not in {"QUALIFIED", "UNDERPOWERED", "BLOCKED"}:
+    raise SystemExit("SK-H3 available_subset_confidence has invalid value.")
+if (
+    results.get("evidence_scope") == "available_subset"
+    and results.get("full_data_closure_eligible") is not False
+):
+    raise SystemExit(
+        "SK-H3 available_subset evidence cannot set full_data_closure_eligible=true."
+    )
 if results.get("status") == "NON_COMPARABLE_BLOCKED":
     if results.get("reason_code") != "DATA_AVAILABILITY":
         raise SystemExit(
             "SK-H3 blocked comparability must use reason_code=DATA_AVAILABILITY."
+        )
+    if availability.get("reason_code") != "DATA_AVAILABILITY":
+        raise SystemExit(
+            "SK-H3 blocked comparability requires availability reason_code=DATA_AVAILABILITY."
         )
     if results.get("evidence_scope") != "available_subset":
         raise SystemExit(
@@ -385,6 +731,13 @@ required = [
     "rank_stability_components",
     "nearest_neighbor_probability_margin",
     "top2_gap",
+    "m2_4_closure_lane",
+    "m2_4_residual_reason",
+    "m2_4_reopen_triggers",
+    "m2_5_closure_lane",
+    "m2_5_residual_reason",
+    "m2_5_reopen_triggers",
+    "m2_5_data_availability_linkage",
     "metric_validity",
 ]
 missing = [k for k in required if k not in results]
@@ -395,6 +748,50 @@ if metric_validity.get("required_fields_present") is not True:
     raise SystemExit("SK-M2 uncertainty artifact has incomplete required status inputs.")
 if metric_validity.get("sufficient_iterations") is not True:
     raise SystemExit("SK-M2 uncertainty artifact reports insufficient iteration depth.")
+
+m2_4_residual_reason = str(results.get("m2_4_residual_reason", "")).strip()
+if not m2_4_residual_reason:
+    raise SystemExit("SK-M2 uncertainty artifact has empty m2_4_residual_reason.")
+m2_4_reopen = results.get("m2_4_reopen_triggers")
+if not isinstance(m2_4_reopen, list) or len(m2_4_reopen) == 0:
+    raise SystemExit("SK-M2 uncertainty artifact requires non-empty m2_4_reopen_triggers.")
+
+m2_5_lane = str(results.get("m2_5_closure_lane", "")).strip()
+if m2_5_lane not in {
+    "M2_5_ALIGNED",
+    "M2_5_QUALIFIED",
+    "M2_5_BOUNDED",
+    "M2_5_BLOCKED",
+    "M2_5_INCONCLUSIVE",
+}:
+    raise SystemExit(f"SK-M2 uncertainty artifact has invalid m2_5_closure_lane={m2_5_lane!r}.")
+m2_5_residual_reason = str(results.get("m2_5_residual_reason", "")).strip()
+if not m2_5_residual_reason:
+    raise SystemExit("SK-M2 uncertainty artifact has empty m2_5_residual_reason.")
+m2_5_reopen = results.get("m2_5_reopen_triggers")
+if not isinstance(m2_5_reopen, list) or len(m2_5_reopen) == 0:
+    raise SystemExit("SK-M2 uncertainty artifact requires non-empty m2_5_reopen_triggers.")
+linkage = results.get("m2_5_data_availability_linkage")
+if not isinstance(linkage, dict):
+    raise SystemExit("SK-M2 uncertainty artifact requires object m2_5_data_availability_linkage.")
+missing_folio_blocking_claimed = linkage.get("missing_folio_blocking_claimed")
+objective_validity_failure = linkage.get("objective_comparative_validity_failure")
+if not isinstance(missing_folio_blocking_claimed, bool):
+    raise SystemExit(
+        "SK-M2 m2_5_data_availability_linkage.missing_folio_blocking_claimed must be boolean."
+    )
+if not isinstance(objective_validity_failure, bool):
+    raise SystemExit(
+        "SK-M2 m2_5_data_availability_linkage.objective_comparative_validity_failure must be boolean."
+    )
+if missing_folio_blocking_claimed and not objective_validity_failure:
+    raise SystemExit(
+        "SK-M2 missing-folio blocking claim requires objective comparative validity failure."
+    )
+if m2_5_lane == "M2_5_BLOCKED" and not objective_validity_failure:
+    raise SystemExit(
+        "SK-M2 M2_5_BLOCKED lane requires objective comparative validity failure linkage."
+    )
 
 print("  [OK] SK-M2 comparative uncertainty policy checks passed.")
 PY
@@ -425,6 +822,10 @@ required_prov = [
     "orphaned_rows",
     "orphaned_ratio",
     "threshold_policy_pass",
+    "m4_5_historical_lane",
+    "m4_5_residual_reason",
+    "m4_5_reopen_conditions",
+    "m4_5_data_availability_linkage",
     "contract_health_status",
     "contract_health_reason_code",
     "contract_reason_codes",
@@ -439,6 +840,51 @@ if sync.get("status") != "IN_SYNC":
     )
 if sync.get("drift_detected") is not False:
     raise SystemExit("SK-M4 register sync artifact reports drift_detected=true.")
+if sync.get("provenance_health_lane") != prov.get("m4_5_historical_lane"):
+    raise SystemExit("SK-M4 provenance_health_lane mismatch with m4_5_historical_lane.")
+if sync.get("provenance_health_m4_5_lane") != prov.get("m4_5_historical_lane"):
+    raise SystemExit("SK-M4 provenance_health_m4_5_lane mismatch with m4_5_historical_lane.")
+if sync.get("provenance_health_m4_5_residual_reason") != prov.get("m4_5_residual_reason"):
+    raise SystemExit(
+        "SK-M4 provenance_health_m4_5_residual_reason mismatch with m4_5_residual_reason."
+    )
+
+lane = prov.get("m4_5_historical_lane")
+if lane not in {"M4_5_ALIGNED", "M4_5_QUALIFIED", "M4_5_BOUNDED", "M4_5_BLOCKED", "M4_5_INCONCLUSIVE"}:
+    raise SystemExit(f"SK-M4 invalid m4_5_historical_lane={lane!r}.")
+if not str(prov.get("m4_5_residual_reason", "")).strip():
+    raise SystemExit("SK-M4 m4_5_residual_reason must be non-empty.")
+if not isinstance(prov.get("m4_5_reopen_conditions"), list) or len(
+    prov.get("m4_5_reopen_conditions")
+) == 0:
+    raise SystemExit("SK-M4 m4_5_reopen_conditions must be non-empty list.")
+
+linkage = prov.get("m4_5_data_availability_linkage")
+if not isinstance(linkage, dict):
+    raise SystemExit("SK-M4 m4_5_data_availability_linkage must be an object.")
+missing_folio_blocking_claimed = linkage.get("missing_folio_blocking_claimed")
+objective_incompleteness = linkage.get("objective_provenance_contract_incompleteness")
+approved_irrecoverable = linkage.get("approved_irrecoverable_loss_classification")
+if not isinstance(missing_folio_blocking_claimed, bool):
+    raise SystemExit(
+        "SK-M4 m4_5_data_availability_linkage.missing_folio_blocking_claimed must be boolean."
+    )
+if not isinstance(objective_incompleteness, bool):
+    raise SystemExit(
+        "SK-M4 m4_5_data_availability_linkage.objective_provenance_contract_incompleteness must be boolean."
+    )
+if not isinstance(approved_irrecoverable, bool):
+    raise SystemExit(
+        "SK-M4 m4_5_data_availability_linkage.approved_irrecoverable_loss_classification must be boolean."
+    )
+if missing_folio_blocking_claimed and not objective_incompleteness:
+    raise SystemExit(
+        "SK-M4 missing-folio blocking claim requires objective provenance contract incompleteness."
+    )
+if approved_irrecoverable and missing_folio_blocking_claimed and not objective_incompleteness:
+    raise SystemExit(
+        "SK-M4 approved irrecoverable-loss folio claim cannot block without objective linkage."
+    )
 
 print("  [OK] SK-M4 historical provenance policy checks passed.")
 PY
@@ -448,6 +894,7 @@ echo "12. Checking SK-H2.2 / SK-M1.2 operational entitlement policy..."
 "${PYTHON_BIN}" scripts/audit/build_release_gate_health_status.py > /dev/null
 "${PYTHON_BIN}" scripts/skeptic/check_claim_boundaries.py --mode release > /dev/null
 "${PYTHON_BIN}" scripts/skeptic/check_closure_conditionality.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/skeptic/check_claim_entitlement_coherence.py --mode release > /dev/null
 "${PYTHON_BIN}" scripts/skeptic/check_report_coherence.py --mode release > /dev/null
 
 VERIFICATION_COMPLETE=1

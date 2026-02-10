@@ -138,6 +138,16 @@ Verifier contract notes:
 - Any missing prerequisite or failed check must exit non-zero.
 - `scripts/ci_check.sh` requires verifier completion sentinel; it must not report pass on partial verifier execution.
 - Release sensitivity evidence is valid only when `release_evidence_ready=true` and robustness is conclusive (`PASS` or `FAIL`) with quality gates passing.
+- Release sensitivity checks read:
+  - `status/audit/sensitivity_sweep_release.json`
+  - `reports/audit/SENSITIVITY_RESULTS_RELEASE.md`
+- Release sensitivity preflight status is recorded at:
+  - `status/audit/sensitivity_release_preflight.json`
+- Scenario-level resume state is recorded at:
+  - `status/audit/sensitivity_checkpoint.json`
+- CI/latest iterative checks read:
+  - `status/audit/sensitivity_sweep.json`
+  - `reports/audit/SENSITIVITY_RESULTS.md`
 - Release sensitivity evidence also requires:
   - `dataset_policy_pass=true`
   - `warning_policy_pass=true`
@@ -150,6 +160,12 @@ python3 scripts/audit/check_sensitivity_artifact_contract.py --mode ci
 python3 scripts/audit/check_sensitivity_artifact_contract.py --mode release
 ```
 
+- Release preflight can be run independently (no sweep execution):
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real --preflight-only
+```
+
 - Runner-level provenance contract is checked by:
 
 ```bash
@@ -159,6 +175,7 @@ python3 scripts/audit/check_provenance_runner_contract.py --mode release
 - Release-path strict preflight is always enforced. `status/synthesis/TURING_TEST_RESULTS.json` must be generated with `strict_computed=true`.
 - If strict preflight is blocked only because source pages are unavailable/lost, results must record `status=BLOCKED` and `reason_code=DATA_AVAILABILITY`.
 - A `BLOCKED` strict preflight with `reason_code=DATA_AVAILABILITY` is treated as a scoped data-availability constraint, not as proof of code malfunction.
+- SK-H3 closure metadata must include `h3_5_closure_lane`, `h3_5_residual_reason`, and `h3_5_reopen_conditions`.
 
 Optional strict verification mode:
 
@@ -190,10 +207,26 @@ Authoritative release evidence mode (full required run):
 python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real
 ```
 
+Fail-fast release preflight:
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real --preflight-only
+```
+
 Progress visibility during long runs:
 
 ```bash
 cat status/audit/sensitivity_progress.json
+```
+
+Checkpoint/resume behavior:
+
+- `status/audit/sensitivity_checkpoint.json` is updated after each completed scenario.
+- Release runs resume from checkpoint automatically when signature matches mode/dataset/scenarios.
+- To force a full rerun without resume:
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real --no-resume
 ```
 
 ## 11. SK-H1 Multimodal Coupling Reproduction
@@ -218,6 +251,13 @@ Conclusive claim status must be read from:
 
 - `results/mechanism/anchor_coupling_confirmatory.json` -> `results.status`
 - `results/mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.h1_4_closure_lane`
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.robustness.robustness_class`
+
+H1.4 interpretation rule:
+
+- `H1_4_ALIGNED` permits robust conclusive multimodal language within policy scope.
+- `H1_4_QUALIFIED` requires explicit qualifier language: robustness remains qualified across registered lanes.
 
 Policy source:
 
@@ -242,6 +282,8 @@ Run claim-boundary checks for public-facing conclusion language:
 python3 scripts/audit/build_release_gate_health_status.py
 python3 scripts/skeptic/check_claim_boundaries.py --mode ci
 python3 scripts/skeptic/check_claim_boundaries.py --mode release
+python3 scripts/skeptic/check_claim_entitlement_coherence.py --mode ci
+python3 scripts/skeptic/check_claim_entitlement_coherence.py --mode release
 python3 -m pytest -q tests/skeptic/test_claim_boundary_checker.py
 ```
 
@@ -279,6 +321,30 @@ Interpretation rule:
 
 - `evidence_scope=available_subset` indicates bounded subset evidence only.
 - `full_data_closure_eligible=false` means full-dataset comparability remains blocked.
+- `available_subset_reason_code=AVAILABLE_SUBSET_UNDERPOWERED` indicates subset diagnostics failed thresholds and cannot support closure language.
+- `approved_lost_pages_policy_version` and `approved_lost_pages_source_note_path` must match the active data-availability policy.
+- `irrecoverability.classification` must be present in both SK-H3 status artifacts.
+
+Quick SK-H3.4 semantic parity check:
+
+```bash
+python3 - <<'PY'
+import json
+s=json.load(open('status/synthesis/CONTROL_COMPARABILITY_STATUS.json'))['results']
+a=json.load(open('status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json'))['results']
+print('status', s['status'], s['reason_code'], s['available_subset_reason_code'])
+print('scope', s['evidence_scope'], 'full_closure', s['full_data_closure_eligible'])
+print('policy_version', s['approved_lost_pages_policy_version'])
+print('source_note', s['approved_lost_pages_source_note_path'])
+print('feasibility', s['full_data_feasibility'])
+print('terminal_reason', s['full_data_closure_terminal_reason'])
+print('reopen_conditions', s['full_data_closure_reopen_conditions'])
+print('lane', s['h3_4_closure_lane'])
+print('irrecoverability', s['irrecoverability'])
+print('parity', s['irrecoverability'] == a['irrecoverability'])
+print('lane_parity', s['h3_4_closure_lane'] == a['h3_4_closure_lane'])
+PY
+```
 
 ## 14. SK-M1 Closure Conditionality Verification
 
@@ -288,6 +354,8 @@ Run closure-conditionality policy checks:
 python3 scripts/audit/build_release_gate_health_status.py
 python3 scripts/skeptic/check_closure_conditionality.py --mode ci
 python3 scripts/skeptic/check_closure_conditionality.py --mode release
+python3 scripts/skeptic/check_claim_entitlement_coherence.py --mode ci
+python3 scripts/skeptic/check_claim_entitlement_coherence.py --mode release
 python3 -m pytest -q tests/skeptic/test_closure_conditionality_checker.py
 ```
 
@@ -307,23 +375,28 @@ Run comparative uncertainty artifact and policy checks:
 
 ```bash
 python3 scripts/comparative/run_proximity_uncertainty.py --iterations 2000 --seed 42
+python3 scripts/comparative/run_proximity_uncertainty.py --profile smoke --seed 42
+python3 scripts/comparative/run_proximity_uncertainty.py --profile release-depth --seed 42
 python3 scripts/skeptic/check_comparative_uncertainty.py --mode ci
 python3 scripts/skeptic/check_comparative_uncertainty.py --mode release
 python3 -m pytest -q tests/skeptic/test_comparative_uncertainty_checker.py
 ```
 
-Inspect SK-M2.2 confidence diagnostics:
+Inspect SK-M2.4 confidence and lane diagnostics:
 
 ```bash
 python3 - <<'PY'
 import json
 r=json.load(open('results/human/phase_7c_uncertainty.json'))['results']
 print(r['status'], r['reason_code'])
+print('lane', r['m2_4_closure_lane'])
 print('nearest', r['nearest_neighbor_stability'])
 print('jackknife', r['jackknife_nearest_neighbor_stability'])
 print('rank', r['rank_stability'])
 print('margin', r['nearest_neighbor_probability_margin'])
 print('top2_ci_low', r['top2_gap']['ci95_lower'])
+print('flip_rate', r['fragility_diagnostics']['top2_identity_flip_rate'])
+print('dominant_signal', r['fragility_diagnostics']['dominant_fragility_signal'])
 PY
 ```
 

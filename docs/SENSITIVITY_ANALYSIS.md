@@ -7,12 +7,20 @@
 Sensitivity sweep assets:
 
 - Runner: `scripts/analysis/run_sensitivity_sweep.py`
-- Machine-readable output: `status/audit/sensitivity_sweep.json` (provenance-wrapped)
-- Quality diagnostics sidecar: `status/audit/sensitivity_quality_diagnostics.json`
+- Machine-readable output (CI/latest snapshot): `status/audit/sensitivity_sweep.json` (provenance-wrapped)
+- Machine-readable output (release candidate): `status/audit/sensitivity_sweep_release.json`
+- Quality diagnostics sidecar (CI/latest): `status/audit/sensitivity_quality_diagnostics.json`
+- Quality diagnostics sidecar (release candidate): `status/audit/sensitivity_quality_diagnostics_release.json`
 - Runtime progress file: `status/audit/sensitivity_progress.json`
-- Human report: `reports/audit/SENSITIVITY_RESULTS.md`
-- Latest run metadata should be read from:
+- Release preflight status: `status/audit/sensitivity_release_preflight.json`
+- Scenario checkpoint state: `status/audit/sensitivity_checkpoint.json`
+- Release run-status lifecycle: `status/audit/sensitivity_release_run_status.json`
+- Human report (CI/latest): `reports/audit/SENSITIVITY_RESULTS.md`
+- Human report (release candidate): `reports/audit/SENSITIVITY_RESULTS_RELEASE.md`
+- Latest CI/local metadata should be read from:
   - `status/audit/sensitivity_sweep.json` -> `provenance.timestamp`, `results.summary.*`
+- Release-gate metadata should be read from:
+  - `status/audit/sensitivity_sweep_release.json` -> `provenance.timestamp`, `results.summary.*`
 - Contract policy: `configs/audit/sensitivity_artifact_contract.json`
 - Contract checker: `scripts/audit/check_sensitivity_artifact_contract.py`
 
@@ -21,6 +29,12 @@ Contract checks:
 ```bash
 python3 scripts/audit/check_sensitivity_artifact_contract.py --mode ci
 python3 scripts/audit/check_sensitivity_artifact_contract.py --mode release
+```
+
+Release preflight check (no scenario execution):
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real --preflight-only
 ```
 
 Current evidence caveat policy:
@@ -44,7 +58,13 @@ Interpretation policy:
   - warning burden thresholds (aggregate + per-scenario density),
   - explicit caveat review.
 - Release automation (`pre_release_check.sh` and `verify_reproduction.sh`) enforces the same conclusive+quality policy.
+  - Release automation reads release-candidate artifacts (`*_release.json` / `*_RELEASE.md`) to avoid iterative snapshot contamination.
 - If warnings are present (`total_warning_count > 0`), caveat output must be non-empty.
+- Release run lifecycle states are explicit:
+  - `STARTED`: release sweep initiated.
+  - `RUNNING`: scenarios in progress or resumed.
+  - `COMPLETED`: release artifacts/report emitted.
+  - `FAILED`: runner terminated with captured error details.
 
 ## Purpose
 
@@ -88,19 +108,36 @@ This analysis tests whether high-level conclusions remain stable under controlle
      - fallback-estimate warnings.
 6. Apply robustness gate only if quality conditions are satisfied.
 7. Write outputs:
-   - `status/audit/sensitivity_sweep.json`
+   - `status/audit/sensitivity_sweep.json` (non-release latest snapshot)
+   - `status/audit/sensitivity_sweep_release.json` (release mode)
    - `status/audit/sensitivity_progress.json`
-   - `status/audit/sensitivity_quality_diagnostics.json`
-   - `reports/audit/SENSITIVITY_RESULTS.md`
+   - `status/audit/sensitivity_release_preflight.json` (`--preflight-only` path)
+   - `status/audit/sensitivity_checkpoint.json` (resume support)
+   - `status/audit/sensitivity_quality_diagnostics.json` (non-release latest snapshot)
+   - `status/audit/sensitivity_quality_diagnostics_release.json` (release mode)
+   - `reports/audit/SENSITIVITY_RESULTS.md` (non-release latest snapshot)
+   - `reports/audit/SENSITIVITY_RESULTS_RELEASE.md` (release mode)
 
 ## Testability Modes
 
 Use reduced-cost runs for development and debugging; reserve release mode for final evidence.
 
+Profile mapping:
+
+- `smoke` profile -> `--mode smoke` (minimum scenarios, non-release entitlement)
+- `standard` profile -> `--mode iterative` (reduced subset, non-release entitlement)
+- `release-depth` profile -> `--mode release` (full contract path, release entitlement candidate)
+
 - **Release mode (authoritative evidence):**
 
 ```bash
 python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real
+```
+
+- **Release preflight (fail-fast policy check):**
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real --preflight-only
 ```
 
 - **Iterative mode (faster, representative workflow checks):**
@@ -127,9 +164,25 @@ Progress can be tailed at any time:
 cat status/audit/sensitivity_progress.json
 ```
 
+Run-status lifecycle can be inspected in parallel:
+
+```bash
+cat status/audit/sensitivity_release_run_status.json
+```
+
+Checkpoint/resume notes:
+
+- The runner writes `status/audit/sensitivity_checkpoint.json` after each completed scenario.
+- Re-running the same mode/dataset/scenario signature resumes from completed scenarios by default.
+- Disable resume explicitly if needed:
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real --no-resume
+```
+
 ## Required Caveat Reporting
 
-`reports/audit/SENSITIVITY_RESULTS.md` must include:
+`reports/audit/SENSITIVITY_RESULTS_RELEASE.md` must include:
 
 - valid scenario rate,
 - insufficient-data scenario count,

@@ -105,6 +105,23 @@ Comparability caveat handling:
   - `reason_code=DATA_AVAILABILITY`
   - `evidence_scope=available_subset`
   - `full_data_closure_eligible=false`
+- SK-H3.4 irrecoverability governance must be explicit:
+  - `approved_lost_pages_policy_version`
+  - `approved_lost_pages_source_note_path`
+  - `irrecoverability.recoverable`
+  - `irrecoverability.approved_lost`
+  - `irrecoverability.unexpected_missing`
+  - `irrecoverability.classification`
+  - `full_data_feasibility`
+  - `full_data_closure_terminal_reason`
+  - `h3_4_closure_lane`
+- SK-H3.5 closure governance must be explicit:
+  - `h3_5_closure_lane`
+  - `h3_5_residual_reason`
+  - `h3_5_reopen_conditions`
+- Available-subset transition reason codes:
+  - `AVAILABLE_SUBSET_QUALIFIED` (thresholds pass)
+  - `AVAILABLE_SUBSET_UNDERPOWERED` (thresholds fail)
 - Available-subset comparability is explicitly non-conclusive and cannot be
   promoted to full-dataset closure claims.
 - Canonical checker:

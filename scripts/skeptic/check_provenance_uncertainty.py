@@ -129,6 +129,28 @@ def _run_threshold_checks(
                 f"[stale-artifact] {artifact_path}: age_hours {age_hours:.2f} > {max_artifact_age_hours}"
             )
 
+    sync_artifact_path = str(threshold_policy.get("sync_artifact_path", "")).strip()
+    max_sync_artifact_age_hours = int(
+        threshold_policy.get("max_sync_artifact_age_hours", max_artifact_age_hours)
+    )
+    if sync_artifact_path:
+        sync_artifact = parsed_artifacts.get(sync_artifact_path)
+        if sync_artifact is None:
+            errors.append(f"[missing-artifact] threshold policy sync artifact missing: {sync_artifact_path}")
+        else:
+            sync_generated = _parse_iso_timestamp(sync_artifact.get("generated_utc"))
+            if sync_generated is None:
+                errors.append(
+                    f"[artifact-field] {sync_artifact_path}: generated_utc must be ISO8601"
+                )
+            else:
+                sync_age_hours = (datetime.now(timezone.utc) - sync_generated).total_seconds() / 3600.0
+                if sync_age_hours > max_sync_artifact_age_hours:
+                    errors.append(
+                        f"[stale-artifact] {sync_artifact_path}: age_hours {sync_age_hours:.2f} "
+                        f"> {max_sync_artifact_age_hours}"
+                    )
+
     return errors
 
 
@@ -188,6 +210,8 @@ def _run_contract_coupling_checks(
     require_reason_codes = set(
         _as_list(coupling.get("require_contract_reason_codes_when_gate_degraded"))
     )
+    required_m4_5_lanes = set(_as_list(coupling.get("require_m4_5_lanes_when_gate_degraded")))
+    required_m4_4_lanes = set(_as_list(coupling.get("require_m4_4_lanes_when_gate_degraded")))
 
     if gate_status in degraded_gate_statuses:
         if provenance_status in disallow_when_degraded:
@@ -207,6 +231,14 @@ def _run_contract_coupling_checks(
                 "[contract-coupling] provenance artifact missing required contract reason codes "
                 f"under degraded gate state: {missing_reason_codes}"
             )
+        required_lanes = required_m4_5_lanes or required_m4_4_lanes
+        if required_lanes:
+            lane = str(provenance.get("m4_5_historical_lane") or provenance.get("m4_4_historical_lane") or "")
+            if lane not in required_lanes:
+                errors.append(
+                    "[contract-coupling] degraded gate state requires provenance lane in "
+                    f"{sorted(required_lanes)} (observed `{lane}`)"
+                )
 
     # Ensure provenance artifact mirrors observed gate-health state for audit clarity.
     if str(provenance.get("contract_health_status", "")) and gate_status:
@@ -214,6 +246,213 @@ def _run_contract_coupling_checks(
             errors.append(
                 "[contract-coupling] provenance artifact contract_health_status does not match "
                 f"gate artifact status ({provenance.get('contract_health_status')} != {gate_status})"
+            )
+
+    return errors
+
+
+def _run_m4_5_lane_checks(
+    *,
+    policy: Dict[str, Any],
+    parsed_artifacts: Dict[str, Dict[str, Any]],
+) -> List[str]:
+    errors: List[str] = []
+    m4_policy = dict(policy.get("m4_5_policy", {}))
+    key_prefix = "m4_5"
+    lane_key = "m4_5_historical_lane"
+    residual_reason_key = "m4_5_residual_reason"
+    reopen_conditions_key = "m4_5_reopen_conditions"
+    if not m4_policy:
+        m4_policy = dict(policy.get("m4_4_policy", {}))
+        key_prefix = "m4_4"
+        lane_key = "m4_4_historical_lane"
+        residual_reason_key = "m4_4_residual_reason"
+        reopen_conditions_key = "m4_4_reopen_conditions"
+
+    if not m4_policy:
+        return errors
+
+    threshold_policy = dict(policy.get("threshold_policy", {}))
+    provenance_path = str(threshold_policy.get("artifact_path", "")).strip()
+    sync_path = str(threshold_policy.get("sync_artifact_path", "")).strip()
+    if not provenance_path or provenance_path not in parsed_artifacts:
+        errors.append(f"[{key_prefix}-lane] provenance artifact unavailable for lane checks.")
+        return errors
+    if not sync_path or sync_path not in parsed_artifacts:
+        errors.append(f"[{key_prefix}-lane] sync artifact unavailable for lane checks.")
+        return errors
+
+    provenance = parsed_artifacts[provenance_path]
+    sync = parsed_artifacts[sync_path]
+
+    status = str(provenance.get("status", ""))
+    lane = str(provenance.get(lane_key) or provenance.get("m4_4_historical_lane") or "")
+    recoverability_class = str(provenance.get("recoverability_class", ""))
+
+    required_lane_by_status = dict(m4_policy.get("required_lane_by_provenance_status", {}))
+    bounded_classes = set(_as_list(m4_policy.get("bounded_recoverability_classes")))
+    bounded_lane_name = str(m4_policy.get("bounded_lane_name", "M4_5_BOUNDED"))
+    inconclusive_lane_name = str(m4_policy.get("inconclusive_lane_name", "M4_5_INCONCLUSIVE"))
+    blocked_lane_name = str(m4_policy.get("blocked_lane_name", "M4_5_BLOCKED"))
+
+    if status == "PROVENANCE_QUALIFIED" and recoverability_class in bounded_classes:
+        expected_lane = bounded_lane_name
+    else:
+        expected_lane = str(required_lane_by_status.get(status, "")).strip()
+        if status not in required_lane_by_status and status.startswith("INCONCLUSIVE"):
+            expected_lane = inconclusive_lane_name
+
+    if expected_lane and lane != expected_lane:
+        errors.append(
+            f"[{key_prefix}-lane] {provenance_path}: status `{status}` with recoverability "
+            f"`{recoverability_class}` requires lane `{expected_lane}` (observed `{lane}`)"
+        )
+
+    if lane == bounded_lane_name and recoverability_class not in bounded_classes:
+        errors.append(
+            f"[{key_prefix}-lane] {provenance_path}: lane `{bounded_lane_name}` requires recoverability "
+            f"class in {sorted(bounded_classes)} (observed `{recoverability_class}`)"
+        )
+
+    required_reopen_lanes = set(_as_list(m4_policy.get("require_reopen_conditions_for_lanes")))
+    if lane in required_reopen_lanes:
+        reopen_conditions = provenance.get(reopen_conditions_key) or provenance.get("m4_4_reopen_conditions")
+        if not isinstance(reopen_conditions, list) or not any(
+            isinstance(item, str) and item.strip() for item in reopen_conditions
+        ):
+            errors.append(
+                f"[{key_prefix}-lane] {provenance_path}: lane `{lane}` requires non-empty "
+                f"{reopen_conditions_key} list"
+            )
+
+    required_residual_reason_lanes = set(_as_list(m4_policy.get("require_residual_reason_for_lanes")))
+    if lane in required_residual_reason_lanes:
+        residual_reason = provenance.get(residual_reason_key) or provenance.get("m4_4_residual_reason")
+        if not isinstance(residual_reason, str) or not residual_reason.strip():
+            errors.append(
+                f"[{key_prefix}-lane] {provenance_path}: lane `{lane}` requires non-empty "
+                f"{residual_reason_key}"
+            )
+
+    missing_folio_guard = dict(m4_policy.get("missing_folio_non_blocking_guard", {}))
+    if missing_folio_guard:
+        linkage_key = str(
+            missing_folio_guard.get("linkage_key", "m4_5_data_availability_linkage")
+        )
+        linkage = provenance.get(linkage_key, {})
+        if not isinstance(linkage, dict):
+            errors.append(
+                f"[{key_prefix}-lane] {provenance_path}: `{linkage_key}` must be an object"
+            )
+        else:
+            required_bool_keys = _as_list(missing_folio_guard.get("required_boolean_keys"))
+            for bool_key in required_bool_keys:
+                if not isinstance(linkage.get(bool_key), bool):
+                    errors.append(
+                        f"[{key_prefix}-lane] {provenance_path}: `{linkage_key}.{bool_key}` must be boolean"
+                    )
+            missing_folio_blocking_claimed = linkage.get("missing_folio_blocking_claimed")
+            objective_incompleteness = linkage.get("objective_provenance_contract_incompleteness")
+            approved_irrecoverable = linkage.get("approved_irrecoverable_loss_classification")
+            if (
+                missing_folio_guard.get(
+                    "require_objective_linkage_when_missing_folio_blocking_claimed", False
+                )
+                and missing_folio_blocking_claimed is True
+                and objective_incompleteness is not True
+            ):
+                errors.append(
+                    f"[{key_prefix}-lane] {provenance_path}: folio-based blocking claim requires "
+                    "objective provenance-contract incompleteness linkage"
+                )
+            if (
+                missing_folio_guard.get(
+                    "disallow_blocking_when_approved_irrecoverable_loss_without_objective_linkage",
+                    False,
+                )
+                and missing_folio_blocking_claimed is True
+                and approved_irrecoverable is True
+                and objective_incompleteness is not True
+            ):
+                errors.append(
+                    f"[{key_prefix}-lane] {provenance_path}: approved irrecoverable-loss folio claim "
+                    "cannot block SK-M4 without objective provenance-contract incompleteness"
+                )
+            if (
+                lane == blocked_lane_name
+                and missing_folio_blocking_claimed is True
+                and objective_incompleteness is not True
+            ):
+                errors.append(
+                    f"[{key_prefix}-lane] {provenance_path}: blocked lane requires objective linkage "
+                    "when folio-based blocking is claimed"
+                )
+
+    # Cross-artifact parity checks.
+    if str(sync.get("provenance_status", "")) and str(sync.get("provenance_status")) != status:
+        errors.append(
+            f"[{key_prefix}-parity] {sync_path}: provenance_status `{sync.get('provenance_status')}` "
+            f"!= health status `{status}`"
+        )
+    if (
+        str(sync.get("provenance_reason_code", ""))
+        and str(sync.get("provenance_reason_code")) != str(provenance.get("reason_code", ""))
+    ):
+        errors.append(
+            f"[{key_prefix}-parity] {sync_path}: provenance_reason_code `{sync.get('provenance_reason_code')}` "
+            f"!= health reason_code `{provenance.get('reason_code')}`"
+        )
+    if (
+        str(sync.get("provenance_health_lane", ""))
+        and str(sync.get("provenance_health_lane")) != lane
+    ):
+        errors.append(
+            f"[{key_prefix}-parity] {sync_path}: provenance_health_lane `{sync.get('provenance_health_lane')}` "
+            f"!= health lane `{lane}`"
+        )
+    sync_lane_explicit = sync.get("provenance_health_m4_5_lane")
+    if key_prefix == "m4_5" and str(sync_lane_explicit or "") and str(sync_lane_explicit) != lane:
+        errors.append(
+            f"[{key_prefix}-parity] {sync_path}: provenance_health_m4_5_lane `{sync_lane_explicit}` "
+            f"!= health lane `{lane}`"
+        )
+    sync_residual_explicit = sync.get("provenance_health_m4_5_residual_reason")
+    residual_reason = provenance.get(residual_reason_key) or provenance.get("m4_4_residual_reason")
+    if (
+        key_prefix == "m4_5"
+        and str(sync_residual_explicit or "")
+        and str(sync_residual_explicit) != str(residual_reason)
+    ):
+        errors.append(
+            f"[{key_prefix}-parity] {sync_path}: provenance_health_m4_5_residual_reason "
+            f"`{sync_residual_explicit}` != health residual reason `{residual_reason}`"
+        )
+
+    health_orphaned_rows = provenance.get("orphaned_rows")
+    sync_health_orphaned_rows = sync.get("health_orphaned_rows")
+    if (
+        isinstance(sync_health_orphaned_rows, int)
+        and isinstance(health_orphaned_rows, int)
+        and sync_health_orphaned_rows != health_orphaned_rows
+    ):
+        errors.append(
+            f"[{key_prefix}-parity] {sync_path}: health_orphaned_rows `{sync_health_orphaned_rows}` "
+            f"!= provenance orphaned_rows `{health_orphaned_rows}`"
+        )
+
+    if str(sync.get("status", "")) == "IN_SYNC" and sync.get("drift_detected") is True:
+        errors.append(
+            f"[{key_prefix}-parity] {sync_path}: status=IN_SYNC is incompatible with drift_detected=true"
+        )
+    if sync.get("drift_detected") is False and isinstance(sync.get("drift_by_status"), dict):
+        non_zero = {
+            k: v
+            for k, v in sync.get("drift_by_status", {}).items()
+            if isinstance(v, int) and v != 0
+        }
+        if non_zero:
+            errors.append(
+                f"[{key_prefix}-parity] {sync_path}: drift_detected=false but non-zero drift entries exist: {non_zero}"
             )
 
     return errors
@@ -316,6 +555,12 @@ def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
             policy=policy,
             parsed_artifacts=parsed_artifacts,
             root=root,
+        )
+    )
+    errors.extend(
+        _run_m4_5_lane_checks(
+            policy=policy,
+            parsed_artifacts=parsed_artifacts,
         )
     )
     return errors

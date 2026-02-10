@@ -20,6 +20,11 @@ from foundation.runs.manager import active_run  # noqa: E402
 PROVENANCE_CONTRACT_MODE = "delegated"
 PROVENANCE_DELEGATED_TO = "src/comparative/mapping.py::run_analysis"
 DEFAULT_POLICY_PATH = "configs/skeptic/sk_m2_comparative_uncertainty_policy.json"
+PROFILE_ITERATIONS = {
+    "smoke": 400,
+    "standard": 2000,
+    "release-depth": 8000,
+}
 
 
 def _parse_args() -> argparse.Namespace:
@@ -29,8 +34,14 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--iterations",
         type=int,
-        default=2000,
+        default=None,
         help="Number of perturbation/bootstrap iterations (>=100).",
+    )
+    parser.add_argument(
+        "--profile",
+        choices=sorted(PROFILE_ITERATIONS.keys()),
+        default="standard",
+        help="Execution profile used when --iterations is not explicitly provided.",
     )
     parser.add_argument(
         "--seed",
@@ -95,6 +106,7 @@ def _assert_provenance_envelope(output_path: str) -> None:
 
 def main() -> int:
     args = _parse_args()
+    iterations = int(args.iterations) if args.iterations is not None else PROFILE_ITERATIONS[args.profile]
     thresholds = _load_status_thresholds(args.policy_path)
     # Provenance writing is delegated to `run_analysis`, which writes via
     # ProvenanceWriter in src/comparative/mapping.py.
@@ -102,7 +114,8 @@ def main() -> int:
         config={
             "command": "run_proximity_uncertainty",
             "seed": args.seed,
-            "iterations": args.iterations,
+            "iterations": iterations,
+            "profile": args.profile,
             "target": args.target,
             "matrix_path": args.matrix_path,
             "report_path": args.report_path,
@@ -116,7 +129,8 @@ def main() -> int:
             report_path=args.report_path,
             uncertainty_output_path=args.output_path,
             seed=args.seed,
-            iterations=args.iterations,
+            iterations=iterations,
+            run_profile=args.profile,
             target=args.target,
             status_thresholds=thresholds,
         )
@@ -124,6 +138,8 @@ def main() -> int:
     summary["provenance_contract_mode"] = PROVENANCE_CONTRACT_MODE
     summary["provenance_delegated_to"] = PROVENANCE_DELEGATED_TO
     summary["policy_path"] = args.policy_path
+    summary["profile"] = args.profile
+    summary["iterations"] = iterations
     print(json.dumps(summary, indent=2, sort_keys=True))
     return 0
 

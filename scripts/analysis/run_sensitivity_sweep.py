@@ -3,10 +3,16 @@
 Sensitivity sweep runner for parameter robustness checks.
 
 Outputs:
-- status/audit/sensitivity_sweep.json (with provenance envelope)
-- reports/audit/SENSITIVITY_RESULTS.md
+- status/audit/sensitivity_sweep.json (latest local/iterative snapshot)
+- status/audit/sensitivity_sweep_release.json (release-candidate snapshot)
+- reports/audit/SENSITIVITY_RESULTS.md (latest local/iterative report)
+- reports/audit/SENSITIVITY_RESULTS_RELEASE.md (release-candidate report)
 - status/audit/sensitivity_quality_diagnostics.json
+- status/audit/sensitivity_quality_diagnostics_release.json
 - status/audit/sensitivity_progress.json
+- status/audit/sensitivity_release_preflight.json
+- status/audit/sensitivity_checkpoint.json
+- status/audit/sensitivity_release_run_status.json
 """
 
 from __future__ import annotations
@@ -16,6 +22,8 @@ import copy
 import json
 import logging
 import sys
+import tempfile
+import threading
 from contextlib import ExitStack, contextmanager
 from datetime import datetime
 from pathlib import Path
@@ -57,9 +65,17 @@ from foundation.storage.metadata import (
 console = Console()
 MODEL_PARAMS_PATH = PROJECT_ROOT / "configs/functional/model_params.json"
 STATUS_PATH = PROJECT_ROOT / "status/audit/sensitivity_sweep.json"
+RELEASE_STATUS_PATH = PROJECT_ROOT / "status/audit/sensitivity_sweep_release.json"
 REPORT_PATH = PROJECT_ROOT / "reports/audit/SENSITIVITY_RESULTS.md"
+RELEASE_REPORT_PATH = PROJECT_ROOT / "reports/audit/SENSITIVITY_RESULTS_RELEASE.md"
 DIAGNOSTICS_PATH = PROJECT_ROOT / "status/audit/sensitivity_quality_diagnostics.json"
+RELEASE_DIAGNOSTICS_PATH = (
+    PROJECT_ROOT / "status/audit/sensitivity_quality_diagnostics_release.json"
+)
 PROGRESS_PATH = PROJECT_ROOT / "status/audit/sensitivity_progress.json"
+RELEASE_PREFLIGHT_PATH = PROJECT_ROOT / "status/audit/sensitivity_release_preflight.json"
+CHECKPOINT_PATH = PROJECT_ROOT / "status/audit/sensitivity_checkpoint.json"
+RELEASE_RUN_STATUS_PATH = PROJECT_ROOT / "status/audit/sensitivity_release_run_status.json"
 POLICY_PATH = PROJECT_ROOT / "configs/audit/release_evidence_policy.json"
 DEFAULT_DB_URL = "sqlite:///data/voynich.db"
 DEFAULT_DATASET_ID = "voynich_real"
@@ -69,6 +85,11 @@ MIN_VALID_SCENARIO_RATE = 0.80
 ITERATIVE_DEFAULT_MAX_SCENARIOS = 5
 SENSITIVITY_SCHEMA_VERSION = "2026-02-10"
 SENSITIVITY_GENERATED_BY = "scripts/analysis/run_sensitivity_sweep.py"
+SENSITIVITY_PROGRESS_SCHEMA_VERSION = "2026-02-10"
+SENSITIVITY_PREFLIGHT_SCHEMA_VERSION = "2026-02-10"
+SENSITIVITY_CHECKPOINT_SCHEMA_VERSION = "2026-02-10"
+SENSITIVITY_RELEASE_RUN_STATUS_SCHEMA_VERSION = "2026-02-10"
+FULL_BATTERY_HEARTBEAT_SECONDS = 30
 ITERATIVE_SCENARIO_IDS = {
     "baseline",
     "threshold_0.50",
@@ -167,10 +188,316 @@ def _utc_now_iso() -> str:
     return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
 
+def _render_path_for_summary(path: Path) -> str:
+    try:
+        return str(path.relative_to(PROJECT_ROOT))
+    except ValueError:
+        return str(path)
+
+
+def _atomic_write_text(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(
+        "w",
+        encoding="utf-8",
+        dir=str(path.parent),
+        delete=False,
+        prefix=f".{path.name}.tmp.",
+    ) as tmp:
+        tmp.write(text)
+        tmp_path = Path(tmp.name)
+    tmp_path.replace(path)
+
+
+def _atomic_write_json(path: Path, payload: Any, *, sort_keys: bool = False) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    encoded = json.dumps(payload, indent=2, sort_keys=sort_keys) + "\n"
+    _atomic_write_text(path, encoded)
+
+
+def _safe_load_json(path: Path) -> Dict[str, Any]:
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+def _save_results_atomic(results: Any, output_path: Path) -> Dict[str, str]:
+    try:
+        json.dumps(results)
+    except TypeError as exc:
+        raise ValueError(f"Results must be JSON-serializable: {exc}") from exc
+
+    provenance = ProvenanceWriter._get_provenance()
+    data = {"provenance": provenance, "results": results}
+
+    snapshot_id = str(provenance.get("run_id", "none"))
+    if snapshot_id == "none":
+        snapshot_id = datetime.utcnow().strftime("%Y%m%dT%H%M%S%fZ")
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    snapshot_path = ProvenanceWriter._build_snapshot_path(output_path, snapshot_id)
+    _atomic_write_json(snapshot_path, data)
+    _atomic_write_json(output_path, data)
+    return {
+        "snapshot_path": str(snapshot_path),
+        "latest_path": str(output_path),
+    }
+
+
+def _build_progress_timing(
+    *, run_start: float, completed_scenarios: int, scenario_total: int
+) -> Dict[str, Any]:
+    elapsed = perf_counter() - run_start
+    eta: float | None = None
+    remaining = max(scenario_total - completed_scenarios, 0)
+    if completed_scenarios > 0 and scenario_total >= completed_scenarios:
+        eta = (elapsed / completed_scenarios) * remaining
+    return {
+        "elapsed_sec": round(elapsed, 3),
+        "completed_scenarios": int(completed_scenarios),
+        "remaining_scenarios": int(remaining),
+        "eta_sec": round(eta, 3) if eta is not None else None,
+    }
+
+
+def _build_release_preflight_payload(
+    *,
+    mode: str,
+    dataset_profile: Dict[str, Any],
+    dataset_policy_eval: Dict[str, Any],
+    policy_version: str,
+    max_scenarios: int | None,
+    scenario_count_expected: int,
+) -> Dict[str, Any]:
+    reason_codes: List[str] = []
+    if mode != "release":
+        reason_codes.append("MODE_NOT_RELEASE")
+    if max_scenarios is not None:
+        reason_codes.append("MAX_SCENARIOS_OVERRIDE_PRESENT")
+    if dataset_policy_eval.get("dataset_policy_pass") is not True:
+        reason_codes.append("DATASET_POLICY_FAILED")
+
+    status = "PREFLIGHT_OK" if not reason_codes else "BLOCKED"
+    return {
+        "schema_version": SENSITIVITY_PREFLIGHT_SCHEMA_VERSION,
+        "generated_utc": _utc_now_iso(),
+        "generated_by": SENSITIVITY_GENERATED_BY,
+        "status": status,
+        "reason_codes": reason_codes,
+        "mode": mode,
+        "dataset_id": dataset_profile.get("dataset_id"),
+        "dataset_profile": dataset_profile,
+        "dataset_policy_pass": dataset_policy_eval.get("dataset_policy_pass"),
+        "dataset_policy_reasons": dataset_policy_eval.get("dataset_policy_reasons", []),
+        "dataset_policy_constraints": dataset_policy_eval.get(
+            "dataset_policy_constraints", {}
+        ),
+        "policy_version": policy_version,
+        "scenario_count_expected": scenario_count_expected,
+        "max_scenarios": max_scenarios,
+        "artifact_targets": {
+            "release_status_path": _render_path_for_summary(RELEASE_STATUS_PATH),
+            "release_report_path": _render_path_for_summary(RELEASE_REPORT_PATH),
+        },
+        "next_step_command": (
+            "python3 scripts/analysis/run_sensitivity_sweep.py "
+            "--mode release --dataset-id voynich_real"
+        ),
+    }
+
+
+def _build_release_preflight_dataset_error_payload(
+    *,
+    mode: str,
+    dataset_id: str,
+    error_message: str,
+    policy_version: str,
+    max_scenarios: int | None,
+) -> Dict[str, Any]:
+    return {
+        "schema_version": SENSITIVITY_PREFLIGHT_SCHEMA_VERSION,
+        "generated_utc": _utc_now_iso(),
+        "generated_by": SENSITIVITY_GENERATED_BY,
+        "status": "BLOCKED",
+        "reason_codes": ["DATASET_PROFILE_UNAVAILABLE"],
+        "mode": mode,
+        "dataset_id": dataset_id,
+        "dataset_profile": {"dataset_id": dataset_id},
+        "dataset_policy_pass": False,
+        "dataset_policy_reasons": [error_message],
+        "dataset_policy_constraints": {},
+        "policy_version": policy_version,
+        "scenario_count_expected": 0,
+        "max_scenarios": max_scenarios,
+        "artifact_targets": {
+            "release_status_path": _render_path_for_summary(RELEASE_STATUS_PATH),
+            "release_report_path": _render_path_for_summary(RELEASE_REPORT_PATH),
+        },
+        "next_step_command": (
+            "python3 scripts/analysis/run_sensitivity_sweep.py "
+            "--mode release --dataset-id voynich_real"
+        ),
+    }
+
+
+def _build_checkpoint_signature(
+    *,
+    dataset_id: str,
+    mode: str,
+    scenario_ids: List[str],
+    policy_version: str,
+) -> Dict[str, Any]:
+    return {
+        "dataset_id": dataset_id,
+        "mode": mode,
+        "scenario_ids": scenario_ids,
+        "policy_version": policy_version,
+    }
+
+
+def _new_checkpoint_state(
+    *, signature: Dict[str, Any], scenario_total: int
+) -> Dict[str, Any]:
+    return {
+        "schema_version": SENSITIVITY_CHECKPOINT_SCHEMA_VERSION,
+        "generated_utc": _utc_now_iso(),
+        "generated_by": SENSITIVITY_GENERATED_BY,
+        "status": "IN_PROGRESS",
+        "signature": signature,
+        "scenario_total": scenario_total,
+        "completed_count": 0,
+        "completed_scenario_ids": [],
+        "completed_scenarios": [],
+    }
+
+
+def _checkpoint_rows_by_id(
+    checkpoint_state: Dict[str, Any], *, allowed_scenario_ids: List[str]
+) -> Dict[str, Dict[str, Any]]:
+    rows: Dict[str, Dict[str, Any]] = {}
+    allowed = set(allowed_scenario_ids)
+    for entry in checkpoint_state.get("completed_scenarios", []):
+        if not isinstance(entry, dict):
+            continue
+        scenario_id = entry.get("id")
+        result = entry.get("result")
+        if (
+            isinstance(scenario_id, str)
+            and scenario_id in allowed
+            and isinstance(result, dict)
+        ):
+            rows[scenario_id] = result
+    return rows
+
+
+def _write_checkpoint_state(checkpoint_state: Dict[str, Any]) -> None:
+    checkpoint_state["generated_utc"] = _utc_now_iso()
+    _atomic_write_json(CHECKPOINT_PATH, checkpoint_state, sort_keys=True)
+
+
+def _record_checkpoint_result(
+    checkpoint_state: Dict[str, Any],
+    *,
+    scenario_id: str,
+    scenario_index: int,
+    result_row: Dict[str, Any],
+) -> None:
+    completed = checkpoint_state.setdefault("completed_scenarios", [])
+    replaced = False
+    for entry in completed:
+        if entry.get("id") == scenario_id:
+            entry.update(
+                {
+                    "id": scenario_id,
+                    "scenario_index": scenario_index,
+                    "result": result_row,
+                }
+            )
+            replaced = True
+            break
+    if not replaced:
+        completed.append(
+            {
+                "id": scenario_id,
+                "scenario_index": scenario_index,
+                "result": result_row,
+            }
+        )
+
+    completed_ids = [
+        entry.get("id")
+        for entry in completed
+        if isinstance(entry, dict) and isinstance(entry.get("id"), str)
+    ]
+    checkpoint_state["completed_scenario_ids"] = completed_ids
+    checkpoint_state["completed_count"] = len(completed_ids)
+    checkpoint_state["last_completed_index"] = scenario_index
+
+
 def _write_progress(payload: Dict[str, Any]) -> None:
-    PROGRESS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(PROGRESS_PATH, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2, sort_keys=True)
+    envelope = {
+        "schema_version": SENSITIVITY_PROGRESS_SCHEMA_VERSION,
+        **payload,
+    }
+    _atomic_write_json(PROGRESS_PATH, envelope, sort_keys=True)
+
+
+def _write_release_run_status(
+    *,
+    mode: str,
+    run_id: str,
+    run_started_utc: str,
+    dataset_id: str,
+    status: str,
+    reason_codes: List[str],
+    stage: str,
+    max_scenarios: int | None,
+    scenario_total: int | None,
+    completed_scenarios: int | None,
+    scenario_id: str | None = None,
+    preflight_status: str | None = None,
+    elapsed_sec: float | None = None,
+    eta_sec: float | None = None,
+    details: Dict[str, Any] | None = None,
+) -> None:
+    if mode != "release":
+        return
+
+    heartbeat_utc = _utc_now_iso()
+    payload: Dict[str, Any] = {
+        "schema_version": SENSITIVITY_RELEASE_RUN_STATUS_SCHEMA_VERSION,
+        "generated_utc": heartbeat_utc,
+        "generated_by": SENSITIVITY_GENERATED_BY,
+        "run_id": run_id,
+        "run_started_utc": run_started_utc,
+        "status": status,
+        "reason_codes": sorted(set(reason_codes)),
+        "mode": mode,
+        "dataset_id": dataset_id,
+        "stage": stage,
+        "max_scenarios": max_scenarios,
+        "scenario_total": scenario_total,
+        "completed_scenarios": completed_scenarios,
+        "last_scenario_id": scenario_id,
+        "preflight_status": preflight_status,
+        "elapsed_sec": elapsed_sec,
+        "eta_sec": eta_sec,
+        "artifact_targets": {
+            "release_status_path": _render_path_for_summary(RELEASE_STATUS_PATH),
+            "release_report_path": _render_path_for_summary(RELEASE_REPORT_PATH),
+        },
+        "runtime_paths": {
+            "progress_path": _render_path_for_summary(PROGRESS_PATH),
+            "checkpoint_path": _render_path_for_summary(CHECKPOINT_PATH),
+        },
+    }
+    if details:
+        payload["details"] = details
+    _atomic_write_json(RELEASE_RUN_STATUS_PATH, payload, sort_keys=True)
 
 
 def _summarize_warnings(messages: List[str]) -> Dict[str, Any]:
@@ -338,7 +665,35 @@ def _run_model_evaluation_scenario(
                     f"[dim]{_utc_now_iso()}[/dim] [{label}] "
                     f"model {model_idx}/{len(models)} `{model_name}`: full battery"
                 )
-                engine.run_full_battery(model, dataset_id)
+                heartbeat_stop = threading.Event()
+
+                def _emit_full_battery_heartbeat() -> None:
+                    heartbeat_index = 0
+                    while not heartbeat_stop.wait(FULL_BATTERY_HEARTBEAT_SECONDS):
+                        heartbeat_index += 1
+                        if progress_hook is not None:
+                            progress_hook(
+                                {
+                                    "stage": "full_battery_heartbeat",
+                                    "scenario_id": label,
+                                    "model_index": model_idx,
+                                    "model_total": len(models),
+                                    "model_name": model_name,
+                                    "heartbeat_index": heartbeat_index,
+                                    "heartbeat_period_sec": FULL_BATTERY_HEARTBEAT_SECONDS,
+                                }
+                            )
+
+                heartbeat_thread = threading.Thread(
+                    target=_emit_full_battery_heartbeat,
+                    daemon=True,
+                )
+                heartbeat_thread.start()
+                try:
+                    engine.run_full_battery(model, dataset_id)
+                finally:
+                    heartbeat_stop.set()
+                    heartbeat_thread.join(timeout=0.5)
                 model_elapsed = perf_counter() - model_start
                 if progress_hook is not None:
                     progress_hook(
@@ -755,110 +1110,124 @@ def _write_markdown_report(
     summary: Dict[str, Any],
     dataset_profile: Dict[str, Any],
     results: List[Dict[str, Any]],
+    *,
+    report_path: Path,
 ) -> None:
-    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(REPORT_PATH, "w", encoding="utf-8") as f:
-        f.write("# Sensitivity Results\n\n")
-        f.write(f"- Sweep date: {summary['date']}\n")
-        f.write(f"- Schema version: `{summary.get('schema_version')}`\n")
-        f.write(f"- Policy version: `{summary.get('policy_version')}`\n")
-        f.write(f"- Generated by: `{summary.get('generated_by')}`\n")
-        f.write(f"- Dataset: `{dataset_profile['dataset_id']}`\n")
-        f.write(f"- Dataset pages: `{dataset_profile['pages']}`\n")
-        f.write(f"- Dataset tokens: `{dataset_profile['tokens']}`\n")
-        f.write(f"- Dataset policy pass: `{summary.get('dataset_policy_pass')}`\n")
-        if summary.get("dataset_policy_reasons"):
-            for reason in summary["dataset_policy_reasons"]:
-                f.write(f"- Dataset policy note: {reason}\n")
-        f.write(f"- Execution mode: `{summary['execution_mode']}`\n")
-        f.write(
-            f"- Scenario execution: `{summary['scenario_count_executed']}/"
-            f"{summary['scenario_count_expected']}`\n"
+    lines: List[str] = []
+    lines.append("# Sensitivity Results")
+    lines.append("")
+    lines.append(f"- Sweep date: {summary['date']}")
+    lines.append(f"- Schema version: `{summary.get('schema_version')}`")
+    lines.append(f"- Policy version: `{summary.get('policy_version')}`")
+    lines.append(f"- Generated by: `{summary.get('generated_by')}`")
+    lines.append(f"- Dataset: `{dataset_profile['dataset_id']}`")
+    lines.append(f"- Dataset pages: `{dataset_profile['pages']}`")
+    lines.append(f"- Dataset tokens: `{dataset_profile['tokens']}`")
+    lines.append(f"- Dataset policy pass: `{summary.get('dataset_policy_pass')}`")
+    if summary.get("dataset_policy_reasons"):
+        for reason in summary["dataset_policy_reasons"]:
+            lines.append(f"- Dataset policy note: {reason}")
+    lines.append(f"- Execution mode: `{summary['execution_mode']}`")
+    lines.append(
+        f"- Scenario execution: `{summary['scenario_count_executed']}/{summary['scenario_count_expected']}`"
+    )
+    lines.append(
+        "- Release evidence ready "
+        "(full sweep + conclusive robustness + quality gate): "
+        f"`{summary['release_evidence_ready']}`"
+    )
+    if summary.get("release_readiness_failures"):
+        lines.append(
+            "- Release readiness failures: "
+            f"`{', '.join(summary['release_readiness_failures'])}`"
         )
-        f.write(
-            "- Release evidence ready "
-            "(full sweep + conclusive robustness + quality gate): "
-            f"`{summary['release_evidence_ready']}`\n"
-        )
-        if summary.get("release_readiness_failures"):
-            f.write(
-                "- Release readiness failures: "
-                f"`{', '.join(summary['release_readiness_failures'])}`\n"
-            )
-        else:
-            f.write("- Release readiness failures: `none`\n")
-        f.write(f"- Total scenarios: {summary['total_scenarios']}\n")
-        f.write(f"- Valid scenarios: {summary['valid_scenarios']} ({summary['valid_scenario_rate']:.2%})\n")
-        f.write(f"- Baseline top model: `{summary['baseline_top_model']}`\n")
-        f.write(f"- Baseline anomaly confirmed: `{summary['baseline_anomaly_confirmed']}`\n")
-        f.write(f"- Top-model stability rate (valid scenarios): `{summary['top_model_match_rate']:.2%}`\n")
-        f.write(f"- Anomaly-status stability rate (valid scenarios): `{summary['anomaly_match_rate']:.2%}`\n")
-        f.write(f"- Robustness decision: `{summary['robustness_decision']}`\n")
-        f.write(
-            "- Robustness conclusive "
-            "(`PASS`/`FAIL`, excludes `INCONCLUSIVE`): "
-            f"`{summary['robustness_conclusive']}`\n"
-        )
-        f.write(f"- Warning policy pass: `{summary.get('warning_policy_pass')}`\n")
-        f.write(
-            "- Quality gate passed "
-            "(valid-scenario-rate threshold + non-collapse + warning policy): "
-            f"`{summary['quality_gate_passed']}`\n"
-        )
-        f.write(f"- Robustness gate passed (>90% both + quality gates): `{summary['robust']}`\n\n")
+    else:
+        lines.append("- Release readiness failures: `none`")
+    lines.append(f"- Total scenarios: {summary['total_scenarios']}")
+    lines.append(
+        f"- Valid scenarios: {summary['valid_scenarios']} ({summary['valid_scenario_rate']:.2%})"
+    )
+    lines.append(f"- Baseline top model: `{summary['baseline_top_model']}`")
+    lines.append(
+        f"- Baseline anomaly confirmed: `{summary['baseline_anomaly_confirmed']}`"
+    )
+    lines.append(
+        f"- Top-model stability rate (valid scenarios): `{summary['top_model_match_rate']:.2%}`"
+    )
+    lines.append(
+        f"- Anomaly-status stability rate (valid scenarios): `{summary['anomaly_match_rate']:.2%}`"
+    )
+    lines.append(f"- Robustness decision: `{summary['robustness_decision']}`")
+    lines.append(
+        "- Robustness conclusive "
+        "(`PASS`/`FAIL`, excludes `INCONCLUSIVE`): "
+        f"`{summary['robustness_conclusive']}`"
+    )
+    lines.append(f"- Warning policy pass: `{summary.get('warning_policy_pass')}`")
+    lines.append(
+        "- Quality gate passed "
+        "(valid-scenario-rate threshold + non-collapse + warning policy): "
+        f"`{summary['quality_gate_passed']}`"
+    )
+    lines.append(f"- Robustness gate passed (>90% both + quality gates): `{summary['robust']}`")
+    lines.append("")
+    lines.append("## Data Quality Caveats")
+    lines.append("")
+    lines.append(f"- Total warnings observed: `{summary['total_warning_count']}`")
+    lines.append(
+        f"- Warning density per scenario: `{summary.get('warning_density_per_scenario', 0.0):.2f}`"
+    )
+    lines.append(
+        "- Scenarios with insufficient-data warnings: "
+        f"`{summary['insufficient_data_scenarios']}/{summary['total_scenarios']}`"
+    )
+    lines.append(
+        "- Scenarios with sparse-data warnings: "
+        f"`{summary.get('sparse_data_scenarios', 0)}/{summary['total_scenarios']}`"
+    )
+    lines.append(
+        "- Scenarios with NaN-sanitized warnings: "
+        f"`{summary.get('nan_sanitized_scenarios', 0)}/{summary['total_scenarios']}`"
+    )
+    lines.append(
+        "- Fallback-heavy scenarios: "
+        f"`{summary.get('fallback_heavy_scenarios', 0)}/{summary['total_scenarios']}`"
+    )
+    lines.append(
+        "- All scenarios zero-survivor: "
+        f"`{summary['all_models_falsified_everywhere']}`"
+    )
+    if summary["caveats"]:
+        for caveat in summary["caveats"]:
+            lines.append(f"- Caveat: {caveat}")
+    else:
+        lines.append("- Caveat: none (no warnings observed)")
 
-        f.write("## Data Quality Caveats\n\n")
-        f.write(f"- Total warnings observed: `{summary['total_warning_count']}`\n")
-        f.write(
-            f"- Warning density per scenario: `{summary.get('warning_density_per_scenario', 0.0):.2f}`\n"
+    lines.append("")
+    lines.append("## Scenario Results")
+    lines.append("")
+    lines.append(
+        "| Scenario | Family | Top Model | Top Score | Surviving | Falsified | Warnings | Quality Flags | Valid |"
+    )
+    lines.append("|---|---|---|---:|---:|---:|---:|---|---|")
+    for row in results:
+        flags = ", ".join(row["quality_flags"]) if row["quality_flags"] else "-"
+        lines.append(
+            f"| `{row['id']}` | {row['family']} | `{row['top_model']}` | "
+            f"{row['top_score']:.3f} | {row['surviving_models']} | {row['falsified_models']} | "
+            f"{row['warnings']['total_warnings']} | {flags} | {row['valid']} |"
         )
-        f.write(
-            f"- Scenarios with insufficient-data warnings: "
-            f"`{summary['insufficient_data_scenarios']}/{summary['total_scenarios']}`\n"
-        )
-        f.write(
-            f"- Scenarios with sparse-data warnings: "
-            f"`{summary.get('sparse_data_scenarios', 0)}/{summary['total_scenarios']}`\n"
-        )
-        f.write(
-            f"- Scenarios with NaN-sanitized warnings: "
-            f"`{summary.get('nan_sanitized_scenarios', 0)}/{summary['total_scenarios']}`\n"
-        )
-        f.write(
-            f"- Fallback-heavy scenarios: "
-            f"`{summary.get('fallback_heavy_scenarios', 0)}/{summary['total_scenarios']}`\n"
-        )
-        f.write(
-            "- All scenarios zero-survivor: "
-            f"`{summary['all_models_falsified_everywhere']}`\n"
-        )
-        if summary["caveats"]:
-            for caveat in summary["caveats"]:
-                f.write(f"- Caveat: {caveat}\n")
-        else:
-            f.write("- Caveat: none (no warnings observed)\n")
 
-        f.write("\n## Scenario Results\n\n")
-        f.write(
-            "| Scenario | Family | Top Model | Top Score | Surviving | Falsified | "
-            "Warnings | Quality Flags | Valid |\n"
-        )
-        f.write("|---|---|---|---:|---:|---:|---:|---|---|\n")
-        for row in results:
-            flags = ", ".join(row["quality_flags"]) if row["quality_flags"] else "-"
-            f.write(
-                f"| `{row['id']}` | {row['family']} | `{row['top_model']}` | "
-                f"{row['top_score']:.3f} | {row['surviving_models']} | {row['falsified_models']} | "
-                f"{row['warnings']['total_warnings']} | {flags} | {row['valid']} |\n"
-            )
+    _atomic_write_text(report_path, "\n".join(lines) + "\n")
 
 
 def _write_quality_diagnostics(
     summary: Dict[str, Any],
     dataset_profile: Dict[str, Any],
     results: List[Dict[str, Any]],
+    *,
+    diagnostics_path: Path,
 ) -> None:
-    DIAGNOSTICS_PATH.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "generated_at": summary.get("date"),
         "dataset_profile": dataset_profile,
@@ -892,8 +1261,7 @@ def _write_quality_diagnostics(
             for row in results
         ],
     }
-    with open(DIAGNOSTICS_PATH, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2, sort_keys=True)
+    _atomic_write_json(diagnostics_path, payload, sort_keys=True)
 
 
 def main(
@@ -902,9 +1270,13 @@ def main(
     max_scenarios: int | None = None,
     mode: str = DEFAULT_SWEEP_MODE,
     quick: bool = False,
+    preflight_only: bool = False,
+    resume_from_checkpoint: bool = True,
 ) -> None:
     if mode not in {"release", "smoke", "iterative"}:
         raise ValueError(f"Unsupported sensitivity sweep mode: {mode}")
+    if preflight_only and mode != "release":
+        raise ValueError("Preflight-only mode requires --mode release.")
 
     if quick:
         if mode == "release":
@@ -935,6 +1307,8 @@ def main(
             "max_scenarios": max_scenarios,
             "mode": mode,
             "quick": quick,
+            "preflight_only": preflight_only,
+            "resume_from_checkpoint": resume_from_checkpoint,
         }
     ) as run:
         with open(MODEL_PARAMS_PATH, "r", encoding="utf-8") as f:
@@ -944,7 +1318,37 @@ def main(
         warning_policy = release_policy.get("warning_policy", {})
 
         store = MetadataStore(db_url)
-        dataset_profile = _load_dataset_profile(store, dataset_id)
+        policy_version = str(release_policy.get("policy_version", "unknown"))
+        try:
+            dataset_profile = _load_dataset_profile(store, dataset_id)
+        except Exception as exc:
+            if preflight_only:
+                preflight_payload = _build_release_preflight_dataset_error_payload(
+                    mode=mode,
+                    dataset_id=dataset_id,
+                    error_message=str(exc),
+                    policy_version=policy_version,
+                    max_scenarios=max_scenarios,
+                )
+                _save_results_atomic(preflight_payload, RELEASE_PREFLIGHT_PATH)
+                _write_progress(
+                    {
+                        "timestamp": _utc_now_iso(),
+                        "stage": "preflight_blocked",
+                        "dataset_id": dataset_id,
+                        "mode": mode,
+                        "preflight_status": preflight_payload.get("status"),
+                        "reason_codes": preflight_payload.get("reason_codes", []),
+                        "error_message": str(exc),
+                    }
+                )
+                store.save_run(run)
+                console.print(
+                    f"[red]{_utc_now_iso()}[/red] release preflight blocked: {exc}"
+                )
+                raise SystemExit(1) from exc
+            raise
+
         dataset_policy_eval = _evaluate_dataset_policy(dataset_profile, dataset_policy)
         all_scenarios = _build_scenarios(base_cfg)
         if mode == "iterative":
@@ -957,59 +1361,296 @@ def main(
         scenarios = all_scenarios
         if max_scenarios is not None:
             scenarios = all_scenarios[:max_scenarios]
+
+        if preflight_only:
+            preflight_payload = _build_release_preflight_payload(
+                mode=mode,
+                dataset_profile=dataset_profile,
+                dataset_policy_eval=dataset_policy_eval,
+                policy_version=policy_version,
+                max_scenarios=max_scenarios,
+                scenario_count_expected=scenario_count_expected,
+            )
+            _save_results_atomic(preflight_payload, RELEASE_PREFLIGHT_PATH)
+            _write_progress(
+                {
+                    "timestamp": _utc_now_iso(),
+                    "stage": "preflight_completed",
+                    "dataset_id": dataset_id,
+                    "mode": mode,
+                    "preflight_status": preflight_payload.get("status"),
+                    "reason_codes": preflight_payload.get("reason_codes", []),
+                    "scenario_total": len(scenarios),
+                    "max_scenarios": max_scenarios,
+                }
+            )
+            store.save_run(run)
+            if preflight_payload.get("status") != "PREFLIGHT_OK":
+                console.print(
+                    "[red]Release preflight blocked.[/red] "
+                    f"reason_codes={preflight_payload.get('reason_codes', [])}"
+                )
+                raise SystemExit(1)
+            console.print(
+                f"[green]{_utc_now_iso()}[/green] release preflight passed "
+                f"(dataset=`{dataset_id}`, scenarios={scenario_count_expected})"
+            )
+            return
+
+        run_start = perf_counter()
+        run_started_utc = _utc_now_iso()
+        run_id = str(run.run_id)
+        scenario_ids = [str(s.get("id", "")) for s in scenarios]
+        checkpoint_signature = _build_checkpoint_signature(
+            dataset_id=dataset_id,
+            mode=mode,
+            scenario_ids=scenario_ids,
+            policy_version=policy_version,
+        )
+        checkpoint_state = _new_checkpoint_state(
+            signature=checkpoint_signature,
+            scenario_total=len(scenarios),
+        )
+        resumed_rows: Dict[str, Dict[str, Any]] = {}
+        if resume_from_checkpoint:
+            existing_checkpoint = _safe_load_json(CHECKPOINT_PATH)
+            if existing_checkpoint.get("signature") == checkpoint_signature:
+                resumed_rows = _checkpoint_rows_by_id(
+                    existing_checkpoint,
+                    allowed_scenario_ids=scenario_ids,
+                )
+                if resumed_rows:
+                    checkpoint_state = existing_checkpoint
+                    checkpoint_state["status"] = "IN_PROGRESS"
+                    console.print(
+                        f"[cyan]{_utc_now_iso()}[/cyan] resuming sensitivity sweep from checkpoint "
+                        f"({len(resumed_rows)}/{len(scenarios)} scenarios)."
+                    )
+            elif existing_checkpoint:
+                console.print(
+                    f"[yellow]{_utc_now_iso()}[/yellow] existing checkpoint signature mismatch; "
+                    "starting a fresh checkpoint."
+                )
+
+        _write_checkpoint_state(checkpoint_state)
+
         results: List[Dict[str, Any]] = []
+        resumed_count = 0
         _write_progress(
             {
-                "timestamp": _utc_now_iso(),
+                "timestamp": run_started_utc,
                 "stage": "run_started",
                 "dataset_id": dataset_id,
                 "mode": mode,
                 "scenario_total": len(scenarios),
                 "max_scenarios": max_scenarios,
                 "quick": quick,
+                "resume_from_checkpoint": resume_from_checkpoint,
+                "resumed_scenarios": len(resumed_rows),
+                "checkpoint_path": _render_path_for_summary(CHECKPOINT_PATH),
+                **_build_progress_timing(
+                    run_start=run_start,
+                    completed_scenarios=0,
+                    scenario_total=len(scenarios),
+                ),
             }
+        )
+        _write_release_run_status(
+            mode=mode,
+            run_id=run_id,
+            run_started_utc=run_started_utc,
+            dataset_id=dataset_id,
+            status="STARTED",
+            reason_codes=["RELEASE_RUN_STARTED"],
+            stage="run_started",
+            max_scenarios=max_scenarios,
+            scenario_total=len(scenarios),
+            completed_scenarios=0,
+            preflight_status="PREFLIGHT_OK",
+            elapsed_sec=0.0,
+            eta_sec=None,
+            details={
+                "resume_from_checkpoint": resume_from_checkpoint,
+                "resumed_scenarios": len(resumed_rows),
+            },
         )
 
         for scenario_idx, scenario in enumerate(scenarios, start=1):
+            scenario_id = str(scenario["id"])
+            if scenario_id in resumed_rows:
+                row = resumed_rows[scenario_id]
+                results.append(row)
+                resumed_count += 1
+                timing = _build_progress_timing(
+                    run_start=run_start,
+                    completed_scenarios=len(results),
+                    scenario_total=len(scenarios),
+                )
+                _write_progress(
+                    {
+                        "timestamp": _utc_now_iso(),
+                        "stage": "scenario_resumed",
+                        "dataset_id": dataset_id,
+                        "mode": mode,
+                        "scenario_id": scenario_id,
+                        "scenario_index": scenario_idx,
+                        "scenario_total": len(scenarios),
+                        **timing,
+                    }
+                )
+                _write_release_run_status(
+                    mode=mode,
+                    run_id=run_id,
+                    run_started_utc=run_started_utc,
+                    dataset_id=dataset_id,
+                    status="RUNNING",
+                    reason_codes=["RELEASE_RUN_RESUMED"],
+                    stage="scenario_resumed",
+                    max_scenarios=max_scenarios,
+                    scenario_total=len(scenarios),
+                    completed_scenarios=len(results),
+                    scenario_id=scenario_id,
+                    preflight_status="PREFLIGHT_OK",
+                    elapsed_sec=timing.get("elapsed_sec"),
+                    eta_sec=timing.get("eta_sec"),
+                )
+                continue
+
+            dispatch_timing = _build_progress_timing(
+                run_start=run_start,
+                completed_scenarios=len(results),
+                scenario_total=len(scenarios),
+            )
             _write_progress(
                 {
                     "timestamp": _utc_now_iso(),
                     "stage": "scenario_dispatch",
                     "dataset_id": dataset_id,
                     "mode": mode,
-                    "scenario_id": scenario["id"],
+                    "scenario_id": scenario_id,
                     "scenario_index": scenario_idx,
                     "scenario_total": len(scenarios),
+                    **dispatch_timing,
                 }
+            )
+            _write_release_run_status(
+                mode=mode,
+                run_id=run_id,
+                run_started_utc=run_started_utc,
+                dataset_id=dataset_id,
+                status="RUNNING",
+                reason_codes=["RELEASE_RUN_SCENARIO_DISPATCHED"],
+                stage="scenario_dispatch",
+                max_scenarios=max_scenarios,
+                scenario_total=len(scenarios),
+                completed_scenarios=len(results),
+                scenario_id=scenario_id,
+                preflight_status="PREFLIGHT_OK",
+                elapsed_sec=dispatch_timing.get("elapsed_sec"),
+                eta_sec=dispatch_timing.get("eta_sec"),
             )
 
             def _scenario_progress(event: Dict[str, Any]) -> None:
+                timing = _build_progress_timing(
+                    run_start=run_start,
+                    completed_scenarios=len(results),
+                    scenario_total=len(scenarios),
+                )
                 payload = {
                     "timestamp": _utc_now_iso(),
                     "dataset_id": dataset_id,
                     "mode": mode,
-                    "scenario_id": scenario["id"],
+                    "scenario_id": scenario_id,
                     "scenario_index": scenario_idx,
                     "scenario_total": len(scenarios),
+                    **timing,
                 }
                 payload.update(event)
                 _write_progress(payload)
+                _write_release_run_status(
+                    mode=mode,
+                    run_id=run_id,
+                    run_started_utc=run_started_utc,
+                    dataset_id=dataset_id,
+                    status="RUNNING",
+                    reason_codes=["RELEASE_RUN_SCENARIO_IN_PROGRESS"],
+                    stage=str(event.get("stage", "scenario_in_progress")),
+                    max_scenarios=max_scenarios,
+                    scenario_total=len(scenarios),
+                    completed_scenarios=len(results),
+                    scenario_id=scenario_id,
+                    preflight_status="PREFLIGHT_OK",
+                    elapsed_sec=timing.get("elapsed_sec"),
+                    eta_sec=timing.get("eta_sec"),
+                )
 
             scenario_wall_start = perf_counter()
             console.print(
                 f"[bold cyan]{_utc_now_iso()}[/bold cyan] "
                 f"scenario {scenario_idx}/{len(scenarios)} `{scenario['id']}` started"
             )
-            scenario_result = _run_model_evaluation_scenario(
-                db_url,
-                dataset_id,
-                scenario["config"],
-                warning_policy,
-                scenario_id=scenario["id"],
-                progress_hook=_scenario_progress,
-            )
+            try:
+                scenario_result = _run_model_evaluation_scenario(
+                    db_url,
+                    dataset_id,
+                    scenario["config"],
+                    warning_policy,
+                    scenario_id=scenario_id,
+                    progress_hook=_scenario_progress,
+                )
+            except BaseException as exc:
+                failure_timestamp = _utc_now_iso()
+                failure_timing = _build_progress_timing(
+                    run_start=run_start,
+                    completed_scenarios=len(results),
+                    scenario_total=len(scenarios),
+                )
+                checkpoint_state["status"] = "FAILED"
+                checkpoint_state["failure"] = {
+                    "timestamp": failure_timestamp,
+                    "scenario_id": scenario_id,
+                    "scenario_index": scenario_idx,
+                    "error_type": type(exc).__name__,
+                    "error_message": str(exc),
+                }
+                _write_checkpoint_state(checkpoint_state)
+                _write_progress(
+                    {
+                        "timestamp": failure_timestamp,
+                        "stage": "run_failed",
+                        "dataset_id": dataset_id,
+                        "mode": mode,
+                        "scenario_id": scenario_id,
+                        "scenario_index": scenario_idx,
+                        "scenario_total": len(scenarios),
+                        "error_type": type(exc).__name__,
+                        "error_message": str(exc),
+                        **failure_timing,
+                    }
+                )
+                _write_release_run_status(
+                    mode=mode,
+                    run_id=run_id,
+                    run_started_utc=run_started_utc,
+                    dataset_id=dataset_id,
+                    status="FAILED",
+                    reason_codes=["RELEASE_RUN_FAILED"],
+                    stage="run_failed",
+                    max_scenarios=max_scenarios,
+                    scenario_total=len(scenarios),
+                    completed_scenarios=len(results),
+                    scenario_id=scenario_id,
+                    preflight_status="PREFLIGHT_OK",
+                    elapsed_sec=failure_timing.get("elapsed_sec"),
+                    eta_sec=failure_timing.get("eta_sec"),
+                    details={
+                        "error_type": type(exc).__name__,
+                        "error_message": str(exc),
+                    },
+                )
+                raise
             row = {
-                "id": scenario["id"],
+                "id": scenario_id,
                 "family": scenario["family"],
                 **scenario_result["metrics"],
                 "warnings": scenario_result["warnings"],
@@ -1017,12 +1658,62 @@ def main(
                 "valid": scenario_result["valid"],
             }
             results.append(row)
+            _record_checkpoint_result(
+                checkpoint_state,
+                scenario_id=scenario_id,
+                scenario_index=scenario_idx,
+                result_row=row,
+            )
+            _write_checkpoint_state(checkpoint_state)
+
             scenario_wall_elapsed = perf_counter() - scenario_wall_start
+            timing = _build_progress_timing(
+                run_start=run_start,
+                completed_scenarios=len(results),
+                scenario_total=len(scenarios),
+            )
+            eta_sec = timing.get("eta_sec")
+            eta_text = f"{eta_sec:.1f}s" if isinstance(eta_sec, float) else "n/a"
             console.print(
                 f"[green]{_utc_now_iso()}[/green] scenario {scenario_idx}/{len(scenarios)} "
                 f"`{row['id']}` done -> {row['top_model']} "
                 f"(surviving={row['surviving_models']}, warnings={row['warnings']['total_warnings']}, "
-                f"elapsed={scenario_wall_elapsed:.1f}s)"
+                f"elapsed={scenario_wall_elapsed:.1f}s, eta={eta_text})"
+            )
+            _write_progress(
+                {
+                    "timestamp": _utc_now_iso(),
+                    "stage": "scenario_completed",
+                    "dataset_id": dataset_id,
+                    "mode": mode,
+                    "scenario_id": scenario_id,
+                    "scenario_index": scenario_idx,
+                    "scenario_total": len(scenarios),
+                    "warning_total": row["warnings"]["total_warnings"],
+                    "quality_flags": row["quality_flags"],
+                    **timing,
+                }
+            )
+            _write_release_run_status(
+                mode=mode,
+                run_id=run_id,
+                run_started_utc=run_started_utc,
+                dataset_id=dataset_id,
+                status="RUNNING",
+                reason_codes=["RELEASE_RUN_SCENARIO_COMPLETED"],
+                stage="scenario_completed",
+                max_scenarios=max_scenarios,
+                scenario_total=len(scenarios),
+                completed_scenarios=len(results),
+                scenario_id=scenario_id,
+                preflight_status="PREFLIGHT_OK",
+                elapsed_sec=timing.get("elapsed_sec"),
+                eta_sec=timing.get("eta_sec"),
+            )
+
+        if resumed_count:
+            console.print(
+                f"[cyan]{_utc_now_iso()}[/cyan] resumed {resumed_count} scenario(s) from checkpoint."
             )
 
         summary = _decide_robustness(results, warning_policy)
@@ -1031,7 +1722,7 @@ def main(
         summary["generated_utc"] = generated_utc
         summary["generated_by"] = SENSITIVITY_GENERATED_BY
         summary["schema_version"] = SENSITIVITY_SCHEMA_VERSION
-        summary["policy_version"] = release_policy.get("policy_version", "unknown")
+        summary["policy_version"] = policy_version
         summary["dataset_id"] = dataset_id
         summary["dataset_pages"] = dataset_profile["pages"]
         summary["dataset_tokens"] = dataset_profile["tokens"]
@@ -1041,14 +1732,17 @@ def main(
             "dataset_policy_constraints"
         ]
         summary["execution_mode"] = mode
+        summary["artifact_class"] = (
+            "release_candidate" if mode == "release" else "latest_snapshot"
+        )
         summary["scenario_count_expected"] = scenario_count_expected
-        summary["scenario_count_executed"] = len(scenarios)
+        summary["scenario_count_executed"] = len(results)
         summary["release_readiness_failures"] = _collect_release_readiness_failures(
             summary,
             mode=mode,
             max_scenarios=max_scenarios,
             scenario_count_expected=scenario_count_expected,
-            scenario_count_executed=len(scenarios),
+            scenario_count_executed=len(results),
         )
         summary["release_evidence_ready"] = len(summary["release_readiness_failures"]) == 0
 
@@ -1057,10 +1751,42 @@ def main(
             "dataset_profile": dataset_profile,
             "results": results,
         }
-        STATUS_PATH.parent.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(status_payload, STATUS_PATH)
-        _write_markdown_report(summary, dataset_profile, results)
-        _write_quality_diagnostics(summary, dataset_profile, results)
+
+        if mode == "release":
+            status_path = RELEASE_STATUS_PATH
+            report_path = RELEASE_REPORT_PATH
+            diagnostics_path = RELEASE_DIAGNOSTICS_PATH
+            summary["release_run_status_path"] = _render_path_for_summary(
+                RELEASE_RUN_STATUS_PATH
+            )
+        else:
+            status_path = STATUS_PATH
+            report_path = REPORT_PATH
+            diagnostics_path = DIAGNOSTICS_PATH
+
+        status_path.parent.mkdir(parents=True, exist_ok=True)
+        summary["artifact_path"] = _render_path_for_summary(status_path)
+        summary["report_path"] = _render_path_for_summary(report_path)
+        summary["diagnostics_path"] = _render_path_for_summary(diagnostics_path)
+
+        _save_results_atomic(status_payload, status_path)
+        _write_markdown_report(
+            summary,
+            dataset_profile,
+            results,
+            report_path=report_path,
+        )
+        _write_quality_diagnostics(
+            summary,
+            dataset_profile,
+            results,
+            diagnostics_path=diagnostics_path,
+        )
+        completion_timing = _build_progress_timing(
+            run_start=run_start,
+            completed_scenarios=len(results),
+            scenario_total=len(scenarios),
+        )
         _write_progress(
             {
                 "timestamp": _utc_now_iso(),
@@ -1068,6 +1794,8 @@ def main(
                 "dataset_id": dataset_id,
                 "mode": mode,
                 "scenario_total": len(scenarios),
+                "resumed_scenarios": resumed_count,
+                **completion_timing,
                 "summary": {
                     "release_evidence_ready": summary.get("release_evidence_ready"),
                     "robustness_decision": summary.get("robustness_decision"),
@@ -1077,6 +1805,33 @@ def main(
                 },
             }
         )
+        _write_release_run_status(
+            mode=mode,
+            run_id=run_id,
+            run_started_utc=run_started_utc,
+            dataset_id=dataset_id,
+            status="COMPLETED",
+            reason_codes=["RELEASE_RUN_COMPLETED"],
+            stage="run_completed",
+            max_scenarios=max_scenarios,
+            scenario_total=len(scenarios),
+            completed_scenarios=len(results),
+            preflight_status="PREFLIGHT_OK",
+            elapsed_sec=completion_timing.get("elapsed_sec"),
+            eta_sec=completion_timing.get("eta_sec"),
+            details={
+                "release_evidence_ready": summary.get("release_evidence_ready"),
+                "robustness_decision": summary.get("robustness_decision"),
+                "quality_gate_passed": summary.get("quality_gate_passed"),
+            },
+        )
+        checkpoint_state["status"] = "COMPLETED"
+        checkpoint_state["summary"] = {
+            "release_evidence_ready": summary.get("release_evidence_ready"),
+            "robustness_decision": summary.get("robustness_decision"),
+            "quality_gate_passed": summary.get("quality_gate_passed"),
+        }
+        _write_checkpoint_state(checkpoint_state)
         store.save_run(run)
 
         table = Table(title="Sensitivity Sweep Summary")
@@ -1138,6 +1893,22 @@ def _parse_args() -> argparse.Namespace:
             f"`{ITERATIVE_DEFAULT_DATASET_ID}`, and limits scenarios."
         ),
     )
+    parser.add_argument(
+        "--preflight-only",
+        action="store_true",
+        help=(
+            "Release-mode preflight only: validate release prerequisites and write "
+            "`status/audit/sensitivity_release_preflight.json` without running scenarios."
+        ),
+    )
+    parser.add_argument(
+        "--no-resume",
+        action="store_true",
+        help=(
+            "Disable scenario-level checkpoint resume behavior from "
+            "`status/audit/sensitivity_checkpoint.json`."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -1149,4 +1920,6 @@ if __name__ == "__main__":
         max_scenarios=args.max_scenarios,
         mode=args.mode,
         quick=args.quick,
+        preflight_only=args.preflight_only,
+        resume_from_checkpoint=not args.no_resume,
     )

@@ -101,6 +101,8 @@ When strict preflight is blocked due missing source pages, the status artifact m
 - `evidence_scope=available_subset`
 - `full_data_closure_eligible=false`
 - `reason_code=DATA_AVAILABILITY`
+- `available_subset_reason_code` must be either `AVAILABLE_SUBSET_QUALIFIED` or `AVAILABLE_SUBSET_UNDERPOWERED`
+- `irrecoverability.classification` must be present and policy-aligned
 
 This lane documents feasible available-subset comparability only; it is not equivalent to full-dataset closure.
 

@@ -266,3 +266,166 @@ def test_control_comparability_checker_passes_with_repo_policy_ci_mode() -> None
     )
     errors = checker.run_checks(policy, root=Path("."), mode="ci")
     assert errors == []
+
+
+def test_control_comparability_checker_flags_underpowered_transition_mismatch(tmp_path) -> None:
+    checker = _load_checker_module()
+
+    (tmp_path / "status/synthesis").mkdir(parents=True)
+    (tmp_path / "status/synthesis/CONTROL_COMPARABILITY_STATUS.json").write_text(
+        json.dumps(
+            {
+                "results": {
+                    "status": "INCONCLUSIVE_DATA_LIMITED",
+                    "reason_code": "PREFLIGHT_ONLY",
+                    "comparability_grade": "C",
+                    "matching_metrics": ["a"],
+                    "holdout_evaluation_metrics": ["b"],
+                    "metric_overlap": [],
+                    "leakage_detected": False,
+                    "normalization_mode": "parser",
+                    "allowed_claim": "bounded and non-conclusive",
+                    "evidence_scope": "available_subset",
+                    "full_data_closure_eligible": False,
+                    "available_subset_status": "INCONCLUSIVE_DATA_LIMITED",
+                    "available_subset_reason_code": "AVAILABLE_SUBSET_QUALIFIED",
+                    "available_subset_confidence": "UNDERPOWERED",
+                    "available_subset_diagnostics": {
+                        "control_card_count": 1,
+                        "expected_control_class_count": 3,
+                        "control_class_coverage_ratio": 0.33,
+                        "mean_selected_composite_score": 0.8,
+                        "max_selected_composite_score": 0.9,
+                        "stability_margin_min": 0.01,
+                        "stability_margin_mean": 0.01,
+                        "stability_envelope": {
+                            "min_selected_composite_score": 0.8,
+                            "max_selected_composite_score": 0.9,
+                            "range_selected_composite_score": 0.1,
+                        },
+                        "thresholds": {
+                            "min_control_card_count": 3,
+                            "min_control_class_coverage_ratio": 1.0,
+                            "max_mean_selected_composite_score": 0.5,
+                            "min_stability_margin": 0.05,
+                        },
+                        "passes_thresholds": False,
+                    },
+                    "available_subset_reproducibility": {
+                        "preflight_only": True,
+                        "dataset_id": "voynich_real",
+                        "seed": 42,
+                        "control_card_paths": [
+                            "status/synthesis/control_matching_cards/self_citation.json"
+                        ],
+                        "control_card_count": 1,
+                    },
+                    "missing_pages": ["f91r"],
+                    "missing_count": 1,
+                    "approved_lost_pages_policy_version": "2026-02-10-h3.3",
+                    "approved_lost_pages_source_note_path": "reports/skeptic/SK_H3_3_RESIDUAL_REGISTER.md",
+                    "irrecoverability": {
+                        "recoverable": False,
+                        "approved_lost": True,
+                        "unexpected_missing": False,
+                        "classification": "APPROVED_LOST_IRRECOVERABLE",
+                    },
+                    "data_availability_policy_pass": True,
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    policy = {
+        "tracked_files": [],
+        "required_doc_markers": [],
+        "banned_patterns": [],
+        "metric_partition_policy": {
+            "matching_metrics": ["a"],
+            "holdout_evaluation_metrics": ["b"],
+            "max_metric_overlap": 0,
+        },
+        "normalization_policy": {"allowed_modes": ["parser"]},
+        "available_subset_policy": {
+            "allowed_statuses": [
+                "COMPARABLE_CONFIRMED",
+                "COMPARABLE_QUALIFIED",
+                "INCONCLUSIVE_DATA_LIMITED",
+                "NON_COMPARABLE_BLOCKED",
+            ],
+            "allowed_reason_codes": [
+                "AVAILABLE_SUBSET_CONFIRMED",
+                "AVAILABLE_SUBSET_QUALIFIED",
+                "AVAILABLE_SUBSET_UNDERPOWERED",
+                "TARGET_LEAKAGE",
+            ],
+            "underpowered_reason_code": "AVAILABLE_SUBSET_UNDERPOWERED",
+            "required_diagnostic_keys": [
+                "control_card_count",
+                "expected_control_class_count",
+                "control_class_coverage_ratio",
+                "mean_selected_composite_score",
+                "max_selected_composite_score",
+                "stability_margin_min",
+                "stability_margin_mean",
+                "stability_envelope",
+                "thresholds",
+                "passes_thresholds",
+            ],
+            "required_reproducibility_keys": [
+                "preflight_only",
+                "dataset_id",
+                "seed",
+                "control_card_paths",
+                "control_card_count",
+            ],
+            "thresholds": {
+                "min_control_card_count": 3,
+                "min_control_class_coverage_ratio": 1.0,
+                "max_mean_selected_composite_score": 0.5,
+                "min_stability_margin": 0.05,
+            },
+        },
+        "artifact_policy": {
+            "tracked_artifacts": [
+                {
+                    "path": "status/synthesis/CONTROL_COMPARABILITY_STATUS.json",
+                    "required_in_modes": ["release"],
+                    "required_result_keys": [
+                        "status",
+                        "reason_code",
+                        "comparability_grade",
+                        "matching_metrics",
+                        "holdout_evaluation_metrics",
+                        "metric_overlap",
+                        "leakage_detected",
+                        "normalization_mode",
+                        "allowed_claim",
+                        "evidence_scope",
+                        "full_data_closure_eligible",
+                        "available_subset_status",
+                        "available_subset_reason_code",
+                        "available_subset_confidence",
+                        "available_subset_diagnostics",
+                        "available_subset_reproducibility",
+                        "missing_pages",
+                        "missing_count",
+                        "approved_lost_pages_policy_version",
+                        "approved_lost_pages_source_note_path",
+                        "irrecoverability",
+                        "data_availability_policy_pass",
+                    ],
+                    "allowed_statuses": [
+                        "NON_COMPARABLE_BLOCKED",
+                        "INCONCLUSIVE_DATA_LIMITED",
+                        "COMPARABLE_QUALIFIED",
+                        "COMPARABLE_CONFIRMED",
+                    ],
+                }
+            ]
+        },
+    }
+
+    errors = checker.run_checks(policy, root=tmp_path, mode="release")
+    assert any("expected reason_code=AVAILABLE_SUBSET_UNDERPOWERED" in err for err in errors)

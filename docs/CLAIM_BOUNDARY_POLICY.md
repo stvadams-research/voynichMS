@@ -63,6 +63,18 @@ Required reason-code family for entitlement downgrade:
 - `SENSITIVITY_CONTRACT_BLOCKED`
 - `PROVENANCE_RUNNER_CONTRACT_BLOCKED`
 
+## Deterministic H2.4 Lanes
+
+SK-H2.4 introduces deterministic closure lanes derived from
+`status/audit/release_gate_health_status.json`:
+
+- `H2_4_ALIGNED`: gate health is healthy and claim class may be `CONCLUSIVE_WITHIN_SCOPE`.
+- `H2_4_QUALIFIED`: gate health is degraded and claim class must remain `QUALIFIED`.
+- `H2_4_BLOCKED` / `H2_4_INCONCLUSIVE`: policy/coherence/freshness mismatch states.
+
+Gate-health freshness is fail-closed via policy timestamp constraints; stale
+gate artifacts must block claim entitlement.
+
 ## Verification
 
 ```bash

@@ -95,6 +95,16 @@ def _render_register_markdown(
     gate_status = str(gate.get("status", "UNKNOWN"))
     gate_reason_code = str(gate.get("reason_code", "UNKNOWN"))
     allowed_claim_class = str(gate.get("allowed_claim_class", "UNKNOWN"))
+    m4_5_lane = str(
+        provenance.get("m4_5_historical_lane")
+        or provenance.get("m4_4_historical_lane")
+        or "M4_5_INCONCLUSIVE"
+    )
+    m4_5_residual_reason = str(
+        provenance.get("m4_5_residual_reason")
+        or provenance.get("m4_4_residual_reason")
+        or "unknown"
+    )
 
     artifact_counts = provenance.get("run_status_counts", {})
     if not isinstance(artifact_counts, dict):
@@ -120,8 +130,8 @@ def _render_register_markdown(
     return f"""# SK-M4 Provenance Register
 
 **Date:** {generated_utc[:10]}  
-**Source finding:** `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_2.md` (`SK-M4` pass-2 residual)  
-**Plan:** `planning/skeptic/SKEPTIC_M4_2_EXECUTION_PLAN.md`
+**Source finding:** `reports/skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_5.md` (`SK-M4` pass-5 residual)  
+**Plan:** `planning/skeptic/SKEPTIC_M4_5_EXECUTION_PLAN.md`
 
 ---
 
@@ -140,6 +150,8 @@ def _render_register_markdown(
 - status: `{provenance.get('status', 'UNKNOWN')}`
 - reason_code: `{provenance.get('reason_code', 'UNKNOWN')}`
 - allowed_claim: `{provenance.get('allowed_claim', 'unknown')}`
+- m4_5_historical_lane: `{m4_5_lane}`
+- m4_5_residual_reason: `{m4_5_residual_reason}`
 - threshold_policy_pass: `{provenance.get('threshold_policy_pass', False)}`
 - orphaned_rows: `{provenance.get('orphaned_rows', 0)}`
 - orphaned_ratio: `{provenance.get('orphaned_ratio', 0)}`
@@ -159,6 +171,7 @@ def _render_register_markdown(
 - sync_status: `{sync_status}`
 - drift_detected: `{drift_detected}`
 - drift_by_status: `{drift_pairs}`
+- m4_5_lane_parity: `{m4_5_lane}` aligned to canonical provenance-health artifact
 
 ### Count Comparison (Canonical Artifact vs Runtime DB)
 
@@ -166,9 +179,9 @@ def _render_register_markdown(
 |---|---:|---:|---:|
 {chr(10).join(count_rows)}
 
-## Residual Statement (Pass 2)
+## Residual Statement (Pass 5 / SK-M4.5)
 
-- Historical provenance remains bounded and explicit, but currently qualified.
+- Historical provenance confidence is lane-governed; current lane is `{m4_5_lane}` under current source scope.
 - Register synchronization is machine-tracked via `status/audit/provenance_register_sync_status.json`.
 - Any non-zero drift or degraded contract posture blocks provenance-confidence upgrades.
 """
@@ -227,8 +240,11 @@ def sync_provenance_register(
     register_path.parent.mkdir(parents=True, exist_ok=True)
     register_path.write_text(markdown.strip() + "\n", encoding="utf-8")
 
+    m4_5_lane = provenance.get("m4_5_historical_lane") or provenance.get("m4_4_historical_lane")
+    m4_5_residual_reason = provenance.get("m4_5_residual_reason") or provenance.get("m4_4_residual_reason")
+    m4_5_reopen_conditions = provenance.get("m4_5_reopen_conditions") or provenance.get("m4_4_reopen_conditions")
     payload: Dict[str, Any] = {
-        "version": "2026-02-10-m4.2",
+        "version": "2026-02-10-m4.5",
         "generated_utc": generated_utc,
         "status": sync_status,
         "drift_detected": drift_detected,
@@ -236,8 +252,22 @@ def sync_provenance_register(
         "provenance_status": provenance.get("status"),
         "provenance_reason_code": provenance.get("reason_code"),
         "provenance_health_generated_utc": provenance.get("generated_utc"),
+        "provenance_health_lane": m4_5_lane,
+        "provenance_health_residual_reason": m4_5_residual_reason,
+        "provenance_health_reopen_conditions": m4_5_reopen_conditions,
+        "provenance_health_m4_5_lane": m4_5_lane,
+        "provenance_health_m4_5_residual_reason": m4_5_residual_reason,
+        "provenance_health_m4_5_reopen_conditions": m4_5_reopen_conditions,
+        "provenance_health_m4_5_data_availability_linkage": provenance.get(
+            "m4_5_data_availability_linkage"
+        ),
+        "provenance_health_m4_4_lane": provenance.get("m4_4_historical_lane"),
+        "provenance_health_m4_4_residual_reason": provenance.get("m4_4_residual_reason"),
+        "provenance_health_m4_4_reopen_conditions": provenance.get("m4_4_reopen_conditions"),
         "db_counts": db_counts,
         "artifact_counts": artifact_counts,
+        "health_orphaned_rows": provenance.get("orphaned_rows"),
+        "register_orphaned_rows": artifact_counts.get("orphaned", 0),
         "repair_report_generated_utc": repair.get("report_generated_utc"),
         "recoverability_class": recoverability_class,
         "gate_health_status": gate.get("status"),

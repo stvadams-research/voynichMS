@@ -20,16 +20,35 @@ The coupling artifact must emit exactly one status:
 - `CONCLUSIVE_NO_COUPLING`
 - `CONCLUSIVE_COUPLING_PRESENT`
 - `INCONCLUSIVE_UNDERPOWERED`
+- `INCONCLUSIVE_INFERENTIAL_AMBIGUITY`
 - `BLOCKED_DATA_GEOMETRY`
+
+## H1.4 Closure Lanes
+
+The artifact must also emit `h1_4_closure_lane`:
+
+- `H1_4_ALIGNED`: conclusive status with robust matrix alignment.
+- `H1_4_QUALIFIED`: conclusive canonical lane but robustness remains mixed/fragile across registered lanes.
+- `H1_4_INCONCLUSIVE`: non-conclusive status.
+- `H1_4_BLOCKED`: blocked status.
+
+Required robustness classes:
+
+- `ROBUST`
+- `MIXED`
+- `FRAGILE`
 
 ## Guardrails
 
 1. Conclusive statuses are only allowed when adequacy thresholds pass.
-2. Adequacy must include minimum line count, page count, recurring contexts, and balance ratio.
-3. Conclusive claims must include uncertainty metrics:
+2. `INCONCLUSIVE_UNDERPOWERED` is reserved for adequacy-threshold failures.
+3. `INCONCLUSIVE_INFERENTIAL_AMBIGUITY` is reserved for adequacy-pass + inference-inconclusive runs.
+4. Adequacy must include minimum line count, page count, recurring contexts, and balance ratio.
+5. Conclusive claims must include uncertainty metrics:
    - bootstrap confidence interval for delta consistency
    - permutation-test p-value
-4. Any non-conclusive status forbids categorical "no adaptation" or "coupling proven" language.
+6. Any non-conclusive status forbids categorical "no adaptation" or "coupling proven" language.
+7. If `h1_4_closure_lane=H1_4_QUALIFIED`, claims must explicitly state that robustness remains qualified across registered lanes.
 
 ## Repro Steps
 
@@ -44,3 +63,4 @@ python3 scripts/skeptic/check_multimodal_coupling.py --mode release
 ## Evidence Consumer Rule
 
 Downstream summaries (for example Phase 7 findings) must not make stronger claims than the emitted status.
+For H1.4-qualified outcomes, summaries must include robustness class and closure-lane qualifiers.

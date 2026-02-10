@@ -1,0 +1,213 @@
+{
+  "provenance": {
+    "run_id": "19609a70-a8b4-5b57-eaff-4f70c128acb5",
+    "git_commit": "41097c90b32d26e807113f1865def2f92e79995e",
+    "timestamp": "2026-02-10T19:53:03.181292+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1770753183180768000,
+    "command": "run_5i_anchor_coupling"
+  },
+  "results": {
+    "generated_at": "2026-02-10T19:53:21Z",
+    "status": "CONCLUSIVE_NO_COUPLING",
+    "status_reason": "adequacy_and_inference_support_no_coupling",
+    "allowed_claim": "No robust image/layout coupling signal was detected under the configured adequacy and inference criteria.",
+    "h1_4_closure_lane": "H1_4_QUALIFIED",
+    "h1_4_residual_reason": "registered_lane_fragility",
+    "h1_4_reopen_conditions": [
+      "registered lane matrix reaches robust class without inferential ambiguity",
+      "policy thresholds are revised with documented rationale and rerun evidence"
+    ],
+    "dataset_id": "voynich_real",
+    "transcription_source_id": "zandbergen_landini",
+    "anchor_method": {
+      "id": "fa8b0ce0-133a-f81a-7d5d-c6acb71f94cc",
+      "name": "geometric_v1_t001",
+      "parameters": {
+        "distance_threshold": 0.01
+      }
+    },
+    "policy": {
+      "selection": {
+        "anchor_relation_types": [
+          "inside",
+          "overlaps",
+          "near"
+        ],
+        "near_score_min": 0.9,
+        "line_anchor_ratio_min": 0.5,
+        "line_unanchored_ratio_max": 0.1
+      },
+      "sampling": {
+        "matched_sampling": true,
+        "max_lines_per_cohort": 1600,
+        "seed": 42
+      },
+      "adequacy": {
+        "min_lines_per_cohort": 40,
+        "min_pages_per_cohort": 8,
+        "min_recurring_contexts_per_cohort": 80,
+        "min_balance_ratio": 0.2
+      },
+      "inference": {
+        "bootstrap_iterations": 250,
+        "permutation_iterations": 500,
+        "alpha": 0.05,
+        "coupling_delta_abs_min": 0.03,
+        "no_coupling_delta_abs_max": 0.015
+      },
+      "robustness_matrix": {
+        "matrix_id": "SK_H1_4_MATRIX_2026-02-10",
+        "version": "2026-02-10-h1.4",
+        "publication_lane_id": "publication-default",
+        "allowed_robustness_classes": [
+          "ROBUST",
+          "MIXED",
+          "FRAGILE"
+        ],
+        "required_conclusive_agreement_ratio_for_robust": 1.0,
+        "max_ambiguity_lane_count_for_robust": 0,
+        "max_underpowered_lane_count_for_robust": 0,
+        "max_blocked_lane_count_for_robust": 0,
+        "lane_registry": [
+          {
+            "lane_id": "publication-default",
+            "purpose": "canonical publication lane",
+            "seed": 42,
+            "max_lines_per_cohort": 1600,
+            "method_name": "geometric_v1_t001"
+          },
+          {
+            "lane_id": "stability-probe-seed-2718",
+            "purpose": "seed robustness probe",
+            "seed": 2718,
+            "max_lines_per_cohort": 1600,
+            "method_name": "geometric_v1_t001"
+          },
+          {
+            "lane_id": "adequacy-floor",
+            "purpose": "adequacy floor probe",
+            "seed": 42,
+            "max_lines_per_cohort": 20,
+            "method_name": "geometric_v1_t001"
+          }
+        ],
+        "reopen_conditions": [
+          "registered lane matrix reaches robust class without inferential ambiguity",
+          "policy thresholds are revised with documented rationale and rerun evidence"
+        ]
+      }
+    },
+    "cohorts": {
+      "available": {
+        "anchored_line_count": 3112,
+        "unanchored_line_count": 2033,
+        "ambiguous_line_count": 0
+      },
+      "sampled": {
+        "anchored": {
+          "mean_consistency": 0.4490372105126203,
+          "num_recurring_contexts": 305,
+          "max_consistency": 1.0,
+          "line_count": 1600,
+          "token_count": 10797,
+          "page_count": 216
+        },
+        "unanchored": {
+          "mean_consistency": 0.44772889547976036,
+          "num_recurring_contexts": 289,
+          "max_consistency": 1.0,
+          "line_count": 1600,
+          "token_count": 10674,
+          "page_count": 218
+        }
+      }
+    },
+    "effect": {
+      "delta_mean_consistency": 0.0013083150328599413,
+      "delta_ci_low": -0.007546361981998625,
+      "delta_ci_high": 0.006080443157031187,
+      "p_value": 0.8842315369261478
+    },
+    "adequacy": {
+      "pass": true,
+      "blocked": false,
+      "reasons": [],
+      "metrics": {
+        "available_anchor_line_count": 1600,
+        "available_unanchored_line_count": 1600,
+        "anchored_page_count": 216,
+        "unanchored_page_count": 218,
+        "anchored_recurring_contexts": 305,
+        "unanchored_recurring_contexts": 289,
+        "balance_ratio": 1.0
+      }
+    },
+    "inference": {
+      "decision": "NO_COUPLING",
+      "alpha": 0.05,
+      "coupling_delta_abs_min": 0.03,
+      "no_coupling_delta_abs_max": 0.015,
+      "ci_crosses_zero": true,
+      "abs_delta": 0.0013083150328599413
+    },
+    "robustness": {
+      "matrix_id": "SK_H1_4_MATRIX_2026-02-10",
+      "matrix_version": "2026-02-10-h1.4",
+      "lane_id": "publication-default",
+      "lane_purpose": "canonical publication lane",
+      "publication_lane_id": "publication-default",
+      "is_publication_lane": true,
+      "robustness_class": "MIXED",
+      "classification_basis": "canonical lane conclusive but one or more registered lanes are ambiguous or non-conclusive",
+      "expected_lane_count": 3,
+      "observed_lane_count": 3,
+      "conclusive_lane_count": 1,
+      "ambiguity_lane_count": 1,
+      "underpowered_lane_count": 1,
+      "blocked_lane_count": 0,
+      "agreement_ratio": 0.333333,
+      "matching_status_count": 1,
+      "lane_outcomes_considered": [
+        {
+          "lane_id": "publication-default",
+          "purpose": "canonical publication lane",
+          "status": "CONCLUSIVE_NO_COUPLING",
+          "status_reason": "adequacy_and_inference_support_no_coupling",
+          "run_id": "741db1ce-bdb0-44e8-6cc7-aec70ae8b30f",
+          "timestamp": "2026-02-10T18:34:39.948272+00:00"
+        },
+        {
+          "lane_id": "stability-probe-seed-2718",
+          "purpose": "seed robustness probe",
+          "status": "INCONCLUSIVE_INFERENTIAL_AMBIGUITY",
+          "status_reason": "inferential_ambiguity",
+          "run_id": "5c1101f4-0254-f55c-d9e1-ef7d58d7b463",
+          "timestamp": "2026-02-10T18:34:04.216601+00:00"
+        },
+        {
+          "lane_id": "adequacy-floor",
+          "purpose": "adequacy floor probe",
+          "status": "INCONCLUSIVE_UNDERPOWERED",
+          "status_reason": "adequacy_thresholds_not_met",
+          "run_id": "2daabb6d-08f6-0cd7-ab29-e384ff2adeef",
+          "timestamp": "2026-02-10T18:34:28.480625+00:00"
+        }
+      ],
+      "reopen_conditions": [
+        "registered lane matrix reaches robust class without inferential ambiguity",
+        "policy thresholds are revised with documented rationale and rerun evidence"
+      ]
+    },
+    "diagnostics": {
+      "anchor_relation_type_counts": {
+        "inside": 3930,
+        "overlaps": 12137
+      },
+      "anchored_word_count": 14837,
+      "token_count_total": 34635,
+      "token_alignment_count": 34635
+    }
+  }
+}

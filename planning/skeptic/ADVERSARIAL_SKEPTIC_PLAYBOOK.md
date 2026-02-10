@@ -234,6 +234,30 @@ From the skeptic’s point of view, they “win” if they can show:
 
 This document exists to ensure none of those survive contact.
 
+## Irrecoverable Source-Data Criteria (Bounded External Constraints)
+
+- If folio/source pages are missing and formally classified as approved irrecoverable loss, treat that as a bounded external constraint, not an open methodological defect.
+- A missing-page objection counts as unresolved only when one or more of these are true:
+  - irrecoverability classification is inconsistent across canonical artifacts,
+  - policy version or source-note provenance is missing/unpinned,
+  - closure/claim language exceeds the bounded entitlement state.
+- Repeating the same approved-lost-page objection without new primary-source evidence is not a new blocker.
+- Missing folio objections map to SK-H3 by default; they do not automatically block SK-H1 multimodal closure.
+- Missing folio objections map to SK-H3 by default; they do not automatically block SK-M2 comparative uncertainty closure.
+- Missing folio objections map to SK-H3 by default; they do not automatically block SK-M4 provenance-confidence closure.
+- Treat missing folios as an SK-H1 blocker only when multimodal status is explicitly data-geometry blocked and the blocker is traceably linked to approved-lost source constraints.
+- Treat missing folios as an SK-M2 blocker only when comparative artifacts/checkers explicitly show comparative-input validity failure caused by missing source pages; absent that objective linkage, SK-M2 remains non-blocked on folio grounds.
+- Treat missing folios as an SK-M4 blocker only when provenance artifacts/checkers show objective provenance-contract incompleteness caused by missing source pages that are not already classified as approved irrecoverable loss.
+- If SK-H1 canonical artifact remains conclusive on policy-accepted available data, missing-folio objections remain non-blocking unless new primary evidence changes irrecoverability classification.
+- If SK-M4 canonical artifacts are synchronized (`status=IN_SYNC`, `drift_detected=false`) and historical uncertainty is already bounded by approved irrecoverability classification, repeating the same missing-folio objection is non-blocking unless objective trigger conditions change.
+- For SK-H3, approved-lost irrecoverable missing pages should default to `H3_5_TERMINAL_QUALIFIED` when canonical artifacts are coherent (`reason_code=DATA_AVAILABILITY`, matching policy version/source note path, matching irrecoverability classification, and bounded claim language).
+- In that terminal-qualified SK-H3 state, repeating the same missing-folio objection is not a new blocker and should not reopen execution planning.
+- Reopen SK-H3 on missing-folio grounds only if at least one objective trigger occurs:
+  - new primary source pages become available,
+  - approved-lost policy classification changes with new evidence,
+  - canonical artifact parity/freshness is broken,
+  - claim/report language exceeds bounded terminal-qualified entitlement.
+
 ---
 
 ## How to Use This Document

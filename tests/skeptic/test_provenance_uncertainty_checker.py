@@ -302,3 +302,335 @@ def test_sk_m4_checker_passes_with_repo_policy_ci_and_release() -> None:
     release_errors = checker.run_checks(policy, root=Path("."), mode="release")
     assert ci_errors == []
     assert release_errors == []
+
+
+def test_sk_m4_checker_flags_m4_4_lane_mismatch(tmp_path) -> None:
+    checker = _load_checker_module()
+    (tmp_path / "status/audit").mkdir(parents=True)
+    (tmp_path / "status/audit/provenance_health_status.json").write_text(
+        json.dumps(
+            {
+                "status": "PROVENANCE_QUALIFIED",
+                "reason_code": "HISTORICAL_ORPHANED_ROWS_PRESENT",
+                "orphaned_rows": 5,
+                "orphaned_ratio": 0.1,
+                "running_rows": 0,
+                "missing_manifests": 0,
+                "threshold_policy_pass": True,
+                "generated_utc": "2026-02-10T00:00:00Z",
+                "recoverability_class": "HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED",
+                "m4_4_historical_lane": "M4_4_QUALIFIED",
+                "m4_4_residual_reason": "x",
+                "m4_4_reopen_conditions": ["a"],
+                "contract_health_status": "GATE_HEALTH_DEGRADED",
+                "contract_health_reason_code": "GATE_CONTRACT_BLOCKED",
+                "contract_reason_codes": ["PROVENANCE_CONTRACT_BLOCKED"],
+                "contract_coupling_pass": True,
+            }
+        ),
+        encoding="utf-8",
+    )
+    (tmp_path / "status/audit/provenance_register_sync_status.json").write_text(
+        json.dumps(
+            {
+                "status": "IN_SYNC",
+                "drift_detected": False,
+                "drift_by_status": {"orphaned": 0, "success": 0},
+                "generated_utc": "2026-02-10T00:00:01Z",
+                "provenance_status": "PROVENANCE_QUALIFIED",
+                "provenance_reason_code": "HISTORICAL_ORPHANED_ROWS_PRESENT",
+                "provenance_health_lane": "M4_4_QUALIFIED",
+                "provenance_health_residual_reason": "x",
+                "health_orphaned_rows": 5,
+                "register_orphaned_rows": 5,
+                "artifact_counts": {"orphaned": 5, "success": 10},
+                "db_counts": {"orphaned": 5, "success": 10},
+                "contract_coupling_state": "COUPLED_DEGRADED",
+                "gate_health_status": "GATE_HEALTH_DEGRADED",
+                "register_path": "reports/skeptic/SK_M4_PROVENANCE_REGISTER.md",
+            }
+        ),
+        encoding="utf-8",
+    )
+    (tmp_path / "status/audit/release_gate_health_status.json").write_text(
+        json.dumps({"results": {"status": "GATE_HEALTH_DEGRADED", "reason_code": "GATE_CONTRACT_BLOCKED"}}),
+        encoding="utf-8",
+    )
+
+    policy = {
+        "tracked_files": [],
+        "required_markers": [],
+        "banned_patterns": [],
+        "artifact_policy": {
+            "tracked_artifacts": [
+                {
+                    "path": "status/audit/provenance_health_status.json",
+                    "required_in_modes": ["ci"],
+                    "required_result_keys": [
+                        "status",
+                        "reason_code",
+                        "generated_utc",
+                        "recoverability_class",
+                        "m4_4_historical_lane",
+                        "m4_4_reopen_conditions",
+                    ],
+                    "allowed_statuses": ["PROVENANCE_QUALIFIED"],
+                },
+                {
+                    "path": "status/audit/provenance_register_sync_status.json",
+                    "required_in_modes": ["ci"],
+                    "required_result_keys": [
+                        "status",
+                        "drift_detected",
+                        "generated_utc",
+                        "provenance_health_lane",
+                    ],
+                    "allowed_statuses": ["IN_SYNC"],
+                },
+            ]
+        },
+        "threshold_policy": {
+            "artifact_path": "status/audit/provenance_health_status.json",
+            "orphaned_ratio_max": 1.0,
+            "orphaned_count_max": 1000,
+            "running_count_max": 0,
+            "missing_manifests_max": 0,
+            "max_artifact_age_hours": 100000,
+            "sync_artifact_path": "status/audit/provenance_register_sync_status.json",
+            "max_sync_artifact_age_hours": 100000,
+        },
+        "contract_coupling_policy": {
+            "provenance_artifact_path": "status/audit/provenance_health_status.json",
+            "gate_health_artifact_path": "status/audit/release_gate_health_status.json",
+            "degraded_gate_statuses": ["GATE_HEALTH_DEGRADED"],
+            "disallow_provenance_statuses_when_gate_degraded": ["PROVENANCE_ALIGNED"],
+            "require_m4_4_lanes_when_gate_degraded": ["M4_4_QUALIFIED", "M4_4_BOUNDED"],
+            "require_contract_coupling_pass": True,
+            "require_contract_reason_codes_when_gate_degraded": [
+                "PROVENANCE_CONTRACT_BLOCKED"
+            ],
+        },
+        "m4_4_policy": {
+            "required_lane_by_provenance_status": {"PROVENANCE_QUALIFIED": "M4_4_QUALIFIED"},
+            "bounded_recoverability_classes": ["HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED"],
+            "bounded_lane_name": "M4_4_BOUNDED",
+            "inconclusive_lane_name": "M4_4_INCONCLUSIVE",
+            "require_reopen_conditions_for_lanes": ["M4_4_BOUNDED"],
+        },
+        "allowlist": [],
+    }
+
+    errors = checker.run_checks(policy, root=tmp_path, mode="ci")
+    assert any("m4_4-lane" in err for err in errors)
+
+
+def test_sk_m4_checker_flags_stale_sync_artifact(tmp_path) -> None:
+    checker = _load_checker_module()
+    (tmp_path / "status/audit").mkdir(parents=True)
+    (tmp_path / "status/audit/provenance_health_status.json").write_text(
+        json.dumps(
+            {
+                "status": "PROVENANCE_QUALIFIED",
+                "reason_code": "HISTORICAL_ORPHANED_ROWS_PRESENT",
+                "generated_utc": "2026-02-10T00:00:00Z",
+                "orphaned_rows": 1,
+                "orphaned_ratio": 0.1,
+                "running_rows": 0,
+                "missing_manifests": 0,
+                "threshold_policy_pass": True,
+                "recoverability_class": "HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED",
+                "m4_4_historical_lane": "M4_4_BOUNDED",
+                "m4_4_residual_reason": "x",
+                "m4_4_reopen_conditions": ["a"],
+                "contract_health_status": "GATE_HEALTH_DEGRADED",
+                "contract_health_reason_code": "GATE_CONTRACT_BLOCKED",
+                "contract_reason_codes": ["PROVENANCE_CONTRACT_BLOCKED"],
+                "contract_coupling_pass": True,
+            }
+        ),
+        encoding="utf-8",
+    )
+    (tmp_path / "status/audit/provenance_register_sync_status.json").write_text(
+        json.dumps(
+            {
+                "status": "IN_SYNC",
+                "drift_detected": False,
+                "drift_by_status": {"orphaned": 0},
+                "generated_utc": "2000-01-01T00:00:00Z",
+                "provenance_status": "PROVENANCE_QUALIFIED",
+                "provenance_reason_code": "HISTORICAL_ORPHANED_ROWS_PRESENT",
+                "provenance_health_lane": "M4_4_BOUNDED",
+                "provenance_health_residual_reason": "x",
+                "health_orphaned_rows": 1,
+                "register_orphaned_rows": 1,
+                "artifact_counts": {"orphaned": 1},
+                "db_counts": {"orphaned": 1},
+                "contract_coupling_state": "COUPLED_DEGRADED",
+                "gate_health_status": "GATE_HEALTH_DEGRADED",
+                "register_path": "reports/skeptic/SK_M4_PROVENANCE_REGISTER.md",
+            }
+        ),
+        encoding="utf-8",
+    )
+    policy = {
+        "tracked_files": [],
+        "required_markers": [],
+        "banned_patterns": [],
+        "artifact_policy": {
+            "tracked_artifacts": [
+                {
+                    "path": "status/audit/provenance_health_status.json",
+                    "required_in_modes": ["ci"],
+                    "required_result_keys": ["status", "generated_utc"],
+                    "allowed_statuses": ["PROVENANCE_QUALIFIED"],
+                },
+                {
+                    "path": "status/audit/provenance_register_sync_status.json",
+                    "required_in_modes": ["ci"],
+                    "required_result_keys": ["status", "generated_utc"],
+                    "allowed_statuses": ["IN_SYNC"],
+                },
+            ]
+        },
+        "threshold_policy": {
+            "artifact_path": "status/audit/provenance_health_status.json",
+            "orphaned_ratio_max": 1.0,
+            "orphaned_count_max": 1000,
+            "running_count_max": 0,
+            "missing_manifests_max": 0,
+            "max_artifact_age_hours": 100000,
+            "sync_artifact_path": "status/audit/provenance_register_sync_status.json",
+            "max_sync_artifact_age_hours": 1,
+        },
+        "allowlist": [],
+    }
+
+    errors = checker.run_checks(policy, root=tmp_path, mode="ci")
+    assert any("stale-artifact" in err for err in errors)
+
+
+def test_sk_m4_checker_flags_missing_folio_block_without_objective_linkage(tmp_path) -> None:
+    checker = _load_checker_module()
+    (tmp_path / "status/audit").mkdir(parents=True)
+    (tmp_path / "status/audit/provenance_health_status.json").write_text(
+        json.dumps(
+            {
+                "status": "PROVENANCE_QUALIFIED",
+                "reason_code": "HISTORICAL_ORPHANED_ROWS_PRESENT",
+                "orphaned_rows": 5,
+                "orphaned_ratio": 0.1,
+                "running_rows": 0,
+                "missing_manifests": 0,
+                "threshold_policy_pass": True,
+                "generated_utc": "2026-02-10T00:00:00Z",
+                "recoverability_class": "HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED",
+                "m4_5_historical_lane": "M4_5_BOUNDED",
+                "m4_5_residual_reason": "historical_orphaned_rows_irrecoverable_with_current_source_scope",
+                "m4_5_reopen_conditions": ["reopen_if_new_primary_source_added"],
+                "m4_5_data_availability_linkage": {
+                    "missing_folio_blocking_claimed": True,
+                    "objective_provenance_contract_incompleteness": False,
+                    "approved_irrecoverable_loss_classification": True,
+                },
+                "contract_health_status": "GATE_HEALTH_DEGRADED",
+                "contract_health_reason_code": "GATE_CONTRACT_BLOCKED",
+                "contract_reason_codes": ["PROVENANCE_CONTRACT_BLOCKED"],
+                "contract_coupling_pass": True,
+            }
+        ),
+        encoding="utf-8",
+    )
+    (tmp_path / "status/audit/provenance_register_sync_status.json").write_text(
+        json.dumps(
+            {
+                "status": "IN_SYNC",
+                "drift_detected": False,
+                "drift_by_status": {"orphaned": 0, "success": 0},
+                "generated_utc": "2026-02-10T00:00:01Z",
+                "provenance_status": "PROVENANCE_QUALIFIED",
+                "provenance_reason_code": "HISTORICAL_ORPHANED_ROWS_PRESENT",
+                "provenance_health_lane": "M4_5_BOUNDED",
+                "provenance_health_residual_reason": "historical_orphaned_rows_irrecoverable_with_current_source_scope",
+                "provenance_health_m4_5_lane": "M4_5_BOUNDED",
+                "provenance_health_m4_5_residual_reason": "historical_orphaned_rows_irrecoverable_with_current_source_scope",
+                "health_orphaned_rows": 5,
+                "register_orphaned_rows": 5,
+                "artifact_counts": {"orphaned": 5, "success": 10},
+                "db_counts": {"orphaned": 5, "success": 10},
+                "contract_coupling_state": "COUPLED_DEGRADED",
+                "gate_health_status": "GATE_HEALTH_DEGRADED",
+                "register_path": "reports/skeptic/SK_M4_PROVENANCE_REGISTER.md",
+            }
+        ),
+        encoding="utf-8",
+    )
+    (tmp_path / "status/audit/release_gate_health_status.json").write_text(
+        json.dumps({"results": {"status": "GATE_HEALTH_DEGRADED", "reason_code": "GATE_CONTRACT_BLOCKED"}}),
+        encoding="utf-8",
+    )
+
+    policy = {
+        "tracked_files": [],
+        "required_markers": [],
+        "banned_patterns": [],
+        "artifact_policy": {
+            "tracked_artifacts": [
+                {
+                    "path": "status/audit/provenance_health_status.json",
+                    "required_in_modes": ["ci"],
+                    "required_result_keys": ["status", "generated_utc", "m4_5_historical_lane"],
+                    "allowed_statuses": ["PROVENANCE_QUALIFIED"],
+                },
+                {
+                    "path": "status/audit/provenance_register_sync_status.json",
+                    "required_in_modes": ["ci"],
+                    "required_result_keys": ["status", "generated_utc", "provenance_health_lane"],
+                    "allowed_statuses": ["IN_SYNC"],
+                },
+            ]
+        },
+        "threshold_policy": {
+            "artifact_path": "status/audit/provenance_health_status.json",
+            "orphaned_ratio_max": 1.0,
+            "orphaned_count_max": 1000,
+            "running_count_max": 0,
+            "missing_manifests_max": 0,
+            "max_artifact_age_hours": 100000,
+            "sync_artifact_path": "status/audit/provenance_register_sync_status.json",
+            "max_sync_artifact_age_hours": 100000,
+        },
+        "contract_coupling_policy": {
+            "provenance_artifact_path": "status/audit/provenance_health_status.json",
+            "gate_health_artifact_path": "status/audit/release_gate_health_status.json",
+            "degraded_gate_statuses": ["GATE_HEALTH_DEGRADED"],
+            "disallow_provenance_statuses_when_gate_degraded": ["PROVENANCE_ALIGNED"],
+            "require_m4_5_lanes_when_gate_degraded": ["M4_5_QUALIFIED", "M4_5_BOUNDED"],
+            "require_contract_coupling_pass": True,
+            "require_contract_reason_codes_when_gate_degraded": [
+                "PROVENANCE_CONTRACT_BLOCKED"
+            ],
+        },
+        "m4_5_policy": {
+            "required_lane_by_provenance_status": {"PROVENANCE_QUALIFIED": "M4_5_QUALIFIED"},
+            "bounded_recoverability_classes": ["HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED"],
+            "bounded_lane_name": "M4_5_BOUNDED",
+            "blocked_lane_name": "M4_5_BLOCKED",
+            "inconclusive_lane_name": "M4_5_INCONCLUSIVE",
+            "require_reopen_conditions_for_lanes": ["M4_5_BOUNDED"],
+            "require_residual_reason_for_lanes": ["M4_5_BOUNDED"],
+            "missing_folio_non_blocking_guard": {
+                "linkage_key": "m4_5_data_availability_linkage",
+                "required_boolean_keys": [
+                    "missing_folio_blocking_claimed",
+                    "objective_provenance_contract_incompleteness",
+                    "approved_irrecoverable_loss_classification",
+                ],
+                "require_objective_linkage_when_missing_folio_blocking_claimed": True,
+                "disallow_blocking_when_approved_irrecoverable_loss_without_objective_linkage": True,
+            },
+        },
+        "allowlist": [],
+    }
+
+    errors = checker.run_checks(policy, root=tmp_path, mode="ci")
+    assert any("objective provenance-contract incompleteness linkage" in err for err in errors)

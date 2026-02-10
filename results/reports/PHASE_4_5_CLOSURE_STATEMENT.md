@@ -67,6 +67,8 @@ Current gate-health class: `GATE_HEALTH_DEGRADED`.
 
 While gate health remains degraded, closure language is operationally contingent and should be interpreted as qualified/reopenable rather than terminal.
 
+Current degraded-state dependency is the SK-C1 release sensitivity evidence contract (`status/audit/sensitivity_sweep_release.json`).
+
 ---
 
 ## 6. Final Metadata
@@ -78,6 +80,9 @@ While gate health remains degraded, closure language is operationally contingent
 
 Historical run-traceability confidence is currently classified as `PROVENANCE_QUALIFIED`
 while legacy orphaned rows remain in the run ledger.
+
+Current SK-M4.5 lane under this evidence state is `M4_5_BOUNDED`
+(`m4_5_historical_lane` in the canonical provenance artifact).
 
 Canonical provenance confidence source:
 

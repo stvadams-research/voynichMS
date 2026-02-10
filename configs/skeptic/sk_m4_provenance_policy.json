@@ -1,6 +1,6 @@
 {
-  "version": "2026-02-10-m4.2",
-  "description": "SK-M4 historical provenance uncertainty policy and claim-scope guardrails with register synchronization and contract coupling.",
+  "version": "2026-02-10-m4.5",
+  "description": "SK-M4.5 historical provenance uncertainty policy with deterministic lane governance, freshness/parity checks, missing-folio objective-linkage guards, and anti-repeat closure criteria.",
   "tracked_files": [
     "README.md",
     "results/reports/PHASE_4_5_CLOSURE_STATEMENT.md",
@@ -18,7 +18,8 @@
       "markers": [
         "## Historical Provenance Confidence",
         "status/audit/provenance_health_status.json",
-        "docs/HISTORICAL_PROVENANCE_POLICY.md"
+        "docs/HISTORICAL_PROVENANCE_POLICY.md",
+        "m4_5_historical_lane"
       ]
     },
     {
@@ -29,7 +30,8 @@
       "markers": [
         "## 7. Historical Provenance Confidence",
         "status/audit/provenance_health_status.json",
-        "PROVENANCE_QUALIFIED"
+        "PROVENANCE_QUALIFIED",
+        "M4_5_BOUNDED"
       ]
     },
     {
@@ -40,7 +42,8 @@
       "markers": [
         "Historical provenance confidence:",
         "status/audit/provenance_health_status.json",
-        "PROVENANCE_QUALIFIED"
+        "PROVENANCE_QUALIFIED",
+        "M4_5_BOUNDED"
       ]
     },
     {
@@ -51,7 +54,9 @@
       "markers": [
         "Historical provenance confidence artifact:",
         "status/audit/provenance_health_status.json",
-        "docs/HISTORICAL_PROVENANCE_POLICY.md"
+        "docs/HISTORICAL_PROVENANCE_POLICY.md",
+        "SK-M4.5",
+        "m4_5_historical_lane"
       ]
     },
     {
@@ -63,7 +68,8 @@
         "## Source Snapshot",
         "generated_utc",
         "source_snapshot.provenance_health_path",
-        "status/audit/provenance_register_sync_status.json"
+        "status/audit/provenance_register_sync_status.json",
+        "m4_5_historical_lane"
       ]
     }
   ],
@@ -101,6 +107,14 @@
           "running_rows",
           "missing_manifests",
           "threshold_policy_pass",
+          "recoverability_class",
+          "m4_5_historical_lane",
+          "m4_5_residual_reason",
+          "m4_5_reopen_conditions",
+          "m4_5_data_availability_linkage",
+          "m4_4_historical_lane",
+          "m4_4_residual_reason",
+          "m4_4_reopen_conditions",
           "generated_utc",
           "last_reviewed",
           "contract_health_status",
@@ -124,8 +138,14 @@
           "drift_detected",
           "provenance_status",
           "provenance_reason_code",
+          "provenance_health_lane",
+          "provenance_health_residual_reason",
+          "provenance_health_m4_5_lane",
+          "provenance_health_m4_5_residual_reason",
           "db_counts",
           "artifact_counts",
+          "health_orphaned_rows",
+          "register_orphaned_rows",
           "generated_utc",
           "contract_coupling_state",
           "gate_health_status",
@@ -143,7 +163,9 @@
     "orphaned_count_max": 80,
     "running_count_max": 0,
     "missing_manifests_max": 0,
-    "max_artifact_age_hours": 168
+    "max_artifact_age_hours": 168,
+    "sync_artifact_path": "status/audit/provenance_register_sync_status.json",
+    "max_sync_artifact_age_hours": 168
   },
   "contract_coupling_policy": {
     "provenance_artifact_path": "status/audit/provenance_health_status.json",
@@ -154,11 +176,51 @@
     "disallow_provenance_statuses_when_gate_degraded": [
       "PROVENANCE_ALIGNED"
     ],
+    "require_m4_5_lanes_when_gate_degraded": [
+      "M4_5_QUALIFIED",
+      "M4_5_BOUNDED"
+    ],
     "require_contract_coupling_pass": true,
     "require_contract_reason_codes_when_gate_degraded": [
       "PROVENANCE_CONTRACT_BLOCKED"
     ],
     "fail_when_gate_health_missing": false
+  },
+  "m4_5_policy": {
+    "required_lane_by_provenance_status": {
+      "PROVENANCE_ALIGNED": "M4_5_ALIGNED",
+      "PROVENANCE_QUALIFIED": "M4_5_QUALIFIED",
+      "PROVENANCE_BLOCKED": "M4_5_BLOCKED"
+    },
+    "bounded_recoverability_classes": [
+      "HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED",
+      "HISTORICAL_ORPHANED_UNBACKFILLED"
+    ],
+    "bounded_lane_name": "M4_5_BOUNDED",
+    "blocked_lane_name": "M4_5_BLOCKED",
+    "inconclusive_lane_name": "M4_5_INCONCLUSIVE",
+    "require_reopen_conditions_for_lanes": [
+      "M4_5_ALIGNED",
+      "M4_5_QUALIFIED",
+      "M4_5_BOUNDED",
+      "M4_5_BLOCKED"
+    ],
+    "require_residual_reason_for_lanes": [
+      "M4_5_QUALIFIED",
+      "M4_5_BOUNDED",
+      "M4_5_BLOCKED",
+      "M4_5_INCONCLUSIVE"
+    ],
+    "missing_folio_non_blocking_guard": {
+      "linkage_key": "m4_5_data_availability_linkage",
+      "required_boolean_keys": [
+        "missing_folio_blocking_claimed",
+        "objective_provenance_contract_incompleteness",
+        "approved_irrecoverable_loss_classification"
+      ],
+      "require_objective_linkage_when_missing_folio_blocking_claimed": true,
+      "disallow_blocking_when_approved_irrecoverable_loss_without_objective_linkage": true
+    }
   },
   "allowlist": []
 }

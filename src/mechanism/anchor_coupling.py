@@ -12,7 +12,20 @@ from mechanism.large_object.collision_testing import PathCollisionTester
 STATUS_CONCLUSIVE_NO_COUPLING = "CONCLUSIVE_NO_COUPLING"
 STATUS_CONCLUSIVE_COUPLING_PRESENT = "CONCLUSIVE_COUPLING_PRESENT"
 STATUS_INCONCLUSIVE_UNDERPOWERED = "INCONCLUSIVE_UNDERPOWERED"
+STATUS_INCONCLUSIVE_INFERENTIAL_AMBIGUITY = "INCONCLUSIVE_INFERENTIAL_AMBIGUITY"
 STATUS_BLOCKED_DATA_GEOMETRY = "BLOCKED_DATA_GEOMETRY"
+ROBUSTNESS_CLASS_ROBUST = "ROBUST"
+ROBUSTNESS_CLASS_MIXED = "MIXED"
+ROBUSTNESS_CLASS_FRAGILE = "FRAGILE"
+H1_4_LANE_ALIGNED = "H1_4_ALIGNED"
+H1_4_LANE_QUALIFIED = "H1_4_QUALIFIED"
+H1_4_LANE_BLOCKED = "H1_4_BLOCKED"
+H1_4_LANE_INCONCLUSIVE = "H1_4_INCONCLUSIVE"
+H1_5_LANE_ALIGNED = "H1_5_ALIGNED"
+H1_5_LANE_BOUNDED = "H1_5_BOUNDED"
+H1_5_LANE_QUALIFIED = "H1_5_QUALIFIED"
+H1_5_LANE_BLOCKED = "H1_5_BLOCKED"
+H1_5_LANE_INCONCLUSIVE = "H1_5_INCONCLUSIVE"
 
 
 DEFAULT_MULTIMODAL_POLICY: Dict[str, Any] = {
@@ -40,6 +53,60 @@ DEFAULT_MULTIMODAL_POLICY: Dict[str, Any] = {
         "alpha": 0.05,
         "coupling_delta_abs_min": 0.030,
         "no_coupling_delta_abs_max": 0.015,
+    },
+    "robustness_matrix": {
+        "matrix_id": "SK_H1_5_MATRIX_2026-02-10",
+        "version": "2026-02-10-h1.5",
+        "lane_taxonomy_version": "2026-02-10-h1.5",
+        "publication_lane_id": "publication-default",
+        "allowed_robustness_classes": [
+            ROBUSTNESS_CLASS_ROBUST,
+            ROBUSTNESS_CLASS_MIXED,
+            ROBUSTNESS_CLASS_FRAGILE,
+        ],
+        "required_conclusive_agreement_ratio_for_robust": 1.0,
+        "max_ambiguity_lane_count_for_robust": 0,
+        "max_underpowered_lane_count_for_robust": 0,
+        "max_blocked_lane_count_for_robust": 0,
+        "required_conclusive_agreement_ratio_for_entitlement_robust": 1.0,
+        "max_ambiguity_lane_count_for_entitlement_robust": 0,
+        "max_underpowered_lane_count_for_entitlement_robust": 0,
+        "max_blocked_lane_count_for_entitlement_robust": 0,
+        "lane_registry": [
+            {
+                "lane_id": "publication-default",
+                "purpose": "canonical publication lane",
+                "lane_class": "entitlement",
+                "seed": 42,
+                "max_lines_per_cohort": 1600,
+                "method_name": "geometric_v1_t001",
+            },
+            {
+                "lane_id": "stability-probe-seed-2718",
+                "purpose": "seed robustness probe",
+                "lane_class": "diagnostic",
+                "seed": 2718,
+                "max_lines_per_cohort": 1600,
+                "method_name": "geometric_v1_t001",
+            },
+            {
+                "lane_id": "adequacy-floor",
+                "purpose": "adequacy floor probe",
+                "lane_class": "stress",
+                "seed": 42,
+                "max_lines_per_cohort": 20,
+                "method_name": "geometric_v1_t001",
+            },
+        ],
+        "reopen_conditions": [
+            "registered lane matrix reaches robust class without inferential ambiguity",
+            "policy thresholds are revised with documented rationale and rerun evidence",
+        ],
+        "h1_5_reopen_conditions": [
+            "entitlement lanes lose conclusive alignment under registered matrix",
+            "diagnostic/stress lanes introduce policy-incoherent contradiction",
+            "lane taxonomy or thresholds are revised with documented rationale and rerun evidence",
+        ],
     },
 }
 
@@ -296,6 +363,11 @@ def allowed_claim_for_status(status: str) -> str:
             "Coupling assessment is blocked by cohort-geometry/data-availability "
             "constraints; no conclusive claim is allowed."
         )
+    if status == STATUS_INCONCLUSIVE_INFERENTIAL_AMBIGUITY:
+        return (
+            "Adequacy thresholds are satisfied, but inferential evidence remains "
+            "ambiguous; no conclusive coupling claim is allowed."
+        )
     return (
         "Current evidence is underpowered or ambiguous; no conclusive coupling claim "
         "is allowed."
@@ -322,7 +394,7 @@ def decide_status(
             status = STATUS_CONCLUSIVE_COUPLING_PRESENT
             reason = "adequacy_and_inference_support_coupling"
         else:
-            status = STATUS_INCONCLUSIVE_UNDERPOWERED
+            status = STATUS_INCONCLUSIVE_INFERENTIAL_AMBIGUITY
             reason = "inferential_ambiguity"
 
     return {
@@ -330,3 +402,61 @@ def decide_status(
         "status_reason": reason,
         "allowed_claim": allowed_claim_for_status(status),
     }
+
+
+def derive_h1_4_closure_lane(*, status: str, robustness_class: str) -> str:
+    conclusive_statuses = {
+        STATUS_CONCLUSIVE_NO_COUPLING,
+        STATUS_CONCLUSIVE_COUPLING_PRESENT,
+    }
+    inconclusive_statuses = {
+        STATUS_INCONCLUSIVE_UNDERPOWERED,
+        STATUS_INCONCLUSIVE_INFERENTIAL_AMBIGUITY,
+    }
+
+    if status in conclusive_statuses:
+        if robustness_class == ROBUSTNESS_CLASS_ROBUST:
+            return H1_4_LANE_ALIGNED
+        if robustness_class in {ROBUSTNESS_CLASS_MIXED, ROBUSTNESS_CLASS_FRAGILE}:
+            return H1_4_LANE_QUALIFIED
+    if status in inconclusive_statuses:
+        return H1_4_LANE_INCONCLUSIVE
+    if status == STATUS_BLOCKED_DATA_GEOMETRY:
+        return H1_4_LANE_BLOCKED
+    return H1_4_LANE_INCONCLUSIVE
+
+
+def derive_h1_5_closure_lane(
+    *,
+    status: str,
+    entitlement_robustness_class: str,
+    diagnostic_lane_count: int,
+    diagnostic_non_conclusive_count: int,
+    robust_closure_reachable: bool,
+) -> str:
+    conclusive_statuses = {
+        STATUS_CONCLUSIVE_NO_COUPLING,
+        STATUS_CONCLUSIVE_COUPLING_PRESENT,
+    }
+    inconclusive_statuses = {
+        STATUS_INCONCLUSIVE_UNDERPOWERED,
+        STATUS_INCONCLUSIVE_INFERENTIAL_AMBIGUITY,
+    }
+
+    if not robust_closure_reachable:
+        return H1_5_LANE_BLOCKED
+    if status in conclusive_statuses:
+        if entitlement_robustness_class == ROBUSTNESS_CLASS_ROBUST:
+            if diagnostic_lane_count > 0 and diagnostic_non_conclusive_count > 0:
+                return H1_5_LANE_BOUNDED
+            return H1_5_LANE_ALIGNED
+        if entitlement_robustness_class in {
+            ROBUSTNESS_CLASS_MIXED,
+            ROBUSTNESS_CLASS_FRAGILE,
+        }:
+            return H1_5_LANE_QUALIFIED
+    if status in inconclusive_statuses:
+        return H1_5_LANE_INCONCLUSIVE
+    if status == STATUS_BLOCKED_DATA_GEOMETRY:
+        return H1_5_LANE_BLOCKED
+    return H1_5_LANE_INCONCLUSIVE

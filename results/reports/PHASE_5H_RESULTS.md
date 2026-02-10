@@ -1,7 +1,7 @@
 # PHASE 5H RESULTS: EVIDENCE COUPLING PILOT
 
 **Date:** 2026-02-07
-**Status:** Pilot Complete (Section Integrity Supported; Illustration Coupling Inconclusive)
+**Status:** Pilot Complete (Section Integrity Supported; Illustration Coupling Confirmatory Status-Gated)
 **Objective:** Determine if the production mechanism is coupled to physical manuscript features (sections and illustrations).
 
 ---
@@ -44,8 +44,8 @@ Using `AnchorRecord` data to isolate text in close proximity to illustrations:
 **Hypothesis: Global Machine is SUPPORTED (Sectional Test Only).**  
 The manuscript is not a collection of different section-specific systems under this pilot. Section-level variation is explained by entry points and traversal paths, not different production rules.
 
-**Illustration-Coupling Status:** `INCONCLUSIVE_UNDERPOWERED` (confirmatory artifact current state).  
+**Illustration-Coupling Status:** `CONCLUSIVE_NO_COUPLING` (confirmatory artifact current state).  
 Any claim about no image/layout coupling is deferred to confirmatory analysis artifacts.
 
 ---
-**Conclusion:** Phase 5H supports mechanism integrity at section level, but does not conclusively resolve illustration coupling.
+**Conclusion:** Phase 5H supports mechanism integrity at section level; current confirmatory multimodal evidence class is `CONCLUSIVE_NO_COUPLING` with H1.4 lane `H1_4_QUALIFIED` because robustness remains qualified across registered lanes and H1.5 lane `H1_5_BOUNDED` because diagnostic lanes remain non-conclusive monitoring signals.

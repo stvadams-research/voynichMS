@@ -96,7 +96,8 @@ Current delegated runner entry:
   - `bash scripts/audit/cleanup_status_artifacts.sh dry-run`
   - `bash scripts/audit/cleanup_status_artifacts.sh legacy-report`
   - `bash scripts/audit/cleanup_status_artifacts.sh clean`
-- Keep `status/audit/sensitivity_sweep.json` as the latest machine-readable sensitivity snapshot.
+- Keep `status/audit/sensitivity_sweep.json` as the latest local/iterative sensitivity snapshot.
+- Keep `status/audit/sensitivity_sweep_release.json` as the release-candidate sensitivity snapshot consumed by release gates.
 - Pre-release checks fail if legacy verify artifacts still contain `provenance.status` fields.
 - `status/synthesis/TURING_TEST_RESULTS.json` is used as strict preflight evidence for indistinguishability release checks.
   - Required: `strict_computed=true`.
@@ -137,13 +138,18 @@ Historical provenance confidence artifact:
 - `status/audit/provenance_health_status.json`
 - `status/audit/provenance_register_sync_status.json`
 
-SK-M4 policy reference:
+SK-M4/SK-M4.5 policy reference:
 
 - `docs/HISTORICAL_PROVENANCE_POLICY.md`
 
 The provenance-health artifact is the canonical machine-readable source for
 `PROVENANCE_ALIGNED` vs `PROVENANCE_QUALIFIED` vs `PROVENANCE_BLOCKED`
 classification in closure-facing claim governance.
+
+SK-M4.5 lane semantics are emitted in the provenance artifact via
+`m4_5_historical_lane`, with bounded residual governance for irrecoverable
+historical gaps. A legacy mirror key (`m4_4_historical_lane`) is retained for
+compatibility while downstream consumers migrate.
 
 Register synchronization command path:
 
