@@ -19,6 +19,7 @@ from rich.table import Table
 
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
+from foundation.core.provenance import ProvenanceWriter
 from human.page_boundary import PageBoundaryAnalyzer
 from human.quire_analysis import QuireAnalyzer
 from human.scribe_coupling import ScribeAnalyzer
@@ -120,8 +121,7 @@ def run_phase_7b():
             "scribe": scribe_res
         }
         
-        with open(output_dir / "phase_7b_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "phase_7b_results.json")
             
         # Generate Report
         report_path = Path("reports/human/PHASE_7B_RESULTS.md")

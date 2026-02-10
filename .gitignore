@@ -36,6 +36,7 @@ data/qc/
 
 # Runs and experiment outputs
 runs/
+status/
 
 # Databases
 *.db

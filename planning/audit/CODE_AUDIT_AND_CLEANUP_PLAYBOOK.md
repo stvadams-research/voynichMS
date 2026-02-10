@@ -385,6 +385,15 @@ Use the following categories:
 - **Medium**: correctness or clarity risk
 - **Low**: style or maintainability
 
+Data-availability classification rule:
+
+- If a failure is caused by lost/unavailable source records (not implementation logic),
+  classify it as a **scope/data-availability constraint** and record machine-readable
+  evidence (for example `status=BLOCKED`, `reason_code=DATA_AVAILABILITY`,
+  and explicit missing-record counts).
+- Do not classify data-availability constraints as code defects unless evidence shows
+  implementation behavior is incorrect independent of missing source data.
+
 ---
 
 ## Known High-Risk Areas for This Project

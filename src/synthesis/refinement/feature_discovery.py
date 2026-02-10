@@ -14,6 +14,7 @@ from collections import Counter
 import random
 import math
 import statistics
+import hashlib
 
 from synthesis.interface import SectionProfile, PageProfile, SyntheticPage
 from synthesis.refinement.interface import (
@@ -35,6 +36,12 @@ from foundation.storage.metadata import (
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def _stable_seed_fragment(value: str, modulus: int = 100_000) -> int:
+    """Return a stable integer fragment derived from feature id."""
+    digest = hashlib.sha256(value.encode("utf-8")).digest()
+    return int.from_bytes(digest[:8], "big") % modulus
 
 
 @dataclass
@@ -128,7 +135,7 @@ class FeatureComputer:
         """
         if is_scrambled:
             if self._active_seed is not None:
-                rng = random.Random(self._active_seed + (hash(feature_id) % 100000))
+                rng = random.Random(self._active_seed + _stable_seed_fragment(feature_id))
             else:
                 rng = self.fallback_rng
             value = rng.uniform(*scrambled_range)

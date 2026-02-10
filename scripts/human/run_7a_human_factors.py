@@ -20,6 +20,7 @@ from rich.table import Table
 
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
+from foundation.core.provenance import ProvenanceWriter
 from human.ergonomics import ErgonomicsAnalyzer
 
 console = Console()
@@ -131,8 +132,7 @@ def run_phase_7a():
             "cost": cost_results
         }
         
-        with open(output_dir / "phase_7a_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "phase_7a_results.json")
             
         # Generate Report
         report_path = Path("reports/human/PHASE_7A_RESULTS.md")

@@ -475,7 +475,7 @@ class MetadataStore:
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)
 
-    def save_run(self, run_context):
+    def _persist_run_record(self, run_context) -> None:
         session = self.Session()
         try:
             record = RunRecord(
@@ -492,6 +492,19 @@ class MetadataStore:
             session.commit()
         finally:
             session.close()
+
+    def save_run(self, run_context):
+        self._persist_run_record(run_context)
+
+        # If persistence is called while the run is active, register a callback
+        # so final status/timestamp are written when the run completes.
+        if getattr(run_context, "status", None) == "running":
+            callback_key = f"metadata_store:{self.engine.url}"
+            if hasattr(run_context, "add_completion_callback"):
+                run_context.add_completion_callback(
+                    callback_key,
+                    lambda completed_run: self._persist_run_record(completed_run),
+                )
     
     def add_dataset(self, dataset_id: str, path: str, checksum: str = None):
         session = self.Session()

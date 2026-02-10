@@ -1,0 +1,34 @@
+{
+  "provenance_note": "Observed values from Phase 1-3 used as fixed inputs in anomaly characterization modules.",
+  "stability_analysis": {
+    "baseline": {
+      "info_density": 4.0,
+      "locality": 3.0,
+      "robustness": 0.7
+    },
+    "control": {
+      "info_density_mean": 1.2,
+      "info_density_std": 0.5,
+      "locality_mean": 8.0,
+      "locality_std": 2.0,
+      "robustness_mean": 0.3,
+      "robustness_std": 0.1
+    }
+  },
+  "capacity_bounding": {
+    "info_density_z": 4.0,
+    "locality_min": 2,
+    "locality_max": 4,
+    "repetition_rate": 0.2,
+    "vocabulary_size": 8000
+  },
+  "constraint_observed_values": {
+    "P1_C1": 0.375,
+    "P1_C2": 0.4,
+    "P1_C3": 0.8,
+    "P22_C1": 4.0,
+    "P23_C1": 0.84,
+    "P23_C2": 0.64,
+    "P23_C4": 4.0
+  }
+}

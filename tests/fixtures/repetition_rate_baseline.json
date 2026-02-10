@@ -13,7 +13,7 @@
       },
       "total_tokens": 2673,
       "unique_tokens": 1215,
-      "vocabulary_entropy_rate": 0.5454545454545454
+      "vocabulary_coverage": 0.5454545454545454
     },
     "metric_name": "RepetitionRate",
     "scope": "global",

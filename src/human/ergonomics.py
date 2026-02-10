@@ -6,9 +6,10 @@ Phase 7A implementation.
 """
 
 import numpy as np
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
+from collections import Counter
+from typing import List, Dict, Any
 import re
+import math
 import logging
 logger = logging.getLogger(__name__)
 
@@ -54,16 +55,29 @@ class ErgonomicsAnalyzer:
         Measures drift in metrics (length, entropy) as a function of line index.
         Expectation: Fatigue may lead to shorter words or lower entropy.
         """
-        # Group metrics by line index
-        pos_lengths = defaultdict(list)
-        pos_entropies = defaultdict(list)
-        
-        for line in lines:
-            # We don't have absolute line index on page here if we just pass a list of lines.
-            # But we can assume the order in the list is the order on the page if grouped by page.
-            pass
+        if not lines:
+            return {
+                "num_lines": 0,
+                "line_length_correlation": 0.0,
+                "entropy_correlation": 0.0,
+                "mean_line_length": 0.0,
+                "mean_line_entropy": 0.0,
+            }
 
-        return {} # To be implemented in the runner with page grouping
+        line_lengths: List[float] = []
+        line_entropies: List[float] = []
+        for line in lines:
+            line_lengths.append(float(sum(len(token) for token in line)))
+            line_entropies.append(self._token_entropy(line))
+
+        indices = np.arange(len(lines), dtype=float)
+        return {
+            "num_lines": len(lines),
+            "line_length_correlation": self._safe_correlation(indices, np.array(line_lengths, dtype=float)),
+            "entropy_correlation": self._safe_correlation(indices, np.array(line_entropies, dtype=float)),
+            "mean_line_length": float(np.mean(line_lengths)) if line_lengths else 0.0,
+            "mean_line_entropy": float(np.mean(line_entropies)) if line_entropies else 0.0,
+        }
 
     def estimate_production_cost(self, tokens: List[str]) -> Dict[str, Any]:
         """
@@ -89,7 +103,13 @@ class ErgonomicsAnalyzer:
         Analyzes drift within a single page.
         """
         if not page_lines:
-            return {}
+            return {
+                "num_lines": 0,
+                "line_length_correlation": 0.0,
+                "word_length_correlation": 0.0,
+                "first_line_avg_word_len": 0.0,
+                "last_line_avg_word_len": 0.0,
+            }
             
         line_lengths = [len(" ".join(line)) for line in page_lines]
         avg_word_lengths = [np.mean([len(w) for w in line]) if line else 0 for line in page_lines]
@@ -97,8 +117,8 @@ class ErgonomicsAnalyzer:
         # Calculate correlations with line index
         indices = np.arange(len(page_lines))
         
-        len_corr = np.corrcoef(indices, line_lengths)[0, 1] if len(indices) > 1 else 0
-        word_len_corr = np.corrcoef(indices, avg_word_lengths)[0, 1] if len(indices) > 1 else 0
+        len_corr = self._safe_correlation(indices, np.array(line_lengths, dtype=float))
+        word_len_corr = self._safe_correlation(indices, np.array(avg_word_lengths, dtype=float))
         
         return {
             "num_lines": len(page_lines),
@@ -107,3 +127,26 @@ class ErgonomicsAnalyzer:
             "first_line_avg_word_len": float(avg_word_lengths[0]),
             "last_line_avg_word_len": float(avg_word_lengths[-1])
         }
+
+    def _token_entropy(self, line: List[str]) -> float:
+        """Shannon entropy over token frequency for one line."""
+        if not line:
+            return 0.0
+        counts = Counter(line)
+        total = len(line)
+        entropy = 0.0
+        for count in counts.values():
+            p = count / total
+            entropy -= p * math.log2(p)
+        return float(entropy)
+
+    def _safe_correlation(self, x: np.ndarray, y: np.ndarray) -> float:
+        """Correlation helper that avoids NaN on constant vectors."""
+        if len(x) < 2 or len(y) < 2:
+            return 0.0
+        if np.allclose(y, y[0]):
+            return 0.0
+        corr = np.corrcoef(x, y)[0, 1]
+        if np.isnan(corr):
+            return 0.0
+        return float(corr)

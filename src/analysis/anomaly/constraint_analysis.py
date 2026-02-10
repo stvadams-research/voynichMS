@@ -22,6 +22,7 @@ from analysis.anomaly.interface import (
     ConstraintSource,
     ConstraintType,
 )
+from foundation.config import get_anomaly_observed_values
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +63,8 @@ class ConstraintIntersectionAnalyzer:
     """
 
     def __init__(self):
+        observed_cfg = get_anomaly_observed_values()
+        self.observed_values = observed_cfg.get("constraint_observed_values", {})
         self.constraints: List[ConstraintRecord] = []
         self.models: List[str] = []
         self.all_intersections: List[ConstraintIntersection] = []
@@ -84,7 +87,7 @@ class ConstraintIntersectionAnalyzer:
                 description="Glyph identity is segmentation-dependent (37.5% collapse on shift)",
                 excludes_models=["natural_language_fixed_alphabet"],
                 threshold=0.20,
-                observed_value=0.375,
+                observed_value=float(self.observed_values.get("P1_C1", 0.375)),
             ),
             ConstraintRecord(
                 constraint_id="P1_C2",
@@ -93,7 +96,7 @@ class ConstraintIntersectionAnalyzer:
                 description="Strong positional constraints (entropy 0.40)",
                 excludes_models=["random_generation", "uniform_distribution"],
                 threshold=0.60,
-                observed_value=0.40,
+                observed_value=float(self.observed_values.get("P1_C2", 0.40)),
             ),
             ConstraintRecord(
                 constraint_id="P1_C3",
@@ -102,7 +105,7 @@ class ConstraintIntersectionAnalyzer:
                 description="Scrambled data shows >80% anchor degradation",
                 excludes_models=["position_independent_encoding"],
                 threshold=0.50,
-                observed_value=0.80,
+                observed_value=float(self.observed_values.get("P1_C3", 0.80)),
             ),
         ])
 
@@ -148,7 +151,7 @@ class ConstraintIntersectionAnalyzer:
                     "cs_procedural_generation",  # Note: problematic but survived
                 ],
                 threshold=2.0,
-                observed_value=4.0,
+                observed_value=float(self.observed_values.get("P22_C1", 4.0)),
             ),
             ConstraintRecord(
                 constraint_id="P22_C2",
@@ -186,7 +189,7 @@ class ConstraintIntersectionAnalyzer:
                     "vg_diagram_annotation",
                 ],
                 threshold=0.50,
-                observed_value=0.84,
+                observed_value=float(self.observed_values.get("P23_C1", 0.84)),
             ),
             ConstraintRecord(
                 constraint_id="P23_C2",
@@ -195,7 +198,7 @@ class ConstraintIntersectionAnalyzer:
                 description="Glossolalia model fails at ordering perturbation",
                 excludes_models=["cs_glossolalia"],
                 threshold=0.60,
-                observed_value=0.64,
+                observed_value=float(self.observed_values.get("P23_C2", 0.64)),
             ),
             ConstraintRecord(
                 constraint_id="P23_C3",
@@ -211,7 +214,7 @@ class ConstraintIntersectionAnalyzer:
                 description="Procedural generation fails info density prediction",
                 excludes_models=[],  # Survived but with caveat
                 threshold=2.0,
-                observed_value=4.0,
+                observed_value=float(self.observed_values.get("P23_C4", 4.0)),
             ),
         ])
 

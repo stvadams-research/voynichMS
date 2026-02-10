@@ -18,6 +18,7 @@ from rich.table import Table
 
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
+from foundation.core.provenance import ProvenanceWriter
 from functional.adversarial.metrics import AdversarialAnalyzer
 from functional.formal_system.simulators import LatticeTraversalSimulator
 from functional.adversarial.simulators import AdversarialLatticeSimulator
@@ -129,9 +130,7 @@ def run_phase_6c():
         # 4. Save Artifacts
         output_dir = Path("results/functional/phase_6c")
         output_dir.mkdir(parents=True, exist_ok=True)
-        
-        with open(output_dir / "phase_6c_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "phase_6c_results.json")
             
         # Generate Report
         report_path = Path("reports/functional/PHASE_6C_RESULTS.md")

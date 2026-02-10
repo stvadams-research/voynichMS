@@ -6,7 +6,6 @@ Phase 7C: Comparative Formal Artifact Analysis Runner
 import sys
 import json
 from pathlib import Path
-import numpy as np
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -17,41 +16,14 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+from foundation.core.queries import get_lines_from_store
+from foundation.core.provenance import ProvenanceWriter
 from foundation.runs.manager import active_run
-from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
+from foundation.storage.metadata import MetadataStore
 from human.comparative import ComparativeAnalyzer
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
-
-def get_lines(store, dataset_id):
-    session = store.Session()
-    try:
-        tokens_recs = (
-            session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
-            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
-            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
-            .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
-            .all()
-        )
-        
-        lines = []
-        current_line = []
-        last_line_id = None
-        
-        for content, line_id in tokens_recs:
-            if last_line_id and line_id != last_line_id:
-                lines.append(current_line)
-                current_line = []
-            current_line.append(content)
-            last_line_id = line_id
-        if current_line:
-            lines.append(current_line)
-            
-        return lines
-    finally:
-        session.close()
 
 def run_phase_7c():
     console.print(Panel.fit(
@@ -76,7 +48,7 @@ def run_phase_7c():
         fingerprints = {}
         for ds_id in datasets:
             console.print(f"  Processing {ds_id}...")
-            lines = get_lines(store, ds_id)
+            lines = get_lines_from_store(store, ds_id)
             if lines:
                 fingerprints[ds_id] = analyzer.calculate_fingerprint(lines)
             else:
@@ -122,8 +94,7 @@ def run_phase_7c():
             "distances_from_voynich": distances
         }
         
-        with open(output_dir / "phase_7c_results.json", "w") as out_file:
-            json.dump(results, out_file, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "phase_7c_results.json")
             
         # Generate Report
         report_path = Path("reports/human/PHASE_7C_RESULTS.md")

@@ -14,7 +14,6 @@ Objectives:
 
 import sys
 from pathlib import Path
-import json
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -25,8 +24,7 @@ from rich.table import Table
 from rich.panel import Panel
 
 from foundation.runs.manager import active_run
-from foundation.storage.metadata import MetadataStore, PageRecord, LineRecord, WordRecord
-from foundation.core.ids import PageID
+from foundation.storage.metadata import MetadataStore, DatasetRecord
 from foundation.core.id_factory import DeterministicIDFactory
 from foundation.core.provenance import ProvenanceWriter
 from foundation.config import DEFAULT_SEED
@@ -42,6 +40,14 @@ from analysis.stress_tests.locality import LocalityTest
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
+
+
+def _dataset_exists(store: MetadataStore, dataset_id: str) -> bool:
+    session = store.Session()
+    try:
+        return session.query(DatasetRecord).filter(DatasetRecord.id == dataset_id).first() is not None
+    finally:
+        session.close()
 
 def main():
     console.print(Panel.fit(
@@ -128,20 +134,17 @@ def main():
                             bbox={"x":0, "y":0, "w":0, "h":0},
                             confidence=1.0
                         )
-                        # We also need transcription tokens for metrics!
-                        # The metrics often look at TranscriptionTokenRecord or WordRecord features.
-                        # RepetitionRate looks at TranscriptionTokenRecord.
-                        
-                        # Add dummy transcription line/token
-                        trans_line_id = id_factory.next_uuid(f"trans_line:{page_id}:{jar_idx}")
-                        store.add_transcription_line(
-                            id=trans_line_id,
-                            source_id="synthetic",
-                            page_id=page_id,
-                            line_index=jar_idx,
-                            content=" ".join(text_block)
-                        )
-                        
+                    # Repetition and stress tests read transcription tokens.
+                    trans_line_id = id_factory.next_uuid(f"trans_line:{page_id}:{jar_idx}")
+                    store.add_transcription_line(
+                        id=trans_line_id,
+                        source_id="synthetic",
+                        page_id=page_id,
+                        line_index=jar_idx,
+                        content=" ".join(text_block)
+                    )
+
+                    for w_idx, token in enumerate(text_block):
                         token_id = id_factory.next_uuid(f"trans_token:{trans_line_id}:{w_idx}")
                         store.add_transcription_token(
                             id=token_id,
@@ -169,13 +172,27 @@ def main():
         syn_rep_results = rep_metric.calculate(dataset_id)
         syn_rep = syn_rep_results[0].value if syn_rep_results else None
 
-        # TODO: Info Density and Locality require control datasets (audit_scrambled)
-        # that may not exist yet. These should be computed, not hardcoded.
-        # See InformationPreservationTest and LocalityTest.
-        target_z = None  # Must be computed from voynich_real vs scrambled control
-        syn_z = None      # Must be computed from synthesis_baseline vs scrambled control
-        target_loc = None  # Must be computed from LocalityTest
-        syn_loc = None
+        # Compute information density and locality using stress-test implementations.
+        controls = ["shuffled_global"]
+        missing_controls = [cid for cid in controls if not _dataset_exists(store, cid)]
+        if missing_controls:
+            raise RuntimeError(
+                "Missing required control dataset(s) for baseline assessment: "
+                + ", ".join(missing_controls)
+                + ". Run scripts/inference/build_corpora.py first."
+            )
+
+        info_test = InformationPreservationTest(store)
+        real_info = info_test.run("constructed_system", "voynich_real", controls)
+        syn_info = info_test.run("constructed_system", dataset_id, controls)
+        target_z = real_info.metrics.get("z_score")
+        syn_z = syn_info.metrics.get("z_score")
+
+        locality_test = LocalityTest(store)
+        real_loc = locality_test.run("constructed_system", "voynich_real", controls)
+        syn_loc_res = locality_test.run("constructed_system", dataset_id, controls)
+        target_loc = real_loc.metrics.get("locality_radius")
+        syn_loc = syn_loc_res.metrics.get("locality_radius")
 
         # 5. Display Results
         table = Table(title="Baseline Gap Analysis")
@@ -185,7 +202,7 @@ def main():
         table.add_column("Gap", style="red")
 
         def fmt(val):
-            return f"{val:.4f}" if val is not None else "NOT COMPUTED"
+            return f"{val:.4f}" if val is not None else "UNAVAILABLE"
 
         def gap(a, b):
             if a is not None and b is not None:
@@ -208,12 +225,14 @@ def main():
             "info_density_z": {
                 "target": target_z,
                 "synthetic": syn_z,
-                "status": "requires_control_dataset",
+                "gap": (target_z - syn_z) if target_z is not None and syn_z is not None else None,
+                "control_datasets": controls,
             },
             "locality": {
                 "target": target_loc,
                 "synthetic": syn_loc,
-                "status": "requires_control_dataset",
+                "gap": (target_loc - syn_loc) if target_loc is not None and syn_loc is not None else None,
+                "control_datasets": controls,
             }
         }
         

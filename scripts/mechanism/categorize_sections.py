@@ -28,7 +28,7 @@ def get_section(folio_id: str) -> str:
             if start <= num <= end:
                 return name
         return "unknown"
-    except:
+    except (TypeError, ValueError):
         return "unknown"
 
 if __name__ == "__main__":

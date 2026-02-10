@@ -20,6 +20,7 @@ from rich.table import Table
 
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
+from foundation.core.provenance import ProvenanceWriter
 from functional.formal_system.analyzer import FormalSystemAnalyzer
 from functional.formal_system.simulators import LatticeTraversalSimulator
 
@@ -129,9 +130,7 @@ def run_phase_6a():
         # 4. Save Artifacts
         output_dir = Path("results/functional/phase_6a")
         output_dir.mkdir(parents=True, exist_ok=True)
-        
-        with open(output_dir / "phase_6a_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "phase_6a_results.json")
             
         # CSV Artifacts
         import csv

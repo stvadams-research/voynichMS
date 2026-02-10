@@ -19,6 +19,7 @@ from rich.table import Table
 from rich.panel import Panel
 
 from foundation.core.queries import get_lines_from_store
+from foundation.core.provenance import ProvenanceWriter
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore
 from mechanism.deterministic_grammar.simulators import DeterministicSlotSimulator
@@ -79,8 +80,7 @@ def run_pilot_5d():
         
         output_dir = Path("results/mechanism/deterministic_grammar")
         output_dir.mkdir(parents=True, exist_ok=True)
-        with open(output_dir / "pilot_5d_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "pilot_5d_results.json")
             
         store.save_run(run)
 

@@ -19,6 +19,7 @@ from rich.table import Table
 from rich.panel import Panel
 
 from foundation.core.queries import get_lines_from_store
+from foundation.core.provenance import ProvenanceWriter
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore
 from mechanism.large_object.simulators import LargeGridSimulator
@@ -83,8 +84,7 @@ def run_pilot_5e():
         
         output_dir = Path("results/mechanism/large_object")
         output_dir.mkdir(parents=True, exist_ok=True)
-        with open(output_dir / "pilot_5e_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "pilot_5e_results.json")
             
         store.save_run(run)
 

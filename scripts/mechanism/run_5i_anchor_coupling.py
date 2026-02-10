@@ -19,6 +19,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.provenance import ProvenanceWriter
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, AnchorRecord, WordRecord, TranscriptionTokenRecord
 from mechanism.large_object.collision_testing import PathCollisionTester
@@ -52,9 +53,6 @@ def get_tokens_and_anchor_status(store):
         
         anchored_tokens = []
         unanchored_tokens = []
-        
-        # Debugging: show sample of word IDs and anchor status
-        # print(f"DEBUG: Sample word IDs: {[r[1] for r in results[:5]]}")
         
         for content, word_id in results:
             if word_id in anchored_ids:
@@ -115,8 +113,7 @@ def run_anchor_coupling():
         
         output_dir = Path("results/mechanism")
         output_dir.mkdir(parents=True, exist_ok=True)
-        with open(output_dir / "anchor_coupling.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "anchor_coupling.json")
             
         store.save_run(run)
 

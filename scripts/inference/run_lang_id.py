@@ -21,6 +21,8 @@ from rich.panel import Panel
 
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from foundation.config import DEFAULT_SEED
+from foundation.core.provenance import ProvenanceWriter
 from inference.lang_id_transforms.analyzer import LanguageIDAnalyzer
 
 console = Console()
@@ -48,9 +50,11 @@ def run_experiment():
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_lang_id_phase4", "seed": 42}) as run:
+    with active_run(config={"command": "run_lang_id_phase4", "seed": DEFAULT_SEED}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = LanguageIDAnalyzer()
+        seed = int(run.config.get("seed", DEFAULT_SEED))
+        rng = random.Random(seed)
         
         # 1. Build Language Profiles
         console.print("Building language profiles...")
@@ -71,7 +75,7 @@ def run_experiment():
         ]
         # Add some random mappings to simulate large search space
         for _ in range(10):
-            random_map = {c: random.choice('aeiou') for c in 'aeiouy'}
+            random_map = {c: rng.choice('aeiou') for c in 'aeiouy'}
             transforms.append(random_map)
 
         datasets = {
@@ -112,9 +116,7 @@ def run_experiment():
         # Save results
         output_dir = Path("results/phase_4")
         output_dir.mkdir(parents=True, exist_ok=True)
-        
-        with open(output_dir / "lang_id_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "lang_id_results.json")
             
         store.save_run(run)
 

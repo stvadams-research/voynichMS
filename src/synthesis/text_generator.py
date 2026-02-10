@@ -9,6 +9,7 @@ from dataclasses import dataclass, field
 from collections import Counter, defaultdict
 import random
 import math
+import hashlib
 from pathlib import Path
 
 from synthesis.interface import (
@@ -18,6 +19,12 @@ from synthesis.interface import (
     GeneratorType,
 )
 from foundation.config import POSITIONAL_BIAS_PROBABILITY
+
+
+def _stable_seed_fragment(value: Any, modulus: int = 1_000_000) -> int:
+    """Return a stable integer fragment derived from a value."""
+    digest = hashlib.sha256(repr(value).encode("utf-8")).digest()
+    return int.from_bytes(digest[:8], "big") % modulus
 
 
 @dataclass
@@ -135,7 +142,11 @@ class ConstrainedMarkovGenerator:
             next_token = sequence[i + self.order]
 
             if context not in self.states:
-                state_seed = self.seed + hash(context) % 1000000 if self.seed is not None else None
+                state_seed = (
+                    self.seed + _stable_seed_fragment(context)
+                    if self.seed is not None
+                    else None
+                )
                 self.states[context] = MarkovState(context=context, seed=state_seed)
 
             self.states[context].add_transition(next_token)

@@ -1,4 +1,5 @@
 import json
+import math
 import sys
 from pathlib import Path
 from sqlalchemy import create_engine
@@ -15,7 +16,10 @@ def sanitize_for_json(obj):
         return {str(k): sanitize_for_json(v) for k, v in obj.items()}
     elif isinstance(obj, list):
         return [sanitize_for_json(v) for v in obj]
-    elif isinstance(obj, (str, int, float, bool, type(None))):
+    elif isinstance(obj, float):
+        # Keep fixtures strict-JSON compatible.
+        return obj if math.isfinite(obj) else None
+    elif isinstance(obj, (str, int, bool, type(None))):
         return obj
     else:
         return str(obj)

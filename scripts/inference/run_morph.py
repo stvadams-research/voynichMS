@@ -19,6 +19,7 @@ from rich.panel import Panel
 
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from foundation.core.provenance import ProvenanceWriter
 from inference.morph_induction.analyzer import MorphologyAnalyzer
 
 console = Console()
@@ -89,9 +90,7 @@ def run_experiment():
         # Save results
         output_dir = Path("results/phase_4")
         output_dir.mkdir(parents=True, exist_ok=True)
-        
-        with open(output_dir / "morph_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "morph_results.json")
             
         store.save_run(run)
 

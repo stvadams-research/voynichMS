@@ -20,6 +20,7 @@ from rich.table import Table
 from rich.panel import Panel
 
 from foundation.core.queries import get_lines_from_store
+from foundation.core.provenance import ProvenanceWriter
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore
 from mechanism.dependency_scope.simulators import LocalTransitionSimulator, FeatureConditionedSimulator
@@ -89,8 +90,7 @@ def run_pilot_5j():
         # Save results
         output_dir = Path("results/mechanism/dependency_scope")
         output_dir.mkdir(parents=True, exist_ok=True)
-        with open(output_dir / "pilot_5j_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "pilot_5j_results.json")
             
         store.save_run(run)
 

@@ -36,11 +36,14 @@ See `results/reports/FINAL_REPORT_PHASE_3.md` for the full conclusion.
 
 These principles are non-negotiable and apply to all code, data, and experiments.
 
-- **Determinism is Mandatory:** All runs must be reproducible from a seed.
+- **Determinism is Mandatory:** All runs must be reproducible from a seed and
+  verified via `scripts/verify_reproduction.sh` canonical result checks.
 - **Computed, Not Simulated:** No placeholders allowed in final analysis (`REQUIRE_COMPUTED=1`).
 - **Image Geometry is Law:** When there is disagreement, the image wins.
 - **Ambiguity is Preserved:** Do not force decisions early.
 - **Failures are Data:** Anomalies are valuable signals, not bugs to be squashed.
+- **Provenance is First-Class:** Runner outputs are written with provenance and
+  retained under run-scoped history (`by_run`) in addition to latest pointer files.
 
 See `planning/foundation/PRINCIPLES_AND_NONGOALS.md` for the full statement.
 

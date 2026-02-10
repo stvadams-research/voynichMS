@@ -20,6 +20,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.provenance import ProvenanceWriter
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
 from scripts.mechanism.categorize_sections import get_section
@@ -101,9 +102,12 @@ def run_lattice_overlap():
         # Save results
         output_dir = Path("results/mechanism")
         output_dir.mkdir(parents=True, exist_ok=True)
-        with open(output_dir / "lattice_overlap.json", "w") as f:
-            # Json doesn't like tuple keys
-            json.dump([{"s1": r["pair"][0], "s2": r["pair"][1], "common": r["common"], "jaccard": r["jaccard"]} for r in results], f, indent=2)
+        # JSON doesn't like tuple values, so normalize pair fields.
+        serializable_results = [
+            {"s1": r["pair"][0], "s2": r["pair"][1], "common": r["common"], "jaccard": r["jaccard"]}
+            for r in results
+        ]
+        ProvenanceWriter.save_results(serializable_results, output_dir / "lattice_overlap.json")
             
         store.save_run(run)
 

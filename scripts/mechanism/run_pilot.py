@@ -18,6 +18,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.provenance import ProvenanceWriter
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
 from mechanism.generators.pool_generator import PoolGenerator
@@ -108,8 +109,7 @@ def run_pilot():
         
         output_dir = Path("results/mechanism")
         output_dir.mkdir(parents=True, exist_ok=True)
-        with open(output_dir / "pilot_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "pilot_results.json")
             
         store.save_run(run)
 

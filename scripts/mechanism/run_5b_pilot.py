@@ -19,6 +19,7 @@ from rich.table import Table
 from rich.panel import Panel
 
 from foundation.core.queries import get_tokens_and_boundaries
+from foundation.core.provenance import ProvenanceWriter
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore
 from mechanism.generators.pool_generator import PoolGenerator
@@ -105,8 +106,7 @@ def run_pilot_5b():
         
         output_dir = Path("results/mechanism/constraint_geometry")
         output_dir.mkdir(parents=True, exist_ok=True)
-        with open(output_dir / "pilot_5b_results.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "pilot_5b_results.json")
             
         store.save_run(run)
 

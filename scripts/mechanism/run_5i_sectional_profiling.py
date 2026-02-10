@@ -19,6 +19,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
+from foundation.core.provenance import ProvenanceWriter
 from foundation.runs.manager import active_run
 from foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
 from mechanism.constraint_geometry.latent_state import LatentStateAnalyzer
@@ -102,8 +103,7 @@ def run_sectional_profiling():
         # Save results
         output_dir = Path("results/mechanism")
         output_dir.mkdir(parents=True, exist_ok=True)
-        with open(output_dir / "sectional_profiles.json", "w") as f:
-            json.dump(results, f, indent=2)
+        ProvenanceWriter.save_results(results, output_dir / "sectional_profiles.json")
             
         store.save_run(run)
 

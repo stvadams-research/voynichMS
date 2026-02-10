@@ -5,7 +5,7 @@ Derives bounds on what kinds of systems could theoretically satisfy the constrai
 Compares against known system classes.
 
 Methodological note on circularity:
-- ``OBSERVED_*`` constants are Phase 2.2/2.3 measurements used as INPUTS.
+- Observed values are loaded from ``configs/analysis/anomaly_observed.json``.
 - This module asks whether non-semantic systems could produce those values.
 - It does not re-test whether those observed values are themselves anomalous.
 - See docs/METHODS_REFERENCE.md for the full cross-phase data-flow disclosure.
@@ -13,8 +13,10 @@ Methodological note on circularity:
 
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
+import math
 
 from analysis.anomaly.interface import CapacityBound, StructuralFeasibilityRegion
+from foundation.config import get_anomaly_observed_values
 import logging
 logger = logging.getLogger(__name__)
 
@@ -42,14 +44,13 @@ class CapacityBoundingAnalyzer:
     Derives structural capacity bounds from observed constraints.
     """
 
-    # Observed values from Phase 2.2/2.3
-    OBSERVED_INFO_DENSITY_Z = 4.0
-    OBSERVED_LOCALITY_MIN = 2
-    OBSERVED_LOCALITY_MAX = 4
-    OBSERVED_REPETITION_RATE = 0.20
-    OBSERVED_VOCABULARY_SIZE = 8000  # approximate unique tokens
-
     def __init__(self):
+        observed = get_anomaly_observed_values().get("capacity_bounding", {})
+        self.observed_info_density_z = float(observed.get("info_density_z", 4.0))
+        self.observed_locality_min = int(observed.get("locality_min", 2))
+        self.observed_locality_max = int(observed.get("locality_max", 4))
+        self.observed_repetition_rate = float(observed.get("repetition_rate", 0.20))
+        self.observed_vocabulary_size = int(observed.get("vocabulary_size", 8000))
         self.bounds: List[CapacityBound] = []
         self.system_classes: List[SystemClass] = []
         self.feasibility_region: StructuralFeasibilityRegion = StructuralFeasibilityRegion()
@@ -62,14 +63,16 @@ class CapacityBoundingAnalyzer:
 
         # === LOWER BOUNDS ===
 
-        # Memory lower bound: must store enough states for observed info density
-        # High info density (z=4.0) suggests significant state complexity
+        # Memory lower bound: must store enough states for observed vocabulary.
+        memory_bits = math.log2(max(2, self.observed_vocabulary_size))
         memory_lower = CapacityBound(
             property_name="memory",
             bound_type="lower",
-            bound_value=12.0,  # bits - log2(vocabulary_size) ~ 13 bits
+            bound_value=round(memory_bits, 2),
             derived_from=["P22_C1 (info density)", "P22_C4 (vocabulary size)"],
-            derivation_method="log2(vocabulary_size) = log2(8000) ≈ 13 bits",
+            derivation_method=(
+                f"log2(vocabulary_size={self.observed_vocabulary_size}) ≈ {memory_bits:.2f} bits"
+            ),
             comparable_systems={
                 "random_markov": 8.0,
                 "natural_language": 15.0,
@@ -114,8 +117,8 @@ class CapacityBoundingAnalyzer:
         locality_upper = CapacityBound(
             property_name="locality_radius",
             bound_type="upper",
-            bound_value=4.0,
-            derived_from=["P22_C2 (locality radius 2-4)"],
+            bound_value=float(self.observed_locality_max),
+            derived_from=[f"P22_C2 (locality radius {self.observed_locality_min}-{self.observed_locality_max})"],
             derivation_method="Direct observation from Phase 2.2",
             comparable_systems={
                 "random_sequence": 0.0,  # no locality
@@ -266,10 +269,14 @@ class CapacityBoundingAnalyzer:
                 consistent = False
                 reasons.append(f"locality too high ({sc.locality_range[0]} > {locality_upper.bound_value})")
 
-            # Check info density (must overlap with observed z=4.0)
-            if sc.info_density_range[1] < 3.5 or sc.info_density_range[0] > 5.0:
+            # Check info density overlap around observed anomaly value.
+            lower_band = self.observed_info_density_z - 0.5
+            upper_band = self.observed_info_density_z + 1.0
+            if sc.info_density_range[1] < lower_band or sc.info_density_range[0] > upper_band:
                 consistent = False
-                reasons.append(f"info density range {sc.info_density_range} doesn't match z=4.0")
+                reasons.append(
+                    f"info density range {sc.info_density_range} doesn't match z={self.observed_info_density_z:.1f}"
+                )
 
             # Check dependency depth
             depth_lower = next(
@@ -305,13 +312,13 @@ class CapacityBoundingAnalyzer:
 
         # Derive required properties
         region.required_properties = [
-            "Memory capacity ≥ 12 bits",
+            f"Memory capacity ≥ {math.log2(max(2, self.observed_vocabulary_size)):.1f} bits",
             "State complexity ≥ 16 states",
             "Dependency depth ≥ 2 levels",
-            "Locality radius ≤ 4 units",
+            f"Locality radius ≤ {self.observed_locality_max} units",
             "Compositional complexity ≤ 3 levels",
             "Local compositional structure",
-            "Bounded vocabulary with moderate repetition",
+            f"Bounded vocabulary with moderate repetition (≈{self.observed_repetition_rate:.2f})",
         ]
 
         return region

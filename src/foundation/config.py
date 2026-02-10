@@ -321,17 +321,42 @@ def use_real_computation(category: str) -> bool:
     return USE_REAL_COMPUTATIONS.get(category, False)
 
 
+def _load_json_config(config_path: Path, config_label: str) -> Dict[str, Any]:
+    """
+    Load JSON config with explicit missing-file policy.
+
+    Policy is controlled by ``MISSING_CONFIG_POLICY``:
+    - ``error`` (default): raise FileNotFoundError / ValueError.
+    - ``warn``: log and return empty dict for backward compatibility.
+    """
+    policy = os.getenv("MISSING_CONFIG_POLICY", "error").strip().lower()
+
+    if not config_path.exists():
+        message = f"{config_label} config not found at {config_path}"
+        if policy == "warn":
+            logger.warning("%s; returning empty configuration due to warn policy.", message)
+            return {}
+        raise FileNotFoundError(
+            f"{message}. Set MISSING_CONFIG_POLICY=warn to continue with empty defaults."
+        )
+
+    try:
+        with open(config_path, "r") as f:
+            return json.load(f)
+    except json.JSONDecodeError as exc:
+        message = f"{config_label} config at {config_path} is invalid JSON"
+        if policy == "warn":
+            logger.warning("%s; returning empty configuration due to warn policy.", message)
+            return {}
+        raise ValueError(message) from exc
+
+
 def get_model_params() -> Dict[str, Any]:
     """
     Load externalized model parameters from JSON config.
     """
     config_path = Path("configs/functional/model_params.json")
-    if not config_path.exists():
-        logger.warning("Model params config not found at %s, using empty dict", config_path)
-        return {}
-    
-    with open(config_path, "r") as f:
-        return json.load(f)
+    return _load_json_config(config_path, "Model params")
 
 
 def get_analysis_thresholds() -> Dict[str, Any]:
@@ -339,9 +364,12 @@ def get_analysis_thresholds() -> Dict[str, Any]:
     Load centralized analysis thresholds from JSON config.
     """
     config_path = Path("configs/analysis/thresholds.json")
-    if not config_path.exists():
-        logger.warning("Analysis thresholds config not found at %s, using empty dict", config_path)
-        return {}
+    return _load_json_config(config_path, "Analysis thresholds")
 
-    with open(config_path, "r") as f:
-        return json.load(f)
+
+def get_anomaly_observed_values() -> Dict[str, Any]:
+    """
+    Load observed anomaly/reference values used as phase-input constants.
+    """
+    config_path = Path("configs/analysis/anomaly_observed.json")
+    return _load_json_config(config_path, "Anomaly observed values")

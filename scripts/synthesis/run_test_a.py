@@ -12,9 +12,9 @@ Mechanism:
 - No novelty penalties or scoring
 """
 
+import argparse
 import sys
 from pathlib import Path
-import json
 import random
 
 # Add src to path
@@ -35,10 +35,14 @@ from foundation.metrics.library import RepetitionRate
 from foundation.core.provenance import ProvenanceWriter
 
 console = Console()
-DB_PATH = "sqlite:///data/voynich.db"
+DEFAULT_DB_URL = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
 
-def run_test_a():
+def run_test_a(
+    seed: int = DEFAULT_SEED,
+    output_path: str = "status/synthesis/TEST_A_RESULTS.json",
+    db_url: str = DEFAULT_DB_URL,
+):
     console.print(Panel.fit(
         "[bold blue]Phase 3.3.2: Test A - Maximal Mechanical Reuse[/bold blue]\n"
         "One-shot falsification of the repetition gap",
@@ -49,17 +53,24 @@ def run_test_a():
         console.print("[bold red]Error: Grammar file not found. Run Step 3.2.2 first.[/bold red]")
         return
 
-    with active_run(config={"command": "test_a_mechanical_reuse", "seed": DEFAULT_SEED}) as run:
-        store = MetadataStore(DB_PATH)
-        id_factory = DeterministicIDFactory(seed=DEFAULT_SEED)
-        generator = GrammarBasedGenerator(GRAMMAR_PATH)
+    with active_run(
+        config={
+            "command": "test_a_mechanical_reuse",
+            "seed": seed,
+            "db_url": db_url,
+        }
+    ) as run:
+        store = MetadataStore(db_url)
+        store.add_transcription_source("synthetic", "Synthetic Generator")
+        id_factory = DeterministicIDFactory(seed=seed)
+        generator = GrammarBasedGenerator(GRAMMAR_PATH, seed=seed)
         
         pool_sizes = [10, 20, 30]
         results = {}
 
         for size in pool_sizes:
             console.print(f"\n[bold yellow]Testing Pool Size: {size}[/bold yellow]")
-            dataset_id = f"test_a_pool_{size}"
+            dataset_id = f"test_a_pool_{size}_s{seed}"
             store.add_dataset(dataset_id, "generated")
             
             # Generate 5 pages per pool size for one-shot test
@@ -68,12 +79,12 @@ def run_test_a():
             session = store.Session()
             try:
                 for p_idx in range(num_pages):
-                    page_id = f"syn_reuse_{size}_{p_idx}"
+                    page_id = f"syn_reuse_{seed}_{size}_{p_idx}"
                     store.add_page(page_id, dataset_id, "placeholder.jpg", f"hash_{size}_{p_idx}", 1000, 1500)
                     
                     # 1. Generate the pool for this page
                     # Deterministic pool per page based on seed + page_id
-                    page_rng = random.Random(f"pool_{size}_{page_id}")
+                    page_rng = random.Random(f"pool_{seed}_{size}_{page_id}")
                     token_pool = [generator.generate_word() for _ in range(size)]
                     
                     # 2. Fill the page (blindly reuse from pool)
@@ -118,9 +129,28 @@ def run_test_a():
         console.print(table)
         
         # Save results
-        ProvenanceWriter.save_results(results, "status/synthesis/TEST_A_RESULTS.json")
+        ProvenanceWriter.save_results(results, output_path)
             
         store.save_run(run)
 
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run deterministic Test A synthesis check.")
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEED, help="Seed for deterministic generation.")
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="status/synthesis/TEST_A_RESULTS.json",
+        help="Path to output JSON results file.",
+    )
+    parser.add_argument(
+        "--db-url",
+        type=str,
+        default=DEFAULT_DB_URL,
+        help="SQLAlchemy URL for metadata database.",
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    run_test_a()
+    args = _parse_args()
+    run_test_a(seed=args.seed, output_path=args.output, db_url=args.db_url)

@@ -5,12 +5,12 @@ Ensures the anomaly is not an artifact of representation or metric choice.
 Recomputes information density under alternate conditions.
 """
 
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Tuple, Optional
 from dataclasses import dataclass, field
 import math
 
 from analysis.anomaly.interface import StabilityEnvelope
-from foundation.config import get_analysis_thresholds
+from foundation.config import get_analysis_thresholds, get_anomaly_observed_values
 import logging
 logger = logging.getLogger(__name__)
 
@@ -41,21 +41,38 @@ class AnomalyStabilityAnalyzer:
     an independent derivation of the baseline itself.
     """
 
-    # Control values (scrambled/synthetic)
-    CONTROL_INFO_DENSITY_MEAN = 1.2
-    CONTROL_INFO_DENSITY_STD = 0.5
-    CONTROL_LOCALITY_MEAN = 8.0
-    CONTROL_LOCALITY_STD = 2.0
-
     def __init__(
         self,
-        baseline_info_density: float = 4.0,
-        baseline_locality: float = 3.0,
-        baseline_robustness: float = 0.70,
+        baseline_info_density: Optional[float] = None,
+        baseline_locality: Optional[float] = None,
+        baseline_robustness: Optional[float] = None,
     ):
-        self.baseline_info_density = baseline_info_density
-        self.baseline_locality = baseline_locality
-        self.baseline_robustness = baseline_robustness
+        observed = get_anomaly_observed_values()
+        stability_cfg = observed.get("stability_analysis", {})
+        baseline_cfg = stability_cfg.get("baseline", {})
+        control_cfg = stability_cfg.get("control", {})
+
+        self.baseline_info_density = float(
+            baseline_info_density
+            if baseline_info_density is not None
+            else baseline_cfg.get("info_density", 4.0)
+        )
+        self.baseline_locality = float(
+            baseline_locality
+            if baseline_locality is not None
+            else baseline_cfg.get("locality", 3.0)
+        )
+        self.baseline_robustness = float(
+            baseline_robustness
+            if baseline_robustness is not None
+            else baseline_cfg.get("robustness", 0.70)
+        )
+        self.control_info_density_mean = float(control_cfg.get("info_density_mean", 1.2))
+        self.control_info_density_std = float(control_cfg.get("info_density_std", 0.5))
+        self.control_locality_mean = float(control_cfg.get("locality_mean", 8.0))
+        self.control_locality_std = float(control_cfg.get("locality_std", 2.0))
+        self.control_robustness_mean = float(control_cfg.get("robustness_mean", 0.30))
+        self.control_robustness_std = float(control_cfg.get("robustness_std", 0.10))
         self.variants: List[RepresentationVariant] = []
         self.envelopes: List[StabilityEnvelope] = []
         self.sensitivity_thresholds = (
@@ -176,20 +193,20 @@ class AnomalyStabilityAnalyzer:
             self.compute_stability_envelope(
                 "info_density",
                 self.baseline_info_density,
-                self.CONTROL_INFO_DENSITY_MEAN,
-                self.CONTROL_INFO_DENSITY_STD,
+                self.control_info_density_mean,
+                self.control_info_density_std,
             ),
             self.compute_stability_envelope(
                 "locality_radius",
                 self.baseline_locality,
-                self.CONTROL_LOCALITY_MEAN,
-                self.CONTROL_LOCALITY_STD,
+                self.control_locality_mean,
+                self.control_locality_std,
             ),
             self.compute_stability_envelope(
                 "robustness",
                 self.baseline_robustness,
-                0.30,  # Control robustness is low
-                0.10,
+                self.control_robustness_mean,
+                self.control_robustness_std,
             ),
         ]
 

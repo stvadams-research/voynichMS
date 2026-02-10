@@ -61,8 +61,8 @@ class FileSystemStorage(StorageInterface):
                 prefix=".tmp_",
                 suffix="_" + target.name
             ) as tmp:
-                tmp.write(data)
                 tmp_path = tmp.name
+                tmp.write(data)
 
             # Atomic rename (on POSIX systems; on Windows, replaces if exists)
             os.replace(tmp_path, target)

@@ -12,7 +12,6 @@ Generates and registers all required matched corpora:
 
 import sys
 from pathlib import Path
-import json
 import random
 import re
 
@@ -32,6 +31,16 @@ from foundation.controls.mechanical_reuse import MechanicalReuseGenerator
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 LATIN_FILE = Path("data/inference/latin_corpus.txt")
+SOURCE_ID = "corpus_gen"
+
+
+def _ensure_transcription_source(store, source_id: str = SOURCE_ID) -> None:
+    """Ensure synthetic corpus ingestion source metadata exists."""
+    store.add_transcription_source(
+        source_id,
+        name="Corpus Generator",
+        citation="scripts/inference/build_corpora.py",
+    )
 
 def build_latin_corpus(store, target_count):
     console.print(f"\n[bold yellow]Building Latin Corpus ({target_count} tokens)[/bold yellow]")
@@ -71,8 +80,8 @@ def build_shuffled_control(store, source_id, target_id):
             .all()
         )
         token_list = [t[0] for t in tokens]
-        random.seed(42)
-        random.shuffle(token_list)
+        rng = random.Random(42)
+        rng.shuffle(token_list)
         
         _ingest_tokens(store, target_id, token_list, "negative_control_shuffled")
     finally:
@@ -82,30 +91,27 @@ def _ingest_tokens(store, dataset_id, tokens, type_label):
     from foundation.core.id_factory import DeterministicIDFactory
     id_factory = DeterministicIDFactory(seed=42)
     
+    _ensure_transcription_source(store, SOURCE_ID)
     store.add_dataset(dataset_id, type_label)
     
     tokens_per_page = 1000
-    num_pages = len(tokens) // tokens_per_page
-    
-    session = store.Session()
-    try:
-        for p_idx in range(num_pages):
-            page_id = f"{dataset_id}_p{p_idx}"
-            store.add_page(page_id, dataset_id, "synthetic", f"hash_{page_id}", 1000, 1500)
-            
-            start = p_idx * tokens_per_page
-            end = start + tokens_per_page
-            page_tokens = tokens[start:end]
-            
-            trans_line_id = id_factory.next_uuid(f"line:{page_id}")
-            store.add_transcription_line(trans_line_id, "corpus_gen", page_id, 0, " ".join(page_tokens))
-            
-            for w_idx, token in enumerate(page_tokens):
-                token_id = id_factory.next_uuid(f"token:{trans_line_id}:{w_idx}")
-                store.add_transcription_token(token_id, trans_line_id, w_idx, token)
-        session.commit()
-    finally:
-        session.close()
+
+    for p_idx, start in enumerate(range(0, len(tokens), tokens_per_page)):
+        end = start + tokens_per_page
+        page_tokens = tokens[start:end]
+        if not page_tokens:
+            continue
+
+        page_id = f"{dataset_id}_p{p_idx}"
+        store.add_page(page_id, dataset_id, "synthetic", f"hash_{page_id}", 1000, 1500)
+
+        trans_line_id = id_factory.next_uuid(f"line:{page_id}")
+        store.add_transcription_line(trans_line_id, SOURCE_ID, page_id, 0, " ".join(page_tokens))
+
+        for w_idx, token in enumerate(page_tokens):
+            token_id = id_factory.next_uuid(f"token:{trans_line_id}:{w_idx}")
+            store.add_transcription_token(token_id, trans_line_id, w_idx, token)
+
     console.print(f"  [green]Registered {len(tokens)} tokens in {dataset_id}[/green]")
 
 def main():

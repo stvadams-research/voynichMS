@@ -12,6 +12,7 @@ from analysis.models.interface import (
     DisconfirmationResult,
     ModelStatus,
 )
+from foundation.config import get_model_params
 
 logger = logging.getLogger(__name__)
 
@@ -63,8 +64,31 @@ class DisconfirmationEngine:
         ),
     ]
 
-    def __init__(self, store):
+    def __init__(self, store, perturbation_battery: List[PerturbationConfig] | None = None):
         self.store = store
+        self.perturbation_battery = perturbation_battery or self._load_perturbation_battery()
+
+    def _load_perturbation_battery(self) -> List[PerturbationConfig]:
+        """Load perturbation battery from config when available."""
+        params = get_model_params()
+        configured = params.get("disconfirmation", {}).get("perturbation_battery", [])
+        if not configured:
+            return list(self.PERTURBATION_BATTERY)
+
+        battery: List[PerturbationConfig] = []
+        for item in configured:
+            try:
+                battery.append(
+                    PerturbationConfig(
+                        perturbation_type=str(item["perturbation_type"]),
+                        description=str(item.get("description", item["perturbation_type"])),
+                        strength_levels=[float(v) for v in item.get("strength_levels", [])],
+                        failure_threshold=float(item.get("failure_threshold", 0.6)),
+                    )
+                )
+            except (KeyError, TypeError, ValueError):
+                logger.warning("Invalid perturbation config entry; skipping: %s", item)
+        return battery or list(self.PERTURBATION_BATTERY)
 
     def run_full_battery(self, model: ExplicitModel,
                          dataset_id: str) -> List[DisconfirmationResult]:
@@ -80,7 +104,7 @@ class DisconfirmationEngine:
         """
         results = []
 
-        for config in self.PERTURBATION_BATTERY:
+        for config in self.perturbation_battery:
             for strength in config.strength_levels:
                 result = self._run_perturbation(
                     model, dataset_id, config, strength
