@@ -1,18 +1,18 @@
 # PHASE 4.5: FINAL CLOSURE STATEMENT
 
 **Date:** 2026-02-07  
-**Status:** PROJECT TERMINATED (Exhaustive)  
+**Status:** FRAMEWORK-BOUNDED CLOSURE  
 **Project:** Voynich Manuscript – Structural Admissibility Program
 
 ---
 
-## 1. Terminal Determination
+## 1. Framework-Bounded Determination
 
 The Voynich Manuscript Structural Admissibility Program has completed its evaluation of the artifact's structural and inferential landscape.
 
-The program's terminal determination is:
+The program's determination within the tested framework is:
 
-**The Voynich Manuscript is structurally indistinguishable from a non-semantic procedural artifact.**
+**Under tested structural and computational diagnostics, the Voynich Manuscript is structurally consistent with non-semantic procedural artifact classes.**
 
 No statistical or computational method tested—including information clustering, network analysis, topic modeling, and morphology induction—has successfully separated the manuscript from sophisticated mechanical generative models. 
 
@@ -25,26 +25,68 @@ We have established that:
 2.  **Repetition is Mechanical:** The manuscript's 90% repetition rate is fully explainable by bounded token pools (sizes 10-30) and does not require semantic intent.
 3.  **Inference is Non-Diagnostic:** Current "proofs" of language in the literature are based on metrics that are highly susceptible to false positives from non-semantic structured gibberish.
 
-The pursuit of translation or semantic identification based on the manuscript's current statistical representation is **scientifically unjustified**.
+Within this framework and current data, translation/semantic identification claims are **not evidentially supported**.
 
 ---
 
 ## 3. Criteria for Reopening
 
-This project remains closed unless new work can satisfy at least one of the following "Gatekeeper" criteria:
+This project is conditionally closed unless new work can satisfy at least one of the following "Gatekeeper" criteria:
 
 1.  **Irreducible Signal:** Identification of a statistical signal that survives comparison against all known non-semantic structured generators and cannot be reproduced without latent-state coupling.
 2.  **External Grounding:** The discovery of independent external evidence (e.g., a bilingual crib or non-textual structural alignment) that bypasses pure text statistics.
 3.  **Framework Shift:** A formally specified and acknowledged change to the admissibility framework that introduces new, falsifiable assumptions.
 
-Absent these, the Voynich Manuscript is concluded to be a testament to the power of mechanical rules to simulate the depth of language.
+Absent these, the current closure remains a bounded inference about structural indistinguishability under tested methods.
+
+Canonical criteria reference: `docs/REOPENING_CRITERIA.md`.
 
 ---
 
-## 4. Final Metadata
+## 4. What This Does Not Claim
+
+This closure statement does not claim:
+
+- proof of authorial intent,
+- universal semantic impossibility under all future evidence,
+- final historical interpretation of manuscript purpose.
+
+For internal non-claim boundaries and mechanism-specific limits, see:
+
+- `results/reports/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
+
+---
+
+## 5. Operational Entitlement State
+
+Canonical operational entitlement source:
+
+- `status/audit/release_gate_health_status.json`
+
+Current gate-health class: `GATE_HEALTH_DEGRADED`.
+
+While gate health remains degraded, closure language is operationally contingent and should be interpreted as qualified/reopenable rather than terminal.
+
+---
+
+## 6. Final Metadata
 - **Final Audit Status:** Green (Audit-Ready)
 - **Primary Findings:** [Phase 2 Final Report](FINAL_REPORT_PHASE_2.md), [Phase 3 Final Report](FINAL_REPORT_PHASE_3.md), [Phase 4 Results](PHASE_4_RESULTS.md).
-- **Archive:** All runs, code, and data are frozen and traceable.
+- **Archive:** Runs, code, and data are traceable under current provenance policy with explicit historical qualifiers.
+
+## 7. Historical Provenance Confidence
+
+Historical run-traceability confidence is currently classified as `PROVENANCE_QUALIFIED`
+while legacy orphaned rows remain in the run ledger.
+
+Canonical provenance confidence source:
+
+- `status/audit/provenance_health_status.json`
+
+Policy source:
+
+- `docs/HISTORICAL_PROVENANCE_POLICY.md`
+- `docs/PROVENANCE.md`
 
 ---
-**PROJECT CLOSED**
+**PROJECT CONDITIONALLY CLOSED WITHIN CURRENT FRAMEWORK (OPERATIONALLY CONTINGENT; REOPENABLE PER CRITERIA)**

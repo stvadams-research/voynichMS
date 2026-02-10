@@ -12,6 +12,54 @@ echo "1. Checking environment..."
 echo "2. Linting..."
 # ruff check src tests # Commented out until ruff is configured/installed properly in this env, but intended for future.
 
+# 2a. Release Gate-Health Artifact
+echo "2a. Building release gate-health artifact..."
+"${PYTHON_BIN}" scripts/audit/build_release_gate_health_status.py > /dev/null
+
+# 2b. Claim-Boundary Policy
+echo "2b. Checking claim boundaries..."
+"${PYTHON_BIN}" scripts/skeptic/check_claim_boundaries.py --mode ci
+
+# 2c. Control-Comparability Policy
+echo "2c. Building control matching/data-availability artifacts..."
+"${PYTHON_BIN}" scripts/synthesis/run_control_matching_audit.py --preflight-only > /dev/null
+echo "2c. Checking control comparability policy..."
+"${PYTHON_BIN}" scripts/skeptic/check_control_comparability.py --mode ci
+echo "2c. Checking control data-availability policy..."
+"${PYTHON_BIN}" scripts/skeptic/check_control_data_availability.py --mode ci
+
+# 2d. Closure-Conditionality Policy
+echo "2d. Checking closure conditionality policy..."
+"${PYTHON_BIN}" scripts/skeptic/check_closure_conditionality.py --mode ci
+
+# 2e. Comparative-Uncertainty Policy
+echo "2e. Checking comparative uncertainty policy..."
+"${PYTHON_BIN}" scripts/skeptic/check_comparative_uncertainty.py --mode ci
+
+# 2f. Report-Coherence Policy
+echo "2f. Checking report coherence policy..."
+"${PYTHON_BIN}" scripts/skeptic/check_report_coherence.py --mode ci
+
+# 2g. Provenance-Uncertainty Policy
+echo "2g. Building provenance health artifact..."
+"${PYTHON_BIN}" scripts/audit/build_provenance_health_status.py > /dev/null
+echo "2g. Synchronizing provenance register..."
+"${PYTHON_BIN}" scripts/audit/sync_provenance_register.py > /dev/null
+echo "2g. Checking provenance uncertainty policy..."
+"${PYTHON_BIN}" scripts/skeptic/check_provenance_uncertainty.py --mode ci
+
+# 2h. Provenance Runner Contract
+echo "2h. Checking provenance runner contract..."
+"${PYTHON_BIN}" scripts/audit/check_provenance_runner_contract.py --mode ci
+
+# 2i. Sensitivity artifact/report contract
+echo "2i. Checking sensitivity artifact contract..."
+"${PYTHON_BIN}" scripts/audit/check_sensitivity_artifact_contract.py --mode ci
+
+# 2j. Multimodal coupling status contract
+echo "2j. Checking multimodal coupling policy..."
+"${PYTHON_BIN}" scripts/skeptic/check_multimodal_coupling.py --mode ci
+
 # 3. Tests + Coverage Gate (phased baseline)
 echo "3. Running Tests with Coverage..."
 COVERAGE_STAGE="${COVERAGE_STAGE:-3}"

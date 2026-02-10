@@ -11,8 +11,21 @@ Phase B demonstrates that while the Voynich Manuscript can be situated nearest t
 ### 2. Functional, Not Intentional
 We have identified **what the text does** (exhausts states, follows rules, resets at boundaries) but Phase B proves that **why it does so** remains externally underdetermined.
 
-### 3. Closure of Text-Internal Comparison
-No further amount of statistical or structural comparison against natural languages or known ciphers will yield a closer match. The "Linguistic" and "Cipher" hypotheses are structurally distant outliers in this morphospace.
+### 3. Closure of Text-Internal Comparison (Framework-Bounded)
+Within the current comparative library and text-internal feature set, additional statistical or structural comparison against natural languages or known ciphers is unlikely to materially reduce the observed structural distance. The "Linguistic" and "Cipher" hypotheses remain distant outliers in this morphospace.
+
+This boundary is conditionally bounded, not terminal. It remains reopenable under the canonical criteria in `docs/REOPENING_CRITERIA.md`.
+
+Comparative-distance interpretation is uncertainty-qualified and must be read with `results/human/phase_7c_uncertainty.json` (currently `INCONCLUSIVE_UNCERTAINTY`, reason `TOP2_GAP_FRAGILE`).
 
 ### 4. Required Evidence for Extension
-To move beyond Phase B would require **new non-textual evidence** (e.g., physical discovery of tools, direct historical testimony) that is not contained within the manuscript itself.
+To move beyond Phase B requires evidence that satisfies reopening criteria (for example irreducible signal, external grounding, or framework shift), including **new non-textual evidence** such as physical discovery of tools or direct historical testimony.
+
+### Operational Entitlement State
+Canonical operational entitlement source:
+
+- `status/audit/release_gate_health_status.json`
+
+Current gate-health class: `GATE_HEALTH_DEGRADED`.
+
+Under this degraded gate state, closure claims remain operationally contingent and should be treated as bounded pending restoration of release/reproduction gate integrity.

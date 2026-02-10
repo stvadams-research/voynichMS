@@ -5,23 +5,27 @@ Produces text by selecting from a small pool of grammar-compliant tokens per pag
 """
 
 import random
-from typing import List, Dict, Any, Optional
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 from foundation.controls.interface import ControlGenerator
 from synthesis.generators.grammar_based import GrammarBasedGenerator
-from pathlib import Path
 import logging
+
 logger = logging.getLogger(__name__)
 
 class MechanicalReuseGenerator(ControlGenerator):
     """
     Generates text using a rigid grammar and bounded token pools.
 
-    Generated tokens bypass EVAParser normalization intentionally: control
-    tokens are emitted directly from an already-normalized synthetic alphabet.
+    Normalization modes:
+    - parser: parser-equivalent canonicalization for symmetry.
+    - pre_normalized_with_assertions: enforce already-normalized token stream.
     """
     def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: Dict[str, Any] = None) -> str:
         rng = random.Random(seed)
         params = params or {}
+        normalization_mode = self._resolve_normalization_mode(params)
 
         target_tokens = params.get("target_tokens", 230000)
         pool_size = params.get("pool_size", 25)
@@ -45,16 +49,32 @@ class MechanicalReuseGenerator(ControlGenerator):
                     break
                 tokens.append(rng.choice(page_pool))
 
+        normalized_tokens, normalization = self._normalize_tokens_for_control(
+            tokens, mode=normalization_mode
+        )
+
         # Ingest
-        self._ingest_tokens(control_id, tokens, seed=seed)
+        metadata = {
+            "source_dataset_id": source_dataset_id,
+            "params": dict(params),
+            "normalization": normalization,
+        }
+        self._ingest_tokens(control_id, normalized_tokens, seed=seed, metadata=metadata)
 
         return control_id
 
-    def _ingest_tokens(self, dataset_id: str, tokens: List[str], seed: int):
+    def _ingest_tokens(self, dataset_id: str, tokens: List[str], seed: int, metadata: Dict[str, Any]):
         """Helper to register synthetic tokens in the database."""
         from foundation.core.id_factory import DeterministicIDFactory
         id_factory = DeterministicIDFactory(seed=seed)
 
+        self.store.add_control_dataset(
+            id=dataset_id,
+            source_dataset_id=str(metadata.get("source_dataset_id", "unknown")),
+            type="mechanical_reuse",
+            params=metadata,
+            seed=seed,
+        )
         self.store.add_dataset(dataset_id, "generated_mechanical_reuse")
         self.store.add_transcription_source("synthetic", "Synthetic Control Generator")
 

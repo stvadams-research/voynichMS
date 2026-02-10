@@ -793,7 +793,9 @@ class MetadataStore:
                 score=score,
                 method_id=method_id
             )
-            session.add(record)
+            # Upsert by deterministic anchor id so reruns refresh anchor evidence
+            # without violating primary-key constraints.
+            session.merge(record)
             session.commit()
         finally:
             session.close()

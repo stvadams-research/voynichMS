@@ -1,0 +1,164 @@
+{
+  "version": "2026-02-10",
+  "description": "SK-H3.2 data-availability policy for bounded control-comparability outcomes.",
+  "dataset_id": "voynich_real",
+  "expected_pages": [
+    "f88r",
+    "f88v",
+    "f89r",
+    "f89v",
+    "f90r",
+    "f90v",
+    "f91r",
+    "f91v",
+    "f92r",
+    "f92v",
+    "f93r",
+    "f93v",
+    "f94r",
+    "f94v",
+    "f95r",
+    "f95v",
+    "f96r",
+    "f96v"
+  ],
+  "approved_lost_pages": [
+    "f91r",
+    "f91v",
+    "f92r",
+    "f92v"
+  ],
+  "allowed_reason_codes": [
+    "DATA_AVAILABILITY"
+  ],
+  "required_doc_markers": [
+    {
+      "id": "control_policy_data_availability",
+      "scopes": [
+        "docs/CONTROL_COMPARABILITY_POLICY.md"
+      ],
+      "markers": [
+        "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json",
+        "DATA_AVAILABILITY",
+        "evidence_scope",
+        "full_data_closure_eligible",
+        "available_subset"
+      ]
+    },
+    {
+      "id": "repro_data_availability_commands",
+      "scopes": [
+        "docs/REPRODUCIBILITY.md"
+      ],
+      "markers": [
+        "check_control_data_availability.py",
+        "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json",
+        "available_subset"
+      ]
+    },
+    {
+      "id": "runbook_data_availability_commands",
+      "scopes": [
+        "docs/RUNBOOK.md"
+      ],
+      "markers": [
+        "check_control_data_availability.py",
+        "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json"
+      ]
+    }
+  ],
+  "artifact_policy": {
+    "tracked_artifacts": [
+      {
+        "path": "status/synthesis/TURING_TEST_RESULTS.json",
+        "required_in_modes": [
+          "release"
+        ],
+        "allowed_statuses": [
+          "BLOCKED",
+          "PREFLIGHT_OK"
+        ],
+        "required_result_keys": [
+          "status",
+          "strict_computed",
+          "preflight"
+        ],
+        "required_preflight_keys": [
+          "dataset_id",
+          "expected_pages",
+          "available_pages_normalized",
+          "missing_pages",
+          "missing_count"
+        ]
+      },
+      {
+        "path": "status/synthesis/CONTROL_COMPARABILITY_STATUS.json",
+        "required_in_modes": [
+          "release"
+        ],
+        "allowed_statuses": [
+          "NON_COMPARABLE_BLOCKED",
+          "INCONCLUSIVE_DATA_LIMITED",
+          "COMPARABLE_QUALIFIED",
+          "COMPARABLE_CONFIRMED"
+        ],
+        "required_result_keys": [
+          "status",
+          "reason_code",
+          "allowed_claim",
+          "evidence_scope",
+          "full_data_closure_eligible",
+          "available_subset_status",
+          "available_subset_reason_code",
+          "missing_pages",
+          "missing_count",
+          "data_availability_policy_pass"
+        ]
+      },
+      {
+        "path": "status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json",
+        "required_in_modes": [
+          "ci",
+          "release"
+        ],
+        "allowed_statuses": [
+          "DATA_AVAILABILITY_BLOCKED",
+          "DATA_AVAILABILITY_CLEAR"
+        ],
+        "required_result_keys": [
+          "status",
+          "reason_code",
+          "dataset_id",
+          "evidence_scope",
+          "full_data_closure_eligible",
+          "expected_pages",
+          "available_pages_normalized",
+          "missing_pages",
+          "missing_count",
+          "approved_lost_pages",
+          "unexpected_missing_pages",
+          "strict_preflight_status",
+          "strict_preflight_reason_code",
+          "strict_computed",
+          "policy_checks",
+          "policy_pass"
+        ]
+      }
+    ]
+  },
+  "status_policy": {
+    "blocked_status": "NON_COMPARABLE_BLOCKED",
+    "blocked_reason_code": "DATA_AVAILABILITY",
+    "blocked_evidence_scope": "available_subset",
+    "allowed_evidence_scopes": [
+      "available_subset",
+      "full_dataset"
+    ],
+    "allowed_claim_markers": [
+      "data availability",
+      "available-subset",
+      "non-conclusive"
+    ]
+  },
+  "allowlist": []
+}

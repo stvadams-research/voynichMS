@@ -85,3 +85,38 @@ bash scripts/verify_reproduction.sh
 - `REQUIRE_COMPUTED=1`: fail when fallback placeholders are hit in strict mode.
 - Seed handling: current scripts are deterministic primarily via internal seeded
   constructors and `active_run(config={"seed": 42, ...})`.
+
+## 9. SK-H3 Control Comparability
+
+Use this sequence before SK-H3-sensitive release claims:
+
+```bash
+python3 scripts/synthesis/run_control_matching_audit.py --preflight-only
+python3 scripts/synthesis/run_indistinguishability_test.py --preflight-only
+python3 scripts/skeptic/check_control_comparability.py --mode ci
+python3 scripts/skeptic/check_control_comparability.py --mode release
+python3 scripts/skeptic/check_control_data_availability.py --mode ci
+python3 scripts/skeptic/check_control_data_availability.py --mode release
+```
+
+Claims based on control comparisons must be bounded by
+`status/synthesis/CONTROL_COMPARABILITY_STATUS.json`.
+Data-availability scope must be read from
+`status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json` before any
+full-closure language is used.
+
+## 10. SK-H1 Multimodal Coupling
+
+Use this sequence before any illustration/layout coupling claim:
+
+```bash
+python3 scripts/mechanism/audit_anchor_coverage.py
+python3 scripts/mechanism/run_5i_anchor_coupling.py
+python3 scripts/skeptic/check_multimodal_coupling.py --mode ci
+python3 scripts/skeptic/check_multimodal_coupling.py --mode release
+```
+
+Claims must be bounded by:
+
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.status`
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`

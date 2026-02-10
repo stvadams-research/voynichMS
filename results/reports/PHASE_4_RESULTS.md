@@ -1,7 +1,7 @@
 # PHASE 4 RESULTS: INFERENCE ADMISSIBILITY
 
 **Date:** 2026-02-07
-**Status:** Method A Evaluation Complete
+**Status:** Phase 4 Evaluation Complete (Methods A-E)
 
 ---
 
@@ -154,12 +154,16 @@ Phase 4 has systematically evaluated five common inference methods used to claim
 **DETERMINATION:**
 None of the widely cited statistical or computational "proofs" of language in the Voynich Manuscript are diagnostic of semantics. They all identify features that are equally (or more) prevalent in purely mechanical production models. The manuscript remains structurally admissible as a non-semantic procedural artifact.
 
+Canonical status source:
+
+- `results/reports/PHASE_4_STATUS_INDEX.json`
+
 | Method | Status | Outcome |
 |--------|--------|---------|
 | **A: Info Clustering** | **COMPLETE** | **NOT DIAGNOSTIC** (False Positives confirmed) |
-| **B: Network Features**| PENDING | |
-| **C: Topic Alignment** | PENDING | |
-| **D: AI Decipherment** | PENDING | |
-| **E: Morph Induction** | PENDING | |
+| **B: Network Features**| **COMPLETE** | **NOT DIAGNOSTIC** (Mechanical clustering can exceed semantic baselines) |
+| **C: Topic Alignment** | **COMPLETE** | **NOT DIAGNOSTIC** (Local frequency shifts produce semantic-like topics) |
+| **D: AI Decipherment** | **COMPLETE** | **NOT DIAGNOSTIC** (Flexible search yields false-positive language matches) |
+| **E: Morph Induction** | **COMPLETE** | **NOT DIAGNOSTIC** (Vocabulary regularities are mechanically reproducible) |
 
-**Conclusion:** The claim that Voynich keyword clustering implies "topical meaning" is structurally unjustified. The signal is entirely consistent with (and even weaker than) simple mechanical production models.
+**Conclusion:** All Phase 4 methods (A-E) are complete and non-diagnostic for semantics under the tested admissibility framework. No contradictory pending-status blocks remain in this final report state.

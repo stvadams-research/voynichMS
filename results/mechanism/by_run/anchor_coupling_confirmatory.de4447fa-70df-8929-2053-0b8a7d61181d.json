@@ -1,0 +1,118 @@
+{
+  "provenance": {
+    "run_id": "de4447fa-70df-8929-2053-0b8a7d61181d",
+    "git_commit": "0fad394e35b143e18d29478b5ef5b92ddd9fdbc4",
+    "timestamp": "2026-02-10T16:18:29.072871+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1770740309072743000,
+    "command": "run_5i_anchor_coupling"
+  },
+  "results": {
+    "generated_at": "2026-02-10T16:18:32Z",
+    "status": "INCONCLUSIVE_UNDERPOWERED",
+    "status_reason": "inferential_ambiguity",
+    "allowed_claim": "Current evidence is underpowered or ambiguous; no conclusive coupling claim is allowed.",
+    "dataset_id": "voynich_real",
+    "transcription_source_id": "zandbergen_landini",
+    "anchor_method": {
+      "id": "ea324d5f-3271-5631-2d7d-0f69f111515f",
+      "name": "geometric_v1_t010",
+      "parameters": {
+        "distance_threshold": 0.1
+      }
+    },
+    "policy": {
+      "selection": {
+        "anchor_relation_types": [
+          "inside",
+          "overlaps",
+          "near"
+        ],
+        "near_score_min": 0.9,
+        "line_anchor_ratio_min": 0.5,
+        "line_unanchored_ratio_max": 0.1
+      },
+      "sampling": {
+        "matched_sampling": true,
+        "max_lines_per_cohort": 1200
+      },
+      "adequacy": {
+        "min_lines_per_cohort": 40,
+        "min_pages_per_cohort": 8,
+        "min_recurring_contexts_per_cohort": 80,
+        "min_balance_ratio": 0.2
+      },
+      "inference": {
+        "bootstrap_iterations": 60,
+        "permutation_iterations": 120,
+        "alpha": 0.05,
+        "coupling_delta_abs_min": 0.03,
+        "no_coupling_delta_abs_max": 0.015
+      }
+    },
+    "cohorts": {
+      "available": {
+        "anchored_line_count": 3162,
+        "unanchored_line_count": 1829,
+        "ambiguous_line_count": 154
+      },
+      "sampled": {
+        "anchored": {
+          "mean_consistency": 0.5026520509193776,
+          "num_recurring_contexts": 202,
+          "max_consistency": 1.0,
+          "line_count": 1200,
+          "token_count": 8049,
+          "page_count": 213
+        },
+        "unanchored": {
+          "mean_consistency": 0.457560568086884,
+          "num_recurring_contexts": 171,
+          "max_consistency": 1.0,
+          "line_count": 1200,
+          "token_count": 7865,
+          "page_count": 215
+        }
+      }
+    },
+    "effect": {
+      "delta_mean_consistency": 0.04509148283249359,
+      "delta_ci_low": -0.008575174046398678,
+      "delta_ci_high": 0.005119373020466798,
+      "p_value": 0.5702479338842975
+    },
+    "adequacy": {
+      "pass": true,
+      "blocked": false,
+      "reasons": [],
+      "metrics": {
+        "available_anchor_line_count": 1200,
+        "available_unanchored_line_count": 1200,
+        "anchored_page_count": 213,
+        "unanchored_page_count": 215,
+        "anchored_recurring_contexts": 202,
+        "unanchored_recurring_contexts": 171,
+        "balance_ratio": 1.0
+      }
+    },
+    "inference": {
+      "decision": "INCONCLUSIVE",
+      "alpha": 0.05,
+      "coupling_delta_abs_min": 0.03,
+      "no_coupling_delta_abs_max": 0.015,
+      "ci_crosses_zero": true,
+      "abs_delta": 0.04509148283249359
+    },
+    "diagnostics": {
+      "anchor_relation_type_counts": {
+        "inside": 3930,
+        "near": 684,
+        "overlaps": 12137
+      },
+      "anchored_word_count": 15521,
+      "token_count_total": 34635,
+      "token_alignment_count": 34635
+    }
+  }
+}

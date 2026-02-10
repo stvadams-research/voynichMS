@@ -14,13 +14,16 @@
 
 ## Scribal Hand Coupling
 
-- **Hand 2 (Currier B):** Mean TTR = 0.6683 (n=44 pages)
-- **Hand 1 (Currier A):** Mean TTR = 0.8551 (n=115 pages)
-- **Significance:** A delta of ~0.19 in token repetition rate across hands indicates that **execution is strongly coupled to the scribal agent**, despite the global mechanism remaining stable.
+- **Hand 2:** Mean TTR = 0.6683 (n=44 pages)
+- **Hand 1:** Mean TTR = 0.8551 (n=115 pages)
+
+## Illustration Proximity Evidence Grade
+
+- **Status:** INCONCLUSIVE_UNDERPOWERED
+- **Interpretation:** Coupling analysis is underpowered or inferentially ambiguous; no conclusive claim is allowed.
+- **Allowed Claim:** Current evidence is underpowered or ambiguous; no conclusive coupling claim is allowed.
 
 ## Final Determination
 
-- **Mixed Coupling Profile:**
-  - **Geometric Coupling (Weak):** Lack of significant boundary adaptation (-0.11 correlation) supports **H7B.2 (External Generation/Copying)**.
-  - **Scribal Coupling (Strong):** Extreme variance in execution signatures (TTR) across scribal hands indicates that while the text may be copied, the **scribe significantly modulates the formal system's instantiation**.
-- **Synthesis:** The Voynich Manuscript appears to be the result of **multiple scribes independently executing or copying a formal system**, where the physical page geometry is secondary to the scribal production mode.
+- **H7B.2 Supported:** Lack of significant boundary adaptation suggests the text may have been copied from an external source.
+- **Illustration-Coupling Guardrail:** Coupling analysis is underpowered or inferentially ambiguous; no conclusive claim is allowed.

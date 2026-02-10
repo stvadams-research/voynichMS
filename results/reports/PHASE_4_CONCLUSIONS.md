@@ -23,6 +23,14 @@ The findings of Phase 4 provide a definitive boundary for interpreting the manus
 - **Language Claims:** Claims that the manuscript "must" be a language because of its statistical properties are **formally unsupported**. The statistical properties of Voynich are entirely consistent with non-semantic procedural generation.
 - **Methodological Collapse:** The widely cited papers (e.g., Montemurro & Zanette 2013, Amancio et al. 2013) are identified as **not diagnostic** of semantics at the manuscript's scale. Their findings, while descriptive, do not support an inference of meaning.
 
+## 2.5 Method Status Source of Truth
+
+Phase 4 method completion and outcome status are canonicalized in:
+
+- `results/reports/PHASE_4_STATUS_INDEX.json`
+
+This avoids drift between summary prose and method-status tables.
+
 ---
 
 ## 3. Final Determination

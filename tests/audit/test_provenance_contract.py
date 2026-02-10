@@ -1,22 +1,28 @@
+import importlib.util
+import json
 from pathlib import Path
 
 
-EXEMPT_DISPLAY_ONLY = {
-    "scripts/analysis/run_phase_2_1.py",
-    "scripts/analysis/run_phase_2_3.py",
-    "scripts/analysis/run_phase_2_4.py",
-    "scripts/synthesis/run_phase_3.py",
-    "scripts/synthesis/run_phase_3_1.py",
-}
+def _load_checker_module():
+    module_path = Path("scripts/audit/check_provenance_runner_contract.py")
+    spec = importlib.util.spec_from_file_location(
+        "check_provenance_runner_contract", module_path
+    )
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
-def test_runner_provenance_contract_enforced():
-    run_files = sorted(Path("scripts").rglob("run_*.py"))
-    missing = []
-    for path in run_files:
-        text = path.read_text(encoding="utf-8")
-        rel = path.as_posix()
-        if "ProvenanceWriter" not in text and rel not in EXEMPT_DISPLAY_ONLY:
-            missing.append(rel)
+def test_runner_provenance_contract_enforced_ci_and_release():
+    checker = _load_checker_module()
+    policy = json.loads(
+        Path("configs/audit/provenance_runner_contract.json").read_text(
+            encoding="utf-8"
+        )
+    )
 
-    assert missing == []
+    ci_errors = checker.run_checks(policy, root=Path("."), mode="ci")
+    release_errors = checker.run_checks(policy, root=Path("."), mode="release")
+    assert ci_errors == []
+    assert release_errors == []

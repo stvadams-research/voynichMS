@@ -8,17 +8,20 @@ Sensitivity sweep assets:
 
 - Runner: `scripts/analysis/run_sensitivity_sweep.py`
 - Machine-readable output: `status/audit/sensitivity_sweep.json` (provenance-wrapped)
+- Quality diagnostics sidecar: `status/audit/sensitivity_quality_diagnostics.json`
+- Runtime progress file: `status/audit/sensitivity_progress.json`
 - Human report: `reports/audit/SENSITIVITY_RESULTS.md`
-- Latest canonical run snapshot:
-  - Date: `2026-02-10T05:52:43Z`
-  - Provenance command: `run_sensitivity_sweep`
-  - Execution mode: `release`
-  - Dataset: `voynich_synthetic_grammar` (`18` pages, `216` tokens)
-  - Executed scenarios: `17/17`
-  - Release evidence ready: `True`
-  - Robustness decision: `PASS`
-  - Quality gate passed: `True`
-  - Robustness conclusive: `True`
+- Latest run metadata should be read from:
+  - `status/audit/sensitivity_sweep.json` -> `provenance.timestamp`, `results.summary.*`
+- Contract policy: `configs/audit/sensitivity_artifact_contract.json`
+- Contract checker: `scripts/audit/check_sensitivity_artifact_contract.py`
+
+Contract checks:
+
+```bash
+python3 scripts/audit/check_sensitivity_artifact_contract.py --mode ci
+python3 scripts/audit/check_sensitivity_artifact_contract.py --mode release
+```
 
 Current evidence caveat policy:
 
@@ -26,6 +29,8 @@ Current evidence caveat policy:
 - `release_evidence_ready` is only true when all conditions are met:
   - release mode,
   - full scenario execution,
+  - dataset representativeness policy pass (`dataset_policy_pass=true`),
+  - warning burden policy pass (`warning_policy_pass=true`),
   - quality gate passed,
   - conclusive robustness decision (`PASS` or `FAIL`, not `INCONCLUSIVE`).
 - If robustness is `INCONCLUSIVE`, release evidence readiness must remain false.
@@ -36,8 +41,10 @@ Interpretation policy:
 - Robustness is only considered PASS when quality gates also pass:
   - valid scenario rate threshold,
   - no all-scenario zero-survivor collapse,
+  - warning burden thresholds (aggregate + per-scenario density),
   - explicit caveat review.
 - Release automation (`pre_release_check.sh` and `verify_reproduction.sh`) enforces the same conclusive+quality policy.
+- If warnings are present (`total_warning_count > 0`), caveat output must be non-empty.
 
 ## Purpose
 
@@ -74,10 +81,51 @@ This analysis tests whether high-level conclusions remain stable under controlle
    - Perturbation paths with sparse records use deterministic fallback estimates
      (`computed_from: "sparse_data_estimate"`) rather than NaN propagation.
    - Sparse-data fallback remains explicit in metrics payloads via `fallback_reason`.
+   - Warning families are tracked separately:
+     - insufficient-data warnings,
+     - sparse-data warnings,
+     - NaN-sanitized warnings,
+     - fallback-estimate warnings.
 6. Apply robustness gate only if quality conditions are satisfied.
 7. Write outputs:
    - `status/audit/sensitivity_sweep.json`
+   - `status/audit/sensitivity_progress.json`
+   - `status/audit/sensitivity_quality_diagnostics.json`
    - `reports/audit/SENSITIVITY_RESULTS.md`
+
+## Testability Modes
+
+Use reduced-cost runs for development and debugging; reserve release mode for final evidence.
+
+- **Release mode (authoritative evidence):**
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real
+```
+
+- **Iterative mode (faster, representative workflow checks):**
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode iterative
+```
+
+- **Quick shortcut (forces iterative defaults):**
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode smoke --quick
+```
+
+`--quick` defaults to:
+
+- dataset `voynich_synthetic_grammar`,
+- reduced scenario subset,
+- scenario cap suitable for local iteration.
+
+Progress can be tailed at any time:
+
+```bash
+cat status/audit/sensitivity_progress.json
+```
 
 ## Required Caveat Reporting
 
@@ -85,6 +133,10 @@ This analysis tests whether high-level conclusions remain stable under controlle
 
 - valid scenario rate,
 - insufficient-data scenario count,
+- sparse-data scenario count,
+- warning density per scenario,
+- warning policy pass/fail,
+- dataset policy pass/fail,
 - whether all scenarios had zero surviving models,
 - explicit caveat bullets,
 - final robustness decision (`PASS`, `FAIL`, or `INCONCLUSIVE`).

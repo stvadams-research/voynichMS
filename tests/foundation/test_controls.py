@@ -1,4 +1,5 @@
 import json
+import re
 
 import pytest
 
@@ -126,3 +127,39 @@ def test_mechanical_reuse_generator_produces_tokens_and_is_deterministic(store, 
     assert tokens_a
     assert len(tokens_a) == 40
     assert tokens_a == tokens_b
+
+
+def test_synthetic_null_generator_parser_mode_canonicalizes_tokens(store):
+    _seed_source_dataset(store)
+    # Add a token containing parser-noise characters.
+    store.add_transcription_token("source_t4", "source_l1", 3, "qo-k?e.dy")
+
+    generator = SyntheticNullGenerator(store)
+    params = {
+        "num_pages": 1,
+        "lines_per_page": 1,
+        "tokens_per_line": 6,
+        "normalization_mode": "parser",
+    }
+    generator.generate("source_ds", "synthetic_parser_mode", seed=7, params=params)
+    tokens = _tokens_for_dataset(store, "synthetic_parser_mode")
+
+    assert tokens
+    assert all(re.fullmatch(r"[a-z]+", token) for token in tokens)
+
+
+def test_synthetic_null_generator_pre_normalized_mode_rejects_invalid_source_tokens(store):
+    _seed_source_dataset(store)
+    # Invalid token for strict pre-normalized mode.
+    store.add_transcription_token("source_t4", "source_l1", 3, "qo-ke?dy")
+
+    generator = SyntheticNullGenerator(store)
+    params = {
+        "num_pages": 1,
+        "lines_per_page": 1,
+        "tokens_per_line": 2,
+        "normalization_mode": "pre_normalized_with_assertions",
+    }
+
+    with pytest.raises(ValueError):
+        generator.generate("source_ds", "synthetic_strict_mode", seed=7, params=params)

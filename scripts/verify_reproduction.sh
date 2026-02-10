@@ -105,8 +105,17 @@ echo "5. Checking regression fixtures..."
 # Note: In a real CI, we would diff against LOCKED fixtures.
 # Here we just ensure the generation runs without error.
 
+# 5b. Provenance Runner Contract Check
+echo "5b. Checking provenance runner contract..."
+"${PYTHON_BIN}" scripts/audit/check_provenance_runner_contract.py --mode release
+
+# 5c. Multimodal Coupling Status Check
+echo "5c. Checking multimodal coupling policy..."
+"${PYTHON_BIN}" scripts/skeptic/check_multimodal_coupling.py --mode release
+
 # 6. Sensitivity Artifact Integrity Check
 echo "6. Checking sensitivity artifact integrity..."
+"${PYTHON_BIN}" scripts/audit/check_sensitivity_artifact_contract.py --mode release
 "${PYTHON_BIN}" - <<'PY'
 import json
 from pathlib import Path
@@ -132,6 +141,11 @@ quality_gate_passed = summary.get("quality_gate_passed")
 robustness_conclusive = summary.get("robustness_conclusive")
 scenario_expected = summary.get("scenario_count_expected")
 scenario_executed = summary.get("scenario_count_executed")
+dataset_policy_pass = summary.get("dataset_policy_pass")
+warning_policy_pass = summary.get("warning_policy_pass")
+warning_density = summary.get("warning_density_per_scenario")
+total_warning_count = summary.get("total_warning_count")
+caveats = summary.get("caveats")
 
 if dataset_id in (None, "unknown_legacy", "real"):
     raise SystemExit(f"Invalid sensitivity dataset_id: {dataset_id}")
@@ -139,6 +153,16 @@ if command == "sensitivity_sweep_legacy_reconcile":
     raise SystemExit("Sensitivity status still indicates legacy reconciliation command.")
 if execution_mode != "release":
     raise SystemExit(f"Sensitivity execution_mode must be 'release'; got {execution_mode!r}")
+if dataset_policy_pass is not True:
+    raise SystemExit(
+        "Sensitivity dataset policy is not satisfied "
+        "(dataset_policy_pass=true required)."
+    )
+if warning_policy_pass is not True:
+    raise SystemExit(
+        "Sensitivity warning policy is not satisfied "
+        "(warning_policy_pass=true required)."
+    )
 if release_ready is not True:
     raise SystemExit(
         "Sensitivity artifact is not marked release_evidence_ready=true. "
@@ -162,6 +186,15 @@ if quality_gate_passed is not True:
     raise SystemExit(
         "Sensitivity quality gate failed; release verification requires sufficient valid scenarios "
         "and non-collapse conditions."
+    )
+if warning_density is None:
+    raise SystemExit("Sensitivity summary missing warning_density_per_scenario.")
+if total_warning_count is None:
+    raise SystemExit("Sensitivity summary missing total_warning_count.")
+if total_warning_count > 0 and (not isinstance(caveats, list) or len(caveats) == 0):
+    raise SystemExit(
+        "Sensitivity warnings exist but caveats list is empty. "
+        "Warning-bearing evidence must include explicit caveats."
     )
 
 report_text = report_path.read_text(encoding="utf-8")
@@ -258,6 +291,164 @@ if [ "${VERIFY_STRICT:-0}" = "1" ]; then
     REQUIRE_COMPUTED=1 "${PYTHON_BIN}" -m pytest -q tests/foundation/test_enforcement.py > /dev/null
     echo "  [OK] Additional strict enforcement checks passed."
 fi
+
+# 9. SK-H3 control-comparability policy checks
+echo "9. Checking SK-H3 control comparability policy..."
+"${PYTHON_BIN}" scripts/synthesis/run_control_matching_audit.py --preflight-only > /dev/null
+"${PYTHON_BIN}" scripts/skeptic/check_control_comparability.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/skeptic/check_control_data_availability.py --mode release > /dev/null
+"${PYTHON_BIN}" - <<'PY'
+import json
+from pathlib import Path
+
+status_path = Path("status/synthesis/CONTROL_COMPARABILITY_STATUS.json")
+availability_path = Path("status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json")
+if not status_path.exists():
+    raise SystemExit("Missing status/synthesis/CONTROL_COMPARABILITY_STATUS.json")
+if not availability_path.exists():
+    raise SystemExit("Missing status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json")
+
+results = json.loads(status_path.read_text(encoding="utf-8")).get("results", {})
+availability = json.loads(availability_path.read_text(encoding="utf-8")).get("results", {})
+required = [
+    "status",
+    "reason_code",
+    "allowed_claim",
+    "evidence_scope",
+    "full_data_closure_eligible",
+    "available_subset_status",
+    "available_subset_reason_code",
+    "missing_pages",
+    "missing_count",
+    "matching_metrics",
+    "holdout_evaluation_metrics",
+    "metric_overlap",
+    "leakage_detected",
+    "normalization_mode",
+]
+missing = [k for k in required if k not in results]
+if missing:
+    raise SystemExit(f"SK-H3 comparability artifact missing keys: {missing}")
+if results.get("leakage_detected") is True:
+    raise SystemExit("SK-H3 comparability artifact indicates leakage_detected=true")
+if results.get("status") == "NON_COMPARABLE_BLOCKED":
+    if results.get("reason_code") != "DATA_AVAILABILITY":
+        raise SystemExit(
+            "SK-H3 blocked comparability must use reason_code=DATA_AVAILABILITY."
+        )
+    if results.get("evidence_scope") != "available_subset":
+        raise SystemExit(
+            "SK-H3 blocked comparability must set evidence_scope=available_subset."
+        )
+    if results.get("full_data_closure_eligible") is not False:
+        raise SystemExit(
+            "SK-H3 blocked comparability must set full_data_closure_eligible=false."
+        )
+    if availability.get("status") != "DATA_AVAILABILITY_BLOCKED":
+        raise SystemExit(
+            "SK-H3 blocked comparability requires DATA_AVAILABILITY_BLOCKED artifact."
+        )
+    if results.get("missing_count") != availability.get("missing_count"):
+        raise SystemExit(
+            "SK-H3 comparability and data-availability missing_count mismatch."
+        )
+else:
+    if results.get("evidence_scope") not in ("full_dataset", "available_subset"):
+        raise SystemExit(
+            f"SK-H3 comparability has invalid evidence_scope={results.get('evidence_scope')!r}."
+        )
+
+print("  [OK] SK-H3 comparability policy checks passed.")
+PY
+
+# 10. SK-M2 comparative uncertainty policy checks
+echo "10. Checking SK-M2 comparative uncertainty policy..."
+"${PYTHON_BIN}" scripts/comparative/run_proximity_uncertainty.py --iterations 2000 --seed 42 > /dev/null
+"${PYTHON_BIN}" scripts/skeptic/check_comparative_uncertainty.py --mode release > /dev/null
+"${PYTHON_BIN}" - <<'PY'
+import json
+from pathlib import Path
+
+path = Path("results/human/phase_7c_uncertainty.json")
+if not path.exists():
+    raise SystemExit("Missing results/human/phase_7c_uncertainty.json")
+
+results = json.loads(path.read_text(encoding="utf-8")).get("results", {})
+required = [
+    "status",
+    "reason_code",
+    "allowed_claim",
+    "nearest_neighbor",
+    "nearest_neighbor_stability",
+    "jackknife_nearest_neighbor_stability",
+    "rank_stability",
+    "rank_stability_components",
+    "nearest_neighbor_probability_margin",
+    "top2_gap",
+    "metric_validity",
+]
+missing = [k for k in required if k not in results]
+if missing:
+    raise SystemExit(f"SK-M2 uncertainty artifact missing keys: {missing}")
+metric_validity = results.get("metric_validity") or {}
+if metric_validity.get("required_fields_present") is not True:
+    raise SystemExit("SK-M2 uncertainty artifact has incomplete required status inputs.")
+if metric_validity.get("sufficient_iterations") is not True:
+    raise SystemExit("SK-M2 uncertainty artifact reports insufficient iteration depth.")
+
+print("  [OK] SK-M2 comparative uncertainty policy checks passed.")
+PY
+
+# 11. SK-M4 historical provenance policy checks
+echo "11. Checking SK-M4 historical provenance policy..."
+"${PYTHON_BIN}" scripts/audit/build_release_gate_health_status.py > /dev/null
+"${PYTHON_BIN}" scripts/audit/build_provenance_health_status.py > /dev/null
+"${PYTHON_BIN}" scripts/audit/sync_provenance_register.py > /dev/null
+"${PYTHON_BIN}" scripts/skeptic/check_provenance_uncertainty.py --mode release > /dev/null
+"${PYTHON_BIN}" - <<'PY'
+import json
+from pathlib import Path
+
+provenance_path = Path("status/audit/provenance_health_status.json")
+sync_path = Path("status/audit/provenance_register_sync_status.json")
+if not provenance_path.exists():
+    raise SystemExit("Missing status/audit/provenance_health_status.json")
+if not sync_path.exists():
+    raise SystemExit("Missing status/audit/provenance_register_sync_status.json")
+
+prov = json.loads(provenance_path.read_text(encoding="utf-8"))
+sync = json.loads(sync_path.read_text(encoding="utf-8"))
+required_prov = [
+    "status",
+    "reason_code",
+    "allowed_claim",
+    "orphaned_rows",
+    "orphaned_ratio",
+    "threshold_policy_pass",
+    "contract_health_status",
+    "contract_health_reason_code",
+    "contract_reason_codes",
+    "contract_coupling_pass",
+]
+missing = [k for k in required_prov if k not in prov]
+if missing:
+    raise SystemExit(f"SK-M4 provenance artifact missing keys: {missing}")
+if sync.get("status") != "IN_SYNC":
+    raise SystemExit(
+        f"SK-M4 register sync status must be IN_SYNC (got {sync.get('status')!r})."
+    )
+if sync.get("drift_detected") is not False:
+    raise SystemExit("SK-M4 register sync artifact reports drift_detected=true.")
+
+print("  [OK] SK-M4 historical provenance policy checks passed.")
+PY
+
+# 12. SK-H2.2 / SK-M1.2 operational entitlement policy checks
+echo "12. Checking SK-H2.2 / SK-M1.2 operational entitlement policy..."
+"${PYTHON_BIN}" scripts/audit/build_release_gate_health_status.py > /dev/null
+"${PYTHON_BIN}" scripts/skeptic/check_claim_boundaries.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/skeptic/check_closure_conditionality.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/skeptic/check_report_coherence.py --mode release > /dev/null
 
 VERIFICATION_COMPLETE=1
 echo "${VERIFY_SUCCESS_TOKEN}"

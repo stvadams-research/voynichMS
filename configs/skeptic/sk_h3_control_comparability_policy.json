@@ -1,0 +1,155 @@
+{
+  "version": "2026-02-10",
+  "description": "SK-H3 control comparability policy for anti-circularity and normalization symmetry.",
+  "tracked_files": [
+    "docs/GENERATOR_MATCHING.md",
+    "docs/METHODS_REFERENCE.md",
+    "docs/REPRODUCIBILITY.md",
+    "scripts/synthesis/run_indistinguishability_test.py",
+    "scripts/synthesis/run_control_matching_audit.py",
+    "scripts/skeptic/check_control_data_availability.py"
+  ],
+  "required_doc_markers": [
+    {
+      "id": "generator_matching_partition",
+      "scopes": [
+        "docs/GENERATOR_MATCHING.md"
+      ],
+      "markers": [
+        "matching_metrics",
+        "holdout_evaluation_metrics",
+        "target leakage"
+      ]
+    },
+    {
+      "id": "methods_normalization_symmetry",
+      "scopes": [
+        "docs/METHODS_REFERENCE.md"
+      ],
+      "markers": [
+        "normalization symmetry",
+        "parser",
+        "pre_normalized_with_assertions"
+      ]
+    },
+    {
+      "id": "repro_sk_h3_section",
+      "scopes": [
+        "docs/REPRODUCIBILITY.md"
+      ],
+      "markers": [
+        "SK-H3",
+        "check_control_comparability.py",
+        "run_control_matching_audit.py",
+        "check_control_data_availability.py",
+        "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json"
+      ]
+    }
+  ],
+  "banned_patterns": [
+    {
+      "id": "doc_tuned_then_concluded",
+      "pattern": "tuned to look like Voynich, then used to argue Voynich is non-semantic",
+      "scopes": [
+        "docs/GENERATOR_MATCHING.md",
+        "docs/METHODS_REFERENCE.md"
+      ],
+      "case_insensitive": true
+    }
+  ],
+  "artifact_policy": {
+    "tracked_artifacts": [
+      {
+        "path": "status/synthesis/TURING_TEST_RESULTS.json",
+        "required_in_modes": [
+          "release"
+        ],
+        "allowed_statuses": [
+          "COMPARABLE_CONFIRMED",
+          "COMPARABLE_QUALIFIED",
+          "INCONCLUSIVE_DATA_LIMITED",
+          "NON_COMPARABLE_BLOCKED"
+        ],
+        "required_result_keys": [
+          "status",
+          "strict_computed",
+          "comparability"
+        ],
+        "required_comparability_keys": [
+          "matching_metrics",
+          "holdout_evaluation_metrics",
+          "metric_overlap",
+          "leakage_detected",
+          "normalization_mode",
+          "status"
+        ]
+      },
+      {
+        "path": "status/synthesis/CONTROL_COMPARABILITY_STATUS.json",
+        "required_in_modes": [
+          "release"
+        ],
+        "allowed_statuses": [
+          "COMPARABLE_CONFIRMED",
+          "COMPARABLE_QUALIFIED",
+          "INCONCLUSIVE_DATA_LIMITED",
+          "NON_COMPARABLE_BLOCKED"
+        ],
+        "required_result_keys": [
+          "status",
+          "comparability_grade",
+          "matching_metrics",
+          "holdout_evaluation_metrics",
+          "metric_overlap",
+          "leakage_detected",
+          "normalization_mode",
+          "allowed_claim",
+          "reason_code",
+          "evidence_scope",
+          "full_data_closure_eligible",
+          "available_subset_status",
+          "available_subset_reason_code",
+          "missing_pages",
+          "missing_count",
+          "data_availability_policy_pass"
+        ],
+        "status_policy": {
+          "blocked_status": "NON_COMPARABLE_BLOCKED",
+          "allowed_block_reason_codes": [
+            "DATA_AVAILABILITY",
+            "TARGET_LEAKAGE"
+          ],
+          "required_block_fields": [
+            "evidence_scope",
+            "full_data_closure_eligible"
+          ],
+          "data_availability_reason_codes": [
+            "DATA_AVAILABILITY"
+          ],
+          "data_availability_expected_scope": "available_subset"
+        }
+      }
+    ]
+  },
+  "metric_partition_policy": {
+    "matching_metrics": [
+      "repetition_rate",
+      "information_density",
+      "locality_radius"
+    ],
+    "holdout_evaluation_metrics": [
+      "mean_word_length",
+      "positional_entropy"
+    ],
+    "max_metric_overlap": 0,
+    "status_block_on_overlap": true
+  },
+  "normalization_policy": {
+    "allowed_modes": [
+      "parser",
+      "pre_normalized_with_assertions"
+    ],
+    "default_mode": "parser"
+  },
+  "allowlist": []
+}

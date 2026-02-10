@@ -23,12 +23,57 @@ synthesis, mechanism, inference, and human/codicological tracks), with
 ongoing audit hardening and reproducibility verification.
 
 ### Key Findings
-1.  **Language Hypothesis Falsified:** Mapping stability tests (0.02) confirm the manuscript is not a natural language or simple cipher.
-2.  **Structural Anomaly:** High information density (z=5.68) and strong locality (2-4 units) persist.
-3.  **Mechanism Identified:** The manuscript is mechanically explainable as a two-stage procedural system: a rigid glyph-level grammar combined with a bounded selection pool.
-4.  **Generative Reconstruction:** We have successfully reverse-engineered the grammar but identified that the selection process is not purely stochastic.
+1.  **Natural-language/simple-cipher hypotheses are not supported within tested diagnostics:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic under the current framework.
+2.  **Structural anomaly persists:** High information density (z=5.68) and strong locality (2-4 units) remain stable across tested analyses.
+3.  **Mechanism class identified:** The manuscript is structurally consistent with a two-stage procedural system: rigid glyph-level grammar plus bounded selection pools.
+4.  **Generative reconstruction bounded:** Grammar-level reconstruction succeeded, while selection dynamics remain constrained rather than fully closed.
 
 See `results/reports/FINAL_REPORT_PHASE_3.md` for the full conclusion.
+
+## Conclusion Scope
+
+The conclusions in this repository are **framework-bounded**:
+
+- They apply to the tested structural/computational diagnostics over currently available manuscript data.
+- They establish what is and is not supported by this evidence class.
+- They do not claim universal impossibility of meaning under all conceivable future evidence.
+
+Primary boundary references:
+
+- `results/reports/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
+- `results/reports/PHASE_4_5_CLOSURE_STATEMENT.md`
+- `results/reports/FINAL_PHASE_3_3_REPORT.md`
+
+## Operational Entitlement State
+
+Canonical operational entitlement source:
+
+- `status/audit/release_gate_health_status.json`
+
+Current gate-health class: `GATE_HEALTH_DEGRADED`.
+
+When gate health is degraded, claims in this repository are operationally contingent and must remain qualified/reopenable pending restored CI, pre-release, and reproduction gate integrity.
+
+## What This Does Not Claim
+
+This project does not claim:
+
+- semantic reconstruction of manuscript content,
+- authorial intent or fraud determinations,
+- historical/cultural final interpretation,
+- impossibility of any future progress with new external evidence.
+
+## Historical Provenance Confidence
+
+Historical run-traceability confidence is explicitly bounded and policy-governed.
+
+- Canonical source of truth: `status/audit/provenance_health_status.json`
+- Current expected class while legacy rows remain: `PROVENANCE_QUALIFIED`
+- Policy and allowed-claim contract: `docs/HISTORICAL_PROVENANCE_POLICY.md`
+- Operational provenance mechanics: `docs/PROVENANCE.md`
+
+This means closure claims are framework-bounded and should not be read as
+claiming complete historical manifest certainty for every legacy run row.
 
 ---
 

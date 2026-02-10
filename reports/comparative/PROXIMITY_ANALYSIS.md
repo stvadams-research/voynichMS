@@ -1,22 +1,30 @@
 # PROXIMITY_ANALYSIS.md
 ## Phase B: Comparative and Contextual Classification
 
-### Euclidean Distances from Voynich Manuscript
+### Euclidean Distances from Voynich Manuscript (Uncertainty-Qualified)
 
-| Artifact | Distance | Proximity |
-| :--- | :---: | :--- |
-| Lullian Wheels | 5.0990 | Moderate |
-| Magic Squares | 5.5678 | Moderate |
-| Lingua Ignota | 7.1414 | Moderate |
-| Codex Seraph. | 7.9373 | Moderate |
-| Table-Grille | 8.4261 | Distant |
-| Vedic Chanting | 8.4261 | Distant |
-| Latin | 8.4853 | Distant |
-| Trithemius | 8.6603 | Distant |
-| Enochian | 8.9443 | Distant |
-| Penmanship | 11.9583 | Distant |
+| Artifact | Distance (Point) | 95% CI | Proximity | Nearest P |
+| :--- | :---: | :---: | :--- | :---: |
+| Lullian Wheels | 5.0990 | [2.4352, 8.0182] | Moderate | 0.457 |
+| Magic Squares | 5.5678 | [2.4804, 8.1730] | Moderate | 0.390 |
+| Lingua Ignota | 7.1414 | [3.0753, 10.6085] | Moderate | 0.087 |
+| Codex Seraph. | 7.9373 | [5.5987, 9.9086] | Moderate | 0.003 |
+| Table-Grille | 8.4261 | [5.3228, 11.4727] | Distant | 0.001 |
+| Vedic Chanting | 8.4261 | [5.7418, 11.3175] | Distant | 0.025 |
+| Latin | 8.4853 | [6.2127, 10.6648] | Distant | 0.019 |
+| Trithemius | 8.6603 | [5.6527, 11.6402] | Distant | 0.020 |
+| Enochian | 8.9443 | [5.5691, 12.0502] | Distant | 0.000 |
+| Penmanship | 11.9583 | [8.7525, 14.6707] | Distant | 0.000 |
 
 ### Clustering Insights
 
-- **Nearest Neighbor:** Lullian Wheels
-- **Structural Isolation:** Voynich distance to nearest neighbor is 5.0990.
+- **Nearest Neighbor (Point Estimate):** Lullian Wheels
+- **Nearest-Neighbor Stability:** 0.457 (bootstrap perturbation)
+- **Jackknife Stability:** 0.833 (leave-one-dimension-out)
+- **Rank Stability:** 0.457 (top-3 set stability)
+- **Nearest-Neighbor Margin (P1-P2):** 0.067
+- **Top-2 Gap Robustness (CI Lower):** 0.0263
+- **Comparative Uncertainty Status:** `INCONCLUSIVE_UNCERTAINTY`
+- **Reason Code:** `TOP2_GAP_FRAGILE`
+- **Allowed Claim:** Comparative claim remains provisional pending uncertainty-complete evidence.
+- **Uncertainty Artifact:** `results/human/phase_7c_uncertainty.json`

@@ -1,0 +1,179 @@
+{
+  "version": "2026-02-10-h2m1.2",
+  "description": "SK-M3 report coherence policy for Phase 4 status consistency plus operational entitlement coherence.",
+  "tracked_files": [
+    "results/reports/PHASE_4_RESULTS.md",
+    "results/reports/PHASE_4_CONCLUSIONS.md",
+    "results/reports/PHASE_4_5_METHOD_CONDITION_MAP.md",
+    "results/reports/PHASE_4_METHOD_MAP.md",
+    "docs/REPORT_COHERENCE_POLICY.md",
+    "README.md",
+    "reports/comparative/PHASE_B_BOUNDARY_STATEMENT.md",
+    "reports/comparative/PHASE_B_SYNTHESIS.md",
+    "results/reports/PHASE_4_5_CLOSURE_STATEMENT.md",
+    "results/reports/FINAL_PHASE_3_3_REPORT.md"
+  ],
+  "required_markers": [
+    {
+      "id": "phase4_results_status_source_markers",
+      "scopes": [
+        "results/reports/PHASE_4_RESULTS.md"
+      ],
+      "markers": [
+        "Canonical status source:",
+        "results/reports/PHASE_4_STATUS_INDEX.json",
+        "**E: Morph Induction** | **COMPLETE** | **NOT DIAGNOSTIC**"
+      ]
+    },
+    {
+      "id": "phase4_conclusions_status_source_markers",
+      "scopes": [
+        "results/reports/PHASE_4_CONCLUSIONS.md"
+      ],
+      "markers": [
+        "## 2.5 Method Status Source of Truth",
+        "results/reports/PHASE_4_STATUS_INDEX.json"
+      ]
+    },
+    {
+      "id": "phase45_map_coherence_markers",
+      "scopes": [
+        "results/reports/PHASE_4_5_METHOD_CONDITION_MAP.md"
+      ],
+      "markers": [
+        "Status index reference:",
+        "results/reports/PHASE_4_STATUS_INDEX.json",
+        "Mapping Complete (Coherence-checked)."
+      ]
+    },
+    {
+      "id": "phase4_method_map_marker",
+      "scopes": [
+        "results/reports/PHASE_4_METHOD_MAP.md"
+      ],
+      "markers": [
+        "pre-registration/planning artifact",
+        "results/reports/PHASE_4_STATUS_INDEX.json"
+      ]
+    },
+    {
+      "id": "readme_operational_entitlement_markers",
+      "scopes": [
+        "README.md"
+      ],
+      "markers": [
+        "## Operational Entitlement State",
+        "status/audit/release_gate_health_status.json"
+      ]
+    },
+    {
+      "id": "phaseb_boundary_operational_entitlement_markers",
+      "scopes": [
+        "reports/comparative/PHASE_B_BOUNDARY_STATEMENT.md"
+      ],
+      "markers": [
+        "### Operational Entitlement State",
+        "status/audit/release_gate_health_status.json"
+      ]
+    },
+    {
+      "id": "phaseb_synthesis_operational_entitlement_markers",
+      "scopes": [
+        "reports/comparative/PHASE_B_SYNTHESIS.md"
+      ],
+      "markers": [
+        "### Operational Entitlement State",
+        "status/audit/release_gate_health_status.json"
+      ]
+    },
+    {
+      "id": "phase45_operational_entitlement_markers",
+      "scopes": [
+        "results/reports/PHASE_4_5_CLOSURE_STATEMENT.md"
+      ],
+      "markers": [
+        "## 5. Operational Entitlement State",
+        "status/audit/release_gate_health_status.json"
+      ]
+    },
+    {
+      "id": "phase33_operational_entitlement_markers",
+      "scopes": [
+        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+      ],
+      "markers": [
+        "## 6. Operational Entitlement State",
+        "status/audit/release_gate_health_status.json"
+      ]
+    }
+  ],
+  "banned_patterns": [
+    {
+      "id": "phase4_results_pending_methods",
+      "pattern": "\\| \\*\\*[B-E]: [^|]+\\*\\*\\|\\s*PENDING",
+      "regex": true,
+      "scopes": [
+        "results/reports/PHASE_4_RESULTS.md"
+      ]
+    },
+    {
+      "id": "phase4_results_method_a_only_status",
+      "pattern": "**Status:** Method A Evaluation Complete",
+      "scopes": [
+        "results/reports/PHASE_4_RESULTS.md"
+      ]
+    }
+  ],
+  "artifact_policy": {
+    "tracked_artifacts": [
+      {
+        "path": "results/reports/PHASE_4_STATUS_INDEX.json",
+        "required_in_modes": [
+          "release"
+        ],
+        "required_result_keys": [
+          "version",
+          "phase",
+          "status",
+          "last_reviewed",
+          "status_source",
+          "methods"
+        ],
+        "allowed_statuses": [
+          "COHERENCE_ALIGNED",
+          "COHERENCE_QUALIFIED"
+        ]
+      },
+      {
+        "path": "status/audit/release_gate_health_status.json",
+        "required_in_modes": [
+          "ci",
+          "release"
+        ],
+        "required_result_keys": [
+          "status",
+          "reason_code",
+          "allowed_claim_class",
+          "allowed_closure_class",
+          "gates"
+        ],
+        "allowed_statuses": [
+          "GATE_HEALTH_OK",
+          "GATE_HEALTH_DEGRADED"
+        ]
+      }
+    ]
+  },
+  "method_policy": {
+    "required_method_ids": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "required_execution_status": "COMPLETE",
+    "required_determination": "NOT_DIAGNOSTIC"
+  },
+  "allowlist": []
+}

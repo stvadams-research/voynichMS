@@ -1,12 +1,22 @@
 {
   "anchored": {
-    "mean_consistency": 0.4528080290412131,
-    "num_recurring_contexts": 446,
-    "max_consistency": 1.0
+    "line_count": 1600,
+    "max_consistency": 1.0,
+    "mean_consistency": 0.4725097056366406,
+    "num_recurring_contexts": 323,
+    "token_count": 11160
   },
+  "delta_ci_high": 0.006578109825654784,
+  "delta_ci_low": -0.007172607108255044,
+  "delta_mean_consistency": 0.02458605260735386,
+  "p_value": 0.7544910179640718,
+  "status": "INCONCLUSIVE_UNDERPOWERED",
+  "status_reason": "inferential_ambiguity",
   "unanchored": {
-    "mean_consistency": 0.43493298960426946,
-    "num_recurring_contexts": 867,
-    "max_consistency": 1.0
+    "line_count": 1600,
+    "max_consistency": 1.0,
+    "mean_consistency": 0.4479236530292867,
+    "num_recurring_contexts": 284,
+    "token_count": 10613
   }
 }

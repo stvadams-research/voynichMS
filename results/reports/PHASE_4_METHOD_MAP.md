@@ -62,3 +62,9 @@ This document pre-registers the inference methods to be evaluated in Phase 4. Ea
 - **False Positive:** Run induction on a generator that uses a random prefix-suffix table (e.g. `table_grille`).
 - **Outcome Rule:**
   - **NOT DIAGNOSTIC:** If induction identifies "convincing" affixes in purely mechanical generators.
+
+---
+
+This document is a pre-registration/planning artifact. Canonical post-evaluation method status is tracked in:
+
+- `results/reports/PHASE_4_STATUS_INDEX.json`

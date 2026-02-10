@@ -7,6 +7,7 @@ import sys
 import json
 from pathlib import Path
 from collections import defaultdict
+from typing import Any, Dict
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -26,6 +27,74 @@ from human.scribe_coupling import ScribeAnalyzer
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
+MULTIMODAL_STATUS_PATH = Path("results/mechanism/anchor_coupling_confirmatory.json")
+
+
+def _load_json(path: Path) -> Dict[str, Any]:
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _extract_results(payload: Dict[str, Any]) -> Dict[str, Any]:
+    if isinstance(payload.get("results"), dict):
+        return payload["results"]
+    return payload
+
+
+def summarize_illustration_coupling(status_payload: Dict[str, Any] | None) -> Dict[str, Any]:
+    if not status_payload:
+        return {
+            "status": "MISSING_ARTIFACT",
+            "conclusive": False,
+            "statement": (
+                "Illustration-coupling artifact is missing; no coupling claim is licensed."
+            ),
+            "allowed_claim": (
+                "No conclusive statement about illustration coupling is available."
+            ),
+        }
+
+    status = str(status_payload.get("status", "UNKNOWN"))
+    allowed_claim = str(
+        status_payload.get(
+            "allowed_claim",
+            "No conclusive statement about illustration coupling is available.",
+        )
+    )
+    conclusive = status.startswith("CONCLUSIVE_")
+
+    if status == "CONCLUSIVE_NO_COUPLING":
+        statement = (
+            "Confirmatory coupling analysis did not detect a robust illustration/layout "
+            "coupling signal under configured adequacy criteria."
+        )
+    elif status == "CONCLUSIVE_COUPLING_PRESENT":
+        statement = (
+            "Confirmatory coupling analysis detected a coupling signal; interpretation "
+            "must remain structural and non-semantic."
+        )
+    elif status == "BLOCKED_DATA_GEOMETRY":
+        statement = (
+            "Coupling analysis is blocked by cohort geometry/data constraints; "
+            "no conclusive claim is allowed."
+        )
+    elif status == "INCONCLUSIVE_UNDERPOWERED":
+        statement = (
+            "Coupling analysis is underpowered or inferentially ambiguous; "
+            "no conclusive claim is allowed."
+        )
+    else:
+        statement = (
+            "Coupling status is unknown; no conclusive statement is allowed."
+        )
+
+    return {
+        "status": status,
+        "conclusive": conclusive,
+        "statement": statement,
+        "allowed_claim": allowed_claim,
+    }
 
 def get_pages_data(store, dataset_id="voynich_real"):
     session = store.Session()
@@ -94,8 +163,13 @@ def run_phase_7b():
         console.print("\n[bold cyan]Step 4: Analyzing Scribal Hands[/bold cyan]")
         scribe_analyzer = ScribeAnalyzer()
         scribe_res = scribe_analyzer.analyze_hand_coupling(pages)
+
+        # 5. Multimodal coupling evidence grade
+        console.print("\n[bold cyan]Step 5: Reading Illustration-Coupling Grade[/bold cyan]")
+        multimodal_raw = _extract_results(_load_json(MULTIMODAL_STATUS_PATH))
+        multimodal_res = summarize_illustration_coupling(multimodal_raw)
         
-        # 5. Display Results
+        # 6. Display Results
         table = Table(title="Phase 7B: Codicological Constraints Results")
         table.add_column("Metric", style="cyan")
         table.add_column("Value", justify="right")
@@ -104,13 +178,14 @@ def run_phase_7b():
         table.add_row("Boundary Effect Detected", str(boundary_res['boundary_effect_detected']))
         table.add_row("Layout Coefficient of Var", f"{layout_res['mean_coefficient_of_variation']:.4f}")
         table.add_row("Between-Quire Variance", f"{quire_res['between_quire_variance']:.6f}")
+        table.add_row("Illustration Coupling Grade", multimodal_res["status"])
         
         for hand, stats in scribe_res.items():
             table.add_row(f"{hand} Mean TTR (Page)", f"{stats['mean_ttr']:.4f}")
             
         console.print(table)
         
-        # 6. Save Artifacts
+        # 7. Save Artifacts
         output_dir = Path("results/human")
         output_dir.mkdir(parents=True, exist_ok=True)
         
@@ -118,7 +193,8 @@ def run_phase_7b():
             "page_boundary": boundary_res,
             "layout": layout_res,
             "quire": quire_res,
-            "scribe": scribe_res
+            "scribe": scribe_res,
+            "illustration_coupling": multimodal_res,
         }
         
         ProvenanceWriter.save_results(results, output_dir / "phase_7b_results.json")
@@ -140,12 +216,21 @@ def run_phase_7b():
             f.write("## Scribal Hand Coupling\n\n")
             for hand, stats in scribe_res.items():
                 f.write(f"- **{hand}:** Mean TTR = {stats['mean_ttr']:.4f} (n={stats['sample_size_pages']} pages)\n")
+
+            f.write("\n## Illustration Proximity Evidence Grade\n\n")
+            f.write(f"- **Status:** {multimodal_res['status']}\n")
+            f.write(f"- **Interpretation:** {multimodal_res['statement']}\n")
+            f.write(f"- **Allowed Claim:** {multimodal_res['allowed_claim']}\n")
             
             f.write("\n## Final Determination\n\n")
             if boundary_res['boundary_effect_detected']:
                 f.write("- **H7B.1 Supported:** Measurable coupling between text geometry and page boundaries suggests in-situ generation.\n")
             else:
                 f.write("- **H7B.2 Supported:** Lack of significant boundary adaptation suggests the text may have been copied from an external source.\n")
+            f.write(
+                "- **Illustration-Coupling Guardrail:** "
+                f"{multimodal_res['statement']}\n"
+            )
 
         store.save_run(run)
         console.print(f"\n[bold green]Run complete. Results saved to {output_dir}[/bold green]")

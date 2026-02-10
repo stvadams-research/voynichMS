@@ -308,7 +308,12 @@ Phase 5 follows a repeating loop:
 | Anchored | 0.4528 | 446 |
 | Unanchored | 0.4349 | 867 |
 
-**Finding:** no significant modulation detected; remains exploratory.
+**Finding:** pilot deltas are small, but coupling status is determined by the confirmatory artifact:
+
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.status`
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`
+
+If status is non-conclusive (`INCONCLUSIVE_UNDERPOWERED` or `BLOCKED_DATA_GEOMETRY`), no categorical image/layout coupling claim is licensed.
 
 **Phase 5I conclusion:** the mechanism is a single global machine invariant across codicological sections; physical anchoring effects are not supported by current evidence.
 

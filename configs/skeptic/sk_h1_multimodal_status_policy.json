@@ -1,0 +1,129 @@
+{
+  "tracked_files": [
+    "results/reports/PHASE_5H_RESULTS.md",
+    "results/reports/PHASE_5I_RESULTS.md",
+    "reports/human/PHASE_7_FINDINGS_SUMMARY.md",
+    "reports/human/PHASE_7B_RESULTS.md"
+  ],
+  "artifact_policy": {
+    "path": "results/mechanism/anchor_coupling_confirmatory.json",
+    "required_in_modes": [
+      "ci",
+      "release"
+    ],
+    "required_result_keys": [
+      "status",
+      "status_reason",
+      "allowed_claim",
+      "anchor_method",
+      "policy",
+      "cohorts",
+      "effect",
+      "adequacy",
+      "inference"
+    ],
+    "required_nested_keys": {
+      "anchor_method": [
+        "id",
+        "name",
+        "parameters"
+      ],
+      "effect": [
+        "delta_mean_consistency",
+        "delta_ci_low",
+        "delta_ci_high",
+        "p_value"
+      ],
+      "adequacy": [
+        "pass",
+        "blocked",
+        "reasons",
+        "metrics"
+      ],
+      "inference": [
+        "decision",
+        "alpha",
+        "coupling_delta_abs_min",
+        "no_coupling_delta_abs_max",
+        "ci_crosses_zero",
+        "abs_delta"
+      ]
+    }
+  },
+  "status_policy": {
+    "allowed_statuses": [
+      "CONCLUSIVE_NO_COUPLING",
+      "CONCLUSIVE_COUPLING_PRESENT",
+      "INCONCLUSIVE_UNDERPOWERED",
+      "BLOCKED_DATA_GEOMETRY"
+    ],
+    "conclusive_statuses": [
+      "CONCLUSIVE_NO_COUPLING",
+      "CONCLUSIVE_COUPLING_PRESENT"
+    ],
+    "non_conclusive_statuses": [
+      "INCONCLUSIVE_UNDERPOWERED",
+      "BLOCKED_DATA_GEOMETRY"
+    ]
+  },
+  "required_markers": [
+    {
+      "id": "phase5h_guardrail_marker",
+      "scopes": [
+        "results/reports/PHASE_5H_RESULTS.md"
+      ],
+      "markers": [
+        "Any claim about no image/layout coupling is deferred to confirmatory analysis artifacts."
+      ]
+    },
+    {
+      "id": "phase5i_status_link_markers",
+      "scopes": [
+        "results/reports/PHASE_5I_RESULTS.md"
+      ],
+      "markers": [
+        "results/mechanism/anchor_coupling_confirmatory.json` -> `results.status`",
+        "results/mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`"
+      ]
+    },
+    {
+      "id": "phase7_summary_status_gating",
+      "scopes": [
+        "reports/human/PHASE_7_FINDINGS_SUMMARY.md"
+      ],
+      "markers": [
+        "status-gated by `results/mechanism/anchor_coupling_confirmatory.json`"
+      ]
+    },
+    {
+      "id": "non_conclusive_claim_guardrail",
+      "for_statuses": [
+        "INCONCLUSIVE_UNDERPOWERED",
+        "BLOCKED_DATA_GEOMETRY"
+      ],
+      "scopes": [
+        "reports/human/PHASE_7B_RESULTS.md"
+      ],
+      "markers": [
+        "no conclusive claim is allowed"
+      ]
+    }
+  ],
+  "banned_patterns": [
+    {
+      "id": "non_conclusive_no_unqualified_resolution",
+      "for_statuses": [
+        "INCONCLUSIVE_UNDERPOWERED",
+        "BLOCKED_DATA_GEOMETRY"
+      ],
+      "regex": true,
+      "case_insensitive": true,
+      "pattern": "conclusively\\s+resolves\\s+illustration\\s+coupling",
+      "scopes": [
+        "results/reports/PHASE_5H_RESULTS.md",
+        "results/reports/PHASE_5I_RESULTS.md",
+        "reports/human/PHASE_7_FINDINGS_SUMMARY.md"
+      ]
+    }
+  ]
+}

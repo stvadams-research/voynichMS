@@ -1,7 +1,7 @@
 # PHASE 5H RESULTS: EVIDENCE COUPLING PILOT
 
 **Date:** 2026-02-07
-**Status:** Pilot Complete (Significant Success)
+**Status:** Pilot Complete (Section Integrity Supported; Illustration Coupling Inconclusive)
 **Objective:** Determine if the production mechanism is coupled to physical manuscript features (sections and illustrations).
 
 ---
@@ -22,7 +22,7 @@ We mapped the **Latent Dimensionality** and **Successor Consistency** across all
 The structural signatures are **remarkably uniform** across the entire manuscript. 
 - The effective rank (dimensionality) remains constant at **~80**.
 - Successor consistency remains high (**>0.80**) in every section.
-- **Conclusion:** The Voynich Manuscript is traversals of the **same global deterministic structure**. There is no evidence of a "hybrid mechanism" or different algorithms for different sections.
+- **Conclusion:** Section-level evidence supports traversal of a **single global deterministic structure**. No section-specific algorithm is required by these measurements.
 
 ---
 
@@ -35,14 +35,17 @@ Using `AnchorRecord` data to isolate text in close proximity to illustrations:
 | **Anchored (Proximity)** | 0.4263 | 1681 |
 | **Unanchored (Block)** | [Insufficient Data] | 2 |
 
-*Note: Due to the high density of the dummy grid, nearly all words were anchored. Further refinement of the anchoring geometry is required for a conclusive proximity test.*
+*Note: Due to high anchor density, the unanchored cohort is effectively unusable in this pilot. This phase does not support a conclusive illustration-coupling claim without refined geometry and confirmatory adequacy checks.*
 
 ---
 
 ## 3. Final Determination for Phase 5H
 
-**Hypothesis: Global Machine is SUPPORTED.** 
-The manuscript is not a collection of different systems. It is a single, massive, deterministic rule-system (the "Machine") that was used consistently from the first page to the last. Section-level variation is driven by different entry points and paths, not by different production rules.
+**Hypothesis: Global Machine is SUPPORTED (Sectional Test Only).**  
+The manuscript is not a collection of different section-specific systems under this pilot. Section-level variation is explained by entry points and traversal paths, not different production rules.
+
+**Illustration-Coupling Status:** `INCONCLUSIVE_UNDERPOWERED` (confirmatory artifact current state).  
+Any claim about no image/layout coupling is deferred to confirmatory analysis artifacts.
 
 ---
-**Conclusion:** Phase 5H has proven the **Integrity of the Mechanism**. The Voynich Manuscript is a unified procedural artifact.
+**Conclusion:** Phase 5H supports mechanism integrity at section level, but does not conclusively resolve illustration coupling.

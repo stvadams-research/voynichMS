@@ -1,0 +1,164 @@
+{
+  "version": "2026-02-10-m4.2",
+  "description": "SK-M4 historical provenance uncertainty policy and claim-scope guardrails with register synchronization and contract coupling.",
+  "tracked_files": [
+    "README.md",
+    "results/reports/PHASE_4_5_CLOSURE_STATEMENT.md",
+    "results/reports/FINAL_PHASE_3_3_REPORT.md",
+    "docs/PROVENANCE.md",
+    "docs/HISTORICAL_PROVENANCE_POLICY.md",
+    "reports/skeptic/SK_M4_PROVENANCE_REGISTER.md"
+  ],
+  "required_markers": [
+    {
+      "id": "readme_provenance_markers",
+      "scopes": [
+        "README.md"
+      ],
+      "markers": [
+        "## Historical Provenance Confidence",
+        "status/audit/provenance_health_status.json",
+        "docs/HISTORICAL_PROVENANCE_POLICY.md"
+      ]
+    },
+    {
+      "id": "phase45_provenance_markers",
+      "scopes": [
+        "results/reports/PHASE_4_5_CLOSURE_STATEMENT.md"
+      ],
+      "markers": [
+        "## 7. Historical Provenance Confidence",
+        "status/audit/provenance_health_status.json",
+        "PROVENANCE_QUALIFIED"
+      ]
+    },
+    {
+      "id": "phase33_provenance_markers",
+      "scopes": [
+        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+      ],
+      "markers": [
+        "Historical provenance confidence:",
+        "status/audit/provenance_health_status.json",
+        "PROVENANCE_QUALIFIED"
+      ]
+    },
+    {
+      "id": "provenance_doc_markers",
+      "scopes": [
+        "docs/PROVENANCE.md"
+      ],
+      "markers": [
+        "Historical provenance confidence artifact:",
+        "status/audit/provenance_health_status.json",
+        "docs/HISTORICAL_PROVENANCE_POLICY.md"
+      ]
+    },
+    {
+      "id": "m4_register_sync_markers",
+      "scopes": [
+        "reports/skeptic/SK_M4_PROVENANCE_REGISTER.md"
+      ],
+      "markers": [
+        "## Source Snapshot",
+        "generated_utc",
+        "source_snapshot.provenance_health_path",
+        "status/audit/provenance_register_sync_status.json"
+      ]
+    }
+  ],
+  "banned_patterns": [
+    {
+      "id": "phase45_unqualified_archive_traceable",
+      "pattern": "**Archive:** All runs, code, and data are frozen and traceable.",
+      "scopes": [
+        "results/reports/PHASE_4_5_CLOSURE_STATEMENT.md"
+      ]
+    },
+    {
+      "id": "phase33_unqualified_repo_state",
+      "pattern": "**Repository State:** Deterministic and verified.",
+      "scopes": [
+        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+      ]
+    }
+  ],
+  "artifact_policy": {
+    "tracked_artifacts": [
+      {
+        "path": "status/audit/provenance_health_status.json",
+        "required_in_modes": [
+          "ci",
+          "release"
+        ],
+        "required_result_keys": [
+          "status",
+          "reason_code",
+          "allowed_claim",
+          "total_runs",
+          "orphaned_rows",
+          "orphaned_ratio",
+          "running_rows",
+          "missing_manifests",
+          "threshold_policy_pass",
+          "generated_utc",
+          "last_reviewed",
+          "contract_health_status",
+          "contract_health_reason_code",
+          "contract_reason_codes",
+          "contract_coupling_pass"
+        ],
+        "allowed_statuses": [
+          "PROVENANCE_ALIGNED",
+          "PROVENANCE_QUALIFIED"
+        ]
+      },
+      {
+        "path": "status/audit/provenance_register_sync_status.json",
+        "required_in_modes": [
+          "ci",
+          "release"
+        ],
+        "required_result_keys": [
+          "status",
+          "drift_detected",
+          "provenance_status",
+          "provenance_reason_code",
+          "db_counts",
+          "artifact_counts",
+          "generated_utc",
+          "contract_coupling_state",
+          "gate_health_status",
+          "register_path"
+        ],
+        "allowed_statuses": [
+          "IN_SYNC"
+        ]
+      }
+    ]
+  },
+  "threshold_policy": {
+    "artifact_path": "status/audit/provenance_health_status.json",
+    "orphaned_ratio_max": 0.4,
+    "orphaned_count_max": 80,
+    "running_count_max": 0,
+    "missing_manifests_max": 0,
+    "max_artifact_age_hours": 168
+  },
+  "contract_coupling_policy": {
+    "provenance_artifact_path": "status/audit/provenance_health_status.json",
+    "gate_health_artifact_path": "status/audit/release_gate_health_status.json",
+    "degraded_gate_statuses": [
+      "GATE_HEALTH_DEGRADED"
+    ],
+    "disallow_provenance_statuses_when_gate_degraded": [
+      "PROVENANCE_ALIGNED"
+    ],
+    "require_contract_coupling_pass": true,
+    "require_contract_reason_codes_when_gate_degraded": [
+      "PROVENANCE_CONTRACT_BLOCKED"
+    ],
+    "fail_when_gate_health_missing": false
+  },
+  "allowlist": []
+}

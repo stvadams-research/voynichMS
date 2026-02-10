@@ -1,14 +1,14 @@
 # PHASE 3.3 FINAL REPORT: CONSTRAINT EXHAUSTION AND ROBUSTNESS CLOSURE
 
 **Date:** 2026-02-07
-**Status:** Terminal (Project Closed with Integrity)
+**Status:** Framework-Bounded Closure
 **Project:** Voynich Manuscript – Generative Reconstruction
 
 ---
 
 ## 1. Executive Summary
 
-Phase 3.3 was executed as a terminal, narrow-scope phase to exhaust the remaining non-semantic explanatory space and verify the robustness of the project's conclusions. Three one-shot tests were performed: **Maximal Mechanical Reuse**, **Transliteration Invariance**, and **Glyph Variant Sensitivity**.
+Phase 3.3 was executed as a focused, framework-bounded phase to test the remaining non-semantic explanatory space and verify robustness of the project's conclusions. Three one-shot tests were performed: **Maximal Mechanical Reuse**, **Transliteration Invariance**, and **Glyph Variant Sensitivity**.
 
 The results confirm that the Voynich Manuscript's most extreme structural anomalies (repetition rate and information density) are **mechanically explainable** and **invariant** under reasonable representational choices. 
 
@@ -35,26 +35,56 @@ The "Repetition Anomaly" (0.90 rate) identified in earlier phases does not requi
 The project's findings are macroscopic and robust. They are not artifacts of the Zandbergen-Landini transliteration, nor are they sensitive to fine-grained glyph categorization choices. This increases confidence in the "Linguistic Inadmissibility" determination.
 
 ### 3.3 Closing the "Voynich Mechanism"
-With these results, the structural mechanism of the Voynich Manuscript is considered **solved in principle**. We have successfully:
-- Falsified natural language explanations.
+With these results, the structural mechanism of the Voynich Manuscript is treated as **provisionally solved in principle under current diagnostics**. We have successfully:
+- Shown that natural-language explanations are not supported within tested diagnostics.
 - Reverse-engineered the glyph-level grammar.
 - Demonstrated mechanical sufficiency for the highest statistical anomalies.
 
 ---
 
-## 4. Final Project Determination
+## 4. Final Project Determination (Framework-Bounded)
 
-**The structural investigation of the Voynich Manuscript has reached its logical conclusion.**
+**The structural investigation of the Voynich Manuscript has reached a framework-bounded stopping point under tested diagnostics.**
 
-Further escalation to semantic interpretation or "improvement" of generative models is not scientifically justified based on current structural evidence. The manuscript behaves, in every measurable way, as a sophisticated but semantically empty procedural system.
+Further escalation to semantic interpretation or "improvement" of generative models is not currently supported by the tested structural evidence. Within this evidence class, the manuscript behaves as a sophisticated procedural system without demonstrated semantic signal.
+
+This determination is conditionally closed and reopenable under the canonical criteria in `docs/REOPENING_CRITERIA.md`.
 
 ---
 
-## 5. Metadata and Provenance
+## 5. What This Does Not Claim
+
+This report does not claim:
+
+- proof of authorial intent,
+- proof of semantic impossibility under all future evidence,
+- final historical/cultural interpretation of manuscript purpose.
+
+For explicit mechanism non-claims, see:
+
+- `results/reports/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
+
+---
+
+## 6. Operational Entitlement State
+
+Canonical operational entitlement source:
+
+- `status/audit/release_gate_health_status.json`
+
+Current gate-health class: `GATE_HEALTH_DEGRADED`.
+
+Accordingly, the closure interpretation in this report is provisional and operationally contingent pending restored release/reproduction gate health.
+
+---
+
+## 7. Metadata and Provenance
 - **Dataset:** voynich_real (233,646 tokens)
 - **Controls:** audit_scrambled, audit_synthetic
 - **Runs:** Full provenance recorded in `runs/` directory.
-- **Repository State:** Deterministic and verified.
+- **Repository State:** Deterministic and verified under current framework checks, with historical provenance qualifiers.
+- **Historical provenance confidence:** `PROVENANCE_QUALIFIED` pending full elimination of legacy orphaned run rows.
+- **Canonical provenance source:** `status/audit/provenance_health_status.json`
 
 ---
-**End of Project Report**
+**End of Framework-Bounded Report**

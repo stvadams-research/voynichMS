@@ -1,0 +1,268 @@
+import importlib.util
+import json
+from pathlib import Path
+
+
+def _load_checker_module():
+    module_path = Path("scripts/skeptic/check_control_comparability.py")
+    spec = importlib.util.spec_from_file_location("check_control_comparability", module_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_control_comparability_checker_flags_missing_required_artifact(tmp_path) -> None:
+    checker = _load_checker_module()
+
+    (tmp_path / "docs").mkdir()
+    (tmp_path / "docs/GENERATOR_MATCHING.md").write_text(
+        "matching_metrics holdout_evaluation_metrics target leakage", encoding="utf-8"
+    )
+
+    policy = {
+        "tracked_files": ["docs/GENERATOR_MATCHING.md"],
+        "required_doc_markers": [
+            {
+                "id": "m1",
+                "scopes": ["docs/GENERATOR_MATCHING.md"],
+                "markers": ["matching_metrics"],
+            }
+        ],
+        "banned_patterns": [],
+        "metric_partition_policy": {
+            "matching_metrics": ["a"],
+            "holdout_evaluation_metrics": ["b"],
+            "max_metric_overlap": 0,
+        },
+        "normalization_policy": {"allowed_modes": ["parser"]},
+        "artifact_policy": {
+            "tracked_artifacts": [
+                {
+                    "path": "status/synthesis/CONTROL_COMPARABILITY_STATUS.json",
+                    "required_in_modes": ["release"],
+                    "required_result_keys": ["status"],
+                }
+            ]
+        },
+    }
+
+    errors = checker.run_checks(policy, root=tmp_path, mode="release")
+    assert errors
+    assert "missing-artifact" in errors[0]
+
+
+def test_control_comparability_checker_flags_overlap_leakage_mismatch(tmp_path) -> None:
+    checker = _load_checker_module()
+
+    (tmp_path / "status/synthesis").mkdir(parents=True)
+    (tmp_path / "status/synthesis/CONTROL_COMPARABILITY_STATUS.json").write_text(
+        json.dumps(
+            {
+                "results": {
+                    "status": "COMPARABLE_QUALIFIED",
+                    "matching_metrics": ["a", "b"],
+                    "holdout_evaluation_metrics": ["b"],
+                    "metric_overlap": ["b"],
+                    "leakage_detected": False,
+                    "normalization_mode": "parser",
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    policy = {
+        "tracked_files": [],
+        "required_doc_markers": [],
+        "banned_patterns": [],
+        "metric_partition_policy": {
+            "matching_metrics": ["a"],
+            "holdout_evaluation_metrics": ["c"],
+            "max_metric_overlap": 0,
+        },
+        "normalization_policy": {"allowed_modes": ["parser"]},
+        "artifact_policy": {
+            "tracked_artifacts": [
+                {
+                    "path": "status/synthesis/CONTROL_COMPARABILITY_STATUS.json",
+                    "required_in_modes": ["ci"],
+                    "required_result_keys": [
+                        "status",
+                        "matching_metrics",
+                        "holdout_evaluation_metrics",
+                        "metric_overlap",
+                        "leakage_detected",
+                        "normalization_mode",
+                    ],
+                }
+            ]
+        },
+    }
+
+    errors = checker.run_checks(policy, root=tmp_path, mode="ci")
+    assert any("artifact-leakage" in err for err in errors)
+
+
+def test_control_comparability_checker_honors_allowlist(tmp_path) -> None:
+    checker = _load_checker_module()
+
+    (tmp_path / "docs").mkdir()
+    doc_path = tmp_path / "docs/GENERATOR_MATCHING.md"
+    doc_path.write_text("forbidden phrase", encoding="utf-8")
+
+    policy = {
+        "tracked_files": ["docs/GENERATOR_MATCHING.md"],
+        "required_doc_markers": [],
+        "banned_patterns": [
+            {
+                "id": "p1",
+                "pattern": "forbidden phrase",
+                "scopes": ["docs/GENERATOR_MATCHING.md"],
+            }
+        ],
+        "allowlist": [{"pattern_id": "p1", "scope": "docs/GENERATOR_MATCHING.md"}],
+        "metric_partition_policy": {
+            "matching_metrics": ["a"],
+            "holdout_evaluation_metrics": ["b"],
+            "max_metric_overlap": 0,
+        },
+        "normalization_policy": {"allowed_modes": ["parser"]},
+        "artifact_policy": {"tracked_artifacts": []},
+    }
+
+    errors = checker.run_checks(policy, root=tmp_path, mode="ci")
+    assert errors == []
+
+
+def test_control_comparability_checker_flags_disallowed_block_reason(tmp_path) -> None:
+    checker = _load_checker_module()
+
+    (tmp_path / "status/synthesis").mkdir(parents=True)
+    (tmp_path / "status/synthesis/CONTROL_COMPARABILITY_STATUS.json").write_text(
+        json.dumps(
+            {
+                "results": {
+                    "status": "NON_COMPARABLE_BLOCKED",
+                    "reason_code": "UNAPPROVED_REASON",
+                    "matching_metrics": ["a"],
+                    "holdout_evaluation_metrics": ["b"],
+                    "metric_overlap": [],
+                    "leakage_detected": False,
+                    "normalization_mode": "parser",
+                    "evidence_scope": "available_subset",
+                    "full_data_closure_eligible": False,
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    policy = {
+        "tracked_files": [],
+        "required_doc_markers": [],
+        "banned_patterns": [],
+        "metric_partition_policy": {
+            "matching_metrics": ["a"],
+            "holdout_evaluation_metrics": ["b"],
+            "max_metric_overlap": 0,
+        },
+        "normalization_policy": {"allowed_modes": ["parser"]},
+        "artifact_policy": {
+            "tracked_artifacts": [
+                {
+                    "path": "status/synthesis/CONTROL_COMPARABILITY_STATUS.json",
+                    "required_in_modes": ["release"],
+                    "required_result_keys": [
+                        "status",
+                        "reason_code",
+                        "evidence_scope",
+                        "full_data_closure_eligible",
+                    ],
+                    "allowed_statuses": ["NON_COMPARABLE_BLOCKED"],
+                    "status_policy": {
+                        "blocked_status": "NON_COMPARABLE_BLOCKED",
+                        "allowed_block_reason_codes": ["DATA_AVAILABILITY", "TARGET_LEAKAGE"],
+                        "required_block_fields": ["evidence_scope", "full_data_closure_eligible"],
+                        "data_availability_reason_codes": ["DATA_AVAILABILITY"],
+                        "data_availability_expected_scope": "available_subset",
+                    },
+                }
+            ]
+        },
+    }
+
+    errors = checker.run_checks(policy, root=tmp_path, mode="release")
+    assert any("artifact-block-reason" in err for err in errors)
+
+
+def test_control_comparability_checker_flags_data_availability_scope_mismatch(tmp_path) -> None:
+    checker = _load_checker_module()
+
+    (tmp_path / "status/synthesis").mkdir(parents=True)
+    (tmp_path / "status/synthesis/CONTROL_COMPARABILITY_STATUS.json").write_text(
+        json.dumps(
+            {
+                "results": {
+                    "status": "NON_COMPARABLE_BLOCKED",
+                    "reason_code": "DATA_AVAILABILITY",
+                    "matching_metrics": ["a"],
+                    "holdout_evaluation_metrics": ["b"],
+                    "metric_overlap": [],
+                    "leakage_detected": False,
+                    "normalization_mode": "parser",
+                    "evidence_scope": "full_dataset",
+                    "full_data_closure_eligible": False,
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    policy = {
+        "tracked_files": [],
+        "required_doc_markers": [],
+        "banned_patterns": [],
+        "metric_partition_policy": {
+            "matching_metrics": ["a"],
+            "holdout_evaluation_metrics": ["b"],
+            "max_metric_overlap": 0,
+        },
+        "normalization_policy": {"allowed_modes": ["parser"]},
+        "artifact_policy": {
+            "tracked_artifacts": [
+                {
+                    "path": "status/synthesis/CONTROL_COMPARABILITY_STATUS.json",
+                    "required_in_modes": ["release"],
+                    "required_result_keys": [
+                        "status",
+                        "reason_code",
+                        "evidence_scope",
+                        "full_data_closure_eligible",
+                    ],
+                    "allowed_statuses": ["NON_COMPARABLE_BLOCKED"],
+                    "status_policy": {
+                        "blocked_status": "NON_COMPARABLE_BLOCKED",
+                        "allowed_block_reason_codes": ["DATA_AVAILABILITY"],
+                        "required_block_fields": ["evidence_scope", "full_data_closure_eligible"],
+                        "data_availability_reason_codes": ["DATA_AVAILABILITY"],
+                        "data_availability_expected_scope": "available_subset",
+                    },
+                }
+            ]
+        },
+    }
+
+    errors = checker.run_checks(policy, root=tmp_path, mode="release")
+    assert any("artifact-block-scope" in err for err in errors)
+
+
+def test_control_comparability_checker_passes_with_repo_policy_ci_mode() -> None:
+    checker = _load_checker_module()
+    policy = json.loads(
+        Path("configs/skeptic/sk_h3_control_comparability_policy.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    errors = checker.run_checks(policy, root=Path("."), mode="ci")
+    assert errors == []

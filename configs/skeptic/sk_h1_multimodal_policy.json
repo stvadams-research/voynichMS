@@ -1,0 +1,31 @@
+{
+  "dataset_id": "voynich_real",
+  "transcription_source_id": "zandbergen_landini",
+  "anchor_method_name": "geometric_v1_t001",
+  "anchor_relation_types": [
+    "inside",
+    "overlaps",
+    "near"
+  ],
+  "near_score_min": 0.9,
+  "line_anchor_ratio_min": 0.5,
+  "line_unanchored_ratio_max": 0.1,
+  "sampling": {
+    "matched_sampling": true,
+    "max_lines_per_cohort": 1600,
+    "seed": 42
+  },
+  "adequacy": {
+    "min_lines_per_cohort": 40,
+    "min_pages_per_cohort": 8,
+    "min_recurring_contexts_per_cohort": 80,
+    "min_balance_ratio": 0.2
+  },
+  "inference": {
+    "bootstrap_iterations": 250,
+    "permutation_iterations": 500,
+    "alpha": 0.05,
+    "coupling_delta_abs_min": 0.03,
+    "no_coupling_delta_abs_max": 0.015
+  }
+}

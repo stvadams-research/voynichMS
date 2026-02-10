@@ -1,0 +1,137 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-10T14:04:19.722021+00:00"
+  },
+  "results": {
+    "target_artifact": "Voynich",
+    "parameters": {
+      "seed": 42,
+      "iterations": 2000,
+      "dimension_count": 12,
+      "bootstrap_dimensions": true,
+      "weight_jitter_range": [
+        0.85,
+        1.15
+      ],
+      "jackknife_dimensions": true
+    },
+    "status": "INCONCLUSIVE_UNCERTAINTY",
+    "reason_code": "RANK_UNSTABLE_UNDER_PERTURBATION",
+    "allowed_claim": "Comparative claim remains provisional pending uncertainty-complete evidence.",
+    "nearest_neighbor": "Lullian Wheels",
+    "nearest_neighbor_distance": 5.0990195135927845,
+    "nearest_neighbor_stability": 0.4565,
+    "jackknife_nearest_neighbor_stability": 0.8333333333333334,
+    "distance_summary": {
+      "Latin": {
+        "mean": 8.433744771422091,
+        "std": 1.1601815425653736,
+        "ci95_lower": 6.212726636131532,
+        "ci95_upper": 10.664822148821193,
+        "point_estimate": 8.48528137423857,
+        "nearest_probability": 0.019,
+        "top3_probability": 0.0895
+      },
+      "Table-Grille": {
+        "mean": 8.314895032757468,
+        "std": 1.5902358777552685,
+        "ci95_lower": 5.32275470909935,
+        "ci95_upper": 11.47266402040995,
+        "point_estimate": 8.426149773176359,
+        "nearest_probability": 0.0005,
+        "top3_probability": 0.1295
+      },
+      "Magic Squares": {
+        "mean": 5.411944436802643,
+        "std": 1.4851208338071324,
+        "ci95_lower": 2.4803901046570775,
+        "ci95_upper": 8.172982011429553,
+        "point_estimate": 5.5677643628300215,
+        "nearest_probability": 0.3895,
+        "top3_probability": 0.8835
+      },
+      "Vedic Chanting": {
+        "mean": 8.322462051934686,
+        "std": 1.4221449385765308,
+        "ci95_lower": 5.7417579238681835,
+        "ci95_upper": 11.317471152343852,
+        "point_estimate": 8.426149773176359,
+        "nearest_probability": 0.0245,
+        "top3_probability": 0.157
+      },
+      "Codex Seraph.": {
+        "mean": 7.876351546107826,
+        "std": 1.1060907453234725,
+        "ci95_lower": 5.598706590165832,
+        "ci95_upper": 9.908558072887141,
+        "point_estimate": 7.937253933193772,
+        "nearest_probability": 0.003,
+        "top3_probability": 0.1135
+      },
+      "Lingua Ignota": {
+        "mean": 6.939636902254775,
+        "std": 1.9310190803887854,
+        "ci95_lower": 3.075334059968511,
+        "ci95_upper": 10.608457946394584,
+        "point_estimate": 7.14142842854285,
+        "nearest_probability": 0.087,
+        "top3_probability": 0.5375
+      },
+      "Trithemius": {
+        "mean": 8.559133119969852,
+        "std": 1.5757892842237704,
+        "ci95_lower": 5.652722338074423,
+        "ci95_upper": 11.640218460047219,
+        "point_estimate": 8.660254037844387,
+        "nearest_probability": 0.02,
+        "top3_probability": 0.1395
+      },
+      "Lullian Wheels": {
+        "mean": 4.962259422745188,
+        "std": 1.5073581234427864,
+        "ci95_lower": 2.435213824678261,
+        "ci95_upper": 8.01821639598117,
+        "point_estimate": 5.0990195135927845,
+        "nearest_probability": 0.4565,
+        "top3_probability": 0.9285
+      },
+      "Penmanship": {
+        "mean": 11.950682875175408,
+        "std": 1.530756191129332,
+        "ci95_lower": 8.75251080701085,
+        "ci95_upper": 14.670738997414738,
+        "point_estimate": 11.958260743101398,
+        "nearest_probability": 0.0,
+        "top3_probability": 0.0
+      },
+      "Enochian": {
+        "mean": 8.87380379837625,
+        "std": 1.6189075032163458,
+        "ci95_lower": 5.569100800368925,
+        "ci95_upper": 12.050239406059003,
+        "point_estimate": 8.94427190999916,
+        "nearest_probability": 0.0,
+        "top3_probability": 0.0215
+      }
+    },
+    "ranking_point_estimate": [
+      "Lullian Wheels",
+      "Magic Squares",
+      "Lingua Ignota",
+      "Codex Seraph.",
+      "Table-Grille",
+      "Vedic Chanting",
+      "Latin",
+      "Trithemius",
+      "Enochian",
+      "Penmanship"
+    ],
+    "top2_gap": {
+      "mean": 0.9732268945717494,
+      "std": 0.779144218640151,
+      "ci95_lower": 0.02629790645908612,
+      "ci95_upper": 2.8969489431414988
+    }
+  }
+}

@@ -138,6 +138,24 @@ Verifier contract notes:
 - Any missing prerequisite or failed check must exit non-zero.
 - `scripts/ci_check.sh` requires verifier completion sentinel; it must not report pass on partial verifier execution.
 - Release sensitivity evidence is valid only when `release_evidence_ready=true` and robustness is conclusive (`PASS` or `FAIL`) with quality gates passing.
+- Release sensitivity evidence also requires:
+  - `dataset_policy_pass=true`
+  - `warning_policy_pass=true`
+  - `warning_density_per_scenario` present in summary
+  - non-empty caveats when `total_warning_count > 0`
+- Sensitivity artifact/report coherence is checked by:
+
+```bash
+python3 scripts/audit/check_sensitivity_artifact_contract.py --mode ci
+python3 scripts/audit/check_sensitivity_artifact_contract.py --mode release
+```
+
+- Runner-level provenance contract is checked by:
+
+```bash
+python3 scripts/audit/check_provenance_runner_contract.py --mode ci
+python3 scripts/audit/check_provenance_runner_contract.py --mode release
+```
 - Release-path strict preflight is always enforced. `status/synthesis/TURING_TEST_RESULTS.json` must be generated with `strict_computed=true`.
 - If strict preflight is blocked only because source pages are unavailable/lost, results must record `status=BLOCKED` and `reason_code=DATA_AVAILABILITY`.
 - A `BLOCKED` strict preflight with `reason_code=DATA_AVAILABILITY` is treated as a scoped data-availability constraint, not as proof of code malfunction.
@@ -150,7 +168,219 @@ VERIFY_STRICT=1 bash scripts/verify_reproduction.sh
 
 This enables additional `REQUIRE_COMPUTED=1` enforcement checks.
 
-## 10. Release Baseline Checklist
+## 10. Sensitivity Sweep Iteration Modes
+
+`scripts/analysis/run_sensitivity_sweep.py` supports lower-cost iteration modes for frequent local checks.
+
+Quick iterative defaults (recommended for development loops):
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode smoke --quick
+```
+
+Explicit iterative mode (reduced scenario profile):
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode iterative
+```
+
+Authoritative release evidence mode (full required run):
+
+```bash
+python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real
+```
+
+Progress visibility during long runs:
+
+```bash
+cat status/audit/sensitivity_progress.json
+```
+
+## 11. SK-H1 Multimodal Coupling Reproduction
+
+Run this sequence to reproduce confirmatory image/layout coupling evidence:
+
+```bash
+python3 scripts/mechanism/generate_all_anchors.py --dataset-id voynich_real --method-name geometric_v1 --threshold 0.10
+python3 scripts/mechanism/audit_anchor_coverage.py
+python3 scripts/mechanism/run_5i_anchor_coupling.py
+```
+
+Coverage audit artifact:
+
+- `status/mechanism/anchor_coverage_audit.json`
+
+Confirmatory coupling artifact:
+
+- `results/mechanism/anchor_coupling_confirmatory.json`
+
+Conclusive claim status must be read from:
+
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.status`
+- `results/mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`
+
+Policy source:
+
+```bash
+cat configs/skeptic/sk_h1_multimodal_policy.json
+cat configs/skeptic/sk_h1_multimodal_status_policy.json
+```
+
+Status/claim coherence checks:
+
+```bash
+python3 scripts/skeptic/check_multimodal_coupling.py --mode ci
+python3 scripts/skeptic/check_multimodal_coupling.py --mode release
+python3 -m pytest -q tests/skeptic/test_multimodal_coupling_checker.py
+```
+
+## 12. SK-H2 Claim Boundary Verification
+
+Run claim-boundary checks for public-facing conclusion language:
+
+```bash
+python3 scripts/audit/build_release_gate_health_status.py
+python3 scripts/skeptic/check_claim_boundaries.py --mode ci
+python3 scripts/skeptic/check_claim_boundaries.py --mode release
+python3 -m pytest -q tests/skeptic/test_claim_boundary_checker.py
+```
+
+Claim-boundary policy sources:
+
+- `docs/CLAIM_BOUNDARY_POLICY.md`
+- `configs/skeptic/sk_h2_claim_language_policy.json`
+
+## 13. SK-H3 Control Comparability Verification
+
+Run SK-H3 comparability artifacts and policy checks:
+
+```bash
+python3 scripts/synthesis/run_control_matching_audit.py --preflight-only
+python3 scripts/synthesis/run_indistinguishability_test.py --preflight-only
+python3 scripts/skeptic/check_control_comparability.py --mode ci
+python3 scripts/skeptic/check_control_comparability.py --mode release
+python3 scripts/skeptic/check_control_data_availability.py --mode ci
+python3 scripts/skeptic/check_control_data_availability.py --mode release
+```
+
+Primary SK-H3 policy sources:
+
+- `docs/CONTROL_COMPARABILITY_POLICY.md`
+- `configs/skeptic/sk_h3_control_comparability_policy.json`
+- `configs/skeptic/sk_h3_data_availability_policy.json`
+
+Primary artifacts:
+
+- `status/synthesis/CONTROL_COMPARABILITY_STATUS.json`
+- `status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json`
+- `status/synthesis/TURING_TEST_RESULTS.json`
+
+Interpretation rule:
+
+- `evidence_scope=available_subset` indicates bounded subset evidence only.
+- `full_data_closure_eligible=false` means full-dataset comparability remains blocked.
+
+## 14. SK-M1 Closure Conditionality Verification
+
+Run closure-conditionality policy checks:
+
+```bash
+python3 scripts/audit/build_release_gate_health_status.py
+python3 scripts/skeptic/check_closure_conditionality.py --mode ci
+python3 scripts/skeptic/check_closure_conditionality.py --mode release
+python3 -m pytest -q tests/skeptic/test_closure_conditionality_checker.py
+```
+
+Primary SK-M1 policy sources:
+
+- `docs/CLOSURE_CONDITIONALITY_POLICY.md`
+- `docs/REOPENING_CRITERIA.md`
+- `configs/skeptic/sk_m1_closure_policy.json`
+
+Primary trace artifact:
+
+- `reports/skeptic/SK_M1_CLOSURE_REGISTER.md`
+
+## 15. SK-M2 Comparative Uncertainty Verification
+
+Run comparative uncertainty artifact and policy checks:
+
+```bash
+python3 scripts/comparative/run_proximity_uncertainty.py --iterations 2000 --seed 42
+python3 scripts/skeptic/check_comparative_uncertainty.py --mode ci
+python3 scripts/skeptic/check_comparative_uncertainty.py --mode release
+python3 -m pytest -q tests/skeptic/test_comparative_uncertainty_checker.py
+```
+
+Inspect SK-M2.2 confidence diagnostics:
+
+```bash
+python3 - <<'PY'
+import json
+r=json.load(open('results/human/phase_7c_uncertainty.json'))['results']
+print(r['status'], r['reason_code'])
+print('nearest', r['nearest_neighbor_stability'])
+print('jackknife', r['jackknife_nearest_neighbor_stability'])
+print('rank', r['rank_stability'])
+print('margin', r['nearest_neighbor_probability_margin'])
+print('top2_ci_low', r['top2_gap']['ci95_lower'])
+PY
+```
+
+Primary SK-M2 policy sources:
+
+- `docs/COMPARATIVE_UNCERTAINTY_POLICY.md`
+- `configs/skeptic/sk_m2_comparative_uncertainty_policy.json`
+
+Primary artifact:
+
+- `results/human/phase_7c_uncertainty.json`
+
+## 16. SK-M3 Report Coherence Verification
+
+Run report-coherence policy checks:
+
+```bash
+python3 scripts/skeptic/check_report_coherence.py --mode ci
+python3 scripts/skeptic/check_report_coherence.py --mode release
+python3 -m pytest -q tests/skeptic/test_report_coherence_checker.py
+```
+
+Primary SK-M3 policy sources:
+
+- `docs/REPORT_COHERENCE_POLICY.md`
+- `configs/skeptic/sk_m3_report_coherence_policy.json`
+
+Primary SK-M3 artifact:
+
+- `results/reports/PHASE_4_STATUS_INDEX.json`
+
+## 17. SK-M4 Historical Provenance Verification
+
+Run canonical provenance-health generation and policy checks:
+
+```bash
+python3 scripts/audit/repair_run_statuses.py --dry-run --report-path status/audit/run_status_repair_report.json
+python3 scripts/audit/build_release_gate_health_status.py
+python3 scripts/audit/build_provenance_health_status.py
+python3 scripts/audit/sync_provenance_register.py
+python3 scripts/skeptic/check_provenance_uncertainty.py --mode ci
+python3 scripts/skeptic/check_provenance_uncertainty.py --mode release
+python3 -m pytest -q tests/skeptic/test_provenance_uncertainty_checker.py
+```
+
+Primary SK-M4 policy sources:
+
+- `docs/HISTORICAL_PROVENANCE_POLICY.md`
+- `docs/PROVENANCE.md`
+- `configs/skeptic/sk_m4_provenance_policy.json`
+
+Primary SK-M4 artifact:
+
+- `status/audit/provenance_health_status.json`
+- `status/audit/provenance_register_sync_status.json`
+
+## 18. Release Baseline Checklist
 
 Before declaring a reproducible release baseline:
 
@@ -178,6 +408,13 @@ test -f AUDIT_LOG.md
 
 ```bash
 bash scripts/audit/pre_release_check.sh
+```
+
+Sensitivity policy source:
+
+```bash
+cat configs/audit/release_evidence_policy.json
+cat configs/audit/sensitivity_artifact_contract.json
 ```
 
 If a non-clean tree is intentional for a controlled release cut, you may override:

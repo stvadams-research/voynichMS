@@ -17,8 +17,9 @@ class SyntheticNullGenerator(ControlGenerator):
     """
     Generates a synthetic null dataset using flat sampling over source vocabulary.
 
-    Generated tokens bypass EVAParser normalization intentionally: control tokens
-    are drawn directly from an already-normalized token vocabulary.
+    Normalization modes:
+    - parser: parser-equivalent canonicalization for symmetry.
+    - pre_normalized_with_assertions: enforce already-normalized token stream.
     """
 
     def generate(
@@ -30,16 +31,7 @@ class SyntheticNullGenerator(ControlGenerator):
     ) -> str:
         rng = random.Random(seed)
         params = params or {}
-
-        # Register control dataset
-        self.store.add_control_dataset(
-            id=control_id,
-            source_dataset_id=source_dataset_id,
-            type="synthetic_null",
-            params=params,
-            seed=seed,
-        )
-        self.store.add_transcription_source("synthetic", "Synthetic Control Generator")
+        normalization_mode = self._resolve_normalization_mode(params)
 
         vocabulary = self._load_source_vocabulary(source_dataset_id)
         if not vocabulary:
@@ -49,6 +41,21 @@ class SyntheticNullGenerator(ControlGenerator):
                 source_dataset_id,
                 len(vocabulary),
             )
+        vocabulary, normalization = self._normalize_tokens_for_control(
+            vocabulary, mode=normalization_mode
+        )
+
+        # Register control dataset with normalization provenance.
+        params_with_policy = dict(params)
+        params_with_policy["normalization"] = normalization
+        self.store.add_control_dataset(
+            id=control_id,
+            source_dataset_id=source_dataset_id,
+            type="synthetic_null",
+            params=params_with_policy,
+            seed=seed,
+        )
+        self.store.add_transcription_source("synthetic", "Synthetic Control Generator")
 
         num_pages = int(params.get("num_pages", 5))
         lines_per_page = int(params.get("lines_per_page", 24))

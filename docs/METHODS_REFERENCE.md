@@ -73,11 +73,45 @@ inputs. This is explicit and scoped:
 ## 5. Control Pipeline
 
 Control generators (`synthetic`, `self_citation`, `table_grille`,
-`mechanical_reuse`) generate token streams programmatically and intentionally
-bypass EVAParser normalization. Rationale:
-- control tokens are emitted from already-normalized vocabularies;
-- objective is structural contrast testing, not manuscript transcription.
+`mechanical_reuse`) now run under explicit **normalization symmetry** policy.
 
-Known confound:
-- if future control vocabularies include non-normalized glyph variants, they
-  should be routed through EVAParser to maintain symmetry.
+Allowed normalization modes:
+
+- `parser`: parser-equivalent canonicalization path for control tokens.
+- `pre_normalized_with_assertions`: strict lowercase-alpha assertion path for
+  already-canonical token streams.
+
+SK-H3 enforcement requirements:
+
+- normalization mode must be explicit in control provenance,
+- parser-mode canonicalization must be deterministic,
+- strict mode must fail on non-canonical tokens.
+
+Comparability caveat handling:
+
+- if control generation cannot satisfy normalization policy, comparability status
+  must be downgraded (`NON_COMPARABLE_BLOCKED` or `INCONCLUSIVE_DATA_LIMITED`),
+- release-path checks must not treat such runs as conclusive.
+
+## 6. SK-H3 Comparability Guardrails
+
+- Matching and evaluation metrics are partitioned and audited.
+- Any overlap between `matching_metrics` and `holdout_evaluation_metrics` is
+  treated as target leakage.
+- Data-availability constraints are tracked in
+  `status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json`.
+- When required source pages are unavailable, comparability must remain
+  blocked for full closure with:
+  - `reason_code=DATA_AVAILABILITY`
+  - `evidence_scope=available_subset`
+  - `full_data_closure_eligible=false`
+- Available-subset comparability is explicitly non-conclusive and cannot be
+  promoted to full-dataset closure claims.
+- Canonical checker:
+
+```bash
+python3 scripts/skeptic/check_control_comparability.py --mode ci
+python3 scripts/skeptic/check_control_comparability.py --mode release
+python3 scripts/skeptic/check_control_data_availability.py --mode ci
+python3 scripts/skeptic/check_control_data_availability.py --mode release
+```

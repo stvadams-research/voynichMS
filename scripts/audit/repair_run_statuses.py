@@ -36,8 +36,13 @@ def _build_summary(
     reconciled: int,
     orphaned: int,
     backfilled_manifests: int,
+    would_update: int,
+    would_reconciled: int,
+    would_orphaned: int,
+    would_backfilled_manifests: int,
     missing_manifest_ids: list[str],
     report_path: str | None,
+    dry_run: bool,
 ) -> Dict[str, Any]:
     summary: Dict[str, Any] = {
         "scanned": scanned,
@@ -45,7 +50,12 @@ def _build_summary(
         "reconciled": reconciled,
         "orphaned": orphaned,
         "backfilled_manifests": backfilled_manifests,
+        "would_update": would_update,
+        "would_reconciled": would_reconciled,
+        "would_orphaned": would_orphaned,
+        "would_backfilled_manifests": would_backfilled_manifests,
         "missing_manifests": len(missing_manifest_ids),
+        "dry_run": dry_run,
     }
     if report_path:
         payload = {
@@ -92,6 +102,8 @@ def _build_backfilled_manifest(record: RunRecord, *, fallback_status: str) -> Di
         "command_line": _jsonable(record.command_line),
         "config": _jsonable(record.config),
         "manifest_backfilled": True,
+        "backfill_generated_utc": datetime.utcnow().isoformat() + "Z",
+        "backfill_source": "scripts/audit/repair_run_statuses.py",
     }
 
 
@@ -100,6 +112,7 @@ def repair_run_statuses(
     orphan_status: str = "orphaned",
     report_path: str | None = None,
     backfill_missing_manifests: bool = False,
+    dry_run: bool = False,
 ) -> Dict[str, Any]:
     store = MetadataStore(db_url)
     session = store.Session()
@@ -108,6 +121,10 @@ def repair_run_statuses(
     reconciled = 0
     orphaned = 0
     backfilled_manifests = 0
+    would_update = 0
+    would_reconciled = 0
+    would_orphaned = 0
+    would_backfilled_manifests = 0
     missing_manifest_ids: list[str] = []
     try:
         if backfill_missing_manifests:
@@ -131,24 +148,41 @@ def repair_run_statuses(
                         record,
                         fallback_status=orphan_status,
                     )
-                    run_json.parent.mkdir(parents=True, exist_ok=True)
-                    run_json.write_text(
-                        json.dumps(manifest, indent=2),
-                        encoding="utf-8",
-                    )
-                    backfilled_manifests += 1
+                    if dry_run:
+                        would_backfilled_manifests += 1
+                    else:
+                        run_json.parent.mkdir(parents=True, exist_ok=True)
+                        run_json.write_text(
+                            json.dumps(manifest, indent=2),
+                            encoding="utf-8",
+                        )
+                        backfilled_manifests += 1
 
                 changed = False
                 if is_stale and orphan_status:
-                    if record.status != orphan_status:
-                        record.status = orphan_status
-                        changed = True
-                    if record.timestamp_end is None and record.timestamp_start is not None:
-                        record.timestamp_end = record.timestamp_start
-                        changed = True
+                    if dry_run:
+                        if record.status != orphan_status or (
+                            record.timestamp_end is None and record.timestamp_start is not None
+                        ):
+                            changed = True
+                    else:
+                        if record.status != orphan_status:
+                            record.status = orphan_status
+                            changed = True
+                        if record.timestamp_end is None and record.timestamp_start is not None:
+                            record.timestamp_end = record.timestamp_start
+                            changed = True
                     if changed:
-                        updated += 1
-                    orphaned += 1
+                        if dry_run:
+                            would_update += 1
+                            would_orphaned += 1
+                        else:
+                            updated += 1
+                            orphaned += 1
+                    elif dry_run:
+                        would_orphaned += 1
+                    else:
+                        orphaned += 1
                 continue
 
             if not is_stale:
@@ -169,10 +203,17 @@ def repair_run_statuses(
                 changed = True
 
             if changed:
-                updated += 1
-                reconciled += 1
+                if dry_run:
+                    would_update += 1
+                    would_reconciled += 1
+                else:
+                    updated += 1
+                    reconciled += 1
 
-        session.commit()
+        if dry_run:
+            session.rollback()
+        else:
+            session.commit()
     finally:
         session.close()
     return _build_summary(
@@ -181,8 +222,13 @@ def repair_run_statuses(
         reconciled=reconciled,
         orphaned=orphaned,
         backfilled_manifests=backfilled_manifests,
+        would_update=would_update,
+        would_reconciled=would_reconciled,
+        would_orphaned=would_orphaned,
+        would_backfilled_manifests=would_backfilled_manifests,
         missing_manifest_ids=missing_manifest_ids,
         report_path=report_path,
+        dry_run=dry_run,
     )
 
 
@@ -211,6 +257,11 @@ def _parse_args() -> argparse.Namespace:
             "Backfilled manifests are marked with manifest_backfilled=true."
         ),
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Evaluate repair actions and write summary report without mutating DB/manifests.",
+    )
     return parser.parse_args()
 
 
@@ -221,9 +272,11 @@ if __name__ == "__main__":
         orphan_status=args.orphan_status,
         report_path=args.report_path,
         backfill_missing_manifests=args.backfill_missing_manifests,
+        dry_run=args.dry_run,
     )
     print(
         "scanned={scanned} updated={updated} reconciled={reconciled} "
         "orphaned={orphaned} backfilled_manifests={backfilled_manifests} "
-        "missing_manifests={missing_manifests}".format(**summary)
+        "missing_manifests={missing_manifests} dry_run={dry_run} "
+        "would_update={would_update}".format(**summary)
     )

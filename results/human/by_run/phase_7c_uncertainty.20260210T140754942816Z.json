@@ -1,0 +1,57 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-10T14:07:54.942809+00:00"
+  },
+  "results": {
+    "target_artifact": "Voynich",
+    "parameters": {
+      "seed": 42,
+      "iterations": 300,
+      "dimension_count": 4,
+      "bootstrap_dimensions": true,
+      "weight_jitter_range": [
+        0.85,
+        1.15
+      ],
+      "jackknife_dimensions": true
+    },
+    "status": "STABILITY_CONFIRMED",
+    "reason_code": "ROBUST_NEAREST_NEIGHBOR",
+    "allowed_claim": "Comparative proximity is uncertainty-qualified and robust under tested perturbations.",
+    "nearest_neighbor": "Lullian",
+    "nearest_neighbor_distance": 1.7320508075688772,
+    "nearest_neighbor_stability": 1.0,
+    "jackknife_nearest_neighbor_stability": 1.0,
+    "distance_summary": {
+      "Lullian": {
+        "mean": 1.6895175818109187,
+        "std": 0.3245711538887511,
+        "ci95_lower": 0.9608438758868149,
+        "ci95_upper": 2.1243539074606743,
+        "point_estimate": 1.7320508075688772,
+        "nearest_probability": 1.0,
+        "top3_probability": 1.0
+      },
+      "Latin": {
+        "mean": 5.039616968740733,
+        "std": 0.5893715191390616,
+        "ci95_lower": 3.8525036323401127,
+        "ci95_upper": 6.1856643676830325,
+        "point_estimate": 5.0990195135927845,
+        "nearest_probability": 0.0,
+        "top3_probability": 1.0
+      }
+    },
+    "ranking_point_estimate": [
+      "Lullian",
+      "Latin"
+    ],
+    "top2_gap": {
+      "mean": 3.3500993869298137,
+      "std": 0.46535249871790396,
+      "ci95_lower": 2.3612139766014275,
+      "ci95_upper": 4.179016490096288
+    }
+  }
+}

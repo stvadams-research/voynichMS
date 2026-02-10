@@ -44,6 +44,10 @@
 
 All Phase 4 methods fail the **Latent-State Dependence (C3)** condition. They measure structural regularities that are purely mechanical in origin. Therefore, none of these methods can be used to support an inference of language or meaning in the Voynich Manuscript.
 
+Status index reference:
+
+- `results/reports/PHASE_4_STATUS_INDEX.json`
+
 ---
-**Status:** Mapping Complete.  
+**Status:** Mapping Complete (Coherence-checked).  
 **Next:** Formal Closure Statement.

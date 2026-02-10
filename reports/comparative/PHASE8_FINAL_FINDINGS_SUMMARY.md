@@ -105,6 +105,7 @@ Outcome:
 - Voynich’s nearest neighbor is combinatorial (Lullian-style systems).
 - That proximity is **moderate**, not decisive.
 - Voynich remains structurally isolated in artifact space.
+- Comparative-distance claims are now uncertainty-qualified in `results/human/phase_7c_uncertainty.json`.
 
 ---
 
@@ -115,12 +116,13 @@ Outcome:
 Actions:
 - Summarized what Phase B established.
 - Explicitly stated what it did not and cannot resolve.
-- Reasserted that no further comparison meaningfully reduces uncertainty.
+- Reasserted that further comparison must be interpreted through uncertainty status, not point estimates alone.
 - Defined what kinds of new evidence would be required to proceed.
 
 Outcome:
 - Phase B reached a formal stopping point.
 - No unresolved analytical threads remained.
+- Current comparative uncertainty status is `INCONCLUSIVE_UNCERTAINTY` with reason `TOP2_GAP_FRAGILE`, so nearest-neighbor claims remain directional and caveated.
 
 ---
 

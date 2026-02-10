@@ -1,0 +1,20 @@
+{
+  "policy_version": "2026-02-10",
+  "dataset_policy": {
+    "allowed_dataset_ids": [
+      "voynich_real"
+    ],
+    "min_pages": 200,
+    "min_tokens": 200000
+  },
+  "warning_policy": {
+    "max_total_warning_count": 400,
+    "max_warning_density_per_scenario": 20.0,
+    "max_insufficient_data_scenarios": 0,
+    "max_sparse_data_scenarios": 0,
+    "max_nan_sanitized_scenarios": 0,
+    "max_fallback_heavy_scenarios": 0,
+    "fallback_heavy_threshold_per_scenario": 3,
+    "max_fallback_warning_ratio_per_scenario": 0.25
+  }
+}

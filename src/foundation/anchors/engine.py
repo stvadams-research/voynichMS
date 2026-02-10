@@ -1,5 +1,5 @@
-import uuid
 import logging
+import json
 from typing import List, Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -12,12 +12,41 @@ class AnchorEngine:
     def __init__(self, store: MetadataStore, seed: int = 0):
         self.store = store
         self.id_factory = DeterministicIDFactory(seed=seed)
+        self.seed = seed
+
+    @staticmethod
+    def _canonical_parameters(parameters: Dict[str, Any] | None) -> str:
+        if not parameters:
+            return "{}"
+        try:
+            return json.dumps(parameters, sort_keys=True, separators=(",", ":"))
+        except TypeError:
+            # Fallback for any unexpected non-serializable value.
+            return str(parameters)
+
+    def _method_id(self, name: str, parameters: Dict[str, Any] | None) -> str:
+        key = f"method:{name}:{self._canonical_parameters(parameters)}"
+        return self.id_factory.fork(key).next_uuid("method")
+
+    def _anchor_id(
+        self,
+        *,
+        method_id: str,
+        page_id: str,
+        source_id: str,
+        target_id: str,
+        relation_type: str,
+    ) -> str:
+        key = (
+            f"anchor:{method_id}:{page_id}:{source_id}:{target_id}:{relation_type}"
+        )
+        return self.id_factory.fork(key).next_uuid("anchor")
 
     def register_method(self, name: str, description: str = None, parameters: Dict[str, Any] = None) -> str:
         """
         Register a new anchor method. Returns the method ID.
         """
-        method_id = self.id_factory.next_uuid("method")
+        method_id = self._method_id(name, parameters)
         self.store.add_anchor_method(
             id=method_id,
             name=name,
@@ -101,7 +130,13 @@ class AnchorEngine:
                             relation = "inside"
                         
                         self.store.add_anchor(
-                            id=self.id_factory.next_uuid(f"anchor:{page_id}"),
+                            id=self._anchor_id(
+                                method_id=method_id,
+                                page_id=page_id,
+                                source_id=word.id,
+                                target_id=region.id,
+                                relation_type=relation,
+                            ),
                             run_id=run_id,
                             page_id=page_id,
                             source_type="word",
@@ -119,7 +154,13 @@ class AnchorEngine:
                     dist = r_box.distance(w_box)
                     if dist < threshold_dist:
                         self.store.add_anchor(
-                            id=self.id_factory.next_uuid(f"anchor:{page_id}"),
+                            id=self._anchor_id(
+                                method_id=method_id,
+                                page_id=page_id,
+                                source_id=word.id,
+                                target_id=region.id,
+                                relation_type="near",
+                            ),
                             run_id=run_id,
                             page_id=page_id,
                             source_type="word",

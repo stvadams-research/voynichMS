@@ -20,6 +20,16 @@ from foundation.config import SCRAMBLED_CONTROL_PARAMS, get_analysis_thresholds
 import logging
 logger = logging.getLogger(__name__)
 
+DEFAULT_MATCHING_METRICS = [
+    "repetition_rate",
+    "information_density",
+    "locality_radius",
+]
+DEFAULT_HOLDOUT_EVALUATION_METRICS = [
+    "mean_word_length",
+    "positional_entropy",
+]
+
 
 @dataclass
 class MetricVector:
@@ -86,10 +96,23 @@ class IndistinguishabilityTester:
         self.real_vectors: List[MetricVector] = []
         self.synthetic_vectors: List[MetricVector] = []
         self.scrambled_vectors: List[MetricVector] = []
+        self.matching_metrics: List[str] = list(DEFAULT_MATCHING_METRICS)
+        self.holdout_evaluation_metrics: List[str] = list(DEFAULT_HOLDOUT_EVALUATION_METRICS)
         thresholds = get_analysis_thresholds().get("indistinguishability", {})
         self.success_threshold = float(thresholds.get("separation_success", 0.7))
         self.failure_threshold = float(thresholds.get("separation_failure", 0.3))
         self.require_computed = os.environ.get("REQUIRE_COMPUTED", "0") == "1"
+
+    def set_metric_partitions(
+        self, *, matching_metrics: List[str], holdout_evaluation_metrics: List[str]
+    ) -> None:
+        """Set metric partitions used for anti-leakage reporting."""
+        self.matching_metrics = list(matching_metrics)
+        self.holdout_evaluation_metrics = list(holdout_evaluation_metrics)
+
+    def metric_overlap(self) -> List[str]:
+        """Return metric overlap between matching and holdout sets."""
+        return sorted(set(self.matching_metrics) & set(self.holdout_evaluation_metrics))
 
     def _compute_positional_entropy(self, text_blocks: List[List[str]]) -> float:
         """
@@ -374,7 +397,13 @@ class FullIndistinguishabilityTest:
     def get_summary(self) -> Dict[str, Any]:
         """Get summary of all tests."""
         if not self.results:
-            return {"status": "no_tests_run"}
+            return {
+                "status": "no_tests_run",
+                "matching_metrics": list(self.matching_metrics),
+                "holdout_evaluation_metrics": list(self.holdout_evaluation_metrics),
+                "metric_overlap": self.metric_overlap(),
+                "leakage_detected": bool(self.metric_overlap()),
+            }
 
         return {
             "gaps_tested": len(self.results),
@@ -397,4 +426,8 @@ class FullIndistinguishabilityTest:
                 }
                 for gap_id, r in self.results.items()
             },
+            "matching_metrics": list(self.matching_metrics),
+            "holdout_evaluation_metrics": list(self.holdout_evaluation_metrics),
+            "metric_overlap": self.metric_overlap(),
+            "leakage_detected": bool(self.metric_overlap()),
         }

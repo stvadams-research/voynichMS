@@ -52,6 +52,18 @@ def test_indistinguishability_runner_has_strict_preflight_guard() -> None:
     assert "DATA_AVAILABILITY" in script
 
 
+def test_indistinguishability_runner_emits_sk_h3_comparability_fields() -> None:
+    script = Path("scripts/synthesis/run_indistinguishability_test.py").read_text(
+        encoding="utf-8"
+    )
+    assert "CONTROL_COMPARABILITY_STATUS.json" in script
+    assert "matching_metrics" in script
+    assert "holdout_evaluation_metrics" in script
+    assert "metric_overlap" in script
+    assert "leakage_detected" in script
+    assert "normalization_mode" in script
+
+
 def test_preflight_page_id_normalization_handles_split_folios() -> None:
     runner = _load_runner_module()
     assert runner._normalize_pharma_page_id("f89r1") == "f89r"

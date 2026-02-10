@@ -5,21 +5,25 @@ Produces text using a grid of prefixes, infixes, and suffixes selected by a gril
 """
 
 import random
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 from foundation.controls.interface import ControlGenerator
 import logging
+
 logger = logging.getLogger(__name__)
 
 class TableGrilleGenerator(ControlGenerator):
     """
     Generates text using a table-and-grille mechanism.
 
-    Generated tokens bypass EVAParser normalization intentionally: control
-    tokens are emitted directly from an already-normalized synthetic alphabet.
+    Normalization modes:
+    - parser: parser-equivalent canonicalization for symmetry.
+    - pre_normalized_with_assertions: enforce already-normalized token stream.
     """
     def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: Dict[str, Any] = None) -> str:
         rng = random.Random(seed)
         params = params or {}
+        normalization_mode = self._resolve_normalization_mode(params)
 
         target_tokens = params.get("target_tokens", 230000)
 
@@ -58,16 +62,32 @@ class TableGrilleGenerator(ControlGenerator):
                 grille_x = rng.randint(0, table_cols-1)
                 grille_y = rng.randint(0, table_rows-1)
 
+        normalized_tokens, normalization = self._normalize_tokens_for_control(
+            tokens, mode=normalization_mode
+        )
+
         # 4. Ingest
-        self._ingest_tokens(control_id, tokens, seed=seed)
+        metadata = {
+            "source_dataset_id": source_dataset_id,
+            "params": dict(params),
+            "normalization": normalization,
+        }
+        self._ingest_tokens(control_id, normalized_tokens, seed=seed, metadata=metadata)
 
         return control_id
 
-    def _ingest_tokens(self, dataset_id: str, tokens: List[str], seed: int):
+    def _ingest_tokens(self, dataset_id: str, tokens: List[str], seed: int, metadata: Dict[str, Any]):
         """Helper to register synthetic tokens in the database."""
         from foundation.core.id_factory import DeterministicIDFactory
         id_factory = DeterministicIDFactory(seed=seed)
 
+        self.store.add_control_dataset(
+            id=dataset_id,
+            source_dataset_id=str(metadata.get("source_dataset_id", "unknown")),
+            type="table_grille",
+            params=metadata,
+            seed=seed,
+        )
         self.store.add_dataset(dataset_id, "generated_table_grille")
         self.store.add_transcription_source("synthetic", "Synthetic Control Generator")
 

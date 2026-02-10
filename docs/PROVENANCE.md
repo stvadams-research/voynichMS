@@ -55,9 +55,10 @@ Notes:
 
 ## Script Classification
 
-Not every `run_*.py` script emits JSON artifacts. The project uses two script classes:
+Not every `run_*.py` script emits JSON artifacts. The project uses three script classes:
 
-- `artifact-producing`: must write provenance-wrapped outputs via `ProvenanceWriter`.
+- `artifact-producing`: script writes provenance-wrapped outputs directly via `ProvenanceWriter`.
+- `delegated-provenance`: script delegates artifact writing to a module that writes via `ProvenanceWriter`.
 - `display-only`: console/report orchestration scripts with no JSON artifact contract.
 
 Current display-only exemptions:
@@ -69,6 +70,22 @@ Current display-only exemptions:
 - `scripts/synthesis/run_phase_3_1.py`
 
 If any exempted script begins writing persistent JSON outputs, it must migrate to `ProvenanceWriter`.
+
+Delegated provenance policy:
+
+- `configs/audit/provenance_runner_contract.json`
+
+Contract checker:
+
+```bash
+python3 scripts/audit/check_provenance_runner_contract.py --mode ci
+python3 scripts/audit/check_provenance_runner_contract.py --mode release
+```
+
+Current delegated runner entry:
+
+- `scripts/comparative/run_proximity_uncertainty.py` delegates to
+  `src/comparative/mapping.py::run_analysis` (writer-backed).
 
 ## Status Artifact Policy
 
@@ -114,6 +131,32 @@ Optional manifest backfill:
   from original runtime-emitted manifests.
 - Backfill is intended for provenance traceability and does not imply stronger
   historical certainty than the underlying DB row content.
+
+Historical provenance confidence artifact:
+
+- `status/audit/provenance_health_status.json`
+- `status/audit/provenance_register_sync_status.json`
+
+SK-M4 policy reference:
+
+- `docs/HISTORICAL_PROVENANCE_POLICY.md`
+
+The provenance-health artifact is the canonical machine-readable source for
+`PROVENANCE_ALIGNED` vs `PROVENANCE_QUALIFIED` vs `PROVENANCE_BLOCKED`
+classification in closure-facing claim governance.
+
+Register synchronization command path:
+
+```bash
+python3 scripts/audit/build_release_gate_health_status.py
+python3 scripts/audit/build_provenance_health_status.py
+python3 scripts/audit/sync_provenance_register.py
+```
+
+Operational coupling note:
+
+- Provenance confidence claims are operationally contingent on gate-health state.
+- Gate-health source: `status/audit/release_gate_health_status.json`.
 
 ## Failure Policy
 

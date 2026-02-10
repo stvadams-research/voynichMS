@@ -69,20 +69,21 @@ Is the formal system adaptively coupled to the physical manuscript (pages, layou
 ### 4.2 Key Findings
 
 - **Weak or absent page-boundary effects** on line length and structure.
-- **No significant adaptation to layout geometry** or illustration proximity.
+- **Layout geometry adaptation is weak**, and illustration-proximity claims are status-gated by `results/mechanism/anchor_coupling_confirmatory.json`.
 - **Strong coupling to scribal identity**, with large differences in execution signatures (e.g., TTR) between hands.
 - **No evidence of section-specific algorithms**; the mechanism is globally invariant.
 
 ### 4.3 Interpretation
 
-- The formal system is **not driven by the manuscript’s physical structure**.
+- The formal system shows **weak coupling to page geometry** under current codicological tests.
+- Illustration/layout coupling remains **status-gated and currently non-conclusive** (`INCONCLUSIVE_UNDERPOWERED`).
 - Control resides with the **scribe executing an abstract system**, not the page.
 - Multiple scribes can execute the same system with measurably different styles.
 
 ### 4.4 Eliminated Categories
 
 - Spatially meaningful or diagram-driven generation
-- Page-aware or illustration-anchored encoding
+- Definitive illustration-anchored encoding claims (deferred unless coupling status becomes conclusive)
 - Section-specific production mechanisms
 
 ---
@@ -130,8 +131,8 @@ Across Phases 7A–7C, the following conclusions are jointly supported:
 1. **Human Execution:**  
    The manuscript was produced by humans exercising discipline, not automation or deception.
 
-2. **Abstract Control:**  
-   The formal system exists independently of the manuscript’s physical structure.
+2. **Abstract Control (Qualified):**  
+   Current evidence supports weak page-geometry coupling, while illustration/layout coupling remains status-gated and non-conclusive.
 
 3. **Agent Modulation:**  
    Individual scribes significantly influence execution style without altering the underlying rules.
