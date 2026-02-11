@@ -153,45 +153,33 @@ This result motivates Layer 4.
 
 ---
 
-### Layer 4: Inference Admissibility and Method Evaluation (Active)
+### Layer 4: Inference Admissibility and Method Evaluation (Completed)
 
 **Purpose**  
 Evaluate whether the methods commonly used to argue that the Voynich Manuscript contains meaning are actually diagnostic.
 
-Layer 4 does not ask:
-What does the manuscript mean?
+**Outcome**  
+Widely cited inference methods (Information Theory, AI-based Language ID) failed to reliably distinguish semantic text from non-semantic but structurally similar noise. A "noise floor" for inference has been established.
 
-Layer 4 asks:
-What kinds of claims can legitimately be made from the observed structure?
+This result motivates Layer 5.
 
-**Core question**
-Do widely cited inference methods reliably distinguish semantic texts from non-semantic but structurally similar texts?
+---
 
-This layer shifts the focus:
-from explaining the manuscript
-to evaluating explanations *about* the manuscript.
+### Layer 5: Visualization, Reporting, and Publication (Active)
 
-**Key characteristics**
-- Methods, not authors, are evaluated
-- Published claims are treated as test targets
-- False positive rates are first-class results
-- Controls include non-semantic texts designed to mimic Voynich structure
-- Null results are considered valuable outcomes
+**Purpose**  
+Formalize the framework's findings into human-interpretable and peer-reviewed formats.
 
-**Method families under evaluation**
-- Information-theoretic keyword and clustering analyses
-- Network and multi-feature language-likeness metrics
-- Topic modeling and section alignment claims
-- AI-assisted language identification and decipherment pipelines
-- Unsupervised morphology and grammar induction
+**Key questions answered**
+- How can complex statistical boundaries be communicated clearly?
+- Can the manuscript's non-semantic nature be demonstrated visually?
+- Are the findings robust enough for formal publication?
 
 **Outputs**
-- A reusable inference evaluation harness
-- Method-by-method admissibility classifications
-- Explicit documentation of what each method can and cannot infer
-- Closure of semantic inference loopholes
-
-This layer determines whether meaning claims are supported by valid inference, not by appearance.
+- Automated Visualization Layer
+- Research Draft Scaffolding
+- High-fidelity diagnostic plots
+- Final Publication Drafts
 
 ---
 
@@ -232,6 +220,7 @@ Interpretation is deferred until inference itself is justified.
 - Phase 2 maps to Layer 2 (Admissibility)
 - Phase 3 maps to Layer 3 (Structural Sufficiency)
 - Phase 4 maps to Layer 4 (Inference Admissibility)
+- Phases 5-7 map to Layer 5 (Visualization and Reporting)
 
 Phases may conclude.
 Layers define what kinds of questions are allowed.

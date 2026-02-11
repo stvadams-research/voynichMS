@@ -19,14 +19,16 @@ If it only adds structure, it does not belong here.
 ## Current Status: AUDIT-REMEDIATED (Phases 2-7 Implemented)
 
 The project has executable phase runners through **Phase 7** (analysis,
-synthesis, mechanism, inference, and human/codicological tracks), with
-ongoing audit hardening and reproducibility verification.
+synthesis, mechanism, inference, and human/codicological tracks), a 
+**Visualization Layer** for automated result reporting, and a 
+**Publication Framework** for research drafting.
 
 ### Key Findings
 1.  **Natural-language/simple-cipher hypotheses are not supported within tested diagnostics:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic under the current framework.
 2.  **Structural anomaly persists:** High information density (z=5.68) and strong locality (2-4 units) remain stable across tested analyses.
 3.  **Mechanism class identified:** The manuscript is structurally consistent with a two-stage procedural system: rigid glyph-level grammar plus bounded selection pools.
 4.  **Generative reconstruction bounded:** Grammar-level reconstruction succeeded, while selection dynamics remain constrained rather than fully closed.
+5.  **Inference Admissibility defined:** Established that common decipherment tools yield similar confidence scores on random noise as they do on the manuscript, establishing a statistical "noise floor" for meaning claims.
 
 See `results/reports/FINAL_REPORT_PHASE_3.md` for the full conclusion.
 
@@ -121,8 +123,16 @@ voynich/
 ## How to Work on This Project
 
 1.  **Read the Runbook:** `docs/RUNBOOK.md` explains how to reproduce the baseline.
-2.  **Check the Rules:** `RULES_FOR_AGENTS.md` defines the strict constraints on AI and human contributors.
-3.  **Enforce Standards:** All contributions must pass the CI check (`scripts/ci_check.sh`) and adhere to the `REQUIRE_COMPUTED` standard.
+2.  **Visualization:** Use the `visualization` CLI to generate plots:
+    ```bash
+    visualization foundation token-frequency voynich_real
+    ```
+3.  **Publication:** Use the assembly script to compile research drafts:
+    ```bash
+    python3 scripts/preparation/assemble_draft.py
+    ```
+4.  **Check the Rules:** `RULES_FOR_AGENTS.md` defines the strict constraints on AI and human contributors.
+5.  **Enforce Standards:** All contributions must pass the CI check (`scripts/ci_check.sh`) and adhere to the `REQUIRE_COMPUTED` standard.
 
 ---
 

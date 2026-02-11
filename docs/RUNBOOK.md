@@ -72,7 +72,27 @@ python3 scripts/human/run_7b_codicology.py
 python3 scripts/human/run_7c_comparative.py
 ```
 
-## 7. Verification and Tests
+## 7. Phase 8 Execution (Visualization and Publication)
+
+### Visualization
+
+```bash
+# General usage
+visualization foundation token-frequency voynich_real
+visualization analysis sensitivity-sweep status/audit/sensitivity_sweep.json
+visualization inference lang-id results/phase_4/lang_id_results.json
+```
+
+### Publication Drafting
+
+```bash
+# Assemble the latest draft from chapter stubs and data
+python3 scripts/preparation/assemble_draft.py
+```
+
+The master draft will be generated at `planning/preparation/DRAFT_MASTER.md`.
+
+## 8. Verification and Tests
 
 ```bash
 python3 -m pytest tests/ -v

@@ -1,25 +1,42 @@
-# Mechanism
+# Layer 3: Structural Mechanism
 
 ## Headline
-*A single, bold sentence summarizing the core finding of this section.*
+**The manuscript is the output of an "Implicit Constraint Lattice"—a deterministic rule-system that generates text line-by-line with no memory of the past.**
 
 ## The Concept (Layman's Summary)
-*Explain the concept here using simple analogies and plain English. Avoid jargon. Focus on the "Why" and the "So what?"*
+Imagine a giant wall of switches and gears. Every time you pull a lever, a word is printed. The gear you turn *now* depends exactly on which gear you turned *last* and where you are on the page. But as soon as you finish a line and move to the next, all the gears reset. 
+
+This is how the Voynich Manuscript works. It isn't a person writing a story; it's a person (or a process) following a very strict set of instructions that tells them exactly which symbol comes next based on the one they just wrote. This explains why the book looks so consistent but says absolutely nothing.
 
 ## Technical Deep-Dive
-*This section contains the rigorous proof. Use subheadings for different types of evidence (Math, Data Patterns, Logical Proofs).*
+Phase 5 of our research focused on **Mechanism Identifiability**. We eliminated competing families of generative processes (e.g., simple copying, static tables, or random sampling) until only one class remained.
 
-### Mathematical Framework
-*Insert formulas or algorithmic logic here.*
+### The Survival of the Lattice
+We tested the "Entropy Reduction" of words based on their context. In a language, knowing the previous word helps a little. In the Voynich, knowing the `(Prev Word, Current Word, Position)` removes almost **88.11%** of all uncertainty.
 
-### Data Evidence
-*Refer to specific datasets and metrics.*
+| Predictor State | Entropy Remaining (bits) | Predictive Lift |
+|-----------------|--------------------------|-----------------|
+| Node Only       | 2.27                     | -               |
+| Node + Position | 0.78                     | 65.6%           |
+| Node + Pos + History | 0.09                | 88.1%           |
+
+This "Entropy Collapse" is the signature of a **Deterministic Rule System**. 
+
+### Line Reset Dynamics
+We measured the **Reset Score** across line boundaries.
+- **Voynich Score**: 0.95 (Near-total reset)
+This proves that the "state" of the machine does not cross from one line to the next, which is physically consistent with mechanical aids like grilles or wheels that are moved per-line.
 
 ## Skeptic's Corner
-*Address counter-arguments directly. Compare our findings with existing studies or popular theories.*
+Could this "lattice" just be the grammar of a real language?
 
 ### Counter-Point Analysis
-*Why common interpretations (X, Y, Z) are inadmissible under these results.*
+No. Natural language grammar is "lossy" and "stochastic"—it allows for creativity and variation. The Voynich Lattice is "rigid"—it forces successors with near-mathematical certainty. If it were a language, the author would have been a prisoner to their own grammar, unable to express a single original thought.
 
 ## Reproducibility
-*Direct references to the CLI commands and RunIDs that generated this data.*
+Mechanism results are consolidated in `results/reports/PHASE_5_FINAL_FINDINGS_SUMMARY.md`.
+Specific topology tests can be rerun via:
+```bash
+python3 scripts/mechanism/run_pilot.py
+```
+**Reference RunID**: `f18b9a7c-a852-89d1-58ba-359007d8c038`

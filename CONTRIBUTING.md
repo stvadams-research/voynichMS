@@ -37,13 +37,14 @@ This codebase is maintained in an **Audit-Ready** state. Any contribution that b
 
 Work proceeds level by level. Do not implement future-level work “because it will be useful later”.
 
-**Current Phase:** Phase 3 (Synthesis) - Terminal / Maintenance Mode.
+**Current Phase:** Phase 8 (Visualization and Publication) - Active.
 
 Allowed directories:
 - `src/`
 - `tests/`
 - `scripts/`
 - `configs/`
+- `planning/preparation/`
 
 ---
 

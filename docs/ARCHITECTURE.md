@@ -21,9 +21,20 @@ Implements the "Generative Reconstruction" framework.
   - `GrammarBasedGenerator`: Glyph-level probabilistic grammar (Phase 3.2).
 - **Indistinguishability:** "Turing Test" comparing synthetic vs. real metrics.
 
-## 4. Data Flow
+## 4. Inference Layer (`src/inference/`)
+Evaluates the diagnostic validity of methods used to claim semantic content.
+- **Cross-Dataset Validation:** Compares results on real vs. non-semantic controls.
+- **False Positive Assessment:** Establishes the "noise floor" for language identification.
+
+## 5. Visualization & Publication (`src/visualization/` & `scripts/preparation/`)
+Formalizes findings for human interpretation and peer review.
+- **Visualization:** Automated plotting of phase-specific metrics.
+- **Publication Scaffolding:** Automated assembly of research drafts from latest data.
+
+## 6. Data Flow
 1. **Raw Data** (Images, Transcriptions) -> **Ingestion** (Database).
 2. **Database** -> **Profile Extraction** -> **Constraints**.
 3. **Constraints** -> **Generator** -> **Synthetic Pages**.
 4. **Synthetic + Real Pages** -> **Analysis Pipeline** -> **Metrics**.
 5. **Metrics** -> **Comparison/Conclusion**.
+6. **Conclusion** -> **Visualization & Drafting** -> **Publication**.
