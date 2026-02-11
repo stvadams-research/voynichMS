@@ -1,0 +1,258 @@
+# Publication Pipeline Configuration
+# Used by generate_publication.py to control output profiles and data resolution
+
+profiles:
+  full:
+    chapters:
+      - 00_front_matter
+      - 01_epistemic_crisis
+      - 02_methodology
+      - 03_foundational_ledger
+      - 04_structural_exclusion
+      - 05_generative_reconstruction
+      - 06_inference_evaluation
+      - 07_mechanism_identification
+      - 08_functional_characterization
+      - 09_scribal_hand_analysis
+      - 10_comparative_classification
+      - 11_discussion
+      - 12_conclusion
+      - appendix_a_sectional_data
+      - appendix_b_artifact_library
+    include_figures: true
+    output: "Voynich_Structural_Identification_Full.docx"
+
+  summary:
+    chapters:
+      - 00_front_matter
+      - 01_epistemic_crisis
+      - 02_methodology
+      - 07_mechanism_identification
+      - 10_comparative_classification
+      - 12_conclusion
+    include_figures: true
+    output: "Voynich_Research_Summary.docx"
+
+  technical:
+    chapters:
+      - 00_front_matter
+      - 02_methodology
+      - 03_foundational_ledger
+      - 04_structural_exclusion
+      - 05_generative_reconstruction
+      - 06_inference_evaluation
+      - 07_mechanism_identification
+      - 08_functional_characterization
+      - 09_scribal_hand_analysis
+      - 10_comparative_classification
+      - appendix_a_sectional_data
+      - appendix_b_artifact_library
+    include_figures: true
+    output: "Voynich_Technical_Report.docx"
+
+# Data source mappings: placeholder_key -> json_path -> json_key_path
+# Key paths use dot notation for nested access
+data_sources:
+  # Phase 1 - Foundation (hardcoded for now - no Phase 1 JSON exists)
+  phase1.repetition_rate: "0.698"
+
+  # Phase 2 - Analysis
+  phase2.mapping_stability: "0.02"
+  phase2.mapping_stability_outcome: "Excluded"
+
+  # Phase 4 - Inference
+  phase4.montemurro.real_avg_info:
+    file: "results/data/phase4_inference/montemurro_results.json"
+    path: "real.avg_info"
+  phase4.montemurro.shuffled_avg_info:
+    file: "results/data/phase4_inference/montemurro_results.json"
+    path: "shuffled.avg_info"
+  phase4.network.voynich_clustering:
+    file: "results/data/phase4_inference/network_results.json"
+    path: "voynich_real.avg_clustering"
+  phase4.lang_id.voynich_latin:
+    file: "results/data/phase4_inference/lang_id_results.json"
+    path: "voynich_real.latin"
+  phase4.lang_id.voynich_english:
+    file: "results/data/phase4_inference/lang_id_results.json"
+    path: "voynich_real.english"
+
+  # Phase 5 - Mechanism
+  phase5.pilot.successor_entropy:
+    file: "results/data/phase5_mechanism/pilot_results.json"
+    path: "table.real.mean_successor_entropy"
+  phase5.pilot.control_entropy:
+    file: "results/data/phase5_mechanism/pilot_results.json"
+    path: "table.syn.mean_successor_entropy"
+  phase5.pilot.real_clustering:
+    file: "results/data/phase5_mechanism/pilot_results.json"
+    path: "copying.real.clustering_score"
+  phase5.pilot.syn_clustering:
+    file: "results/data/phase5_mechanism/pilot_results.json"
+    path: "copying.syn.clustering_score"
+
+  phase5.5b.reset_score:
+    file: "results/data/phase5_mechanism/constraint_geometry/pilot_5b_results.json"
+    path: "real.reset.reset_score"
+  phase5.5b.effective_rank:
+    file: "results/data/phase5_mechanism/constraint_geometry/pilot_5b_results.json"
+    path: "real.dim.effective_rank_90"
+
+  phase5.5c.line_ttr:
+    file: "results/data/phase5_mechanism/workflow/pilot_5c_results.json"
+    path: "real.mean_ttr"
+  phase5.5c.real_entropy:
+    file: "results/data/phase5_mechanism/workflow/pilot_5c_results.json"
+    path: "real.mean_entropy"
+
+  phase5.5d.real_positional_entropy_0:
+    file: "results/data/phase5_mechanism/deterministic_grammar/pilot_5d_results.json"
+    path: "real_profile.0"
+
+  phase5.5e.successor_consistency:
+    file: "results/data/phase5_mechanism/large_object/pilot_5e_results.json"
+    path: "real.mean_consistency"
+  phase5.5e.syn_consistency:
+    file: "results/data/phase5_mechanism/large_object/pilot_5e_results.json"
+    path: "sim.mean_consistency"
+
+  phase5.5f.start_entropy:
+    file: "results/data/phase5_mechanism/entry_selection/pilot_5f_results.json"
+    path: "real.dist.start_entropy"
+  phase5.5f.unique_starts:
+    file: "results/data/phase5_mechanism/entry_selection/pilot_5f_results.json"
+    path: "real.dist.unique_starts"
+  phase5.5f.coupling_score:
+    file: "results/data/phase5_mechanism/entry_selection/pilot_5f_results.json"
+    path: "real.coup.coupling_score"
+
+  phase5.5g.collision_rate:
+    file: "results/data/phase5_mechanism/topology_collapse/pilot_5g_results.json"
+    path: "Voynich (Real).overlap.collision_rate"
+  phase5.5g.gini_coefficient:
+    file: "results/data/phase5_mechanism/topology_collapse/pilot_5g_results.json"
+    path: "Voynich (Real).coverage.gini_coefficient"
+  phase5.5g.convergence_rate:
+    file: "results/data/phase5_mechanism/topology_collapse/pilot_5g_results.json"
+    path: "Voynich (Real).convergence.avg_successor_convergence"
+
+  phase5.5j.position_lift:
+    file: "results/data/phase5_mechanism/dependency_scope/pilot_5j_results.json"
+    path: "Voynich (Real).position_lift.pos_predictive_lift"
+  phase5.5j.rel_lift:
+    file: "results/data/phase5_mechanism/dependency_scope/pilot_5j_results.json"
+    path: "Voynich (Real).position_lift.pos_rel_lift"
+
+  phase5.5k.entropy_reduction_pct:
+    file: "results/data/phase5_mechanism/parsimony/pilot_5k_results.json"
+    path: "Voynich (Real).residual.rel_reduction"
+    format: "percent"
+  phase5.5k.h_word_pos:
+    file: "results/data/phase5_mechanism/parsimony/pilot_5k_results.json"
+    path: "Voynich (Real).residual.h_word_pos"
+  phase5.5k.h_word_pos_hist:
+    file: "results/data/phase5_mechanism/parsimony/pilot_5k_results.json"
+    path: "Voynich (Real).residual.h_word_pos_hist"
+  phase5.5k.vocab_size:
+    file: "results/data/phase5_mechanism/parsimony/pilot_5k_results.json"
+    path: "Voynich (Real).parsimony.vocab_size"
+
+  # Phase 5 - Anchor coupling
+  phase5.anchor.p_value:
+    file: "results/data/phase5_mechanism/anchor_coupling.json"
+    path: "p_value"
+  phase5.anchor.status:
+    file: "results/data/phase5_mechanism/anchor_coupling.json"
+    path: "status"
+
+  # Phase 5 - Sectional profiles
+  phase5.sections.astronomical_consistency:
+    file: "results/data/phase5_mechanism/sectional_profiles.json"
+    path: "astronomical.consistency"
+  phase5.sections.biological_consistency:
+    file: "results/data/phase5_mechanism/sectional_profiles.json"
+    path: "biological.consistency"
+  phase5.sections.herbal_consistency:
+    file: "results/data/phase5_mechanism/sectional_profiles.json"
+    path: "herbal.consistency"
+  phase5.sections.pharmaceutical_consistency:
+    file: "results/data/phase5_mechanism/sectional_profiles.json"
+    path: "pharmaceutical.consistency"
+  phase5.sections.stars_consistency:
+    file: "results/data/phase5_mechanism/sectional_profiles.json"
+    path: "stars.consistency"
+
+  # Phase 6 - Functional
+  phase6.6a.coverage_ratio:
+    file: "results/data/phase6_functional/phase_6a/phase_6a_results.json"
+    path: "Voynich (Real).coverage.coverage_ratio"
+  phase6.6a.hapax_ratio:
+    file: "results/data/phase6_functional/phase_6a/phase_6a_results.json"
+    path: "Voynich (Real).coverage.hapax_ratio"
+  phase6.6a.path_overlap:
+    file: "results/data/phase6_functional/phase_6a/phase_6a_results.json"
+    path: "Voynich (Real).redundancy.path_overlap_rate_n3"
+  phase6.6a.final_novelty:
+    file: "results/data/phase6_functional/phase_6a/phase_6a_results.json"
+    path: "Voynich (Real).exhaustion.final_novelty_rate"
+
+  phase6.6b.path_efficiency:
+    file: "results/data/phase6_functional/phase_6b/phase_6b_results.json"
+    path: "Voynich (Real).path_efficiency.path_efficiency"
+  phase6.6b.redundancy_rate:
+    file: "results/data/phase6_functional/phase_6b/phase_6b_results.json"
+    path: "Voynich (Real).redundancy_cost.redundancy_rate"
+  phase6.6b.unique_lines:
+    file: "results/data/phase6_functional/phase_6b/phase_6b_results.json"
+    path: "Voynich (Real).redundancy_cost.unique_lines"
+
+  phase6.6c.final_accuracy:
+    file: "results/data/phase6_functional/phase_6c/phase_6c_results.json"
+    path: "Voynich (Real).learnability.final_accuracy"
+  phase6.6c.entropy_reduction:
+    file: "results/data/phase6_functional/phase_6c/phase_6c_results.json"
+    path: "Voynich (Real).conditioning_sensitivity.entropy_reduction"
+
+  # Phase 7 - Human
+  phase7.7a.corrections_per_100:
+    file: "results/data/phase7_human/phase_7a_results.json"
+    path: "corrections.corrections_per_100_lines"
+  phase7.7a.fatigue_correlation:
+    file: "results/data/phase7_human/phase_7a_results.json"
+    path: "fatigue.avg_line_length_correlation"
+  phase7.7a.strokes_per_token:
+    file: "results/data/phase7_human/phase_7a_results.json"
+    path: "cost.mean_strokes_per_token"
+
+  phase7.7b.hand1_ttr:
+    file: "results/data/phase7_human/phase_7b_results.json"
+    path: "results.scribe.Hand 1.mean_ttr"
+  phase7.7b.hand2_ttr:
+    file: "results/data/phase7_human/phase_7b_results.json"
+    path: "results.scribe.Hand 2.mean_ttr"
+  phase7.7b.num_quires:
+    file: "results/data/phase7_human/phase_7b_results.json"
+    path: "results.quire.num_quires"
+  phase7.7b.illustration_coupling_status:
+    file: "results/data/phase7_human/phase_7b_results.json"
+    path: "results.illustration_coupling.status"
+
+  phase7.7c.voynich_determinism:
+    file: "results/data/phase7_human/phase_7c_results.json"
+    path: "fingerprints.voynich_real.determinism"
+  phase7.7c.distance_to_table_grille:
+    file: "results/data/phase7_human/phase_7c_results.json"
+    path: "distances_from_voynich.table_grille"
+  phase7.7c.distance_to_latin:
+    file: "results/data/phase7_human/phase_7c_results.json"
+    path: "distances_from_voynich.latin_classic"
+
+  phase7.uncertainty.nearest_neighbor:
+    file: "results/data/phase7_human/phase_7c_uncertainty.json"
+    path: "results.nearest_neighbor"
+  phase7.uncertainty.nearest_distance:
+    file: "results/data/phase7_human/phase_7c_uncertainty.json"
+    path: "results.distance_summary.Lullian Wheels.mean"
+  phase7.uncertainty.status:
+    file: "results/data/phase7_human/phase_7c_uncertainty.json"
+    path: "results.status"
