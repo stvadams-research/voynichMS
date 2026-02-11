@@ -56,7 +56,7 @@ We calculated the **Page-level Repetition Rate**, defined as the ratio of tokens
 - **Standard Deviation**: 7.5%
 - **Comparison**: This rate is significantly higher than Latin (approx. 15-20%) or English (approx. 10-15%) under similar tokenization.
 
-![Repetition Rate Distribution](../../../results/reports/visuals/phase1_foundation/41f398bc-9623-2b2d-bada-5bd4dc226e64_repetition_rate_dist_voynich_real.png)
+![Repetition Rate Distribution](../visuals/phase1_foundation/41f398bc-9623-2b2d-bada-5bd4dc226e64_repetition_rate_dist_voynich_real.png)
 
 ### Zipfian Distribution
 The manuscript follows a classic Zipfian power law, but with a "truncated tail." This indicates a constrained vocabulary where a small number of "word-like" units are recycled with extreme frequency, further supporting the hypothesis of a non-semantic generative process.
@@ -177,7 +177,7 @@ We compared the best-match confidence for Latin and English across real and non-
 
 The confidence scores for "gibberish" are nearly identical—and in some cases higher—than for the real manuscript. This indicates that the scores are a result of the *method's* search space, not the *data's* inherent meaning.
 
-![Language ID Comparison](../../../results/reports/visuals/phase4_inference/821247f8-748c-cb25-1d5d-5d2877bf7f71_lang_id_comparison.png)
+![Language ID Comparison](../visuals/phase4_inference/821247f8-748c-cb25-1d5d-5d2877bf7f71_lang_id_comparison.png)
 
 ## Skeptic's Corner
 Many published "decipherments" rely on finding a few dozen "keyword" matches to a specific language (e.g., Hebrew, Latin, or Proto-Romance).

@@ -1,46 +1,46 @@
 # Publication Reproduction Plan
 
-This document serves as the master instruction set for generating the high-fidelity research summary. By executing this plan, we can synthesize the current state of all project findings into a 20-30 page, academic-grade Microsoft Word document.
+This document serves as the master protocol for synthesizing the project's research into a high-fidelity, peer-review-ready summary. 
 
 ## 1. Prerequisites
-The generator requires the `python-docx` library to handle complex Word formatting and image embedding.
+The generator utilizes the `python-docx` engine to handle academic-grade Word formatting and automated image embedding.
 ```bash
 pip install python-docx
 ```
 
-## 2. Generation Command
-To regenerate the full research summary, execute the following command from the project root:
+## 2. Execution Command
+To synthesize the full research draft, execute the following command:
 ```bash
 python3 scripts/support_preparation/generate_publication.py
 ```
 
-## 3. Output Location
-To prevent project clutter, all outputs are directed to:
-`results/reports/publication/Voynich_Research_Summary_Draft.docx`
+## 3. Standardized Output
+All synthesized reports are centralized in the results archive to prevent project root contamination:
+`results/publication/voynich_research_summary_draft.docx`
 
-## 4. Methodology: The Narrative Synthesis
-The generator does not just copy-paste; it performs a **synthesized extraction** across three distinct layers:
+## 4. Methodology: Academic Synthesis
+The publication engine follows an **Assumption-Resistant Narrative** structure, ensuring that each phase builds an epistemic barrier against speculative translation.
 
-### A. Narrative Flow (The Inverted Pyramid)
-Every chapter is automatically structured to move from accessibility to rigor:
-1.  **Headline**: A bold, scientifically defensible discovery.
-2.  **Executive Concept**: A layman-friendly analogy explaining the "Why."
-3.  **Technical Evidence**: Long-form extraction of math, tables, and logic from phase-specific reports.
+### A. The Structural Hierarchy
+Every chapter is synthesized using a three-tier information model:
+1.  **Phase Headline**: A scientifically defensible, data-backed discovery.
+2.  **Executive Abstract**: A high-level contextual summary defining the "So What?" of the phase results.
+3.  **Technical Evidence**: A rigorous extraction of mathematical frameworks, data tables, and logical proofs from phase-specific reports.
 
-### B. Data Sources
-The script dynamically pulls substance from the following authoritative records:
-- **Phase 2 (Analysis)**: `results/reports/phase2_analysis/FINAL_REPORT_PHASE_2.md`
-- **Phase 4 (Inference)**: `results/reports/phase4_inference/PHASE_4_CONCLUSIONS.md`
-- **Phase 5 (Mechanism)**: `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
-- **Visuals**: Latest PNGs from `results/reports/visuals/`.
+### B. Authoritative Data Sources
+The engine pulls technical substance from the following canonical records:
+- **Phase 2 (Analysis)**: `results/reports/phase2_analysis/final_report_phase_2.md`
+- **Phase 4 (Inference)**: `results/reports/phase4_inference/phase_4_conclusions.md`
+- **Phase 5 (Mechanism)**: `results/reports/phase5_mechanism/phase_5_final_findings_summary.md`
+- **Visual Evidence**: Latest analytical plots from `results/visuals/`.
 
-## 5. Maintenance and Customization
-*   **To change the narrative**: Update the `layman` and `headline` strings within `scripts/support_preparation/generate_publication.py`.
-*   **To add new research phases**: Update the `generate()` method in the script to include new `add_chapter()` calls pointing to your latest `.md` reports.
-*   **To update the Markdown Master**: Run `python3 scripts/support_preparation/assemble_draft.py` to get a unified `.md` version in the same output directory.
+## 5. System Maintenance
+*   **Narrative Control**: To refine the academic tone or headlines, modify the `get_chapters()` dictionary within `scripts/support_preparation/generate_publication.py`.
+*   **Modular Reporting**: To generate a report for a single phase (e.g., Phase 5), use the `--phase` flag:
+    `python3 scripts/support_preparation/generate_publication.py --phase 5`
 
-## 6. Verification Checklist
-- [ ] Document exceeds 20 pages in length.
-- [ ] Repetition Rate distribution plot is embedded.
-- [ ] Language ID False Positive chart is embedded.
-- [ ] "Implicit Constraint Lattice" is identified as the terminal mechanism.
+## 6. Scientific Verification Checklist
+- [ ] Document adheres to the "Structure-First, Solution-Last" philosophy.
+- [ ] Technical deep-dives include primary metrics (e.g., 5.68 Z-score, 88.11% entropy collapse).
+- [ ] Visualizations are embedded with centered captions and correct figure references.
+- [ ] No speculative "translation" claims are present in the technical chapters.

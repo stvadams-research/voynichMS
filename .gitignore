@@ -32,11 +32,16 @@ uv.lock
 # Data (never commit raw or derived data)
 data/raw/
 data/derived/
-data/qc/
 
 # Runs and experiment outputs
 runs/
 core_status/
+
+# Final Outputs and Publications
+results/publication/
+results/visuals/
+*.docx
+~$*.docx
 
 # Databases
 *.db
