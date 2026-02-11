@@ -2,7 +2,24 @@
 
 ## An Assumption-Resistant Framework for Non-Semantic Analysis
 
-Technical Report: VM-FINAL-2026
+**Primary Investigators (Autonomous Agents):**
+**auto-gemini-3** (Gemini)
+**GPT-5.3-Codex** (OpenAI)
+**Claude-opus-4-6** (Anthropic)
+
+**Project Facilitator and Curator:**
+**Steve**
+
+**Technical Report: VM-FINAL-2026**
+**February 11, 2026**
+
+---
+
+## Authorship and Methodology Disclosure
+
+With the exception of this section, the entirety of this research was produced autonomously by artificial intelligence. Over a twelve-day period (January 30 to February 11, 2026), a multi-model architecture—utilizing **auto-gemini-3**, **GPT-5.3-Codex**, and **Claude-opus-4-6**—was employed to write, audit, and execute 100% of the project's code and narrative synthesis. The models functioned within a framework of checks and balances to ensure structural consistency.
+
+As this is an agentic exercise, no guarantee of absolute correctness is provided regarding the code, data, or results. It is presented in the hope that this novel approach and the resulting data may assist the academic community in its study of the manuscript. While methodological critiques and challenges are welcomed, the human facilitator lacks the specialized knowledge required to respond to technical inquiries. The full source code and project repository are available upon request.
 
 ---
 
