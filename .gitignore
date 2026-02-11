@@ -65,9 +65,11 @@ status/
 # Coverage and testing
 .coverage
 htmlcov/
+.pytest_cache/
 
 # OS-specific
 Thumbs.db
 
 # User research and scratchpad
 research/
+scratch/
