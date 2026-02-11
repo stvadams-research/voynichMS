@@ -1,7 +1,7 @@
 [project]
-name = "foundation"
+name = "voynich_research"
 version = "0.1.0"
-description = "Assumption-aware foundational infrastructure for Voynich Manuscript analysis (no translation)."
+description = "Assumption-aware foundational infrastructure for Voynich Manuscript research."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -20,6 +20,7 @@ dependencies = [
   "rich>=13.7",
   "typer>=0.12",
   "python-dotenv>=1.0",
+  "python-docx>=1.2",
 ]
 
 [project.optional-dependencies]
@@ -41,8 +42,8 @@ viz = [
 ]
 
 [project.scripts]
-foundation = "foundation.cli.main:app"
-visualization = "visualization.cli.main:app"
+foundation = "phase1_foundation.cli.main:app"
+visualization = "support_visualization.cli.main:app"
 
 [build-system]
 requires = ["setuptools>=69", "wheel"]
@@ -53,7 +54,18 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["foundation", "analysis"]
+include = [
+    "phase1_foundation", 
+    "phase2_analysis", 
+    "phase3_synthesis", 
+    "phase4_inference", 
+    "phase5_mechanism", 
+    "phase6_functional", 
+    "phase7_human", 
+    "phase8_comparative", 
+    "support_visualization", 
+    "core_audit"
+]
 
 [tool.ruff]
 line-length = 100
@@ -83,4 +95,14 @@ exclude = [
 minversion = "8.0"
 addopts = "-q"
 pythonpath = ["src"]
-testpaths = ["tests/foundation", "tests/analysis", "tests/integration"]
+testpaths = [
+    "tests/phase1_foundation", 
+    "tests/phase2_analysis", 
+    "tests/phase3_synthesis",
+    "tests/phase5_mechanism",
+    "tests/phase7_human",
+    "tests/phase8_comparative",
+    "tests/core_audit",
+    "tests/core_skeptic",
+    "tests/integration"
+]

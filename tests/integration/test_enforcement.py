@@ -15,8 +15,8 @@ import tempfile
 import pytest
 from pathlib import Path
 
-# CRITICAL: Ensure src is FIRST in path to avoid shadowing by tests/analysis
-# The tests/analysis directory is a test package that would otherwise shadow src/analysis
+# CRITICAL: Ensure src is FIRST in path to avoid shadowing by tests/phase2_analysis
+# The tests/phase2_analysis directory is a test package that would otherwise shadow src/phase2_analysis
 _src_path = str(Path(__file__).parent.parent.parent / "src")
 # Remove any existing entry
 if _src_path in sys.path:
@@ -24,23 +24,23 @@ if _src_path in sys.path:
 # Insert at position 0 (before tests directory)
 sys.path.insert(0, _src_path)
 
-from foundation.config import (
+from phase1_foundation.config import (
     ComputationTracker,
     ComputationMethod,
     CoverageReport,
     SimulationViolationError,
     get_tracker,
 )
-from foundation.core.randomness import (
+from phase1_foundation.core.randomness import (
     RandomnessController,
     RandomnessViolationError,
     get_randomness_controller,
     no_randomness,
     requires_seed,
 )
-from foundation.core.id_factory import DeterministicIDFactory
-from foundation.core.ids import RunID
-from foundation.storage.metadata import (
+from phase1_foundation.core.id_factory import DeterministicIDFactory
+from phase1_foundation.core.ids import RunID
+from phase1_foundation.storage.metadata import (
     MetadataStore,
     PageRecord,
     LineRecord,
@@ -53,8 +53,8 @@ from foundation.storage.metadata import (
 )
 
 # Import stress tests at module level to ensure they're available
-from analysis.stress_tests.information_preservation import InformationPreservationTest
-from analysis.stress_tests.locality import LocalityTest
+from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
+from phase2_analysis.stress_tests.locality import LocalityTest
 
 
 # ============================================================================

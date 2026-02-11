@@ -7,10 +7,10 @@ Contributions are expected to improve rigor, reproducibility, and falsifiability
 Before contributing, read:
 
 - README.md
-- planning/foundation/PRINCIPLES_AND_NONGOALS.md
-- planning/foundation/ROADMAP.md
+- planning/phase1_foundation/PRINCIPLES_AND_NONGOALS.md
+- planning/phase1_foundation/ROADMAP.md
 - RULES_FOR_AGENTS.md
-- docs/RUNBOOK.md
+- governance/RUNBOOK.md
 
 ---
 
@@ -19,7 +19,7 @@ Before contributing, read:
 This codebase is maintained in an **Audit-Ready** state. Any contribution that breaks these invariants will be rejected.
 
 ### Determinism
-- **No `uuid.uuid4()`:** You must use `foundation.core.id_factory.DeterministicIDFactory`.
+- **No `uuid.uuid4()`:** You must use `phase1_foundation.core.id_factory.DeterministicIDFactory`.
 - **No `random.` or `np.random`:** You must use seeded generators passed from the config.
 - **Seeded Runs:** Every CLI command or script must accept a `--seed` argument.
 
@@ -44,7 +44,7 @@ Allowed directories:
 - `tests/`
 - `scripts/`
 - `configs/`
-- `planning/preparation/`
+- `planning/support_preparation/`
 
 ---
 
@@ -64,7 +64,7 @@ Allowed directories:
 
 - **Explicit Data Models:** Use Pydantic schemas for all internal data structures.
 - **No Magic Numbers:** All thresholds and costs belong in `configs/`.
-- **Shared Primitives:** Use `foundation.core.geometry` for all spatial logic.
+- **Shared Primitives:** Use `phase1_foundation.core.geometry` for all spatial logic.
 - **Error Handling:** No silent error suppression. Fail fast or log an anomaly.
 
 ---

@@ -1,0 +1,222 @@
+{
+  "version": "2026-02-10-h2m1.4",
+  "description": "SK-M1 closure conditionality policy for contradictory terminal-closure language with gate-dependent entitlement controls.",
+  "tracked_files": [
+    "reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md",
+    "reports/phase8_comparative/PHASE_B_SYNTHESIS.md",
+    "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md",
+    "results/reports/FINAL_PHASE_3_3_REPORT.md",
+    "governance/REOPENING_CRITERIA.md",
+    "governance/CLOSURE_CONDITIONALITY_POLICY.md"
+  ],
+  "banned_patterns": [
+    {
+      "id": "phaseb_absolute_no_further_amount",
+      "pattern": "No further amount of statistical or structural comparison",
+      "scopes": [
+        "reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md"
+      ]
+    },
+    {
+      "id": "phaseb_formally_closed",
+      "pattern": "Phase B is formally closed.",
+      "scopes": [
+        "reports/phase8_comparative/PHASE_B_SYNTHESIS.md"
+      ]
+    },
+    {
+      "id": "phase45_unqualified_project_closed",
+      "pattern": "PROJECT CLOSED WITHIN CURRENT FRAMEWORK",
+      "scopes": [
+        "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+      ]
+    },
+    {
+      "id": "phase33_terminal_phrase",
+      "pattern": "terminal, narrow-scope phase",
+      "scopes": [
+        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+      ]
+    },
+    {
+      "id": "phase33_logical_conclusion_terminal",
+      "pattern": "has reached its logical conclusion",
+      "scopes": [
+        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+      ]
+    }
+  ],
+  "required_markers": [
+    {
+      "id": "phaseb_boundary_reopenable_markers",
+      "scopes": [
+        "reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md"
+      ],
+      "markers": [
+        "Closure of Text-Internal Comparison (Framework-Bounded)",
+        "conditionally bounded",
+        "governance/REOPENING_CRITERIA.md",
+        "### Operational Entitlement State",
+        "core_status/core_audit/release_gate_health_status.json"
+      ]
+    },
+    {
+      "id": "phaseb_synthesis_reopenable_markers",
+      "scopes": [
+        "reports/phase8_comparative/PHASE_B_SYNTHESIS.md"
+      ],
+      "markers": [
+        "### Conditionally Closed Statement",
+        "conditionally bounded within the current framework",
+        "governance/REOPENING_CRITERIA.md",
+        "### Operational Entitlement State",
+        "core_status/core_audit/release_gate_health_status.json"
+      ]
+    },
+    {
+      "id": "phase45_reopenable_markers",
+      "scopes": [
+        "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+      ],
+      "markers": [
+        "## 3. Criteria for Reopening",
+        "Canonical criteria reference: `governance/REOPENING_CRITERIA.md`.",
+        "PROJECT CONDITIONALLY CLOSED WITHIN CURRENT FRAMEWORK",
+        "## 5. Operational Entitlement State",
+        "core_status/core_audit/release_gate_health_status.json"
+      ]
+    },
+    {
+      "id": "phase33_reopenable_markers",
+      "scopes": [
+        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+      ],
+      "markers": [
+        "framework-bounded stopping point",
+        "governance/REOPENING_CRITERIA.md",
+        "## 5. What This Does Not Claim",
+        "## 6. Operational Entitlement State",
+        "core_status/core_audit/release_gate_health_status.json"
+      ]
+    }
+  ],
+  "gate_health_policy": {
+    "artifact_path": "core_status/core_audit/release_gate_health_status.json",
+    "required_in_modes": [
+      "ci",
+      "release"
+    ],
+    "required_result_keys": [
+      "status",
+      "reason_code",
+      "entitlement_class",
+      "allowed_claim_class",
+      "allowed_closure_class",
+      "gates",
+      "generated_utc",
+      "h2_4_closure_lane",
+      "h2_4_residual_reason",
+      "h2_4_reopen_conditions"
+    ],
+    "timestamp_keys": [
+      "generated_utc",
+      "generated_at"
+    ],
+    "max_age_seconds": 86400,
+    "allowed_statuses": [
+      "GATE_HEALTH_OK",
+      "GATE_HEALTH_DEGRADED"
+    ],
+    "degraded_statuses": [
+      "GATE_HEALTH_DEGRADED"
+    ],
+    "degraded_required_markers": [
+      {
+        "id": "phaseb_boundary_degraded_entitlement_marker",
+        "scopes": [
+          "reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md"
+        ],
+        "markers": [
+          "Current gate-health class: `GATE_HEALTH_DEGRADED`",
+          "closure claims remain operationally contingent",
+          "SK-C1 release sensitivity evidence contract"
+        ]
+      },
+      {
+        "id": "phaseb_synthesis_degraded_entitlement_marker",
+        "scopes": [
+          "reports/phase8_comparative/PHASE_B_SYNTHESIS.md"
+        ],
+        "markers": [
+          "Current gate-health class: `GATE_HEALTH_DEGRADED`",
+          "closure and phase8_comparative claims remain operationally contingent",
+          "SK-C1 release sensitivity evidence contract"
+        ]
+      },
+      {
+        "id": "phase45_degraded_entitlement_marker",
+        "scopes": [
+          "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+        ],
+        "markers": [
+          "Current gate-health class: `GATE_HEALTH_DEGRADED`",
+          "closure language is operationally contingent",
+          "SK-C1 release sensitivity evidence contract"
+        ]
+      },
+      {
+        "id": "phase33_degraded_entitlement_marker",
+        "scopes": [
+          "results/reports/FINAL_PHASE_3_3_REPORT.md"
+        ],
+        "markers": [
+          "Current gate-health class: `GATE_HEALTH_DEGRADED`",
+          "provisional and operationally contingent",
+          "SK-C1 release sensitivity evidence contract"
+        ]
+      }
+    ],
+    "degraded_banned_patterns": [
+      {
+        "id": "phaseb_synthesis_unqualified_closed_statement",
+        "pattern": "**Phase B is conditionally closed within the current framework.**",
+        "scopes": [
+          "reports/phase8_comparative/PHASE_B_SYNTHESIS.md"
+        ]
+      },
+      {
+        "id": "phase45_terminal_banner_without_operational_condition",
+        "pattern": "**PROJECT CONDITIONALLY CLOSED WITHIN CURRENT FRAMEWORK (REOPENABLE PER CRITERIA)**",
+        "scopes": [
+          "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+        ]
+      }
+    ]
+  },
+  "h2_4_policy": {
+    "version": "2026-02-10-h2m1.4",
+    "aligned_lane": "H2_4_ALIGNED",
+    "qualified_lane": "H2_4_QUALIFIED",
+    "blocked_lane": "H2_4_BLOCKED",
+    "inconclusive_lane": "H2_4_INCONCLUSIVE",
+    "allowed_lanes": [
+      "H2_4_ALIGNED",
+      "H2_4_QUALIFIED",
+      "H2_4_BLOCKED",
+      "H2_4_INCONCLUSIVE"
+    ],
+    "lane_by_gate_status": {
+      "GATE_HEALTH_OK": "H2_4_ALIGNED",
+      "GATE_HEALTH_DEGRADED": "H2_4_QUALIFIED"
+    },
+    "required_closure_class_by_lane": {
+      "H2_4_ALIGNED": "CONDITIONAL_CLOSURE_ALIGNED",
+      "H2_4_QUALIFIED": "CONDITIONAL_CLOSURE_QUALIFIED"
+    },
+    "reopen_conditions": [
+      "release gate health transitions to GATE_HEALTH_OK with passing release sensitivity contract",
+      "closure conditionality policy is revised with documented rationale and parity-tested checker updates"
+    ]
+  },
+  "allowlist": []
+}

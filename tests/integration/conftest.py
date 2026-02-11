@@ -14,6 +14,6 @@ if src_path not in sys.path:
 
 # Import pytest fixtures that should be available to all integration tests
 import pytest
-from foundation.storage.metadata import MetadataStore
-from foundation.config import get_tracker, ComputationTracker
-from foundation.core.randomness import get_randomness_controller, RandomnessController
+from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.config import get_tracker, ComputationTracker
+from phase1_foundation.core.randomness import get_randomness_controller, RandomnessController

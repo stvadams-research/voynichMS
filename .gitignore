@@ -36,7 +36,7 @@ data/qc/
 
 # Runs and experiment outputs
 runs/
-status/
+core_status/
 
 # Databases
 *.db
@@ -71,5 +71,5 @@ htmlcov/
 Thumbs.db
 
 # User research and scratchpad
-research/
+support_research/
 scratch/

@@ -3,10 +3,10 @@ set -euo pipefail
 
 echo "--- Voynich MS Reproduction Verification ---"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
-SENSITIVITY_RELEASE_STATUS_PATH="${SENSITIVITY_RELEASE_STATUS_PATH:-status/audit/sensitivity_sweep_release.json}"
-SENSITIVITY_RELEASE_REPORT_PATH="${SENSITIVITY_RELEASE_REPORT_PATH:-reports/audit/SENSITIVITY_RESULTS_RELEASE.md}"
-SENSITIVITY_RELEASE_PREFLIGHT_PATH="${SENSITIVITY_RELEASE_PREFLIGHT_PATH:-status/audit/sensitivity_release_preflight.json}"
-SENSITIVITY_RELEASE_RUN_STATUS_PATH="${SENSITIVITY_RELEASE_RUN_STATUS_PATH:-status/audit/sensitivity_release_run_status.json}"
+SENSITIVITY_RELEASE_STATUS_PATH="${SENSITIVITY_RELEASE_STATUS_PATH:-core_status/core_audit/sensitivity_sweep_release.json}"
+SENSITIVITY_RELEASE_REPORT_PATH="${SENSITIVITY_RELEASE_REPORT_PATH:-reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md}"
+SENSITIVITY_RELEASE_PREFLIGHT_PATH="${SENSITIVITY_RELEASE_PREFLIGHT_PATH:-core_status/core_audit/sensitivity_release_preflight.json}"
+SENSITIVITY_RELEASE_RUN_STATUS_PATH="${SENSITIVITY_RELEASE_RUN_STATUS_PATH:-core_status/core_audit/sensitivity_release_run_status.json}"
 SENSITIVITY_RELEASE_DATASET_ID="${SENSITIVITY_RELEASE_DATASET_ID:-voynich_real}"
 export SENSITIVITY_RELEASE_STATUS_PATH
 export SENSITIVITY_RELEASE_REPORT_PATH
@@ -17,7 +17,7 @@ CLEAN_VERIFY_DB=0
 VERIFICATION_COMPLETE=0
 VERIFY_SUCCESS_TOKEN="VERIFY_REPRODUCTION_COMPLETED"
 
-cleanup() {
+support_cleanup() {
     status=$?
     rm -f "${OUT1:-}" "${OUT2:-}" "${CAN1:-}" "${CAN2:-}"
     if [ "${CLEAN_VERIFY_DB}" -eq 1 ] && [ -n "${VERIFY_DB:-}" ]; then
@@ -37,7 +37,7 @@ cleanup() {
     trap - EXIT
     exit "${status}"
 }
-trap cleanup EXIT
+trap support_cleanup EXIT
 
 # 1. Environment Check
 echo "1. Checking environment..."
@@ -50,7 +50,7 @@ fi
 echo "2. Checking data initialization..."
 if [ ! -f "data/voynich.db" ]; then
     echo "Initializing database..."
-    "${PYTHON_BIN}" scripts/foundation/acceptance_test.py
+    "${PYTHON_BIN}" scripts/phase1_foundation/acceptance_test.py
 fi
 
 if [ -n "${VERIFY_DB:-}" ]; then
@@ -72,10 +72,10 @@ CAN2="$(mktemp /tmp/verify_2.canon.XXXXXX.json)"
 
 # Use run_test_a.py as a proxy for determinism verification
 echo "Running test A (1/2)..."
-"${PYTHON_BIN}" scripts/synthesis/run_test_a.py --seed "$SEED" --db-url "$VERIFY_DB_URL" --output "$OUT1" > /dev/null
+"${PYTHON_BIN}" scripts/phase3_synthesis/run_test_a.py --seed "$SEED" --db-url "$VERIFY_DB_URL" --output "$OUT1" > /dev/null
 
 echo "Running test A (2/2)..."
-"${PYTHON_BIN}" scripts/synthesis/run_test_a.py --seed "$SEED" --db-url "$VERIFY_DB_URL" --output "$OUT2" > /dev/null
+"${PYTHON_BIN}" scripts/phase3_synthesis/run_test_a.py --seed "$SEED" --db-url "$VERIFY_DB_URL" --output "$OUT2" > /dev/null
 
 "${PYTHON_BIN}" - <<'PY' "$OUT1" "$CAN1"
 import json
@@ -105,31 +105,31 @@ else
 fi
 
 # 4. Analysis Spot Check
-echo "4. Running analysis spot check..."
-"${PYTHON_BIN}" -m pytest -q tests/analysis/test_mapping_stability.py > /dev/null
+echo "4. Running phase2_analysis spot check..."
+"${PYTHON_BIN}" -m pytest -q tests/phase2_analysis/test_mapping_stability.py > /dev/null
 echo "  [OK] Analysis stress-test spot check passed."
 
 # 5. Critical Metrics Check
 echo "5. Checking regression fixtures..."
-"${PYTHON_BIN}" scripts/audit/generate_fixtures.py > /dev/null
+"${PYTHON_BIN}" scripts/core_audit/generate_fixtures.py > /dev/null
 # Note: In a real CI, we would diff against LOCKED fixtures.
 # Here we just ensure the generation runs without error.
 
 # 5b. Provenance Runner Contract Check
 echo "5b. Checking provenance runner contract..."
-"${PYTHON_BIN}" scripts/audit/check_provenance_runner_contract.py --mode release
+"${PYTHON_BIN}" scripts/core_audit/check_provenance_runner_contract.py --mode release
 
 # 5c. Multimodal Coupling Status Check
 echo "5c. Checking multimodal coupling policy..."
-"${PYTHON_BIN}" scripts/skeptic/check_multimodal_coupling.py --mode release
+"${PYTHON_BIN}" scripts/core_skeptic/check_multimodal_coupling.py --mode release
 echo "5d. Verifying SK-H1.4/SK-H1.5 multimodal robustness semantics..."
 "${PYTHON_BIN}" - <<'PY'
 import json
 from pathlib import Path
 
-path = Path("results/mechanism/anchor_coupling_confirmatory.json")
+path = Path("results/phase5_mechanism/anchor_coupling_confirmatory.json")
 if not path.exists():
-    raise SystemExit("Missing results/mechanism/anchor_coupling_confirmatory.json for SK-H1 checks.")
+    raise SystemExit("Missing results/phase5_mechanism/anchor_coupling_confirmatory.json for SK-H1 checks.")
 
 payload = json.loads(path.read_text(encoding="utf-8"))
 results = payload.get("results", {})
@@ -184,7 +184,7 @@ else:
 
 if h1_4_lane != expected_lane:
     raise SystemExit(
-        "SK-H1.4 status/robustness mismatch: "
+        "SK-H1.4 core_status/robustness mismatch: "
         f"status={status!r} robustness_class={robustness_class!r} "
         f"declared_lane={h1_4_lane!r} expected_lane={expected_lane!r}"
     )
@@ -208,7 +208,7 @@ else:
 
 if h1_5_lane != expected_h1_5_lane:
     raise SystemExit(
-        "SK-H1.5 status/entitlement mismatch: "
+        "SK-H1.5 core_status/entitlement mismatch: "
         f"status={status!r} entitlement_robustness_class={entitlement_robustness_class!r} "
         f"reachable={robust_closure_reachable!r} "
         f"declared_lane={h1_5_lane!r} expected_lane={expected_h1_5_lane!r}"
@@ -224,7 +224,7 @@ PY
 # 6. Sensitivity Artifact Integrity Check
 echo "6. Checking sensitivity artifact integrity..."
 echo "6a. Running release sensitivity preflight..."
-"${PYTHON_BIN}" scripts/analysis/run_sensitivity_sweep.py \
+"${PYTHON_BIN}" scripts/phase2_analysis/run_sensitivity_sweep.py \
   --mode release \
   --dataset-id "${SENSITIVITY_RELEASE_DATASET_ID}" \
   --preflight-only > /dev/null
@@ -236,13 +236,13 @@ from pathlib import Path
 path = Path(
     os.environ.get(
         "SENSITIVITY_RELEASE_PREFLIGHT_PATH",
-        "status/audit/sensitivity_release_preflight.json",
+        "core_status/core_audit/sensitivity_release_preflight.json",
     )
 )
 if not path.exists():
     raise SystemExit(
         "Missing sensitivity release preflight artifact "
-        "(status/audit/sensitivity_release_preflight.json)."
+        "(core_status/core_audit/sensitivity_release_preflight.json)."
     )
 
 payload = json.loads(path.read_text(encoding="utf-8"))
@@ -259,7 +259,7 @@ if status != "PREFLIGHT_OK":
 print("  [OK] Sensitivity release preflight passed.")
 PY
 
-"${PYTHON_BIN}" scripts/audit/check_sensitivity_artifact_contract.py --mode release
+"${PYTHON_BIN}" scripts/core_audit/check_sensitivity_artifact_contract.py --mode release
 "${PYTHON_BIN}" - <<'PY'
 import json
 import os
@@ -268,25 +268,25 @@ from pathlib import Path
 status_path = Path(
     os.environ.get(
         "SENSITIVITY_RELEASE_STATUS_PATH",
-        "status/audit/sensitivity_sweep_release.json",
+        "core_status/core_audit/sensitivity_sweep_release.json",
     )
 )
 report_path = Path(
     os.environ.get(
         "SENSITIVITY_RELEASE_REPORT_PATH",
-        "reports/audit/SENSITIVITY_RESULTS_RELEASE.md",
+        "results/reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md",
     )
 )
 
 if not status_path.exists():
     raise SystemExit(
         f"Missing {status_path}. Run "
-        "python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real"
+        "python3 scripts/phase2_analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real"
     )
 if not report_path.exists():
     raise SystemExit(
         f"Missing {report_path}. Run "
-        "python3 scripts/analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real"
+        "python3 scripts/phase2_analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real"
     )
 
 payload = json.loads(status_path.read_text(encoding="utf-8"))
@@ -363,7 +363,7 @@ if "unknown_legacy" in report_text:
     raise SystemExit("Sensitivity report still references unknown_legacy.")
 
 legacy_verify_files = []
-by_run_dir = Path("status/by_run")
+by_run_dir = Path("core_status/by_run")
 if by_run_dir.exists():
     for artifact in by_run_dir.glob("verify_*.json"):
         try:
@@ -378,7 +378,7 @@ if legacy_verify_files:
     preview = ", ".join(sorted(legacy_verify_files)[:3])
     raise SystemExit(
         "Legacy verification artifacts still include mutable provenance.status fields "
-        f"({preview}). Run scripts/audit/cleanup_status_artifacts.sh clean."
+        f"({preview}). Run scripts/core_audit/cleanup_status_artifacts.sh clean."
     )
 
 print("  [OK] Sensitivity artifact integrity check passed.")
@@ -387,13 +387,13 @@ PY
 # 7. Strict-mode release-path enforcement (always required)
 echo "7. Validating strict indistinguishability preflight policy..."
 STRICT_PREFLIGHT_EXIT=0
-if REQUIRE_COMPUTED=1 "${PYTHON_BIN}" scripts/synthesis/run_indistinguishability_test.py --preflight-only > /dev/null 2>&1; then
+if REQUIRE_COMPUTED=1 "${PYTHON_BIN}" scripts/phase3_synthesis/run_indistinguishability_test.py --preflight-only > /dev/null 2>&1; then
     STRICT_PREFLIGHT_EXIT=0
 else
     STRICT_PREFLIGHT_EXIT=$?
 fi
 
-STATUS_FILE="status/synthesis/TURING_TEST_RESULTS.json"
+STATUS_FILE="core_status/phase3_synthesis/TURING_TEST_RESULTS.json"
 "${PYTHON_BIN}" - <<'PY' "${STRICT_PREFLIGHT_EXIT}" "${STATUS_FILE}"
 import json
 import sys
@@ -402,7 +402,7 @@ from pathlib import Path
 strict_exit = int(sys.argv[1])
 status_file = Path(sys.argv[2])
 if not status_file.exists():
-    raise SystemExit("Strict preflight did not produce status/synthesis/TURING_TEST_RESULTS.json")
+    raise SystemExit("Strict preflight did not produce core_status/phase3_synthesis/TURING_TEST_RESULTS.json")
 
 payload = json.loads(status_file.read_text(encoding="utf-8"))
 results = payload.get("results", {})
@@ -449,26 +449,26 @@ PY
 # 8. Optional additional strict enforcement checks
 if [ "${VERIFY_STRICT:-0}" = "1" ]; then
     echo "8. Running additional strict REQUIRE_COMPUTED enforcement checks..."
-    REQUIRE_COMPUTED=1 "${PYTHON_BIN}" -m pytest -q tests/foundation/test_enforcement.py > /dev/null
+    REQUIRE_COMPUTED=1 "${PYTHON_BIN}" -m pytest -q tests/phase1_foundation/test_enforcement.py > /dev/null
     echo "  [OK] Additional strict enforcement checks passed."
 fi
 
 # 9. SK-H3 control-comparability policy checks
 echo "9. Checking SK-H3 control comparability policy..."
-"${PYTHON_BIN}" scripts/synthesis/run_control_matching_audit.py --preflight-only > /dev/null
-"${PYTHON_BIN}" scripts/skeptic/check_control_comparability.py --mode release > /dev/null
-"${PYTHON_BIN}" scripts/skeptic/check_control_data_availability.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/phase3_synthesis/run_control_matching_audit.py --preflight-only > /dev/null
+"${PYTHON_BIN}" scripts/core_skeptic/check_control_comparability.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/core_skeptic/check_control_data_availability.py --mode release > /dev/null
 "${PYTHON_BIN}" - <<'PY'
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-status_path = Path("status/synthesis/CONTROL_COMPARABILITY_STATUS.json")
-availability_path = Path("status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json")
+status_path = Path("core_status/phase3_synthesis/CONTROL_COMPARABILITY_STATUS.json")
+availability_path = Path("core_status/phase3_synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json")
 if not status_path.exists():
-    raise SystemExit("Missing status/synthesis/CONTROL_COMPARABILITY_STATUS.json")
+    raise SystemExit("Missing core_status/phase3_synthesis/CONTROL_COMPARABILITY_STATUS.json")
 if not availability_path.exists():
-    raise SystemExit("Missing status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json")
+    raise SystemExit("Missing core_status/phase3_synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json")
 
 status_payload = json.loads(status_path.read_text(encoding="utf-8"))
 availability_payload = json.loads(availability_path.read_text(encoding="utf-8"))
@@ -707,17 +707,17 @@ else:
 print("  [OK] SK-H3 comparability policy checks passed.")
 PY
 
-# 10. SK-M2 comparative uncertainty policy checks
-echo "10. Checking SK-M2 comparative uncertainty policy..."
-"${PYTHON_BIN}" scripts/comparative/run_proximity_uncertainty.py --iterations 2000 --seed 42 > /dev/null
-"${PYTHON_BIN}" scripts/skeptic/check_comparative_uncertainty.py --mode release > /dev/null
+# 10. SK-M2 phase8_comparative uncertainty policy checks
+echo "10. Checking SK-M2 phase8_comparative uncertainty policy..."
+"${PYTHON_BIN}" scripts/phase8_comparative/run_proximity_uncertainty.py --iterations 2000 --seed 42 > /dev/null
+"${PYTHON_BIN}" scripts/core_skeptic/check_comparative_uncertainty.py --mode release > /dev/null
 "${PYTHON_BIN}" - <<'PY'
 import json
 from pathlib import Path
 
-path = Path("results/human/phase_7c_uncertainty.json")
+path = Path("results/phase7_human/phase_7c_uncertainty.json")
 if not path.exists():
-    raise SystemExit("Missing results/human/phase_7c_uncertainty.json")
+    raise SystemExit("Missing results/phase7_human/phase_7c_uncertainty.json")
 
 results = json.loads(path.read_text(encoding="utf-8")).get("results", {})
 required = [
@@ -786,32 +786,32 @@ if not isinstance(objective_validity_failure, bool):
     )
 if missing_folio_blocking_claimed and not objective_validity_failure:
     raise SystemExit(
-        "SK-M2 missing-folio blocking claim requires objective comparative validity failure."
+        "SK-M2 missing-folio blocking claim requires objective phase8_comparative validity failure."
     )
 if m2_5_lane == "M2_5_BLOCKED" and not objective_validity_failure:
     raise SystemExit(
-        "SK-M2 M2_5_BLOCKED lane requires objective comparative validity failure linkage."
+        "SK-M2 M2_5_BLOCKED lane requires objective phase8_comparative validity failure linkage."
     )
 
-print("  [OK] SK-M2 comparative uncertainty policy checks passed.")
+print("  [OK] SK-M2 phase8_comparative uncertainty policy checks passed.")
 PY
 
 # 11. SK-M4 historical provenance policy checks
 echo "11. Checking SK-M4 historical provenance policy..."
-"${PYTHON_BIN}" scripts/audit/build_release_gate_health_status.py > /dev/null
-"${PYTHON_BIN}" scripts/audit/build_provenance_health_status.py > /dev/null
-"${PYTHON_BIN}" scripts/audit/sync_provenance_register.py > /dev/null
-"${PYTHON_BIN}" scripts/skeptic/check_provenance_uncertainty.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/core_audit/build_release_gate_health_status.py > /dev/null
+"${PYTHON_BIN}" scripts/core_audit/build_provenance_health_status.py > /dev/null
+"${PYTHON_BIN}" scripts/core_audit/sync_provenance_register.py > /dev/null
+"${PYTHON_BIN}" scripts/core_skeptic/check_provenance_uncertainty.py --mode release > /dev/null
 "${PYTHON_BIN}" - <<'PY'
 import json
 from pathlib import Path
 
-provenance_path = Path("status/audit/provenance_health_status.json")
-sync_path = Path("status/audit/provenance_register_sync_status.json")
+provenance_path = Path("core_status/core_audit/provenance_health_status.json")
+sync_path = Path("core_status/core_audit/provenance_register_sync_status.json")
 if not provenance_path.exists():
-    raise SystemExit("Missing status/audit/provenance_health_status.json")
+    raise SystemExit("Missing core_status/core_audit/provenance_health_status.json")
 if not sync_path.exists():
-    raise SystemExit("Missing status/audit/provenance_register_sync_status.json")
+    raise SystemExit("Missing core_status/core_audit/provenance_register_sync_status.json")
 
 prov = json.loads(provenance_path.read_text(encoding="utf-8"))
 sync = json.loads(sync_path.read_text(encoding="utf-8"))
@@ -891,11 +891,11 @@ PY
 
 # 12. SK-H2.2 / SK-M1.2 operational entitlement policy checks
 echo "12. Checking SK-H2.2 / SK-M1.2 operational entitlement policy..."
-"${PYTHON_BIN}" scripts/audit/build_release_gate_health_status.py > /dev/null
-"${PYTHON_BIN}" scripts/skeptic/check_claim_boundaries.py --mode release > /dev/null
-"${PYTHON_BIN}" scripts/skeptic/check_closure_conditionality.py --mode release > /dev/null
-"${PYTHON_BIN}" scripts/skeptic/check_claim_entitlement_coherence.py --mode release > /dev/null
-"${PYTHON_BIN}" scripts/skeptic/check_report_coherence.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/core_audit/build_release_gate_health_status.py > /dev/null
+"${PYTHON_BIN}" scripts/core_skeptic/check_claim_boundaries.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/core_skeptic/check_closure_conditionality.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/core_skeptic/check_claim_entitlement_coherence.py --mode release > /dev/null
+"${PYTHON_BIN}" scripts/core_skeptic/check_report_coherence.py --mode release > /dev/null
 
 VERIFICATION_COMPLETE=1
 echo "${VERIFY_SUCCESS_TOKEN}"

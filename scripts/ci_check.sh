@@ -4,7 +4,7 @@ set -euo pipefail
 echo "--- Starting CI Check ---"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 SENSITIVITY_RELEASE_DATASET_ID="${SENSITIVITY_RELEASE_DATASET_ID:-voynich_real}"
-SENSITIVITY_RELEASE_RUN_STATUS_PATH="${SENSITIVITY_RELEASE_RUN_STATUS_PATH:-status/audit/sensitivity_release_run_status.json}"
+SENSITIVITY_RELEASE_RUN_STATUS_PATH="${SENSITIVITY_RELEASE_RUN_STATUS_PATH:-core_status/core_audit/sensitivity_release_run_status.json}"
 
 # 1. Environment Setup (Check dependencies)
 echo "1. Checking environment..."
@@ -16,27 +16,27 @@ echo "2. Linting..."
 
 # 2a. Release Gate-Health Artifact
 echo "2a. Building release gate-health artifact..."
-"${PYTHON_BIN}" scripts/audit/build_release_gate_health_status.py > /dev/null
+"${PYTHON_BIN}" scripts/core_audit/build_release_gate_health_status.py > /dev/null
 
 # 2b. Claim-Boundary Policy
 echo "2b. Checking claim boundaries..."
-"${PYTHON_BIN}" scripts/skeptic/check_claim_boundaries.py --mode ci
+"${PYTHON_BIN}" scripts/core_skeptic/check_claim_boundaries.py --mode ci
 
 # 2c. Control-Comparability Policy
 echo "2c. Building control matching/data-availability artifacts..."
-"${PYTHON_BIN}" scripts/synthesis/run_control_matching_audit.py --preflight-only > /dev/null
+"${PYTHON_BIN}" scripts/phase3_synthesis/run_control_matching_audit.py --preflight-only > /dev/null
 echo "2c. Checking control comparability policy..."
-"${PYTHON_BIN}" scripts/skeptic/check_control_comparability.py --mode ci
+"${PYTHON_BIN}" scripts/core_skeptic/check_control_comparability.py --mode ci
 echo "2c. Checking control data-availability policy..."
-"${PYTHON_BIN}" scripts/skeptic/check_control_data_availability.py --mode ci
+"${PYTHON_BIN}" scripts/core_skeptic/check_control_data_availability.py --mode ci
 echo "2c. Verifying SK-H3 semantic parity..."
 "${PYTHON_BIN}" - <<'PY'
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-status_path = Path("status/synthesis/CONTROL_COMPARABILITY_STATUS.json")
-availability_path = Path("status/synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json")
+status_path = Path("core_status/phase3_synthesis/CONTROL_COMPARABILITY_STATUS.json")
+availability_path = Path("core_status/phase3_synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json")
 status_payload = json.loads(status_path.read_text(encoding="utf-8"))
 availability_payload = json.loads(availability_path.read_text(encoding="utf-8"))
 status = status_payload.get("results", {})
@@ -208,23 +208,23 @@ PY
 
 # 2d. Closure-Conditionality Policy
 echo "2d. Checking closure conditionality policy..."
-"${PYTHON_BIN}" scripts/skeptic/check_closure_conditionality.py --mode ci
+"${PYTHON_BIN}" scripts/core_skeptic/check_closure_conditionality.py --mode ci
 
 # 2d1. Claim-Entitlement Coherence
 echo "2d1. Checking claim entitlement coherence..."
-"${PYTHON_BIN}" scripts/skeptic/check_claim_entitlement_coherence.py --mode ci
+"${PYTHON_BIN}" scripts/core_skeptic/check_claim_entitlement_coherence.py --mode ci
 
 # 2e. Comparative-Uncertainty Policy
-echo "2e. Checking comparative uncertainty policy..."
-"${PYTHON_BIN}" scripts/skeptic/check_comparative_uncertainty.py --mode ci
+echo "2e. Checking phase8_comparative uncertainty policy..."
+"${PYTHON_BIN}" scripts/core_skeptic/check_comparative_uncertainty.py --mode ci
 echo "2e. Verifying SK-M2.5 uncertainty lane semantics..."
 "${PYTHON_BIN}" - <<'PY'
 import json
 from pathlib import Path
 
-path = Path("results/human/phase_7c_uncertainty.json")
+path = Path("results/phase7_human/phase_7c_uncertainty.json")
 if not path.exists():
-    raise SystemExit("SK-M2 artifact missing: results/human/phase_7c_uncertainty.json")
+    raise SystemExit("SK-M2 artifact missing: results/phase7_human/phase_7c_uncertainty.json")
 
 payload = json.loads(path.read_text(encoding="utf-8"))
 results = payload.get("results", {})
@@ -252,11 +252,11 @@ if (
     and linkage.get("objective_comparative_validity_failure") is not True
 ):
     raise SystemExit(
-        "SK-M2 missing-folio blocking claim requires objective comparative validity failure."
+        "SK-M2 missing-folio blocking claim requires objective phase8_comparative validity failure."
     )
 if lane == "M2_5_BLOCKED" and linkage.get("objective_comparative_validity_failure") is not True:
     raise SystemExit(
-        "SK-M2 M2_5_BLOCKED lane requires objective comparative validity linkage."
+        "SK-M2 M2_5_BLOCKED lane requires objective phase8_comparative validity linkage."
     )
 
 print("  [OK] SK-M2.5 uncertainty lane checks passed.")
@@ -264,26 +264,26 @@ PY
 
 # 2f. Report-Coherence Policy
 echo "2f. Checking report coherence policy..."
-"${PYTHON_BIN}" scripts/skeptic/check_report_coherence.py --mode ci
+"${PYTHON_BIN}" scripts/core_skeptic/check_report_coherence.py --mode ci
 
 # 2g. Provenance-Uncertainty Policy
 echo "2g. Building provenance health artifact..."
-"${PYTHON_BIN}" scripts/audit/build_provenance_health_status.py > /dev/null
+"${PYTHON_BIN}" scripts/core_audit/build_provenance_health_status.py > /dev/null
 echo "2g. Synchronizing provenance register..."
-"${PYTHON_BIN}" scripts/audit/sync_provenance_register.py > /dev/null
+"${PYTHON_BIN}" scripts/core_audit/sync_provenance_register.py > /dev/null
 echo "2g. Checking provenance uncertainty policy..."
-"${PYTHON_BIN}" scripts/skeptic/check_provenance_uncertainty.py --mode ci
+"${PYTHON_BIN}" scripts/core_skeptic/check_provenance_uncertainty.py --mode ci
 echo "2g. Verifying SK-M4.5 provenance lane semantics..."
 "${PYTHON_BIN}" - <<'PY'
 import json
 from pathlib import Path
 
-provenance_path = Path("status/audit/provenance_health_status.json")
-sync_path = Path("status/audit/provenance_register_sync_status.json")
+provenance_path = Path("core_status/core_audit/provenance_health_status.json")
+sync_path = Path("core_status/core_audit/provenance_register_sync_status.json")
 if not provenance_path.exists():
-    raise SystemExit("SK-M4 artifact missing: status/audit/provenance_health_status.json")
+    raise SystemExit("SK-M4 artifact missing: core_status/core_audit/provenance_health_status.json")
 if not sync_path.exists():
-    raise SystemExit("SK-M4 artifact missing: status/audit/provenance_register_sync_status.json")
+    raise SystemExit("SK-M4 artifact missing: core_status/core_audit/provenance_register_sync_status.json")
 
 provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
 sync = json.loads(sync_path.read_text(encoding="utf-8"))
@@ -334,30 +334,30 @@ PY
 
 # 2h. Provenance Runner Contract
 echo "2h. Checking provenance runner contract..."
-"${PYTHON_BIN}" scripts/audit/check_provenance_runner_contract.py --mode ci
+"${PYTHON_BIN}" scripts/core_audit/check_provenance_runner_contract.py --mode ci
 
 # 2i. Sensitivity artifact/report contract
 echo "2i. Checking sensitivity artifact contract..."
-"${PYTHON_BIN}" scripts/audit/check_sensitivity_artifact_contract.py --mode ci
+"${PYTHON_BIN}" scripts/core_audit/check_sensitivity_artifact_contract.py --mode ci
 echo "2i. Running release sensitivity preflight..."
-"${PYTHON_BIN}" scripts/analysis/run_sensitivity_sweep.py \
+"${PYTHON_BIN}" scripts/phase2_analysis/run_sensitivity_sweep.py \
   --mode release \
   --dataset-id "${SENSITIVITY_RELEASE_DATASET_ID}" \
   --preflight-only > /dev/null
 echo "2i. Checking release-candidate sensitivity contract..."
-"${PYTHON_BIN}" scripts/audit/check_sensitivity_artifact_contract.py --mode release
+"${PYTHON_BIN}" scripts/core_audit/check_sensitivity_artifact_contract.py --mode release
 
 # 2j. Multimodal coupling status contract
 echo "2j. Checking multimodal coupling policy..."
-"${PYTHON_BIN}" scripts/skeptic/check_multimodal_coupling.py --mode ci
+"${PYTHON_BIN}" scripts/core_skeptic/check_multimodal_coupling.py --mode ci
 echo "2j. Verifying SK-H1.4/SK-H1.5 multimodal robustness parity..."
 "${PYTHON_BIN}" - <<'PY'
 import json
 from pathlib import Path
 
-path = Path("results/mechanism/anchor_coupling_confirmatory.json")
+path = Path("results/phase5_mechanism/anchor_coupling_confirmatory.json")
 if not path.exists():
-    raise SystemExit("SK-H1 artifact missing: results/mechanism/anchor_coupling_confirmatory.json")
+    raise SystemExit("SK-H1 artifact missing: results/phase5_mechanism/anchor_coupling_confirmatory.json")
 
 payload = json.loads(path.read_text(encoding="utf-8"))
 results = payload.get("results", {})
@@ -402,7 +402,7 @@ else:
 
 if h1_4_lane != expected_lane:
     raise SystemExit(
-        "SK-H1.4 status/robustness mismatch: "
+        "SK-H1.4 core_status/robustness mismatch: "
         f"status={status!r} robustness_class={robustness_class!r} "
         f"declared_lane={h1_4_lane!r} expected_lane={expected_lane!r}"
     )
@@ -426,7 +426,7 @@ else:
 
 if h1_5_lane != expected_h1_5_lane:
     raise SystemExit(
-        "SK-H1.5 status/entitlement mismatch: "
+        "SK-H1.5 core_status/entitlement mismatch: "
         f"status={status!r} entitlement_robustness_class={entitlement_robustness_class!r} "
         f"reachable={robust_closure_reachable!r} "
         f"declared_lane={h1_5_lane!r} expected_lane={expected_h1_5_lane!r}"
@@ -447,7 +447,7 @@ if [ -z "${COVERAGE_MIN:-}" ]; then
     *) COVERAGE_MIN=50 ;;
   esac
 fi
-CI_COVERAGE_JSON="${CI_COVERAGE_JSON:-status/ci_coverage.json}"
+CI_COVERAGE_JSON="${CI_COVERAGE_JSON:-core_status/ci_coverage.json}"
 mkdir -p "$(dirname "${CI_COVERAGE_JSON}")"
 PYTEST_TARGETS="${PYTEST_TARGETS:-tests}"
 "${PYTHON_BIN}" -m pytest \
@@ -466,9 +466,9 @@ import sys
 
 coverage_path = sys.argv[1]
 critical_modules = [
-    "src/foundation/cli/main.py",
-    "src/analysis/admissibility/manager.py",
-    "src/foundation/core/queries.py",
+    "src/phase1_foundation/cli/main.py",
+    "src/phase2_analysis/admissibility/manager.py",
+    "src/phase1_foundation/core/queries.py",
 ]
 min_coverage = float(os.environ.get("CRITICAL_MODULE_MIN", "20"))
 enforce = os.environ.get("CRITICAL_MODULE_ENFORCE", "1") != "0"
