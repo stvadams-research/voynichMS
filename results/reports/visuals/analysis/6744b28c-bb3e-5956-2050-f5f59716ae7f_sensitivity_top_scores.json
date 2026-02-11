@@ -1,0 +1,8 @@
+{
+  "run_id": "6744b28c-bb3e-5956-2050-f5f59716ae7f",
+  "filename": "sensitivity_top_scores.png",
+  "metadata": {
+    "source": "status/audit/sensitivity_sweep.json",
+    "scenario_count": 5
+  }
+}

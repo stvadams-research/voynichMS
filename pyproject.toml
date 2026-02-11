@@ -42,6 +42,7 @@ viz = [
 
 [project.scripts]
 foundation = "foundation.cli.main:app"
+visualization = "visualization.cli.main:app"
 
 [build-system]
 requires = ["setuptools>=69", "wheel"]

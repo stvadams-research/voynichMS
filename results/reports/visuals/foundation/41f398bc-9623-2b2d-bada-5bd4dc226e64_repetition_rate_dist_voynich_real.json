@@ -1,0 +1,10 @@
+{
+  "run_id": "41f398bc-9623-2b2d-bada-5bd4dc226e64",
+  "filename": "repetition_rate_dist_voynich_real.png",
+  "metadata": {
+    "dataset_id": "voynich_real",
+    "page_count": 222,
+    "mean_rate": 0.6986529212791971,
+    "std_rate": 0.07566658176515247
+  }
+}
