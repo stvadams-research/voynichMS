@@ -22,6 +22,8 @@ The line was established as the fundamental unit of execution. The Reset Score o
 
 Static table traversal — where a pointer moves continuously through a fixed grid — was falsified by its zero reset signature. The mechanism requires per-line reinitialization.
 
+{{figure:results/publication/assets/reset_signature.png|Reset Dynamics: Entropy Collapse and Re-initialization at Line Boundaries}}
+
 ## 7.3 Workflow Reconstruction (5C)
 
 Line-level Type-Token Ratio of {{phase5.5c.line_ttr}} falsifies random sampling models. Each line exhibits near-total uniqueness: tokens are not drawn from a pool but generated through a constrained walk that avoids immediate repetition.
@@ -51,6 +53,8 @@ This was the critical discriminating test. When the same bigram context appears 
 
 Stochastic grammars were eliminated by this property. No model based on probabilistic token selection can produce consistency this high across 200,000+ glyphs. The mechanism is globally deterministic and behaves like rigid traversal through a static rule system.
 
+{{figure:results/publication/assets/lattice_determinism.png|Lattice Determinism: Global Stability of Successor Constraints}}
+
 ## 7.6 Entry Selection (5F)
 
 Start-word entropy of 11.82 bits — far exceeding the 7.86 bits of synthetic uniform models — reveals a vast entry space. Adjacency coupling between consecutive lines is near zero (0.0093). Lines are independent traversal instances: each enters the lattice at a fresh, independently selected point with no carryover from the previous line.
@@ -69,6 +73,8 @@ With the mechanism established as deterministic, line-resetting, and globally co
 
 Gini skew ({{phase5.5g.gini_coefficient}}) and convergence rate ({{phase5.5g.convergence_rate}}) distinguish the Voynich topology from simple grids or directed graphs. The structure is neither fully connected nor purely hierarchical — it is a constrained network with preferred pathways, high convergence, and strongly skewed visitation frequencies. Simple grids were weakened; the implicit lattice became the leading candidate.
 
+{{figure:results/publication/assets/topology_comparison.png|Topology Comparison: Convergence and Skew vs. Candidate Mechanism Families}}
+
 ## 7.8 Sectional Stability (5I)
 
 The mechanism was tested for global uniformity across codicological sections:
@@ -82,6 +88,8 @@ The mechanism was tested for global uniformity across codicological sections:
 | Stars | 63,534 | 81 | 0.8730 |
 
 The lattice signature remains stable across all sections. Cross-section trigram overlap confirms shared deterministic structure. The manuscript is not a collection of different systems — it is a single global machine applied uniformly regardless of subject matter.
+
+{{figure:results/publication/assets/sectional_stability.png|Sectional Stability: Consistency of Deterministic Signatures across Codicological Units}}
 
 ## 7.9 Position Sensitivity (5J)
 
@@ -99,9 +107,7 @@ Position provides a 65.6% reduction in successor uncertainty — far exceeding w
 
 The residual history audit proved that knowing the previous word reduces uncertainty by {{phase5.5k.entropy_reduction_pct}}%:
 
-| Dataset | H(S\|Word,Pos) | H(S\|Word,Pos,History) | Entropy Reduction |
-|---------|---------------|----------------------|------------------|
-| Voynich (Real) | 0.7869 | 0.0936 | 88.11% |
+{{include:results/reports/phase5_mechanism/phase_5k_results.md}}
 
 The state (Word, Position) alone is insufficient — substantial uncertainty remains. Adding history (the previous token) removes nearly all of it. The minimal state specification is therefore **(Previous Token, Current Token, Position)**.
 

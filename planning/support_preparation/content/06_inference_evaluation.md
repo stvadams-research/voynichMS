@@ -8,6 +8,8 @@ Results prove that flexible transformation models achieve similar confidence sco
 
 {{figure:results/visuals/phase4_inference/821247f8-748c-cb25-1d5d-5d2877bf7f71_lang_id_comparison.png|Comparative False Positive Rate Evaluation across Diagnostic Methods}}
 
+{{figure:results/publication/assets/inference_floor.png|The Inference Floor: Probability of False Semantic Detection in Structured Noise}}
+
 ## 6.2 Method-by-Method Evaluation
 
 Five inference methods were tested against the manuscript and matched non-semantic controls of equal scale:

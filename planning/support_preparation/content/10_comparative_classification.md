@@ -8,6 +8,8 @@ A curated library of human-produced formal artifacts was assembled spanning natu
 
 The manuscript occupies a structurally isolated position in the resulting morphospace. It is not a cipher (too repetitive, no mapping stability). It is not gibberish (too structured, too consistent). It is not a simple table or list (too varied, with constrained novelty). Its nearest neighbor is combinatorial systems of the Lullian type, but that proximity is moderate, not decisive.
 
+{{figure:results/publication/assets/radar_comparison.png|Artifact Morphospace: The Voynich Profile relative to Language, Table-Grille, and Combinatorial Baseline}}
+
 ## 10.2 Classification Results
 
 The comparative analysis established five key findings:

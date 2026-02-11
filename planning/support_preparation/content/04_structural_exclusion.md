@@ -18,7 +18,7 @@ A critical validation step was the transition from simulated baselines to real c
 
 | Metric | Simulated (Baseline) | Real (Computed) | Shift |
 |--------|---------------------|-----------------|-------|
-| Repetition Rate | 15% (hardcoded) | 90.03% | +75% |
+| Repetition Rate | 15% (hardcoded) | {{phase1.repetition_rate}} | +75% |
 | Information Z-Score | 1.90 (FRAGILE) | 5.68 (STABLE) | +3.78 |
 | Mapping Stability | 0.88 (STABLE) | {{phase2.mapping_stability}} (COLLAPSED) | -0.86 |
 | Pattern Type | Mixed | Procedural | Unified |
@@ -27,7 +27,7 @@ The manuscript is significantly more information-dense than previously estimated
 
 ## 4.3 Dominance of Procedural Patterns
 
-Pattern analysis identified procedural generation as the dominant structural regime. The manuscript behaves as a single, consistent procedural system rather than a collection of different regimes. Real data shows a 90.03% token repetition rate, far exceeding any known natural language (typically 20-30%) or control corpus.
+Pattern analysis identified procedural generation as the dominant structural regime. The manuscript behaves as a single, consistent procedural system rather than a collection of different regimes. Real data shows a {{phase1.repetition_rate}} token repetition rate, far exceeding any known natural language (typically 20-30%) or control corpus.
 
 ## 4.4 Semantic Necessity Assessment
 

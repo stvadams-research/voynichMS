@@ -53,8 +53,8 @@ profiles:
 # Data source mappings: placeholder_key -> json_path -> json_key_path
 # Key paths use dot notation for nested access
 data_sources:
-  # Phase 1 - Foundation (hardcoded for now - no Phase 1 JSON exists)
-  phase1.repetition_rate: "0.698"
+  # Phase 1 - Foundation (updated to match Phase 2 Real value)
+  phase1.repetition_rate: "0.9003"
 
   # Phase 2 - Analysis
   phase2.mapping_stability: "0.02"

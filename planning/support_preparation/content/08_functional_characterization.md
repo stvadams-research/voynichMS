@@ -13,6 +13,8 @@ The first test asked whether the manuscript behaves like a system designed to ex
 
 The manuscript actively suppresses repetition and prioritizes coverage over reuse. This behavior is incompatible with natural language, mnemonic systems, practical tools, or casual generation. It is consistent with the disciplined execution of a formal combinatorial system — akin to a completed mathematical table where correctness of execution, not hidden content, is the point.
 
+{{figure:results/publication/assets/novelty_convergence.png|Novelty and Convergence: The Execution Profile of a High-Sparsity Combinatorial Machine}}
+
 ## 8.2 Efficiency Audit (6B)
 
 If the system is formal, is it optimized for efficiency? The answer is definitively no.
