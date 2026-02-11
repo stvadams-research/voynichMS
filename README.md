@@ -47,6 +47,7 @@ python3 scripts/support_preparation/replicate_all.py
 ```
 
 ### Manual Generation
+*   **Definitive Research Paper (30-40+ Pages)**: `.venv/bin/python3 scripts/support_preparation/generate_definitive_paper.py`
 *   **Full Publication (Word)**: `python3 scripts/support_preparation/generate_publication.py`
 *   **Individual Phase Report**: `python3 scripts/support_preparation/generate_publication.py --phase [1-9]`
 *   **Markdown Master**: `python3 scripts/support_preparation/assemble_draft.py`
