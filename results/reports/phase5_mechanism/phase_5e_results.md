@@ -34,4 +34,4 @@ The pilot has identified a critical, high-impact signature:
 | **Large-Grid Topology** | **ADMISSIBLE** | Sufficient to explain both the consistency and the global entropy. |
 
 ---
-**Conclusion:** Phase 5E has identified the "smoking gun" of the Voynich phase5_mechanism. The manuscript is not just deterministic within a line; it is **stiff across the entire corpus**. This confirms that the scribe was following a global rule-system (likely a large table or grid) that pre-determined word sequences before they were written.
+**Conclusion:** Phase 5E has identified the "smoking gun" of the Voynich mechanism. The manuscript is not just deterministic within a line; it is **stiff across the entire corpus**. This confirms that the scribe was following a global rule-system (likely a large table or grid) that pre-determined word sequences before they were written.

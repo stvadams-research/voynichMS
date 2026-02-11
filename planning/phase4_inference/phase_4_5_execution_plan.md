@@ -59,7 +59,7 @@ how meaning would be encoded historically
 
 2.2 No new empirical signals without new assumptions
 
-All phase2_analysis must be grounded in:
+All analysis must be grounded in:
 
 Phase 4 results
 
@@ -84,7 +84,7 @@ whether meaning exists in some private or external sense
 3. Semantic Admissibility Framework
 3.1 Definition: semantics for this project
 
-For the purposes of phase4_inference, semantics is defined as:
+For the purposes of inference, semantics is defined as:
 
 A stable mapping between symbolic variation and latent states that are not reducible to local mechanical constraints, reuse rules, or bounded generative procedures.
 
@@ -188,7 +188,7 @@ Independent external grounding, such as bilingual anchors or non-textual alignme
 
 A formally specified new assumption, clearly acknowledged as such, changing the admissibility framework.
 
-Absent this, further statistical phase2_analysis is not justified.
+Absent this, further statistical analysis is not justified.
 
 7. Primary Outputs
 

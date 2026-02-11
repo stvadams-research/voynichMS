@@ -3,7 +3,7 @@
 **Project:** Voynich Manuscript, Structural Admissibility Program  
 **Phase:** 5J  
 **Phase Name:** Dependency Scope Identifiability  
-**Goal Type:** Final internal discrimination within a single deterministic phase5_mechanism  
+**Goal Type:** Final internal discrimination within a single deterministic mechanism  
 **Primary Goal:** Determine whether successor determinism in the Voynich Manuscript is governed by **purely local transition rules** (explicit high-connectivity graph / DAG-like) or by **feature- or state-conditioned constraints** (implicit lattice / rule-evaluated system), using text-internal evidence only.
 
 ---
@@ -13,7 +13,7 @@
 ### 0.1 Why Phase 5J exists
 After Phases 5G and 5I, the project has established:
 
-- A single global deterministic phase5_mechanism
+- A single global deterministic mechanism
 - Independent per-line entry
 - Large state space (>3,000 effective nodes)
 - High successor forcing and convergence
@@ -201,7 +201,7 @@ Each hypothesis receives exactly one label:
 - **Non-identifiable**
 
 ### 7.2 Resolution logic
-- If one hypothesis is eliminated, Phase 5J collapses the phase5_mechanism class.
+- If one hypothesis is eliminated, Phase 5J collapses the mechanism class.
 - If both remain, Phase 5J establishes a formal identifiability boundary.
 
 ---

@@ -221,7 +221,7 @@ python3 scripts/core_skeptic/check_provenance_uncertainty.py --mode release
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| C1 | Add explicit SK-M4 missing-folio non-blocker criterion to core_skeptic playbook and SK-M4 policy where absent. | `planning/core_skeptic/ADVERSARIAL_SKEPTIC_PLAYBOOK.md`, SK-M4 policy | Playbook/policy routing is unambiguous. |
+| C1 | Add explicit SK-M4 missing-folio non-blocker criterion to skeptic playbook and SK-M4 policy where absent. | `planning/core_skeptic/ADVERSARIAL_SKEPTIC_PLAYBOOK.md`, SK-M4 policy | Playbook/policy routing is unambiguous. |
 | C2 | Add SK-M4 checker assertion: folio-based blocking requires objective provenance-contract linkage evidence. | checker + tests | Unsupported folio blockers fail closed. |
 | C3 | Record non-fixable missing-folio blocker taxonomy in SK-M4 governance artifacts. | SK-M4 decision/status docs | Repeat-loop ambiguity is removed. |
 
@@ -306,7 +306,7 @@ python3 scripts/core_audit/build_release_gate_health_status.py
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| G1 | Add SK-M4.5 regression tests for lane determinism, residual completeness, and missing-folio guard behavior. | SK-M4 tests + core_audit contract tests | Regression suite fails if pass-5 semantics drift. |
+| G1 | Add SK-M4.5 regression tests for lane determinism, residual completeness, and missing-folio guard behavior. | SK-M4 tests + audit contract tests | Regression suite fails if pass-5 semantics drift. |
 | G2 | Add decision record with fixable vs non-fixable blocker ledger. | New `reports/core_skeptic/SK_M4_5_DECISION_RECORD.md` | Blocker classification is explicit and stable. |
 | G3 | Add execution status report template with command evidence matrix and blocker outcomes. | New `reports/core_skeptic/SKEPTIC_M4_5_EXECUTION_STATUS.md` | Full pass-5 traceability exists. |
 | G4 | Link SK-M4.5 finding -> controls -> blockers -> reopen triggers in `AUDIT_LOG.md`. | `AUDIT_LOG.md` | Repeat-loop traceability is auditable. |
@@ -403,7 +403,7 @@ During execution, every open item must be explicitly classified as one of:
 
 1. **Fixable SK-M4 defect:** can be remediated by policy/checker/artifact/gate/report changes.
 2. **Non-fixable bounded SK-M4 residual:** objective historical irrecoverability persists under current source scope.
-3. **Out-of-scope external blocker:** belongs to another core_skeptic class (for example SK-C1 or SK-H3), documented with explicit routing and no SK-M4 misclassification.
+3. **Out-of-scope external blocker:** belongs to another skeptic class (for example SK-C1 or SK-H3), documented with explicit routing and no SK-M4 misclassification.
 
 No unresolved item may remain unclassified.
 

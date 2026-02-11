@@ -9,7 +9,7 @@ This plan outlines the actions required to resolve the 18 low-severity issues id
 | ID | Issue | Remediation Action |
 |---|---|---|
 | **L1** | Hardcoded seeds in simulators | Replace `seed=42` with a configurable parameter or move to `phase1_foundation/config.py`. |
-| **L2** | False positive TEMP matches | Rename variables/comments containing "TEMP" (e.g., temporal, template) to avoid core_audit noise. |
+| **L2** | False positive TEMP matches | Rename variables/comments containing "TEMP" (e.g., temporal, template) to avoid audit noise. |
 | **L3** | Print-based QC stubs | Replace `print("Generating...")` in `qc/reporting.py` with standard `logging` or removal. |
 | **L4** | Style inconsistencies | Align whitespace and docstring formatting across the `phase5_mechanism/` submodules. |
 | **L5** | Redundant comments | Remove legacy comments referring to `_run_simulated()` methods that have been deleted. |

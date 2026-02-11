@@ -1,7 +1,7 @@
 # PHASE 5F ENTRY MECHANISM CLASSES: PATH INSTANTIATION MODELS
 
 **Project:** Voynich Manuscript – Entry-Point Identifiability  
-**Objective:** Define the phase5_mechanism families for selecting per-line starting points in a large deterministic structure.
+**Objective:** Define the mechanism families for selecting per-line starting points in a large deterministic structure.
 
 ---
 
@@ -30,5 +30,5 @@
 - **Key Vulnerability:** Over-predicts regularity if the mapping $f$ is too simple.
 
 ---
-**Status:** Entry phase5_mechanism classes frozen.  
+**Status:** Entry mechanism classes frozen.  
 **Next:** Pre-register necessary consequences and kill rules.

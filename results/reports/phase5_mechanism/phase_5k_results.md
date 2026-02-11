@@ -16,7 +16,7 @@ We estimated the effective state space required to model the manuscript as an ex
 | **M1 (Pos-DAG)** | 10,011 | 17,422 | 1.74x |
 | **M2 (Lattice)** | 6,100 | 14,294 | 2.34x |
 
-**Finding:** The observed "Explosion Factor" is low (1.86x). This initially suggests `(Word, Position)` is a compact representation. However, this metric is deceptive without the Residual Dependency core_audit (below).
+**Finding:** The observed "Explosion Factor" is low (1.86x). This initially suggests `(Word, Position)` is a compact representation. However, this metric is deceptive without the Residual Dependency audit (below).
 
 ---
 
@@ -34,7 +34,7 @@ We tested whether the state `(Word, Position)` is sufficient to determine the su
 In the real manuscript, knowing `(Word, Position)` leaves **0.79 bits** of uncertainty about the next word. Adding the *previous word* reduces this to **0.09 bits** (an 88% reduction).
 
 **Implication for M1:**
-If the phase5_mechanism were a simple Position-Indexed DAG (State = `Word + Position`), the `History` term should provide **zero** additional information (Markov property). The massive 88% reduction proves that the true state is **at least Second-Order** (`Prev, Curr, Pos`).
+If the mechanism were a simple Position-Indexed DAG (State = `Word + Position`), the `History` term should provide **zero** additional information (Markov property). The massive 88% reduction proves that the true state is **at least Second-Order** (`Prev, Curr, Pos`).
 
 **Implication for Parsimony:**
 To model a second-order dependency as an explicit graph, the state space explodes to $V^2 	imes L$ (approx $5000^2 	imes 8 \approx 200 	ext{ million}$ nodes). This is **pathologically non-parsimonious**.

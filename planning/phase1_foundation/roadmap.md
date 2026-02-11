@@ -17,7 +17,7 @@ Translation is the *eventual* end goal, but it is never a task within this roadm
 
 ## Program Mission
 
-To construct the most rigorous, assumption-aware, and falsifiable phase1_foundation ever built for the study of the Voynich Manuscript, such that:
+To construct the most rigorous, assumption-aware, and falsifiable foundation ever built for the study of the Voynich Manuscript, such that:
 
 - translation becomes possible in principle, or
 - the impossibility of translation becomes unavoidable and demonstrable
@@ -237,7 +237,7 @@ Test specific structural hypotheses in a controlled, removable way.
 
 The program is complete when one of the following is achieved:
 
-- A stable phase1_foundation exists that enables serious translation attempts without foundational ambiguity, or
+- A stable foundation exists that enables serious translation attempts without foundational ambiguity, or
 - It is demonstrated that translation is not a coherent objective given the system’s structure
 
 Both outcomes are considered success.

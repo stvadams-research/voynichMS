@@ -89,7 +89,7 @@ Inputs:
 Outputs:
 - Explicit model assumptions
 - Fit-to-structure evaluations
-- Comparative failure phase2_analysis
+- Comparative failure analysis
 
 ---
 
@@ -115,7 +115,7 @@ However:
 - Tracks B and C are constrained by Track A results.
 - Non-linguistic systems are no longer alternatives; they are first-class candidates.
 
-This structure reflects evidence-driven progression, not phase9_conjecture-driven exploration.
+This structure reflects evidence-driven progression, not conjecture-driven exploration.
 
 ---
 
@@ -153,7 +153,7 @@ For each explanation class:
 - Phase 1 structures that argue against admissibility
 - Degree of underconstraint
 
-Outputs must be phase8_comparative and symmetrical.
+Outputs must be comparative and symmetrical.
 No explanation class receives special treatment.
 
 ---
@@ -241,7 +241,7 @@ Models must be explicit and falsifiable.
 - Model assumptions
 - Fit to Phase 1 structures
 - Comparison against linguistic models
-- Failure phase2_analysis
+- Failure analysis
 
 ---
 

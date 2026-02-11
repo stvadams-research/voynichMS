@@ -7,7 +7,7 @@
 
 This document defines an **explicit adversarial mindset** to be applied to the Voynich Project.
 
-It is written from the perspective of a **hostile but competent core_skeptic**:
+It is written from the perspective of a **hostile but competent skeptic**:
 - technically literate
 - deeply invested in alternative interpretations
 - possibly with decades of prior work at stake
@@ -43,12 +43,12 @@ Understanding this psychology is part of defending the work.
 
 ## Primary Adversarial Goals
 
-The core_skeptic will attempt to show that:
+The skeptic will attempt to show that:
 
 1. Your methods silently assume the conclusion.
 2. Your negative results overgeneralize from limited diagnostics.
 3. Your definition of “language” or “meaning” is artificially narrow.
-4. Your phase8_comparative framework is biased or incomplete.
+4. Your comparative framework is biased or incomplete.
 5. Your stopping point is philosophical, not technical.
 6. Your conclusions discourage legitimate future discovery.
 
@@ -83,7 +83,7 @@ Your diagnostics only detect modern, efficient, statistical language. Ancient, r
 Your non-semantic generators are straw men. They do not reflect how real humans generate meaningful text.
 
 ### Skeptic’s Strategy
-- Argue generators lack phase7_human intention.
+- Argue generators lack human intention.
 - Claim the generators are tuned to mimic Voynich.
 - Assert that failure to detect semantics is a generator artifact.
 
@@ -104,14 +104,14 @@ Your non-semantic generators are straw men. They do not reflect how real humans 
 Meaning is not statistical. Your entire enterprise is category error.
 
 ### Skeptic’s Strategy
-- Invoke phase7_human intuition and historical context.
+- Invoke human intuition and historical context.
 - Dismiss quantitative methods as blind to semantics.
 - Argue that failure to detect meaning proves nothing.
 
 ### Questions You Must Answer
 - What *can* statistics legitimately rule out?
 - Are you claiming “no meaning,” or “no evidence for meaning”?
-- Where exactly does your phase4_inference stop?
+- Where exactly does your inference stop?
 
 ### Validation Test
 - Can you restate your conclusions without using the word “meaning” at all?
@@ -225,7 +225,7 @@ Counter:
 
 ## Skeptic Success Criteria
 
-From the core_skeptic’s point of view, they “win” if they can show:
+From the skeptic’s point of view, they “win” if they can show:
 
 - A plausible semantic system consistent with all your findings.
 - A diagnostic you ignored that would discriminate meaning.
@@ -243,10 +243,10 @@ This document exists to ensure none of those survive contact.
   - closure/claim language exceeds the bounded entitlement state.
 - Repeating the same approved-lost-page objection without new primary-source evidence is not a new blocker.
 - Missing folio objections map to SK-H3 by default; they do not automatically block SK-H1 multimodal closure.
-- Missing folio objections map to SK-H3 by default; they do not automatically block SK-M2 phase8_comparative uncertainty closure.
+- Missing folio objections map to SK-H3 by default; they do not automatically block SK-M2 comparative uncertainty closure.
 - Missing folio objections map to SK-H3 by default; they do not automatically block SK-M4 provenance-confidence closure.
 - Treat missing folios as an SK-H1 blocker only when multimodal status is explicitly data-geometry blocked and the blocker is traceably linked to approved-lost source constraints.
-- Treat missing folios as an SK-M2 blocker only when phase8_comparative artifacts/checkers explicitly show phase8_comparative-input validity failure caused by missing source pages; absent that objective linkage, SK-M2 remains non-blocked on folio grounds.
+- Treat missing folios as an SK-M2 blocker only when comparative artifacts/checkers explicitly show comparative-input validity failure caused by missing source pages; absent that objective linkage, SK-M2 remains non-blocked on folio grounds.
 - Treat missing folios as an SK-M4 blocker only when provenance artifacts/checkers show objective provenance-contract incompleteness caused by missing source pages that are not already classified as approved irrecoverable loss.
 - If SK-H1 canonical artifact remains conclusive on policy-accepted available data, missing-folio objections remain non-blocking unless new primary evidence changes irrecoverability classification.
 - If SK-M4 canonical artifacts are synchronized (`status=IN_SYNC`, `drift_detected=false`) and historical uncertainty is already bounded by approved irrecoverability classification, repeating the same missing-folio objection is non-blocking unless objective trigger conditions change.
@@ -277,7 +277,7 @@ A serious critic does not need to be convinced.
 
 They need to be **unable to demonstrate error**.
 
-If, after applying this core_skeptic playbook, the work still stands:
+If, after applying this skeptic playbook, the work still stands:
 
 - The methods are sound.
 - The conclusions are appropriately scoped.

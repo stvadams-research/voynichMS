@@ -27,9 +27,9 @@ Detailed execution plans for Phase 7A, 7B, and 7C are defined separately.
 
 Phases 1–6 established the following boundary:
 
-- The Voynich Manuscript’s **phase5_mechanism is fully characterized**.
+- The Voynich Manuscript’s **mechanism is fully characterized**.
 - Its **function is not encoded in text-internal structure**.
-- Further narrowing cannot be achieved through statistical, grammatical, or structural phase2_analysis of the text alone.
+- Further narrowing cannot be achieved through statistical, grammatical, or structural analysis of the text alone.
 
 Phase 7 exists because **continuing to ask text-only questions would violate the project’s own standards**.
 
@@ -63,9 +63,9 @@ Phase 7 proceeds by identifying **constraints**, not narratives.
 ### 4.2 Evidence Class Expansion
 Phase 7 introduces evidence types deliberately excluded from earlier phases, including:
 
-- phase7_human production ergonomics,
+- human production ergonomics,
 - physical and codicological properties,
-- phase8_comparative formal artifacts.
+- comparative formal artifacts.
 
 Text statistics alone are insufficient.
 
@@ -87,7 +87,7 @@ Any hypothesis requiring semantic decoding is out of scope unless independently 
 Failure to narrow further is a valid outcome.
 
 Phase 7 is allowed to conclude:
-- that multiple phase6_functional categories remain compatible, or
+- that multiple functional categories remain compatible, or
 - that function is fundamentally underdetermined even with external evidence.
 
 ---
@@ -96,7 +96,7 @@ Phase 7 is allowed to conclude:
 Results from Phases 1–6 are treated as **frozen and authoritative**.
 
 Phase 7 does not:
-- reopen phase5_mechanism identification,
+- reopen mechanism identification,
 - reinterpret Phase 6 outcomes,
 - or reintroduce eliminated hypothesis classes.
 
@@ -165,7 +165,7 @@ Goal:
 ## 8. Relationship Between Phase 7 Sub-Phases
 
 - Phase 7A, 7B, and 7C are **execution-independent**.
-- Results are **interpretively coupled** during phase3_synthesis.
+- Results are **interpretively coupled** during synthesis.
 - No sub-phase may alter the execution plan of another.
 
 Integration occurs only after all three are complete.
@@ -176,7 +176,7 @@ Integration occurs only after all three are complete.
 
 Phase 7 is successful if it produces:
 
-- a clearly narrowed set of viable phase6_functional categories, or
+- a clearly narrowed set of viable functional categories, or
 - a formal demonstration that function remains underdetermined even with external evidence.
 
 Both outcomes are acceptable and scientifically meaningful.

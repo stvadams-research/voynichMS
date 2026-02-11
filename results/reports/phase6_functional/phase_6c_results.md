@@ -16,4 +16,4 @@
 
 ## Final Determination
 
-The Voynich Manuscript is best characterized as an **Indifferent Formal System (H6C.1)**. It exhibits extreme structural discipline without any measurable evidence of adversarial tuning or intent to deceive an observer. Its complexity is an intrinsic property of its formal depth, not a phase6_functional layer designed for obfuscation.
+The Voynich Manuscript is best characterized as an **Indifferent Formal System (H6C.1)**. It exhibits extreme structural discipline without any measurable evidence of adversarial tuning or intent to deceive an observer. Its complexity is an intrinsic property of its formal depth, not a functional layer designed for obfuscation.

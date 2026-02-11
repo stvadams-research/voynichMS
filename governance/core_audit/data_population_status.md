@@ -112,13 +112,13 @@ Identical scores across different models strongly suggests:
 ### CLI Infrastructure Exists
 ```bash
 # Register pages
-phase1_foundation data register <path> --name <dataset>
+foundation data register <path> --name <dataset>
 
 # Ingest transcriptions
-phase1_foundation transcription ingest <file> --source <name> --format eva
+foundation transcription ingest <file> --source <name> --format eva
 
 # Run alignment
-phase1_foundation alignment run <page_id> <source_id>
+foundation alignment run <page_id> <source_id>
 ```
 
 ---

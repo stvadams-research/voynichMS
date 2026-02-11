@@ -14,13 +14,13 @@ Phase 6 begins **after** internal structural identifiability has been completed 
 
 At the start of Phase 6, the following are treated as **fixed results**, not hypotheses:
 
-- The manuscript’s internal production phase5_mechanism is identified as a  
+- The manuscript’s internal production mechanism is identified as a  
   **deterministic, rule-evaluated constraint system (implicit lattice)**.
 - Lines are independent traversal instances with strict boundary resets.
 - Entry points are independent and drawn from a very large state space.
 - Successor constraints depend on **position and immediate history**.
 - No text-internal evidence supports semantics or language.
-- All competing internal phase5_mechanism classes have been eliminated.
+- All competing internal mechanism classes have been eliminated.
 
 Phase 6 does **not** revisit, weaken, or reopen any Phase 5 conclusions.
 
@@ -30,11 +30,11 @@ Phase 6 does **not** revisit, weaken, or reopen any Phase 5 conclusions.
 
 Phase 6 shifts the question from:
 
-> “What phase5_mechanism produced the manuscript?”
+> “What mechanism produced the manuscript?”
 
 to:
 
-> “What *phase6_functional role* best explains the construction and execution of this identified phase5_mechanism, under testable criteria?”
+> “What *functional role* best explains the construction and execution of this identified mechanism, under testable criteria?”
 
 This is a **change in intent**, not a change in rigor.
 
@@ -47,9 +47,9 @@ Phase 6 investigates *function*, not *meaning*.
 All Phase 6 work must satisfy the following principles.
 
 ### 3.1 Mechanism Freeze Principle
-The identified phase5_mechanism from Phase 5 is **frozen**.
+The identified mechanism from Phase 5 is **frozen**.
 
-- No new phase5_mechanism classes may be introduced.
+- No new mechanism classes may be introduced.
 - No eliminated class may be revived.
 - No hybridization with semantic or linguistic models is permitted.
 
@@ -89,7 +89,7 @@ If meaning is invoked, it must be:
 ---
 
 ### 3.4 Function Over Intention
-Phase 6 evaluates **phase6_functional classes**, not mental states.
+Phase 6 evaluates **functional classes**, not mental states.
 
 Phase 6 asks:
 - What does this system *do*?
@@ -104,7 +104,7 @@ Phase 6 does **not** ask:
 
 ### 3.5 Negative Results Are Valid Outcomes
 Phase 6 is allowed to conclude that:
-- multiple phase6_functional classes remain compatible, or
+- multiple functional classes remain compatible, or
 - further narrowing requires external evidence.
 
 Phase 6 is **not obligated** to produce a single surviving function.
@@ -113,7 +113,7 @@ Phase 6 is **not obligated** to produce a single surviving function.
 
 ## 4. Allowed Hypothesis Classes (High-Level)
 
-Phase 6 limits itself to **systematically testable phase6_functional categories**, including but not limited to:
+Phase 6 limits itself to **systematically testable functional categories**, including but not limited to:
 
 - **Formal-System Execution**  
   The manuscript exists to instantiate or exhaust a formal rule system.
@@ -122,9 +122,9 @@ Phase 6 limits itself to **systematically testable phase6_functional categories*
   The manuscript functions as infrastructure for producing or regulating other outputs.
 
 - **Adversarial / Epistemic Stress Artifact**  
-  The manuscript is tuned to trigger false phase4_inference while resisting correct interpretation.
+  The manuscript is tuned to trigger false inference while resisting correct interpretation.
 
-These are **phase6_functional roles**, not interpretations of meaning.
+These are **functional roles**, not interpretations of meaning.
 
 Sub-phases (e.g., 6A, 6B, 6C) may each focus on one class.
 
@@ -166,8 +166,8 @@ Any work pursuing those goals is outside Phase 6 and must be labeled as a separa
 
 Phase 6 terminates when one of the following is reached:
 
-1. A single phase6_functional class is strongly supported and others eliminated.
-2. Multiple phase6_functional classes remain compatible and the boundary is documented.
+1. A single functional class is strongly supported and others eliminated.
+2. Multiple functional classes remain compatible and the boundary is documented.
 3. Further discrimination is shown to require assumptions or evidence outside the program’s scope.
 
 Phase 6 does **not** continue indefinitely.
@@ -178,12 +178,12 @@ Phase 6 does **not** continue indefinitely.
 
 Phase 6 maintains the epistemic discipline established in Phases 1–5 by:
 
-- freezing internal phase5_mechanism identification,
-- restricting itself to testable phase6_functional hypotheses,
+- freezing internal mechanism identification,
+- restricting itself to testable functional hypotheses,
 - explicitly separating structure from meaning,
 - and documenting all assumptions.
 
-Phase 6 exists to explore *why this phase5_mechanism might exist*, **without pretending the text itself answers that question**.
+Phase 6 exists to explore *why this mechanism might exist*, **without pretending the text itself answers that question**.
 
 ---
 

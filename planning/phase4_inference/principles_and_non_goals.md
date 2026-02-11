@@ -14,10 +14,10 @@ If work conflicts with this document, the work is wrong.
 
 Phase 4 exists to:
 
-- evaluate whether widely cited phase4_inference methods used to claim meaning or language in the Voynich Manuscript are actually diagnostic
+- evaluate whether widely cited inference methods used to claim meaning or language in the Voynich Manuscript are actually diagnostic
 - measure false positive rates by applying those methods to non-semantic but structurally Voynich-like corpora with known ground truth
 - clarify what can and cannot be inferred from structure alone
-- narrow feasible interpretation space by closing phase4_inference loopholes, not by proposing new theories
+- narrow feasible interpretation space by closing inference loopholes, not by proposing new theories
 
 Phase 4 does not exist to:
 - prove the manuscript is meaningless
@@ -44,7 +44,7 @@ Phase 2 asked:
 What explanation classes are structurally allowed?
 
 Phase 4 asks:
-Which phase4_inference methods are valid evidence for those classes?
+Which inference methods are valid evidence for those classes?
 
 ### Relationship to Phase 3 (Generative Reconstruction)
 Phase 3 established that non-semantic mechanisms can reproduce many headline anomalies.
@@ -58,7 +58,7 @@ Generators are tools for controls, not goals.
 ## 3. Core Principles
 
 ### Principle 1: Methods, Not People
-Phase 4 evaluates phase4_inference methods, not authors.
+Phase 4 evaluates inference methods, not authors.
 
 The goal is not to show that someone was wrong.
 The goal is to determine whether a method can or cannot support the claims it is commonly used to support.
@@ -82,7 +82,7 @@ If a method cannot make that separation, it is not semantics-diagnostic.
 ### Principle 3: Pre-Registered Claims and Decision Rules
 For each tested method, Phase 4 must define before running:
 
-- the method’s claimed phase4_inference
+- the method’s claimed inference
 - the minimal implementation required to fairly represent it
 - the evaluation dataset(s)
 - the false positive definition
@@ -125,7 +125,7 @@ Phase 4 may demonstrate that:
 - a method fails to produce signals on non-semantic corpora (increased credibility)
 
 Phase 4 may not conclude that:
-- any specific historical phase5_mechanism produced the manuscript
+- any specific historical mechanism produced the manuscript
 - any particular semantic interpretation is true or false
 
 Sufficiency is not identification.
@@ -189,7 +189,7 @@ Continuing beyond that point requires a new question, not “one more test.”
 
 Progress is defined as:
 
-- quantifying false positive rates of phase4_inference methods
+- quantifying false positive rates of inference methods
 - identifying which signals arise from structure alone
 - documenting which methods remain credible under strong controls
 - producing reusable evaluation harnesses for future claims
@@ -279,7 +279,7 @@ Phase 4 is where the temptation shifts:
 not to interpret the manuscript, but to interpret the interpretations.
 
 These principles exist to ensure that:
-- phase4_inference remains testable
+- inference remains testable
 - critique remains fair
 - results remain auditable
 - conclusions remain bounded

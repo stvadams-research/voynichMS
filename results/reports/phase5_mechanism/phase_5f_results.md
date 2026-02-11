@@ -34,4 +34,4 @@ The pilot has identified the "selection" signature of the manuscript:
 | **Section-Anchored** | UNTESTED | High global entropy suggests if anchors exist, they must be very large. |
 
 ---
-**Conclusion:** Phase 5F has identified the "entry signature" of the manuscript. The production phase5_mechanism uses an **extremely large entry space** (>3,000 nodes) and selects per-line starting points **independently**, precluding any local "scribal drift" or persistent path state.
+**Conclusion:** Phase 5F has identified the "entry signature" of the manuscript. The production mechanism uses an **extremely large entry space** (>3,000 nodes) and selects per-line starting points **independently**, precluding any local "scribal drift" or persistent path state.

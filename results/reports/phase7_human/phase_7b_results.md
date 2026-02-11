@@ -24,10 +24,10 @@
 - **H1.5 Closure Lane:** H1_5_BOUNDED
 - **Robustness Class:** MIXED
 - **Entitlement Robustness Class:** ROBUST
-- **Interpretation:** Confirmatory coupling phase2_analysis did not detect a robust illustration/layout coupling signal in entitlement lanes, robustness remains qualified across registered lanes, and diagnostic lanes remain non-conclusive monitoring signals; no claim is allowed beyond bounded entitlement scope.
-- **Allowed Claim:** No robust image/layout coupling signal was detected under the configured adequacy and phase4_inference criteria.
+- **Interpretation:** Confirmatory coupling analysis did not detect a robust illustration/layout coupling signal in entitlement lanes, robustness remains qualified across registered lanes, and diagnostic lanes remain non-conclusive monitoring signals; no claim is allowed beyond bounded entitlement scope.
+- **Allowed Claim:** No robust image/layout coupling signal was detected under the configured adequacy and inference criteria.
 
 ## Final Determination
 
 - **H7B.2 Supported:** Lack of significant boundary adaptation suggests the text may have been copied from an external source.
-- **Illustration-Coupling Guardrail:** Confirmatory coupling phase2_analysis did not detect a robust illustration/layout coupling signal in entitlement lanes, robustness remains qualified across registered lanes, and diagnostic lanes remain non-conclusive monitoring signals; no claim is allowed beyond bounded entitlement scope.
+- **Illustration-Coupling Guardrail:** Confirmatory coupling analysis did not detect a robust illustration/layout coupling signal in entitlement lanes, robustness remains qualified across registered lanes, and diagnostic lanes remain non-conclusive monitoring signals; no claim is allowed beyond bounded entitlement scope.

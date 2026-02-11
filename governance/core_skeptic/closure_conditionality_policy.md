@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This policy prevents contradictory closure language across phase8_comparative and summary reports.
+This policy prevents contradictory closure language across comparative and summary reports.
 
 Machine-readable policy:
 

@@ -37,7 +37,7 @@ Playbook Phases 0-5 were rerun with direct command execution and source inspecti
 
 ### Runtime commands executed
 
-- `python3 -c "import sys; sys.path.insert(0,'src'); import phase1_foundation.configs.loader; print('loader_import_ok')"`
+- `python3 -c "import sys; sys.path.insert(0,'src'); import foundation.configs.loader; print('loader_import_ok')"`
 - Determinism replay for Test A (`run_test_a.py` twice with same seed; canonical `results` compare)
 - `python3 -m pytest --cov=src --cov-report=term-missing:skip-covered -q tests`
 - `bash scripts/verify_reproduction.sh`
@@ -80,21 +80,21 @@ No source-code fixes were applied as part of this assessment run.
 
 Top-level source distribution:
 
-- `phase1_foundation 55`
-- `phase2_analysis 22`
-- `phase5_mechanism 21`
-- `phase3_synthesis 13`
-- `phase4_inference 6`
-- `phase6_functional 6`
-- `phase7_human 5`
-- `phase8_comparative 1`
+- `foundation 55`
+- `analysis 22`
+- `mechanism 21`
+- `synthesis 13`
+- `inference 6`
+- `functional 6`
+- `human 5`
+- `comparative 1`
 
 ### 0.2 Inventory findings
 
 | ID | Severity | Finding | Location |
 |---|---|---|---|
 | INV-1 | Medium | Worktree remains non-clean (`89` modified/untracked paths), and release gate fails without explicit override. | `scripts/core_audit/pre_release_check.sh:40`, `scripts/core_audit/pre_release_check.sh:45`; `git status --short` |
-| INV-2 | Resolved | Playbook-required core_audit log exists. | `AUDIT_LOG.md` |
+| INV-2 | Resolved | Playbook-required audit log exists. | `AUDIT_LOG.md` |
 
 ---
 

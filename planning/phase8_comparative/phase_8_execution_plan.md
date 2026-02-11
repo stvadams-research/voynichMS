@@ -20,7 +20,7 @@ It is an execution blueprint.
 
 ## Phase B Objective (Operational)
 
-To classify the Voynich Manuscript within the space of known phase7_human-produced formal artifacts using non-semantic, non-text-only phase8_comparative phase2_analysis, or to demonstrate that it remains structurally isolated even under broad comparison.
+To classify the Voynich Manuscript within the space of known human-produced formal artifacts using non-semantic, non-text-only comparative analysis, or to demonstrate that it remains structurally isolated even under broad comparison.
 
 ---
 
@@ -29,9 +29,9 @@ To classify the Voynich Manuscript within the space of known phase7_human-produc
 All tasks must comply with:
 
 - No semantic interpretation of Voynich text.
-- No new text-only phase4_inference.
+- No new text-only inference.
 - No decoding, translation, or cipher hypotheses.
-- All claims must be phase8_comparative, not explanatory.
+- All claims must be comparative, not explanatory.
 - Failure to classify is an acceptable and informative outcome.
 
 ---
@@ -96,7 +96,7 @@ Create a stable comparison framework that prevents semantic drift and ad hoc rea
 ## Workstream 2, Artifact Library Construction
 
 ### Objective
-Assemble a controlled comparison set spanning relevant phase7_human formal artifacts.
+Assemble a controlled comparison set spanning relevant human formal artifacts.
 
 ### Deliverables
 - `ARTIFACT_LIBRARY.md`
@@ -112,7 +112,7 @@ Assemble a controlled comparison set spanning relevant phase7_human formal artif
 **B2.2 Define Exclusion Criteria**
 - Requires semantic decoding to function
 - Purely random or purely decorative
-- Modern digital systems without phase7_human execution analogues
+- Modern digital systems without human execution analogues
 
 **B2.3 Assemble Candidate List**
 Target 15–25 candidates across categories:
@@ -150,7 +150,7 @@ Standardize evidence so comparisons are reproducible and auditable.
 Each case file must include:
 - Artifact description (non-interpretive)
 - Known production constraints
-- Execution ecology and phase7_human factors
+- Execution ecology and human factors
 - Layout dependence or indifference
 - Tool or device reliance
 - Error tolerance and correction norms

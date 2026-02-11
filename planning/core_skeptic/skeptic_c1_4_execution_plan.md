@@ -91,7 +91,7 @@ This plan assumes repeated SK-C1 failure is not only a one-off missing file issu
 ## Out of Scope
 
 - SK-C2/H1/H2/H3/M1/M2/M3/M4 remediation except strict dependencies.
-- Changing scientific conclusions of sensitivity phase2_analysis in this planning pass.
+- Changing scientific conclusions of sensitivity analysis in this planning pass.
 - Manual artifact patching without deterministic runner support.
 
 ---
@@ -144,7 +144,7 @@ python3 scripts/core_audit/build_release_gate_health_status.py
 |---|---|---|---|
 | B1 | Ensure `run_sensitivity_sweep.py --mode release` always emits release JSON and release markdown to canonical paths. | `scripts/phase2_analysis/run_sensitivity_sweep.py` | Release run cannot complete without both artifacts written. |
 | B2 | Add atomic write semantics (temp file + rename) for release artifacts. | same | No partially written release artifacts are observable. |
-| B3 | Add explicit provenance keys for release path identity (mode, dataset, scenario profile). | release artifact schema | Consumers can verify provenance intent without phase4_inference. |
+| B3 | Add explicit provenance keys for release path identity (mode, dataset, scenario profile). | release artifact schema | Consumers can verify provenance intent without inference. |
 
 ### Verification
 
@@ -163,7 +163,7 @@ python3 scripts/core_audit/check_sensitivity_artifact_contract.py --mode release
 |---|---|---|---|
 | C1 | Add a release preflight mode that validates dataset policy and contract prerequisites before heavy computation. | `scripts/phase2_analysis/run_sensitivity_sweep.py` | Preflight emits machine-readable pass/fail and reason codes. |
 | C2 | Wire preflight checks into pre-release and verify scripts before full release sweep expectations. | `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh` | Scripts fail early with deterministic remediation message. |
-| C3 | Emit `core_status/core_audit/sensitivity_release_preflight.json` for gate-health and core_audit traceability. | new status artifact | Preflight state is visible and policy-checkable. |
+| C3 | Emit `core_status/core_audit/sensitivity_release_preflight.json` for gate-health and audit traceability. | new status artifact | Preflight state is visible and policy-checkable. |
 
 ### Verification
 
@@ -266,7 +266,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | H1 | Create SK-C1.4 execution status report template and evidence checklist. | `reports/core_skeptic/SKEPTIC_C1_4_EXECUTION_STATUS.md` (during execution) | Implementation pass has a fixed reporting structure. |
 | H2 | Update runbook/repro docs for release sensitivity run sequence and preflight expectations. | `governance/governance/REPRODUCIBILITY.md`, `governance/RUNBOOK.md`, `governance/SENSITIVITY_ANALYSIS.md` | Docs match implemented gate behavior. |
-| H3 | Add core_audit-log linkage for SK-C1.4 with reason codes, commands, and final gate state. | `AUDIT_LOG.md` | Full trace is auditable and reproducible. |
+| H3 | Add audit-log linkage for SK-C1.4 with reason codes, commands, and final gate state. | `AUDIT_LOG.md` | Full trace is auditable and reproducible. |
 
 ### Verification
 
@@ -316,7 +316,7 @@ Rationale:
 | WS-C1.4-E Semantic Parity | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Preserved strict release-readiness conjunction and explicit failure reasons under release mode. |
 | WS-C1.4-F Gate Integration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Checker/gate-health coherence updated with preflight context and sensitivity subreason mapping. |
 | WS-C1.4-G Tests/Contracts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added/updated regression tests; targeted suite passes (`28 passed`). |
-| WS-C1.4-H Governance | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added execution status report and core_audit-log trace for SK-C1.4 pass. |
+| WS-C1.4-H Governance | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added execution status report and audit-log trace for SK-C1.4 pass. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

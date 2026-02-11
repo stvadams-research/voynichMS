@@ -3,7 +3,7 @@
 
 This document defines the principles and explicit non-goals governing **Phase 3 (Structural Synthesis)** of the Voynich Manuscript project.
 
-It exists to preserve methodological discipline as the project moves from phase2_analysis into constructive generation.
+It exists to preserve methodological discipline as the project moves from analysis into constructive generation.
 
 Phase 3 is the most vulnerable phase to misinterpretation.
 This document exists to prevent that.
@@ -26,7 +26,7 @@ Phase 3 is an **illustrative stress test**, not an interpretive leap.
 
 ### 2.1 Structure Over Meaning
 
-All phase3_synthesis is driven exclusively by structural constraints derived from observed data.
+All synthesis is driven exclusively by structural constraints derived from observed data.
 
 No semantic assumptions are permitted at any stage:
 - no words
@@ -76,7 +76,7 @@ Constraint failure is recorded, not hidden.
 
 ### 2.5 Codicological Reality Is Respected
 
-All phase3_synthesis is conditioned on physically plausible scenarios:
+All synthesis is conditioned on physically plausible scenarios:
 - known section boundaries
 - known missing-page windows
 - quire structure

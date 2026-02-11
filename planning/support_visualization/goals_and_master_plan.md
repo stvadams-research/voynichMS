@@ -1,7 +1,7 @@
 # Visualization Layer: Goals and Master Plan
 
 ## 1. Vision
-The Visualization Layer provides a unified framework for generating, storing, and publishing visual representations of the Voynich Manuscript project's findings. It bridges the gap between raw metric data (stored in databases/run logs) and phase7_human-interpretable insights (graphs, heatmaps, and diagnostic plots).
+The Visualization Layer provides a unified framework for generating, storing, and publishing visual representations of the Voynich Manuscript project's findings. It bridges the gap between raw metric data (stored in databases/run logs) and human-interpretable insights (graphs, heatmaps, and diagnostic plots).
 
 This layer is strictly descriptive and diagnostic; it does not introduce new assumptions or interpretations beyond what the analytical layers (1-4) have established.
 
@@ -10,7 +10,7 @@ This layer is strictly descriptive and diagnostic; it does not introduce new ass
 - **Reproducibility**: Ensure every plot is tied to a specific `RunID` and dataset provenance.
 - **Publication Readiness**: Generate high-quality assets suitable for research reports and public documentation.
 - **Diagnostic Utility**: Help researchers identify anomalies, stability shifts, and method failures during development.
-- **Automation**: Integrate support_visualization into the CI/CD and run lifecycle.
+- **Automation**: Integrate visualization into the CI/CD and run lifecycle.
 
 ## 3. Architectural Design
 
@@ -66,11 +66,11 @@ src/support_visualization/
   - "Inference Closure" diagrams showing remaining semantic loopholes.
 
 ### Phase 5: Integration & CLI
-- **Typer CLI**: `phase1_foundation viz generate --run-id <uuid> --layer 2`.
+- **Typer CLI**: `foundation viz generate --run-id <uuid> --layer 2`.
 - **Report Integration**: Automatically embed generated plots into `AUDIT_LOG.md` and phase reports.
 
 ## 5. Success Criteria
 - [ ] Visualizers exist for all current Layer 2 and Layer 3 metrics.
 - [ ] Plots are automatically generated at the end of a "Release" run.
 - [ ] Visual style is consistent across all phases.
-- [ ] No support_visualization code depends on "meaning" or "translation" assumptions.
+- [ ] No visualization code depends on "meaning" or "translation" assumptions.

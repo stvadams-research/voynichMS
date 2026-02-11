@@ -71,7 +71,7 @@ Identified the following scripts with `if __name__ == "__main__":` blocks, indic
 
 A full file listing has been generated and reviewed. Key observations:
 - Heavy reliance on `scripts/` directory for execution.
-- Source code structured in `src/` with clear submodules (`phase2_analysis`, `phase1_foundation`, `phase5_mechanism`, etc.).
-- `data/` directory contains `raw`, `derived`, `phase4_inference`, `qc`.
+- Source code structured in `src/` with clear submodules (`analysis`, `foundation`, `mechanism`, etc.).
+- `data/` directory contains `raw`, `derived`, `inference`, `qc`.
 - Configuration scattered in `configs/`.
 

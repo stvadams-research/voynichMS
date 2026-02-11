@@ -50,15 +50,15 @@ Phase 2.4 determined Phase 3 is "not justified" because:
 **A. Accept determination, archive_legacy project**
 - Commit current state
 - Document conclusions
-- No further phase2_analysis
+- No further analysis
 
 **B. Proceed anyway (exploratory)**
 - Generate candidate interpretations
 - Test specific decipherment hypotheses
 
-**C. Additional structural phase2_analysis first**
+**C. Additional structural analysis first**
 - Deeper procedural generation investigation
-- Cross-section phase2_analysis
+- Cross-section analysis
 
 ---
 

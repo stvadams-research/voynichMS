@@ -2,23 +2,23 @@
 
 **Date:** 2026-02-10  
 **Plan:** `planning/core_skeptic/SKEPTIC_M2_EXECUTION_PLAN.md`  
-**Scope:** SK-M2 phase8_comparative uncertainty hardening (distance uncertainty + perturbation stability)
+**Scope:** SK-M2 comparative uncertainty hardening (distance uncertainty + perturbation stability)
 
 ---
 
 ## Summary
 
-SK-M2 remediation was implemented across phase8_comparative uncertainty computation, narrative calibration, policy guardrails, and governance traceability.
+SK-M2 remediation was implemented across comparative uncertainty computation, narrative calibration, policy guardrails, and governance traceability.
 
 Implemented outcomes:
 
-- Added phase8_comparative uncertainty computation for distance claims with bootstrap and jackknife stability diagnostics.
+- Added comparative uncertainty computation for distance claims with bootstrap and jackknife stability diagnostics.
 - Added canonical SK-M2 uncertainty artifact and uncertainty-qualified proximity report generation.
 - Added SK-M2 policy doc and machine-readable policy config.
 - Added SK-M2 checker with CI/release modes and tests.
 - Integrated SK-M2 checks into CI and pre-release paths.
-- Calibrated phase8_comparative narrative docs to uncertainty-qualified phrasing with artifact references.
-- Added SK-M2 claim register and core_audit log trace entry.
+- Calibrated comparative narrative docs to uncertainty-qualified phrasing with artifact references.
+- Added SK-M2 claim register and audit log trace entry.
 
 ---
 
@@ -87,5 +87,5 @@ This means point-estimate nearest-neighbor claims are retained as directional bu
 ## Residual
 
 - SK-M2 subjectivity risk is reduced by explicit uncertainty artifactization and policy gating.
-- Current evidence class remains non-conclusive (`INCONCLUSIVE_UNCERTAINTY`), so stronger phase8_comparative claims remain blocked by policy.
+- Current evidence class remains non-conclusive (`INCONCLUSIVE_UNCERTAINTY`), so stronger comparative claims remain blocked by policy.
 - Additional confirmatory evidence would require improved nearest-neighbor stability under perturbation.

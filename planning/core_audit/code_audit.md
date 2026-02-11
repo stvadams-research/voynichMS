@@ -4,13 +4,13 @@
 **Audience**: Advanced LLMs 
 **Role**: Independent technical and methodological reviewers  
 **Status**: Pre-publication sanity check  
-**Scope**: Code, process, and outputs only (no post-phase2_analysis phase9_conjecture)
+**Scope**: Code, process, and outputs only (no post-analysis conjecture)
 
 ---
 
 ## 1. Purpose of This Review
 
-You are being asked to perform a **sanity check and core_audit**, not to extend, reinterpret, or improve the research.
+You are being asked to perform a **sanity check and audit**, not to extend, reinterpret, or improve the research.
 
 The goals of this review are to confirm that:
 
@@ -23,7 +23,7 @@ The goals of this review are to confirm that:
 You are **not** being asked to:
 - solve the Voynich Manuscript
 - propose new theories
-- extend the phase2_analysis
+- extend the analysis
 - reinterpret conclusions
 - speculate beyond what is implemented
 
@@ -37,7 +37,7 @@ Instead, it asks a prior question:
 
 > Is the Voynich Manuscript the kind of object for which translation is structurally justified?
 
-All phase2_analysis is designed to:
+All analysis is designed to:
 - test admissibility of explanation classes
 - falsify assumptions where possible
 - stop when escalation is unjustified
@@ -173,11 +173,11 @@ Problems:
 
 Please provide:
 
-1. A concise written core_audit summary
+1. A concise written audit summary
 2. A list of any critical issues (if any)
 3. A list of non-critical suggestions (optional)
 4. A clear answer to:
-   > “Is this codebase and phase2_analysis defensible as a methodological contribution?”
+   > “Is this codebase and analysis defensible as a methodological contribution?”
 
 You do **not** need to agree with conclusions.  
 You only need to assess whether they are supported by the implemented process.

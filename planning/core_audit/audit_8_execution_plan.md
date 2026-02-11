@@ -51,7 +51,7 @@ Update this during implementation.
 | WS-A Sensitivity Gate Semantics | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Release gates now require conclusive robustness + quality gate and fail closed on `INCONCLUSIVE`. |
 | WS-B Indistinguishability Strict Path | BLOCKED | Codex | 2026-02-10 |  | Strict preflight + blocked artifact output implemented; strict computed run still fails on missing `voynich_real` pharma pages. |
 | WS-C Coverage Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added targeted tests for prior 0%-coverage modules; coverage increased to 52.28%. |
-| WS-D Provenance/Run-State Reconciliation | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Legacy verify artifact handling hardened (`legacy-report`, support_cleanup correctness, gate checks). |
+| WS-D Provenance/Run-State Reconciliation | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Legacy verify artifact handling hardened (`legacy-report`, cleanup correctness, gate checks). |
 | WS-E Release Baseline Hygiene | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Dirty release override now requires `DIRTY_RELEASE_REASON`; pre-release gate updated accordingly. |
 | WS-F Documentation Contract Alignment | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added root-level doc aliases and updated policy docs for new gate semantics. |
 | Final Verification + Audit 9 Prep | BLOCKED | Codex | 2026-02-10 |  | Final release gate remains blocked by inconclusive sensitivity evidence and strict data prerequisites. |
@@ -69,8 +69,8 @@ Execute in this order:
 3. WS-D (historical provenance clarity)
 4. WS-C (coverage hardening after behavior stabilizes)
 5. WS-E (release hygiene enforcement)
-6. WS-F (docs contract support_cleanup)
-7. Final verification + re-core_audit
+6. WS-F (docs contract cleanup)
+7. Final verification + re-audit
 
 Dependency notes:
 
@@ -97,7 +97,7 @@ Dependency notes:
 | A2 | Implement gate checks that enforce the policy in release scripts. | `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh` | Release checks fail when artifact summary violates policy (e.g., `robustness_decision=INCONCLUSIVE`). |
 | A3 | Add machine-readable guard fields if needed to avoid parsing ambiguity. | `scripts/phase2_analysis/run_sensitivity_sweep.py`, `core_status/core_audit/sensitivity_sweep.json` schema | Gate scripts consume explicit fields instead of implicit interpretation. |
 | A4 | Add/expand contract tests for gate behavior under `PASS`/`FAIL`/`INCONCLUSIVE` scenarios. | `tests/core_audit/test_pre_release_contract.py`, `tests/core_audit/test_verify_reproduction_contract.py`, sensitivity guardrail tests | Tests fail on false-pass regressions. |
-| A5 | Update phase7_human report wording to mirror gate semantics exactly. | `reports/core_audit/SENSITIVITY_RESULTS.md` template logic | Human report and automation logic cannot drift semantically. |
+| A5 | Update human report wording to mirror gate semantics exactly. | `reports/core_audit/SENSITIVITY_RESULTS.md` template logic | Human report and automation logic cannot drift semantically. |
 
 ### Verification Commands (post-implementation)
 
@@ -124,7 +124,7 @@ python3 -m pytest -q tests/phase2_analysis/test_sensitivity_sweep_guardrails.py
 | B2 | Decide default mode policy: strict-by-default for release entrypoints, or mandatory strict flag in release scripts/docs. | `scripts/verify_reproduction.sh`, `governance/governance/REPRODUCIBILITY.md` | Release path cannot silently use fallback/simulated profile logic. |
 | B3 | If prerequisite data can be populated: add/import missing real pages and re-run strict path; if not, codify blocked status with explicit release exclusion. | data loading scripts and/or docs | Clear closure: either strict run passes, or release policy explicitly forbids claiming this check as passed. |
 | B4 | Add regression tests for strict preflight behavior and fallback prohibition. | `tests/phase3_synthesis/test_run_indistinguishability_runner.py` | Tests enforce fail-fast with actionable diagnostics. |
-| B5 | Ensure final report artifact clearly records strict-mode execution outcome and provenance. | `core_status/phase3_synthesis/TURING_TEST_RESULTS.json`, docs references | External readers can core_audit whether strict mode actually ran. |
+| B5 | Ensure final report artifact clearly records strict-mode execution outcome and provenance. | `core_status/phase3_synthesis/TURING_TEST_RESULTS.json`, docs references | External readers can audit whether strict mode actually ran. |
 
 ### Verification Commands (post-implementation)
 
@@ -147,7 +147,7 @@ python3 -m pytest -q tests/phase3_synthesis/test_run_indistinguishability_runner
 | Task ID | Action | Target Files | Exit Criteria |
 |---|---|---|---|
 | C1 | Add targeted tests for 0%-coverage modules: `core/logging`, `core/models`, `qc/anomalies`, `qc/checks`, `storage/filesystem`, `storage/interface`. | `tests/phase1_foundation/core/`, `tests/phase1_foundation/qc/`, `tests/phase1_foundation/storage/` | Each prior 0%-coverage module reaches non-trivial coverage with behavior assertions. |
-| C2 | Add minimum per-module coverage gates for critical low-level modules, or explicit justified exemptions. | `scripts/ci_check.sh`, core_audit tests | CI fails on regression below agreed thresholds. |
+| C2 | Add minimum per-module coverage gates for critical low-level modules, or explicit justified exemptions. | `scripts/ci_check.sh`, audit tests | CI fails on regression below agreed thresholds. |
 | C3 | Recompute baseline coverage target and stage policy after new tests. | `scripts/ci_check.sh`, `governance/governance/REPRODUCIBILITY.md` | Coverage thresholds reflect actual enforced target, not historical values. |
 
 ### Verification Commands (post-implementation)
@@ -171,7 +171,7 @@ bash scripts/ci_check.sh
 |---|---|---|---|
 | D1 | Define final policy for orphaned rows without manifests (retain vs archive_legacy vs purge, with rationale). | `governance/PROVENANCE.md`, `AUDIT_LOG.md` | Policy is explicit and reproducible. |
 | D2 | Extend/validate repair tooling to enforce policy idempotently and report deltas. | `scripts/core_audit/repair_run_statuses.py`, `core_status/core_audit/run_status_repair_report.json` | Repeat runs produce stable results and clear reporting. |
-| D3 | Resolve legacy `core_status/by_run/verify_*.json` `provenance.status` ambiguity (support_cleanup, archival move, or legacy tagging strategy). | `scripts/core_audit/cleanup_status_artifacts.sh`, `governance/PROVENANCE.md` | No ambiguous active artifacts remain in standard core_audit surface, or they are clearly marked legacy. |
+| D3 | Resolve legacy `core_status/by_run/verify_*.json` `provenance.status` ambiguity (cleanup, archival move, or legacy tagging strategy). | `scripts/core_audit/cleanup_status_artifacts.sh`, `governance/PROVENANCE.md` | No ambiguous active artifacts remain in standard audit surface, or they are clearly marked legacy. |
 | D4 | Add test coverage for reconciliation and artifact policy assumptions. | `tests/core_audit/test_repair_run_statuses.py`, provenance contract tests | Policy enforcement is protected from drift. |
 
 ### Verification Commands (post-implementation)
@@ -219,7 +219,7 @@ python3 -m pytest -q tests/core_audit/test_pre_release_contract.py
 |---|---|---|---|
 | F1 | Choose canonical output location convention (`governance/*` vs root-level aliases) and record it once. | `planning/core_audit/CODE_AUDIT_AND_CLEANUP_PLAYBOOK.md` and/or docs index | No path ambiguity remains for required outputs. |
 | F2 | Add compatibility shim if needed (root-level pointers to docs, or updated playbook references). | root markdown stubs or playbook updates | Existing checklists and tooling continue to function. |
-| F3 | Cross-link all required references in one index section to reduce reviewer search friction. | `README.md`, `governance/governance/REPRODUCIBILITY.md`, `AUDIT_LOG.md` | External reviewer can locate all core_audit artifacts from one entry point. |
+| F3 | Cross-link all required references in one index section to reduce reviewer search friction. | `README.md`, `governance/governance/REPRODUCIBILITY.md`, `AUDIT_LOG.md` | External reviewer can locate all audit artifacts from one entry point. |
 
 ### Verification Commands (post-implementation)
 
@@ -238,7 +238,7 @@ rg -n "METHODS_REFERENCE|CONFIG_REFERENCE|REPRODUCIBILITY" planning/core_audit/C
 | `RI-12` | Release invocation path enforces strict mode (default or mandatory flag) with tests. |
 | `MC-3` | Prior 0%-coverage modules gain tests or documented exemptions; CI thresholds updated accordingly. |
 | `MC-2R` | Orphaned run policy finalized and reconciliation tooling/tests show deterministic state. |
-| `ST-1` | Legacy verify artifacts are cleaned/tagged per policy; no ambiguous active status artifacts in release core_audit path. |
+| `ST-1` | Legacy verify artifacts are cleaned/tagged per policy; no ambiguous active status artifacts in release audit path. |
 | `INV-1` | Dirty-release override becomes policy-controlled with traceable rationale. |
 | `DOC-4` | Playbook/document paths aligned or formally mapped via compatibility layer. |
 

@@ -1,6 +1,6 @@
 # PHASE 4 METHOD MAP: INFERENCE ADMISSIBILITY
 
-This document pre-registers the phase4_inference methods to be evaluated in Phase 4. Each method includes its core claim, implementation goal, and the "Decision Rule" for determining if it is semantics-diagnostic.
+This document pre-registers the inference methods to be evaluated in Phase 4. Each method includes its core claim, implementation goal, and the "Decision Rule" for determining if it is semantics-diagnostic.
 
 ---
 

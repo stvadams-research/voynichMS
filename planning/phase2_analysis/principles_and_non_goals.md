@@ -4,7 +4,7 @@
 This document defines the binding principles and explicit non-goals governing Phase 2 of the Voynich project.
 
 Phase 2 exists because Phase 1 succeeded.
-Its purpose is to work on top of a frozen phase1_foundation without weakening it.
+Its purpose is to work on top of a frozen foundation without weakening it.
 
 This document is normative, not descriptive.
 If work conflicts with this document, the work is wrong.
@@ -80,7 +80,7 @@ Never as:
 
 ### Principle 3: Explicit Assumptions
 
-Every Phase 2 phase2_analysis must declare:
+Every Phase 2 analysis must declare:
 - what it assumes
 - what it ignores
 - what would falsify it
@@ -136,7 +136,7 @@ All Phase 2 work must be:
 - removable
 - non-destructive
 
-If removing an phase2_analysis breaks the system, it violated this principle.
+If removing an analysis breaks the system, it violated this principle.
 
 ---
 

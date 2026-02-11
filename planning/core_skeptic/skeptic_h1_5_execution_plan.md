@@ -174,7 +174,7 @@ Evidence insufficient to classify due incomplete runs or missing diagnostics.
 
 SK-H1.5 execution is complete only when all are satisfied:
 
-1. H1 feasibility phase2_analysis proves whether aligned closure is reachable under current matrix.
+1. H1 feasibility analysis proves whether aligned closure is reachable under current matrix.
 2. If unreachable, matrix/robustness contract is redesigned with explicit entitlement-vs-diagnostic lane split.
 3. Multimodal artifact emits lane class and residual semantics consistent with policy/checkers.
 4. Checker/gate/report boundaries are synchronized to H1.5 lane semantics.
@@ -369,7 +369,7 @@ python3 -m pytest -q \
 | H1 | Create H1.5 decision record with final lane assignment and rationale. | New `reports/core_skeptic/SK_H1_5_DECISION_RECORD.md` | Final disposition is explicit and auditable. |
 | H2 | Create H1.5 execution status report for implementation pass. | New `reports/core_skeptic/SKEPTIC_H1_5_EXECUTION_STATUS.md` | Command evidence and outcomes are traceable. |
 | H3 | Add explicit blocker register distinguishing fixable vs non-fixable constraints. | same + `AUDIT_LOG.md` | Team stops retrying non-fixable paths blindly. |
-| H4 | Link finding -> controls -> lane decision -> reopen triggers in core_audit log. | `AUDIT_LOG.md` | Anti-repeat traceability is complete. |
+| H4 | Link finding -> controls -> lane decision -> reopen triggers in audit log. | `AUDIT_LOG.md` | Anti-repeat traceability is complete. |
 
 ### Verification
 

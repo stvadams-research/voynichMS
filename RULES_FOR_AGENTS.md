@@ -1,7 +1,7 @@
 # RULES FOR AGENTS
 ## Voynich Foundation Project
 
-This document defines mandatory rules for any phase7_human or AI agent contributing code, phase2_analysis, or artifacts to this repository.
+This document defines mandatory rules for any human or AI agent contributing code, analysis, or artifacts to this repository.
 
 These rules exist to prevent conceptual drift, premature interpretation, and accumulation of unfalsifiable structure.
 
@@ -26,7 +26,7 @@ If a proposal contradicts any of these documents, it must not be implemented.
 Agents must NEVER introduce non-deterministic behavior.
 
 - **Forbidden:** `uuid.uuid4()`, `random.random()`, `np.random.rand()` (without seed).
-- **Mandatory:** Use `phase1_foundation.core.id_factory.DeterministicIDFactory` for all IDs.
+- **Mandatory:** Use `foundation.core.id_factory.DeterministicIDFactory` for all IDs.
 - **Mandatory:** Use seeded `random.Random(seed)` or `np.random.RandomState(seed)` for stochastic logic.
 - **Mandatory:** Expose a `seed` parameter in all entry points (CLI, scripts).
 
@@ -103,7 +103,7 @@ Agents must not:
 
 ## 9. Negative Controls Are Mandatory
 
-If an agent proposes an phase2_analysis that finds "structure", they must also propose:
+If an agent proposes an analysis that finds "structure", they must also propose:
 - A synthetic null control.
 - A scrambled baseline.
 

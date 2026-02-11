@@ -1,6 +1,6 @@
 # PHASE 4.5: METHOD-TO-CONDITION MAPPING
 
-**Objective:** Document the specific failures of Phase 4 phase4_inference methods to satisfy the necessary conditions for semantic evidence.
+**Objective:** Document the specific failures of Phase 4 inference methods to satisfy the necessary conditions for semantic evidence.
 
 ---
 
@@ -42,7 +42,7 @@
 
 ## 3. Conclusion
 
-All Phase 4 methods fail the **Latent-State Dependence (C3)** condition. They measure structural regularities that are purely mechanical in origin. Therefore, none of these methods can be used to support an phase4_inference of language or meaning in the Voynich Manuscript.
+All Phase 4 methods fail the **Latent-State Dependence (C3)** condition. They measure structural regularities that are purely mechanical in origin. Therefore, none of these methods can be used to support an inference of language or meaning in the Voynich Manuscript.
 
 Status index reference:
 

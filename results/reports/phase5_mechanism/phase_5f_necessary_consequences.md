@@ -1,7 +1,7 @@
 # PHASE 5F ENTRY-LEVEL NECESSARY CONSEQUENCES
 
 **Project:** Voynich Manuscript – Entry-Point Identifiability  
-**Objective:** Define the measurable signatures required for an entry selection phase5_mechanism to be admissible.
+**Objective:** Define the measurable signatures required for an entry selection mechanism to be admissible.
 
 ---
 
@@ -26,4 +26,4 @@
 
 ---
 **Status:** Consequences registered.  
-**Next:** Implement entry simulators and run prefix phase2_analysis.
+**Next:** Implement entry simulators and run prefix analysis.

@@ -11,13 +11,13 @@
 
 Address the pass-2 `SK-M2` residual by attempting to resolve nearest-neighbor confidence as far as feasible while preserving fail-closed uncertainty governance.
 
-This plan targets the residual core_skeptic challenge:
+This plan targets the residual skeptic challenge:
 
 - Comparative uncertainty is now explicit, but nearest-neighbor confidence remains non-conclusive.
 
 Desired endpoint:
 
-1. confidence-strengthened phase8_comparative outcome (`STABILITY_CONFIRMED` or durable `DISTANCE_QUALIFIED`) if stability criteria are met, or
+1. confidence-strengthened comparative outcome (`STABILITY_CONFIRMED` or durable `DISTANCE_QUALIFIED`) if stability criteria are met, or
 2. governance-complete bounded non-conclusive outcome (`INCONCLUSIVE_UNCERTAINTY`) with explicit confidence limits and anti-overreach safeguards.
 
 ---
@@ -48,13 +48,13 @@ Current residual condition:
 - Pre-registered perturbation matrix and confidence-recovery attempt path.
 - Decision policy refinement for `STABILITY_CONFIRMED` vs `DISTANCE_QUALIFIED` vs `INCONCLUSIVE_UNCERTAINTY`.
 - Comparative report/status coherence and claim-boundary hardening.
-- CI/release contract updates that prevent deterministic phase8_comparative over-claim regressions.
+- CI/release contract updates that prevent deterministic comparative over-claim regressions.
 
 ## Out of Scope
 
 - New semantic/decipherment claims.
 - Reworking SK-C*, SK-H*, SK-M1, SK-M3, SK-M4 beyond explicit dependency integration.
-- Expansion of external phase8_comparative corpus beyond currently available sources unless already policy-approved.
+- Expansion of external comparative corpus beyond currently available sources unless already policy-approved.
 
 ---
 
@@ -65,7 +65,7 @@ Current residual condition:
 1. Residual uncertainty is decomposed into measurable components (sampling variance, perturbation sensitivity, rank-gap fragility).
 2. Comparative uncertainty artifact has complete required fields (no structural nulls for required stability metrics).
 3. A pre-registered confidence-recovery matrix has been defined (and is ready for execution in a later pass).
-4. Final phase8_comparative status mapping is deterministic and auditable:
+4. Final comparative status mapping is deterministic and auditable:
    - strengthened confidence class (if criteria met), or
    - explicitly bounded non-conclusive class (if criteria unmet).
 5. Comparative narrative cannot exceed status entitlement in public reports.
@@ -106,7 +106,7 @@ PY
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| B1 | Define/confirm required uncertainty fields for SK-M2.2 (including rank stability fields and explicit sample metadata). | `configs/core_skeptic/sk_m2_comparative_uncertainty_policy.json` | Policy contains full field contract for phase8_comparative confidence. |
+| B1 | Define/confirm required uncertainty fields for SK-M2.2 (including rank stability fields and explicit sample metadata). | `configs/core_skeptic/sk_m2_comparative_uncertainty_policy.json` | Policy contains full field contract for comparative confidence. |
 | B2 | Add/adjust artifact emission logic so required confidence fields are always populated or explicitly typed fallback values are emitted with reason codes. | `scripts/phase8_comparative/run_proximity_uncertainty.py`, `src/phase8_comparative/mapping.py` | Required fields are non-missing and semantically valid in output. |
 | B3 | Add explicit data-quality/metric-validity block in artifact (`metric_validity`, `field_completeness`, `status_inputs`). | `results/phase7_human/phase_7c_uncertainty.json` schema | Downstream checker can distinguish missing-data from statistical instability. |
 
@@ -134,7 +134,7 @@ PY
 |---|---|---|---|
 | C1 | Define perturbation matrix axes (iterations, seeds, jackknife variants, optional corpus-subset checks). | New matrix section in `configs/core_skeptic/sk_m2_comparative_uncertainty_policy.json` and/or dedicated matrix config | Confidence-recovery search is explicit and reproducible before reruns. |
 | C2 | Define anti-tuning selection rule (choose lane by stability diagnostics and data quality, not desired nearest neighbor). | New `reports/core_skeptic/SK_M2_2_METHOD_SELECTION.md` | Selection protocol is auditable and deterministic. |
-| C3 | Define by-run artifact logging requirements for phase8_comparative uncertainty trials. | `results/phase7_human/by_run/*` conventions + register template | Every candidate lane can be traced and compared post-run. |
+| C3 | Define by-run artifact logging requirements for comparative uncertainty trials. | `results/phase7_human/by_run/*` conventions + register template | Every candidate lane can be traced and compared post-run. |
 
 ### Verification
 
@@ -173,13 +173,13 @@ PY
 
 ## WS-M2.2-E: Comparative Narrative and Boundary Coherence
 
-**Goal:** Keep phase8_comparative reporting aligned to uncertainty status class.
+**Goal:** Keep comparative reporting aligned to uncertainty status class.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | E1 | Re-verify proximity table/report language against current status and allowed claim. | `reports/phase8_comparative/PROXIMITY_ANALYSIS.md` | No wording exceeds current uncertainty class. |
-| E2 | Re-verify phase3_synthesis and boundary docs for uncertainty-qualified nearest-neighbor framing. | `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md` | Narrative stays directional/caveated when status is non-conclusive. |
-| E3 | Extend final findings summary coherence markers for SK-M2.2 status-driven language. | `reports/phase8_comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md` | Final phase8_comparative statements remain status-gated. |
+| E2 | Re-verify synthesis and boundary docs for uncertainty-qualified nearest-neighbor framing. | `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md` | Narrative stays directional/caveated when status is non-conclusive. |
+| E3 | Extend final findings summary coherence markers for SK-M2.2 status-driven language. | `reports/phase8_comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md` | Final comparative statements remain status-gated. |
 
 ### Verification
 
@@ -195,13 +195,13 @@ rg -n "uncertainty|nearest-neighbor|stability|INCONCLUSIVE_UNCERTAINTY|phase_7c_
 
 ## WS-M2.2-F: Gate/Test Hardening for Comparative Confidence
 
-**Goal:** Prevent regressions where phase8_comparative claims outrun uncertainty evidence.
+**Goal:** Prevent regressions where comparative claims outrun uncertainty evidence.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | F1 | Extend SK-M2 checker to enforce any new required fields/reason-code constraints from WS-M2.2-B/D. | `scripts/core_skeptic/check_comparative_uncertainty.py` | Checker fails closed on incomplete or incoherent uncertainty artifacts. |
 | F2 | Extend checker tests for new residual scenarios and edge cases (null fields, threshold boundary, reason-code mismatch). | `tests/core_skeptic/test_comparative_uncertainty_checker.py` | Regression coverage exists for SK-M2.2 residual classes. |
-| F3 | Confirm CI/release/reproduction contracts include SK-M2 checks and required marker semantics. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, core_audit contract tests | Pipeline catches phase8_comparative overreach automatically. |
+| F3 | Confirm CI/release/reproduction contracts include SK-M2 checks and required marker semantics. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, audit contract tests | Pipeline catches comparative overreach automatically. |
 
 ### Verification
 
@@ -221,7 +221,7 @@ python3 -m pytest -q tests/core_skeptic/test_comparative_uncertainty_checker.py
 |---|---|---|---|
 | G1 | Add SK-M2.2 confidence register and method-selection register templates. | `reports/core_skeptic/SK_M2_2_CONFIDENCE_REGISTER.md`, `reports/core_skeptic/SK_M2_2_METHOD_SELECTION.md` | Residual decomposition and lane-selection logic are documented. |
 | G2 | Add SK-M2.2 execution status report template for implementation pass. | `reports/core_skeptic/SKEPTIC_M2_2_EXECUTION_STATUS.md` | End-state and residual risks can be recorded deterministically. |
-| G3 | Add core_audit-log linkage requirement for implementation pass. | `AUDIT_LOG.md` (future execution entry) | Trace from finding -> controls -> final status is complete. |
+| G3 | Add audit-log linkage requirement for implementation pass. | `AUDIT_LOG.md` (future execution entry) | Trace from finding -> controls -> final status is complete. |
 
 ### Verification
 
@@ -254,8 +254,8 @@ Rationale:
 |---|---|---|
 | Nearest-neighbor and perturbation stability pass policy thresholds; uncertainty artifact complete and coherent. | `M2_2_ALIGNED` | "Comparative nearest-neighbor signal is uncertainty-qualified and stability-supported under tested conditions." |
 | Artifact complete and directional nearest-neighbor signal present, but confidence remains below full-confirmation thresholds. | `M2_2_QUALIFIED` | "Comparative nearest-neighbor signal is directional but remains confidence-qualified and non-conclusive." |
-| Artifact schema, reason-code logic, or report/gate semantics are incoherent. | `M2_2_BLOCKED` | "SK-M2.2 remains unresolved due phase8_comparative uncertainty contract incoherence." |
-| Evidence insufficient to determine whether confidence limits are remediable. | `M2_2_INCONCLUSIVE` | "SK-M2.2 provisional pending deeper phase8_comparative confidence diagnostics." |
+| Artifact schema, reason-code logic, or report/gate semantics are incoherent. | `M2_2_BLOCKED` | "SK-M2.2 remains unresolved due comparative uncertainty contract incoherence." |
+| Evidence insufficient to determine whether confidence limits are remediable. | `M2_2_INCONCLUSIVE` | "SK-M2.2 provisional pending deeper comparative confidence diagnostics." |
 
 Execution outcome: `M2_2_QUALIFIED`.
 
@@ -269,9 +269,9 @@ Execution outcome: `M2_2_QUALIFIED`.
 | WS-M2.2-B Artifact Completeness | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended uncertainty artifact schema/metrics and metric-validity block in `src/phase8_comparative/mapping.py`. |
 | WS-M2.2-C Recovery Matrix | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Executed registered 9-lane confidence matrix and documented outcomes in `reports/core_skeptic/SK_M2_2_METHOD_SELECTION.md`. |
 | WS-M2.2-D Decision Policy Refinement | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added threshold and reason-code semantics in `configs/core_skeptic/sk_m2_comparative_uncertainty_policy.json`. |
-| WS-M2.2-E Report/Boundary Coherence | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated proximity/phase3_synthesis/boundary phase8_comparative language to align with current core_status/reason code. |
+| WS-M2.2-E Report/Boundary Coherence | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated proximity/phase3_synthesis/boundary comparative language to align with current core_status/reason code. |
 | WS-M2.2-F Gate/Test Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended SK-M2 checker/tests and added verify-path SK-M2 contract checks. |
-| WS-M2.2-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-M2.2 confidence/method/status reports and core_audit trace linkage. |
+| WS-M2.2-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-M2.2 confidence/method/status reports and audit trace linkage. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 
@@ -281,7 +281,7 @@ Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 
 | Risk ID | Risk | Probability | Impact | Mitigation |
 |---|---|---|---|---|
-| R1 | Nearest-neighbor instability is structurally irreducible with current phase8_comparative library/metrics. | Medium | High | Prefer bounded qualified closure over forced conclusive claims. |
+| R1 | Nearest-neighbor instability is structurally irreducible with current comparative library/metrics. | Medium | High | Prefer bounded qualified closure over forced conclusive claims. |
 | R2 | Confidence-recovery sweeps drift into outcome tuning. | Medium | High | Pre-register matrix and anti-tuning selection rules before reruns. |
 | R3 | Null/partial metrics (for example missing rank stability) hide schema issues as statistical issues. | Medium | Medium | Enforce explicit completeness checks and reason-code separation. |
 | R4 | Report language drifts from status class after reruns. | Medium | High | Add checker markers and contract tests for SK-M2.2 language coherence. |

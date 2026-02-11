@@ -2,14 +2,14 @@
 
 **Date:** 2026-02-09
 **Project:** Voynich Manuscript Structural Admissibility Program
-**Scope:** Full codebase core_audit per CODE_AUDIT_AND_CLEANUP_PLAYBOOK.md
+**Scope:** Full codebase audit per CODE_AUDIT_AND_CLEANUP_PLAYBOOK.md
 **Objective:** Capture and document gaps, issues, bugs, false assumptions, and risks. No fixes applied.
 
 ---
 
 ## Executive Summary
 
-This core_audit examined the entire codebase across all five phases defined in the playbook. The codebase demonstrates strong architectural foundations (clean separation of concerns, comprehensive provenance infrastructure, symmetric preprocessing) but reveals significant issues in randomness control, hardcoded thresholds, silent defaults, documentation gaps, and logging discipline.
+This audit examined the entire codebase across all five phases defined in the playbook. The codebase demonstrates strong architectural foundations (clean separation of concerns, comprehensive provenance infrastructure, symmetric preprocessing) but reveals significant issues in randomness control, hardcoded thresholds, silent defaults, documentation gaps, and logging discipline.
 
 ### Severity Distribution
 
@@ -22,7 +22,7 @@ This core_audit examined the entire codebase across all five phases defined in t
 
 ### Top 5 Risks
 
-1. **Unseeded randomness in core phase3_synthesis and phase5_mechanism simulators** (Critical) - 13+ files use `random` module without seed control
+1. **Unseeded randomness in core synthesis and mechanism simulators** (Critical) - 13+ files use `random` module without seed control
 2. **150+ hardcoded thresholds without documented justification** (Critical) - Perturbation levels, failure boundaries, model weights
 3. **Silent fallback to plausible-looking default values** (High) - NaN propagation, 0.0/0.5 returns masking missing data
 4. **No CONFIG_REFERENCE.md, governance/METHODS_REFERENCE.md, or governance/REPRODUCIBILITY.md** (High) - External reader cannot modify, understand, or reproduce
@@ -163,7 +163,7 @@ A `RandomnessController` exists at `src/phase1_foundation/core/randomness.py` wi
 | `src/phase3_synthesis/generators/grammar_based.py` | 48 | Core text generation uses unseeded `random.choices()` |
 | `src/phase3_synthesis/indistinguishability.py` | 132-140 | Scrambled control generation is non-deterministic |
 
-#### High (Unseeded phase5_mechanism simulators)
+#### High (Unseeded mechanism simulators)
 
 | File | Unseeded Calls | Purpose |
 |---|---|---|
@@ -201,10 +201,10 @@ A `RandomnessController` exists at `src/phase1_foundation/core/randomness.py` wi
 - Hardcoded target values (z=5.68, rep=0.90) removed from baseline assessment script
 
 #### Remaining Methodological Concern (By Design)
-- **Generator Matching Circularity:** Phase 3-4 uses Phase 2 metrics as optimization targets. Passing indistinguishability proves generator is "as anomalous" as original, not that phase5_mechanism is identical. Documented as methodological observation, not code defect.
+- **Generator Matching Circularity:** Phase 3-4 uses Phase 2 metrics as optimization targets. Passing indistinguishability proves generator is "as anomalous" as original, not that mechanism is identical. Documented as methodological observation, not code defect.
 
 #### Residual Code-Level Risks
-- **Voynichese token seeds:** `src/phase3_synthesis/profile_extractor.py:626-637` contains hardcoded Voynich-like tokens ("daiin", "chedy", "qokedy") used in fallback path when transcription database unavailable. Could seed biased phase3_synthesis.
+- **Voynichese token seeds:** `src/phase3_synthesis/profile_extractor.py:626-637` contains hardcoded Voynich-like tokens ("daiin", "chedy", "qokedy") used in fallback path when transcription database unavailable. Could seed biased synthesis.
 - **Simulated page data:** Same file contains `SIMULATED_PAGE_DATA` for pharmaceutical section (f88r-f96v) as fallback. Used only when `store is None`.
 
 #### Threshold Independence Assessment
@@ -227,7 +227,7 @@ Hypothesis thresholds appear domain-independent:
 - **Empty dataset returns:** `RepetitionRate.calculate()` returns 0.0 for empty datasets - indistinguishable from actual zero repetition
 - **Token fallback paths:** `_get_tokens_via_alignments()` may succeed for some datasets and fail for others depending on whether alignment records exist
 - **Profile extraction:** Falls back to simulated profile for synthetic data when database empty; Voynich uses real computation
-- **Scrambled control generation:** Implementation exists in `src/phase1_foundation/controls/scramblers.py` using `random.Random(seed)` (properly isolated), but phase5_mechanism could be better documented
+- **Scrambled control generation:** Implementation exists in `src/phase1_foundation/controls/scramblers.py` using `random.Random(seed)` (properly isolated), but mechanism could be better documented
 
 #### Mapping Reference Point
 - `src/phase8_comparative/mapping.py:15` hardcodes `target='Voynich'` as reference point for distance calculations - this is by design (comparisons need a reference)
@@ -291,7 +291,7 @@ When any stability score is legitimately 0.0, the condition evaluates to False a
 
 ### 2.3 Canonical Preprocessing Pipeline
 
-**Assessment: GOOD.** A single preprocessing path exists via `EVAParser` and `DatasetManager`. All phase2_analysis code queries from the same database tables. No duplicate tokenization implementations found.
+**Assessment: GOOD.** A single preprocessing path exists via `EVAParser` and `DatasetManager`. All analysis code queries from the same database tables. No duplicate tokenization implementations found.
 
 **Minor issue:** `line_index` vs `line_number` naming inconsistency in query code suggests incomplete refactoring (`profile_extractor.py:592` has comment "Changed from line_number to line_index").
 
@@ -306,7 +306,7 @@ When any stability score is legitimately 0.0, the condition evaluates to False a
 
 ### 2.5 End-to-End Sanity Checks
 
-**No fixture-based regression testing found.** No locked expected outputs. No phase5_mechanism to detect accidental drift in results. The acceptance test exists but doesn't compare against known-good values.
+**No fixture-based regression testing found.** No locked expected outputs. No mechanism to detect accidental drift in results. The acceptance test exists but doesn't compare against known-good values.
 
 ---
 
@@ -375,7 +375,7 @@ No Jupyter notebooks found. All logic is importable from `src/` modules.
 | Project purpose | PRESENT |
 | Scope and limitations | PRESENT |
 | High-level pipeline overview | PARTIAL - lacks phase progression detail |
-| How to run phase2_analysis | INCOMPLETE - RUNBOOK covers Phases 2-3 only |
+| How to run analysis | INCOMPLETE - RUNBOOK covers Phases 2-3 only |
 | Expected outputs | INCOMPLETE - no output interpretation guide |
 | Runtime expectations | MISSING |
 | Dependencies and installation | PRESENT |
@@ -398,7 +398,7 @@ No Jupyter notebooks found. All logic is importable from `src/` modules.
 
 **No CONFIG_REFERENCE.md exists.**
 
-Parameters scattered across 5+ files. No unified inventory. No rationale for defaults. No sensitivity phase2_analysis documentation. Feature flags in `config.py` have 5 categories with no explanation.
+Parameters scattered across 5+ files. No unified inventory. No rationale for defaults. No sensitivity analysis documentation. Feature flags in `config.py` have 5 categories with no explanation.
 
 **Severity: CRITICAL** - External user cannot modify configuration with confidence.
 
@@ -420,13 +420,13 @@ Parameters scattered across 5+ files. No unified inventory. No rationale for def
 A: `planning/phase1_foundation/PRINCIPLES_AND_NONGOALS.md` states core assumptions. However, 150+ hardcoded thresholds are not documented as assumptions. A skeptical reader would question every threshold in Phase 1.2 above.
 
 **Q: Which parameters matter most?**
-A: The perturbation battery (disconfirmation.py:40-59) and model sensitivity weights (constructed_system.py, visual_grammar.py) are the most consequential. Changing failure thresholds from 0.6 to 0.4 could flip model pass/fail verdicts. No sensitivity phase2_analysis exists to quantify this.
+A: The perturbation battery (disconfirmation.py:40-59) and model sensitivity weights (constructed_system.py, visual_grammar.py) are the most consequential. Changing failure thresholds from 0.6 to 0.4 could flip model pass/fail verdicts. No sensitivity analysis exists to quantify this.
 
 **Q: What happens if they change?**
 A: Unknown. No sensitivity sweep has been performed or documented. The `phase1_foundation/phase2_analysis/sensitivity.py` module exists but has a print-based error handler, suggesting it may not be production-ready.
 
 **Q: How do we know this is not tuned?**
-A: The prior core_audit (AUDIT.md) addressed the most egregious cases: simulated logic removal, hardcoded target removal. Hypothesis thresholds use conventional statistical boundaries (z=2.0, 70-80% agreement). However, model sensitivity weights (0.15-0.80) have no documented justification and appear hand-selected. The evaluation dimension weights (0.30, 0.25, 0.20, 0.10, 0.15) are particularly vulnerable to this criticism.
+A: The prior audit (AUDIT.md) addressed the most egregious cases: simulated logic removal, hardcoded target removal. Hypothesis thresholds use conventional statistical boundaries (z=2.0, 70-80% agreement). However, model sensitivity weights (0.15-0.80) have no documented justification and appear hand-selected. The evaluation dimension weights (0.30, 0.25, 0.20, 0.10, 0.15) are particularly vulnerable to this criticism.
 
 **Q: What evidence is negative or null?**
 A: The framework reports "FALSIFIED" and "WEAKLY_SUPPORTED" outcomes alongside "SUPPORTED." The disconfirmation framework explicitly tests for model failure. However, negative results are not prominently documented in any summary report - a reader must trace through individual hypothesis results.
@@ -464,7 +464,7 @@ A: The framework reports "FALSIFIED" and "WEAKLY_SUPPORTED" outcomes alongside "
 | C9 | 1.2 | Synthesis constraint tolerances are hardcoded | interface.py:158-167 |
 | C10 | 4.3 | No CONFIG_REFERENCE.md - parameters undocumented | N/A |
 | C11 | 1.5 | Voynichese token seeds in fallback path | profile_extractor.py:626-637 |
-| C12 | 1.4 | 8+ phase5_mechanism simulators completely unseeded | phase5_mechanism/*/simulators.py |
+| C12 | 1.4 | 8+ mechanism simulators completely unseeded | phase5_mechanism/*/simulators.py |
 | C13 | 1.2 | Equivalence/improvement thresholds (0.30/0.10) | refinement/interface.py:155-156 |
 | C14 | 1.2 | Perturbation battery strength levels arbitrarily spaced | disconfirmation.py:40-59 |
 
@@ -499,7 +499,7 @@ A: The framework reports "FALSIFIED" and "WEAKLY_SUPPORTED" outcomes alongside "
 | H25 | 2.1 | ClusterTightness dual computation paths (embedding vs bbox) | metrics/library.py:159-162 |
 | H26 | 2.2 | Inconsistent empty-list protection before division | Multiple files |
 | H27 | 3.2 | Token vs Word terminology inconsistency | cli/main.py, throughout |
-| H28 | 5.1 | No sensitivity phase2_analysis performed or documented | N/A |
+| H28 | 5.1 | No sensitivity analysis performed or documented | N/A |
 | H29 | 5.2 | Clean-room re-execution not possible | N/A |
 | H30 | 1.6 | Empty dataset returns 0.0 instead of NaN | metrics/library.py |
 | H31 | 4.4 | RUNBOOK.md is skeletal (41 lines, Phases 2-3 only) | governance/RUNBOOK.md |
@@ -525,7 +525,7 @@ A: The framework reports "FALSIFIED" and "WEAKLY_SUPPORTED" outcomes alongside "
 ### Low (18 findings) - Summary
 
 - False positive TEMP matches (temporal, template)
-- Hardcoded seed=42 in phase6_functional simulators
+- Hardcoded seed=42 in functional simulators
 - Acknowledged arbitrary thresholds with inline comments
 - Style inconsistencies
 - QC reporting stubs using print()
@@ -538,10 +538,10 @@ A: The framework reports "FALSIFIED" and "WEAKLY_SUPPORTED" outcomes alongside "
 |---|---|---|
 | Tokenization and segmentation | GOOD | Single canonical path via EVAParser |
 | Reset definitions | GOOD | Sparse, consistent usage |
-| History window logic | NOT ASSESSED | No explicit history window found in core phase2_analysis |
+| History window logic | NOT ASSESSED | No explicit history window found in core analysis |
 | Generator parameterization | CRITICAL | 150+ hardcoded values, unseeded randomness |
 | Distance normalization | MEDIUM | 1/(1+distance) formula used consistently but implicitly |
-| Visualization smoothing or binning | NOT ASSESSED | No support_visualization code examined in this core_audit |
+| Visualization smoothing or binning | NOT ASSESSED | No visualization code examined in this audit |
 
 ---
 
@@ -552,7 +552,7 @@ A: The framework reports "FALSIFIED" and "WEAKLY_SUPPORTED" outcomes alongside "
 2. `src/phase3_synthesis/refinement/feature_discovery.py` - Seed all random calls
 3. `src/phase3_synthesis/indistinguishability.py` - Seed scrambled control generation
 4. `src/phase2_analysis/stress_tests/mapping_stability.py:113` - Fix boolean truthiness bug
-5. All phase5_mechanism simulators (8+ files) - Add seed parameters
+5. All mechanism simulators (8+ files) - Add seed parameters
 
 ### Before External Review
 6. Create `governance/CONFIG_REFERENCE.md`
@@ -567,10 +567,10 @@ A: The framework reports "FALSIFIED" and "WEAKLY_SUPPORTED" outcomes alongside "
 13. Implement structured logging across all src/ modules
 14. Add boundary case tests
 15. Create fixture-based regression tests with locked expected values
-16. Perform and document sensitivity phase2_analysis on key parameters
+16. Perform and document sensitivity analysis on key parameters
 17. Standardize Token/Word/Glyph/Symbol terminology
 
 ---
 
 **Audit Status: COMPLETE**
-**Remediation Status: NOT STARTED (core_audit-only pass)**
+**Remediation Status: NOT STARTED (audit-only pass)**

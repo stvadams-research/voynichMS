@@ -14,7 +14,7 @@ This document contains the fixed anchor scores for the Voynich Manuscript across
 | 5. Reuse Suppression | 5 | Phase 6B: Near-total avoidance of line-level redundancy (0.01). |
 | 6. Reset Dynamics | 5 | Phase 5B: Extreme reset signature (0.95) at line boundaries. |
 | 7. Human Effort Proxy | 3 | Phase 7A: Moderate complexity (1.7 strokes/char); sustained discipline. |
-| 8. Correction Density | 2 | Phase 7A: 15 corrections per 100 lines; disciplined but phase7_human. |
+| 8. Correction Density | 2 | Phase 7A: 15 corrections per 100 lines; disciplined but human. |
 | 9. Layout Coupling | 1 | Phase 7B: Weak (-0.11) correlation between text and page geometry. |
 | 10. Global Stability | 4 | Phase 5I: Single global machine invariant across sections. |
 | 11. Positional Conditioning | 5 | Phase 5J: Position provides massive determinism lift (65%). |

@@ -30,7 +30,7 @@ Ensuring all stochastic processes can be reproduced exactly.
 
 | ID | Issue | Remediation Action |
 |---|---|---|
-| **H22** | Unseeded phase5_mechanism simulators | Update all simulators in `src/phase5_mechanism/` to accept and utilize a `seed` parameter. |
+| **H22** | Unseeded mechanism simulators | Update all simulators in `src/phase5_mechanism/` to accept and utilize a `seed` parameter. |
 | **H23** | Unseeded text generator page seeds | Pass the global run seed into the page-level seed generation in `text_generator.py`. |
 
 ---
@@ -59,8 +59,8 @@ Providing the necessary context for external readers and reviewers.
 | **H19** | Undocumented scaling constants | Document perturbation scaling constants (0.5, 0.35, 2) in `perturbation.py`. |
 | **H20** | Positional bias probability | Move the hardcoded `0.4` probability in `text_generator.py` to `config.py`. |
 | **H21** | Hardcoded control metrics | Parameterize the metrics used for scrambled control generation in `indistinguishability.py`. |
-| **H27** | Terminology inconsistency | Perform a global core_audit and update to standardize "Token" vs "Word" vs "Glyph". |
-| **H28** | No sensitivity phase2_analysis | Plan and execute a sensitivity sweep for key model weights and document the stability of conclusions. |
+| **H27** | Terminology inconsistency | Perform a global audit and update to standardize "Token" vs "Word" vs "Glyph". |
+| **H28** | No sensitivity analysis | Plan and execute a sensitivity sweep for key model weights and document the stability of conclusions. |
 | **H31** | Skeletal `RUNBOOK.md` | Expand to include database population (Phase 1) and generator matching (Phases 4-6). |
 
 ---

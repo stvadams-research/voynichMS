@@ -2,7 +2,7 @@
 
 **Date:** 2026-02-10  
 **Plan:** `planning/core_audit/AUDIT_3_EXECUTION_PLAN.md`  
-**Source core_audit:** `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_3.md`
+**Source audit:** `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_3.md`
 
 ## Overall Status
 

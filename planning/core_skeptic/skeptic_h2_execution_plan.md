@@ -29,7 +29,7 @@ From `SK-H2`:
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md` ("PROJECT TERMINATED (Exhaustive)", "scientifically unjustified")
   - `results/reports/FINAL_PHASE_3_3_REPORT.md` ("semantically empty procedural system")
 
-Core core_skeptic attack:
+Core skeptic attack:
 
 - "You preserve non-claims in technical sections but publish categorical conclusions in headline text."
 
@@ -164,7 +164,7 @@ rg -n "What this does not claim|Scope|Evidence|Boundary" \
 | E1 | Add claim-policy checker script (pattern and boundary checks). | `scripts/core_skeptic/check_claim_boundaries.py` (new) | Script exits non-zero on violations. |
 | E2 | Add tests for checker and known policy violations/allowances. | `tests/core_skeptic/test_claim_boundary_checker.py` (new) | Deterministic coverage for pass/fail paths. |
 | E3 | Integrate checker in CI or pre-release path. | `scripts/ci_check.sh` and/or `scripts/core_audit/pre_release_check.sh` | Guard runs automatically in verification path. |
-| E4 | Add allowlist phase5_mechanism for intentionally strong wording with explicit evidence tags. | policy config + checker | Exceptions are explicit and auditable. |
+| E4 | Add allowlist mechanism for intentionally strong wording with explicit evidence tags. | policy config + checker | Exceptions are explicit and auditable. |
 
 ### Verification
 
@@ -182,8 +182,8 @@ python3 -m pytest -q tests/core_skeptic/test_claim_boundary_checker.py
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | F1 | Update reproducibility/governance docs with claim-boundary policy references. | `governance/governance/REPRODUCIBILITY.md`, relevant governance docs | Contributor path includes policy usage. |
-| F2 | Add core_skeptic-execution summary documenting SK-H2 remediation rationale. | `reports/core_skeptic/SKEPTIC_H2_EXECUTION_STATUS.md` (during execution) | Full change log and residual risks recorded. |
-| F3 | Add core_audit log entry tying wording calibration to SK-H2 finding. | `AUDIT_LOG.md` | Traceability from finding -> policy -> edits -> tests. |
+| F2 | Add skeptic-execution summary documenting SK-H2 remediation rationale. | `reports/core_skeptic/SKEPTIC_H2_EXECUTION_STATUS.md` (during execution) | Full change log and residual risks recorded. |
+| F3 | Add audit log entry tying wording calibration to SK-H2 finding. | `AUDIT_LOG.md` | Traceability from finding -> policy -> edits -> tests. |
 
 ### Verification
 
@@ -228,7 +228,7 @@ Rationale:
 | WS-H2-C Language Calibration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Calibrated README, closure statement, and final Phase 3.3 wording to scope-bounded language. |
 | WS-H2-D Evidence-Linked Blocks | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added explicit non-claim/scope blocks and evidence references in public summaries. |
 | WS-H2-E Guardrails/CI | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added checker script, tests, and CI invocation for claim-boundary policy enforcement. |
-| WS-H2-F Docs/Governance | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated reproducibility docs, core_audit log, and core_skeptic execution status report. |
+| WS-H2-F Docs/Governance | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated reproducibility docs, audit log, and skeptic execution status report. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

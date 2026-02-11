@@ -15,7 +15,7 @@ This plan targets the specific inconsistency identified in the assessment:
 
 1. A report can state full completion and final determination.
 2. The same report can still include residual "PENDING" method rows.
-3. A core_skeptic can frame this as self-contradiction and undermine higher-level conclusions.
+3. A skeptic can frame this as self-contradiction and undermine higher-level conclusions.
 
 ---
 
@@ -25,7 +25,7 @@ From `SK-M3`:
 
 - `results/reports/phase4_inference/PHASE_4_RESULTS.md` gives a full final determination but still includes a residual "PENDING" status table for methods B-E in `results/reports/phase4_inference/PHASE_4_RESULTS.md:160` through `results/reports/phase4_inference/PHASE_4_RESULTS.md:163`.
 
-Core core_skeptic attack:
+Core skeptic attack:
 
 - "If your own report contradicts itself, why trust stronger claims?"
 
@@ -55,7 +55,7 @@ Secondary coherence dependencies to verify during execution:
 
 ## Out of Scope
 
-- Re-running phase4_inference experiments to change quantitative method outcomes.
+- Re-running inference experiments to change quantitative method outcomes.
 - Re-adjudicating SK-C1/SK-H1/SK-H2/SK-H3/SK-M1/SK-M2 evidence classes.
 - Semantic-claim expansion beyond existing admissibility boundaries.
 - Major report-style redesign unrelated to coherence and status consistency.
@@ -192,7 +192,7 @@ python3 -m pytest -q tests/core_skeptic/test_report_coherence_checker.py
 |---|---|---|---|
 | F1 | Add SK-M3 section to reproducibility/governance docs with coherence verification commands. | `governance/governance/REPRODUCIBILITY.md` | SK-M3 verification path documented. |
 | F2 | Add SK-M3 execution status report template for remediation pass. | `reports/core_skeptic/SKEPTIC_M3_EXECUTION_STATUS.md` (during execution) | Full change/test trace recorded. |
-| F3 | Add core_audit log entry mapping SK-M3 finding to coherence controls and residual risk. | `AUDIT_LOG.md` | End-to-end traceability present. |
+| F3 | Add audit log entry mapping SK-M3 finding to coherence controls and residual risk. | `AUDIT_LOG.md` | End-to-end traceability present. |
 
 ### Verification
 
@@ -210,7 +210,7 @@ rg -n "SK-M3|report coherence|PHASE_4_STATUS_INDEX|check_report_coherence" \
 3. WS-M3-C (Phase 4 report normalization)
 4. WS-M3-D (canonical method-status index)
 5. WS-M3-E (automated guardrails)
-6. WS-M3-F (governance and core_audit traceability)
+6. WS-M3-F (governance and audit traceability)
 
 Rationale:
 
@@ -238,7 +238,7 @@ Rationale:
 | WS-M3-C Report Normalization | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Removed contradictory pending rows and aligned status language across Phase 4 docs. |
 | WS-M3-D Status Index | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added canonical `PHASE_4_STATUS_INDEX.json` and linked all tracked docs. |
 | WS-M3-E Guardrails/CI | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Implemented checker/tests and integrated checks into CI and pre-release scripts. |
-| WS-M3-F Governance/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated reproducibility docs, execution status report, and core_audit log traceability. |
+| WS-M3-F Governance/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated reproducibility docs, execution status report, and audit log traceability. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

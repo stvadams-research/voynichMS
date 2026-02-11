@@ -8,7 +8,7 @@
 
 ## 1. Executive Summary
 
-Phase 3.2 focused on reverse-engineering the Voynich Manuscript's algorithm through automated grammar extraction and phase3_synthesis. We successfully transitioned from a word-level Markov model to a **glyph-level probabilistic grammar**.
+Phase 3.2 focused on reverse-engineering the Voynich Manuscript's algorithm through automated grammar extraction and synthesis. We successfully transitioned from a word-level Markov model to a **glyph-level probabilistic grammar**.
 
 While the new generator achieved a superior information density profile compared to the baseline, it failed the **Algorithmic Turing Test** by failing to reproduce the manuscript's extreme **90% token repetition rate**.
 
@@ -29,9 +29,9 @@ The **Automated Grammar Extraction (3.2.2)** successfully identified determinist
 
 ## 3. The "Missing Link"
 
-The failure to match the 90% repetition rate reveals a critical insight into the scribe's phase5_mechanism:
+The failure to match the 90% repetition rate reveals a critical insight into the scribe's mechanism:
 
-**The Voynich algorithm is not purely stochastic.** A simple probabilistic grammar (even at the glyph level) produces too much variety. The real manuscript uses a much narrower "phase6_functional vocabulary" or a "limited slot-filling" phase5_mechanism that forces the same word-like structures to reappear far more frequently than random probability would suggest.
+**The Voynich algorithm is not purely stochastic.** A simple probabilistic grammar (even at the glyph level) produces too much variety. The real manuscript uses a much narrower "functional vocabulary" or a "limited slot-filling" mechanism that forces the same word-like structures to reappear far more frequently than random probability would suggest.
 
 ---
 

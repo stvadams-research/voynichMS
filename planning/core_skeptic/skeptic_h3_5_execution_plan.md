@@ -38,7 +38,7 @@ Current canonical evidence:
   - `status=DATA_AVAILABILITY_BLOCKED`
   - same feasibility/lane tuple and same missing-page basis
 
-Residual core_skeptic leverage:
+Residual skeptic leverage:
 
 - "You still cannot claim full-data control comparability closure."
 
@@ -263,7 +263,7 @@ rg -n "irrecoverable|approved-lost|terminal|reopen|new primary" planning/core_sk
 | F1 | Add SK-H3.5 tests for lane mapping and terminal-qualified invariants. | core_skeptic/core_audit tests | H3.5 semantics are regression-locked. |
 | F2 | Add SK-H3.5 decision record and blocker ledger (fixable vs non-fixable). | New `reports/core_skeptic/SK_H3_5_DECISION_RECORD.md` | Blockers are explicit and non-ambiguous. |
 | F3 | Add SK-H3.5 execution status report with command evidence and outcomes. | New `reports/core_skeptic/SKEPTIC_H3_5_EXECUTION_STATUS.md` | Fifth-pass traceability is complete. |
-| F4 | Link findings -> controls -> blockers -> reopen triggers in core_audit log. | `AUDIT_LOG.md` | Anti-repeat traceability is auditable. |
+| F4 | Link findings -> controls -> blockers -> reopen triggers in audit log. | `AUDIT_LOG.md` | Anti-repeat traceability is auditable. |
 
 ### Verification
 

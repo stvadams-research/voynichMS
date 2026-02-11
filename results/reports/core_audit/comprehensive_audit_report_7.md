@@ -35,7 +35,7 @@ Playbook Phases 0-5 were rerun with direct command execution and source inspecti
 
 ### Runtime commands executed
 
-- `python3 -c "import sys; sys.path.insert(0,'src'); import phase1_foundation.configs.loader; print('loader_import_ok')"`
+- `python3 -c "import sys; sys.path.insert(0,'src'); import foundation.configs.loader; print('loader_import_ok')"`
 - Determinism replay for Test A (`run_test_a.py` twice with same seed; canonical `results` compare)
 - `python3 -m pytest --cov=src --cov-report=term-missing:skip-covered -q tests`
 - `bash scripts/verify_reproduction.sh`
@@ -99,18 +99,18 @@ Top-level source distribution remains centered in:
 | MC-6 | **Critical** | Reproduction verification gate can fail immediately but still return success (`exit 0`), enabling false-positive CI/reproducibility claims. | Unbound var site: `scripts/verify_reproduction.sh:18`; strict shell mode: `scripts/verify_reproduction.sh:2`; observed behavior: `verify_exit:0` with error `VIRTUAL_ENV: unbound variable`; CI still reports pass after same error via verifier call at `scripts/ci_check.sh:78` |
 | RI-8 | **High** | `run_indistinguishability_test.py` no longer hardcodes decision constants, but execution still depends on fallback/simulated profile paths and did not complete within 120s in timed assessment run. | Runner uses extractor path `scripts/phase3_synthesis/run_indistinguishability_test.py:93`; fallback infrastructure in `src/phase3_synthesis/profile_extractor.py:71`, `src/phase3_synthesis/profile_extractor.py:102`, `src/phase3_synthesis/profile_extractor.py:130`, `src/phase3_synthesis/profile_extractor.py:416`; timed run emitted fallback warnings and hit timeout |
 | RI-9 | **High** | Published sensitivity evidence is canonical but not release-grade robustness evidence: latest artifact is a bounded single-scenario run (`--max-scenarios 1`) with 0 valid scenarios and `INCONCLUSIVE` decision. | `core_status/core_audit/sensitivity_sweep.json:13`, `core_status/core_audit/sensitivity_sweep.json:14`, `core_status/core_audit/sensitivity_sweep.json:24`, `core_status/core_audit/sensitivity_sweep.json:31`; `reports/core_audit/SENSITIVITY_RESULTS.md:7`, `reports/core_audit/SENSITIVITY_RESULTS.md:8`, `reports/core_audit/SENSITIVITY_RESULTS.md:13` |
-| MC-2 | **High** | Metadata DB still contains substantial stale historical run rows (`status='running'`, `timestamp_end IS NULL`) with no corresponding `runs/<id>/run.json`, so backfill cannot reconcile them. | DB query in this core_audit: `running_total=63`, `with_run_json=0`, `missing_run_json=63`; repair scope in `scripts/core_audit/repair_run_statuses.py:45` |
+| MC-2 | **High** | Metadata DB still contains substantial stale historical run rows (`status='running'`, `timestamp_end IS NULL`) with no corresponding `runs/<id>/run.json`, so backfill cannot reconcile them. | DB query in this audit: `running_total=63`, `with_run_json=0`, `missing_run_json=63`; repair scope in `scripts/core_audit/repair_run_statuses.py:45` |
 | DOC-3 | **High** | Reproducibility docs instruct running verifier/CI commands as release checks, but current verifier behavior can silently fail while returning success. | Commands documented at `governance/governance/REPRODUCIBILITY.md:111` and `governance/governance/REPRODUCIBILITY.md:112`; verifier failure mode at `scripts/verify_reproduction.sh:18` with observed `exit 0` |
 
 ### 1.2 Medium findings
 
 | ID | Severity | Finding | Location |
 |---|---|---|---|
-| RI-6 | Medium | Fallback behavior remains available by default in phase3_synthesis profile extraction; strict computed mode remains opt-in. | `src/phase3_synthesis/profile_extractor.py:102`; `governance/governance/REPRODUCIBILITY.md:90` |
+| RI-6 | Medium | Fallback behavior remains available by default in synthesis profile extraction; strict computed mode remains opt-in. | `src/phase3_synthesis/profile_extractor.py:102`; `governance/governance/REPRODUCIBILITY.md:90` |
 | MC-3 | Medium | Aggregate coverage improved to `50.35%`, but meaningful blind spots remain (6 files at `0%` and 12 files below `20%`). | `core_status/ci_coverage.json` summary (generated during this run); examples include `src/phase1_foundation/core/logging.py`, `src/phase1_foundation/storage/filesystem.py`, `src/phase1_foundation/qc/anomalies.py` |
-| MC-5 | Medium | Verification breadth is better than Audit 6 (phase2_analysis spot-check + sensitivity artifact check), but current gate reliability is undermined by MC-6. | `scripts/verify_reproduction.sh:81`, `scripts/verify_reproduction.sh:92`, `scripts/verify_reproduction.sh:125` |
+| MC-5 | Medium | Verification breadth is better than Audit 6 (analysis spot-check + sensitivity artifact check), but current gate reliability is undermined by MC-6. | `scripts/verify_reproduction.sh:81`, `scripts/verify_reproduction.sh:92`, `scripts/verify_reproduction.sh:125` |
 | ST-1 | Medium | Status artifact ecosystem is still mixed: new artifacts follow updated policy, while historical `core_status/by_run` payloads still embed stale `status: running`. | Policy target: `governance/PROVENANCE.md:45`; stale examples: `core_status/by_run/verify_1.2fe7df1c-9f94-805c-17fa-5ebe7dde7dae.json:6` |
-| INV-1R | Medium | Release baseline remains hard to core_audit cleanly due large outstanding local diff while repeated core_audit/fix cycles continue. | `git status --short` count (`83`) |
+| INV-1R | Medium | Release baseline remains hard to audit cleanly due large outstanding local diff while repeated core_audit/fix cycles continue. | `git status --short` count (`83`) |
 
 ### 1.3 Resolved/Improved since Audit 6
 
@@ -134,7 +134,7 @@ Top-level source distribution remains centered in:
   - `src/phase1_foundation/core/queries.py`: 65%
   - `src/phase1_foundation/cli/main.py`: 25%
 
-Residual correctness risk is now concentrated in gate reliability (MC-6) and fallback-heavy phase3_synthesis execution (RI-8/RI-6).
+Residual correctness risk is now concentrated in gate reliability (MC-6) and fallback-heavy synthesis execution (RI-8/RI-6).
 
 ---
 
@@ -162,7 +162,7 @@ Residual correctness risk is now concentrated in gate reliability (MC-6) and fal
 
 | Question | Current answer |
 |---|---|
-| Where are assumptions stated? | Better documented than prior pass (`governance/PROVENANCE.md`, `governance/SENSITIVITY_ANALYSIS.md`), but fallback behavior in phase3_synthesis remains active by default. |
+| Where are assumptions stated? | Better documented than prior pass (`governance/PROVENANCE.md`, `governance/SENSITIVITY_ANALYSIS.md`), but fallback behavior in synthesis remains active by default. |
 | Which parameters matter most? | Disconfirmation thresholds, sensitivity scales, evaluation weights, and fallback/strict-mode toggles remain primary. |
 | What happens if they change? | Sensitivity framework captures this conceptually, but latest published run is bounded to one scenario and is `INCONCLUSIVE`. |
 | How do we know this is not tuned? | Determinism checks for Test A pass; however, verifier gate reliability bug (MC-6) undermines trust in automated reproducibility claims. |

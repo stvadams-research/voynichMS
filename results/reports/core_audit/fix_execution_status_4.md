@@ -19,11 +19,11 @@ All planned remediation workstreams were executed. Verification gates now pass w
 | WS-C Provenance and Run Identity | COMPLETE | Unique per-execution run IDs, run-scoped output snapshots, migration of all audited runners to provenance writer, backward-compatible latest pointers retained. |
 | WS-D Incomplete Logic and Data Integrity | COMPLETE | Baseline metrics now computed/fail-fast, deterministic lang-ID transforms, corpus remainder ingestion fixed, source registration fixed, bare except removed, placeholder modules resolved. |
 | WS-E Methodology and Sensitivity | COMPLETE | Anomaly constants externalized; sensitivity sweep runner implemented and executed; results report generated. |
-| WS-F Structural Consistency | COMPLETE | Duplicated phase7_human runner data-extraction helper removed in favor of shared query utility; exception-handling consistency improved in audited paths. |
+| WS-F Structural Consistency | COMPLETE | Duplicated human runner data-extraction helper removed in favor of shared query utility; exception-handling consistency improved in audited paths. |
 | WS-G Test and Coverage Hardening | COMPLETE | Added tests for provenance + anomaly modules; CI now enforces coverage floor (`--cov-fail-under`, phased baseline = 30). |
 | WS-H Documentation Alignment | COMPLETE | README, reproducibility docs, sensitivity docs updated; explicit provenance policy added. |
 | WS-I Hygiene Cleanup | COMPLETE | Removed repository artifact `configs/.DS_Store`. |
-| Final Verification and Re-Audit | COMPLETE (verification), RE-AUDIT PENDING | Verification gates executed and passing; post-fix comprehensive core_audit report generation is the next step. |
+| Final Verification and Re-Audit | COMPLETE (verification), RE-AUDIT PENDING | Verification gates executed and passing; post-fix comprehensive audit report generation is the next step. |
 
 ## Execution Log
 
@@ -67,7 +67,7 @@ All planned remediation workstreams were executed. Verification gates now pass w
   - deterministic shuffle now local-RNG-based.
 - `scripts/phase5_mechanism/categorize_sections.py`: bare `except:` replaced with explicit exception tuple.
 - `src/phase1_foundation/config.py`: missing/invalid config behavior made explicit via policy (`MISSING_CONFIG_POLICY`, default `error`).
-- Placeholder support_cleanup:
+- Placeholder cleanup:
   - `src/phase7_human/ergonomics.py`: implemented fatigue-gradient computation and safe no-data outputs.
   - `src/phase7_human/page_boundary.py`: removed empty dict placeholder paths; safe-correlation/no-data statuses added.
   - `src/phase1_foundation/qc/reporting.py`: replaced stubs with concrete summary/overlay artifact outputs.
@@ -86,7 +86,7 @@ All planned remediation workstreams were executed. Verification gates now pass w
 - Added anomaly-module tests: `tests/phase2_analysis/test_anomaly_modules.py`.
 
 ### WS-F
-- Removed duplicated DB line-extraction helper from `scripts/phase7_human/run_7c_comparative.py`; now uses shared `phase1_foundation.core.queries.get_lines_from_store`.
+- Removed duplicated DB line-extraction helper from `scripts/phase7_human/run_7c_comparative.py`; now uses shared `foundation.core.queries.get_lines_from_store`.
 
 ### WS-G
 - CI coverage gate introduced in `scripts/ci_check.sh`:

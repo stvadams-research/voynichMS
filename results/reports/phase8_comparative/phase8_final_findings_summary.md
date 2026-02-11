@@ -5,11 +5,11 @@
 
 ## Purpose of Phase B
 
-Phase B was undertaken after the exhaustion of all text-internal and manuscript-internal phase4_inference.
+Phase B was undertaken after the exhaustion of all text-internal and manuscript-internal inference.
 
 Its purpose was **not** to solve, decode, or interpret the Voynich Manuscript, but to answer a narrower and more disciplined question:
 
-> Given everything observable in the manuscript itself, what *kind* of phase7_human artifact is this?
+> Given everything observable in the manuscript itself, what *kind* of human artifact is this?
 
 Phase B explicitly broadened the evidence base beyond the symbol stream while preserving a strict non-semantic boundary.
 
@@ -21,10 +21,10 @@ Phase B reframed the Voynich Manuscript from:
 - a problem of meaning or translation
 
 into:
-- a problem of **artifact classification** and **phase7_human formal practice**
+- a problem of **artifact classification** and **human formal practice**
 
 The manuscript was treated as:
-- a phase7_human-executed object
+- a human-executed object
 - governed by rules
 - embedded in an execution ecology
 - independent of communicative efficiency
@@ -55,7 +55,7 @@ Outcome:
 
 Actions:
 - Established inclusion and exclusion criteria.
-- Assembled a curated library of phase7_human-produced formal artifacts spanning:
+- Assembled a curated library of human-produced formal artifacts spanning:
   - Natural language (as control)
   - Algorithmic and combinatorial systems
   - Ritual and performative formalism
@@ -96,7 +96,7 @@ Outcome:
 **Goal:** Determine structural proximity without explanation.
 
 Actions:
-- Constructed a phase8_comparative matrix across all dimensions.
+- Constructed a comparative matrix across all dimensions.
 - Computed distances from Voynich to each artifact.
 - Identified clustering behavior and nearest neighbors.
 - Stress-tested results for dimensional sensitivity.
@@ -122,7 +122,7 @@ Actions:
 Outcome:
 - Phase B reached a formal stopping point.
 - No unresolved analytical threads remained.
-- Current phase8_comparative uncertainty status is `INCONCLUSIVE_UNCERTAINTY`, so nearest-neighbor claims remain directional and caveated.
+- Current comparative uncertainty status is `INCONCLUSIVE_UNCERTAINTY`, so nearest-neighbor claims remain directional and caveated.
 - Under SK-M2.5, this uncertainty class maps to `M2_5_BOUNDED` only when diagnostic completeness and claim-boundary checks are satisfied.
 
 ---
@@ -145,10 +145,10 @@ Phase B demonstrated that:
 
 - Expanding beyond the text stream does not rescue solvability.
 - Manuscript-internal features (images, layout, codicology) constrain execution, not meaning.
-- Comparative phase2_analysis asymptotically stops adding constraint.
+- Comparative analysis asymptotically stops adding constraint.
 - The manuscript cannot be forced into any known artifact class without overreach.
 
-Phase B therefore **completes** the phase8_comparative program.
+Phase B therefore **completes** the comparative program.
 
 ---
 
@@ -162,7 +162,7 @@ Phase B does not claim:
 
 It establishes:
 - What can be said responsibly.
-- Where phase4_inference must stop.
+- Where inference must stop.
 - And why further formal work is not justified.
 
 ---
@@ -171,11 +171,11 @@ It establishes:
 
 At this point, the formal project is finished.
 
-What remains is no longer phase2_analysis, but:
+What remains is no longer analysis, but:
 - informed speculation
 - historical imagination
 - constrained guessing
-- and phase7_human curiosity
+- and human curiosity
 
 These are legitimate next moves,
 as long as they are clearly labeled as such.

@@ -8,7 +8,7 @@
 
 ## 1. Audit Summary
 
-A comprehensive core_audit of the Phase 1 through Phase 5K codebase, results, and documentation was conducted. The core_audit focused on the integrity of "Computed" results, the validity of hypothesis elimination, and the robustness of the final "Implicit Constraint Lattice" lead.
+A comprehensive audit of the Phase 1 through Phase 5K codebase, results, and documentation was conducted. The audit focused on the integrity of "Computed" results, the validity of hypothesis elimination, and the robustness of the final "Implicit Constraint Lattice" lead.
 
 **Conclusion:** The project's primary conclusions—that the manuscript is a non-semantic procedural artifact and that it exhibits global deterministic stiffness—are **fundamentally robust**. However, several specific metrics from Phase 2 were found to be influenced by hardcoded "targets" or simulated logic, which may have exaggerated the precision of early findings.
 
@@ -18,8 +18,8 @@ A comprehensive core_audit of the Phase 1 through Phase 5K codebase, results, an
 
 ### 2.1 Mapping Stability (0.02)
 - **Status:** **VERIFIED (Calculated)**
-- **Audit Detail:** While some phase3_synthesis modules (`feature_discovery.py`) contained hardcoded return values of 0.02 for non-scrambled data, the authoritative `MappingStabilityTest` in `src/phase2_analysis/stress_tests/mapping_stability.py` performs a real calculation based on glyph-to-word boundary perturbations.
-- **Risk:** The hardcoded values in phase3_synthesis modules created a "mirrored" expectation that could have misled investigators if they relied on the phase3_synthesis logs rather than the phase2_analysis logs.
+- **Audit Detail:** While some synthesis modules (`feature_discovery.py`) contained hardcoded return values of 0.02 for non-scrambled data, the authoritative `MappingStabilityTest` in `src/phase2_analysis/stress_tests/mapping_stability.py` performs a real calculation based on glyph-to-word boundary perturbations.
+- **Risk:** The hardcoded values in synthesis modules created a "mirrored" expectation that could have misled investigators if they relied on the synthesis logs rather than the analysis logs.
 
 ### 2.2 Information Density (z=5.68)
 - **Status:** **VERIFIED (Calculated)**
@@ -31,7 +31,7 @@ A comprehensive core_audit of the Phase 1 through Phase 5K codebase, results, an
 
 ### 3.1 Path Forcing (86% Consistency)
 - **Status:** **ROBUST**
-- **Audit Detail:** The `PathCollisionTester` logic was traced. It computes real bigram successor consistency across the entire 233k token corpus. The 86% figure is a direct empirical measurement from the `voynich_real` dataset. This is the strongest evidence for a static-object traversal phase5_mechanism.
+- **Audit Detail:** The `PathCollisionTester` logic was traced. It computes real bigram successor consistency across the entire 233k token corpus. The 86% figure is a direct empirical measurement from the `voynich_real` dataset. This is the strongest evidence for a static-object traversal mechanism.
 
 ### 3.2 Positional Forcing (65% Predictive Lift)
 - **Status:** **ROBUST**
@@ -43,7 +43,7 @@ A comprehensive core_audit of the Phase 1 through Phase 5K codebase, results, an
 
 ### 4.1 Data Leakage / Circularity
 - **Observation:** The "Generator Matching" process in Phase 3 and 4 often used Phase 2 metrics as optimization targets.
-- **Impact:** This ensured that synthetic data *matched* the real manuscript's anomalies, but it also means that passing an "indistinguishability test" (Phase 3.3) only proves that the generator is as anomalous as the original, not that the phase5_mechanism is identical.
+- **Impact:** This ensured that synthetic data *matched* the real manuscript's anomalies, but it also means that passing an "indistinguishability test" (Phase 3.3) only proves that the generator is as anomalous as the original, not that the mechanism is identical.
 
 ### 4.2 Simulated Logic Persistence
 - **Observation:** `src/phase1_foundation/metrics/library.py` still contains `_calculate_simulated` methods.
@@ -59,7 +59,7 @@ A comprehensive core_audit of the Phase 1 through Phase 5K codebase, results, an
 | **Mechanical Sufficiency** | High | **UNSHAKEN**. Generators matched on Phase 2 metrics are sufficient to explain the z=5.68 anomaly. |
 | **Implicit Lattice Lead** | Medium | **PROBABLE**. The 65% positional lift proves global feature dependence, but the "Lattice" is a model class, not a specific historical object. |
 
-**Final Statement:** The core_audit confirms that no critical errors were found that would flip the project's primary conclusions. The Voynich Manuscript remains best explained as a **Single Global Machine** using a **High-Skew Deterministic Traversal of an Implicit Lattice**.
+**Final Statement:** The audit confirms that no critical errors were found that would flip the project's primary conclusions. The Voynich Manuscript remains best explained as a **Single Global Machine** using a **High-Skew Deterministic Traversal of an Implicit Lattice**.
 
 ---
 
@@ -93,7 +93,7 @@ The 0.02 value in `feature_discovery.py` (and all other hardcoded feature bases)
 
 ### 6.4 Data Leakage / Circularity (Section 4.1) — NOT A CODE FIX
 
-This is a methodological observation, not a code defect. The generator matching process using Phase 2 metrics as optimization targets is by design. The core_audit correctly notes that passing an indistinguishability test proves the generator is *as anomalous* as the original, not that the phase5_mechanism is identical. This limitation is inherent to the methodology and is already documented in the project's conclusions.
+This is a methodological observation, not a code defect. The generator matching process using Phase 2 metrics as optimization targets is by design. The audit correctly notes that passing an indistinguishability test proves the generator is *as anomalous* as the original, not that the mechanism is identical. This limitation is inherent to the methodology and is already documented in the project's conclusions.
 
 ### 6.5 Remaining `use_real_computation` Infrastructure
 

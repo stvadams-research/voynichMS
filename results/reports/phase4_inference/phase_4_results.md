@@ -139,7 +139,7 @@ Morphology induction identifies regularities in the word-formation process, whic
 
 ## 6. Phase 4 Final Conclusion
 
-Phase 4 has systematically evaluated five common phase4_inference methods used to claim the presence of language or meaning in the Voynich Manuscript. In every case, the methods failed to separate semantic text from non-semantic, structurally constrained controls.
+Phase 4 has systematically evaluated five common inference methods used to claim the presence of language or meaning in the Voynich Manuscript. In every case, the methods failed to separate semantic text from non-semantic, structurally constrained controls.
 
 ### Summary of Admissibility Boundary
 

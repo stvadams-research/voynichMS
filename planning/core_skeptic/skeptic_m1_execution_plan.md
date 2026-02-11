@@ -9,7 +9,7 @@
 
 ## 1) Objective
 
-Address `SK-M1` by removing closure-language contradictions that enable the "stopped too early" core_skeptic attack.
+Address `SK-M1` by removing closure-language contradictions that enable the "stopped too early" skeptic attack.
 
 This plan targets the specific inconsistency identified in the assessment:
 
@@ -26,7 +26,7 @@ From `SK-M1`:
 - Comparative boundary statement asserts no further text-internal comparison will help in `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md:15`.
 - Reopening criteria are explicitly defined in `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:34` through `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:38`.
 
-Core core_skeptic attack:
+Core skeptic attack:
 
 - "You assert exhaustion and also admit reopening criteria; closure should be conditional, not terminal."
 
@@ -37,7 +37,7 @@ Core core_skeptic attack:
 ## In Scope
 
 - Closure-language policy for conditional vs terminal wording.
-- Cross-document closure consistency across phase8_comparative and final summary artifacts.
+- Cross-document closure consistency across comparative and final summary artifacts.
 - Canonical reopening criteria references for all closure statements.
 - Automated checks to prevent future terminal-overreach regressions.
 - Governance/core_audit traceability for closure decisions and residual uncertainty.
@@ -116,7 +116,7 @@ rg -n "formally closed|No further amount|remains closed|terminal|exhaust" \
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | C1 | Reframe Phase B boundary statement from absolute "no further amount..." to framework-bounded conditional closure. | `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md` | Boundary section no longer reads terminal against reopening logic. |
-| C2 | Rephrase any "formally closed" phase8_comparative language to criteria-bound closure language. | `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Comparative closure aligns with reopening conditions. |
+| C2 | Rephrase any "formally closed" comparative language to criteria-bound closure language. | `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Comparative closure aligns with reopening conditions. |
 | C3 | Ensure Phase 4.5 closure summary language remains explicitly conditional and references reopening criteria consistently. | `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md` | No internal contradiction between closure and reopening sections. |
 | C4 | Align other top-level closure docs where wording can reintroduce SK-M1 attack surface. | `results/reports/FINAL_PHASE_3_3_REPORT.md`, related summaries | Closure language harmonized across public docs. |
 
@@ -177,7 +177,7 @@ python3 -m pytest -q tests/core_skeptic/test_closure_conditionality_checker.py
 |---|---|---|---|
 | F1 | Add SK-M1 section to reproducibility/governance docs. | `governance/governance/REPRODUCIBILITY.md`, related governance docs | Contributor workflow includes SK-M1 policy checks. |
 | F2 | Add execution status report template for SK-M1 pass. | `reports/core_skeptic/SKEPTIC_M1_EXECUTION_STATUS.md` (during execution) | File records all changes/tests/residuals. |
-| F3 | Add core_audit log entry mapping finding -> fixes -> residual risk. | `AUDIT_LOG.md` | End-to-end traceability present. |
+| F3 | Add audit log entry mapping finding -> fixes -> residual risk. | `AUDIT_LOG.md` | End-to-end traceability present. |
 
 ### Verification
 
@@ -219,10 +219,10 @@ Rationale:
 |---|---|---|---|---|---|
 | WS-M1-A Policy/Taxonomy | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-M1 closure-conditionality policy doc and machine-readable policy config. |
 | WS-M1-B Inventory/Register | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-M1 closure register mapping contradictory phrases to calibrated closure markers. |
-| WS-M1-C Document Calibration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Calibrated closure language in phase8_comparative and final reports to framework-bounded reopenable wording. |
+| WS-M1-C Document Calibration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Calibrated closure language in comparative and final reports to framework-bounded reopenable wording. |
 | WS-M1-D Reopening Linkage | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added canonical reopening criteria doc and cross-referenced all tracked closure-bearing docs. |
 | WS-M1-E Guardrails/CI | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-M1 checker/tests and integrated enforcement into CI and pre-release scripts. |
-| WS-M1-F Governance/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated reproducibility guidance, added execution status report, and logged SK-M1 core_audit decisions. |
+| WS-M1-F Governance/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated reproducibility guidance, added execution status report, and logged SK-M1 audit decisions. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

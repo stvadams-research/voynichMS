@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This policy constrains phase8_comparative-distance claims so nearest-neighbor and
+This policy constrains comparative-distance claims so nearest-neighbor and
 structural-isolation conclusions are uncertainty-qualified, lane-entitled, and
 reopenable under explicit criteria.
 
@@ -16,9 +16,9 @@ Automated checker:
 
 ## Status Taxonomy
 
-- `STABILITY_CONFIRMED`: uncertainty diagnostics support robust phase8_comparative claims.
-- `DISTANCE_QUALIFIED`: directional phase8_comparative claims are supported with caveats.
-- `INCONCLUSIVE_UNCERTAINTY`: phase8_comparative claims remain bounded and non-conclusive.
+- `STABILITY_CONFIRMED`: uncertainty diagnostics support robust comparative claims.
+- `DISTANCE_QUALIFIED`: directional comparative claims are supported with caveats.
+- `INCONCLUSIVE_UNCERTAINTY`: comparative claims remain bounded and non-conclusive.
 
 ## M2.5 Closure Lanes
 
@@ -58,7 +58,7 @@ Required artifact semantics include:
 ## Narrative Guardrails
 
 1. Do not present nearest-neighbor outcomes as deterministic when stability is below policy floors.
-2. Public phase8_comparative prose must link to the uncertainty artifact.
+2. Public comparative prose must link to the uncertainty artifact.
 3. Structural-isolation claims must remain uncertainty-qualified.
 4. If status is `INCONCLUSIVE_UNCERTAINTY`, nearest-neighbor language must stay directional and caveated.
 5. If lane is `M2_5_BOUNDED`, language must explicitly state that confidence remains non-conclusive and reopenable.
@@ -66,7 +66,7 @@ Required artifact semantics include:
 ## Missing-Folio Boundary
 
 - Missing-folio objections map to SK-H3 by default.
-- missing-folio objections are non-blocking for SK-M2 unless objective phase8_comparative-input validity failure is demonstrated.
+- missing-folio objections are non-blocking for SK-M2 unless objective comparative-input validity failure is demonstrated.
 - If blocked-lane language references missing folios, the uncertainty artifact must include explicit objective linkage evidence in `m2_5_data_availability_linkage`.
 
 ## Enforcement

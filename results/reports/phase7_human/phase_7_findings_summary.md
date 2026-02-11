@@ -10,11 +10,11 @@
 
 ## 1. Phase 7 Purpose
 
-Phase 7 examined the **phase7_human-facing dimensions** of the Voynich Manuscript after the formal system itself had been identified and collapsed in Phases 5 and 6.
+Phase 7 examined the **human-facing dimensions** of the Voynich Manuscript after the formal system itself had been identified and collapsed in Phases 5 and 6.
 
 The central question of Phase 7 was:
 
-> How does the identified formal system interact with phase7_human execution, physical manuscript constraints, and cognitive effort?
+> How does the identified formal system interact with human execution, physical manuscript constraints, and cognitive effort?
 
 This phase explicitly avoided semantics, symbolism, or historical interpretation. It focused on **execution ecology**, not meaning.
 
@@ -31,15 +31,15 @@ By the start of Phase 7, the project had established that the Voynich Manuscript
 - Is **non-semantic** by all diagnostic statistical and computational tests
 
 Phase 7 therefore operated under the assumption that:
-- The phase5_mechanism is fixed
-- Any remaining variation arises from **phase7_human execution or physical context**
+- The mechanism is fixed
+- Any remaining variation arises from **human execution or physical context**
 
 ---
 
 ## 3. Phase 7A: Human Factors and Ergonomics
 
 ### 3.1 Core Question
-Does the manuscript show signs of phase7_human fatigue, correction, or episodic effort that would constrain the nature of its production?
+Does the manuscript show signs of human fatigue, correction, or episodic effort that would constrain the nature of its production?
 
 ### 3.2 Key Findings
 
@@ -49,7 +49,7 @@ Does the manuscript show signs of phase7_human fatigue, correction, or episodic 
 
 ### 3.3 Interpretation
 
-- The manuscript was produced by a phase7_human over time, not mechanically.
+- The manuscript was produced by a human over time, not mechanically.
 - Execution was **disciplined and practiced**, not exploratory or improvisational.
 - Errors are tolerated locally, but do not propagate or induce revision.
 
@@ -71,7 +71,7 @@ Is the formal system adaptively coupled to the physical manuscript (pages, layou
 - **Weak or absent page-boundary effects** on line length and structure.
 - **Layout geometry adaptation is weak**, and illustration-proximity claims are status-gated by `results/phase5_mechanism/anchor_coupling_confirmatory.json` with explicit robustness class qualifiers and H1.5 lane controls.
 - **Strong coupling to scribal identity**, with large differences in execution signatures (e.g., TTR) between hands.
-- **No evidence of section-specific algorithms**; the phase5_mechanism is globally invariant.
+- **No evidence of section-specific algorithms**; the mechanism is globally invariant.
 
 ### 4.3 Interpretation
 
@@ -91,7 +91,7 @@ Is the formal system adaptively coupled to the physical manuscript (pages, layou
 ## 5. Phase 7C: Comparative Formal Artifact Analysis
 
 ### 5.1 Core Question
-Is the Voynich Manuscript structurally similar to any known class of phase7_human-produced formal artifacts?
+Is the Voynich Manuscript structurally similar to any known class of human-produced formal artifacts?
 
 ### 5.2 Comparative Baselines
 
@@ -112,7 +112,7 @@ Is the Voynich Manuscript structurally similar to any known class of phase7_huma
 ### 5.4 Interpretation
 
 - Voynich is **not an extreme instance of any known artifact class**.
-- It is a **custom-designed formal system**, not a degraded language or trivial phase5_mechanism.
+- It is a **custom-designed formal system**, not a degraded language or trivial mechanism.
 - Execution requires rule-following but not semantic evaluation or adversarial resistance.
 
 ### 5.5 Eliminated Categories
@@ -149,9 +149,9 @@ Across Phases 7A–7C, the following conclusions are jointly supported:
 
 Phase 7 definitively answers:
 
-- How the system interacts with phase7_human limits
+- How the system interacts with human limits
 - Whether the manuscript layout constrains generation
-- Whether the system matches known phase7_human artifact classes
+- Whether the system matches known human artifact classes
 
 Phase 7 **does not** attempt to answer:
 - Why the system was created
@@ -164,17 +164,17 @@ Those questions require evidence outside the text itself.
 
 ## 8. Phase 7 Termination Statement
 
-Phase 7 terminates the **text-internal and phase7_human-execution phase2_analysis** of the Voynich Manuscript.
+Phase 7 terminates the **text-internal and human-execution analysis** of the Voynich Manuscript.
 
 At this point:
 - The formal system is identified
 - Its execution ecology is constrained
-- Its phase7_human posture is characterized
+- Its human posture is characterized
 - Its uniqueness is established
 
 Any further narrowing requires either:
-- Formal closure of phase4_inference limits, or
-- Introduction of non-textual phase8_comparative evidence
+- Formal closure of inference limits, or
+- Introduction of non-textual comparative evidence
 
 ---
 

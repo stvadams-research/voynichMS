@@ -10,7 +10,7 @@ Prepare the project codebase for public release by ensuring:
 - No results depend on hidden assumptions, placeholders, or hardcoded behavior.
 - All methods are explicit, parameterized, and reproducible.
 - The codebase is internally consistent in structure, naming, and execution.
-- The phase2_analysis pipeline can be understood and rerun by an external reader.
+- The analysis pipeline can be understood and rerun by an external reader.
 - Documentation clearly separates method, configuration, and interpretation.
 
 The goal is to remove anything that could cause a reader to question:
@@ -22,14 +22,14 @@ The goal is to remove anything that could cause a reader to question:
 
 ## Scope and Philosophy
 
-### What this core_audit covers
+### What this audit covers
 - Correctness and clarity of analytical methods
 - Explicitness of assumptions and parameters
 - Reproducibility of numerical results
 - Structural consistency across the codebase
 - Documentation sufficient for independent replication
 
-### What this core_audit does not cover
+### What this audit does not cover
 - Performance tuning unless it affects correctness
 - Aesthetic refactoring unrelated to clarity
 - Feature expansion or methodological changes
@@ -44,13 +44,13 @@ By the end of this process, you should have:
    A running list of issues found, decisions made, and fixes applied.
 
 2. `governance/METHODS_REFERENCE.md`  
-   A plain-language description of every metric, method, and phase2_analysis step.
+   A plain-language description of every metric, method, and analysis step.
 
 3. `CONFIG_REFERENCE.md`  
    A complete inventory of parameters, defaults, and their effects.
 
 4. `governance/REPRODUCIBILITY.md`  
-   Step-by-step instructions to rerun the entire phase2_analysis deterministically.
+   Step-by-step instructions to rerun the entire analysis deterministically.
 
 5. Clean, readable code with no silent behavior.
 
@@ -73,10 +73,10 @@ Outcome:
 ### Task 0.2 File and Module Inventory
 
 Create a list of:
-- phase2_analysis modules
+- analysis modules
 - helper utilities
 - data loading and preprocessing code
-- support_visualization code
+- visualization code
 - configuration files
 - data assets (fixtures vs full corpora)
 
@@ -173,7 +173,7 @@ Rule:
 
 ### Task 1.6 Control and Baseline Symmetry
 
-For every phase2_analysis:
+For every analysis:
 - confirm identical preprocessing for:
   - Voynich
   - controls
@@ -235,7 +235,7 @@ Ensure a single shared implementation exists for:
 - segmentation (lines, pages, sections)
 - filtering rules
 
-All phase2_analysis must use this pipeline.
+All analysis must use this pipeline.
 
 ---
 
@@ -270,7 +270,7 @@ Make the code readable and predictable to outsiders.
 ### Task 3.1 Directory and File Structure
 
 Ensure a clear separation between:
-- phase2_analysis logic
+- analysis logic
 - execution scripts
 - data assets
 - documentation
@@ -312,7 +312,7 @@ README should include:
 - project purpose
 - scope and limitations
 - high-level pipeline overview
-- how to run the phase2_analysis
+- how to run the analysis
 - expected outputs
 - runtime expectations
 
@@ -404,18 +404,18 @@ Pay special attention to:
 - history window logic
 - generator parameterization
 - distance normalization
-- support_visualization smoothing or binning
+- visualization smoothing or binning
 
 ---
 
 ## Definition of “Done”
 
-This core_audit is complete when:
+This audit is complete when:
 
 - Every parameter is explicit
 - Every method is documented
 - All outputs are reproducible
 - No silent assumptions remain
-- A skeptical reader can rerun and core_audit the work
+- A skeptical reader can rerun and audit the work
 
 At that point, the codebase is ready to be released as a methodological artifact.

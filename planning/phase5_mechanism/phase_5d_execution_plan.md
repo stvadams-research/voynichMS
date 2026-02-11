@@ -3,7 +3,7 @@
 **Project:** Voynich Manuscript, Structural Admissibility Program  
 **Phase:** 5D  
 **Phase Name:** Deterministic Line Grammar  
-**Goal Type:** Deterministic phase5_mechanism identifiability under line-level exclusion  
+**Goal Type:** Deterministic mechanism identifiability under line-level exclusion  
 **Primary Goal:** Identify and characterize deterministic, non-repeating, line-scoped generative structures that can account for Voynich’s extreme within-line uniqueness, low entropy, strong successor constraints, and complete inter-line resets.
 
 ---
@@ -20,10 +20,10 @@ Phase 5C established that:
 - Line-level structure is rigid, ordered, and non-repeating.
 - Constraints reset completely at line boundaries.
 
-These findings force a transition from workflow phase4_inference to **instructional structure phase4_inference**.
+These findings force a transition from workflow inference to **instructional structure inference**.
 
 ### 1.3 What Phase 5D is not
-- Not a semantic phase2_analysis.
+- Not a semantic analysis.
 - Not a decoding attempt.
 - Not a historical reconstruction.
 - Not a return to probabilistic grammars.
@@ -150,7 +150,7 @@ Detect implicit slot boundaries in real Voynich lines.
 
 **Methods may include:**
 - Change-point detection on successor entropy
-- Positional mutual information phase2_analysis
+- Positional mutual information analysis
 - Clustering of token classes by position
 
 **Kill criteria:**
@@ -278,7 +278,7 @@ Phase 5D is not allowed to conclude:
 
 ## 11. Phase 5D Termination Statement
 
-Phase 5D evaluates deterministic line-level grammars as candidates for the Voynich Manuscript’s production phase5_mechanism. By testing slot structure, exclusion rules, and deterministic sufficiency, Phase 5D further collapses the space of admissible explanations without invoking semantics. Progress beyond this phase requires either external anchoring evidence or a change in inferential scope.
+Phase 5D evaluates deterministic line-level grammars as candidates for the Voynich Manuscript’s production mechanism. By testing slot structure, exclusion rules, and deterministic sufficiency, Phase 5D further collapses the space of admissible explanations without invoking semantics. Progress beyond this phase requires either external anchoring evidence or a change in inferential scope.
 
 ---
 

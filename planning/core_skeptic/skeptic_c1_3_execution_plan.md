@@ -53,7 +53,7 @@ Operational consequence:
   - `allowed_claim_class=QUALIFIED`
   - `allowed_closure_class=CONDITIONAL_CLOSURE_QUALIFIED`
 
-Core core_skeptic leverage:
+Core skeptic leverage:
 
 - "Release evidence remains non-release and inconclusive under your own enforced policy contract."
 
@@ -210,7 +210,7 @@ python3 scripts/core_audit/build_release_gate_health_status.py
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | F1 | Extend sensitivity guardrail and e2e tests for pass-3 failure tuple (`iterative`, non-ready, policy false, inconclusive). | `tests/phase2_analysis/test_sensitivity_sweep_guardrails.py`, `tests/phase2_analysis/test_sensitivity_sweep_end_to_end.py` | Pass-3 failure shape has explicit regression tests. |
-| F2 | Extend core_audit contract tests to assert aligned sensitivity checks across pre-release/verify/CI stages. | `tests/core_audit/test_pre_release_contract.py`, `tests/core_audit/test_verify_reproduction_contract.py`, `tests/core_audit/test_ci_check_contract.py` | Nested verification mismatch is test-covered. |
+| F2 | Extend audit contract tests to assert aligned sensitivity checks across pre-release/verify/CI stages. | `tests/core_audit/test_pre_release_contract.py`, `tests/core_audit/test_verify_reproduction_contract.py`, `tests/core_audit/test_ci_check_contract.py` | Nested verification mismatch is test-covered. |
 | F3 | Add checker tests for reason-code parity between contract checker and gate-health builder. | `tests/core_audit/test_release_gate_health_status_builder.py` + new cases | Reason-code drift is blocked by tests. |
 
 ### Verification
@@ -235,7 +235,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | G1 | Update sensitivity and reproducibility docs to reflect exact release-readiness contract for pass-3 closure. | `governance/SENSITIVITY_ANALYSIS.md`, `governance/governance/REPRODUCIBILITY.md` | Docs match script/checker behavior exactly. |
 | G2 | Produce SK-C1.3 execution status template/report for future execution pass. | `reports/core_skeptic/SKEPTIC_C1_3_EXECUTION_STATUS.md` (during execution) | Status path prepared before implementation. |
-| G3 | Add core_audit-log trace requirement linking pass-3 SK-C1 diagnosis to implemented controls and final state. | `AUDIT_LOG.md` | End-to-end traceability ready for closeout. |
+| G3 | Add audit-log trace requirement linking pass-3 SK-C1 diagnosis to implemented controls and final state. | `AUDIT_LOG.md` | End-to-end traceability ready for closeout. |
 
 ### Verification
 
@@ -283,7 +283,7 @@ Rationale:
 | WS-C1.3-D Warning/Caveat Coherence | NOT STARTED | Codex | TBD | TBD | Bind warning burden to caveats and release-readiness gating. |
 | WS-C1.3-E Gate Consistency | NOT STARTED | Codex | TBD | TBD | Eliminate CI nested verify mismatch on sensitivity contract semantics. |
 | WS-C1.3-F Tests/Contracts | NOT STARTED | Codex | TBD | TBD | Add regression coverage for pass-3 SK-C1 failure tuple. |
-| WS-C1.3-G Docs/Governance | NOT STARTED | Codex | TBD | TBD | Update docs and core_audit traceability after implementation. |
+| WS-C1.3-G Docs/Governance | NOT STARTED | Codex | TBD | TBD | Update docs and audit traceability after implementation. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

@@ -11,7 +11,7 @@
 
 Address pass-3 `SK-H1` residual by attempting to close all feasible multimodal coupling ambiguity now that adequacy constraints are no longer the primary bottleneck.
 
-This plan targets the remaining core_skeptic leverage:
+This plan targets the remaining skeptic leverage:
 
 - "You recovered adequacy, but the inferential result is still non-conclusive."
 
@@ -38,7 +38,7 @@ Current operational interpretation:
 - Cohort adequacy no longer appears to be the dominant blocker.
 - Inference itself remains ambiguity-limited and non-conclusive.
 
-Core core_skeptic attack:
+Core skeptic attack:
 
 - "Your adequacy gate is passing, but your inferential claim still lacks decisive evidence."
 
@@ -51,7 +51,7 @@ Core core_skeptic attack:
 - SK-H1 pass-3 residual closure only.
 - Inferential ambiguity decomposition and resolution attempts.
 - Multimodal status taxonomy/decision logic alignment (adequacy vs inferential reasons).
-- Anchor-method and phase4_inference-stability diagnostics needed for conclusive eligibility.
+- Anchor-method and inference-stability diagnostics needed for conclusive eligibility.
 - Report/gate/checker/test coherence for SK-H1 status semantics.
 
 ## Out of Scope
@@ -104,13 +104,13 @@ PY
 
 ## WS-H1.3-B: Inferential Diagnostics Hardening
 
-**Goal:** Strengthen confirmatory phase4_inference quality so status transitions are evidence-driven.
+**Goal:** Strengthen confirmatory inference quality so status transitions are evidence-driven.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | B1 | Add/strengthen effect-size and interval diagnostics required for conclusive eligibility. | `scripts/phase5_mechanism/run_5i_anchor_coupling.py`, artifact schema | Conclusive decisions require explicit effect/uncertainty evidence. |
 | B2 | Add seed-lane stability diagnostics and decision thresholds for inferential robustness. | same + policy config | Fragile results map deterministically to non-conclusive status. |
-| B3 | Add null-control phase8_comparative diagnostics for observed-vs-null interpretability. | same + report section | Ambiguity source (signal weakness vs noise overlap) is explicit. |
+| B3 | Add null-control comparative diagnostics for observed-vs-null interpretability. | same + report section | Ambiguity source (signal weakness vs noise overlap) is explicit. |
 
 ### Verification
 
@@ -120,7 +120,7 @@ python3 - <<'PY'
 import json
 r=json.load(open('results/phase5_mechanism/anchor_coupling_confirmatory.json'))['results']
 print(r.get('status'), r.get('status_reason'))
-print(r.get('effect'), r.get('phase4_inference'))
+print(r.get('effect'), r.get('inference'))
 PY
 ```
 
@@ -147,7 +147,7 @@ python3 scripts/core_skeptic/check_multimodal_coupling.py --mode release
 
 ## WS-H1.3-D: Method-Lane Robustness and Selection Governance
 
-**Goal:** Ensure phase4_inference is not contingent on a single fragile lane.
+**Goal:** Ensure inference is not contingent on a single fragile lane.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
@@ -217,7 +217,7 @@ python3 -m pytest -q \
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | G1 | Create SK-H1.3 execution status report path/template for implementation pass. | `reports/core_skeptic/SKEPTIC_H1_3_EXECUTION_STATUS.md` (during execution) | Evidence capture path is ready. |
-| G2 | Add core_audit-log linkage requirement for SK-H1.3 controls/residual risk. | `AUDIT_LOG.md` | Finding -> control -> status trace is complete. |
+| G2 | Add audit-log linkage requirement for SK-H1.3 controls/residual risk. | `AUDIT_LOG.md` | Finding -> control -> status trace is complete. |
 | G3 | Update plan tracker and final decision class at closeout. | `planning/core_skeptic/SKEPTIC_H1_3_EXECUTION_PLAN.md` | Plan reflects real end-state. |
 
 ### Verification
@@ -248,8 +248,8 @@ Rationale:
 
 | Condition | Output Status | Allowed Claim |
 |---|---|---|
-| Adequacy passes and phase4_inference is robust across registered lanes/seeds with policy thresholds satisfied. | `H1_3_ALIGNED` | "Multimodal coupling is conclusive under current policy bounds." |
-| Adequacy passes but phase4_inference remains ambiguous/fragile after registered attempts; governance and language controls are complete. | `H1_3_QUALIFIED` | "Multimodal coupling remains inferentially non-conclusive under current evidence envelope." |
+| Adequacy passes and inference is robust across registered lanes/seeds with policy thresholds satisfied. | `H1_3_ALIGNED` | "Multimodal coupling is conclusive under current policy bounds." |
+| Adequacy passes but inference remains ambiguous/fragile after registered attempts; governance and language controls are complete. | `H1_3_QUALIFIED` | "Multimodal coupling remains inferentially non-conclusive under current evidence envelope." |
 | Status/reason/report/gate semantics remain contradictory or drift-prone. | `H1_3_BLOCKED` | "SK-H1 remains unresolved due multimodal governance incoherence." |
 | Evidence is insufficient to determine whether ambiguity is remediable. | `H1_3_INCONCLUSIVE` | "SK-H1.3 status remains provisional pending additional evidence." |
 
@@ -265,7 +265,7 @@ Rationale:
 | WS-H1.3-D Method-Lane Robustness | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Kept `geometric_v1_t001` publication lane; documented matrix and anti-tuning rationale in `SK_H1_3_METHOD_SELECTION.md`. |
 | WS-H1.3-E Report Boundary Calibration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated Phase 5/7 status language and refreshed `PHASE_7B_RESULTS.md` via runner. |
 | WS-H1.3-F Tests/Contracts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated SK-H1 phase5_mechanism/checker/guardrail tests; targeted suite passes. |
-| WS-H1.3-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added execution status report and core_audit-log trace for H1.3 closure state. |
+| WS-H1.3-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added execution status report and audit-log trace for H1.3 closure state. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 
@@ -288,7 +288,7 @@ Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 Required deliverables for execution pass:
 
 1. `reports/core_skeptic/SK_H1_3_INFERENCE_REGISTER.md` with pass-3 ambiguity decomposition and claim boundaries.
-2. Updated SK-H1 policy/checker semantics for adequacy-vs-phase4_inference consistency.
+2. Updated SK-H1 policy/checker semantics for adequacy-vs-inference consistency.
 3. Enhanced SK-H1 confirmatory artifact diagnostics and status decision transparency.
 4. Method-lane robustness selection register (`SK_H1_3_METHOD_SELECTION.md`).
 5. Expanded SK-H1 tests and gate contract coverage.
@@ -303,7 +303,7 @@ Required deliverables for execution pass:
 `SK-H1` (pass-3 scope) can be marked closed only when:
 
 1. Adequacy and inferential ambiguity are separately measured and machine-enforced.
-2. SK-H1 core_status/reason semantics are coherent with adequacy and phase4_inference diagnostics.
+2. SK-H1 core_status/reason semantics are coherent with adequacy and inference diagnostics.
 3. CI/release/repro pathways enforce the same SK-H1 semantics.
 4. Report/docs language remains bounded to artifact entitlement.
 

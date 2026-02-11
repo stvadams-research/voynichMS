@@ -43,4 +43,4 @@ The script dynamically pulls substance from the following authoritative records:
 - [ ] Document exceeds 20 pages in length.
 - [ ] Repetition Rate distribution plot is embedded.
 - [ ] Language ID False Positive chart is embedded.
-- [ ] "Implicit Constraint Lattice" is identified as the terminal phase5_mechanism.
+- [ ] "Implicit Constraint Lattice" is identified as the terminal mechanism.

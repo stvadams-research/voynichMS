@@ -6,7 +6,7 @@
 ## The Concept (Layman's Summary)
 If you see a cloud that looks like a face, you don't assume the cloud is trying to tell you something. You know that wind and water vapor just happen to form that shape sometimes. We did the same thing with the Voynich Manuscript. We tested it to see if it "breaks" in the same way a language would.
 
-When you garble a sentence in English, you can usually still guess some of the words. But when we slightly shifted the "alphabet" or "word boundaries" of the Voynich, the whole structure collapsed instantly. This tells us the patterns are extremely rigid and fragile—like a computer program's code—rather than flexible and redundant like a phase7_human language.
+When you garble a sentence in English, you can usually still guess some of the words. But when we slightly shifted the "alphabet" or "word boundaries" of the Voynich, the whole structure collapsed instantly. This tells us the patterns are extremely rigid and fragile—like a computer program's code—rather than flexible and redundant like a human language.
 
 ## Technical Deep-Dive
 We utilized an **Admissibility Mapping** protocol to test the manuscript against 6 distinct explanation classes.
@@ -23,7 +23,7 @@ This collapse proves that the "words" in the manuscript are not carriers of sema
 Using a battery of **Stress Tests**, we identified two primary signatures that exclude simple "gibberish" while also excluding "language":
 
 1.  **Information Density (Z-Score: 5.68)**: The manuscript is far more "orderly" than random noise.
-2.  **Locality Radius (2-4 units)**: Statistical dependencies exist only between immediate neighbors, lacking the "long-range correlations" found in all phase7_human thought and communication.
+2.  **Locality Radius (2-4 units)**: Statistical dependencies exist only between immediate neighbors, lacking the "long-range correlations" found in all human thought and communication.
 
 ## Skeptic's Corner
 Some researchers point to the "word-like" statistics (Zipf's Law) as proof of language.

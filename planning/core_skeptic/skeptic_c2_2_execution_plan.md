@@ -47,7 +47,7 @@ Observed impact:
 
 ## In Scope
 
-- Provenance contract semantics for `run_*.py` scripts (especially phase8_comparative runner entrypoints).
+- Provenance contract semantics for `run_*.py` scripts (especially comparative runner entrypoints).
 - Explicit conformance pattern for direct provenance writing vs approved delegated writing.
 - CI test and checker hardening for provenance-runner contract.
 - Documentation alignment for provenance contract rules and exemptions.
@@ -84,7 +84,7 @@ Observed impact:
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | A1 | Inventory all `run_*.py` scripts and classify as direct provenance, delegated provenance, or display-only. | `scripts/**/run_*.py`, `governance/PROVENANCE.md` | Classification table completed. |
-| A2 | Trace provenance writer path for phase8_comparative uncertainty flow (`run_proximity_uncertainty.py` -> downstream writer). | `scripts/phase8_comparative/run_proximity_uncertainty.py`, `src/phase8_comparative/mapping.py` | Producer path documented with file-level evidence. |
+| A2 | Trace provenance writer path for comparative uncertainty flow (`run_proximity_uncertainty.py` -> downstream writer). | `scripts/phase8_comparative/run_proximity_uncertainty.py`, `src/phase8_comparative/mapping.py` | Producer path documented with file-level evidence. |
 | A3 | Record root cause for SK-C2 (contract gap vs checker-model gap). | `reports/core_skeptic/SK_C2_2_PROVENANCE_REGISTER.md` (new) | Root-cause matrix with evidence and remediation choice. |
 
 ### Verification
@@ -102,13 +102,13 @@ PY
 
 ## WS-C2.2-B: Runner-Level Provenance Contract Remediation
 
-**Goal:** Make phase8_comparative uncertainty runner provenance compliance explicit, unambiguous, and testable.
+**Goal:** Make comparative uncertainty runner provenance compliance explicit, unambiguous, and testable.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | B1 | Implement explicit provenance conformance in `run_proximity_uncertainty.py` (direct writer or explicit delegated contract marker). | `scripts/phase8_comparative/run_proximity_uncertainty.py` | Runner no longer fails provenance contract checks. |
 | B2 | Ensure no duplicate/contradictory output writes for uncertainty artifact path. | `scripts/phase8_comparative/run_proximity_uncertainty.py`, `src/phase8_comparative/mapping.py` | Single canonical write path per run and deterministic output behavior. |
-| B3 | Ensure runner emits clear provenance-related execution metadata/logging for contract traceability. | phase8_comparative runner output and status artifacts | Runtime output names provenance path and status outcome. |
+| B3 | Ensure runner emits clear provenance-related execution metadata/logging for contract traceability. | comparative runner output and status artifacts | Runtime output names provenance path and status outcome. |
 
 ### Verification
 
@@ -174,7 +174,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | E1 | Update provenance docs with direct/delegated runner contract semantics and exemption governance. | `governance/PROVENANCE.md` | Documentation reflects actual enforced contract model. |
 | E2 | Update reproducibility guide with provenance-runner contract check commands. | `governance/governance/REPRODUCIBILITY.md` | Repro flow includes provenance runner checker usage. |
-| E3 | Add SK-C2.2 execution status template and core_audit-log trace entry requirements. | `reports/core_skeptic/SKEPTIC_C2_2_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | End-to-end traceability path prepared. |
+| E3 | Add SK-C2.2 execution status template and audit-log trace entry requirements. | `reports/core_skeptic/SKEPTIC_C2_2_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | End-to-end traceability path prepared. |
 
 ### Verification
 
@@ -214,10 +214,10 @@ Rationale:
 | Workstream | Status | Owner | Start | End | Notes |
 |---|---|---|---|---|---|
 | WS-C2.2-A Baseline/Root Cause | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added root-cause register: `reports/core_skeptic/SK_C2_2_PROVENANCE_REGISTER.md`. |
-| WS-C2.2-B Runner Remediation | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated phase8_comparative runner with explicit delegated provenance contract and envelope assertion. |
+| WS-C2.2-B Runner Remediation | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated comparative runner with explicit delegated provenance contract and envelope assertion. |
 | WS-C2.2-C Policy/Checker Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added `configs/core_audit/provenance_runner_contract.json` and `scripts/core_audit/check_provenance_runner_contract.py`; updated provenance contract tests. |
-| WS-C2.2-D Gates/Tests | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Integrated checker into CI/pre-release/verify scripts and expanded core_audit contract coverage. |
-| WS-C2.2-E Docs/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated provenance/repro docs and added SK-C2.2 execution status and core_audit log trace. |
+| WS-C2.2-D Gates/Tests | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Integrated checker into CI/pre-release/verify scripts and expanded audit contract coverage. |
+| WS-C2.2-E Docs/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated provenance/repro docs and added SK-C2.2 execution status and audit log trace. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 
@@ -230,7 +230,7 @@ Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 | R1 | Contract checker remains too string-fragile and causes false positives. | High | High | Move to policy-based checker with explicit delegation semantics. |
 | R2 | Delegation model can hide real provenance omissions if policy is too permissive. | Medium | High | Require delegation to point to writer-verified module paths with tests. |
 | R3 | Runner remediation can introduce duplicate or conflicting artifact writes. | Medium | Medium | Define one canonical output writer path and test for envelope shape. |
-| R4 | Heavy phase8_comparative runs slow validation loops. | Medium | Medium | Use CI-safe parameterized checks for contract, reserve full run for release evidence. |
+| R4 | Heavy comparative runs slow validation loops. | Medium | Medium | Use CI-safe parameterized checks for contract, reserve full run for release evidence. |
 | R5 | Legacy exemption list drifts from actual runner behavior over time. | Medium | Medium | Keep exemptions in contract policy and test for stale/unused entries. |
 
 ---
@@ -240,10 +240,10 @@ Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 Required deliverables for execution pass:
 
 1. SK-C2.2 provenance runner contract register documenting root cause and remediation mode.
-2. Contract-compliant phase8_comparative runner (`run_proximity_uncertainty.py`) behavior.
+2. Contract-compliant comparative runner (`run_proximity_uncertainty.py`) behavior.
 3. Central provenance runner contract policy + checker.
 4. Gate integration in CI (and release/repro paths if required by policy).
-5. Expanded core_audit tests locking SK-C2.2 failure modes.
+5. Expanded audit tests locking SK-C2.2 failure modes.
 6. Updated provenance/repro docs.
 7. SK-C2.2 execution status report under `reports/core_skeptic/`.
 8. Audit-log entry mapping SK-C2 pass-2 finding to implemented controls.

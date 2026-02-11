@@ -7,7 +7,7 @@
 Imagine you are listening to someone speak. In normal English, words like "the" or "and" appear often, but you rarely hear the same unique, long word three or four times in a single sentence. In the Voynich Manuscript, this happens constantly. It is as if the book is "stuttering" in a way that suggests it was created by a simple rule-following machine or a very specific mental process, rather than by someone trying to communicate complex ideas. We call this "Structure without Meaning."
 
 ## Technical Deep-Dive
-Our phase2_analysis of the `voynich_real` dataset (222 pages) reveals a structural rigidity that is anomalous when compared to natural language controls.
+Our analysis of the `voynich_real` dataset (222 pages) reveals a structural rigidity that is anomalous when compared to natural language controls.
 
 ### Token Repetition Analysis
 We calculated the **Page-level Repetition Rate**, defined as the ratio of tokens that appear more than once on a page to the total number of tokens on that page.
@@ -25,15 +25,15 @@ The manuscript follows a classic Zipfian power law, but with a "truncated tail."
 Traditional linguists often argue that high repetition is a sign of a "highly inflected" language or a simple substitution cipher. 
 
 ### Counter-Point Analysis
-However, our stress tests in Layer 2 (Analysis) demonstrate that the *positional* repetition (where the words appear) violates the "Long-Range Correlation" patterns found in all phase7_human communication. If this were a cipher, it would be a "degenerate" one where information density is sacrificed for rhythmic repetition.
+However, our stress tests in Layer 2 (Analysis) demonstrate that the *positional* repetition (where the words appear) violates the "Long-Range Correlation" patterns found in all human communication. If this were a cipher, it would be a "degenerate" one where information density is sacrificed for rhythmic repetition.
 
 ## Reproducibility
 To regenerate these metrics and plots, use the following CLI commands:
 ```bash
 # Calculate metrics
-phase1_foundation metrics run --dataset voynich_real --metric RepetitionRate
+foundation metrics run --dataset voynich_real --metric RepetitionRate
 
-# Generate support_visualization
-support_visualization phase1_foundation repetition-rate voynich_real
+# Generate visualization
+visualization foundation repetition-rate voynich_real
 ```
 **Reference RunID**: `41f398bc-9623-2b2d-bada-5bd4dc226e64`

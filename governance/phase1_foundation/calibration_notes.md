@@ -1,6 +1,6 @@
 # Calibration and Threshold Justification
 
-This document provides the statistical and methodological rationales for the various heuristic thresholds used across the Voynich MS phase2_analysis pipeline.
+This document provides the statistical and methodological rationales for the various heuristic thresholds used across the Voynich MS analysis pipeline.
 
 ## 1. Information Theory Thresholds
 
@@ -33,7 +33,7 @@ This document provides the statistical and methodological rationales for the var
 
 ### 3.2 Improvement Threshold (0.10)
 - **Used in:** `EquivalenceTest`
-- **Rationale:** A reduction in separation of 0.10 is required to distinguish meaningful structural refinement from random noise in the phase3_synthesis process.
+- **Rationale:** A reduction in separation of 0.10 is required to distinguish meaningful structural refinement from random noise in the synthesis process.
 
 ## 4. Model Sensitivity Rationales
 
@@ -63,7 +63,7 @@ Each explanation model has a hardcoded sensitivity profile used to calculate deg
 - `visual_grammar.min_stable=0.5`:
   Conventional midpoint threshold.
 - `hybrid_system.variance_limit=0.3`:
-  Theoretical. Large spread across perturbations indicates unstable mixed phase5_mechanism.
+  Theoretical. Large spread across perturbations indicates unstable mixed mechanism.
 - `standard_high_confidence=0.7`:
   Conventional high-confidence cutoff used across stress reporting.
 

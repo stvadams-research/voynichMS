@@ -2,15 +2,15 @@
 
 Date: 2026-02-10  
 Plan: `planning/core_skeptic/SKEPTIC_M2_5_EXECUTION_PLAN.md`  
-Scope: pass-5 SK-M2 phase8_comparative uncertainty closure hardening
+Scope: pass-5 SK-M2 comparative uncertainty closure hardening
 
 ## Outcome
 
 `M2_5_BOUNDED`
 
-- SK-M2 remains non-conclusive on substantive phase8_comparative stability.
+- SK-M2 remains non-conclusive on substantive comparative stability.
 - SK-M2 process/contract defects identified in pass-5 are remediated.
-- Missing-folio objections are now explicitly non-blocking for SK-M2 unless objective phase8_comparative validity linkage is present.
+- Missing-folio objections are now explicitly non-blocking for SK-M2 unless objective comparative validity linkage is present.
 
 ## Implemented Workstreams
 
@@ -49,7 +49,7 @@ Scope: pass-5 SK-M2 phase8_comparative uncertainty closure hardening
 
 ### WS-M2.5-F Claim/Report Boundary Sync
 
-- Updated phase8_comparative narrative surfaces to `M2_5_BOUNDED` semantics:
+- Updated comparative narrative surfaces to `M2_5_BOUNDED` semantics:
   - `reports/phase8_comparative/PROXIMITY_ANALYSIS.md`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
@@ -64,7 +64,7 @@ Scope: pass-5 SK-M2 phase8_comparative uncertainty closure hardening
   - `scripts/ci_check.sh`
   - `scripts/core_audit/pre_release_check.sh`
   - `scripts/verify_reproduction.sh`
-- Added SK-M2 dependency snapshot fields and phase8_comparative checker participation in gate-health builder:
+- Added SK-M2 dependency snapshot fields and comparative checker participation in gate-health builder:
   - `scripts/core_audit/build_release_gate_health_status.py`
 
 ### WS-M2.5-H Regression and Governance Closeout
@@ -117,5 +117,5 @@ Fixable blockers addressed in this pass:
 
 Non-fixable or out-of-scope blockers (explicitly documented):
 
-1. Persistent top-2 identity/rank fragility in canonical phase8_comparative metrics.
+1. Persistent top-2 identity/rank fragility in canonical comparative metrics.
 2. SK-C1 release evidence artifacts (`core_status/core_audit/sensitivity_sweep_release.json`, `reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md`) are still absent and continue to block release-path scripts outside SK-M2 scope.

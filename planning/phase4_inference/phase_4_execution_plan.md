@@ -2,26 +2,26 @@
 **Project:** Voynich Manuscript, Structural Admissibility Program  
 **Phase:** 4  
 **Goal Type:** External method stress-testing, falsification, and boundary setting  
-**Primary Goal:** Evaluate whether widely cited phase4_inference methods that imply language, semantics, or meaningful structure are actually diagnostic, by testing them against controlled non-semantic corpora that match Voynich-like structure.
+**Primary Goal:** Evaluate whether widely cited inference methods that imply language, semantics, or meaningful structure are actually diagnostic, by testing them against controlled non-semantic corpora that match Voynich-like structure.
 
 ---
 
 ## 1. Phase 4 Purpose and Core Question
 
 ### 1.1 Core question
-Which published phase4_inference methods (statistical, network, topic-modeling, AI decipherment style) reliably distinguish semantic texts from non-semantic but structurally constrained texts, at Voynich scale?
+Which published inference methods (statistical, network, topic-modeling, AI decipherment style) reliably distinguish semantic texts from non-semantic but structurally constrained texts, at Voynich scale?
 
 ### 1.2 What Phase 4 is not
 - Not a translation attempt
-- Not a new generative phase5_mechanism hunt
+- Not a new generative mechanism hunt
 - Not an argument that any author is “wrong”
 - Not a refutation campaign
 
-Phase 4 evaluates phase4_inference methods, not people.
+Phase 4 evaluates inference methods, not people.
 
 ### 1.3 Success criteria
 Phase 4 is successful if it produces:
-- A method map showing what each phase4_inference technique can and cannot conclude
+- A method map showing what each inference technique can and cannot conclude
 - A set of results showing whether those methods produce false positives on non-semantic controls that are structurally Voynich-like
 - A small number of durable, reusable tests that future claims must pass
 
@@ -102,7 +102,7 @@ Define sectioning consistently:
 
 ## 4. Method Targets and Test Modules
 
-Phase 4 implements and tests a defined set of phase4_inference methods.
+Phase 4 implements and tests a defined set of inference methods.
 
 ### 4.1 Method A: Montemurro and Zanette style information clustering
 **Claim type:** Language-like topical structure via informative word distributions across sections.
@@ -145,7 +145,7 @@ Compute a stable feature set including:
 
 **Artifacts to record**
 - Feature tables per corpus
-- PCA or similar projection for support_visualization, used only as descriptive aid
+- PCA or similar projection for visualization, used only as descriptive aid
 - Classifier performance with cross-validation, clearly separated train and test
 
 **Decision rule**
@@ -182,7 +182,7 @@ Compute a stable feature set including:
 
 **Implementation goal**
 Do not chase full replication of any proprietary pipeline.
-Instead test the phase4_inference pattern:
+Instead test the inference pattern:
 - Many languages tried
 - Flexible transformations allowed
 - A best match is declared
@@ -195,7 +195,7 @@ Instead test the phase4_inference pattern:
 **Artifacts to record**
 - Best language match distributions across many null corpora
 - Confidence calibration curves
-- Stability phase2_analysis of top results under small perturbations
+- Stability analysis of top results under small perturbations
 
 **Decision rule**
 - If null corpora frequently yield plausible-looking language matches and translations under flexibility, then such claims are not evidential without strong external validation.
@@ -249,7 +249,7 @@ Each method evaluation run must record:
 - Determinism tests pass on a small fixture
 - Schema tests validate run artifact structure
 
-No Phase 4 run begins until the phase1_foundation is green.
+No Phase 4 run begins until the foundation is green.
 
 ---
 
@@ -309,13 +309,13 @@ For each method, assign exactly one:
 
 ### 7.2 How Phase 4 narrows feasible theories
 Phase 4 can conclude:
-- Which phase4_inference methods are unreliable evidence for semantics
+- Which inference methods are unreliable evidence for semantics
 - Which signals remain distinctive after strong non-semantic controls
 - Which claims in the literature rest on methods that fail falsification
 
 Phase 4 cannot conclude:
 - That Voynich has no meaning
-- That any particular historical phase5_mechanism is true
+- That any particular historical mechanism is true
 - That any particular language is the plaintext
 
 ---
@@ -361,7 +361,7 @@ Each demonstration must be backed by:
 
 ## 10. Phase 4 Termination Statement, pre-written
 
-Phase 4 evaluates the inferential validity of methods commonly used to claim that the Voynich Manuscript contains meaningful language. By applying these methods to both the manuscript and to structurally similar non-semantic corpora with known ground truth, Phase 4 determines whether each method is semantics-diagnostic or susceptible to false positives. Phase 4 terminates when all selected methods are tested against the full corpus suite, robustness checks are complete, and the admissibility boundary for semantic phase4_inference is explicitly documented.
+Phase 4 evaluates the inferential validity of methods commonly used to claim that the Voynich Manuscript contains meaningful language. By applying these methods to both the manuscript and to structurally similar non-semantic corpora with known ground truth, Phase 4 determines whether each method is semantics-diagnostic or susceptible to false positives. Phase 4 terminates when all selected methods are tested against the full corpus suite, robustness checks are complete, and the admissibility boundary for semantic inference is explicitly documented.
 
 ---
 

@@ -11,7 +11,7 @@ Source assessment: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-
 - Seed / iterations: `42 / 2000`
 - Status: `INCONCLUSIVE_UNCERTAINTY`
 - Reason code: `TOP2_GAP_FRAGILE`
-- Allowed claim: phase8_comparative claim remains provisional.
+- Allowed claim: comparative claim remains provisional.
 
 Core metrics:
 

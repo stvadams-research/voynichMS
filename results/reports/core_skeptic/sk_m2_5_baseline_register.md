@@ -38,7 +38,7 @@ Source: `results/phase7_human/phase_7c_uncertainty.json`
 | M2.5-CX1 | Pass-4 artifact had `m2_4_residual_reason=null`. | Fixable SK-M2 contract defect | Resolved in producer + checker + gate scripts. |
 | M2.5-CX2 | No deterministic `m2_5_*` lane/residual/reopen fields in canonical artifact. | Fixable SK-M2 contract defect | Resolved in producer + policy + checker + tests. |
 | M2.5-CX3 | `TOP2_IDENTITY_FLIP_DOMINANT` persists (`top2_set_stability=0.558`, `rank_stability=0.4565`). | Non-fixable within current evidence and registered matrix policy | Explicitly bounded via `M2_5_BOUNDED`; reopen only on objective trigger changes. |
-| M2.5-CX4 | Missing-folio objections repeatedly reused without phase8_comparative-validity linkage. | Non-fixable external constraint misuse (SK-H3 class) | Enforced non-blocking SK-M2 boundary unless objective linkage is present. |
+| M2.5-CX4 | Missing-folio objections repeatedly reused without comparative-validity linkage. | Non-fixable external constraint misuse (SK-H3 class) | Enforced non-blocking SK-M2 boundary unless objective linkage is present. |
 
 ## Blocker Taxonomy (Pass-5)
 

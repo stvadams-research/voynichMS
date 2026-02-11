@@ -78,7 +78,7 @@ Key outcomes:
   - `python3 scripts/phase3_synthesis/run_indistinguishability_test.py --preflight-only` -> strict blocked (expected)
   - `python3 scripts/phase3_synthesis/run_indistinguishability_test.py --preflight-only --allow-fallback` -> warning + `PREFLIGHT_OK` (expected)
 
-### 3) Codified RI-11 governance for future core_audit consistency (WS-C)
+### 3) Codified RI-11 governance for future audit consistency (WS-C)
 
 **Files changed**
 

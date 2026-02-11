@@ -12,7 +12,7 @@
 ## 1. Phase 6A Position and Scope
 
 ### 1.1 Phase 6A question
-Given the frozen phase5_mechanism identified in Phase 5 (implicit constraint lattice with deterministic traversal), does the manuscript exhibit structural signatures consistent with a **self-contained formal system executed for its own sake**?
+Given the frozen mechanism identified in Phase 5 (implicit constraint lattice with deterministic traversal), does the manuscript exhibit structural signatures consistent with a **self-contained formal system executed for its own sake**?
 
 Phase 6A evaluates whether the manuscript behaves like:
 - an instantiated formal object,

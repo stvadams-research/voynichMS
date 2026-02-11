@@ -39,7 +39,7 @@ This document is binding.
 ### Key Findings
 
 1. **All classes show identical structural patterns** (local_compositional)
-   - This suggests a single underlying phase5_mechanism, not hybrid
+   - This suggests a single underlying mechanism, not hybrid
    - Strong locality (2-4 word context) with moderate compositionality
 
 2. **Mapping stability is acceptable** (0.62/1.0)

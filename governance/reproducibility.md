@@ -86,17 +86,17 @@ python3 scripts/phase7_human/run_7c_comparative.py
 
 ```bash
 # Foundation plots
-support_visualization phase1_foundation token-frequency voynich_real
-support_visualization phase1_foundation repetition-rate voynich_real
+visualization foundation token-frequency voynich_real
+visualization foundation repetition-rate voynich_real
 
 # Analysis plots (after running sensitivity sweep)
-support_visualization phase2_analysis sensitivity-sweep core_status/core_audit/sensitivity_sweep.json
+visualization analysis sensitivity-sweep core_status/core_audit/sensitivity_sweep.json
 
 # Synthesis plots (after baseline assessment)
-support_visualization phase3_synthesis gap-phase2_analysis core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.json
+visualization synthesis gap-analysis core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.json
 
-# Inference plots (after running phase4_inference runners)
-support_visualization phase4_inference lang-id results/data/phase4_inference/lang_id_results.json
+# Inference plots (after running inference runners)
+visualization inference lang-id results/data/phase4_inference/lang_id_results.json
 ```
 
 ### Publication drafting
@@ -125,7 +125,7 @@ python3 scripts/phase3_synthesis/run_indistinguishability_test.py --allow-fallba
 REQUIRE_COMPUTED=1 python3 scripts/phase3_synthesis/run_indistinguishability_test.py
 ```
 
-- Quick strict prerequisite check (no phase3_synthesis run, preflight only):
+- Quick strict prerequisite check (no synthesis run, preflight only):
   - Preflight now canonicalizes split folio ids (for example `f89r1`/`f89r2` are matched as `f89r`).
 
 ```bash
@@ -264,7 +264,7 @@ python3 scripts/phase5_mechanism/audit_anchor_coverage.py
 python3 scripts/phase5_mechanism/run_5i_anchor_coupling.py
 ```
 
-Coverage core_audit artifact:
+Coverage audit artifact:
 
 - `core_status/phase5_mechanism/anchor_coverage_audit.json`
 
@@ -396,7 +396,7 @@ Primary trace artifact:
 
 ## 16. SK-M2 Comparative Uncertainty Verification
 
-Run phase8_comparative uncertainty artifact and policy checks:
+Run comparative uncertainty artifact and policy checks:
 
 ```bash
 python3 scripts/phase8_comparative/run_proximity_uncertainty.py --iterations 2000 --seed 42
@@ -496,7 +496,7 @@ git status --short
 rg -n "^core_status/?$|^core_status/" .gitignore
 ```
 
-5. Confirm required core_audit log is present and updated:
+5. Confirm required audit log is present and updated:
 
 ```bash
 test -f AUDIT_LOG.md

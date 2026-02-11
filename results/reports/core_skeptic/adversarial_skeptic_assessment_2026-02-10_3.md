@@ -10,7 +10,7 @@
 
 The following commands were executed for this pass:
 
-- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-PASS3 core_skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-PASS3 skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
   - Failure source: release-mode sensitivity artifact contract (`execution_mode`, `release_evidence_ready`, `dataset_policy_pass`, `warning_policy_pass`, `quality_gate_passed`, `robustness_conclusive`, `release_readiness_failures`).
   - Enforced by:
     - `scripts/core_audit/check_sensitivity_artifact_contract.py:187`
@@ -21,7 +21,7 @@ The following commands were executed for this pass:
     - `scripts/core_audit/pre_release_check.sh:54`
 
 - `bash scripts/verify_reproduction.sh` -> **FAILED**
-  - Determinism and phase2_analysis spot check passed before failure.
+  - Determinism and analysis spot check passed before failure.
   - Provenance runner contract and multimodal policy checks passed before failure:
     - `scripts/verify_reproduction.sh:110`
     - `scripts/verify_reproduction.sh:114`
@@ -32,7 +32,7 @@ The following commands were executed for this pass:
     - `scripts/verify_reproduction.sh:168`
 
 - `bash scripts/ci_check.sh` -> **FAILED (late-stage)**
-  - CI-mode policy checks passed through claim boundaries, control comparability/data availability, closure conditionality, phase8_comparative uncertainty, report coherence, provenance uncertainty, provenance runner contract, sensitivity CI contract, and multimodal coupling.
+  - CI-mode policy checks passed through claim boundaries, control comparability/data availability, closure conditionality, comparative uncertainty, report coherence, provenance uncertainty, provenance runner contract, sensitivity CI contract, and multimodal coupling.
   - Test and coverage phase completed successfully (`58.76%`, threshold `>=50%`).
   - CI failure occurred during nested reproduction verification (`scripts/verify_reproduction.sh`), again due release-mode sensitivity contract violations.
 
@@ -75,7 +75,7 @@ Current gate-health artifact reflects this directly:
 | AV3. "Statistics cannot detect meaning" | Partially Defended | Medium |
 | AV4. "You ignored the images" | Partially Defended | High |
 | AV5. "You stopped too early" | Partially Defended | Medium |
-| AV6. "Comparative phase2_analysis is subjective" | Partially Defended | Medium |
+| AV6. "Comparative analysis is subjective" | Partially Defended | Medium |
 | AV7. "You are really saying it is a hoax" | Partially Defended | Medium |
 | Meta: Motivated reasoning | Partially Defended | Medium |
 | Meta: Overreach | Partially Defended | Medium |
@@ -154,7 +154,7 @@ Skeptic leverage:
 
 Skeptic leverage:
 
-- "You fixed adequacy constraints, but phase4_inference remains non-conclusive."
+- "You fixed adequacy constraints, but inference remains non-conclusive."
 
 ---
 
@@ -250,23 +250,23 @@ Skeptic leverage:
 
 ## 6. Skeptic Success Criteria Check
 
-A competent core_skeptic can still claim:
+A competent skeptic can still claim:
 
 - Release evidence remains blocked by unresolved sensitivity policy/readiness conditions.
 - Control comparability remains data-availability blocked rather than fully closed.
-- Multimodal and phase8_comparative lanes remain uncertainty-qualified/non-conclusive.
+- Multimodal and comparative lanes remain uncertainty-qualified/non-conclusive.
 
-A competent core_skeptic can no longer credibly claim (from this pass evidence):
+A competent skeptic can no longer credibly claim (from this pass evidence):
 
 - Provenance-runner contract mismatch in active CI/release paths.
 - Stale provenance register drift as a current process-integrity defect.
 
-**Result:** Pass 3 remains **release-blocked**, but the core_skeptic attack surface is now more concentrated (primarily SK-C1) and less diffuse than Pass 2.
+**Result:** Pass 3 remains **release-blocked**, but the skeptic attack surface is now more concentrated (primarily SK-C1) and less diffuse than Pass 2.
 
 ---
 
 ## 7. Final Assessment Statement
 
-Pass 3 demonstrates continued hardening of core_skeptic-governance controls and improved process coherence, with most policy contracts passing in both CI and release modes. The project is still not release-hardened because sensitivity evidence remains non-release and inconclusive under the enforced contract.
+Pass 3 demonstrates continued hardening of skeptic-governance controls and improved process coherence, with most policy contracts passing in both CI and release modes. The project is still not release-hardened because sensitivity evidence remains non-release and inconclusive under the enforced contract.
 
 At this point, the strongest adversarial critique is specific and technical: **sensitivity release-readiness contract failure (SK-C1)**, not broad methodological incoherence.

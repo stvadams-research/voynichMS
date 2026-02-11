@@ -19,7 +19,7 @@
 
 ## 2. Key Discovery: The "Scale Paradox"
 
-The pilot has revealed a fundamental property of the Voynich production phase5_mechanism:
+The pilot has revealed a fundamental property of the Voynich production mechanism:
 
 1.  **Global Diversity:** The high successor entropy (~8.0) across the whole manuscript proves that each "slot" in a line can be filled by a very large set of unique tokens (~250+ candidates per slot).
 2.  **Local Rigidity:** Previous results (Phase 5C) showed that *within a single line*, entropy is extremely low (~1.35). 
@@ -28,7 +28,7 @@ The pilot has revealed a fundamental property of the Voynich production phase5_m
 ### Interpretation
 The Voynich Manuscript does not use a small, fixed "template." It uses a **Large-Scale Deterministic System** (like a very large table or a complex rulebook) where:
 - The total number of valid words is large.
-- BUT once the first word of a line is chosen, the subsequent words are almost entirely forced by the phase5_mechanism.
+- BUT once the first word of a line is chosen, the subsequent words are almost entirely forced by the mechanism.
 
 ---
 

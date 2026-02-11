@@ -82,7 +82,7 @@ Scope: Pass-4 SK-H1 residual closure (multimodal robustness lane governance)
   - `reports/core_skeptic/SK_H1_4_DECISION_RECORD.md`
 - Added this execution status:
   - `reports/core_skeptic/SKEPTIC_H1_4_EXECUTION_STATUS.md`
-- Added core_audit linkage:
+- Added audit linkage:
   - `AUDIT_LOG.md`
 
 ## Verification Evidence

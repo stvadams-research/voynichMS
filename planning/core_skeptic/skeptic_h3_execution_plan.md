@@ -9,7 +9,7 @@
 
 ## 1) Objective
 
-Address `SK-H3` by making control comparability auditable, symmetric, and resistant to the core_skeptic claim that controls are tuned to desired outcomes and then reused as evidence.
+Address `SK-H3` by making control comparability auditable, symmetric, and resistant to the skeptic claim that controls are tuned to desired outcomes and then reused as evidence.
 
 This plan specifically targets the two weaknesses called out in the assessment:
 
@@ -25,7 +25,7 @@ From `SK-H3`:
 - Control matching is currently defined as explicit tuning to Voynich targets (tokens, z-score, repetition, locality, grammar) in `governance/GENERATOR_MATCHING.md:9` through `governance/GENERATOR_MATCHING.md:17`, with class-specific tuning steps in `governance/GENERATOR_MATCHING.md:25`, `governance/GENERATOR_MATCHING.md:29`, and `governance/GENERATOR_MATCHING.md:33`.
 - Methods reference currently documents a known asymmetry where controls bypass normalization logic in `governance/governance/METHODS_REFERENCE.md:75` through `governance/governance/METHODS_REFERENCE.md:83`.
 
-Core core_skeptic attack:
+Core skeptic attack:
 
 - "Controls are tuned to look like Voynich, then used to argue Voynich is non-semantic."
 
@@ -130,13 +130,13 @@ rg -n "normalization|EVAParser|comparability" governance/governance/METHODS_REFE
 
 ## WS-H3-D: Deterministic Tuning Provenance and Auditability
 
-**Goal:** Make control tuning reproducible and core_skeptic-auditable.
+**Goal:** Make control tuning reproducible and skeptic-auditable.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| D1 | Implement a control-matching core_audit runner that logs candidate parameter sets, score vectors, and selected config per class. | `scripts/phase3_synthesis/run_control_matching_audit.py` (new) | Reproducible search trace generated with seed and policy hash. |
+| D1 | Implement a control-matching audit runner that logs candidate parameter sets, score vectors, and selected config per class. | `scripts/phase3_synthesis/run_control_matching_audit.py` (new) | Reproducible search trace generated with seed and policy hash. |
 | D2 | Emit class-level matching cards (inputs, search budget, selected params, rejected near-misses). | `core_status/phase3_synthesis/control_matching_cards/*.json` (new) | Each control class has a deterministic card artifact. |
-| D3 | Add high-level core_audit summary consumed by release/reporting paths. | `core_status/phase3_synthesis/CONTROL_COMPARABILITY_STATUS.json` | Summary includes comparability grade and blockers. |
+| D3 | Add high-level audit summary consumed by release/reporting paths. | `core_status/phase3_synthesis/CONTROL_COMPARABILITY_STATUS.json` | Summary includes comparability grade and blockers. |
 
 ### Verification
 
@@ -174,13 +174,13 @@ rg -n "holdout|bootstrap|permutation|comparability_grade|leakage" \
 
 ## WS-H3-F: Reporting and Narrative Alignment
 
-**Goal:** Ensure public and technical docs cannot overstate control-based phase4_inference quality.
+**Goal:** Ensure public and technical docs cannot overstate control-based inference quality.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| F1 | Update generator matching doc to explicitly distinguish "fit objective" vs "phase4_inference objective." | `governance/GENERATOR_MATCHING.md` | No wording implies tuned-metric reuse as independent evidence. |
+| F1 | Update generator matching doc to explicitly distinguish "fit objective" vs "inference objective." | `governance/GENERATOR_MATCHING.md` | No wording implies tuned-metric reuse as independent evidence. |
 | F2 | Add explicit SK-H3 comparability section in methodology and reproducibility docs. | `governance/governance/METHODS_REFERENCE.md`, `governance/governance/REPRODUCIBILITY.md` | Operators can reproduce comparability checks end-to-end. |
-| F3 | Add core_skeptic execution status template for SK-H3 remediation tracking. | `reports/core_skeptic/SKEPTIC_H3_EXECUTION_STATUS.md` (during execution) | Findings-to-fixes traceability is auditable. |
+| F3 | Add skeptic execution status template for SK-H3 remediation tracking. | `reports/core_skeptic/SKEPTIC_H3_EXECUTION_STATUS.md` (during execution) | Findings-to-fixes traceability is auditable. |
 
 ### Verification
 
@@ -215,11 +215,11 @@ python3 -m pytest -q tests/core_skeptic/test_control_comparability_checker.py
 
 ## WS-H3-H: Governance and Audit Trace
 
-**Goal:** Maintain traceability from core_skeptic finding to closure evidence.
+**Goal:** Maintain traceability from skeptic finding to closure evidence.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| H1 | Add SK-H3 execution trace section to core_audit log with decisions and residual risks. | `AUDIT_LOG.md` | Audit entry links policy, code, artifacts, and tests. |
+| H1 | Add SK-H3 execution trace section to audit log with decisions and residual risks. | `AUDIT_LOG.md` | Audit entry links policy, code, artifacts, and tests. |
 | H2 | Add claim-boundary cross-reference when control comparability is non-conclusive. | `governance/CLAIM_BOUNDARY_POLICY.md` (if needed) | Public claims cannot exceed comparability status. |
 | H3 | Add runbook note on acceptable evidence classes for control-based conclusions. | `governance/RUNBOOK.md` and/or `governance/governance/REPRODUCIBILITY.md` | Operator guidance reflects enforced policy. |
 
@@ -252,7 +252,7 @@ Rationale:
 
 | Condition | Output Status | Allowed Claim |
 |---|---|---|
-| Match/eval split pass + normalization symmetry pass + holdout pass + uncertainty acceptable | `COMPARABLE_CONFIRMED` | "Control comparability is sufficient for bounded structural phase4_inference under current policy." |
+| Match/eval split pass + normalization symmetry pass + holdout pass + uncertainty acceptable | `COMPARABLE_CONFIRMED` | "Control comparability is sufficient for bounded structural inference under current policy." |
 | Core pass but one bounded caveat (for example partial normalization equivalence or borderline holdout variance) | `COMPARABLE_QUALIFIED` | "Control comparability is acceptable with explicit caveats; claims remain bounded." |
 | Leakage detected OR normalization asymmetry unresolved OR required artifacts missing | `NON_COMPARABLE_BLOCKED` | "Control-based inferential claim blocked pending comparability remediation." |
 | Data adequacy or compute evidence insufficient for status assignment | `INCONCLUSIVE_DATA_LIMITED` | "Comparability status inconclusive under current evidence volume." |
@@ -264,13 +264,13 @@ Rationale:
 | Workstream | Status | Owner | Start | End | Notes |
 |---|---|---|---|---|---|
 | WS-H3-A Policy/Taxonomy | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-H3 policy doc and machine-readable configuration. |
-| WS-H3-B Metric Decoupling | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added explicit matching vs holdout metric partitions and leakage fields in phase3_synthesis outputs. |
+| WS-H3-B Metric Decoupling | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added explicit matching vs holdout metric partitions and leakage fields in synthesis outputs. |
 | WS-H3-C Normalization Symmetry | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added control normalization modes with parser-symmetry assertions and tests. |
-| WS-H3-D Provenance/Audit Artifacts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added deterministic control matching core_audit runner and class-card artifacts. |
+| WS-H3-D Provenance/Audit Artifacts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added deterministic control matching audit runner and class-card artifacts. |
 | WS-H3-E Holdout/Uncertainty Stress | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added holdout metrics and comparability status mapping to Turing artifact flow. |
 | WS-H3-F Reporting Alignment | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated matching/method/repro/runbook docs with SK-H3 constraints and workflow. |
 | WS-H3-G Guardrails/CI | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-H3 checker/tests and integrated ci/release enforcement paths. |
-| WS-H3-H Governance Trace | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added claim-boundary cross-policy note, core_audit-log trace, and execution status report. |
+| WS-H3-H Governance Trace | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added claim-boundary cross-policy note, audit-log trace, and execution status report. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 
@@ -282,8 +282,8 @@ Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 |---|---|---|---|---|
 | R1 | Over-constraining match/eval separation removes legitimate comparability signal and reduces utility. | Medium | Medium | Use pre-registered policy with explicit rationale per metric class and keep holdout set minimal but independent. |
 | R2 | Normalization symmetry changes alter historical baseline behavior and trigger broad metric drift. | Medium | High | Add mode-gated rollout with equivalence tests and explicit status downgrade path. |
-| R3 | Provenance artifacts become large/noisy and hard to core_audit manually. | Medium | Medium | Add summarized comparability status artifact plus per-class cards for deep drill-down. |
-| R4 | Guardrails are bypassed in ad-hoc runs, reintroducing core_skeptic attack surface. | Medium | High | Enforce checker in CI and pre-release scripts; require status artifact for report generation. |
+| R3 | Provenance artifacts become large/noisy and hard to audit manually. | Medium | Medium | Add summarized comparability status artifact plus per-class cards for deep drill-down. |
+| R4 | Guardrails are bypassed in ad-hoc runs, reintroducing skeptic attack surface. | Medium | High | Enforce checker in CI and pre-release scripts; require status artifact for report generation. |
 | R5 | Compute cost of full comparability retesting slows iteration. | Medium | Medium | Keep `--preflight-only` and reduced-profile dry-run path for quick policy validation before full reruns. |
 
 ---

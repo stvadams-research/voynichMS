@@ -10,7 +10,7 @@
 
 The following commands were executed for this pass:
 
-- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-PASS5 core_skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-PASS5 skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
   - Release sensitivity preflight now runs and passes:
     - `scripts/core_audit/pre_release_check.sh:22`
     - `scripts/core_audit/pre_release_check.sh:23`
@@ -120,7 +120,7 @@ Current operational entitlement remains degraded/qualified:
 | AV3. "Statistics cannot detect meaning" | Partially Defended | Medium |
 | AV4. "You ignored the images" | Partially Defended | Medium |
 | AV5. "You stopped too early" | Partially Defended | Medium |
-| AV6. "Comparative phase2_analysis is subjective" | Partially Defended | Medium |
+| AV6. "Comparative analysis is subjective" | Partially Defended | Medium |
 | AV7. "You are really saying it is a hoax" | Partially Defended | Medium |
 | Meta: Motivated reasoning | Partially Defended | Medium |
 | Meta: Overreach | Partially Defended | Medium |
@@ -223,7 +223,7 @@ Skeptic leverage:
 
 Evidence:
 
-- Current phase8_comparative status remains non-conclusive:
+- Current comparative status remains non-conclusive:
   - `results/phase7_human/phase_7c_uncertainty.json:37`
   - `results/phase7_human/phase_7c_uncertainty.json:38`
 - M2.4 lane and reopen triggers are now explicit:
@@ -301,7 +301,7 @@ Skeptic leverage:
 ## 6. What Held Up Well Under Skeptic Pressure
 
 1. **Release-mode policy stack is largely stable.**  
-   All release-mode core_skeptic and provenance checkers passed except sensitivity release artifact contract.
+   All release-mode skeptic and provenance checkers passed except sensitivity release artifact contract.
 
 2. **Preflight pathway is now operational and deterministic.**  
    `PREFLIGHT_OK` is consistently emitted with valid release dataset profile:
@@ -325,14 +325,14 @@ Skeptic leverage:
 
 ## 7. Skeptic Success Criteria Check
 
-A competent core_skeptic can still claim:
+A competent skeptic can still claim:
 
 - release readiness is blocked by missing release sensitivity evidence artifact/report,
 - full-data control comparability remains blocked by source data availability,
-- phase8_comparative uncertainty remains non-conclusive,
+- comparative uncertainty remains non-conclusive,
 - historical provenance confidence remains bounded/qualified.
 
-A competent core_skeptic can no longer credibly claim (from this pass evidence):
+A competent skeptic can no longer credibly claim (from this pass evidence):
 
 - release preflight path does not exist,
 - multimodal entitlement/robustness semantics are undefined,

@@ -2,7 +2,7 @@
 
 Date: 2026-02-10  
 Plan: `planning/core_skeptic/SKEPTIC_M2_4_EXECUTION_PLAN.md`  
-Scope: pass-4 SK-M2 phase8_comparative uncertainty closure hardening
+Scope: pass-4 SK-M2 comparative uncertainty closure hardening
 
 ## Outcome
 
@@ -53,7 +53,7 @@ Scope: pass-4 SK-M2 phase8_comparative uncertainty closure hardening
 
 ### WS-M2.4-F Narrative/Boundary Synchronization
 
-- Updated phase8_comparative surfaces:
+- Updated comparative surfaces:
   - `reports/phase8_comparative/PROXIMITY_ANALYSIS.md`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
@@ -84,7 +84,7 @@ Commands executed:
 Observed results:
 
 - SK-M2 checker passes in CI and release modes.
-- Updated phase8_comparative mapping/checker tests pass.
+- Updated comparative mapping/checker tests pass.
 - Audit contract tests for CI/pre-release/verify invocation parity pass.
 
 ## Current Canonical SK-M2.4 State

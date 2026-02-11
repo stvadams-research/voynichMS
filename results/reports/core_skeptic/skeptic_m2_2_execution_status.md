@@ -23,7 +23,7 @@ Scope: Comparative-confidence residual closure for pass-2 SK-M2.
 
 ### WS-M2.2-B Uncertainty Artifact Completeness
 
-- Extended phase8_comparative uncertainty artifact outputs:
+- Extended comparative uncertainty artifact outputs:
   - `rank_stability`
   - `rank_stability_components`
   - `nearest_neighbor_alternative`
@@ -51,7 +51,7 @@ Scope: Comparative-confidence residual closure for pass-2 SK-M2.
 
 - Regenerated and updated uncertainty-qualified proximity report:
   - `reports/phase8_comparative/PROXIMITY_ANALYSIS.md`
-- Calibrated phase8_comparative phase3_synthesis and boundary summaries to current reason code:
+- Calibrated comparative synthesis and boundary summaries to current reason code:
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
   - `reports/phase8_comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md`

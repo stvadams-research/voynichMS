@@ -11,11 +11,11 @@
 
 Address `SK-M4` by turning historical provenance uncertainty into an explicitly bounded, machine-checkable evidence class that cannot be misread as silent certainty.
 
-This plan targets the specific core_skeptic attack identified in the assessment:
+This plan targets the specific skeptic attack identified in the assessment:
 
 1. Historical uncertainty is acknowledged in policy, but still visible in runtime state (`orphaned` rows).
 2. Strong closure language can be framed as inconsistent with unresolved provenance uncertainty.
-3. A core_skeptic can argue that unresolved historical traceability weakens confidence in terminal conclusions.
+3. A skeptic can argue that unresolved historical traceability weakens confidence in terminal conclusions.
 
 ---
 
@@ -27,7 +27,7 @@ From `SK-M4`:
   - `governance/PROVENANCE.md:98` through `governance/PROVENANCE.md:107`.
 - Runtime metadata still includes orphaned historical rows (assessment observed `63`).
 
-Core core_skeptic attack:
+Core skeptic attack:
 
 - "You retain acknowledged historical uncertainty while asserting strong closure in conclusions."
 
@@ -59,13 +59,13 @@ Secondary dependencies to align during execution:
 - Auditable register for orphaned/reconciled/backfilled run-history status.
 - Guardrails to block provenance-overstated closure language in tracked docs.
 - CI/release integration for provenance uncertainty policy compliance.
-- Governance and core_audit traceability linking SK-M4 finding to controls.
+- Governance and audit traceability linking SK-M4 finding to controls.
 
 ## Out of Scope
 
 - Reconstructing unavailable historical runtime evidence that does not exist.
 - Treating backfilled manifests as equivalent to original runtime-emitted manifests.
-- Re-running scientific phase4_inference phases solely to address provenance documentation risk.
+- Re-running scientific inference phases solely to address provenance documentation risk.
 - Re-adjudicating SK-C1/SK-H1/SK-H2/SK-H3/SK-M1/SK-M2/SK-M3 findings.
 
 ---
@@ -182,7 +182,7 @@ rg -n "\"manifest_backfilled\": true" runs/*/run.json
 |---|---|---|---|
 | E1 | Define required provenance qualifier block for closure-facing docs. | policy + docs | Required wording and markers standardized. |
 | E2 | Calibrate closure/public summary language to include provenance-confidence caveat and source link. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md` | Tracked docs include explicit bounded provenance clause. |
-| E3 | Standardize residual uncertainty statement so unresolved historical gaps are explicit but scoped. | same + core_skeptic report templates | No ambiguity about historical confidence bounds. |
+| E3 | Standardize residual uncertainty statement so unresolved historical gaps are explicit but scoped. | same + skeptic report templates | No ambiguity about historical confidence bounds. |
 
 ### Verification
 
@@ -203,7 +203,7 @@ rg -n "provenance|historical uncertainty|orphaned|source of truth|provenance_hea
 |---|---|---|---|
 | F1 | Implement SK-M4 checker for required markers, banned patterns, and artifact policy compliance. | `scripts/core_skeptic/check_provenance_uncertainty.py` (new) | Checker fails on SK-M4 violations in ci/release modes. |
 | F2 | Add deterministic tests (pass/fail/allowlist/artifact-schema/threshold behavior). | `tests/core_skeptic/test_provenance_uncertainty_checker.py` (new) | Policy behavior is test-covered. |
-| F3 | Integrate checker into CI/release gates and contract tests. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, core_audit contract tests | Guard runs automatically and is contract-locked. |
+| F3 | Integrate checker into CI/release gates and contract tests. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, audit contract tests | Guard runs automatically and is contract-locked. |
 
 ### Verification
 
@@ -223,7 +223,7 @@ python3 -m pytest -q tests/core_skeptic/test_provenance_uncertainty_checker.py
 |---|---|---|---|
 | G1 | Add SK-M4 reproducibility section with provenance-health generation and verification commands. | `governance/governance/REPRODUCIBILITY.md` | SK-M4 command path documented end-to-end. |
 | G2 | Add SK-M4 execution status report template and fill during remediation pass. | `reports/core_skeptic/SKEPTIC_M4_EXECUTION_STATUS.md` (during execution) | Changes and checks are trace-complete. |
-| G3 | Add core_audit-log trace entry mapping SK-M4 finding to controls and residual risks. | `AUDIT_LOG.md` | End-to-end traceability present. |
+| G3 | Add audit-log trace entry mapping SK-M4 finding to controls and residual risks. | `AUDIT_LOG.md` | End-to-end traceability present. |
 
 ### Verification
 
@@ -242,7 +242,7 @@ rg -n "SK-M4|provenance uncertainty|provenance_health_status|check_provenance_un
 4. WS-M4-D (repair/backfill operating contract)
 5. WS-M4-E (claim-scope calibration)
 6. WS-M4-F (automated guardrails and gate integration)
-7. WS-M4-G (governance and core_audit traceability)
+7. WS-M4-G (governance and audit traceability)
 
 Rationale:
 
@@ -271,7 +271,7 @@ Rationale:
 | WS-M4-D Reconciliation Contract | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added dry-run repair mode and explicit backfill metadata markers. |
 | WS-M4-E Claim Calibration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added closure-facing provenance-confidence qualifiers and canonical source references. |
 | WS-M4-F Guardrails/CI | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Implemented SK-M4 checker/tests and integrated into CI/release gates. |
-| WS-M4-G Governance/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated reproducibility guidance, execution report, and core_audit trace entry. |
+| WS-M4-G Governance/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated reproducibility guidance, execution report, and audit trace entry. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 
@@ -284,7 +284,7 @@ Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 | R1 | Historical orphan uncertainty cannot be fully eliminated due missing legacy manifests. | High | Medium | Keep uncertainty explicit and bounded via canonical artifact + qualified claim class. |
 | R2 | Backfilled manifests may be misread as original runtime evidence. | Medium | High | Require persistent `manifest_backfilled=true` marker and policy language. |
 | R3 | Provenance checker may over-flag legitimate historical narrative contexts. | Medium | Medium | Add scoped allowlist behavior with explicit tests. |
-| R4 | Repair/backfill operations could unintentionally mutate metadata without clear trace. | Medium | High | Add dry-run/report-first workflow and core_audit report output checks. |
+| R4 | Repair/backfill operations could unintentionally mutate metadata without clear trace. | Medium | High | Add dry-run/report-first workflow and audit report output checks. |
 | R5 | Claim calibration changes could conflict with SK-H2/SK-M1 phrasing controls. | Medium | Medium | Reuse shared claim-boundary terms and cross-check all policy checkers in CI. |
 
 ---

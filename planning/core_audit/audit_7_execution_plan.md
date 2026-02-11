@@ -50,7 +50,7 @@ Update this table during implementation.
 | WS-C Indistinguishability Release Path Hardening | BLOCKED | Codex | 2026-02-10 |  | Code-level strict preflight/fallback guard shipped; strict run blocked by missing real pharmaceutical page records. |
 | WS-D Run Metadata and Provenance Reconciliation | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Historical stale runs classified as `orphaned`; reconciliation report emitted. |
 | WS-E Coverage and Verification Depth Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | CI default coverage floor raised to 50%; critical-module enforcement non-optional; new contract tests added. |
-| WS-F Baseline Hygiene and Artifact Lifecycle | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Pre-release check script and support_cleanup dry-run summary implemented/documented. |
+| WS-F Baseline Hygiene and Artifact Lifecycle | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Pre-release check script and cleanup dry-run summary implemented/documented. |
 | Final Verification and Re-Audit | IN PROGRESS | Codex | 2026-02-10 |  | All gates pass except strict indistinguishability execution, which is data-blocked. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
@@ -73,7 +73,7 @@ Dependency notes:
 
 - WS-A must complete first; all downstream pass/fail evidence is suspect until verifier exit semantics are fixed.
 - WS-B and WS-C should complete before final documentation lock to avoid narrative drift.
-- WS-D should finalize before the next core_audit snapshot so stale historical statuses are not re-reported.
+- WS-D should finalize before the next audit snapshot so stale historical statuses are not re-reported.
 - WS-E threshold tightening should occur after WS-A through WS-C stabilize to avoid noisy breakages.
 
 ---
@@ -119,7 +119,7 @@ python3 -m pytest -q tests/core_audit/test_verify_reproduction_contract.py
 |---|---|---|---|
 | B1 | Define explicit sweep modes (`smoke` vs `release`) or equivalent guardrail so bounded runs cannot be mistaken for release evidence. | `scripts/phase2_analysis/run_sensitivity_sweep.py` | Release evidence path requires full scenario execution; bounded mode is clearly labeled non-release. |
 | B2 | Run canonical full sweep for release dataset profile and regenerate machine/phase7_human artifacts. | `core_status/core_audit/sensitivity_sweep.json`, `reports/core_audit/SENSITIVITY_RESULTS.md` | Artifacts reflect full-sweep execution metadata (scenario count and dataset profile consistent with release mode). |
-| B3 | Encode release-evidence metadata in output summary (mode, scenario_count_expected vs executed). | `scripts/phase2_analysis/run_sensitivity_sweep.py`, artifacts | Consumers can detect whether artifact is release-grade without manual phase4_inference. |
+| B3 | Encode release-evidence metadata in output summary (mode, scenario_count_expected vs executed). | `scripts/phase2_analysis/run_sensitivity_sweep.py`, artifacts | Consumers can detect whether artifact is release-grade without manual inference. |
 | B4 | Update sensitivity documentation to reference latest full-sweep evidence and caveats verbatim. | `governance/SENSITIVITY_ANALYSIS.md` | Documentation and artifacts remain claim-consistent. |
 | B5 | Add end-to-end contract test that fails when release report/status are generated from bounded runs. | `tests/phase2_analysis/test_sensitivity_sweep_end_to_end.py`, `tests/phase2_analysis/test_sensitivity_sweep_guardrails.py` | Regression test enforces release evidence completeness policy. |
 
@@ -176,7 +176,7 @@ rg -n "fallback to simulated|Using fallback value" /tmp/indistinguishability*.lo
 
 | Task ID | Action | Target Files | Exit Criteria |
 |---|---|---|---|
-| D1 | Define policy for stale `runs` rows with missing manifests (e.g., `orphaned`, archived, or purged with core_audit trail). | `governance/PROVENANCE.md`, `AUDIT_LOG.md` | Clear, documented policy exists for irreparable historical rows. |
+| D1 | Define policy for stale `runs` rows with missing manifests (e.g., `orphaned`, archived, or purged with audit trail). | `governance/PROVENANCE.md`, `AUDIT_LOG.md` | Clear, documented policy exists for irreparable historical rows. |
 | D2 | Extend repair utility to handle missing-manifest rows according to policy and produce a reconciliation report artifact. | `scripts/core_audit/repair_run_statuses.py` | Utility reports scanned/repaired/orphaned counts deterministically. |
 | D3 | Add DB-level tests for missing-manifest handling and idempotent re-run behavior. | `tests/core_audit/test_repair_run_statuses.py` | Tests enforce no silent partial remediation. |
 | D4 | Optionally add one-time migration/archival command for historical stale `core_status/by_run` verify artifacts or annotate them as legacy. | `scripts/core_audit/cleanup_status_artifacts.sh`, `governance/PROVENANCE.md` | Legacy artifact handling is explicit and reproducible. |
@@ -212,7 +212,7 @@ python3 -m pytest -q tests/core_audit/test_repair_run_statuses.py tests/phase1_f
 | E1 | Add targeted tests for currently 0% modules or explicitly reclassify non-critical modules outside release gate scope. | `tests/phase1_foundation/`, `tests/phase2_analysis/`, possible coverage config | 0% module list is reduced or intentionally excluded with documented rationale. |
 | E2 | Tighten default CI stage to reflect current achieved baseline (>=50%) after tests land. | `scripts/ci_check.sh` | Default coverage stage aligns with current realistic minimum and fails below target. |
 | E3 | Make critical-module coverage enforcement non-optional for release/CI mode. | `scripts/ci_check.sh` | CI fails when critical-module coverage floor is violated. |
-| E4 | Expand verifier checks to include at least one additional representative phase output equality/integrity check beyond current spot checks. | `scripts/verify_reproduction.sh`, related tests | Verifier covers phase3_synthesis + phase2_analysis + sensitivity with explicit integrity assertions. |
+| E4 | Expand verifier checks to include at least one additional representative phase output equality/integrity check beyond current spot checks. | `scripts/verify_reproduction.sh`, related tests | Verifier covers synthesis + analysis + sensitivity with explicit integrity assertions. |
 | E5 | Add regression tests covering CI threshold and enforcement behavior. | `tests/core_audit/` | Gate policy drift is caught automatically. |
 
 ### Verification Commands
@@ -236,8 +236,8 @@ python3 -m pytest -q tests/core_audit
 | Task ID | Action | Target Files | Exit Criteria |
 |---|---|---|---|
 | F1 | Add pre-release checklist gate/script that verifies intentional diff scope before signoff. | `governance/governance/REPRODUCIBILITY.md`, optional new `scripts/core_audit/pre_release_check.sh` | Release process includes explicit clean/intended diff confirmation step. |
-| F2 | Define retention window and support_cleanup procedure for `core_status/by_run` transient verification outputs. | `governance/PROVENANCE.md`, `governance/governance/REPRODUCIBILITY.md`, support_cleanup script | Teams can consistently clean/retain artifacts with policy traceability. |
-| F3 | Ensure support_cleanup utility supports dry-run reporting + deterministic support_cleanup summary for core_audit logs. | `scripts/core_audit/cleanup_status_artifacts.sh` | Cleanup operations are reviewable and repeatable. |
+| F2 | Define retention window and cleanup procedure for `core_status/by_run` transient verification outputs. | `governance/PROVENANCE.md`, `governance/governance/REPRODUCIBILITY.md`, cleanup script | Teams can consistently clean/retain artifacts with policy traceability. |
+| F3 | Ensure cleanup utility supports dry-run reporting + deterministic cleanup summary for audit logs. | `scripts/core_audit/cleanup_status_artifacts.sh` | Cleanup operations are reviewable and repeatable. |
 | F4 | Record closure decisions and artifact policy updates in `AUDIT_LOG.md`. | `AUDIT_LOG.md` | Audit trail includes rationale and closure evidence references. |
 
 ### Verification Commands
@@ -265,7 +265,7 @@ rg --files -g 'AUDIT_LOG.md'
 | `MC-3` | Coverage policy tightened with reduced high-risk blind spots. |
 | `MC-5` | Reproduction verification breadth expanded and contract-tested. |
 | `INV-1` | Release checklist includes intentional-diff requirement. |
-| `INV-3` | Transient status artifact lifecycle and support_cleanup policy enforced. |
+| `INV-3` | Transient status artifact lifecycle and cleanup policy enforced. |
 
 ---
 
@@ -279,7 +279,7 @@ Remediation is complete only if all checks pass:
 4. `python3 scripts/phase2_analysis/run_sensitivity_sweep.py` generates full release-mode canonical artifacts.
 5. `REQUIRE_COMPUTED=1 python3 scripts/phase3_synthesis/run_indistinguishability_test.py` completes without simulated/fallback metrics.
 6. Historical run-state reconciliation script leaves no ambiguous unresolved rows without policy classification.
-7. `python3 -m pytest --cov=src --cov-report=term-missing:skip-covered -q tests` and targeted core_audit tests pass under tightened gate settings.
+7. `python3 -m pytest --cov=src --cov-report=term-missing:skip-covered -q tests` and targeted audit tests pass under tightened gate settings.
 
 Post-execution deliverables:
 

@@ -13,7 +13,7 @@ Address the pass-4 `SK-M2` residual as fully as feasible while preventing anothe
 
 This plan targets two simultaneous goals:
 
-1. attempt to improve phase8_comparative confidence with methodologically valid, pre-registered diagnostics, and
+1. attempt to improve comparative confidence with methodologically valid, pre-registered diagnostics, and
 2. if conclusive confidence is still not supportable, harden SK-M2 into a deterministic bounded state with explicit anti-overreach and anti-repeat governance.
 
 ---
@@ -43,7 +43,7 @@ Current canonical state snapshot:
 
 Skeptic leverage that remains valid:
 
-- phase8_comparative direction exists, but confidence remains non-conclusive.
+- comparative direction exists, but confidence remains non-conclusive.
 
 ---
 
@@ -93,7 +93,7 @@ Allowed only when all are true:
 
 - `status=STABILITY_CONFIRMED`
 - all confirmed thresholds pass (`nearest`, `jackknife`, `rank`, `margin`, `top2_gap_ci95_lower`)
-- phase8_comparative reports and summaries use only aligned claim language
+- comparative reports and summaries use only aligned claim language
 - checker/test/pipeline parity holds in CI and release modes
 
 ## Lane B: Directional Qualified (`M2_4_QUALIFIED`)
@@ -261,8 +261,8 @@ python3 -m pytest -q tests/core_skeptic/test_comparative_uncertainty_checker.py 
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| F1 | Align phase8_comparative reports to lane-bound allowed/disallowed statements. | `reports/phase8_comparative/PROXIMITY_ANALYSIS.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md` | Narrative is fully status-entitled. |
-| F2 | Update phase8_comparative uncertainty policy docs with SK-M2.4 lane semantics and reopen conditions. | `governance/COMPARATIVE_UNCERTAINTY_POLICY.md` | Documentation matches checker behavior. |
+| F1 | Align comparative reports to lane-bound allowed/disallowed statements. | `reports/phase8_comparative/PROXIMITY_ANALYSIS.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md` | Narrative is fully status-entitled. |
+| F2 | Update comparative uncertainty policy docs with SK-M2.4 lane semantics and reopen conditions. | `governance/COMPARATIVE_UNCERTAINTY_POLICY.md` | Documentation matches checker behavior. |
 | F3 | Add explicit bound statements for `M2_4_BOUNDED` outcome to preempt overclaiming. | governance/reports + register | Bounded outcome is technically clear and reproducible. |
 
 ### Verification
@@ -286,7 +286,7 @@ rg -n "INCONCLUSIVE_UNCERTAINTY|DISTANCE_QUALIFIED|STABILITY_CONFIRMED|allowed_c
 |---|---|---|---|
 | G1 | Add SK-M2.4 claim-boundary and diagnostic registers. | New `reports/core_skeptic/SK_M2_4_CLAIM_BOUNDARY_REGISTER.md`, `reports/core_skeptic/SK_M2_4_DIAGNOSTIC_MATRIX.md` | Residual rationale and allowed claims are auditable. |
 | G2 | Add SK-M2.4 decision record with selected lane and reopen triggers. | New `reports/core_skeptic/SK_M2_4_DECISION_RECORD.md` | Future reassessment can distinguish new regressions from unchanged bounded evidence. |
-| G3 | Add execution status template path and core_audit-log linkage requirement. | `reports/core_skeptic/SKEPTIC_M2_4_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | Full traceability from finding -> controls -> lane state. |
+| G3 | Add execution status template path and audit-log linkage requirement. | `reports/core_skeptic/SKEPTIC_M2_4_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | Full traceability from finding -> controls -> lane state. |
 
 ### Verification
 
@@ -325,7 +325,7 @@ Rationale:
 | Confirmed thresholds pass with coherent artifact/report/pipeline semantics. | `M2_4_ALIGNED` | "Comparative nearest-neighbor confidence is uncertainty-qualified and stability-supported under policy thresholds." |
 | Qualified thresholds pass but confirmed thresholds fail; claims remain bounded and coherent. | `M2_4_QUALIFIED` | "Comparative signal is directional with explicit uncertainty qualification and reopen conditions." |
 | Inconclusive status persists but diagnostics are complete, bounded, and anti-overreach governance is satisfied. | `M2_4_BOUNDED` | "Comparative outcome remains non-conclusive with explicit quantified limits; no stronger claim is entitled." |
-| Policy/checker/report mismatch or missing diagnostics prevents deterministic lane assignment. | `M2_4_BLOCKED` | "SK-M2 remains unresolved due phase8_comparative uncertainty contract incoherence." |
+| Policy/checker/report mismatch or missing diagnostics prevents deterministic lane assignment. | `M2_4_BLOCKED` | "SK-M2 remains unresolved due comparative uncertainty contract incoherence." |
 | Evidence is incomplete for lane decision. | `M2_4_INCONCLUSIVE` | "SK-M2.4 state remains provisional pending required diagnostic evidence." |
 
 Execution outcome: `M2_4_BOUNDED`.
@@ -355,8 +355,8 @@ Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 | R1 | SK-M2 continues to reopen with unchanged evidence because closure semantics remain ambiguous. | High | High | Add deterministic lane model with explicit `M2_4_BOUNDED` governance and reopen triggers. |
 | R2 | Diagnostic expansion introduces complexity without improving actionability. | Medium | Medium | Require each new metric to map to reason-code decisions and checker rules. |
 | R3 | Updated matrix design is interpreted as outcome-tuning. | Medium | High | Pre-register matrix and lane-selection rule before execution; preserve anti-tuning constraints. |
-| R4 | Report language drifts beyond status entitlement after future edits. | Medium | High | Expand required markers + checker coverage across all phase8_comparative surfaces. |
-| R5 | CI/release checker parity drifts, allowing mode-specific semantic gaps. | Medium | High | Lock parity with core_audit contract tests and shared invocation ordering. |
+| R4 | Report language drifts beyond status entitlement after future edits. | Medium | High | Expand required markers + checker coverage across all comparative surfaces. |
+| R5 | CI/release checker parity drifts, allowing mode-specific semantic gaps. | Medium | High | Lock parity with audit contract tests and shared invocation ordering. |
 
 ---
 
@@ -370,7 +370,7 @@ Required deliverables for SK-M2.4 execution pass:
 4. `reports/core_skeptic/SK_M2_4_CLAIM_BOUNDARY_REGISTER.md`
 5. `reports/core_skeptic/SK_M2_4_DECISION_RECORD.md`
 6. policy/checker/test updates for SK-M2.4 lane and taxonomy enforcement
-7. synchronized phase8_comparative docs for SK-M2.4 claim boundaries
+7. synchronized comparative docs for SK-M2.4 claim boundaries
 8. `reports/core_skeptic/SKEPTIC_M2_4_EXECUTION_STATUS.md`
 9. `AUDIT_LOG.md` linkage entry for SK-M2.4 execution and lane decision
 

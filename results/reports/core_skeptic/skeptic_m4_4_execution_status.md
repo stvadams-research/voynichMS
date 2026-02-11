@@ -56,7 +56,7 @@ Scope: pass-4 SK-M4 historical provenance confidence closure hardening
   - `results/reports/FINAL_PHASE_3_3_REPORT.md`
   - `governance/PROVENANCE.md`
   - `governance/HISTORICAL_PROVENANCE_POLICY.md`
-- Regenerated core_skeptic register with pass-4 source and lane markers:
+- Regenerated skeptic register with pass-4 source and lane markers:
   - `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md`
 
 ### WS-M4.4-F Checker/Pipeline/Test Lock
@@ -93,7 +93,7 @@ Commands executed:
 Observed results:
 
 - provenance checker passes in CI and release modes.
-- targeted SK-M4.4 and core_audit contract tests pass (`21 passed`).
+- targeted SK-M4.4 and audit contract tests pass (`21 passed`).
 - provenance health + sync artifacts regenerated with `2026-02-10-m4.4` schema.
 
 ## Current Canonical SK-M4.4 State

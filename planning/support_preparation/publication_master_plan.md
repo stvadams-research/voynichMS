@@ -25,7 +25,7 @@ The objective is to produce a "Gold Standard" research document that summarizes 
 ### Part II: The Bedrock (Layer 1: Foundation)
 - **Headline**: The manuscript is a physical object, not a message.
 - **Concept**: Establishing what is actually there (ink, geometry, patterns).
-- **Technical**: Token distributions, Zipfian phase2_analysis, and repetition rates (with L1 visualizations).
+- **Technical**: Token distributions, Zipfian analysis, and repetition rates (with L1 visualizations).
 - **Technical**: Provenance and reproducibility of the digital ledger.
 
 ### Part III: The Boundary (Layer 2: Analysis & Admissibility)
@@ -51,7 +51,7 @@ The objective is to produce a "Gold Standard" research document that summarizes 
 - **Technical**: Cross-correlation of visual regions and text placement.
 
 ### Part VII: Comparative & Human Analysis
-- **Headline**: Where the phase7_human hand meets the algorithmic pattern.
+- **Headline**: Where the human hand meets the algorithmic pattern.
 - **Concept**: Comparing the Voynich structure to known historical oddities (grilles, glossolalia, steganography).
 
 ### Part VIII: The Horizon (Conjecture)

@@ -24,7 +24,7 @@ Phase 5G exists to collapse this remaining topology space as far as identifiabil
 
 ### 1.3 What Phase 5G is not
 - Not an attempt to decide historical plausibility.
-- Not a semantic or linguistic phase2_analysis.
+- Not a semantic or linguistic analysis.
 - Not a search for meaning or decoding.
 - Not a refinement of traversal rules.
 

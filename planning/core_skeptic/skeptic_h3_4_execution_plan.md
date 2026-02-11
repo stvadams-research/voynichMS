@@ -198,7 +198,7 @@ python3 scripts/core_skeptic/check_control_comparability.py --mode release
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| D1 | Add freshness checks (timestamps/run-id coherence) between comparability and data-availability artifacts. | checker scripts and/or core_audit utility | Stale pairings are detected fail-closed. |
+| D1 | Add freshness checks (timestamps/run-id coherence) between comparability and data-availability artifacts. | checker scripts and/or audit utility | Stale pairings are detected fail-closed. |
 | D2 | Add parity checks for required SK-H3 keys across both artifacts. | `scripts/core_skeptic/check_control_comparability.py`, `scripts/core_skeptic/check_control_data_availability.py` | No key-level semantic drift allowed. |
 | D3 | Add explicit stale-artifact diagnostics in gate scripts. | `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, `scripts/ci_check.sh` | Gate output pinpoints freshness/semantic mismatch root cause. |
 
@@ -262,7 +262,7 @@ PY
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | G1 | Add unit tests for H3.4 feasibility classification and terminal qualified lane criteria. | `tests/core_skeptic/test_control_data_availability_checker.py` | Feasibility logic is regression-locked. |
-| G2 | Add tests for freshness/parity mismatch detection and error specificity. | `tests/core_skeptic/test_control_comparability_checker.py` + core_audit tests | Stale/mismatch states fail with deterministic codes. |
+| G2 | Add tests for freshness/parity mismatch detection and error specificity. | `tests/core_skeptic/test_control_comparability_checker.py` + audit tests | Stale/mismatch states fail with deterministic codes. |
 | G3 | Extend gate script contract tests for new H3.4 markers/reason paths. | `tests/core_audit/test_pre_release_contract.py`, `tests/core_audit/test_verify_reproduction_contract.py`, `tests/core_audit/test_ci_check_contract.py`, `tests/core_audit/test_release_gate_health_status_builder.py` | Gate-path expectations remain stable over refactors. |
 
 ### Verification
@@ -287,7 +287,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | H1 | Produce H3.4 decision record with lane selection, rationale, and disconfirmability conditions. | New `reports/core_skeptic/SK_H3_4_DECISION_RECORD.md` | Final state is explicit and auditable. |
 | H2 | Produce execution status report template/path for H3.4 implementation pass. | `reports/core_skeptic/SKEPTIC_H3_4_EXECUTION_STATUS.md` (during execution) | Execution evidence can be captured consistently. |
-| H3 | Add core_audit-log linkage and reopen conditions (what new evidence would change status). | `AUDIT_LOG.md` | Reopening requires objective trigger, not restatement of known constraints. |
+| H3 | Add audit-log linkage and reopen conditions (what new evidence would change status). | `AUDIT_LOG.md` | Reopening requires objective trigger, not restatement of known constraints. |
 
 ### Verification
 
@@ -336,7 +336,7 @@ Rationale:
 | WS-H3.4-E Claim Synchronization | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | H3.4 lane-bound claim register and doc updates completed. |
 | WS-H3.4-F Gate/Health Coherence | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Gate-health snapshot expanded with H3.4 lane and feasibility semantics. |
 | WS-H3.4-G Regression Locking | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | SK-H3 checker and contract tests updated and passing. |
-| WS-H3.4-H Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Decision record, execution status, and core_audit log linkage completed. |
+| WS-H3.4-H Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Decision record, execution status, and audit log linkage completed. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

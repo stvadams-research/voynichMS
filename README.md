@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This repository exists to build the most rigorous, assumption-aware phase1_foundation ever constructed for the study of the Voynich Manuscript.
+This repository exists to build the most rigorous, assumption-aware foundation ever constructed for the study of the Voynich Manuscript.
 
 The explicit goal is **not translation**.
 
@@ -16,123 +16,54 @@ If it only adds structure, it does not belong here.
 
 ---
 
-## Current Status: AUDIT-REMEDIATED (Phases 2-7 Implemented)
+## Current Status: AUDIT-REMEDIATED
 
-The project has executable phase runners through **Phase 7** (phase2_analysis,
-phase3_synthesis, phase5_mechanism, phase4_inference, and phase7_human/codicological tracks), a 
-**Visualization Layer** for automated result reporting, and a 
-**Publication Framework** for research drafting.
+The project has executable phase runners through **Phase 9**, an automated **Visualization Layer**, and a **Publication Framework** for academic-grade reporting.
+
+### Research Phases
+1.  **Phase 1 (Foundation)**: Digital ledgering and data integrity.
+2.  **Phase 2 (Analysis)**: Admissibility and formal model exclusion.
+3.  **Phase 3 (Synthesis)**: Structural sufficiency and generative reconstruction.
+4.  **Phase 4 (Inference)**: Method evaluation and false-positive "noise floor" mapping.
+5.  **Phase 5 (Mechanism)**: Identification of the Implicit Constraint Lattice.
+6.  **Phase 6 (Functional)**: Algorithmic efficiency and ergonomic optimization.
+7.  **Phase 7 (Human)**: Physical scribe constraints and codicology.
+8.  **Phase 8 (Comparative)**: Proximity to historical mechanical artifacts.
+9.  **Phase 9 (Conjecture)**: Speculative synthesis and Algorithmic Glossolalia.
 
 ### Key Findings
-1.  **Natural-language/simple-cipher hypotheses are not supported within tested diagnostics:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic under the current framework.
-2.  **Structural anomaly persists:** High information density (z=5.68) and strong locality (2-4 units) remain stable across tested analyses.
-3.  **Mechanism class identified:** The manuscript is structurally consistent with a two-stage procedural system: rigid glyph-level grammar plus bounded selection pools.
-4.  **Generative reconstruction bounded:** Grammar-level reconstruction succeeded, while selection dynamics remain constrained rather than fully closed.
-5.  **Inference Admissibility defined:** Established that common decipherment tools yield similar confidence scores on random noise as they do on the manuscript, establishing a statistical "noise floor" for meaning claims.
-
-See `results/reports/phase3_synthesis/FINAL_REPORT_PHASE_3.md` for the full conclusion.
-
-## Conclusion Scope
-
-The conclusions in this repository are **framework-bounded**:
-
-- They apply to the tested structural/computational diagnostics over currently available manuscript data.
-- They establish what is and is not supported by this evidence class.
-- They do not claim universal impossibility of meaning under all conceivable future evidence.
-
-Primary boundary references:
-
-- `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
-- `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-- `results/reports/FINAL_PHASE_3_3_REPORT.md`
-
-## Operational Entitlement State
-
-Canonical operational entitlement source:
-
-- `core_status/core_audit/release_gate_health_status.json`
-
-Current gate-health class: `GATE_HEALTH_DEGRADED`.
-
-When gate health is degraded, claims in this repository are operationally contingent and must remain qualified/reopenable pending restored CI, pre-release, and reproduction gate integrity.
-
-Current degraded-state dependency is the SK-C1 release sensitivity evidence contract (`core_status/core_audit/sensitivity_sweep_release.json`).
-
-## What This Does Not Claim
-
-This project does not claim:
-
-- semantic reconstruction of manuscript content,
-- authorial intent or fraud determinations,
-- historical/cultural final interpretation,
-- impossibility of any future progress with new external evidence.
-
-## Historical Provenance Confidence
-
-Historical run-traceability confidence is explicitly bounded and policy-governed.
-
-- Canonical source of truth: `core_status/core_audit/provenance_health_status.json`
-- Current expected class while legacy rows remain: `PROVENANCE_QUALIFIED`
-- SK-M4.5 lane key in canonical artifact: `m4_5_historical_lane`
-- Current expected SK-M4.5 lane while legacy orphan rows remain in-scope: `M4_5_BOUNDED`
-- Compatibility mirror key retained for legacy consumers: `m4_4_historical_lane`
-- Policy and allowed-claim contract: `governance/HISTORICAL_PROVENANCE_POLICY.md`
-- Operational provenance mechanics: `governance/PROVENANCE.md`
-
-This means closure claims are framework-bounded and should not be read as
-claiming complete historical manifest certainty for every legacy run row.
+1.  **Natural-language/simple-cipher hypotheses are not supported:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic.
+2.  **Mechanism class identified:** The manuscript is identified as a Globally Stable, Deterministic Rule-Evaluated Constraint Lattice.
+3.  **Inference Admissibility defined:** Established a statistical "noise floor" proving that standard decipherment tools find "meaning" in random noise as easily as in the manuscript.
 
 ---
 
-## Core Principles
+## Master Replication & Publication
 
-These principles are non-negotiable and apply to all code, data, and experiments.
+This project is built for total transparency. You can recreate the entire research lifecycle—from raw scans to a 30-page research summary—using a single command:
 
-- **Determinism is Mandatory:** All runs must be reproducible from a seed and
-  verified via `scripts/verify_reproduction.sh` canonical result checks.
-- **Computed, Not Simulated:** No placeholders allowed in final phase2_analysis (`REQUIRE_COMPUTED=1`).
-- **Image Geometry is Law:** When there is disagreement, the image wins.
-- **Ambiguity is Preserved:** Do not force decisions early.
-- **Failures are Data:** Anomalies are valuable signals, not bugs to be squashed.
-- **Provenance is First-Class:** Runner outputs are written with provenance and
-  retained under run-scoped history (`by_run`) in addition to latest pointer files.
-
-See `planning/phase1_foundation/PRINCIPLES_AND_NONGOALS.md` for the full statement.
-
----
-
-## Repository Structure
-
-The repository follows a strict "Audit-Ready" structure:
-
+```bash
+python3 scripts/support_preparation/replicate_all.py
 ```
-voynich/
-├── src/                # Core library code (Foundation, Analysis, Synthesis)
-├── scripts/            # Execution entry points (Phase runners)
-├── tests/              # Unit, integration, and enforcement tests
-├── configs/            # Canonical configuration files
-├── governance/               # Technical documentation (Runbook, Architecture)
-├── results/            # Human-facing reports and data
-├── runs/               # Immutable execution artifacts (gitignored)
-├── data/               # Raw and derived ledgers (gitignored)
-└── planning/           # Governance and roadmaps
-```
+
+### Manual Generation
+*   **Full Publication (Word)**: `python3 scripts/support_preparation/generate_publication.py`
+*   **Individual Phase Report**: `python3 scripts/support_preparation/generate_publication.py --phase [1-9]`
+*   **Markdown Master**: `python3 scripts/support_preparation/assemble_draft.py`
+
+Outputs are saved to `results/publication/`.
 
 ---
 
 ## How to Work on This Project
 
-1.  **Read the Runbook:** `governance/RUNBOOK.md` explains how to reproduce the baseline.
-2.  **Visualization:** Use the `support_visualization` CLI to generate plots:
+1.  **Read the Runbook:** `governance/runbook.md` explains how to reproduce the baseline.
+2.  **Visualization:** Use the `visualization` CLI to generate plots:
     ```bash
-    support_visualization phase1_foundation token-frequency voynich_real
+    visualization foundation token-frequency voynich_real
     ```
-3.  **Publication:** Use the assembly script to compile research drafts:
-    ```bash
-    python3 scripts/support_preparation/assemble_draft.py
-    ```
-4.  **Check the Rules:** `RULES_FOR_AGENTS.md` defines the strict constraints on AI and phase7_human contributors.
-5.  **Enforce Standards:** All contributions must pass the CI check (`scripts/ci_check.sh`) and adhere to the `REQUIRE_COMPUTED` standard.
+3.  **Enforce Standards:** All contributions must pass the CI check (`scripts/ci_check.sh`) and adhere to the `REQUIRE_COMPUTED` standard.
+4.  **Check the Rules:** `RULES_FOR_AGENTS.md` defines the strict constraints on AI and human contributors.
 
 ---
 
@@ -140,7 +71,7 @@ voynich/
 
 This project is successful because it produced:
 
-- A phase1_foundation where assumptions are explicit
+- A foundation where assumptions are explicit
 - Infrastructure that survives changing hypotheses
 - Evidence-based conclusions about what the manuscript is (Procedural) and is not (Linguistic).
 

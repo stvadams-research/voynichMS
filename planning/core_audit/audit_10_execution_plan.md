@@ -165,7 +165,7 @@ python3 -m pytest -q tests/core_audit/test_verify_reproduction_contract.py tests
 | C1 | Confirm and document canonical policy wording for unavailable/lost source pages. | `governance/governance/REPRODUCIBILITY.md`, `governance/PROVENANCE.md` | Policy text is consistent, non-contradictory, and release-facing. |
 | C2 | Ensure strict blocked artifacts always emit required structure (`status=BLOCKED`, `reason_code=DATA_AVAILABILITY`, missing-page details). | `scripts/phase3_synthesis/run_indistinguishability_test.py` | Artifact contract is stable and machine-checkable. |
 | C3 | Add/extend tests for blocked-state semantics under missing-page scenarios. | `tests/phase3_synthesis/test_run_indistinguishability_runner.py`, `tests/core_audit/*` | Missing-page conditions yield expected reason code and metadata. |
-| C4 | Add checklist language so future audits classify this scenario consistently. | `planning/core_audit/CODE_AUDIT_AND_CLEANUP_PLAYBOOK.md` or core_audit template files | Severity/interpretation drift eliminated in future passes. |
+| C4 | Add checklist language so future audits classify this scenario consistently. | `planning/core_audit/CODE_AUDIT_AND_CLEANUP_PLAYBOOK.md` or audit template files | Severity/interpretation drift eliminated in future passes. |
 
 ### Planned Verification
 
@@ -178,7 +178,7 @@ python3 -m pytest -q tests/phase3_synthesis/test_run_indistinguishability_runner
 ### Completion Evidence
 
 - Strict blocked artifacts are structurally consistent.
-- Documentation and core_audit criteria reflect the same governance rule.
+- Documentation and audit criteria reflect the same governance rule.
 
 ---
 
@@ -186,7 +186,7 @@ python3 -m pytest -q tests/phase3_synthesis/test_run_indistinguishability_runner
 
 **Addresses:** `MC-3`  
 **Priority:** Medium  
-**Goal:** Raise confidence in under-tested critical phase3_synthesis logic, especially `src/phase3_synthesis/refinement/feature_discovery.py`.
+**Goal:** Raise confidence in under-tested critical synthesis logic, especially `src/phase3_synthesis/refinement/feature_discovery.py`.
 
 ### Tasks
 
@@ -225,7 +225,7 @@ python3 -m coverage report -m | rg "feature_discovery|TOTAL"
 | E1 | Decide final disposition strategy for historical `orphaned` rows (retain+annotate vs archival migration). | `governance/PROVENANCE.md`, `AUDIT_LOG.md` | Decision documented with rationale and scope. |
 | E2 | Align reconciliation script/reporting with chosen strategy and idempotence guarantees. | `scripts/core_audit/repair_run_statuses.py`, `core_status/core_audit/run_status_repair_report.json` | Repeated runs produce stable, policy-compliant outputs. |
 | E3 | Add regression tests for chosen disposition behavior. | `tests/core_audit/test_repair_run_statuses.py` | Future drift is caught by tests. |
-| E4 | Update core_audit reporting template language for orphaned-state interpretation. | `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_*.md` templates/process docs | Future audits report orphaned state consistently. |
+| E4 | Update audit reporting template language for orphaned-state interpretation. | `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_*.md` templates/process docs | Future audits report orphaned state consistently. |
 
 ### Planned Verification
 
@@ -284,7 +284,7 @@ python3 -m pytest -q tests/core_audit/test_pre_release_contract.py
 |---|---|---|---|
 | G1 | Run full verification stack after WS-A..WS-F completion. | runtime outputs + `core_status/*` artifacts | All expected pass/fail states match policy. |
 | G2 | Produce detailed implementation status report with per-finding closure evidence. | `reports/core_audit/FIX_EXECUTION_STATUS_10.md` | Every finding has status, evidence, and residual-risk note. |
-| G3 | Re-run comprehensive core_audit (next pass) and compare deltas against Audit 10 baseline. | `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_11.md` (future) | Closure claims independently validated. |
+| G3 | Re-run comprehensive audit (next pass) and compare deltas against Audit 10 baseline. | `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_11.md` (future) | Closure claims independently validated. |
 
 ### Planned Verification
 
@@ -298,7 +298,7 @@ bash scripts/core_audit/pre_release_check.sh
 ### Completion Evidence
 
 - `FIX_EXECUTION_STATUS_10.md` contains full closure map and command evidence.
-- Next core_audit pass confirms reduced finding count and severity.
+- Next audit pass confirms reduced finding count and severity.
 
 ---
 

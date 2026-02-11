@@ -31,7 +31,7 @@
 | **H6** | Simulated data warnings in `profile_extractor.py` | Logic/Correctness | DONE | Added warning log for simulated profile fallback. |
 | **H7** | NaN propagation in `perturbation.py` | Logic/Correctness | DONE | Added np.isnan() guards and sanitization. |
 | **H8** | Parameterize smoothing in `destructive.py` | Logic/Correctness | DONE | Parameterized DEFAULT_CONTROL_STD and documented its basis. |
-| **H9** | Bare `except:` support_cleanup | Logic/Correctness | DONE | Replaced bare except with except Exception in 3 files. |
+| **H9** | Bare `except:` cleanup | Logic/Correctness | DONE | Replaced bare except with except Exception in 3 files. |
 | **H10** | Missing provenance in scripts | Infrastructure | DONE | Created ProvenanceWriter and updated critical phase2_analysis/phase3_synthesis scripts. |
 | **H11** | Minimal logging usage | Infrastructure | DONE | Adopted standard logging across all 118 source files via automation. |
 | **H12** | Production DEBUG prints | Infrastructure | DONE | Replaced debug print with logger.debug in anchors/engine.py. |
@@ -44,13 +44,13 @@
 | **H19** | Undocumented scaling constants | Documentation | DONE | Documented scaling constants in perturbation.py. |
 | **H20** | Externalize positional bias probability | Documentation | DONE | Moved hardcoded probability to config.py. |
 | **H21** | Parameterize control metrics | Documentation | DONE | Parameterized metrics for scrambled control generation. |
-| **H22** | Unseeded phase5_mechanism simulators | Determinism | DONE | Added seed to all simulators in src/phase5_mechanism. |
+| **H22** | Unseeded mechanism simulators | Determinism | DONE | Added seed to all simulators in src/phase5_mechanism. |
 | **H23** | Unseeded text generator page seeds | Determinism | DONE | Passed global seed to page generation in text_generator.py. |
 | **H24** | RepetitionRate key naming clarity | Architecture | DONE | Renamed internal keys to token_repetition_rate and vocabulary_entropy_rate. |
 | **H25** | ClusterTightness path field | Architecture | DONE | Added method field to indicate embedding or bbox path. |
 | **H26** | Empty-list division errors | Logic/Correctness | DONE | Added defensive length checks before division in 10+ files. |
-| **H27** | Terminology standardization | Documentation | DONE | Standardized Token/Word terminology across metrics and phase4_inference tracks. |
-| **H28** | Sensitivity phase2_analysis sweep | Documentation | DONE | Planned sensitivity sweep for model weights. |
+| **H27** | Terminology standardization | Documentation | DONE | Standardized Token/Word terminology across metrics and inference tracks. |
+| **H28** | Sensitivity analysis sweep | Documentation | DONE | Planned sensitivity sweep for model weights. |
 | **H29** | Reproduction verification script | Verification | DONE | Created scripts/verify_reproduction.sh. |
 | **H30** | Empty dataset return values | Logic/Correctness | DONE | RepetitionRate now returns NaN for empty datasets. |
 | **H31** | Skeletal `RUNBOOK.md` expansion | Documentation | DONE | Expanded runbook with Phase 1 and Phases 4-6 details. |
@@ -87,7 +87,7 @@
 | **L1** | Hardcoded seeds in simulators | Refactoring | DONE | Introduced DEFAULT_SEED in config.py and used in critical scripts. |
 | **L2** | False positive TEMP matches | Refactoring | DONE | Renamed generic 'temp' instances to descriptive names. |
 | **L3** | Print-based QC stubs | Infrastructure | DONE | Replaced print stubs with logger.info in qc/reporting.py. |
-| **L4** | Style inconsistencies | Refactoring | DONE | Standardized docstrings and spacing in phase5_mechanism track. |
+| **L4** | Style inconsistencies | Refactoring | DONE | Standardized docstrings and spacing in mechanism track. |
 | **L5** | Redundant comments | Infrastructure | DONE | Removed 'simulated' labels from CI and linked to real verification script. |
 | **L10** | Acknowledged arbitrary thresholds | Documentation | DONE | Created governance/CALIBRATION_NOTES.md with justifications. |
 | **L11** | Glossary update | Documentation | DONE | Added MetricResult and HypothesisResult to GLOSSARY.md. |

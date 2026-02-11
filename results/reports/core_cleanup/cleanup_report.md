@@ -43,4 +43,4 @@
 
 ## 3. Conclusion
 
-The Voynich Manuscript codebase is now **Audit-Ready**. It produces reproducible, traceable results derived from a frozen, deterministic phase1_foundation.
+The Voynich Manuscript codebase is now **Audit-Ready**. It produces reproducible, traceable results derived from a frozen, deterministic foundation.

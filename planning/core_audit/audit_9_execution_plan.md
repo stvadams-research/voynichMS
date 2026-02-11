@@ -74,7 +74,7 @@ Execute in this order:
 5. WS-F (historical provenance policy closure)
 6. WS-E (coverage confidence hardening)
 7. WS-G (release hygiene and change-control enforcement)
-8. Final verification and re-core_audit
+8. Final verification and re-audit
 
 Dependency notes:
 
@@ -98,7 +98,7 @@ Dependency notes:
 | Task ID | Action | Target Files | Exit Criteria |
 |---|---|---|---|
 | A1 | Diagnose why all release scenarios remain invalid/insufficient and classify root causes (data sufficiency vs threshold policy vs implementation behavior). | `scripts/phase2_analysis/run_sensitivity_sweep.py`, `reports/core_audit/SENSITIVITY_RESULTS.md`, `core_status/core_audit/sensitivity_sweep.json` | Root-cause matrix documented with at least one reproducible evidence run. |
-| A2 | Implement remediation for root causes that are code/config issues (not policy constraints). | `scripts/phase2_analysis/run_sensitivity_sweep.py` and dependent phase2_analysis modules | `valid_scenarios > 0` and non-collapse conditions become attainable under defined conditions. |
+| A2 | Implement remediation for root causes that are code/config issues (not policy constraints). | `scripts/phase2_analysis/run_sensitivity_sweep.py` and dependent analysis modules | `valid_scenarios > 0` and non-collapse conditions become attainable under defined conditions. |
 | A3 | Regenerate canonical release-mode sensitivity artifacts. | `core_status/core_audit/sensitivity_sweep.json`, `reports/core_audit/SENSITIVITY_RESULTS.md` | Artifact summary shows internally consistent fields and updated provenance. |
 | A4 | Preserve strict fail-closed gate semantics and add regression tests around release-evidence criteria. | `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, `tests/core_audit/` | Gates fail on inconclusive/non-ready states and pass only on policy-conformant evidence. |
 | A5 | Update docs to match exact enforced criteria. | `governance/governance/REPRODUCIBILITY.md`, `governance/SENSITIVITY_ANALYSIS.md` | Human guidance and script behavior are semantically identical. |
@@ -149,10 +149,10 @@ python3 -m pytest -q tests/phase3_synthesis/test_run_indistinguishability_runner
 
 | Task ID | Action | Target Files | Exit Criteria |
 |---|---|---|---|
-| C1 | Add explicit policy language for source-data unavailability in release docs and core_audit framework docs. | `governance/governance/REPRODUCIBILITY.md`, `governance/PROVENANCE.md`, optional `planning/core_audit/CODE_AUDIT_AND_CLEANUP_PLAYBOOK.md` appendix | Policy appears once as canonical text and is cross-referenced. |
+| C1 | Add explicit policy language for source-data unavailability in release docs and audit framework docs. | `governance/governance/REPRODUCIBILITY.md`, `governance/PROVENANCE.md`, optional `planning/core_audit/CODE_AUDIT_AND_CLEANUP_PLAYBOOK.md` appendix | Policy appears once as canonical text and is cross-referenced. |
 | C2 | Define release-claim boundary for strict indistinguishability when prerequisite pages are unavailable. | `governance/governance/REPRODUCIBILITY.md`, `reports/core_audit/` templates | Release claims cannot imply strict completion when data prerequisites are unmet. |
 | C3 | Add machine-readable status annotation if strict path is blocked by approved data-scope constraints. | `core_status/phase3_synthesis/TURING_TEST_RESULTS.json` schema handling and/or reporting scripts | Blocked state includes reason category (`DATA_AVAILABILITY`) and is distinguishable from code failure. |
-| C4 | Update core_audit report template/checklist language to prevent recurring severity reclassification drift. | `planning/core_audit/*` templates or checklist docs | Future audits classify similar cases consistently. |
+| C4 | Update audit report template/checklist language to prevent recurring severity reclassification drift. | `planning/core_audit/*` templates or checklist docs | Future audits classify similar cases consistently. |
 
 ### Verification Commands (post-implementation)
 
@@ -224,7 +224,7 @@ bash scripts/ci_check.sh
 | F1 | Decide final treatment of `orphaned` rows lacking manifests (retain + annotate, archive_legacy, or migrate state). | `governance/PROVENANCE.md`, `AUDIT_LOG.md` | Final policy accepted and documented. |
 | F2 | Update reconciliation tooling to enforce policy idempotently and emit machine-readable report. | `scripts/core_audit/repair_run_statuses.py`, `core_status/core_audit/run_status_repair_report.json` | Repeat runs produce stable counts and clear deltas. |
 | F3 | Add tests around reconciliation behavior and policy invariants. | `tests/core_audit/test_repair_run_statuses.py` | Tooling behavior is regression-protected. |
-| F4 | Ensure core_audit reporting includes orphaned-state interpretation to avoid recurring ambiguity. | `reports/core_audit/` report templates | Future core_audit reports reference same policy language. |
+| F4 | Ensure audit reporting includes orphaned-state interpretation to avoid recurring ambiguity. | `reports/core_audit/` report templates | Future audit reports reference same policy language. |
 
 ### Verification Commands (post-implementation)
 
@@ -285,7 +285,7 @@ Remediation is complete only if all checks pass:
 3. `bash scripts/ci_check.sh`
 4. `REQUIRE_COMPUTED=1 python3 scripts/phase3_synthesis/run_indistinguishability_test.py --preflight-only`
 5. `python3 -m pytest --cov=src --cov-report=term-missing:skip-covered -q tests`
-6. Any new/updated core_audit contract tests for gate semantics, strict mode, and provenance reconciliation
+6. Any new/updated audit contract tests for gate semantics, strict mode, and provenance reconciliation
 
 Post-execution deliverables:
 

@@ -8,10 +8,10 @@
 
 ## 1. Summary of Findings
 
-Phase 4 was designed to test the **diagnostic power** of phase4_inference methods commonly used to support claims of meaning or language in the Voynich Manuscript. By matching the manuscript against both semantic (natural language) and non-semantic (mechanically generated) corpora of equal scale, we have established the following:
+Phase 4 was designed to test the **diagnostic power** of inference methods commonly used to support claims of meaning or language in the Voynich Manuscript. By matching the manuscript against both semantic (natural language) and non-semantic (mechanically generated) corpora of equal scale, we have established the following:
 
 1.  **Mechanical Sufficiency:** Non-semantic generative models (specifically Self-Citation and Mechanical Reuse) are sufficient to reproduce **every major statistical signal** previously cited as evidence of language.
-2.  **False Positive Saturation:** Current phase4_inference methods (Information Clustering, WAN Metrics, Topic Modeling, Morphology Induction) are highly susceptible to false positives. In many tests, mechanical models outperformed natural language in "language-like" signatures.
+2.  **False Positive Saturation:** Current inference methods (Information Clustering, WAN Metrics, Topic Modeling, Morphology Induction) are highly susceptible to false positives. In many tests, mechanical models outperformed natural language in "language-like" signatures.
 3.  **Representational Invariance:** These results are robust across different transliterations and glyph-handling modes, indicating that the failure of these methods is rooted in the structure of the artifact, not the choice of encoding.
 
 ---
@@ -21,7 +21,7 @@ Phase 4 was designed to test the **diagnostic power** of phase4_inference method
 The findings of Phase 4 provide a definitive boundary for interpreting the manuscript:
 
 - **Language Claims:** Claims that the manuscript "must" be a language because of its statistical properties are **formally unsupported**. The statistical properties of Voynich are entirely consistent with non-semantic procedural generation.
-- **Methodological Collapse:** The widely cited papers (e.g., Montemurro & Zanette 2013, Amancio et al. 2013) are identified as **not diagnostic** of semantics at the manuscript's scale. Their findings, while descriptive, do not support an phase4_inference of meaning.
+- **Methodological Collapse:** The widely cited papers (e.g., Montemurro & Zanette 2013, Amancio et al. 2013) are identified as **not diagnostic** of semantics at the manuscript's scale. Their findings, while descriptive, do not support an inference of meaning.
 
 ## 2.5 Method Status Source of Truth
 
@@ -43,10 +43,10 @@ No current statistical or computational method has successfully separated the ma
 
 ## 4. Closure Statement
 
-With the completion of Phase 4, the project has exhausted the admissible phase4_inference space. We have:
-1.  Built a rigorous geometric phase1_foundation (Phase 1).
+With the completion of Phase 4, the project has exhausted the admissible inference space. We have:
+1.  Built a rigorous geometric foundation (Phase 1).
 2.  Mapped the space of allowed explanations (Phase 2).
-3.  Reconstructed the generative phase5_mechanism (Phase 3).
+3.  Reconstructed the generative mechanism (Phase 3).
 4.  Falsified the prevailing proofs of language (Phase 4).
 
 The program has reached its logical conclusion. The manuscript remains a testament to the power of mechanical rules to simulate the complexity of meaning.

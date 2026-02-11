@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-This fourth-pass core_audit was rerun from the playbook and validated with fresh code inspection plus command execution evidence. The codebase remains functionally rich, but there are still release-blocking issues in reproducibility, provenance integrity, and method completeness.
+This fourth-pass audit was rerun from the playbook and validated with fresh code inspection plus command execution evidence. The codebase remains functionally rich, but there are still release-blocking issues in reproducibility, provenance integrity, and method completeness.
 
 ### Severity Distribution
 
@@ -33,9 +33,9 @@ This pass included:
   - `bash scripts/verify_reproduction.sh`
   - `bash scripts/ci_check.sh`
   - two independent runs of `python scripts/phase3_synthesis/run_test_a.py` with result diff
-  - import validation for `phase1_foundation.configs.loader`
+  - import validation for `foundation.configs.loader`
 
-No code modifications were made during this core_audit.
+No code modifications were made during this audit.
 
 ---
 
@@ -83,7 +83,7 @@ Top-level source module distribution:
 | RI-4 | **Critical** | Reproduction checker is structurally invalid as determinism oracle. | `scripts/verify_reproduction.sh:23` sets `SEED` but never passes it; `:29` and `:33` run script without CLI seed; `:36` raw `diff` compares JSON containing timestamps. |
 | RI-5 | **Critical** | Run IDs are deterministic from seed only, causing run-identity collisions and overwrite behavior for repeated seed values. | `src/phase1_foundation/runs/manager.py:93-103`, `src/phase1_foundation/core/ids.py:55-64`, `src/phase1_foundation/storage/metadata.py:478-492` (`session.merge`). |
 | RI-6 | **Critical** | Hash-based seed derivation introduces cross-process nondeterminism due Python hash randomization. | `src/phase3_synthesis/text_generator.py:138`, `src/phase3_synthesis/refinement/feature_discovery.py:131`; repeated interpreter calls show different `hash('spatial_jar_variance')`. |
-| RI-7 | High | Baseline phase3_synthesis assessment still leaves key metrics uncomputed (`NOT COMPUTED`) under TODO. | `scripts/phase3_synthesis/run_baseline_assessment.py:172-178`, output rows at `:196-197`. |
+| RI-7 | High | Baseline synthesis assessment still leaves key metrics uncomputed (`NOT COMPUTED`) under TODO. | `scripts/phase3_synthesis/run_baseline_assessment.py:172-178`, output rows at `:196-197`. |
 | RI-8 | High | Language-ID transform generation includes unseeded random mappings. | `scripts/phase4_inference/run_lang_id.py:74` (`random.choice(...)` in transform loop). |
 | RI-9 | High | Corpus ingestion drops remainder tokens due floor division page count. | `scripts/phase4_inference/build_corpora.py:88` (`len(tokens) // tokens_per_page`), loop `:92-99`. |
 | RI-10 | High | Circularity risk persists: anomaly/capacity modules rely on fixed observed constants. | `src/phase2_analysis/anomaly/stability_analysis.py:52-54`; `src/phase2_analysis/anomaly/capacity_bounding.py:46-50`; `src/phase2_analysis/anomaly/constraint_analysis.py:145,151,189,198,214`. |
@@ -94,7 +94,7 @@ Top-level source module distribution:
 |---|---|---|---|
 | RI-11 | Medium | Bare `except:` swallows all errors in section categorization helper. | `scripts/phase5_mechanism/categorize_sections.py:31` |
 | RI-12 | Medium | Silent empty-config fallback (`return {}`) can mask missing config files. | `src/phase1_foundation/config.py:331`, `src/phase1_foundation/config.py:344` |
-| RI-13 | Medium | Partially implemented placeholder logic remains in phase7_human phase2_analysis modules. | `src/phase7_human/ergonomics.py:61-66`, `src/phase7_human/ergonomics.py:92`, `src/phase7_human/page_boundary.py:47` |
+| RI-13 | Medium | Partially implemented placeholder logic remains in human analysis modules. | `src/phase7_human/ergonomics.py:61-66`, `src/phase7_human/ergonomics.py:92`, `src/phase7_human/page_boundary.py:47` |
 | RI-14 | Medium | `_ingest_tokens` uses source id `corpus_gen` without corresponding source registration in this script path. | `scripts/phase4_inference/build_corpora.py:101` |
 
 ---
@@ -103,12 +103,12 @@ Top-level source module distribution:
 
 | ID | Severity | Finding | Evidence |
 |---|---|---|---|
-| MC-1 | High | Output provenance is inconsistent: 23 `run_*.py` scripts write JSON directly without `ProvenanceWriter`. | core_audit scan across `scripts/run_*.py`; e.g., `scripts/phase4_inference/run_lang_id.py:116-117`, `scripts/phase7_human/run_7c_comparative.py:125-126`, `scripts/phase5_mechanism/run_5k_pilot.py:115-116`. |
+| MC-1 | High | Output provenance is inconsistent: 23 `run_*.py` scripts write JSON directly without `ProvenanceWriter`. | audit scan across `scripts/run_*.py`; e.g., `scripts/phase4_inference/run_lang_id.py:116-117`, `scripts/phase7_human/run_7c_comparative.py:125-126`, `scripts/phase5_mechanism/run_5k_pilot.py:115-116`. |
 | MC-2 | High | Result files are static names, so repeated runs overwrite artifacts rather than append immutable run snapshots. | Same script set as MC-1 (fixed filenames under `results/*`). |
-| MC-3 | High | Test coverage remains low for release-grade confidence (33% total; many critical modules at 0%). | `pytest --cov` output (phase2_analysis/anomaly, phase2_analysis/models, many phase1_foundation modules). |
+| MC-3 | High | Test coverage remains low for release-grade confidence (33% total; many critical modules at 0%). | `pytest --cov` output (phase2_analysis/anomaly, phase2_analysis/models, many foundation modules). |
 | MC-4 | Medium | `RunContext` default constructor path is invalid because `RunID` requires explicit value or seed. | `src/phase1_foundation/runs/context.py:31`, `src/phase1_foundation/core/ids.py:64`; `RunContext()` raises `ValueError`. |
-| MC-5 | Medium | Stubs in QC/reporting remain non-phase6_functional (`pass`). | `src/phase1_foundation/qc/reporting.py:11`, `src/phase1_foundation/qc/reporting.py:19` |
-| MC-6 | Medium | Duplicated data-access helper in phase7_human runner bypasses shared query utility. | `scripts/phase7_human/run_7c_comparative.py:27-54` vs shared `src/phase1_foundation/core/queries.py:21-51`. |
+| MC-5 | Medium | Stubs in QC/reporting remain non-functional (`pass`). | `src/phase1_foundation/qc/reporting.py:11`, `src/phase1_foundation/qc/reporting.py:19` |
+| MC-6 | Medium | Duplicated data-access helper in human runner bypasses shared query utility. | `scripts/phase7_human/run_7c_comparative.py:27-54` vs shared `src/phase1_foundation/core/queries.py:21-51`. |
 | MC-7 | Low | Pydantic v2 deprecation still present for class-based config. | `src/phase1_foundation/runs/context.py:91-92` (warning observed in pytest). |
 
 ---
@@ -128,7 +128,7 @@ Top-level source module distribution:
 
 | ID | Severity | Finding | Location |
 |---|---|---|---|
-| DOC-1 | High | Sensitivity phase2_analysis remains documented as planned-only and unexecuted; required sweep script is still absent. | `governance/SENSITIVITY_ANALYSIS.md:5-9`, planned script at `:39`; no `scripts/phase2_analysis/run_sensitivity_sweep.py` present. |
+| DOC-1 | High | Sensitivity analysis remains documented as planned-only and unexecuted; required sweep script is still absent. | `governance/SENSITIVITY_ANALYSIS.md:5-9`, planned script at `:39`; no `scripts/phase2_analysis/run_sensitivity_sweep.py` present. |
 | DOC-2 | Medium | README principle says determinism is mandatory, but reproducibility checks currently demonstrate nondeterministic outputs in Test A path. | `README.md:39`; empirical test output diff for `run_test_a.py`. |
 | DOC-3 | Medium | Reproducibility guide points users to verification script that currently fails in default shell state without venv. | `governance/governance/REPRODUCIBILITY.md:92-93`; `scripts/verify_reproduction.sh:8-10`. |
 
@@ -154,7 +154,7 @@ Top-level source module distribution:
 | `bash scripts/verify_reproduction.sh` | **Fail** | Stops at environment check: `ERROR: Virtual environment not active.` |
 | `bash scripts/ci_check.sh` | **Fail** | Reaches determinism stage then fails via `verify_reproduction.sh`. |
 | `python scripts/phase3_synthesis/run_test_a.py` twice + diff output | **Fail (non-deterministic)** | Result metrics differ between run 1 and run 2. |
-| `python -c "import phase1_foundation.configs.loader"` | **Fail** | Import raises `NameError: Tuple is not defined`. |
+| `python -c "import foundation.configs.loader"` | **Fail** | Import raises `NameError: Tuple is not defined`. |
 
 ---
 

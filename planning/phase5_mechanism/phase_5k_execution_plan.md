@@ -4,7 +4,7 @@
 **Phase:** 5K  
 **Phase Name:** Final Internal Collapse  
 **Goal Type:** Explanatory sufficiency and residual ambiguity elimination  
-**Primary Goal:** Determine whether the remaining escape hatch for a position-indexed explicit graph (augmented DAG) is **explanatorily admissible**, or whether the Voynich production phase5_mechanism must be classified as an **implicit, feature-conditioned constraint system** (lattice-like), by applying parsimony and residual-dependency tests.
+**Primary Goal:** Determine whether the remaining escape hatch for a position-indexed explicit graph (augmented DAG) is **explanatorily admissible**, or whether the Voynich production mechanism must be classified as an **implicit, feature-conditioned constraint system** (lattice-like), by applying parsimony and residual-dependency tests.
 
 ---
 
@@ -211,7 +211,7 @@ Phase 5K terminates when:
 
 Phase 5K may conclude:
 - Whether the remaining explicit-graph alternative is explanatorily admissible
-- Whether the phase5_mechanism must be classified as an implicit constraint system
+- Whether the mechanism must be classified as an implicit constraint system
 
 Phase 5K may not conclude:
 - Anything about semantics or meaning

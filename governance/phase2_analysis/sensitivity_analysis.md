@@ -69,7 +69,7 @@ Interpretation policy:
 ## Purpose
 
 The pipeline uses threshold and weight parameters that can affect model status and rankings.  
-This phase2_analysis tests whether high-level conclusions remain stable under controlled parameter variation while explicitly tracking data-quality caveats.
+This analysis tests whether high-level conclusions remain stable under controlled parameter variation while explicitly tracking data-quality caveats.
 
 ## Parameter Scope
 

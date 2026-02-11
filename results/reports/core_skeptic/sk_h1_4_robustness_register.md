@@ -17,7 +17,7 @@ Baseline tuple (frozen):
 - `status=CONCLUSIVE_NO_COUPLING`
 - `status_reason=adequacy_and_inference_support_no_coupling`
 - `adequacy.pass=true`
-- `phase4_inference.decision=NO_COUPLING`
+- `inference.decision=NO_COUPLING`
 - `h1_4_closure_lane=H1_4_QUALIFIED`
 - `h1_4_residual_reason=registered_lane_fragility`
 

@@ -11,13 +11,13 @@
 
 Address the pass-2 `SK-H1` residual by attempting to resolve multimodal illustration/layout coupling conclusively where feasible, while preserving fail-closed evidence governance if adequacy cannot be satisfied.
 
-This plan targets the remaining core_skeptic challenge:
+This plan targets the remaining skeptic challenge:
 
 - "You now acknowledge ambiguity correctly, but the image-text case is still not decisively closed."
 
 Desired endpoint:
 
-1. conclusive SK-H1 coupling outcome (`CONCLUSIVE_NO_COUPLING` or `CONCLUSIVE_COUPLING_PRESENT`) if adequacy and phase4_inference criteria are met, or
+1. conclusive SK-H1 coupling outcome (`CONCLUSIVE_NO_COUPLING` or `CONCLUSIVE_COUPLING_PRESENT`) if adequacy and inference criteria are met, or
 2. governance-complete bounded outcome (`INCONCLUSIVE_UNDERPOWERED` or `BLOCKED_DATA_GEOMETRY`) with explicit evidence limits and anti-overreach safeguards.
 
 ---
@@ -46,7 +46,7 @@ Current residual condition:
 
 - SK-H1 residual closure strategy for underpowered multimodal coupling evidence.
 - Anchor geometry/method search and cohort-construction improvements to increase adequacy.
-- Confirmatory phase4_inference hardening (uncertainty, stability, and practical-effect interpretation).
+- Confirmatory inference hardening (uncertainty, stability, and practical-effect interpretation).
 - Status/report synchronization for conclusive vs non-conclusive multimodal outcomes.
 - Gate/test contracts to prevent categorical claims on underpowered runs.
 
@@ -63,7 +63,7 @@ Current residual condition:
 `SK-H1` pass-2 residual is considered closed only when all criteria below are satisfied:
 
 1. Multimodal adequacy diagnostics are reproducible and machine-validated per policy.
-2. At least one policy-registered anchor/method lane has been explored with deterministic provenance and phase8_comparative adequacy evidence.
+2. At least one policy-registered anchor/method lane has been explored with deterministic provenance and comparative adequacy evidence.
 3. Final multimodal status is deterministic and auditable:
    - conclusive (if criteria met), or
    - explicitly bounded non-conclusive (if criteria not met).
@@ -106,8 +106,8 @@ PY
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | B1 | Define registered anchor-method sweep matrix (thresholds/method variants/relation filters) before reruns. | `configs/core_skeptic/sk_h1_multimodal_policy.json` and/or new sweep config | Sweep matrix is explicit and versioned pre-run. |
-| B2 | Run coverage core_audit per candidate method and collect comparable adequacy metrics. | `core_status/phase5_mechanism/anchor_coverage_audit.json` + by-run snapshots | Candidate ranking by adequacy gain produced. |
-| B3 | Select best feasible method by adequacy-first criteria (not desired phase4_inference outcome). | New `reports/core_skeptic/SK_H1_2_METHOD_SELECTION.md` | Selection rationale is anti-tuning and auditable. |
+| B2 | Run coverage audit per candidate method and collect comparable adequacy metrics. | `core_status/phase5_mechanism/anchor_coverage_audit.json` + by-run snapshots | Candidate ranking by adequacy gain produced. |
+| B3 | Select best feasible method by adequacy-first criteria (not desired inference outcome). | New `reports/core_skeptic/SK_H1_2_METHOD_SELECTION.md` | Selection rationale is anti-tuning and auditable. |
 
 ### Verification
 
@@ -161,7 +161,7 @@ python3 scripts/phase5_mechanism/run_5i_anchor_coupling.py
 python3 - <<'PY'
 import json
 r=json.load(open('results/phase5_mechanism/anchor_coupling_confirmatory.json')).get('results',{})
-print(r.get('status'), r.get('phase4_inference',{}).get('decision'), r.get('effect',{}).get('p_value'))
+print(r.get('status'), r.get('inference',{}).get('decision'), r.get('effect',{}).get('p_value'))
 PY
 ```
 
@@ -194,7 +194,7 @@ rg -n "illustration|coupling|inconclusive|conclusive|status-gated|underpowered" 
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| F1 | Add/extend contract tests for required SK-H1 status, adequacy, and phase4_inference fields. | `tests/phase5_mechanism/test_anchor_coupling_contract.py`, related tests | Artifact schema and status mapping are enforced. |
+| F1 | Add/extend contract tests for required SK-H1 status, adequacy, and inference fields. | `tests/phase5_mechanism/test_anchor_coupling_contract.py`, related tests | Artifact schema and status mapping are enforced. |
 | F2 | Add/extend claim-guard tests keyed to multimodal status class. | `tests/phase7_human/test_phase7_claim_guardrails.py` | Non-conclusive status blocks categorical language. |
 | F3 | Integrate/confirm SK-H1 checks in CI/release paths where applicable. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh` | Pipeline catches SK-H1 overreach automatically. |
 
@@ -217,7 +217,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | G1 | Add SK-H1.2 adequacy and method-selection registers. | `reports/core_skeptic/SK_H1_2_ADEQUACY_REGISTER.md`, `reports/core_skeptic/SK_H1_2_METHOD_SELECTION.md` | Attempt history and rationale documented. |
 | G2 | Add SK-H1.2 execution status report with evidence summary and residual risks. | `reports/core_skeptic/SKEPTIC_H1_2_EXECUTION_STATUS.md` (during execution) | End-state and evidence quality explicitly recorded. |
-| G3 | Add core_audit-log entry linking SK-H1 pass-2 residual to implemented controls and final decision. | `AUDIT_LOG.md` | Trace complete and file-referenced. |
+| G3 | Add audit-log entry linking SK-H1 pass-2 residual to implemented controls and final decision. | `AUDIT_LOG.md` | Trace complete and file-referenced. |
 
 ### Verification
 
@@ -232,7 +232,7 @@ rg -n "SK-H1.2|INCONCLUSIVE_UNDERPOWERED|BLOCKED_DATA_GEOMETRY|CONCLUSIVE_" AUDI
 1. WS-H1.2-A (baseline/adequacy decomposition)
 2. WS-H1.2-B (anchor-method sweep and coverage ranking)
 3. WS-H1.2-C (cohort adequacy recovery)
-4. WS-H1.2-D (phase4_inference robustness)
+4. WS-H1.2-D (inference robustness)
 5. WS-H1.2-E (core_status/report coherence)
 6. WS-H1.2-F (contract/gate hardening)
 7. WS-H1.2-G (traceability closeout)
@@ -247,11 +247,11 @@ Rationale:
 
 | Condition | Output Status | Allowed Claim |
 |---|---|---|
-| Adequacy passes and confirmatory phase4_inference supports null-coupling under policy thresholds. | `H1_2_ALIGNED` | "No robust image/layout coupling detected under tested criteria." |
-| Adequacy passes and confirmatory phase4_inference supports coupling signal under policy thresholds. | `H1_2_ALIGNED` | "A coupling signal is detected under tested criteria, with uncertainty bounds." |
-| Adequacy remains below threshold, or adequacy recovers but phase4_inference is stability-fragile across registered seeds/lanes; governance/report contracts are complete. | `H1_2_QUALIFIED` | "Image/layout coupling remains non-conclusive under current evidence envelope." |
+| Adequacy passes and confirmatory inference supports null-coupling under policy thresholds. | `H1_2_ALIGNED` | "No robust image/layout coupling detected under tested criteria." |
+| Adequacy passes and confirmatory inference supports coupling signal under policy thresholds. | `H1_2_ALIGNED` | "A coupling signal is detected under tested criteria, with uncertainty bounds." |
+| Adequacy remains below threshold, or adequacy recovers but inference is stability-fragile across registered seeds/lanes; governance/report contracts are complete. | `H1_2_QUALIFIED` | "Image/layout coupling remains non-conclusive under current evidence envelope." |
 | Artifact semantics, report language, or gate checks are inconsistent with status class. | `H1_2_BLOCKED` | "SK-H1.2 remains unresolved due multimodal contract incoherence." |
-| Evidence is insufficient to classify whether adequacy failure is remediable. | `H1_2_INCONCLUSIVE` | "SK-H1.2 provisional pending deeper adequacy phase2_analysis." |
+| Evidence is insufficient to classify whether adequacy failure is remediable. | `H1_2_INCONCLUSIVE` | "SK-H1.2 provisional pending deeper adequacy analysis." |
 
 Execution outcome: `H1_2_QUALIFIED`.
 
@@ -267,7 +267,7 @@ Execution outcome: `H1_2_QUALIFIED`.
 | WS-H1.2-D Inference Robustness | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Stability envelope documented; residual classified as inferential ambiguity under mixed-seed behavior. |
 | WS-H1.2-E Status/Report Coherence | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated Phase 5H/5I and Phase 7 summary language to explicit status-gated non-conclusive posture. |
 | WS-H1.2-F Contract/Gate Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added multimodal checker/policy and integrated it in CI/pre-release/repro paths with contract tests. |
-| WS-H1.2-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-H1.2 execution status report and core_audit trace entry. |
+| WS-H1.2-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-H1.2 execution status report and audit trace entry. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

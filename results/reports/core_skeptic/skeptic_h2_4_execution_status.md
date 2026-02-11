@@ -24,7 +24,7 @@ Scope: pass-4 SK-H2 claim-entitlement closure hardening
 
 - Added claim-surface dependency matrix:
   - `reports/core_skeptic/SK_H2_4_GATE_DEPENDENCY_MATRIX.md`
-- Expanded H2 tracked surfaces to include phase8_comparative closure docs.
+- Expanded H2 tracked surfaces to include comparative closure docs.
 
 ### WS-H2.4-C Policy Hardening
 

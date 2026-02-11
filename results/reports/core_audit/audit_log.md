@@ -293,7 +293,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
 
 ### Execution Notes
 
-- Extended phase8_comparative uncertainty producer:
+- Extended comparative uncertainty producer:
   - `src/phase8_comparative/mapping.py`
   - new fields: `fragility_diagnostics`, `m2_4_closure_lane`, `m2_4_reopen_triggers`
 - Added profile-based runner support:
@@ -346,7 +346,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
   - `H2_4_QUALIFIED`
   - `H2_4_BLOCKED` / `H2_4_INCONCLUSIVE`
 - Require freshness-aware gate-health coupling in H2/M1 checkers.
-- Expand H2 claim-surface coverage to include phase8_comparative boundary/phase3_synthesis documents.
+- Expand H2 claim-surface coverage to include comparative boundary/phase3_synthesis documents.
 - Enforce cross-policy H2/M1 entitlement coherence in CI, pre-release, and reproduction scripts.
 
 ### Execution Notes
@@ -405,7 +405,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
 
 ### Execution Notes
 
-- Added H1.4 status and robustness semantics in phase5_mechanism and checker paths:
+- Added H1.4 status and robustness semantics in mechanism and checker paths:
   - `src/phase5_mechanism/anchor_coupling.py`
   - `scripts/phase5_mechanism/run_5i_anchor_coupling.py`
   - `configs/core_skeptic/sk_h1_multimodal_policy.json`
@@ -552,7 +552,7 @@ Source findings: `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_6.md`
 
 - Keep `run_id` immutable and unique; persist final run state via completion callbacks.
 - Treat provenance result artifacts as immutable snapshots: omit mutable `status`.
-- Preserve `core_status/` as transient outputs; add documented support_cleanup path.
+- Preserve `core_status/` as transient outputs; add documented cleanup path.
 - Enforce sensitivity artifact integrity checks in reproducibility verification.
 
 ### In Progress
@@ -577,7 +577,7 @@ Source findings: `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_7.md`
 - Verification scripts must emit an explicit completion token and fail non-zero on partial execution.
 - Sensitivity release evidence requires `mode=release` and full scenario execution (`executed == expected`).
 - Missing-manifest historical runs are classified as `orphaned` and timestamp-closed for ambiguity reduction.
-- Pre-release baseline checks are scriptable and must validate sensitivity release readiness and core_audit log presence.
+- Pre-release baseline checks are scriptable and must validate sensitivity release readiness and audit log presence.
 
 ### Execution Notes
 
@@ -623,7 +623,7 @@ Source findings: `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_8.md`
 - Added targeted tests for prior 0%-coverage modules:
   - `core/logging`, `core/models`, `qc/anomalies`, `qc/checks`, `storage/filesystem`, `storage/interface`
 - Coverage increased to `52.28%`; prior 0% modules now range from `80%` to `100%`.
-- Legacy status artifact support_cleanup script now supports `legacy-report` and accurate zero-match reporting.
+- Legacy status artifact cleanup script now supports `legacy-report` and accurate zero-match reporting.
 
 ### In Progress / Residual
 
@@ -678,21 +678,21 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
 
 ### Decisions
 
-- Introduce SK-H1 multimodal policy with explicit adequacy and phase4_inference thresholds.
+- Introduce SK-H1 multimodal policy with explicit adequacy and inference thresholds.
 - Make coupling outcomes status-gated:
   - `CONCLUSIVE_NO_COUPLING`
   - `CONCLUSIVE_COUPLING_PRESENT`
   - `INCONCLUSIVE_UNDERPOWERED`
   - `BLOCKED_DATA_GEOMETRY`
 - Require allowed-claim text in the coupling artifact so downstream reports cannot exceed evidence class.
-- Add pre-coupling coverage core_audit and Phase 7 evidence-grade ingestion.
+- Add pre-coupling coverage audit and Phase 7 evidence-grade ingestion.
 
 ### Execution Notes
 
 - Added policy/config and contract docs:
   - `configs/core_skeptic/sk_h1_multimodal_policy.json`
   - `governance/MULTIMODAL_COUPLING_POLICY.md`
-- Added SK-H1 phase2_analysis utilities:
+- Added SK-H1 analysis utilities:
   - `src/phase5_mechanism/anchor_coupling.py`
 - Added scripts:
   - `scripts/phase5_mechanism/audit_anchor_coverage.py`
@@ -788,7 +788,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
 - Added SK-H3 checker and tests:
   - `scripts/core_skeptic/check_control_comparability.py`
   - `tests/core_skeptic/test_control_comparability_checker.py`
-- Added deterministic control-matching core_audit runner:
+- Added deterministic control-matching audit runner:
   - `scripts/phase3_synthesis/run_control_matching_audit.py`
 - Extended Turing artifact flow with comparability block:
   - `scripts/phase3_synthesis/run_indistinguishability_test.py`
@@ -873,14 +873,14 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
 ### Opened
 
 - Comparative distance claims were presented as point estimates with limited uncertainty disclosure.
-- Public phase8_comparative docs lacked explicit confidence intervals and perturbation-stability framing.
-- CI and pre-release paths had no SK-M2-specific policy gate for uncertainty-qualified phase8_comparative claims.
+- Public comparative docs lacked explicit confidence intervals and perturbation-stability framing.
+- CI and pre-release paths had no SK-M2-specific policy gate for uncertainty-qualified comparative claims.
 
 ### Decisions
 
-- Introduce SK-M2 phase8_comparative uncertainty policy and status taxonomy.
-- Generate canonical phase8_comparative uncertainty artifact with bootstrap and jackknife diagnostics.
-- Calibrate phase8_comparative narrative language to uncertainty-qualified claim classes.
+- Introduce SK-M2 comparative uncertainty policy and status taxonomy.
+- Generate canonical comparative uncertainty artifact with bootstrap and jackknife diagnostics.
+- Calibrate comparative narrative language to uncertainty-qualified claim classes.
 - Enforce SK-M2 checks in both CI and pre-release paths.
 
 ### Execution Notes
@@ -888,14 +888,14 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
 - Added SK-M2 policy artifacts:
   - `governance/COMPARATIVE_UNCERTAINTY_POLICY.md`
   - `configs/core_skeptic/sk_m2_comparative_uncertainty_policy.json`
-- Added phase8_comparative uncertainty computation and runner:
+- Added comparative uncertainty computation and runner:
   - `src/phase8_comparative/mapping.py`
   - `scripts/phase8_comparative/run_proximity_uncertainty.py`
 - Added SK-M2 checker and tests:
   - `scripts/core_skeptic/check_comparative_uncertainty.py`
   - `tests/core_skeptic/test_comparative_uncertainty_checker.py`
   - `tests/phase8_comparative/test_mapping_uncertainty.py`
-- Updated phase8_comparative reports to uncertainty-qualified phrasing:
+- Updated comparative reports to uncertainty-qualified phrasing:
   - `reports/phase8_comparative/PROXIMITY_ANALYSIS.md`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
   - `reports/phase8_comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md`
@@ -903,7 +903,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
 - Integrated SK-M2 checks into gate scripts:
   - `scripts/ci_check.sh`
   - `scripts/core_audit/pre_release_check.sh`
-- Updated reproducibility and core_skeptic trace artifacts:
+- Updated reproducibility and skeptic trace artifacts:
   - `governance/governance/REPRODUCIBILITY.md`
   - `reports/core_skeptic/SK_M2_COMPARATIVE_REGISTER.md`
   - `reports/core_skeptic/SKEPTIC_M2_EXECUTION_STATUS.md`
@@ -911,7 +911,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
 ### Current Evidence State
 
 - Canonical uncertainty artifact now exists at `results/phase7_human/phase_7c_uncertainty.json`.
-- Current SK-M2 phase8_comparative status is `INCONCLUSIVE_UNCERTAINTY` with `reason_code=RANK_UNSTABLE_UNDER_PERTURBATION`.
+- Current SK-M2 comparative status is `INCONCLUSIVE_UNCERTAINTY` with `reason_code=RANK_UNSTABLE_UNDER_PERTURBATION`.
 - Comparative claims are now policy-bounded to directional/caveated language until stability thresholds improve.
 
 ## 2026-02-10 - Skeptic SK-M4 Remediation
@@ -1106,7 +1106,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
   - direct provenance,
   - delegated provenance,
   - display-only exemption.
-- Keep phase8_comparative uncertainty runner as delegated provenance, but make delegation explicit and runtime-asserted.
+- Keep comparative uncertainty runner as delegated provenance, but make delegation explicit and runtime-asserted.
 - Integrate runner contract checks into CI, pre-release, and reproduction verification paths.
 
 ### Execution Notes
@@ -1115,7 +1115,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
   - `configs/core_audit/provenance_runner_contract.json`
 - Added runner contract checker:
   - `scripts/core_audit/check_provenance_runner_contract.py`
-- Updated phase8_comparative runner:
+- Updated comparative runner:
   - `scripts/phase8_comparative/run_proximity_uncertainty.py`
   - adds delegated provenance metadata in summary output
   - validates output provenance envelope after run
@@ -1180,7 +1180,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
   - `configs/core_skeptic/sk_h3_data_availability_policy.json`
 - Added SK-H3.2 checker:
   - `scripts/core_skeptic/check_control_data_availability.py`
-- Updated SK-H3 core_audit runner:
+- Updated SK-H3 audit runner:
   - `scripts/phase3_synthesis/run_control_matching_audit.py`
   - now writes `core_status/phase3_synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json`
   - now writes bounded subset fields to `core_status/phase3_synthesis/CONTROL_COMPARABILITY_STATUS.json`
@@ -1302,23 +1302,23 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
 ### Decisions
 
 - Add SK-M2.2 confidence diagnostics to the uncertainty artifact (rank stability, probability margin, top-2 fragility).
-- Apply policy-backed threshold logic and reason-code discipline in phase8_comparative status evaluation.
+- Apply policy-backed threshold logic and reason-code discipline in comparative status evaluation.
 - Execute pre-registered seed/iteration confidence matrix and select publication lane via anti-tuning rule.
 - Extend reproduction-path checks to include SK-M2 uncertainty contract validation.
 
 ### Execution Notes
 
-- Updated phase8_comparative uncertainty engine:
+- Updated comparative uncertainty engine:
   - `src/phase8_comparative/mapping.py`
   - added `rank_stability`, `rank_stability_components`, `nearest_neighbor_probability_margin`, `top2_gap_fragile`, `metric_validity`, and threshold-driven status logic.
-- Updated phase8_comparative runner:
+- Updated comparative runner:
   - `scripts/phase8_comparative/run_proximity_uncertainty.py`
   - now loads policy thresholds and runs under `active_run` so uncertainty artifacts carry full provenance run IDs.
 - Updated SK-M2 policy/checker:
   - `configs/core_skeptic/sk_m2_comparative_uncertainty_policy.json`
   - `scripts/core_skeptic/check_comparative_uncertainty.py`
   - added nested key requirements, core_status/reason compatibility checks, and threshold checks for strengthened statuses.
-- Updated phase8_comparative reports:
+- Updated comparative reports:
   - `reports/phase8_comparative/PROXIMITY_ANALYSIS.md`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
@@ -1363,7 +1363,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
 
 ### Opened
 
-- Pass-2 core_skeptic assessment showed closure/non-claim language was materially improved but still vulnerable when operational gates fail.
+- Pass-2 skeptic assessment showed closure/non-claim language was materially improved but still vulnerable when operational gates fail.
 - Existing H2/M1 checks were static text-policy checks and did not enforce gate-dependent entitlement downgrade.
 - No canonical artifact existed to map current gate-health posture to allowed claim/closure class.
 
@@ -1480,7 +1480,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
   - `tests/core_audit/test_ci_check_contract.py`
   - `tests/core_audit/test_pre_release_contract.py`
   - `tests/core_audit/test_verify_reproduction_contract.py`
-- Updated provenance docs and core_skeptic registers:
+- Updated provenance docs and skeptic registers:
   - `governance/HISTORICAL_PROVENANCE_POLICY.md`
   - `governance/PROVENANCE.md`
   - `governance/governance/REPRODUCIBILITY.md`
@@ -1608,7 +1608,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
 
 - Add a distinct inferential-ambiguity status class (`INCONCLUSIVE_INFERENTIAL_AMBIGUITY`).
 - Keep `INCONCLUSIVE_UNDERPOWERED` exclusively for adequacy-threshold failures.
-- Enforce coherence in policy and checker (status_reason + adequacy flags + phase4_inference decision compatibility).
+- Enforce coherence in policy and checker (status_reason + adequacy flags + inference decision compatibility).
 - Execute a minimal registered seed/size matrix to validate all SK-H1 non-conclusive/conclusive branches.
 - Restore canonical publication artifact to policy defaults after matrix probes.
 
@@ -1739,13 +1739,13 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
 
 - Pass-5 SK-M2 remained bounded/inconclusive with persistent top-2 identity fragility.
 - Prior pass left contract gaps (`m2_4_residual_reason` null; no deterministic `m2_5_*` closure fields).
-- Missing-folio objections continued to be reused as SK-M2 blockers without objective phase8_comparative validity linkage.
+- Missing-folio objections continued to be reused as SK-M2 blockers without objective comparative validity linkage.
 
 ### Decisions
 
 - Introduce deterministic SK-M2.5 lane semantics (`M2_5_ALIGNED`, `M2_5_QUALIFIED`, `M2_5_BOUNDED`, `M2_5_BLOCKED`, `M2_5_INCONCLUSIVE`).
 - Require non-null residual reason and reopen triggers for M2.4 and M2.5 lanes.
-- Enforce missing-folio non-blocking criteria for SK-M2 unless objective phase8_comparative-input validity failure is explicitly evidenced.
+- Enforce missing-folio non-blocking criteria for SK-M2 unless objective comparative-input validity failure is explicitly evidenced.
 - Add SK-M2 dependency lane/reason projection to release gate-health snapshots.
 
 ### Execution Notes
@@ -1757,7 +1757,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
 - Updated SK-M2 policy and checker:
   - `configs/core_skeptic/sk_m2_comparative_uncertainty_policy.json`
   - `scripts/core_skeptic/check_comparative_uncertainty.py`
-- Updated phase8_comparative narrative surfaces:
+- Updated comparative narrative surfaces:
   - `reports/phase8_comparative/PROXIMITY_ANALYSIS.md`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
@@ -1804,9 +1804,9 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
   - `m2_5_residual_reason=top2_identity_flip_rate_remains_dominant`
   - `m2_5_data_availability_linkage.missing_folio_blocking_claimed=false`
   - `m2_5_data_availability_linkage.objective_comparative_validity_failure=false`
-- `core_status/core_audit/release_gate_health_status.json` dependency snapshot now carries phase8_comparative lane/reason fields:
+- `core_status/core_audit/release_gate_health_status.json` dependency snapshot now carries comparative lane/reason fields:
   - `comparative_status=INCONCLUSIVE_UNCERTAINTY`
   - `comparative_reason_code=TOP2_IDENTITY_FLIP_DOMINANT`
   - `comparative_m2_5_derived_closure_lane=M2_5_BOUNDED`
 
-- SK-M2.5 closure outcome is `M2_5_BOUNDED`: process/contract defects are closed; empirical phase8_comparative instability remains explicitly bounded and reopenable.
+- SK-M2.5 closure outcome is `M2_5_BOUNDED`: process/contract defects are closed; empirical comparative instability remains explicitly bounded and reopenable.

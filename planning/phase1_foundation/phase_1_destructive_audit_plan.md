@@ -11,7 +11,7 @@ executed: 2026-02-06
 
 ## Objective
 
-To deliberately break common assumptions and record failures, ensuring Phase 1 findings include at least one structure that fails controls, one that fails sensitivity phase2_analysis, and one widely believed idea that becomes inadmissible.
+To deliberately break common assumptions and record failures, ensuring Phase 1 findings include at least one structure that fails controls, one that fails sensitivity analysis, and one widely believed idea that becomes inadmissible.
 
 ---
 
@@ -37,7 +37,7 @@ To deliberately break common assumptions and record failures, ensuring Phase 1 f
 
 The **fixed glyph identity** assumption collapsed under minor segmentation perturbation, demonstrating that:
 - Glyph identity is segmentation-dependent
-- Any phase2_analysis assuming stable glyph identity is inadmissible without explicit segmentation controls
+- Any analysis assuming stable glyph identity is inadmissible without explicit segmentation controls
 - This finding directly rules out naive natural language and enciphered language explanations
 
 ---
@@ -137,7 +137,7 @@ Summary:
 
 ## Impact on Phase 2
 
-The destructive core_audit findings directly informed Phase 2.1 Admissibility Mapping:
+The destructive audit findings directly informed Phase 2.1 Admissibility Mapping:
 
 - **Natural Language**: Ruled INADMISSIBLE due to glyph identity instability
 - **Enciphered Language**: Ruled INADMISSIBLE due to glyph identity instability

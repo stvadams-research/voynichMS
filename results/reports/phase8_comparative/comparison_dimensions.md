@@ -54,7 +54,7 @@ This document defines the non-semantic dimensions used to compare the Voynich Ma
 - **Confounds:** Differing standards of "cleanliness" in different traditions.
 
 ### 9. Layout Coupling
-- **Definition:** The sensitivity of the production phase5_mechanism to the physical geometry of the page.
+- **Definition:** The sensitivity of the production mechanism to the physical geometry of the page.
 - **Indicators:** Line length correlation with position, text wrapping behavior, obstruction avoidance.
 - **Exclusions:** Decorative integration.
 - **Confounds:** Pre-ruled margins or grids.

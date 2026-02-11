@@ -24,7 +24,7 @@ Overall status:
 | WS-C Indistinguishability Release Path Hardening | BLOCKED (data) | Added strict preflight + fail-fast diagnostics for fallback/simulated path prevention; strict run now fails fast due missing real pages. |
 | WS-D Run Metadata and Provenance Reconciliation | COMPLETE | Extended repair utility with orphan classification and reporting; reconciled stale historical rows. |
 | WS-E Coverage and Verification Depth Hardening | COMPLETE | CI default coverage raised to 50%, critical module enforcement made non-optional, verifier integrity checks tightened. |
-| WS-F Baseline Hygiene and Artifact Lifecycle | COMPLETE | Added pre-release baseline gate and support_cleanup dry-run summary behavior; governance/policy updated. |
+| WS-F Baseline Hygiene and Artifact Lifecycle | COMPLETE | Added pre-release baseline gate and cleanup dry-run summary behavior; governance/policy updated. |
 | Final Verification and Re-Audit | IN PROGRESS | All gates pass except strict indistinguishability completion, currently data-blocked. |
 
 ## 3) Implemented Changes
@@ -145,8 +145,8 @@ Changes:
   - `AUDIT_LOG.md` presence
   - sensitivity release-readiness verification
   - intentional-diff control via `ALLOW_DIRTY_RELEASE=1`
-- Added core_audit contract tests for new release/hygiene scripts.
-- Updated docs with pre-release gate usage and support_cleanup workflow.
+- Added audit contract tests for new release/hygiene scripts.
+- Updated docs with pre-release gate usage and cleanup workflow.
 - Logged Audit 7 decisions and execution notes in `AUDIT_LOG.md`.
 
 ## 4) Verification Evidence
@@ -197,7 +197,7 @@ Result: pass.
 | `DOC-3` | CLOSED | Reproducibility docs updated to reflect strict verifier completion semantics and pre-release gate behavior. |
 | `RI-9` | CLOSED | Full release-mode sweep run (`17/17`) with `release_evidence_ready=True`. |
 | `MC-2` | CLOSED | Historical stale rows reconciled/classified (`orphaned`) with report output. |
-| `ST-1` | PARTIAL | New artifacts follow policy; historical legacy snapshots remain but are policy-classified and support_cleanup-managed. |
+| `ST-1` | PARTIAL | New artifacts follow policy; historical legacy snapshots remain but are policy-classified and cleanup-managed. |
 | `MC-3` | CLOSED | CI defaults tightened to stage 3 (`50%`) and critical-module enforcement default enabled. |
 | `MC-5` | CLOSED | Verifier now includes stronger sensitivity release-evidence integrity checks and strict completion contract. |
 | `RI-6` | PARTIAL | Strict computed enforcement path improved; fallback still available outside strict mode by design. |

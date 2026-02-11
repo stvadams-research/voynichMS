@@ -68,7 +68,7 @@ Holdout metrics are used to assign comparability status classes (`COMPARABLE_CON
 
 Before a generator class is considered comparability-ready:
 
-1. Run deterministic matching core_audit:
+1. Run deterministic matching audit:
 
 ```bash
 python3 scripts/phase3_synthesis/run_control_matching_audit.py --preflight-only

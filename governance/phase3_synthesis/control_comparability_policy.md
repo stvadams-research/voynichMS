@@ -70,7 +70,7 @@ Required semantics:
 - `full_data_closure_eligible=false`
 - `allowed_claim` must state that available-subset findings are non-conclusive.
 - `approved_lost_pages_policy_version` must match the active SK-H3 data-availability policy.
-- `approved_lost_pages_source_note_path` must point to the core_skeptic register used to justify approved lost pages.
+- `approved_lost_pages_source_note_path` must point to the skeptic register used to justify approved lost pages.
 - `full_data_feasibility` must be declared as either `feasible` or `irrecoverable`.
 - `full_data_closure_terminal_reason` must explain why full-data closure is blocked or aligned.
 - `full_data_closure_reopen_conditions` must define objective reopen triggers.

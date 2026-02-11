@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Third-pass core_audit confirms that prior remediations (Reports 1 and 2) addressed targeted issues but the long tail of findings remains substantial. The codebase is architecturally sound but has pervasive issues with unseeded randomness, hardcoded thresholds, silent fallbacks, and documentation lag.
+Third-pass audit confirms that prior remediations (Reports 1 and 2) addressed targeted issues but the long tail of findings remains substantial. The codebase is architecturally sound but has pervasive issues with unseeded randomness, hardcoded thresholds, silent fallbacks, and documentation lag.
 
 ### Severity Distribution
 
@@ -27,7 +27,7 @@ Third-pass core_audit confirms that prior remediations (Reports 1 and 2) address
 
 | Category | Count | Location |
 |----------|-------|----------|
-| Primary phase2_analysis scripts | 4 | `scripts/phase2_analysis/run_phase_2_*.py` |
+| Primary analysis scripts | 4 | `scripts/phase2_analysis/run_phase_2_*.py` |
 | Synthesis scripts | 5 | `scripts/phase3_synthesis/run_*.py` |
 | Mechanism pilot scripts | 12 | `scripts/phase5_mechanism/run_5*_pilot.py` |
 | Foundation scripts | 3 | `scripts/phase1_foundation/` |
@@ -40,13 +40,13 @@ Third-pass core_audit confirms that prior remediations (Reports 1 and 2) address
 
 | Module | Python Files | Submodules |
 |--------|-------------|------------|
-| `src/phase1_foundation/` | ~45 | alignment, phase2_analysis, anchors, cli, configs, controls, core, decisions, hypotheses, metrics, qc, regions, runs, segmentation, storage, transcription |
+| `src/phase1_foundation/` | ~45 | alignment, analysis, anchors, cli, configs, controls, core, decisions, hypotheses, metrics, qc, regions, runs, segmentation, storage, transcription |
 | `src/phase2_analysis/` | ~15 | admissibility, anomaly, models, stress_tests |
 | `src/phase3_synthesis/` | ~12 | generators, refinement |
 | `src/phase5_mechanism/` | ~30 | constraint_geometry, dependency_scope, deterministic_grammar, entry_selection, generators, large_object, matching, parsimony, tests, topology_collapse, workflow |
 | `src/phase4_inference/` | ~10 | info_clustering, lang_id_transforms, morph_induction, network_features, topic_models |
 | `src/phase6_functional/` | ~8 | adversarial, efficiency, formal_system |
-| `src/phase7_human/` | ~5 | phase8_comparative, ergonomics, page_boundary, quire_analysis, scribe_coupling |
+| `src/phase7_human/` | ~5 | comparative, ergonomics, page_boundary, quire_analysis, scribe_coupling |
 | `src/phase8_comparative/` | 1 | mapping |
 | **Total** | **~126** | |
 
@@ -66,7 +66,7 @@ Third-pass core_audit confirms that prior remediations (Reports 1 and 2) address
 | P2 | High | 7 `random.uniform()` fallback values in feature discovery | `refinement/feature_discovery.py:111,156,203,270,620,677,726` |
 | P3 | High | Hardcoded default word length `return 5.2` | `profile_extractor.py:223` |
 | P4 | High | Hardcoded default repetition rate `return 0.20` (2x) | `profile_extractor.py:236,248` |
-| P5 | Medium | 6+ `return {}` stubs in phase4_inference analyzers | `phase7_human/phase8_comparative.py:26`, `phase4_inference/*/analyzer.py` |
+| P5 | Medium | 6+ `return {}` stubs in inference analyzers | `phase7_human/phase8_comparative.py:26`, `phase4_inference/*/analyzer.py` |
 | P6 | Medium | Simulated metric base values `3.0 + rng.uniform(...)` | `text_generator.py:325,330` |
 | P7 | Medium | Debug `print()` in non-CLI code | `qc/anomalies.py:27`, `phase2_analysis/sensitivity.py:36` |
 | P8 | Low | Commented-out database logic (6 lines) | `profile_extractor.py:276-281` |
@@ -128,7 +128,7 @@ Third-pass core_audit confirms that prior remediations (Reports 1 and 2) address
 | R4 | Critical | `random.seed(seed)` then bare `random.*()` calls | `phase1_foundation/controls/synthetic.py:13` |
 | R5 | High | `random.Random(seed)` used instead of RandomnessController | `phase3_synthesis/text_generator.py:308` |
 | R6 | High | `random.randint()` without seed in table generator | `phase5_mechanism/generators/constraint_geometry/table_variants.py:47-48` |
-| R7 | Medium | Multiple phase5_mechanism simulators use `random.Random(seed)` locally - correctly seeded but bypass RandomnessController | `phase5_mechanism/*/simulators.py` (8+ files) |
+| R7 | Medium | Multiple mechanism simulators use `random.Random(seed)` locally - correctly seeded but bypass RandomnessController | `phase5_mechanism/*/simulators.py` (8+ files) |
 | R8 | Medium | `RandomBlobProposer` uses local `random.Random(self.seed)` | `regions/dummy.py:59` |
 | R9 | Low | `uuid.uuid4()` in synthetic.py | `controls/synthetic.py:2` |
 
@@ -161,7 +161,7 @@ Third-pass core_audit confirms that prior remediations (Reports 1 and 2) address
 | OV1 | Medium | `StressTestResult` has no `run_id` or `timestamp` field | `stress_tests/interface.py:25-47` |
 | OV2 | Medium | Stress test results are NOT stored in DB (returned as dataclass, not persisted) | `stress_tests/*.py` |
 | OV3 | Medium | `MetricResultRecord` correctly stores `run_id` | `storage/metadata.py:254` |
-| OV4 | Low | `ProvenanceWriter` exists but only used in phase5_mechanism scripts | `core/provenance.py` |
+| OV4 | Low | `ProvenanceWriter` exists but only used in mechanism scripts | `core/provenance.py` |
 | OV5 | Low | RunContext captures git commit, timestamp, environment - comprehensive | `runs/context.py` |
 
 ---
@@ -216,7 +216,7 @@ Third-pass core_audit confirms that prior remediations (Reports 1 and 2) address
 
 | ID | Severity | Finding | Location |
 |----|----------|---------|----------|
-| DS1 | High | 12+ phase5_mechanism pilot scripts duplicate `get_lines()` helper | `scripts/phase5_mechanism/run_5*_pilot.py` |
+| DS1 | High | 12+ mechanism pilot scripts duplicate `get_lines()` helper | `scripts/phase5_mechanism/run_5*_pilot.py` |
 | DS2 | Medium | Script logic not importable from `src/` | `scripts/phase2_analysis/`, `scripts/phase3_synthesis/` |
 | DS3 | Low | No orphaned files detected; all `src/` modules are imported | - |
 
@@ -337,7 +337,7 @@ Third-pass core_audit confirms that prior remediations (Reports 1 and 2) address
 | profile_extractor.py syntax | Not found | X1 fixed | Confirmed fixed |
 | BASELINE_* circularity | Not specifically found | Not addressed | **NEW: 3 critical findings** |
 | SyntheticNull generates no tokens | Not found | Not found | **NEW: High finding** |
-| Sensitivity phase2_analysis unexecuted | Not found | Not found | **NEW: High finding** |
+| Sensitivity analysis unexecuted | Not found | Not found | **NEW: High finding** |
 | Documentation lag (Phase 4-5) | Not found | Not found | **NEW: High finding** |
 
 ---
@@ -354,7 +354,7 @@ Third-pass core_audit confirms that prior remediations (Reports 1 and 2) address
 
 4. **Resolve RepetitionRate dual formula** - choose one, remove the other from result details
 5. **Fix SyntheticNullGenerator** - currently generates pages with no tokens (incomplete control)
-6. **Execute sensitivity phase2_analysis** per SENSITIVITY_ANALYSIS.md or retract the document
+6. **Execute sensitivity analysis** per SENSITIVITY_ANALYSIS.md or retract the document
 7. **Update governance/REPRODUCIBILITY.md** to cover Phase 4-5
 
 ### Tier 3: Clarity and Maintenance (Medium)

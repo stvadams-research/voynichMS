@@ -45,9 +45,9 @@ Current canonical SK-M2 snapshot (latest artifact state):
 - `top2_gap.ci95_lower=0.0263`
 - `m2_4_residual_reason` currently unresolved/empty (`None`) and should be treated as a contract defect if reproducible.
 
-Residual core_skeptic leverage:
+Residual skeptic leverage:
 
-- phase8_comparative direction exists, but confidence entitlement is still instability-bounded.
+- comparative direction exists, but confidence entitlement is still instability-bounded.
 
 ---
 
@@ -55,11 +55,11 @@ Residual core_skeptic leverage:
 
 ### 3.1 M2.4 governance improved structure, not entitlement class
 
-Pass-4 introduced `M2_4_BOUNDED`, diagnostic blocks, and checker hardening, but did not cross the stability thresholds needed for stronger phase8_comparative closure.
+Pass-4 introduced `M2_4_BOUNDED`, diagnostic blocks, and checker hardening, but did not cross the stability thresholds needed for stronger comparative closure.
 
 ### 3.2 Residual fragility remains structurally stable
 
-Top-2 identity volatility and rank instability continue across registered perturbation behavior. This points to persistent phase8_comparative uncertainty rather than a single-run anomaly.
+Top-2 identity volatility and rank instability continue across registered perturbation behavior. This points to persistent comparative uncertainty rather than a single-run anomaly.
 
 ### 3.3 Contract drift risk still exists in residual semantics
 
@@ -75,9 +75,9 @@ Release sensitivity artifact gaps remain SK-C1 blockers; SK-M2 must remain indep
 
 This pass explicitly enforces the following:
 
-1. Approved irrecoverable missing folios are, by default, an SK-H3 data-availability constraint and **not** an SK-M2 phase8_comparative-uncertainty blocker.
-2. SK-M2 may only be blocked by folio/page loss if SK-M2 artifacts explicitly show phase8_comparative-input validity failure caused by missing source pages.
-3. Repeating missing-folio objections without SK-M2-specific phase8_comparative validity impact is not a new SK-M2 blocker.
+1. Approved irrecoverable missing folios are, by default, an SK-H3 data-availability constraint and **not** an SK-M2 comparative-uncertainty blocker.
+2. SK-M2 may only be blocked by folio/page loss if SK-M2 artifacts explicitly show comparative-input validity failure caused by missing source pages.
+3. Repeating missing-folio objections without SK-M2-specific comparative validity impact is not a new SK-M2 blocker.
 4. Any unresolved missing-folio argument must be routed to SK-H3 terminal-qualified governance unless objective SK-M2 causal linkage is demonstrated.
 
 This is not a waiver:
@@ -90,7 +90,7 @@ This is not a waiver:
 
 ## In Scope
 
-- SK-M2 phase8_comparative uncertainty artifact, policy, checker, gate, and report coherence.
+- SK-M2 comparative uncertainty artifact, policy, checker, gate, and report coherence.
 - Deterministic closure semantics for pass-5 SK-M2 governance.
 - Explicit anti-repeat reopen triggers for unchanged bounded evidence.
 - Explicit non-fixable vs fixable blocker taxonomy.
@@ -112,7 +112,7 @@ SK-M2.5 preserves M2.4 compatibility while adding deterministic pass-5 closure c
 
 All true:
 
-- phase8_comparative stability thresholds are met at confirmed class,
+- comparative stability thresholds are met at confirmed class,
 - rank and top-2 diagnostics are robust,
 - claim/report/gate surfaces are fully aligned.
 
@@ -120,7 +120,7 @@ All true:
 
 All true:
 
-- directional phase8_comparative signal is stable at qualified class,
+- directional comparative signal is stable at qualified class,
 - uncertainty remains bounded but not collapse-prone,
 - claims remain strictly qualified.
 
@@ -255,8 +255,8 @@ python3 scripts/phase8_comparative/run_proximity_uncertainty.py --profile releas
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| E1 | Add explicit SK-M2 missing-folio non-blocker criterion to core_skeptic playbook. | `planning/core_skeptic/ADVERSARIAL_SKEPTIC_PLAYBOOK.md` | Playbook unambiguously routes generic missing-folio objections away from SK-M2. |
-| E2 | Add SK-M2 checker-side assertion for data-availability objections (only block on objective phase8_comparative validity linkage). | SK-M2 checker/policy/tests | Unsupported missing-folio blocking arguments are rejected. |
+| E1 | Add explicit SK-M2 missing-folio non-blocker criterion to skeptic playbook. | `planning/core_skeptic/ADVERSARIAL_SKEPTIC_PLAYBOOK.md` | Playbook unambiguously routes generic missing-folio objections away from SK-M2. |
+| E2 | Add SK-M2 checker-side assertion for data-availability objections (only block on objective comparative validity linkage). | SK-M2 checker/policy/tests | Unsupported missing-folio blocking arguments are rejected. |
 | E3 | Record non-fixable blocker taxonomy in SK-M2 governance artifacts. | SK-M2 decision/status docs | Repeat-loop ambiguity is removed. |
 
 ### Verification
@@ -274,7 +274,7 @@ rg -n "missing folio|approved-lost|SK-M2|non-blocking|data-availability" plannin
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | F1 | Build SK-M2.5 claim-boundary register with lane-specific allowed/disallowed language. | New `reports/core_skeptic/SK_M2_5_CLAIM_BOUNDARY_REGISTER.md` | Claim scope is explicit and testable. |
-| F2 | Synchronize phase8_comparative reports and summaries to SK-M2.5 lane semantics. | phase8_comparative reports/docs | No conclusive language for bounded/inconclusive lane. |
+| F2 | Synchronize comparative reports and summaries to SK-M2.5 lane semantics. | comparative reports/docs | No conclusive language for bounded/inconclusive lane. |
 | F3 | Add/extend marker checks for required uncertainty-qualified phrasing. | checker/policy/tests | Missing boundary language fails closed. |
 
 ### Verification
@@ -313,10 +313,10 @@ python3 scripts/core_audit/build_release_gate_health_status.py
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| H1 | Add SK-M2.5 regression tests for residual reason completeness and lane determinism. | SK-M2 tests + core_audit contract tests | Regression suite fails if pass-5 semantics drift. |
+| H1 | Add SK-M2.5 regression tests for residual reason completeness and lane determinism. | SK-M2 tests + audit contract tests | Regression suite fails if pass-5 semantics drift. |
 | H2 | Add decision record with fixable vs non-fixable blocker ledger. | New `reports/core_skeptic/SK_M2_5_DECISION_RECORD.md` | Blocker classification is explicit and stable. |
 | H3 | Add execution status report with command evidence and outcomes. | New `reports/core_skeptic/SKEPTIC_M2_5_EXECUTION_STATUS.md` | Full pass-5 traceability exists. |
-| H4 | Link SK-M2.5 finding -> controls -> blockers -> reopen triggers in core_audit log. | `AUDIT_LOG.md` | Repeat-loop traceability is auditable. |
+| H4 | Link SK-M2.5 finding -> controls -> blockers -> reopen triggers in audit log. | `AUDIT_LOG.md` | Repeat-loop traceability is auditable. |
 
 ### Verification
 
@@ -374,7 +374,7 @@ Rationale:
 | WS-M2.5-E Missing-Folio Non-Blocker Enforcement | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added objective-linkage guardrails to prevent unsupported folio-based SK-M2 blocking. |
 | WS-M2.5-F Claim/Report Boundary Sync | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Comparative reports/docs synchronized to `M2_5_BOUNDED` entitlement language. |
 | WS-M2.5-G Pipeline/Gate Contract Parity | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | CI/pre-release/verify and release gate-health builder now enforce and project SK-M2.5 fields. |
-| WS-M2.5-H Regression + Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Targeted pytest suite passed; decision/status artifacts and core_audit-log linkage produced. |
+| WS-M2.5-H Regression + Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Targeted pytest suite passed; decision/status artifacts and audit-log linkage produced. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

@@ -50,7 +50,7 @@ Scope: Data-availability-governed closure for SK-H3 residual comparability
   - `scripts/ci_check.sh`
   - `scripts/core_audit/pre_release_check.sh`
   - `scripts/verify_reproduction.sh`
-- Updated core_audit contract tests:
+- Updated audit contract tests:
   - `tests/core_audit/test_ci_check_contract.py`
   - `tests/core_audit/test_pre_release_contract.py`
   - `tests/core_audit/test_verify_reproduction_contract.py`
@@ -70,7 +70,7 @@ Scope: Data-availability-governed closure for SK-H3 residual comparability
 
 - Updated plan tracker:
   - `planning/core_skeptic/SKEPTIC_H3_2_EXECUTION_PLAN.md`
-- Added this execution report and core_audit log trace entry.
+- Added this execution report and audit log trace entry.
 
 ## Verification Evidence
 

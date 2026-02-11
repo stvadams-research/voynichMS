@@ -35,7 +35,7 @@ Scope: Pass-3 SK-H3 residual closure (control comparability under data-availabil
 
 ### WS-H3.3-C Available-Subset Evidence Strengthening
 
-- Updated core_audit runner:
+- Updated audit runner:
   - `scripts/phase3_synthesis/run_control_matching_audit.py`
 - Added subset diagnostics and reproducibility payloads:
   - `available_subset_confidence`
@@ -79,7 +79,7 @@ Scope: Pass-3 SK-H3 residual closure (control comparability under data-availabil
 
 - Updated plan tracker:
   - `planning/core_skeptic/SKEPTIC_H3_3_EXECUTION_PLAN.md`
-- Added core_audit log trace entry:
+- Added audit log trace entry:
   - `AUDIT_LOG.md`
 
 ## Verification Evidence

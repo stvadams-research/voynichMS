@@ -1,7 +1,7 @@
 # PHASE 5 HYPOTHESIS CLASSES: IDENTIFIABILITY OF PRODUCTION MECHANISMS
 
 **Project:** Voynich Manuscript – Identifiability Phase  
-**Objective:** Define the finite set of phase5_mechanism classes to be evaluated for structural admissibility.
+**Objective:** Define the finite set of mechanism classes to be evaluated for structural admissibility.
 
 ---
 

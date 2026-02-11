@@ -14,7 +14,7 @@
 | Phase 3: Synthesis | COMPLETE | Mechanism: Rigid Grammar + Bounded Pool identified |
 | Phase 4: Inference | COMPLETE | Linguistic Proofs: Falsified; All results NOT DIAGNOSTIC |
 | Phase 4.5: Boundary | COMPLETE | Epistemic Closure: Meaning is structurally inadmissible |
-| Phase 5: Identifiability| COMPLETE | Table/Grille lead is strongest general phase5_mechanism |
+| Phase 5: Identifiability| COMPLETE | Table/Grille lead is strongest general mechanism |
 | Phase 5B: Geometry | COMPLETE | Static Table Falsified; Line-Reset Pool confirmed |
 | Phase 5C: Workflow | COMPLETE | Stochastic Pool Falsified; Rigid Deterministic Lead |
 | Phase 5D: Grammar | COMPLETE | Fixed Slots Falsified; Large-Object Traversal Lead |

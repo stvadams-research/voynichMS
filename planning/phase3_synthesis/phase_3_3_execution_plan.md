@@ -18,7 +18,7 @@ This phase exists to answer questions that retain value even under null results.
 Either outcome meaningfully collapses the hypothesis space.
 
 **Failure condition:**  
-Any adaptive, goal-driven, or outcome-tuned phase5_mechanism is introduced.
+Any adaptive, goal-driven, or outcome-tuned mechanism is introduced.
 
 ---
 
@@ -126,7 +126,7 @@ No hybrid, weighted, or adaptive schemes are permitted.
 - Stability of grammar necessity
 
 ### Explicit Non-Claims
-- No phase4_inference about scribal hands
+- No inference about scribal hands
 - No semantic role for variants
 - No decoding or cipher relevance
 
@@ -149,7 +149,7 @@ Before execution:
 
 During execution:
 - REQUIRE_COMPUTED enforced
-- No randomness outside seeded phase3_synthesis paths
+- No randomness outside seeded synthesis paths
 - Full provenance and computation tracking enabled
 
 After execution:

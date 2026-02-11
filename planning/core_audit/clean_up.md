@@ -1,7 +1,7 @@
 # VoynichMS Audit-Ready Cleanup Plan
-**Objective:** Make the codebase core_audit-ready for external scrutiny by tightening the engineering phase1_foundation first (code quality, determinism, tests, structure), then tightening internal docs and results capture, and only then producing a public-facing findings document.
+**Objective:** Make the codebase audit-ready for external scrutiny by tightening the engineering foundation first (code quality, determinism, tests, structure), then tightening internal docs and results capture, and only then producing a public-facing findings document.
 
-**Guiding rule:** No new research claims while the phase1_foundation is being tightened. This is a stabilization pass, not a discovery pass.
+**Guiding rule:** No new research claims while the foundation is being tightened. This is a stabilization pass, not a discovery pass.
 
 ---
 
@@ -21,7 +21,7 @@
   - determinism is broken
   - schemas drift
 
-### Deliverables of this support_cleanup phase
+### Deliverables of this cleanup phase
 - A stable, documented folder structure and naming convention.
 - A consistent results and run artifact format.
 - Strong automated tests (unit, integration, determinism, enforcement).
@@ -101,7 +101,7 @@ You can adjust, but pick a stable target:
 - `configs/` canonical configs (versioned)
 - `runs/` run artifacts (immutable, structured)
 - `data/` raw inputs + ledgers (immutable or write-once)
-- `results/` phase7_human-facing outputs generated from `runs/`
+- `results/` human-facing outputs generated from `runs/`
 - `governance/` internal technical docs (not public report)
 - `papers/` or `reports/` for public-facing writeups (later phase)
 
@@ -197,7 +197,7 @@ Pick a minimal set and enforce:
 ---
 
 ## 5. Phase 5: Test Coverage and Test Design (The Big One)
-**Goal:** Make your prior core_audit failure impossible to repeat.
+**Goal:** Make your prior audit failure impossible to repeat.
 
 ### 5.1 Test categories (minimum set)
 1) **Unit tests**
@@ -265,7 +265,7 @@ Pick a minimal set and enforce:
 **Goal:** Make internal artifacts coherent and traceable before writing anything public.
 
 ### 7.1 Standardize result capture
-- Every phase output goes through one reporting phase5_mechanism.
+- Every phase output goes through one reporting mechanism.
 - No ad hoc markdown scattered across random folders.
 - Reports reference RunIDs and configs explicitly.
 
@@ -278,7 +278,7 @@ Pick a minimal set and enforce:
 
 ### 7.3 Cleanup old artifacts
 - Move provisional documents to `archive_legacy/` with a header:
-  - “Provisional, pre-core_audit”
+  - “Provisional, pre-audit”
 - Keep them, but label them clearly.
 
 **Exit criteria**
@@ -310,4 +310,4 @@ Cleanup is done when:
 - naming and structure are stable
 - every published number is traceable to code + run + data hash
 
-At that point, writing can begin without fear of retraction-by-core_audit.
+At that point, writing can begin without fear of retraction-by-audit.

@@ -21,7 +21,7 @@ Phase 6B tests whether this discipline is:
 
 ### 1.3 What Phase 6B is not
 - Not a semantics test  
-- Not a phase5_mechanism-identification phase  
+- Not a mechanism-identification phase  
 - Not an adversarial intent test  
 
 Phase 6B evaluates optimization pressure, not meaning or deception.
@@ -31,7 +31,7 @@ Phase 6B evaluates optimization pressure, not meaning or deception.
 ## 2. Competing Hypotheses
 
 ### H6B.1 – Efficiency-Optimized Formal Tool
-The phase5_mechanism is designed to:
+The mechanism is designed to:
 - minimize effort,
 - reuse structures,
 - reduce production cost,
@@ -40,7 +40,7 @@ The phase5_mechanism is designed to:
 Observed inefficiencies are incidental or bounded.
 
 ### H6B.2 – Efficiency-Indifferent Formal System
-The phase5_mechanism:
+The mechanism:
 - does not optimize reuse,
 - does not minimize effort,
 - tolerates or enforces inefficiency,
@@ -176,4 +176,4 @@ Strongly supports efficiency-indifferent formal execution.
 
 ## 9. Phase 6B Termination Statement
 
-Phase 6B terminates when efficiency and optimization pressure are evaluated against matched controls and the presence or absence of optimization is decisively classified. Phase 6B does not infer purpose; it constrains feasible phase6_functional interpretations.
+Phase 6B terminates when efficiency and optimization pressure are evaluated against matched controls and the presence or absence of optimization is decisively classified. Phase 6B does not infer purpose; it constrains feasible functional interpretations.

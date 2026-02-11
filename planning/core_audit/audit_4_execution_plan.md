@@ -115,8 +115,8 @@ bash scripts/ci_check.sh
 ### Verification Commands
 
 ```bash
-python -c "import sys; sys.path.insert(0,'src'); import phase1_foundation.configs.loader"
-python -c "import sys; sys.path.insert(0,'src'); from phase1_foundation.runs.context import RunContext; print('ok')"
+python -c "import sys; sys.path.insert(0,'src'); import foundation.configs.loader"
+python -c "import sys; sys.path.insert(0,'src'); from foundation.runs.context import RunContext; print('ok')"
 python -m pytest -q tests/phase1_foundation
 ```
 
@@ -134,7 +134,7 @@ python -m pytest -q tests/phase1_foundation
 |---|---|---|---|
 | C1 | Redesign run identity model to avoid seed-only run ID collisions. Keep deterministic experiment linkage separately from unique run instance ID. | `src/phase1_foundation/runs/manager.py`, `src/phase1_foundation/core/ids.py`, `src/phase1_foundation/storage/metadata.py` | Repeated same-seed runs generate distinct run records without overwrite. |
 | C2 | Update result-writing conventions so outputs are run-scoped or append-only, not static overwrite paths. | `scripts/*/run_*.py`, `src/phase1_foundation/core/provenance.py` | Running same script twice preserves both outputs. |
-| C3 | Migrate scripts that currently use raw `json.dump` to standardized provenance writer pattern. | all affected `scripts/*/run_*.py` identified in core_audit | All runner outputs include provenance block and run linkage. |
+| C3 | Migrate scripts that currently use raw `json.dump` to standardized provenance writer pattern. | all affected `scripts/*/run_*.py` identified in audit | All runner outputs include provenance block and run linkage. |
 | C4 | Add compatibility strategy for existing consumers expecting old static filenames (index file or latest symlink/pointer). | `scripts/`, `governance/` | Backward compatibility maintained with explicit policy. |
 
 ### Verification Commands
@@ -158,13 +158,13 @@ find results -type f | sort
 
 | Task ID | Action | Target Files | Exit Criteria |
 |---|---|---|---|
-| D1 | Complete baseline phase3_synthesis assessment metrics currently marked `NOT COMPUTED` (or enforce explicit fail-fast if prerequisites missing). | `scripts/phase3_synthesis/run_baseline_assessment.py` | No silent placeholder outputs in baseline report path. |
+| D1 | Complete baseline synthesis assessment metrics currently marked `NOT COMPUTED` (or enforce explicit fail-fast if prerequisites missing). | `scripts/phase3_synthesis/run_baseline_assessment.py` | No silent placeholder outputs in baseline report path. |
 | D2 | Make language-ID transform randomization seed-controlled and deterministic per run configuration. | `scripts/phase4_inference/run_lang_id.py` | Same seed yields same transform set and scores. |
 | D3 | Fix token ingestion remainder loss by ingesting final partial page/chunk. | `scripts/phase4_inference/build_corpora.py` | Token count in DB matches intended source count exactly. |
 | D4 | Ensure transcription source IDs are registered consistently before use (`corpus_gen` path). | `scripts/phase4_inference/build_corpora.py` | No unregistered source ID usage. |
 | D5 | Replace bare `except:` with explicit exception handling and logging. | `scripts/phase5_mechanism/categorize_sections.py` | No bare exception remains in this module. |
 | D6 | Replace silent empty-config fallback behavior with explicit warning/error policy. | `src/phase1_foundation/config.py` | Missing config files cannot silently alter behavior unnoticed. |
-| D7 | Implement or explicitly decommission placeholder/stub phase2_analysis methods in phase7_human/QC modules. | `src/phase7_human/ergonomics.py`, `src/phase7_human/page_boundary.py`, `src/phase1_foundation/qc/reporting.py` | Placeholders no longer appear in release path. |
+| D7 | Implement or explicitly decommission placeholder/stub analysis methods in phase7_human/QC modules. | `src/phase7_human/ergonomics.py`, `src/phase7_human/page_boundary.py`, `src/phase1_foundation/qc/reporting.py` | Placeholders no longer appear in release path. |
 
 ### Verification Commands
 
@@ -293,10 +293,10 @@ The remediation campaign is complete only when all criteria are met:
 2. CI gate passes end-to-end:
    - `bash scripts/ci_check.sh` passes from documented setup.
 3. No critical findings from Audit 4 remain open.
-4. Sensitivity phase2_analysis is executed and reported.
+4. Sensitivity analysis is executed and reported.
 5. Provenance is present for all runner outputs and repeated runs do not overwrite history.
 6. Coverage target for current stage is met with no new warning debt.
-7. A fresh comprehensive core_audit is generated after remediation:
+7. A fresh comprehensive audit is generated after remediation:
    - output target: `reports/core_audit/COMPREHENSIVE_AUDIT_REPORT_5.md`.
 
 ---
@@ -309,7 +309,7 @@ The remediation campaign is complete only when all criteria are met:
 | M2 | WS-C + WS-D | Provenance/run identity hardened; placeholders and ingestion defects addressed |
 | M3 | WS-E + WS-F | Methodology and structural consistency stabilized |
 | M4 | WS-G + WS-H + WS-I | Test, docs, and hygiene complete |
-| M5 | Final Verification | All exit criteria met; re-core_audit produced |
+| M5 | Final Verification | All exit criteria met; re-audit produced |
 
 ---
 

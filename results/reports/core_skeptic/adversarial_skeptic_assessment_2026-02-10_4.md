@@ -10,7 +10,7 @@
 
 The following commands were executed for this pass:
 
-- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-PASS4 core_skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-PASS4 skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
   - Immediate failure: missing release sensitivity artifact `core_status/core_audit/sensitivity_sweep_release.json`.
   - Contract requirement source:
     - `scripts/core_audit/pre_release_check.sh:13`
@@ -101,7 +101,7 @@ Current operational entitlement remains degraded/qualified:
 | AV3. "Statistics cannot detect meaning" | Partially Defended | Medium |
 | AV4. "You ignored the images" | Partially Defended | Medium |
 | AV5. "You stopped too early" | Partially Defended | Medium |
-| AV6. "Comparative phase2_analysis is subjective" | Partially Defended | Medium |
+| AV6. "Comparative analysis is subjective" | Partially Defended | Medium |
 | AV7. "You are really saying it is a hoax" | Partially Defended | Medium |
 | Meta: Motivated reasoning | Partially Defended | Medium |
 | Meta: Overreach | Partially Defended | Medium |
@@ -174,7 +174,7 @@ Evidence (current canonical artifact):
 - `results/phase5_mechanism/anchor_coupling_confirmatory.json:14`
 - `results/phase5_mechanism/anchor_coupling_confirmatory.json:15`
 - `results/phase5_mechanism/anchor_coupling_confirmatory.json:87` (`adequacy.pass=true`)
-- `results/phase5_mechanism/anchor_coupling_confirmatory.json:101` (`phase4_inference.decision=NO_COUPLING`)
+- `results/phase5_mechanism/anchor_coupling_confirmatory.json:101` (`inference.decision=NO_COUPLING`)
 
 Residual qualification evidence:
 
@@ -279,14 +279,14 @@ Skeptic leverage:
 
 ## 7. Skeptic Success Criteria Check
 
-A competent core_skeptic can still claim:
+A competent skeptic can still claim:
 
 - Release readiness is blocked by missing release sensitivity evidence artifact.
 - Full-data control comparability remains blocked by data availability.
 - Comparative uncertainty remains non-conclusive.
 - Historical provenance confidence remains explicitly qualified.
 
-A competent core_skeptic can no longer credibly claim (from this pass evidence):
+A competent skeptic can no longer credibly claim (from this pass evidence):
 
 - Active provenance runner contract mismatch in release mode.
 - Active provenance register drift.
@@ -298,6 +298,6 @@ A competent core_skeptic can no longer credibly claim (from this pass evidence):
 
 ## 8. Final Assessment Statement
 
-This pass shows continued hardening across core_skeptic-governed contracts and better multimodal coherence than prior passes. The project is still not release-hardened because the release sensitivity artifact/report pair is missing, which blocks pre-release, reproduction, and CI release-path validation by design.
+This pass shows continued hardening across skeptic-governed contracts and better multimodal coherence than prior passes. The project is still not release-hardened because the release sensitivity artifact/report pair is missing, which blocks pre-release, reproduction, and CI release-path validation by design.
 
 The strongest adversarial critique remains concrete and technical: **release sensitivity evidence production is incomplete (SK-C1)**.

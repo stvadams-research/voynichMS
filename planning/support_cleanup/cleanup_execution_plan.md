@@ -3,13 +3,13 @@
 ## 1. Vision and Objective
 This project has grown organically through multiple research phases (Foundation to Publication). While this growth represents progress, it has introduced structural inconsistencies, duplicate reporting paths, and naming irregularities. 
 
-The objective of this support_cleanup pass is to transition from an "Experiment-Active" structure to a "Publication-Ready" architecture without losing historical context or reproducibility.
+The objective of this cleanup pass is to transition from an "Experiment-Active" structure to a "Publication-Ready" architecture without losing historical context or reproducibility.
 
 ## 2. Identified Inconsistencies and Clutter
 
 ### A. Reporting Path Fragmentation
 - **Issue**: There are two top-level reporting directories: `/reports/` and `/results/reports/`.
-- **Target**: Consolidate all phase7_human-readable findings into `/results/reports/`.
+- **Target**: Consolidate all human-readable findings into `/results/reports/`.
 - **Logic**: `/results/` should be the canonical sink for all output artifacts (Data, Reports, Visuals).
 
 ### B. Naming Conventions in Planning

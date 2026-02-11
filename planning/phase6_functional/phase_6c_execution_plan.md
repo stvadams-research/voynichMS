@@ -3,14 +3,14 @@
 **Project:** Voynich Manuscript – Functional Characterization Program  
 **Phase:** 6C  
 **Phase Name:** Adversarial vs Indifferent Structure Test  
-**Goal Type:** Functional discrimination under observer and phase4_inference pressure  
+**Goal Type:** Functional discrimination under observer and inference pressure  
 
 ---
 
 ## 1. Phase 6C Purpose and Core Question
 
 ### 1.1 Core question
-Does the Voynich Manuscript’s formal system merely execute rules indifferently, or does it exhibit **active resistance to phase4_inference, reconstruction, or learning**?
+Does the Voynich Manuscript’s formal system merely execute rules indifferently, or does it exhibit **active resistance to inference, reconstruction, or learning**?
 
 Phase 6C tests whether the structure is:
 - **Indifferent** to being analyzed, or
@@ -26,13 +26,13 @@ Phase 6A established:
 Phase 6B established:
 - explicit rejection of efficiency and optimization.
 
-These results leave a single unresolved phase6_functional fork:
+These results leave a single unresolved functional fork:
 
 - **H6C.1 – Formal Indifference:**  
-  The system does not care whether it is understood. Any difficulty of phase4_inference is incidental.
+  The system does not care whether it is understood. Any difficulty of inference is incidental.
 
 - **H6C.2 – Adversarial Formalism:**  
-  The system is deliberately structured to resist phase4_inference, reconstruction, or compression.
+  The system is deliberately structured to resist inference, reconstruction, or compression.
 
 Phase 6C is designed to discriminate between these.
 
@@ -42,9 +42,9 @@ Phase 6C is designed to discriminate between these.
 
 - Not a semantics test  
 - Not a psychological intent attribution  
-- Not a historical motive phase2_analysis  
+- Not a historical motive analysis  
 
-Phase 6C evaluates **structural hostility to phase4_inference**, not meaning or authorial intent.
+Phase 6C evaluates **structural hostility to inference**, not meaning or authorial intent.
 
 ---
 
@@ -155,7 +155,7 @@ Controls must match:
 ## 8. Execution Order
 
 1. Establish learnability baselines on controls  
-2. Run phase4_inference agents on Voynich corpus slices  
+2. Run inference agents on Voynich corpus slices  
 3. Measure gradients, plateaus, and reversals  
 4. Apply adversarial kill rules  
 
@@ -172,7 +172,7 @@ No adaptive agent tuning during execution.
 - Compression-induced failure
 
 **Interpretation:**  
-Supports adversarial or obfuscatory phase6_functional intent.
+Supports adversarial or obfuscatory functional intent.
 
 ---
 
@@ -202,4 +202,4 @@ Supports indifferent formal execution. The system is difficult but not hostile.
 
 ## 11. Phase 6C Termination Statement
 
-Phase 6C terminates when phase4_inference resistance is evaluated against matched indifferent and adversarial controls, and the presence or absence of adversarial tuning is decisively classified. Phase 6C does not infer meaning; it determines whether the formal system is hostile or indifferent to observers.
+Phase 6C terminates when inference resistance is evaluated against matched indifferent and adversarial controls, and the presence or absence of adversarial tuning is decisively classified. Phase 6C does not infer meaning; it determines whether the formal system is hostile or indifferent to observers.

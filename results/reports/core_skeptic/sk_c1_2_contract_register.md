@@ -42,7 +42,7 @@ Contract checker introduced in SK-C1.2:
 
 | Symptom | Classification | Evidence |
 |---|---|---|
-| `core_status/core_audit/sensitivity_sweep.json` lacked `dataset_policy_pass`, `warning_policy_pass`, `warning_density_per_scenario` while still claiming release readiness. | Stale artifact generated before current policy contract fields were enforced. | Historical artifact snapshot and gate failures in core_skeptic pass-2 assessment. |
+| `core_status/core_audit/sensitivity_sweep.json` lacked `dataset_policy_pass`, `warning_policy_pass`, `warning_density_per_scenario` while still claiming release readiness. | Stale artifact generated before current policy contract fields were enforced. | Historical artifact snapshot and gate failures in skeptic pass-2 assessment. |
 | `reports/core_audit/SENSITIVITY_RESULTS.md` stated caveat-none despite warning-heavy run. | Report drift from canonical contract semantics (legacy output persisted). | Report text mismatch against warning burden and policy expectations. |
 | Release/repro gates failed while artifact summary conveyed strong PASS framing. | Producer-consumer contract drift (artifact/report vs gate policy). | `pre_release_check.sh` and `verify_reproduction.sh` sensitivity checks. |
 

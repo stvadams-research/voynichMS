@@ -163,7 +163,7 @@ With these changes, the codebase achieves the defensibility requirements:
 
 ## REMAINING WORK
 
-The following items from the original core_audit are **not yet addressed** (require actual computational implementations):
+The following items from the original audit are **not yet addressed** (require actual computational implementations):
 
 | Item | Status | Notes |
 |------|--------|-------|
@@ -211,7 +211,7 @@ python -m pytest tests/integration/test_enforcement.py::TestRequireComputed -v
 
 ### Phase Re-runs with REQUIRE_COMPUTED=1
 
-All phase2_analysis phases have been re-run with `REQUIRE_COMPUTED=1` to verify that computations complete without falling back to simulation.
+All analysis phases have been re-run with `REQUIRE_COMPUTED=1` to verify that computations complete without falling back to simulation.
 
 | Phase | Script | Status | Notes |
 |-------|--------|--------|-------|
@@ -291,7 +291,7 @@ REQUIRE_COMPUTED=1 python scripts/phase2_analysis/run_phase_2_3.py  # PASSED
 REQUIRE_COMPUTED=1 python scripts/phase2_analysis/run_phase_2_4.py  # PASSED
 ```
 
-See `DATA_POPULATION_STATUS.md` for detailed phase2_analysis.
+See `DATA_POPULATION_STATUS.md` for detailed analysis.
 
 ---
 

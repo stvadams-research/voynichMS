@@ -33,7 +33,7 @@ Phase 3.1 will **not**:
 - introduce semantics
 - relax falsification standards
 - tune generators to “look right”
-- privilege phase7_human judgment over metrics
+- privilege human judgment over metrics
 
 ---
 
@@ -111,7 +111,7 @@ All features must be:
 ### 4.4 Outputs
 
 - Ranked list of discriminative features
-- Stability phase2_analysis per feature
+- Stability analysis per feature
 - Documentation of features already implicitly captured
 
 ---
@@ -275,7 +275,7 @@ Phase 3.1 exists to answer critics honestly.
 It does not guarantee equivalence.
 It guarantees that any remaining gap is real, measured, and bounded.
 
-This phase closes the loop between phase3_synthesis and skepticism.
+This phase closes the loop between synthesis and skepticism.
 
 ---
 

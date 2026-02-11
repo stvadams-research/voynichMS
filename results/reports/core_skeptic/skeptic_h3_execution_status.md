@@ -8,13 +8,13 @@
 
 ## Summary
 
-SK-H3 remediation was implemented across policy, control-generation normalization, phase3_synthesis artifact contracts, release/CI guardrails, and governance docs.
+SK-H3 remediation was implemented across policy, control-generation normalization, synthesis artifact contracts, release/CI guardrails, and governance docs.
 
 Implemented outcomes:
 
 - Added SK-H3 comparability policy doc and machine-readable config.
 - Added SK-H3 policy checker with CI/release modes.
-- Added deterministic control matching core_audit runner and comparability status artifact.
+- Added deterministic control matching audit runner and comparability status artifact.
 - Added explicit matching vs holdout metric partition fields to Turing artifact outputs.
 - Added control normalization modes (`parser`, `pre_normalized_with_assertions`) with provenance.
 - Added tests for normalization behavior and SK-H3 checker enforcement.

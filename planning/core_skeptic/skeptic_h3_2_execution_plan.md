@@ -11,7 +11,7 @@
 
 Address the pass-2 `SK-H3` residual by resolving what is feasible under current source-data limits and hardening blocked-state governance where conclusive comparability is not currently attainable.
 
-This plan targets the remaining core_skeptic attack:
+This plan targets the remaining skeptic attack:
 
 - "You improved leakage controls, but comparability is still blocked rather than conclusively settled."
 
@@ -192,7 +192,7 @@ rg -n "NON_COMPARABLE_BLOCKED|DATA_AVAILABILITY|allowed_claim|evidence_scope|SK-
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | F1 | Add SK-H3.2 execution status report template/artifact. | `reports/core_skeptic/SKEPTIC_H3_2_EXECUTION_STATUS.md` (during execution) | Implementation and verification evidence documented. |
-| F2 | Add SK-H3.2 core_audit log entry linking blocker evidence, policy changes, and residual risks. | `AUDIT_LOG.md` | Trace entry complete and file-referenced. |
+| F2 | Add SK-H3.2 audit log entry linking blocker evidence, policy changes, and residual risks. | `AUDIT_LOG.md` | Trace entry complete and file-referenced. |
 | F3 | Update plan status tracker and final decision matrix outcome. | `planning/core_skeptic/SKEPTIC_H3_2_EXECUTION_PLAN.md` | Workstream status and final outcome explicit. |
 
 ### Verification
@@ -210,7 +210,7 @@ rg -n "SK-H3.2|DATA_AVAILABILITY|evidence_scope|allowed_claim" AUDIT_LOG.md repo
 3. WS-H3.2-C (feasible available-data lane)
 4. WS-H3.2-D (core_status/gate reconciliation)
 5. WS-H3.2-E (report/claim synchronization)
-6. WS-H3.2-F (core_audit closeout)
+6. WS-H3.2-F (audit closeout)
 
 Rationale:
 
@@ -237,10 +237,10 @@ Execution outcome: `H3_2_QUALIFIED`.
 |---|---|---|---|---|---|
 | WS-H3.2-A Baseline/Root Cause | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added residual root-cause register: `reports/core_skeptic/SK_H3_2_DATA_AVAILABILITY_REGISTER.md`. |
 | WS-H3.2-B Data-Availability Contract | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added policy/config/checker and canonical data-availability artifact. |
-| WS-H3.2-C Available-Data Lane | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated core_audit runner with bounded available-subset semantics and explicit closure eligibility fields. |
+| WS-H3.2-C Available-Data Lane | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated audit runner with bounded available-subset semantics and explicit closure eligibility fields. |
 | WS-H3.2-D Status/Gate Reconciliation | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Integrated SK-H3.2 checks into ci/pre-release/verify scripts and contract tests. |
 | WS-H3.2-E Reporting/Claim Sync | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated SK-H3 policy, methods, reproducibility, and runbook docs for blocked vs subset-qualified semantics. |
-| WS-H3.2-F Audit Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added execution status report and core_audit log trace for SK-H3.2 closure path. |
+| WS-H3.2-F Audit Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added execution status report and audit log trace for SK-H3.2 closure path. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

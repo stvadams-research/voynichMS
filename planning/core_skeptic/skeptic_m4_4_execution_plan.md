@@ -60,7 +60,7 @@ This fourth-attempt plan explicitly addresses repeat patterns that remained afte
    Historical orphan rows remain quantified, yet closure criteria do not fully distinguish irrecoverable bounded state from actionable regression.
 
 3. **Cross-surface confidence semantics can still drift by interpretation.**  
-   Even with checker coverage, core_skeptic reassessment can reopen unless lane-level provenance confidence classes are explicit and report-entitled.
+   Even with checker coverage, skeptic reassessment can reopen unless lane-level provenance confidence classes are explicit and report-entitled.
 
 4. **Objective reopen triggers for SK-M4 are under-specified.**  
    Without strict trigger conditions, unchanged evidence can repeatedly produce the same finding.
@@ -80,7 +80,7 @@ This fourth-attempt plan explicitly addresses repeat patterns that remained afte
 ## Out of Scope
 
 - SK-C1 release sensitivity remediation.
-- Non-SK-M4 core_skeptic classes (H1/H2/H3/M1/M2/M3) except direct dependency references.
+- Non-SK-M4 skeptic classes (H1/H2/H3/M1/M2/M3) except direct dependency references.
 - Fabricating legacy provenance certainty for irrecoverable historical rows.
 
 ---
@@ -234,7 +234,7 @@ python3 scripts/core_skeptic/check_provenance_uncertainty.py --mode release
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| E1 | Add SK-M4.4 boundary markers to tracked docs and core_skeptic register surfaces. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`, `governance/PROVENANCE.md`, `governance/HISTORICAL_PROVENANCE_POLICY.md`, `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md` | No document exceeds lane-entitled confidence class. |
+| E1 | Add SK-M4.4 boundary markers to tracked docs and skeptic register surfaces. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`, `governance/PROVENANCE.md`, `governance/HISTORICAL_PROVENANCE_POLICY.md`, `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md` | No document exceeds lane-entitled confidence class. |
 | E2 | Add required bounded-language clauses for `M4_4_BOUNDED` and `M4_4_QUALIFIED`. | same | Qualified/bounded states are explicit and reproducible. |
 | E3 | Ban deterministic historical-certainty phrasing unless `M4_4_ALIGNED`. | policy marker rules + checker | Over-assertive language becomes test-detectable. |
 
@@ -260,7 +260,7 @@ rg -n "M4_4_|PROVENANCE_QUALIFIED|PROVENANCE_ALIGNED|bounded|core_status/core_au
 |---|---|---|---|
 | F1 | Extend checker for SK-M4.4 lane derivation, freshness, and parity checks. | `scripts/core_skeptic/check_provenance_uncertainty.py` | Checker fails on stale, mismatched, or over-entitled states. |
 | F2 | Add tests for lane mismatch, stale artifacts, parity mismatch, and claim entitlement drift. | `tests/core_skeptic/test_provenance_uncertainty_checker.py`, `tests/core_audit/test_sync_provenance_register.py` | SK-M4.4 regressions are test-locked. |
-| F3 | Ensure CI/pre-release/verify scripts enforce the same SK-M4.4 contract sequence. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, core_audit contract tests | No gate path bypasses SK-M4.4 enforcement. |
+| F3 | Ensure CI/pre-release/verify scripts enforce the same SK-M4.4 contract sequence. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, audit contract tests | No gate path bypasses SK-M4.4 enforcement. |
 
 ### Verification
 
@@ -283,7 +283,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | G1 | Add SK-M4.4 baseline/diagnostic/claim-boundary registers. | New `reports/core_skeptic/SK_M4_4_BASELINE_REGISTER.md`, `reports/core_skeptic/SK_M4_4_DIAGNOSTIC_MATRIX.md`, `reports/core_skeptic/SK_M4_4_CLAIM_BOUNDARY_REGISTER.md` | Residual rationale and allowed claims are auditable. |
 | G2 | Add SK-M4.4 decision record with selected lane and objective reopen triggers. | New `reports/core_skeptic/SK_M4_4_DECISION_RECORD.md` | Reassessment can distinguish unchanged bounded state vs true regression. |
-| G3 | Add execution status template path and core_audit-log linkage requirements. | `reports/core_skeptic/SKEPTIC_M4_4_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | End-to-end traceability from finding -> controls -> lane state. |
+| G3 | Add execution status template path and audit-log linkage requirements. | `reports/core_skeptic/SKEPTIC_M4_4_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | End-to-end traceability from finding -> controls -> lane state. |
 
 ### Verification
 
@@ -336,7 +336,7 @@ Rationale:
 | WS-M4.4-C Freshness/Parity Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added fail-closed freshness and cross-artifact parity checks in `scripts/core_skeptic/check_provenance_uncertainty.py`. |
 | WS-M4.4-D Contract Entitlement | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Policy/checker enforce degraded-gate lane entitlement and contract-coupling coherence. |
 | WS-M4.4-E Report/Doc Sync | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated SK-M4.4 markers/boundaries in tracked docs and synchronized `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md`. |
-| WS-M4.4-F Checker/Pipeline/Test Lock | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended SK-M4 checker/tests; targeted provenance and core_audit contract suites pass. |
+| WS-M4.4-F Checker/Pipeline/Test Lock | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended SK-M4 checker/tests; targeted provenance and audit contract suites pass. |
 | WS-M4.4-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-M4.4 baseline, diagnostic, claim-boundary, decision, and execution-status governance artifacts. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.

@@ -30,4 +30,4 @@
 
 ---
 **Status:** Consequences registered.  
-**Next:** Implement simulators and run parameter phase4_inference.
+**Next:** Implement simulators and run parameter inference.

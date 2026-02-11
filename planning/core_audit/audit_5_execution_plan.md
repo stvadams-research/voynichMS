@@ -10,12 +10,12 @@
 
 Close all open findings from Audit 5, with priority on:
 
-1. Sensitivity-phase2_analysis validity and claim integrity.
+1. Sensitivity-analysis validity and claim integrity.
 2. CI/test scope credibility and coverage risk.
 3. Provenance/artifact contract consistency.
 4. Release-baseline hygiene.
 
-Success means a sixth core_audit pass can verify no remaining Critical findings and no unresolved High findings that block methodological release.
+Success means a sixth audit pass can verify no remaining Critical findings and no unresolved High findings that block methodological release.
 
 ---
 
@@ -41,7 +41,7 @@ Update this table during implementation.
 | WS-A Sensitivity Validity and Claims | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Runner now enforces dataset validation, guardrails, and caveat-aware decision logic. |
 | WS-B Sensitivity Artifact Contract | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Removed in-place config mutation; moved status output to provenance writer contract in code path. |
 | WS-C CI Scope and Coverage Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | CI now runs full test suite with staged coverage gate (Stage 1 default 40%); verified pass at 46.01%. |
-| WS-D Provenance Migration Completion | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added explicit display-only exemptions and core_audit test enforcing provenance contract for artifact runners. |
+| WS-D Provenance Migration Completion | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added explicit display-only exemptions and audit test enforcing provenance contract for artifact runners. |
 | WS-E Fixture and Output Hygiene | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Strict JSON fixture sanitization implemented (`NaN` -> `null`), and baseline display fallback clarified. |
 | WS-F Release Baseline Hygiene | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | `core_status/` policy documented and ignored; reproducibility checklist updated for release freeze discipline. |
 | Final Verification and Re-Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Full pytest, reproduction, and CI checks passed after remediation changes. |
@@ -58,14 +58,14 @@ Recommended order:
 2. WS-B (sensitivity execution safety and traceability)
 3. WS-D (runner provenance completion, to avoid rework before CI hardening)
 4. WS-C (CI scope and coverage enforcement after script contracts stabilize)
-5. WS-E (fixture/output hygiene support_cleanup)
+5. WS-E (fixture/output hygiene cleanup)
 6. WS-F (repo/artifact hygiene freeze)
 7. Final Verification and Re-Audit
 
 Dependency notes:
 
 - WS-C should follow WS-A/WS-B/WS-D to avoid repeatedly changing CI while target scripts are still evolving.
-- WS-F should happen near the end to produce a clean, frozen baseline after phase6_functional fixes.
+- WS-F should happen near the end to produce a clean, frozen baseline after functional fixes.
 
 ---
 
@@ -136,7 +136,7 @@ python3 -m pytest -q tests/phase2_analysis tests/phase1_foundation
 |---|---|---|---|
 | C1 | Expand CI test selection beyond `tests/phase1_foundation`, `tests/phase2_analysis`, `tests/core_audit` to include currently omitted suites (or document intentional exclusions with rationale). | `scripts/ci_check.sh` | CI scope policy is explicit and reflects release-critical test suites. |
 | C2 | Align coverage measurement between local full-suite and CI gate to remove misleading delta. | `scripts/ci_check.sh`, pytest config if needed | CI coverage number is comparable to release coverage claims. |
-| C3 | Add targeted tests for modules currently at/near 0% that are method-critical (`phase2_analysis.models.*`, `phase1_foundation.cli.main`, `phase1_foundation.qc.*`, and priority gaps). | `tests/phase2_analysis/`, `tests/phase1_foundation/`, possibly `tests/integration/` | Critical-module coverage no longer zero; regression risk materially reduced. |
+| C3 | Add targeted tests for modules currently at/near 0% that are method-critical (`analysis.models.*`, `foundation.cli.main`, `foundation.qc.*`, and priority gaps). | `tests/phase2_analysis/`, `tests/phase1_foundation/`, possibly `tests/integration/` | Critical-module coverage no longer zero; regression risk materially reduced. |
 | C4 | Establish phased coverage targets with explicit date/threshold policy. | `scripts/ci_check.sh`, docs | Coverage ratchets are enforced and documented. |
 
 ### Suggested Coverage Gates
@@ -169,7 +169,7 @@ python3 -m pytest --cov=src --cov-report=term-missing:skip-covered -q tests
 | D1 | Classify remaining non-provenance runners into: (a) artifact-producing runners that must adopt provenance, (b) display-only runners with documented exemption. | `scripts/phase2_analysis/run_phase_2_1.py`, `scripts/phase2_analysis/run_phase_2_3.py`, `scripts/phase2_analysis/run_phase_2_4.py`, `scripts/phase3_synthesis/run_phase_3.py`, `scripts/phase3_synthesis/run_phase_3_1.py`, `scripts/phase2_analysis/run_sensitivity_sweep.py` | Each script has explicit contract classification. |
 | D2 | Implement provenance output for scripts in class (a). | Same files as applicable | Artifact-producing runners include provenance envelope consistently. |
 | D3 | Add documentation for exempted class (b) scripts so reviewers understand why no artifact metadata exists. | `governance/PROVENANCE.md` and/or runner docstrings | No ambiguous script behavior remains. |
-| D4 | Add core_audit test/check that reports missing provenance adoption for artifact-producing runners. | `tests/core_audit/` or script-based checker | Future drift is automatically detected. |
+| D4 | Add audit test/check that reports missing provenance adoption for artifact-producing runners. | `tests/core_audit/` or script-based checker | Future drift is automatically detected. |
 
 ### Verification Commands
 
@@ -185,7 +185,7 @@ python3 -m pytest -q tests/core_audit
 
 **Addresses:** `RI-7`, `RI-8`  
 **Priority:** Medium  
-**Objective:** Remove non-standard fixture data and eliminate ambiguous phase7_human-facing placeholders.
+**Objective:** Remove non-standard fixture data and eliminate ambiguous human-facing placeholders.
 
 ### Tasks
 

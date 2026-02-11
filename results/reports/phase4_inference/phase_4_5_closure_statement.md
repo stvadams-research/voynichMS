@@ -14,7 +14,7 @@ The program's determination within the tested framework is:
 
 **Under tested structural and computational diagnostics, the Voynich Manuscript is structurally consistent with non-semantic procedural artifact classes.**
 
-No statistical or computational method tested—including information clustering, network phase2_analysis, topic modeling, and morphology induction—has successfully separated the manuscript from sophisticated mechanical generative models. 
+No statistical or computational method tested—including information clustering, network analysis, topic modeling, and morphology induction—has successfully separated the manuscript from sophisticated mechanical generative models. 
 
 ---
 
@@ -37,7 +37,7 @@ This project is conditionally closed unless new work can satisfy at least one of
 2.  **External Grounding:** The discovery of independent external evidence (e.g., a bilingual crib or non-textual structural alignment) that bypasses pure text statistics.
 3.  **Framework Shift:** A formally specified and acknowledged change to the admissibility framework that introduces new, falsifiable assumptions.
 
-Absent these, the current closure remains a bounded phase4_inference about structural indistinguishability under tested methods.
+Absent these, the current closure remains a bounded inference about structural indistinguishability under tested methods.
 
 Canonical criteria reference: `governance/REOPENING_CRITERIA.md`.
 
@@ -51,7 +51,7 @@ This closure statement does not claim:
 - universal semantic impossibility under all future evidence,
 - final historical interpretation of manuscript purpose.
 
-For internal non-claim boundaries and phase5_mechanism-specific limits, see:
+For internal non-claim boundaries and mechanism-specific limits, see:
 
 - `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
 

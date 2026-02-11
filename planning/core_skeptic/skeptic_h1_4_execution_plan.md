@@ -12,7 +12,7 @@
 Resolve pass-4 `SK-H1` residual as fully as feasible by closing the remaining robustness gap:
 
 - current canonical multimodal status is conclusive (`CONCLUSIVE_NO_COUPLING`), but
-- cross-seed stability remains qualified, allowing continued core_skeptic leverage.
+- cross-seed stability remains qualified, allowing continued skeptic leverage.
 
 Primary objective:
 
@@ -31,7 +31,7 @@ From `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_4.md`:
     - `status=CONCLUSIVE_NO_COUPLING`
     - `status_reason=adequacy_and_inference_support_no_coupling`
     - `adequacy.pass=true`
-    - `phase4_inference.decision=NO_COUPLING`
+    - `inference.decision=NO_COUPLING`
 - Residual remains high/narrowed because seed-lane fragility persists:
   - `reports/core_skeptic/SKEPTIC_H1_3_EXECUTION_STATUS.md`
   - `reports/core_skeptic/SK_H1_3_INFERENCE_REGISTER.md`
@@ -50,7 +50,7 @@ This plan explicitly addresses repeat-failure patterns from prior passes:
    A single publication lane can be conclusive while adjacent registered lanes remain ambiguous.
 
 2. **Closure criteria for mixed-lane outcomes remained under-specified.**  
-   Prior work separated adequacy vs phase4_inference semantics, but did not hard-lock when mixed seed outcomes are still closure-acceptable.
+   Prior work separated adequacy vs inference semantics, but did not hard-lock when mixed seed outcomes are still closure-acceptable.
 
 3. **Historical by-run artifacts include pre-hardening semantic patterns.**  
    Even if canonical output is coherent, skeptics can cite inconsistent legacy runs unless governance explicitly classifies them.
@@ -65,7 +65,7 @@ This plan explicitly addresses repeat-failure patterns from prior passes:
 ## In Scope
 
 - SK-H1 pass-4 residual only (multimodal robustness under fixed policy lane).
-- Seed/method/size robustness framing for coupling phase4_inference.
+- Seed/method/size robustness framing for coupling inference.
 - Artifact/checker/report language synchronization to robustness class.
 - Governance outputs required to classify residual as aligned/qualified/blocked.
 
@@ -140,7 +140,7 @@ d=json.load(open(p))
 r=d.get('results',{})
 print(d.get('provenance',{}).get('run_id'))
 print(r.get('status'), r.get('status_reason'))
-print((r.get('adequacy') or {}).get('pass'), (r.get('phase4_inference') or {}).get('decision'))
+print((r.get('adequacy') or {}).get('pass'), (r.get('inference') or {}).get('decision'))
 PY
 ```
 
@@ -267,7 +267,7 @@ rg -n "INCONCLUSIVE_INFERENTIAL_AMBIGUITY|CONCLUSIVE_NO_COUPLING|status-gated|no
 |---|---|---|---|
 | G1 | Add tests for robustness-class/status coupling (including mixed-lane scenarios). | `tests/phase5_mechanism/test_anchor_coupling.py`, `tests/phase5_mechanism/test_anchor_coupling_contract.py` | Mixed outcomes cannot bypass qualified classification. |
 | G2 | Extend SK-H1 checker tests for lane and robustness metadata contracts. | `tests/core_skeptic/test_multimodal_coupling_checker.py` | Missing/incoherent robustness fields fail deterministically. |
-| G3 | Extend core_audit contract tests for SK-H1 gate-health/report markers. | `tests/core_audit/test_ci_check_contract.py`, `tests/core_audit/test_pre_release_contract.py`, `tests/core_audit/test_verify_reproduction_contract.py`, `tests/core_audit/test_release_gate_health_status_builder.py` | Gate/report drift is caught in CI. |
+| G3 | Extend audit contract tests for SK-H1 gate-health/report markers. | `tests/core_audit/test_ci_check_contract.py`, `tests/core_audit/test_pre_release_contract.py`, `tests/core_audit/test_verify_reproduction_contract.py`, `tests/core_audit/test_release_gate_health_status_builder.py` | Gate/report drift is caught in CI. |
 
 ### Verification
 
@@ -293,7 +293,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | H1 | Add H1.4 decision record with lane choice and disconfirmability triggers. | New `reports/core_skeptic/SK_H1_4_DECISION_RECORD.md` | Final state is explicit and auditable. |
 | H2 | Add execution status report template/path for implementation run. | `reports/core_skeptic/SKEPTIC_H1_4_EXECUTION_STATUS.md` (during execution) | Run evidence can be tracked systematically. |
-| H3 | Link finding -> controls -> lane decision in core_audit log and plan tracker. | `AUDIT_LOG.md`, this plan | Future reassessment has traceable context and reopen criteria. |
+| H3 | Link finding -> controls -> lane decision in audit log and plan tracker. | `AUDIT_LOG.md`, this plan | Future reassessment has traceable context and reopen criteria. |
 
 ### Verification
 
@@ -344,7 +344,7 @@ Rationale:
 | WS-H1.4-E Gate/Health Integration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Gate scripts and health snapshot now include deterministic H1.4 semantics. |
 | WS-H1.4-F Claim Synchronization | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Report/doc language aligned to lane-qualified robustness entitlement. |
 | WS-H1.4-G Regression Locking | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Mechanism/checker/gate contract tests expanded and passing. |
-| WS-H1.4-H Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Decision record, execution status, and core_audit log linkage completed. |
+| WS-H1.4-H Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Decision record, execution status, and audit log linkage completed. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

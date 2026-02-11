@@ -110,7 +110,7 @@ Additional code fix discovered during test hardening:
 Changes:
 
 - Added direct unit coverage for all six previously 0%-covered modules.
-- Fixed atomic-write support_cleanup bug by assigning temp-file path before write call.
+- Fixed atomic-write cleanup bug by assigning temp-file path before write call.
 
 Key references:
 
@@ -127,8 +127,8 @@ Updated files:
 
 Changes:
 
-- Added `legacy-report` mode to support_cleanup script.
-- Added accurate existence filtering in support_cleanup pattern handling (no false match counts for missing literal paths).
+- Added `legacy-report` mode to cleanup script.
+- Added accurate existence filtering in cleanup pattern handling (no false match counts for missing literal paths).
 - Added release-gate checks that fail if `core_status/by_run/verify_*.json` include legacy `provenance.status` fields.
 
 Key references:
@@ -253,7 +253,7 @@ Result: `scanned=0 updated=0 reconciled=0 orphaned=0 missing_manifests=0` (no op
 - `running_end_null: 0`
 - `orphaned_missing_run_json: 63`
 
-9. Artifact support_cleanup verification:
+9. Artifact cleanup verification:
 
 ```bash
 bash scripts/core_audit/cleanup_status_artifacts.sh legacy-report

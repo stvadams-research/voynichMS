@@ -44,7 +44,7 @@ Operational context in same assessment:
 - release-path gate health is degraded due SK-C1 blocker (missing release sensitivity artifact).
 - therefore claim class is qualified and reopenable by design.
 
-Residual core_skeptic leverage:
+Residual skeptic leverage:
 
 - "Your language is better, but entitlement is still a dependent operational state, not a stable closure class."
 
@@ -81,7 +81,7 @@ This fourth-attempt plan is explicitly designed around the repeat pattern:
 
 - Direct remediation of SK-C1 release sensitivity artifact production.
 - Re-running scientific experiments or changing empirical conclusions.
-- Non-H2 core_skeptic findings except where required for consistency hooks.
+- Non-H2 skeptic findings except where required for consistency hooks.
 
 ---
 
@@ -121,7 +121,7 @@ If neither lane is satisfied, classify as:
 SK-H2.4 is complete only when:
 
 1. H2.4 closure lane (`H2_4_ALIGNED` or `H2_4_QUALIFIED`) is machine-derived and explicit.
-2. Claim-entitlement rules cover all public closure surfaces used by core_skeptic assessments.
+2. Claim-entitlement rules cover all public closure surfaces used by skeptic assessments.
 3. Gate-health dependency is freshness-checked and not stale.
 4. Degraded-state and healthy-state claim policies are both enforced in tests.
 5. Decision record defines objective reopen triggers and anti-repeat constraints.
@@ -158,7 +158,7 @@ PY
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| B1 | Expand claim inventory to include phase8_comparative phase3_synthesis and any additional public closure summaries referenced by skeptics. | New `reports/core_skeptic/SK_H2_4_GATE_DEPENDENCY_MATRIX.md` | Full inventory includes file ownership, claim class, dependency, risk. |
+| B1 | Expand claim inventory to include comparative synthesis and any additional public closure summaries referenced by skeptics. | New `reports/core_skeptic/SK_H2_4_GATE_DEPENDENCY_MATRIX.md` | Full inventory includes file ownership, claim class, dependency, risk. |
 | B2 | Add explicit dependency graph from each claim surface to gate-health keys and reason codes. | same | Every claim maps to required entitlement predicates. |
 | B3 | Identify uncovered files currently outside checker tracked scopes. | same | Coverage gaps are explicit and prioritized. |
 
@@ -251,7 +251,7 @@ python3 scripts/core_skeptic/check_closure_conditionality.py --mode release
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | F1 | Define a canonical entitlement statement template with strict required markers per lane. | `governance/CLAIM_BOUNDARY_POLICY.md`, `governance/CLOSURE_CONDITIONALITY_POLICY.md` | Single template used across tracked public docs. |
-| F2 | Apply template to all tracked closure surfaces including phase8_comparative phase3_synthesis docs. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Marker and wording parity achieved across surfaces. |
+| F2 | Apply template to all tracked closure surfaces including comparative synthesis docs. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Marker and wording parity achieved across surfaces. |
 | F3 | Enforce explicit dependency statement to SK-C1 when degraded lane is active. | same | Contingency source is explicit and consistent. |
 
 ### Verification
@@ -300,7 +300,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | H1 | Add H2.4 claim-boundary register with lane-bound allowed/disallowed statements. | New `reports/core_skeptic/SK_H2_4_CLAIM_BOUNDARY_REGISTER.md` | Claim entitlement boundaries are auditable. |
 | H2 | Add H2.4 decision record with lane choice and objective reopen triggers. | New `reports/core_skeptic/SK_H2_4_DECISION_RECORD.md` | Reassessment can distinguish unchanged residual vs real regression. |
-| H3 | Add execution status template/path for implementation pass and core_audit-log linkage requirements. | `reports/core_skeptic/SKEPTIC_H2_4_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | Full traceability from finding -> controls -> lane status. |
+| H3 | Add execution status template/path for implementation pass and audit-log linkage requirements. | `reports/core_skeptic/SKEPTIC_H2_4_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | Full traceability from finding -> controls -> lane status. |
 
 ### Verification
 
@@ -349,13 +349,13 @@ Rationale:
 | Workstream | Status | Owner | Start | End | Notes |
 |---|---|---|---|---|---|
 | WS-H2.4-A Baseline Freeze | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Baseline tuple and residual vectors frozen in `reports/core_skeptic/SK_H2_4_ASSERTION_REGISTER.md`. |
-| WS-H2.4-B Surface Expansion | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Assertion inventory and dependency matrix expanded to phase8_comparative + summary closure surfaces. |
+| WS-H2.4-B Surface Expansion | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Assertion inventory and dependency matrix expanded to comparative + summary closure surfaces. |
 | WS-H2.4-C Policy Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | H2/M1 policies upgraded with H2.4 lane schema and freshness-aware gate checks. |
 | WS-H2.4-D Gate Coupling/Freshness | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Gate-health artifact now emits H2.4 fields and freshness-compatible timestamps. |
 | WS-H2.4-E Checker Enforcement | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Claim, closure, and cross-policy coherence checkers enforce lane/state parity. |
 | WS-H2.4-F Report Synchronization | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Tracked closure docs now include explicit degraded-state SK-C1 dependency markers. |
-| WS-H2.4-G Regression Locking | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Skeptic and core_audit contract tests expanded for freshness/lane/coherence checks. |
-| WS-H2.4-H Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | H2.4 registers, decision record, execution status, and core_audit linkage completed. |
+| WS-H2.4-G Regression Locking | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Skeptic and audit contract tests expanded for freshness/lane/coherence checks. |
+| WS-H2.4-H Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | H2.4 registers, decision record, execution status, and audit linkage completed. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

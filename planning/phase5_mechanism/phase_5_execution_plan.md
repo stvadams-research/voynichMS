@@ -21,7 +21,7 @@ Phases 1 through 4.5 established that:
 - Remaining explanations form a constrained but nontrivial hypothesis space.
 
 Phase 5 advances the program by:
-- Treating explanations as competing phase5_mechanism classes.
+- Treating explanations as competing mechanism classes.
 - Asking which classes are observationally distinguishable.
 - Eliminating classes that violate necessary consequences.
 
@@ -35,7 +35,7 @@ Phase 5 evaluates identifiability, not truth.
 
 ### 1.4 Success criteria
 Phase 5 is successful if it produces:
-- A finite, explicit list of admissible phase5_mechanism classes.
+- A finite, explicit list of admissible mechanism classes.
 - A set of eliminated classes with documented violations.
 - A reduced set of observationally equivalent classes that cannot be separated by text-internal evidence alone.
 - Clear documentation of what additional evidence would be required to separate remaining classes.
@@ -45,9 +45,9 @@ Phase 5 is successful if it produces:
 ## 2. Phase 5 Design Principles
 
 ### 2.1 Class-first reasoning
-All phase2_analysis proceeds from predefined phase5_mechanism classes, not individual hypotheses.
+All analysis proceeds from predefined mechanism classes, not individual hypotheses.
 
-No phase5_mechanism is evaluated unless it is explicitly defined as a class with shared properties.
+No mechanism is evaluated unless it is explicitly defined as a class with shared properties.
 
 ### 2.2 Necessary-condition testing only
 Phase 5 tests only necessary consequences of each class.
@@ -83,9 +83,9 @@ No post hoc redefinitions.
 
 ## 3. Hypothesis Class Set
 
-Phase 5 begins by freezing a finite set of phase5_mechanism classes.
+Phase 5 begins by freezing a finite set of mechanism classes.
 
-### 3.1 Core phase5_mechanism classes (minimum set)
+### 3.1 Core mechanism classes (minimum set)
 
 1) **Bounded Pool Reuse**
    - Tokens drawn from limited pools with locality constraints.
@@ -210,9 +210,9 @@ Note: Passing these tests does not prove semantics, it only preserves codebook-l
 ## 6. Comparator Suite and Matching Requirements
 
 ### 6.1 Matched generator suite
-For each phase5_mechanism class, construct generators that:
+For each mechanism class, construct generators that:
 - Match Voynich on Phase 1 to Phase 3 structural summaries
-- Differ only in the class-defining phase5_mechanism
+- Differ only in the class-defining mechanism
 
 This forces Phase 5 tests to target signatures, not generic structure.
 
@@ -280,7 +280,7 @@ No Phase 5 runs begin until:
 
 ## 8. Evaluation and Outcome Labels
 
-### 8.1 Outcome classes (exactly one per phase5_mechanism class)
+### 8.1 Outcome classes (exactly one per mechanism class)
 - **Eliminated:** violates at least one necessary consequence
 - **Admissible:** satisfies all tested necessary consequences
 - **Observationally equivalent:** indistinguishable from one or more other classes under all implemented signature tests
@@ -327,7 +327,7 @@ At minimum:
 ## 10. Interpretation Boundary
 
 Phase 5 is allowed to conclude:
-- Which phase5_mechanism classes are incompatible with the data
+- Which mechanism classes are incompatible with the data
 - Which classes are observationally equivalent under text-internal evidence
 - What additional evidence would be required to separate survivors
 
@@ -340,7 +340,7 @@ Phase 5 is not allowed to conclude:
 
 ## 11. Phase 5 Termination Statement
 
-Phase 5 evaluates the identifiability of competing production phase5_mechanism classes for the Voynich Manuscript by testing necessary structural consequences under controlled conditions. By eliminating incompatible classes and identifying observational equivalence among survivors, Phase 5 narrows the space of admissible explanations without assuming semantics. Further progress requires either new forms of evidence or a change in the inferential target.
+Phase 5 evaluates the identifiability of competing production mechanism classes for the Voynich Manuscript by testing necessary structural consequences under controlled conditions. By eliminating incompatible classes and identifying observational equivalence among survivors, Phase 5 narrows the space of admissible explanations without assuming semantics. Further progress requires either new forms of evidence or a change in the inferential target.
 
 ---
 

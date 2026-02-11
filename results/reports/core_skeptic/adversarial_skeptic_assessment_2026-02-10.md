@@ -27,7 +27,7 @@ The following checks were executed during this assessment:
 
 ## 2. Overall Skeptic Verdict
 
-The project is stronger operationally (fail-closed gates, strict preflight policy, deterministic checks), but it is **not yet fully hardened against a hostile expert core_skeptic**.
+The project is stronger operationally (fail-closed gates, strict preflight policy, deterministic checks), but it is **not yet fully hardened against a hostile expert skeptic**.
 
 Primary reason: the strongest remaining challenges are methodological framing and evidence scope, not CI reliability.
 
@@ -42,7 +42,7 @@ Primary reason: the strongest remaining challenges are methodological framing an
 | AV3. "Statistics cannot detect meaning" | Partially Defended | High |
 | AV4. "You ignored the images" | Exposed | High |
 | AV5. "You stopped too early" | Exposed | High |
-| AV6. "Comparative phase2_analysis is subjective" | Partially Defended | Medium |
+| AV6. "Comparative analysis is subjective" | Partially Defended | Medium |
 | AV7. "You are really saying it is a hoax" | Partially Defended | Medium |
 | Meta: Motivated reasoning | Exposed | High |
 | Meta: Overreach | Exposed | High |
@@ -105,7 +105,7 @@ Primary reason: the strongest remaining challenges are methodological framing an
 ### SK-M2 (Medium): Comparative-subjectivity challenge is only partially neutralized.
 
 - Comparative distances and nearest-neighbor claims are explicit in `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:8` through `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:15`.
-- However, public phase8_comparative documents do not present confidence intervals or perturbation-stability sensitivity for those distance claims.
+- However, public comparative documents do not present confidence intervals or perturbation-stability sensitivity for those distance claims.
 
 **Skeptic leverage:** "Distance geometry appears deterministic in prose but uncertainty reporting is thin."
 
@@ -143,7 +143,7 @@ Primary reason: the strongest remaining challenges are methodological framing an
 
 ## 6. Skeptic Success Criteria Check
 
-Against the playbook's own success criteria, a competent core_skeptic can still plausibly claim:
+Against the playbook's own success criteria, a competent skeptic can still plausibly claim:
 
 - A meaningful but non-recoverable semantic system could remain consistent with current structural findings.
 - Image-text constraints are not conclusively exhausted.
@@ -155,7 +155,7 @@ Against the playbook's own success criteria, a competent core_skeptic can still 
 
 ## 7. Final Assessment Statement
 
-This pass shows clear progress in reproducibility discipline and gate integrity. The remaining risk is mostly epistemic presentation: several conclusions are written as terminal/falsificatory while the underlying evidence is stronger as bounded structural phase4_inference.
+This pass shows clear progress in reproducibility discipline and gate integrity. The remaining risk is mostly epistemic presentation: several conclusions are written as terminal/falsificatory while the underlying evidence is stronger as bounded structural inference.
 
 If the goal is to be resilient to a hostile external critic, the next hardening step is claim-scope calibration and multimodal evidence tightening, not additional CI mechanics.
 

@@ -12,7 +12,7 @@ The following commands were executed for this pass:
 
 ### Gate-flow rerun
 
-- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-PASS6 core_skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-PASS6 skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
   - preflight passes, then release artifact missing:
     - `core_status/core_audit/sensitivity_release_preflight.json:15`
     - `core_status/core_audit/sensitivity_release_preflight.json:16`
@@ -57,7 +57,7 @@ Canonical operational entitlement is still degraded/qualified:
 - `core_status/core_audit/release_gate_health_status.json:14`
 - `core_status/core_audit/release_gate_health_status.json:15`
 
-Everything else in the current core_skeptic checker stack is now largely lane-governed and policy-coherent; residual concerns are mostly bounded external constraints or explicitly non-conclusive lanes.
+Everything else in the current skeptic checker stack is now largely lane-governed and policy-coherent; residual concerns are mostly bounded external constraints or explicitly non-conclusive lanes.
 
 ---
 
@@ -111,7 +111,7 @@ Everything else in the current core_skeptic checker stack is now largely lane-go
 | AV3. “Statistics cannot detect meaning” | Partially Defended | Medium |
 | AV4. “You ignored the images” | Partially Defended | Medium |
 | AV5. “You stopped too early” | Partially Defended | Medium |
-| AV6. “Comparative phase2_analysis is subjective” | Partially Defended | Medium |
+| AV6. “Comparative analysis is subjective” | Partially Defended | Medium |
 | AV7. “You are really saying it is a hoax” | Partially Defended | Medium |
 | Meta: Motivated reasoning | Partially Defended | Medium |
 | Meta: Overreach | Partially Defended | Medium |
@@ -289,19 +289,19 @@ Pass-6 behavior is consistent with updated missing-folio criteria:
   - `objective_provenance_contract_incompleteness=false`
   - `approved_irrecoverable_loss_classification=true`
 
-This is consistent with the core_skeptic playbook boundary update and avoids false re-opening of non-fixable constraints.
+This is consistent with the skeptic playbook boundary update and avoids false re-opening of non-fixable constraints.
 
 ---
 
 ## 7. Skeptic Success Criteria Check
 
-A competent core_skeptic can still claim:
+A competent skeptic can still claim:
 
 1. Release readiness is blocked by missing release sensitivity evidence artifact/report.
 2. Full-data comparability remains irrecoverable under current source scope.
 3. Comparative and provenance confidence remain bounded, not fully aligned.
 
-A competent core_skeptic can no longer credibly claim:
+A competent skeptic can no longer credibly claim:
 
 1. Release preflight path is missing.
 2. Lane semantics are undefined across H1/H2/H3/M2/M4.

@@ -29,10 +29,10 @@ Our results show that if you allow enough "flexible transforms" (different ways 
 ## Reproducibility
 To regenerate these evaluation results:
 ```bash
-# Run the phase4_inference experiment
+# Run the inference experiment
 python3 scripts/phase4_inference/run_lang_id.py
 
 # Generate the comparison plot
-support_visualization phase4_inference lang-id results/data/phase4_inference/lang_id_results.json
+visualization inference lang-id results/data/phase4_inference/lang_id_results.json
 ```
 **Reference RunID**: `821247f8-748c-cb25-1d5d-5d2877bf7f71`

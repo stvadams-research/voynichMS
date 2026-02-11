@@ -28,7 +28,7 @@ SK-C1 pass-4 blocker was a single release-path contract failure class:
    - `scripts/core_audit/pre_release_check.sh`
    - `scripts/verify_reproduction.sh`
    - `scripts/ci_check.sh`
-5. Gate-health phase3_synthesis:
+5. Gate-health synthesis:
    - `scripts/core_audit/build_release_gate_health_status.py`
    - `core_status/core_audit/release_gate_health_status.json`
 

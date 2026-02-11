@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 CHAPTERS_DIR = PROJECT_ROOT / "planning/support_preparation/chapters"
-OUTPUT_DIR = PROJECT_ROOT / "results/reports/publication"
+OUTPUT_DIR = PROJECT_ROOT / "results/publication"
 OUTPUT_PATH = OUTPUT_DIR / "DRAFT_MASTER.md"
 
 def get_latest_results(json_path: Path) -> dict:

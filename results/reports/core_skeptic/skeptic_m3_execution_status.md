@@ -18,7 +18,7 @@ Implemented outcomes:
 - Added SK-M3 coherence policy and machine-readable config.
 - Added SK-M3 checker and deterministic test coverage.
 - Integrated SK-M3 checks into CI and pre-release release-gate scripts.
-- Added contradiction inventory register and core_audit trail mapping.
+- Added contradiction inventory register and audit trail mapping.
 
 ---
 

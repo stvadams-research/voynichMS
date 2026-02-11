@@ -10,15 +10,15 @@
 
 ## 1. Purpose of Phase 6
 
-Phase 6 was initiated after Phase 5 successfully identified and collapsed the **production phase5_mechanism** of the Voynich Manuscript. At that point, the phase5_mechanism was no longer ambiguous, but its **function** remained unresolved.
+Phase 6 was initiated after Phase 5 successfully identified and collapsed the **production mechanism** of the Voynich Manuscript. At that point, the mechanism was no longer ambiguous, but its **function** remained unresolved.
 
-The goal of Phase 6 was not to interpret meaning, but to determine whether the identified phase5_mechanism exhibits **phase6_functional pressures** that would allow systematic narrowing of purpose.
+The goal of Phase 6 was not to interpret meaning, but to determine whether the identified mechanism exhibits **functional pressures** that would allow systematic narrowing of purpose.
 
 Phase 6 explicitly tested whether the manuscript’s production reflects:
 
 - formal exhaustion or enumeration,
 - efficiency or optimization pressure,
-- adversarial or anti-phase4_inference design.
+- adversarial or anti-inference design.
 
 ---
 
@@ -30,7 +30,7 @@ Phase 6 consisted of three independent but complementary sub-phases:
 - **Phase 6B:** Efficiency and Optimization Audit  
 - **Phase 6C:** Adversarial vs Indifferent Structure Test  
 
-Each sub-phase had pre-registered hypotheses, metrics, and kill rules, and was executed under a frozen phase5_mechanism assumption.
+Each sub-phase had pre-registered hypotheses, metrics, and kill rules, and was executed under a frozen mechanism assumption.
 
 ---
 
@@ -95,7 +95,7 @@ This rules out:
 ## 5. Phase 6C – Adversarial vs Indifferent Structure
 
 ### Objective
-Determine whether the system is deliberately structured to resist phase4_inference, reconstruction, or observation.
+Determine whether the system is deliberately structured to resist inference, reconstruction, or observation.
 
 ### Key Results
 
@@ -111,7 +111,7 @@ Phase 6C supports **Formal Indifference**.
 The system:
 - becomes more predictable with added context,
 - shows no decoy patterns,
-- exhibits no phase4_inference traps,
+- exhibits no inference traps,
 - does not react to observers.
 
 The extreme difficulty of prediction is explained by **state-space sparsity**, not adversarial design.
@@ -166,7 +166,7 @@ Remaining possibilities include categories where function is external to the tex
 - meditative or procedural exercises,
 - formal artifacts whose purpose lies in execution, not communication.
 
-These categories **cannot be distinguished by further text-only phase2_analysis**.
+These categories **cannot be distinguished by further text-only analysis**.
 
 ---
 
@@ -175,9 +175,9 @@ These categories **cannot be distinguished by further text-only phase2_analysis*
 - **Mechanism Identification:** COMPLETE (Phase 5)
 - **Functional Characterization (Text-Internal):** COMPLETE (Phase 6)
 - **Remaining Work:** Requires new evidence classes  
-  (phase7_human factors, codicology, phase8_comparative artifacts)
+  (human factors, codicology, comparative artifacts)
 
-Phase 6 represents a **valid and rigorous closure point** for text-internal phase4_inference.
+Phase 6 represents a **valid and rigorous closure point** for text-internal inference.
 
 Any further narrowing constitutes a **new project direction**, not a continuation of the same evidentiary lane.
 
@@ -191,5 +191,5 @@ Phase 6 completes the original mandate of the project:
 
 The Voynich Manuscript stands as a unified, indifferent formal artifact whose purpose cannot be inferred from its textual structure alone.
 
-This boundary is not a failure of phase2_analysis.  
-It is a successful identification of the limits of phase4_inference.
+This boundary is not a failure of analysis.  
+It is a successful identification of the limits of inference.

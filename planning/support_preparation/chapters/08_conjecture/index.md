@@ -1,15 +1,15 @@
 # The Horizon: Conjecture and Implications
 
 ## Headline
-**While the manuscript contains no "message," it remains a masterwork of phase7_human cognitive engineering—a monument to the algorithmic imagination.**
+**While the manuscript contains no "message," it remains a masterwork of human cognitive engineering—a monument to the algorithmic imagination.**
 
 ## The Concept (Layman's Summary)
 If we prove that the Voynich Manuscript is "just a machine," does that make it boring? On the contrary. It makes it even more fascinating. It tells us that someone in the 15th century was so obsessed with structure and pattern that they built a "paper computer" to generate a perfect, endless mystery. 
 
-The "meaning" of the book is not in the words, but in the **intent to create the book**. It is a 600-year-old art installation, a test of our own phase7_human desire to find meaning where none exists.
+The "meaning" of the book is not in the words, but in the **intent to create the book**. It is a 600-year-old art installation, a test of our own human desire to find meaning where none exists.
 
 ## Technical Deep-Dive
-Having established the **Implicit Constraint Lattice** as the production phase5_mechanism, we can now speculate on the "Why" without the risk of contaminating the "How."
+Having established the **Implicit Constraint Lattice** as the production mechanism, we can now speculate on the "Why" without the risk of contaminating the "How."
 
 ### Algorithmic Glossolalia
 We hypothesize that the manuscript is a form of **Structured Glossolalia**. Unlike "speaking in tongues," which is often chaotic, the Voynich represents a "High-Order" version where the creator utilized mechanical aids (like Lullian Wheels or Cardan Grilles) to stabilize their internal mental patterns into a physical record.

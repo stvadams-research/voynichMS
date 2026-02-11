@@ -162,7 +162,7 @@ Observed determinism incompatible with candidate topology or traversal rule.
 
 ---
 
-### 6.2 Entry-point sensitivity phase2_analysis
+### 6.2 Entry-point sensitivity analysis
 **Objective:**  
 Test whether small changes in starting conditions plausibly generate observed line diversity.
 
@@ -265,4 +265,4 @@ Phase 5E is not allowed to conclude:
 
 ## 11. Phase 5E Termination Statement
 
-Phase 5E evaluates large-object topologies and traversal dynamics as candidates for the Voynich Manuscript’s deterministic line-level production phase5_mechanism. By eliminating incompatible structures and identifying equivalence classes among survivors, Phase 5E further constrains the space of admissible explanations without invoking semantics. Progress beyond this phase requires either externa
+Phase 5E evaluates large-object topologies and traversal dynamics as candidates for the Voynich Manuscript’s deterministic line-level production mechanism. By eliminating incompatible structures and identifying equivalence classes among survivors, Phase 5E further constrains the space of admissible explanations without invoking semantics. Progress beyond this phase requires either externa

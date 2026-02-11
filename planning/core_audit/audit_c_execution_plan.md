@@ -22,7 +22,7 @@ This document outlines the execution plan to address the 14 critical (C-level) i
 - **Implementation:** Pass a `seed` parameter to all simulator entry points and instantiate `random.Random(seed)` or `np.random.RandomState(seed)` locally.
 
 ## Phase 2: Threshold Externalization & Centralization
-**Goal:** Move 150+ hardcoded "magic numbers" into the configuration layer to allow for sensitivity phase2_analysis and documented justification.
+**Goal:** Move 150+ hardcoded "magic numbers" into the configuration layer to allow for sensitivity analysis and documented justification.
 
 ### C1, C5, C6: Model & Evaluation Weights
 - **Action:** Extract perturbation thresholds, sensitivity weights, and evaluation dimension weights from `disconfirmation.py`, `constructed_system.py`, `visual_grammar.py`, and `evaluation.py`.
@@ -33,7 +33,7 @@ This document outlines the execution plan to address the 14 critical (C-level) i
 - **Implementation:** Centralize in `configs/phase6_functional/baselines.json`.
 
 ### C9, C13, C14: Synthesis & Perturbation Constraints
-- **Action:** Externalize phase3_synthesis tolerances, equivalence thresholds, and perturbation battery strengths from `interface.py`, `refinement/interface.py`, and `disconfirmation.py`.
+- **Action:** Externalize synthesis tolerances, equivalence thresholds, and perturbation battery strengths from `interface.py`, `refinement/interface.py`, and `disconfirmation.py`.
 - **Implementation:** Ensure these can be overridden via command-line arguments or run-specific config files.
 
 ## Phase 3: Fallback Data Sanitization
@@ -53,4 +53,4 @@ This document outlines the execution plan to address the 14 critical (C-level) i
 ## Phase 5: Verification
 - **Test:** Run the `acceptance_test.py` with the same seed twice to verify identical JSON outputs.
 - **Audit:** Confirm that no `random` calls in the critical path remain unseeded.
-- **Check:** Ensure all C1-C14 issues are marked as resolved in a follow-up core_audit report.
+- **Check:** Ensure all C1-C14 issues are marked as resolved in a follow-up audit report.

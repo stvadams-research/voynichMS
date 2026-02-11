@@ -65,12 +65,12 @@ Execute in this order:
 4. WS-D (verification harness quality and isolation)
 5. WS-E (coverage/test confidence)
 6. WS-F (strict computed policy finalization)
-7. WS-G (hygiene and required core_audit artifacts)
+7. WS-G (hygiene and required audit artifacts)
 8. Final Verification and Re-Audit
 
 Dependency notes:
 
-- WS-B should run after WS-A so no release narrative references a compromised core phase3_synthesis path.
+- WS-B should run after WS-A so no release narrative references a compromised core synthesis path.
 - WS-D should follow WS-C so verification checks assert final, corrected run/provenance semantics.
 - WS-E thresholds should be tightened only after WS-A/WS-B/WS-C stabilize to avoid churn.
 
@@ -91,7 +91,7 @@ Dependency notes:
 | A1 | Replace commented-out metric execution path with active computed path for information and locality tests. | `scripts/phase3_synthesis/run_indistinguishability_test.py` | No key decision metric is hardcoded/estimated. |
 | A2 | Remove hardcoded constants (`real_z`, `syn_z`, `real_rad`, `syn_rad`) from pass/fail logic. | `scripts/phase3_synthesis/run_indistinguishability_test.py` | Decision derives entirely from measured outputs. |
 | A3 | Enforce fail-fast behavior if required upstream artifacts/datasets are missing instead of silently substituting constants. | `scripts/phase3_synthesis/run_indistinguishability_test.py` | Script fails with actionable error when prerequisites are absent. |
-| A4 | Correct stale phase7_human-facing script output text (page-count mismatch and similar drift). | `scripts/phase3_synthesis/run_indistinguishability_test.py` | Console/report text reflects actual runtime behavior. |
+| A4 | Correct stale human-facing script output text (page-count mismatch and similar drift). | `scripts/phase3_synthesis/run_indistinguishability_test.py` | Console/report text reflects actual runtime behavior. |
 | A5 | Add regression test to prevent future reintroduction of hardcoded decision metrics in this runner. | `tests/phase3_synthesis/` or `tests/core_audit/` | Test fails if hardcoded path returns. |
 
 ### Verification Commands (during execution)
@@ -176,8 +176,8 @@ python3 -m pytest -q tests/phase1_foundation tests/core_audit
 | Task ID | Action | Target Files | Exit Criteria |
 |---|---|---|---|
 | D1 | Update `verify_reproduction.sh` to run against isolated verification DB (temporary copy or dedicated DB URL), not primary baseline DB. | `scripts/verify_reproduction.sh` | Verification run does not mutate `data/voynich.db` baseline state. |
-| D2 | Add support_cleanup logic for verification artifacts and DBs to keep local state stable. | `scripts/verify_reproduction.sh` | Script is repeatable without accumulating side effects. |
-| D3 | Extend verification beyond Test A: include at least one phase2_analysis output and one sensitivity artifact integrity check. | `scripts/verify_reproduction.sh` | Verification gate covers representative multi-phase outputs. |
+| D2 | Add cleanup logic for verification artifacts and DBs to keep local state stable. | `scripts/verify_reproduction.sh` | Script is repeatable without accumulating side effects. |
+| D3 | Extend verification beyond Test A: include at least one analysis output and one sensitivity artifact integrity check. | `scripts/verify_reproduction.sh` | Verification gate covers representative multi-phase outputs. |
 | D4 | Add explicit strict-mode branch (`REQUIRE_COMPUTED=1`) for release-grade verification path. | `scripts/verify_reproduction.sh`, `governance/governance/REPRODUCIBILITY.md` | Release verification mode fails on fallback use. |
 | D5 | Add tests for verifier behavior (canonical compare, isolated DB usage, failure semantics). | `tests/core_audit/` | Reproducibility harness behavior is regression-protected. |
 
@@ -201,7 +201,7 @@ python3 -m pytest -q tests/core_audit
 
 | Task ID | Action | Target Files | Exit Criteria |
 |---|---|---|---|
-| E1 | Add targeted tests for currently untested critical modules (`phase1_foundation.cli.main`, `phase2_analysis.admissibility.manager`, `phase1_foundation.core.queries`, plus other 0% critical files). | `tests/phase1_foundation/`, `tests/phase2_analysis/` | Critical module coverage no longer near-zero. |
+| E1 | Add targeted tests for currently untested critical modules (`foundation.cli.main`, `analysis.admissibility.manager`, `foundation.core.queries`, plus other 0% critical files). | `tests/phase1_foundation/`, `tests/phase2_analysis/` | Critical module coverage no longer near-zero. |
 | E2 | Add end-to-end tests for canonical sensitivity artifact generation and report consistency. | `tests/phase2_analysis/`, `tests/core_audit/` | Tests assert canonical dataset metadata and non-legacy command provenance. |
 | E3 | Tighten CI staged coverage thresholds after new tests land (stage policy update). | `scripts/ci_check.sh` | Coverage gate trajectory is stricter than current 40% baseline. |
 | E4 | Add visibility for critical-module coverage deltas (report or threshold policy) so aggregate percentage cannot hide key blind spots. | `scripts/ci_check.sh` and/or test tooling | CI output includes actionable critical coverage status. |
@@ -251,17 +251,17 @@ python3 -m pytest -q tests/integration tests/phase3_synthesis
 
 **Addresses:** `INV-1`, `INV-2`, `INV-3`, `DOC-2`, `RI-7`  
 **Priority:** Medium  
-**Objective:** Complete playbook-required core_audit artifacts and reduce release/noise ambiguity.
+**Objective:** Complete playbook-required audit artifacts and reduce release/noise ambiguity.
 
 ### Tasks
 
 | Task ID | Action | Target Files | Exit Criteria |
 |---|---|---|---|
 | G1 | Create and adopt `AUDIT_LOG.md` as the running decisions/issues ledger required by playbook. | `AUDIT_LOG.md` (repo root or documented canonical path) | Playbook-required output exists and is actively used. |
-| G2 | Define `core_status/by_run` retention policy (keep local-only, archive_legacy path, or support_cleanup tooling) and document it. | `governance/PROVENANCE.md`, `governance/governance/REPRODUCIBILITY.md`, optional support_cleanup script | Artifact lifecycle is clear and reproducible. |
-| G3 | Add optional support_cleanup utility for transient status artifacts to keep review worktrees manageable. | `scripts/core_audit/` | Reviewers can produce clean baseline state reliably. |
+| G2 | Define `core_status/by_run` retention policy (keep local-only, archive_legacy path, or cleanup tooling) and document it. | `governance/PROVENANCE.md`, `governance/governance/REPRODUCIBILITY.md`, optional cleanup script | Artifact lifecycle is clear and reproducible. |
+| G3 | Add optional cleanup utility for transient status artifacts to keep review worktrees manageable. | `scripts/core_audit/` | Reviewers can produce clean baseline state reliably. |
 | G4 | Remove residual debug/commented diagnostics from audited script paths. | `scripts/phase5_mechanism/run_5i_anchor_coupling.py` | Low-severity hygiene issue closed. |
-| G5 | Publish release-baseline checklist requiring clean/intended diff before final core_audit signoff. | `governance/governance/REPRODUCIBILITY.md` and/or release checklist | Baseline hygiene becomes an enforced release step. |
+| G5 | Publish release-baseline checklist requiring clean/intended diff before final audit signoff. | `governance/governance/REPRODUCIBILITY.md` and/or release checklist | Baseline hygiene becomes an enforced release step. |
 
 ### Verification Commands
 
@@ -290,7 +290,7 @@ rg -n "DEBUG:|TODO|FIXME|HACK" scripts/phase5_mechanism/run_5i_anchor_coupling.p
 | `ST-1` | Artifact contract and location semantics aligned with canonical sensitivity outputs. |
 | `ST-2` | Script runtime messaging aligned with actual generated outputs. |
 | `INV-1` | Release baseline checklist and clean-worktree process enforced. |
-| `INV-2`, `DOC-2` | `AUDIT_LOG.md` created and integrated into core_audit workflow. |
+| `INV-2`, `DOC-2` | `AUDIT_LOG.md` created and integrated into audit workflow. |
 | `INV-3` | Status artifact retention/support_cleanup policy documented and operationalized. |
 
 ---

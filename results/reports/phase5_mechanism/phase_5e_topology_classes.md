@@ -15,7 +15,7 @@
 - **Description:** A stack of grids. A line is produced by selecting a layer, then traversing it.
 - **Mechanism:** $L = Traversal(Layer_k, Start_i)$. 
 - **Strengths:** Explains how the global vocabulary can be large while each line is rigidly constrained.
-- **Vulnerabilities:** Requires a phase5_mechanism for selecting the layer that doesn't leak into the text.
+- **Vulnerabilities:** Requires a mechanism for selecting the layer that doesn't leak into the text.
 
 ## 3. Directed Acyclic Graphs (DAGs)
 - **Description:** A network of components where edges define the only allowed sequences.

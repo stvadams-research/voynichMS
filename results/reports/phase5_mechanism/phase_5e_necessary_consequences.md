@@ -11,7 +11,7 @@
 - **Kill rule:** If successor consistency is indistinguishable from a matched shuffled-control, any "static object" model is eliminated.
 
 ## 2. Consequence: C5E.ENTR.1 (Global-Local Entropy Gap)
-- **Statement:** The phase5_mechanism must simultaneously support high global entropy (many valid tokens) and low local entropy (fixed path).
+- **Statement:** The mechanism must simultaneously support high global entropy (many valid tokens) and low local entropy (fixed path).
 - **Observable proxy:** Ratio of global slot entropy to mean within-line conditional entropy.
 - **Kill rule:** If the ratio is < 4.0, simple low-dimensional models are eliminated as insufficient.
 

@@ -12,8 +12,8 @@
 
 Phase 7 begins after the completion of Phases 5 and 6, which together:
 
-- identified the Voynich Manuscript’s production phase5_mechanism,
-- characterized its internal phase6_functional behavior,
+- identified the Voynich Manuscript’s production mechanism,
+- characterized its internal functional behavior,
 - and established a hard boundary on what text-internal evidence can resolve.
 
 The purpose of Phase 7 is **not to infer meaning**, but to test **external constraints** that may narrow the manuscript’s function, origin, or use.
@@ -26,7 +26,7 @@ Phase 7 explicitly accepts that:
 
 ## 2. Phase 7 Core Question
 
-Given a **large, deterministic, efficiency-indifferent, formally executed system**, what *external constraints* does the manuscript’s physical, phase7_human, and historical context impose on plausible functions?
+Given a **large, deterministic, efficiency-indifferent, formally executed system**, what *external constraints* does the manuscript’s physical, human, and historical context impose on plausible functions?
 
 ---
 
@@ -35,9 +35,9 @@ Given a **large, deterministic, efficiency-indifferent, formally executed system
 ### 3.1 Evidence class shift
 Phase 7 introduces evidence sources deliberately excluded from Phases 1–6, including:
 
-- phase7_human production constraints,
+- human production constraints,
 - material and codicological features,
-- phase8_comparative artifact classes.
+- comparative artifact classes.
 
 Text statistics alone are no longer sufficient.
 
@@ -55,7 +55,7 @@ All tests are grounded in **measurable physical or behavioral proxies**.
 
 ### 3.3 Constraint-based narrowing
 Phase 7 does not aim to identify *the* function.  
-It aims to **eliminate incompatible phase6_functional categories**.
+It aims to **eliminate incompatible functional categories**.
 
 ---
 
@@ -144,10 +144,10 @@ Eliminate categories requiring:
 
 ## 8. Integration and Synthesis
 
-Phase 7 results are integrated through **constraint intersection**, not narrative phase3_synthesis.
+Phase 7 results are integrated through **constraint intersection**, not narrative synthesis.
 
 Outcomes include:
-- narrowing to one or two viable phase6_functional categories,
+- narrowing to one or two viable functional categories,
 - or demonstrating persistent underdetermination even with external evidence.
 
 Both outcomes are valid.
@@ -158,7 +158,7 @@ Both outcomes are valid.
 
 Phase 7 terminates when:
 - all three sub-phases are executed,
-- incompatible phase6_functional categories are eliminated,
+- incompatible functional categories are eliminated,
 - remaining uncertainty is explicitly documented.
 
 Phase 7 does **not** require a positive identification.
@@ -180,6 +180,6 @@ It is a **new evidentiary lane**, justified by Phase 6 closure.
 
 Phase 7 acknowledges a core result of the project:
 
-> The Voynich Manuscript’s text is a complete description of its phase5_mechanism, but an incomplete description of its function.
+> The Voynich Manuscript’s text is a complete description of its mechanism, but an incomplete description of its function.
 
 Phase 7 asks what the *world around the manuscript* can tell us that the text itself cannot.

@@ -5,7 +5,7 @@ This plan outlines the long-term strategic actions required to move the Voynich 
 ---
 
 ## Track 1: Advanced Observability and Logging (LT1 - LT4)
-**Goal:** Transition from basic logging to structured, contextual observability that supports automated phase2_analysis of execution paths.
+**Goal:** Transition from basic logging to structured, contextual observability that supports automated analysis of execution paths.
 
 | ID | Task | Action |
 |---|---|---|
@@ -52,7 +52,7 @@ This plan outlines the long-term strategic actions required to move the Voynich 
 ---
 
 ## Track 5: Documentation & Public Review Readiness (LT16 - LT17)
-**Goal:** Prepare the project for external core_audit and academic publication.
+**Goal:** Prepare the project for external audit and academic publication.
 
 | ID | Task | Action |
 |---|---|---|

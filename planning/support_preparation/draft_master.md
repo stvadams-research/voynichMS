@@ -47,7 +47,7 @@ The framework principles are governed by `VISION_AND_MASTER_ROADMAP.md` and enfo
 Imagine you are listening to someone speak. In normal English, words like "the" or "and" appear often, but you rarely hear the same unique, long word three or four times in a single sentence. In the Voynich Manuscript, this happens constantly. It is as if the book is "stuttering" in a way that suggests it was created by a simple rule-following machine or a very specific mental process, rather than by someone trying to communicate complex ideas. We call this "Structure without Meaning."
 
 ## Technical Deep-Dive
-Our phase2_analysis of the `voynich_real` dataset (222 pages) reveals a structural rigidity that is anomalous when compared to natural language controls.
+Our analysis of the `voynich_real` dataset (222 pages) reveals a structural rigidity that is anomalous when compared to natural language controls.
 
 ### Token Repetition Analysis
 We calculated the **Page-level Repetition Rate**, defined as the ratio of tokens that appear more than once on a page to the total number of tokens on that page.
@@ -65,16 +65,16 @@ The manuscript follows a classic Zipfian power law, but with a "truncated tail."
 Traditional linguists often argue that high repetition is a sign of a "highly inflected" language or a simple substitution cipher. 
 
 ### Counter-Point Analysis
-However, our stress tests in Layer 2 (Analysis) demonstrate that the *positional* repetition (where the words appear) violates the "Long-Range Correlation" patterns found in all phase7_human communication. If this were a cipher, it would be a "degenerate" one where information density is sacrificed for rhythmic repetition.
+However, our stress tests in Layer 2 (Analysis) demonstrate that the *positional* repetition (where the words appear) violates the "Long-Range Correlation" patterns found in all human communication. If this were a cipher, it would be a "degenerate" one where information density is sacrificed for rhythmic repetition.
 
 ## Reproducibility
 To regenerate these metrics and plots, use the following CLI commands:
 ```bash
 # Calculate metrics
-phase1_foundation metrics run --dataset voynich_real --metric RepetitionRate
+foundation metrics run --dataset voynich_real --metric RepetitionRate
 
-# Generate support_visualization
-support_visualization phase1_foundation repetition-rate voynich_real
+# Generate visualization
+visualization foundation repetition-rate voynich_real
 ```
 **Reference RunID**: `41f398bc-9623-2b2d-bada-5bd4dc226e64`
 
@@ -90,7 +90,7 @@ support_visualization phase1_foundation repetition-rate voynich_real
 ## The Concept (Layman's Summary)
 If you see a cloud that looks like a face, you don't assume the cloud is trying to tell you something. You know that wind and water vapor just happen to form that shape sometimes. We did the same thing with the Voynich Manuscript. We tested it to see if it "breaks" in the same way a language would.
 
-When you garble a sentence in English, you can usually still guess some of the words. But when we slightly shifted the "alphabet" or "word boundaries" of the Voynich, the whole structure collapsed instantly. This tells us the patterns are extremely rigid and fragile—like a computer program's code—rather than flexible and redundant like a phase7_human language.
+When you garble a sentence in English, you can usually still guess some of the words. But when we slightly shifted the "alphabet" or "word boundaries" of the Voynich, the whole structure collapsed instantly. This tells us the patterns are extremely rigid and fragile—like a computer program's code—rather than flexible and redundant like a human language.
 
 ## Technical Deep-Dive
 We utilized an **Admissibility Mapping** protocol to test the manuscript against 6 distinct explanation classes.
@@ -107,7 +107,7 @@ This collapse proves that the "words" in the manuscript are not carriers of sema
 Using a battery of **Stress Tests**, we identified two primary signatures that exclude simple "gibberish" while also excluding "language":
 
 1.  **Information Density (Z-Score: 5.68)**: The manuscript is far more "orderly" than random noise.
-2.  **Locality Radius (2-4 units)**: Statistical dependencies exist only between immediate neighbors, lacking the "long-range correlations" found in all phase7_human thought and communication.
+2.  **Locality Radius (2-4 units)**: Statistical dependencies exist only between immediate neighbors, lacking the "long-range correlations" found in all human thought and communication.
 
 ## Skeptic's Corner
 Some researchers point to the "word-like" statistics (Zipf's Law) as proof of language.
@@ -188,11 +188,11 @@ Our results show that if you allow enough "flexible transforms" (different ways 
 ## Reproducibility
 To regenerate these evaluation results:
 ```bash
-# Run the phase4_inference experiment
+# Run the inference experiment
 python3 scripts/phase4_inference/run_lang_id.py
 
 # Generate the comparison plot
-support_visualization phase4_inference lang-id results/data/phase4_inference/lang_id_results.json
+visualization inference lang-id results/data/phase4_inference/lang_id_results.json
 ```
 **Reference RunID**: `821247f8-748c-cb25-1d5d-5d2877bf7f71`
 
@@ -280,15 +280,15 @@ python3 scripts/phase5_mechanism/run_pilot.py
 # The Horizon: Conjecture and Implications
 
 ## Headline
-**While the manuscript contains no "message," it remains a masterwork of phase7_human cognitive engineering—a monument to the algorithmic imagination.**
+**While the manuscript contains no "message," it remains a masterwork of human cognitive engineering—a monument to the algorithmic imagination.**
 
 ## The Concept (Layman's Summary)
 If we prove that the Voynich Manuscript is "just a machine," does that make it boring? On the contrary. It makes it even more fascinating. It tells us that someone in the 15th century was so obsessed with structure and pattern that they built a "paper computer" to generate a perfect, endless mystery. 
 
-The "meaning" of the book is not in the words, but in the **intent to create the book**. It is a 600-year-old art installation, a test of our own phase7_human desire to find meaning where none exists.
+The "meaning" of the book is not in the words, but in the **intent to create the book**. It is a 600-year-old art installation, a test of our own human desire to find meaning where none exists.
 
 ## Technical Deep-Dive
-Having established the **Implicit Constraint Lattice** as the production phase5_mechanism, we can now speculate on the "Why" without the risk of contaminating the "How."
+Having established the **Implicit Constraint Lattice** as the production mechanism, we can now speculate on the "Why" without the risk of contaminating the "How."
 
 ### Algorithmic Glossolalia
 We hypothesize that the manuscript is a form of **Structured Glossolalia**. Unlike "speaking in tongues," which is often chaotic, the Voynich represents a "High-Order" version where the creator utilized mechanical aids (like Lullian Wheels or Cardan Grilles) to stabilize their internal mental patterns into a physical record.

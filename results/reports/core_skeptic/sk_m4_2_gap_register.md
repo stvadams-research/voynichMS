@@ -10,7 +10,7 @@
 
 - Provenance class in assessment: `PROVENANCE_QUALIFIED`
 - Assessment-cited runtime spot-check: `orphaned=63`, `success=135`
-- Identified drift issue: core_skeptic register snapshot showed stale `success=133`.
+- Identified drift issue: skeptic register snapshot showed stale `success=133`.
 
 ## Current Canonical Snapshot
 

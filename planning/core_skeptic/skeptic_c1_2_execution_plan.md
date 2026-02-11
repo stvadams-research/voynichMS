@@ -44,7 +44,7 @@ Observed impact:
 - `pre_release_check.sh` fails
 - `verify_reproduction.sh` fails
 
-Core core_skeptic attack:
+Core skeptic attack:
 
 - "Your release artifact says PASS while your own gates reject it."
 
@@ -176,7 +176,7 @@ rg -n "dataset_policy_pass|warning_policy_pass|warning_density_per_scenario|Tota
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | E1 | Wire sensitivity contract checker into CI and/or pre-release sequence. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh` | Contract checker runs automatically. |
-| E2 | Extend core_audit contract tests to assert new checker integration and field expectations. | `tests/core_audit/test_pre_release_contract.py`, `tests/core_audit/test_verify_reproduction_contract.py`, `tests/core_audit/test_ci_check_contract.py` | Contract tests fail on missing integration. |
+| E2 | Extend audit contract tests to assert new checker integration and field expectations. | `tests/core_audit/test_pre_release_contract.py`, `tests/core_audit/test_verify_reproduction_contract.py`, `tests/core_audit/test_ci_check_contract.py` | Contract tests fail on missing integration. |
 | E3 | Extend sensitivity guardrail/E2E tests for missing-field, empty-caveat, and stale-schema cases. | `tests/phase2_analysis/test_sensitivity_sweep_guardrails.py`, `tests/phase2_analysis/test_sensitivity_sweep_end_to_end.py` | Regression matrix covers SK-C1.2 failure modes. |
 
 ### Verification
@@ -200,7 +200,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | F1 | Update sensitivity docs with exact release-field contract and caveat rules. | `governance/SENSITIVITY_ANALYSIS.md` | Field-level policy semantics documented. |
 | F2 | Update reproducibility doc with SK-C1.2 contract check command path. | `governance/governance/REPRODUCIBILITY.md` | Repro flow includes contract checker and expected fields. |
-| F3 | Add SK-C1.2 execution status and core_audit log trace templates. | `reports/core_skeptic/SKEPTIC_C1_2_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | End-to-end traceability path prepared. |
+| F3 | Add SK-C1.2 execution status and audit log trace templates. | `reports/core_skeptic/SKEPTIC_C1_2_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | End-to-end traceability path prepared. |
 
 ### Verification
 
@@ -246,7 +246,7 @@ Rationale:
 | WS-C1.2-C Readiness Logic | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added `release_readiness_failures` fail-closed readiness semantics. |
 | WS-C1.2-D Report Sync | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Regenerated canonical sensitivity artifact/report via quick iterative run. |
 | WS-C1.2-E Gates/Tests | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Wired checker into CI/pre-release/verify and expanded regression tests. |
-| WS-C1.2-F Docs/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated docs, core_audit log, and execution status artifacts. |
+| WS-C1.2-F Docs/Audit | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated docs, audit log, and execution status artifacts. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

@@ -3,7 +3,7 @@
 **Project:** Voynich Manuscript – Human–Artifact Coupling  
 **Phase:** 7B  
 **Phase Name:** Codicological Constraints  
-**Goal Type:** External coupling core_audit (physical manuscript vs formal system)  
+**Goal Type:** External coupling audit (physical manuscript vs formal system)  
 **Primary Goal:** Determine whether the execution of the Voynich formal system is adaptively coupled to the physical structure of the manuscript (pages, quires, layout, scribal hands), or whether the manuscript functions as a largely neutral carrier.
 
 ---
@@ -11,11 +11,11 @@
 ## 1. Phase 7B Purpose and Core Question
 
 ### 1.1 Core Question
-Does the Voynich production phase5_mechanism adapt to codicological constraints (page boundaries, quire structure, layout geometry, scribal hand), or is the formal system executed independently of the manuscript’s physical form?
+Does the Voynich production mechanism adapt to codicological constraints (page boundaries, quire structure, layout geometry, scribal hand), or is the formal system executed independently of the manuscript’s physical form?
 
 ### 1.2 Why Phase 7B Exists
 Earlier phases established:
-- A single global deterministic phase5_mechanism (Phase 5)
+- A single global deterministic mechanism (Phase 5)
 - Indifferent formal execution (Phase 6)
 - Human but disciplined production (Phase 7A)
 
@@ -26,7 +26,7 @@ What remains unresolved is **where the control lives**:
 Phase 7B explicitly tests manuscript-level coupling.
 
 ### 1.3 What Phase 7B Is Not
-- Not an phase2_analysis of illustration meaning
+- Not an analysis of illustration meaning
 - Not a palaeographic classification project
 - Not a semantic or historical interpretation
 
@@ -48,7 +48,7 @@ All tests must:
 - Assume the same underlying formal system
 - Measure *modulation*, not rule change
 
-If the phase5_mechanism changes, Phase 5 conclusions are violated.
+If the mechanism changes, Phase 5 conclusions are violated.
 
 ---
 
@@ -155,9 +155,9 @@ Determine whether execution signatures correlate more strongly with scribal iden
 
 ## 5. Execution Order
 
-1. Page boundary correlation phase2_analysis
+1. Page boundary correlation analysis
 2. Layout variability profiling
-3. Quire continuity phase2_analysis
+3. Quire continuity analysis
 4. Scribal hand comparison
 5. Synthesis across all metrics
 
@@ -176,7 +176,7 @@ Each test is run independently and then integrated.
 - **Supports H7B.2 (External Generation):**
   - Weak boundary effects
   - Strong scribal-agent effects
-  - Global phase5_mechanism stability
+  - Global mechanism stability
 
 ### Phase 7B Success Criteria
 Phase 7B is successful if it:

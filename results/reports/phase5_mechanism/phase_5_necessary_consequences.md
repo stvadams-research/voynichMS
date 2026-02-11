@@ -1,7 +1,7 @@
 # PHASE 5 NECESSARY CONSEQUENCES AND KILL RULES
 
 **Project:** Voynich Manuscript – Identifiability Phase  
-**Objective:** Pre-register the measurable properties that must be present for a phase5_mechanism class to remain admissible.
+**Objective:** Pre-register the measurable properties that must be present for a mechanism class to remain admissible.
 
 ---
 

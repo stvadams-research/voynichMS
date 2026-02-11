@@ -35,7 +35,7 @@ Playbook Phases 0-5 were rerun with direct command evidence and source inspectio
 
 ### Runtime commands executed
 
-- `python3 -c "import sys; sys.path.insert(0,'src'); import phase1_foundation.configs.loader; print('loader_import_ok')"`
+- `python3 -c "import sys; sys.path.insert(0,'src'); import foundation.configs.loader; print('loader_import_ok')"`
 - `python3 scripts/phase3_synthesis/run_test_a.py --seed 4242 --output /tmp/audit6_test_a_1.json` (run twice; canonical payload compare)
 - `python3 -m pytest --cov=src --cov-report=term-missing:skip-covered -q tests`
 - `bash scripts/verify_reproduction.sh`
@@ -52,7 +52,7 @@ Playbook Phases 0-5 were rerun with direct command evidence and source inspectio
 | Reproduction verifier | Pass | Still only checks Test A canonicalization + fixture generation |
 | CI check | Pass | Stage-1 gate still `40%`; observed `46.01%` |
 
-No remediation code changes were made in this core_audit run.
+No remediation code changes were made in this audit run.
 
 ---
 
@@ -86,7 +86,7 @@ Top-level source distribution:
 |---|---|---|---|
 | INV-1 | Medium | Worktree is not release-clean (`68` modified/untracked paths), which complicates freeze/baseline claims. | `git status --short` |
 | INV-2 | Medium | Playbook-required `AUDIT_LOG.md` artifact is still missing. | Expectation: `planning/core_audit/CODE_AUDIT_AND_CLEANUP_PLAYBOOK.md:43`; not found via `rg --files -g 'AUDIT_LOG.md'` |
-| INV-3 | Low | Repository keeps accumulating transient verification artifacts under `core_status/by_run/`, increasing local core_audit noise even though `core_status/` is ignored. | `core_status/by_run/*`; `.gitignore:39` |
+| INV-3 | Low | Repository keeps accumulating transient verification artifacts under `core_status/by_run/`, increasing local audit noise even though `core_status/` is ignored. | `core_status/by_run/*`; `.gitignore:39` |
 
 ---
 
@@ -106,7 +106,7 @@ Top-level source distribution:
 | ID | Severity | Finding | Location |
 |---|---|---|---|
 | RI-5 | Medium | Verification workflow mutates primary `data/voynich.db` (not an isolated test DB), allowing verification runs to alter baseline state. | `scripts/verify_reproduction.sh:16`; `scripts/verify_reproduction.sh:32`; `scripts/phase3_synthesis/run_test_a.py:38`; `scripts/phase3_synthesis/run_test_a.py:63` |
-| RI-6 | Medium | Strict no-fallback mode (`REQUIRE_COMPUTED=1`) remains optional in reproducibility guidance while fallback defaults are present in core phase3_synthesis profile extraction. | Optional strict mode: `governance/governance/REPRODUCIBILITY.md:93`; fallback defaults and simulated page data: `src/phase3_synthesis/profile_extractor.py:71`; `src/phase3_synthesis/profile_extractor.py:102` |
+| RI-6 | Medium | Strict no-fallback mode (`REQUIRE_COMPUTED=1`) remains optional in reproducibility guidance while fallback defaults are present in core synthesis profile extraction. | Optional strict mode: `governance/governance/REPRODUCIBILITY.md:93`; fallback defaults and simulated page data: `src/phase3_synthesis/profile_extractor.py:71`; `src/phase3_synthesis/profile_extractor.py:102` |
 | RI-7 | Low | Residual debug/commented diagnostic code remains in execution path script. | `scripts/phase5_mechanism/run_5i_anchor_coupling.py:58` |
 
 ---
@@ -127,7 +127,7 @@ Top-level source distribution:
 
 | ID | Severity | Finding | Location |
 |---|---|---|---|
-| ST-1 | Medium | Output contracts are still mixed in practice: provenance-managed JSON exists, but core_audit-significant sensitivity artifacts currently reflect legacy reconciliation path and transient `core_status/` location. | `core_status/core_audit/sensitivity_sweep.json:10`; `governance/PROVENANCE.md:67`; `reports/core_audit/SENSITIVITY_RESULTS.md:4` |
+| ST-1 | Medium | Output contracts are still mixed in practice: provenance-managed JSON exists, but audit-significant sensitivity artifacts currently reflect legacy reconciliation path and transient `core_status/` location. | `core_status/core_audit/sensitivity_sweep.json:10`; `governance/PROVENANCE.md:67`; `reports/core_audit/SENSITIVITY_RESULTS.md:4` |
 | ST-2 | Low | Human-facing message drift in `run_indistinguishability_test.py` (declares “18 pages” while generating count=2) indicates stale script narration. | Generation count: `scripts/phase3_synthesis/run_indistinguishability_test.py:60`; message: `scripts/phase3_synthesis/run_indistinguishability_test.py:86` |
 
 ---

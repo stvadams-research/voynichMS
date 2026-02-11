@@ -3,7 +3,7 @@
 **Project:** Voynich Manuscript, Structural Admissibility Program  
 **Phase:** 5C  
 **Phase Name:** Workflow Identifiability  
-**Goal Type:** Procedural phase5_mechanism reconstruction under boundary-coupled constraints  
+**Goal Type:** Procedural mechanism reconstruction under boundary-coupled constraints  
 **Primary Goal:** Identify and characterize the minimal line-conditioned production workflow capable of reproducing the observed constraint geometry, reset behavior, and dimensionality of the Voynich Manuscript, without assuming semantics.
 
 ---
@@ -20,7 +20,7 @@ Phase 5B established that:
 - Effective dimensionality is moderate but repeatedly re-instantiated.
 - The manuscript behaves as a highly non-persistent stochastic system.
 
-These findings force a shift from abstract phase5_mechanism classes to **workflow reconstruction**.
+These findings force a shift from abstract mechanism classes to **workflow reconstruction**.
 
 ### 1.3 What Phase 5C is not
 - Not an interpretation of meaning.
@@ -48,7 +48,7 @@ No model may carry latent state across line boundaries unless explicitly tested 
 ### 2.2 Ephemeral latent state
 Latent variables may exist within a line, but must reset or resample at each boundary unless evidence shows otherwise.
 
-### 2.3 Parameter phase4_inference over rule phase4_inference
+### 2.3 Parameter inference over rule inference
 Phase 5C infers *distributions of parameters* governing line generators, not fixed grammars or token-level rules.
 
 ### 2.4 Minimal sufficiency
@@ -109,7 +109,7 @@ Deliverable:
 
 ## 5. Necessary Consequences at the Workflow Level
 
-Phase 5C defines **workflow-level necessary consequences**, distinct from Phase 5 phase5_mechanism consequences.
+Phase 5C defines **workflow-level necessary consequences**, distinct from Phase 5 mechanism consequences.
 
 ### 5.1 Examples of necessary consequences
 - Line-level independence detectable via transition discontinuities.
@@ -132,7 +132,7 @@ Deliverable:
 
 Phase 5C introduces workflow-specific tests.
 
-### 6.1 Line-level parameter phase4_inference
+### 6.1 Line-level parameter inference
 **Objective:**  
 Infer distributions of line-level parameters from real data.
 
@@ -274,6 +274,6 @@ Phase 5C reconstructs the minimal line-conditioned production workflow compatibl
 1) Finalize workflow family definitions  
 2) Pre-register workflow-level necessary consequences  
 3) Implement minimal simulators for each family  
-4) Run line-parameter phase4_inference on the real manuscript  
+4) Run line-parameter inference on the real manuscript  
 5) Execute sufficiency benchmarks against matched simulators  
 6) Decide whether workflow space collapses or remains equivalent

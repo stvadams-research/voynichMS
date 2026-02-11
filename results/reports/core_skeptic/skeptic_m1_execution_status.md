@@ -14,7 +14,7 @@ Implemented outcomes:
 
 - Added canonical SK-M1 closure-conditionality policy and machine-readable config.
 - Added canonical reopening criteria source and linked closure-bearing docs.
-- Calibrated terminal wording in phase8_comparative and final closure reports to framework-bounded reopenable language.
+- Calibrated terminal wording in comparative and final closure reports to framework-bounded reopenable language.
 - Added SK-M1 checker with CI/release mode support and policy tests.
 - Integrated SK-M1 checks into CI and pre-release scripts.
 - Added closure contradiction register and execution/core_audit trace artifacts.

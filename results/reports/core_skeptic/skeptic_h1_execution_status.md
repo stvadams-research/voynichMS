@@ -19,8 +19,8 @@ Implemented outcomes:
   - permutation-test p-value,
   - fail-closed status (`CONCLUSIVE_*`, `INCONCLUSIVE_UNDERPOWERED`, `BLOCKED_DATA_GEOMETRY`),
   - allowed-claim guardrail text.
-- Added anchor coverage core_audit script to quantify cohort balance before coupling phase4_inference.
-- Added Phase 7B evidence-grade ingestion so phase7_human-facing reporting cannot exceed multimodal evidence class.
+- Added anchor coverage audit script to quantify cohort balance before coupling inference.
+- Added Phase 7B evidence-grade ingestion so human-facing reporting cannot exceed multimodal evidence class.
 - Calibrated Phase 5H/5I/final summary and Phase 7 wording to remove categorical claims when evidence is non-conclusive.
 - Added targeted tests for coupling policy logic and Phase 7 claim guardrails.
 

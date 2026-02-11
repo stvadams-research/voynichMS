@@ -10,9 +10,9 @@
 
 ## 1. Purpose of Phase 7B
 
-Phase 7B evaluates whether the Voynich Manuscript’s formally identified production phase5_mechanism is **coupled to the manuscript as a physical object**.
+Phase 7B evaluates whether the Voynich Manuscript’s formally identified production mechanism is **coupled to the manuscript as a physical object**.
 
-After Phases 5 and 6 established that the text is a unified, indifferent formal system, and Phase 7A established disciplined but phase7_human execution, Phase 7B asks:
+After Phases 5 and 6 established that the text is a unified, indifferent formal system, and Phase 7A established disciplined but human execution, Phase 7B asks:
 
 > Does the formal system adapt to, depend on, or ignore the material and codicological structure of the manuscript?
 
@@ -25,7 +25,7 @@ This phase introduces **physical layout, material sequencing, and scribal eviden
 Phase 7B addresses the following questions:
 
 1. Was the text generated **in situ** on the pages, or copied from an external source?
-2. Does the production phase5_mechanism respond to:
+2. Does the production mechanism respond to:
    - page boundaries,
    - quire structure,
    - layout constraints,
@@ -42,7 +42,7 @@ Phase 7B does NOT:
 - identify author or cultural origin,
 - assume language or encoding.
 
-All phase2_analysis is structural and physical.
+All analysis is structural and physical.
 
 ---
 
@@ -124,7 +124,7 @@ If quire boundaries are indistinguishable from random breaks, material coupling 
 - Stroke complexity by hand
 
 **Kill rule (H7B.2):**
-If execution signatures remain invariant across hands, the phase5_mechanism is independent of individual scribes.
+If execution signatures remain invariant across hands, the mechanism is independent of individual scribes.
 
 ---
 
@@ -207,6 +207,6 @@ Supports external generation and subsequent copying.
 
 ## 11. Phase 7B Termination Statement
 
-Phase 7B terminates when codicological and material constraints are evaluated against the frozen phase5_mechanism, and the degree of coupling between text generation and physical manuscript structure is decisively classified.
+Phase 7B terminates when codicological and material constraints are evaluated against the frozen mechanism, and the degree of coupling between text generation and physical manuscript structure is decisively classified.
 
 Phase 7B does not infer purpose; it constrains production mode.

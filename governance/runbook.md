@@ -78,9 +78,9 @@ python3 scripts/phase7_human/run_7c_comparative.py
 
 ```bash
 # General usage
-support_visualization phase1_foundation token-frequency voynich_real
-support_visualization phase2_analysis sensitivity-sweep core_status/core_audit/sensitivity_sweep.json
-support_visualization phase4_inference lang-id results/data/phase4_inference/lang_id_results.json
+visualization foundation token-frequency voynich_real
+visualization analysis sensitivity-sweep core_status/core_audit/sensitivity_sweep.json
+visualization inference lang-id results/data/phase4_inference/lang_id_results.json
 ```
 
 ### Publication Drafting
@@ -90,7 +90,7 @@ support_visualization phase4_inference lang-id results/data/phase4_inference/lan
 python3 scripts/support_preparation/assemble_draft.py
 ```
 
-The master draft will be generated at `planning/support_preparation/DRAFT_MASTER.md`.
+The master draft will be generated at `results/publication/DRAFT_MASTER.md`.
 
 ## 8. Verification and Tests
 

@@ -159,7 +159,7 @@ This result motivates Layer 4.
 Evaluate whether the methods commonly used to argue that the Voynich Manuscript contains meaning are actually diagnostic.
 
 **Outcome**  
-Widely cited phase4_inference methods (Information Theory, AI-based Language ID) failed to reliably distinguish semantic text from non-semantic but structurally similar noise. A "noise floor" for phase4_inference has been established.
+Widely cited inference methods (Information Theory, AI-based Language ID) failed to reliably distinguish semantic text from non-semantic but structurally similar noise. A "noise floor" for inference has been established.
 
 This result motivates Layer 5.
 
@@ -168,7 +168,7 @@ This result motivates Layer 5.
 ### Layer 5: Visualization, Reporting, and Publication (Active)
 
 **Purpose**  
-Formalize the framework's findings into phase7_human-interpretable and peer-reviewed formats.
+Formalize the framework's findings into human-interpretable and peer-reviewed formats.
 
 **Key questions answered**
 - How can complex statistical boundaries be communicated clearly?
@@ -207,10 +207,10 @@ Earlier versions of the roadmap included a layer focused on constrained interpre
 
 This layer has been archived, not discarded, because:
 - structural sufficiency was not yet established at the time
-- interpretation without phase4_inference validation is methodologically unsound
-- Layer 4 now supersedes it by addressing phase4_inference validity directly
+- interpretation without inference validation is methodologically unsound
+- Layer 4 now supersedes it by addressing inference validity directly
 
-Interpretation is deferred until phase4_inference itself is justified.
+Interpretation is deferred until inference itself is justified.
 
 ---
 
@@ -233,7 +233,7 @@ Success does not require translation.
 
 Success means:
 - unjustified narratives are no longer viable
-- phase4_inference boundaries are explicit
+- inference boundaries are explicit
 - false positives are quantified, not argued
 - structure is not mistaken for meaning
 - future claims must pass through controls
@@ -251,7 +251,7 @@ This project will not:
 - optimize for narrative appeal
 - collapse ambiguity prematurely
 - equate structure with meaning
-- claim historical truth without admissible phase4_inference
+- claim historical truth without admissible inference
 
 Clarity achieved by assumption is rejected.
 
@@ -261,7 +261,7 @@ Clarity achieved by assumption is rejected.
 
 This document may be updated only when:
 - new evidence changes admissibility boundaries
-- phase4_inference validity is demonstrably altered
+- inference validity is demonstrably altered
 - escalation to a new epistemic layer is earned
 
 All updates must:

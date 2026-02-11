@@ -6,7 +6,7 @@ Now I’ll spell out the story I think fits best, and then I’ll give you the b
 
 Most likely scenario, in plain terms
 
-A late medieval or early Renaissance person in a learned environment builds a “system” that produces writing-like output by rules. The system is simple enough to execute reliably for hundreds of pages, but rich enough to look organic. Think: a wheel/table/slot phase5_mechanism with memory, plus strong boundary resets.
+A late medieval or early Renaissance person in a learned environment builds a “system” that produces writing-like output by rules. The system is simple enough to execute reliably for hundreds of pages, but rich enough to look organic. Think: a wheel/table/slot mechanism with memory, plus strong boundary resets.
 
 They then wrap it in a manuscript format with illustrations that evoke known genres (herbal, astro, baths, pharma) because that makes it legible as a book to a reader even if the text is not. The manuscript’s purpose is to be a convincing, prestigious object that signals secret knowledge, not to transmit knowledge.
 
@@ -38,7 +38,7 @@ Indifference to efficiency: it’s not trying to compress or transmit.
 
 Not adversarial: it’s not trying to resist learning, it just doesn’t care.
 
-Scribal hand effects without phase5_mechanism drift: humans executing a fixed procedure.
+Scribal hand effects without mechanism drift: humans executing a fixed procedure.
 
 That constellation screams “formal practice” more than “encoding.”
 

@@ -19,17 +19,17 @@ Current lane:
 
 Allowed:
 
-- robust phase8_comparative confidence claims tied to confirmed-threshold support.
+- robust comparative confidence claims tied to confirmed-threshold support.
 
 Disallowed:
 
-- omitting uncertainty provenance references from phase8_comparative conclusions.
+- omitting uncertainty provenance references from comparative conclusions.
 
 ### `M2_5_QUALIFIED`
 
 Allowed:
 
-- directional phase8_comparative claims with explicit uncertainty caveats and reopenability.
+- directional comparative claims with explicit uncertainty caveats and reopenability.
 
 Disallowed:
 
@@ -47,7 +47,7 @@ Disallowed:
 
 - "Nearest-neighbor is confirmed/settled."
 - "Comparative uncertainty is resolved."
-- "Further uncertainty phase2_analysis is unnecessary."
+- "Further uncertainty analysis is unnecessary."
 
 ### `M2_5_BLOCKED`
 
@@ -57,7 +57,7 @@ Allowed:
 
 Disallowed:
 
-- treating blocked process state as substantive phase8_comparative conclusion.
+- treating blocked process state as substantive comparative conclusion.
 
 ### `M2_5_INCONCLUSIVE`
 
@@ -72,7 +72,7 @@ Disallowed:
 ## Missing-Folio Non-Blocker Rule (SK-M2)
 
 - Missing-folio objections route to SK-H3 by default.
-- They are non-blocking for SK-M2 unless objective phase8_comparative-input validity failure is demonstrated.
+- They are non-blocking for SK-M2 unless objective comparative-input validity failure is demonstrated.
 - `M2_5_BLOCKED` based on missing folios requires objective linkage evidence in `m2_5_data_availability_linkage`.
 
 ## Required Comparative Surfaces

@@ -12,7 +12,7 @@ This document defines how execution outputs are written and how run identity is 
 
 ## Output Writing Contract
 
-Runner scripts should use `phase1_foundation.core.provenance.ProvenanceWriter` for JSON results.
+Runner scripts should use `foundation.core.provenance.ProvenanceWriter` for JSON results.
 
 For an output target like:
 
@@ -90,7 +90,7 @@ Current delegated runner entry:
 ## Status Artifact Policy
 
 - `core_status/` is treated as transient local execution output.
-- durable core_audit and publication artifacts belong in `reports/` or provenance-managed `results/.../by_run/`.
+- durable audit and publication artifacts belong in `reports/` or provenance-managed `results/.../by_run/`.
 - `core_status/` should not be committed as release evidence.
 - Verification artifacts under `core_status/by_run/verify_*.json` may be cleaned with:
   - `bash scripts/core_audit/cleanup_status_artifacts.sh dry-run`

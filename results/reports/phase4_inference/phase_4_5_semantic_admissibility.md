@@ -7,7 +7,7 @@
 
 ## 1. Operational Definition of Semantics
 
-For the purposes of statistical and computational phase4_inference, **semantics** is defined as:
+For the purposes of statistical and computational inference, **semantics** is defined as:
 
 > A stable mapping between symbolic variation and latent states that are not reducible to local mechanical constraints, reuse rules, or bounded generative procedures.
 

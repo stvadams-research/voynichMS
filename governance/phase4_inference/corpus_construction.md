@@ -10,12 +10,12 @@ All corpora are matched to the scale of the primary Voynich dataset (`voynich_re
 ## 2. Semantic Baselines
 We require natural language texts to establish "diagnostic" success.
 - **Latin (latin_classic):** Selected for its morphological richness and historical relevance.
-- **English (english_mid):** Selected as a modern phase8_comparative baseline.
+- **English (english_mid):** Selected as a modern comparative baseline.
 
 *Method:* Texts will be sourced from Project Gutenberg or similar public domain repositories, tokenized by whitespace, and truncated to match Voynich length.
 
 ## 3. Non-Semantic Structured Controls
-These are the most critical datasets for falsifying phase4_inference claims.
+These are the most critical datasets for falsifying inference claims.
 
 ### 3.1 Self-Citation Model (Timm/Schinner)
 - **Logic:** Randomly select a "kernel" from a small pool, then mutate it or append suffixes based on local similarity.

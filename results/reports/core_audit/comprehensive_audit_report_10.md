@@ -35,7 +35,7 @@ Playbook Phases 0-5 were rerun with direct command execution and source inspecti
 
 ### Runtime commands executed
 
-- `python3 -c "import sys; sys.path.insert(0,'src'); import phase1_foundation.configs.loader; print('loader_import_ok')"`
+- `python3 -c "import sys; sys.path.insert(0,'src'); import foundation.configs.loader; print('loader_import_ok')"`
 - Determinism replay for Test A (two `scripts/phase3_synthesis/run_test_a.py` runs with same seed; canonical `results` compare)
 - `python3 -m pytest --cov=src --cov-report=term-missing:skip-covered -q tests`
 - `bash scripts/core_audit/pre_release_check.sh`
@@ -83,21 +83,21 @@ No source-code fixes were applied as part of this assessment run.
 
 Top-level source distribution:
 
-- `phase1_foundation 55`
-- `phase2_analysis 22`
-- `phase5_mechanism 21`
-- `phase3_synthesis 13`
-- `phase4_inference 6`
-- `phase6_functional 6`
-- `phase7_human 5`
-- `phase8_comparative 1`
+- `foundation 55`
+- `analysis 22`
+- `mechanism 21`
+- `synthesis 13`
+- `inference 6`
+- `functional 6`
+- `human 5`
+- `comparative 1`
 
 ### 0.2 Inventory findings
 
 | ID | Severity | Finding | Location |
 |---|---|---|---|
 | INV-1 | Medium | Worktree remains non-clean (`109` modified/untracked paths). | `scripts/core_audit/pre_release_check.sh:136`, `scripts/core_audit/pre_release_check.sh:149` |
-| INV-2 | Resolved | Playbook-required core_audit log exists. | `scripts/core_audit/pre_release_check.sh:6`, `scripts/core_audit/pre_release_check.sh:11` |
+| INV-2 | Resolved | Playbook-required audit log exists. | `scripts/core_audit/pre_release_check.sh:6`, `scripts/core_audit/pre_release_check.sh:11` |
 | INV-3 | Resolved | Legacy `core_status/by_run` verification artifacts are absent in current workspace state. | `scripts/core_audit/pre_release_check.sh:113` |
 
 ---
@@ -116,7 +116,7 @@ Top-level source distribution:
 |---|---|---|---|
 | RI-11 (criteria retained) | **Medium** | Strict indistinguishability remains blocked by unavailable/lost source pages (`f91r`, `f91v`, `f92r`, `f92v`) and is treated as a scoped data-availability constraint, not a pure implementation defect. | `core_status/phase3_synthesis/by_run/TURING_TEST_RESULTS.82412819-f2cf-88b3-b74b-01ec27e4bb05.json:12`, `core_status/phase3_synthesis/by_run/TURING_TEST_RESULTS.82412819-f2cf-88b3-b74b-01ec27e4bb05.json:14`, `core_status/phase3_synthesis/by_run/TURING_TEST_RESULTS.82412819-f2cf-88b3-b74b-01ec27e4bb05.json:15`, `core_status/phase3_synthesis/by_run/TURING_TEST_RESULTS.82412819-f2cf-88b3-b74b-01ec27e4bb05.json:488`, `core_status/phase3_synthesis/by_run/TURING_TEST_RESULTS.82412819-f2cf-88b3-b74b-01ec27e4bb05.json:494`; policy docs: `governance/governance/REPRODUCIBILITY.md:135`, `governance/governance/REPRODUCIBILITY.md:136`, `governance/governance/REPRODUCIBILITY.md:137`, `governance/PROVENANCE.md:84`, `governance/PROVENANCE.md:87` |
 | RI-12 | Medium | Non-strict fallback path is still default unless strict mode is explicitly enabled (`REQUIRE_COMPUTED=1` or `--strict-computed`). | strict mode derivation: `scripts/phase3_synthesis/run_indistinguishability_test.py:420`; CLI flag: `scripts/phase3_synthesis/run_indistinguishability_test.py:406`, `scripts/phase3_synthesis/run_indistinguishability_test.py:413`; non-strict artifact: `core_status/phase3_synthesis/by_run/TURING_TEST_RESULTS.f4bd9cb2-ea8b-fea0-b2af-34ca44178fdd.json:13` |
-| MC-3 | Medium | Aggregate coverage exceeds threshold (`56.08%`), but one phase3_synthesis module remains below 20% (`feature_discovery.py` at `12.85%`), leaving low test confidence in that path. | `core_status/ci_coverage.json:1` (totals and per-file summaries), full run evidence from `bash scripts/ci_check.sh` output |
+| MC-3 | Medium | Aggregate coverage exceeds threshold (`56.08%`), but one synthesis module remains below 20% (`feature_discovery.py` at `12.85%`), leaving low test confidence in that path. | `core_status/ci_coverage.json:1` (totals and per-file summaries), full run evidence from `bash scripts/ci_check.sh` output |
 | MC-2R | Medium | Historical run provenance uncertainty persists: SQLite `runs` table still contains `63` `orphaned` rows and filesystem manifest check still shows `63` missing `runs/<id>/run.json`. | SQLite queries on `data/voynich.db` (`SELECT status, COUNT(*) ...` and manifest presence check); policy framing: `governance/PROVENANCE.md:96`, `governance/PROVENANCE.md:101`, `governance/PROVENANCE.md:104` |
 | INV-1 | Medium | Release-cut baseline remains non-clean (`109` working-tree changes). | `git status --short | wc -l`; gate path: `scripts/core_audit/pre_release_check.sh:136`, `scripts/core_audit/pre_release_check.sh:149` |
 
@@ -176,7 +176,7 @@ Top-level source distribution:
 1. **RI-13 (High):** Sensitivity evidence remains non-conclusive/non-ready; release verification cannot pass.
 2. **RI-11 (Medium, criteria retained):** Strict mode remains blocked by known source-data availability limits (lost/unavailable pages).
 3. **RI-12 (Medium):** Non-strict fallback remains default unless strict mode is explicitly enforced.
-4. **MC-3 (Medium):** Coverage threshold is met, but one phase3_synthesis module remains <20% coverage (`feature_discovery.py`).
+4. **MC-3 (Medium):** Coverage threshold is met, but one synthesis module remains <20% coverage (`feature_discovery.py`).
 5. **MC-2R (Medium):** Historical orphaned-run uncertainty remains explicit but unresolved.
 6. **INV-1 (Medium):** Large dirty worktree (`109` paths) persists for release-cut baseline.
 

@@ -10,7 +10,7 @@ Every design decision, code change, and experiment must be compatible with this 
 
 ## Mission Statement
 
-The mission of this project is to construct a rigorous, assumption-aware phase1_foundation for the study of the Voynich Manuscript such that:
+The mission of this project is to construct a rigorous, assumption-aware foundation for the study of the Voynich Manuscript such that:
 
 - Translation becomes possible in principle, or
 - The impossibility of translation becomes unavoidable and demonstrable
@@ -25,7 +25,7 @@ It exists to remove foundational uncertainty about what kind of system the manus
 
 ### 1. Image Geometry Is the Highest Authority
 
-All phase2_analysis ultimately derives from the manuscript images.
+All analysis ultimately derives from the manuscript images.
 
 - Pixel geometry outranks transcription.
 - Bounding boxes outrank tokens.

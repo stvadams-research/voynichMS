@@ -29,7 +29,7 @@ Scope: SK-H1 pass-3 residual closure (adequacy vs inferential ambiguity semantic
   - inferentially ambiguous + adequacy-pass now maps to the new status
 - Extended policy semantics:
   - `configs/core_skeptic/sk_h1_multimodal_status_policy.json`
-  - added `coherence_policy` (status_reason, adequacy, phase4_inference-decision compatibility)
+  - added `coherence_policy` (status_reason, adequacy, inference-decision compatibility)
 - Enforced coherence checks:
   - `scripts/core_skeptic/check_multimodal_coupling.py`
 
@@ -62,7 +62,7 @@ Scope: SK-H1 pass-3 residual closure (adequacy vs inferential ambiguity semantic
 
 - Added this execution report:
   - `reports/core_skeptic/SKEPTIC_H1_3_EXECUTION_STATUS.md`
-- Updated plan tracker and core_audit log links.
+- Updated plan tracker and audit log links.
 
 ## Verification Evidence
 
@@ -81,8 +81,8 @@ Observed results:
 - Multimodal checker: pass in both CI and release modes.
 - Targeted SK-H1 regression suite: pass (`14 passed`).
 - Status mapping is now behaviorally separated:
-  - adequacy pass + no coupling phase4_inference -> `CONCLUSIVE_NO_COUPLING`
-  - adequacy pass + inconclusive phase4_inference -> `INCONCLUSIVE_INFERENTIAL_AMBIGUITY`
+  - adequacy pass + no coupling inference -> `CONCLUSIVE_NO_COUPLING`
+  - adequacy pass + inconclusive inference -> `INCONCLUSIVE_INFERENTIAL_AMBIGUITY`
   - adequacy fail -> `INCONCLUSIVE_UNDERPOWERED`
 
 ## Current Canonical SK-H1 State

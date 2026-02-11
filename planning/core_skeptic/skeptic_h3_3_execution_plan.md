@@ -11,7 +11,7 @@
 
 Address pass-3 `SK-H3` residuals by attempting to close all feasible control-comparability gaps while preserving explicit bounded-state governance where full closure is impossible due source data constraints.
 
-This plan targets the remaining core_skeptic leverage:
+This plan targets the remaining skeptic leverage:
 
 - "Comparability is policy-bounded, but still blocked rather than fully settled."
 
@@ -42,7 +42,7 @@ Current operational interpretation:
 
 - SK-H3 is governance-compliant but still non-conclusive at full-dataset level.
 
-Core core_skeptic attack:
+Core skeptic attack:
 
 - "Your comparability policy is disciplined, but your closure claim remains blocked by missing source pages."
 
@@ -167,13 +167,13 @@ bash scripts/ci_check.sh
 
 ## WS-H3.3-E: Report and Policy Boundary Calibration
 
-**Goal:** Keep phase7_human-facing interpretation exactly aligned with machine status entitlement.
+**Goal:** Keep human-facing interpretation exactly aligned with machine status entitlement.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | E1 | Update SK-H3 policy docs with pass-3 residual wording and irrecoverability semantics. | `governance/CONTROL_COMPARABILITY_POLICY.md`, `governance/GENERATOR_MATCHING.md`, `governance/governance/METHODS_REFERENCE.md` | Docs encode bounded claims for `DATA_AVAILABILITY_BLOCKED` and subset-qualified states. |
 | E2 | Update reproducibility/runbook SK-H3 section with canonical command path and expected outcomes. | `governance/governance/REPRODUCIBILITY.md`, `governance/RUNBOOK.md` | Operator flow reproduces blocked vs qualified states deterministically. |
-| E3 | Add/refresh core_skeptic-facing SK-H3 register with explicit allowed/disallowed claim statements. | `reports/core_skeptic/SK_H3_3_RESIDUAL_REGISTER.md` | Narrative overreach becomes auditable against status artifact. |
+| E3 | Add/refresh skeptic-facing SK-H3 register with explicit allowed/disallowed claim statements. | `reports/core_skeptic/SK_H3_3_RESIDUAL_REGISTER.md` | Narrative overreach becomes auditable against status artifact. |
 
 ### Verification
 
@@ -213,7 +213,7 @@ python3 -m pytest -q \
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | G1 | Create execution status report template/path for H3.3 implementation pass. | `reports/core_skeptic/SKEPTIC_H3_3_EXECUTION_STATUS.md` (during execution) | Implementation evidence can be captured consistently. |
-| G2 | Add core_audit log linkage requirement for H3.3 residual resolution and remaining risk. | `AUDIT_LOG.md` | Finding -> control -> status transition trace is complete. |
+| G2 | Add audit log linkage requirement for H3.3 residual resolution and remaining risk. | `AUDIT_LOG.md` | Finding -> control -> status transition trace is complete. |
 | G3 | Update plan tracker and final decision classification at closeout. | `planning/core_skeptic/SKEPTIC_H3_3_EXECUTION_PLAN.md` | Plan reflects actual closure outcome and residual class. |
 
 ### Verification
@@ -263,7 +263,7 @@ Execution outcome: `H3_3_QUALIFIED`.
 | WS-H3.3-D Status/Gate/Repro Unification | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added SK-H3 semantic parity checks in pre-release/verify/CI and gate-health snapshot alignment. |
 | WS-H3.3-E Report/Policy Calibration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated SK-H3 policy, methods, reproducibility, and runbook documentation. |
 | WS-H3.3-F Tests/Contracts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Expanded checker and gate contract coverage for irrecoverability and subset-transition invariants. |
-| WS-H3.3-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added execution report and core_audit trace entry. |
+| WS-H3.3-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added execution report and audit trace entry. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

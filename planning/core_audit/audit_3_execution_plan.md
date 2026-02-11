@@ -16,7 +16,7 @@
 | F: Metric Correctness | COMPLETE | RepetitionRate canonical value and ClusterTightness computation-path disclosure aligned. |
 | G: Control Symmetry | COMPLETE | Synthetic control token generation fixed; EVAParser bypass rationale documented. |
 | H: Output Provenance | COMPLETE | Stress test outputs now include run metadata fields; provenance path in scripts retained. |
-| I: Script Structure | COMPLETE | Shared query helpers extracted and phase5_mechanism pilots refactored. |
+| I: Script Structure | COMPLETE | Shared query helpers extracted and mechanism pilots refactored. |
 | J: Terminology Standardization | COMPLETE | Token/Word and Page/Folio terminology updates applied to code/docs. |
 | K: Documentation | COMPLETE | REPRODUCIBILITY, RUNBOOK, GLOSSARY, README, SENSITIVITY docs updated. |
 | L: Test Coverage | COMPLETE | New phase3_synthesis/phase5_mechanism/phase7_human/control tests added; boundary tests expanded. |
@@ -41,10 +41,10 @@
 ### A2: Add seed parameter to unseeded generators
 
 **Files:**
-- `src/phase5_mechanism/generators/pool_generator.py:27-31` (C1) — Add `seed` parameter to `__init__`, create `self.rng = random.Random(seed)`. Replace `random.choice()`, `random.random()`, `random.randint()` with `self.rng.*()`. Update all callers (phase5_mechanism pilot scripts).
+- `src/phase5_mechanism/generators/pool_generator.py:27-31` (C1) — Add `seed` parameter to `__init__`, create `self.rng = random.Random(seed)`. Replace `random.choice()`, `random.random()`, `random.randint()` with `self.rng.*()`. Update all callers (mechanism pilot scripts).
 - `src/phase5_mechanism/generators/constraint_geometry/table_variants.py:47-48` (H6) — Add `seed` parameter, create local `rng`, replace `random.randint(-1, 1)`.
 
-### A3: Seed fallback paths in phase3_synthesis
+### A3: Seed fallback paths in synthesis
 
 **Files:**
 - `src/phase3_synthesis/refinement/feature_discovery.py:111,156,203,270,620,677,726` (C2) — The 7 `random.uniform()` fallback calls need a seeded `rng`. Options:
@@ -72,7 +72,7 @@
 ## Workstream B: Threshold Externalization
 
 **Addresses:** C8, C9, C10, H8, H9, H11, H12, H13, H19, H20, H21, H22, H12-H18 (operational)
-**Priority:** CRITICAL/HIGH — undocumented thresholds determine phase2_analysis conclusions
+**Priority:** CRITICAL/HIGH — undocumented thresholds determine analysis conclusions
 **Estimated scope:** 6 files, 30+ threshold values
 
 ### B1: Create centralized threshold config file
@@ -112,12 +112,12 @@ Create `configs/phase2_analysis/thresholds.json` with sections:
 }
 ```
 
-### B2: Add config loader for phase2_analysis thresholds
+### B2: Add config loader for analysis thresholds
 
 In `src/phase1_foundation/config.py`, add:
 ```python
 def get_analysis_thresholds() -> dict:
-    """Load phase2_analysis thresholds from configs/phase2_analysis/thresholds.json."""
+    """Load analysis thresholds from configs/phase2_analysis/thresholds.json."""
 ```
 Pattern: same as existing `get_model_params()`.
 
@@ -136,7 +136,7 @@ Pattern: same as existing `get_model_params()`.
 Add a `"_rationale"` key or companion section in `governance/CALIBRATION_NOTES.md` for every new config value. At minimum, state whether each value is:
 - Empirically derived (from which phase/dataset)
 - Theoretically motivated (cite reasoning)
-- Arbitrary/conventional (flag for sensitivity phase2_analysis)
+- Arbitrary/conventional (flag for sensitivity analysis)
 
 ### Verification
 - `grep -rn "0\.\(05\|5\|6\|4\|7\|3\)" src/phase2_analysis/stress_tests/` should show config references, not literals.
@@ -147,10 +147,10 @@ Add a `"_rationale"` key or companion section in `governance/CALIBRATION_NOTES.m
 ## Workstream C: Circularity Remediation
 
 **Addresses:** C5, C6, C7, CL4, CL5
-**Priority:** CRITICAL — circular reasoning undermines core phase2_analysis
+**Priority:** CRITICAL — circular reasoning undermines core analysis
 **Estimated scope:** 2 files, requires design decision
 
-### C1: Decouple BASELINE_* constants from phase2_analysis logic
+### C1: Decouple BASELINE_* constants from analysis logic
 
 **File:** `src/phase2_analysis/anomaly/stability_analysis.py:39-48`
 
@@ -168,13 +168,13 @@ baseline = self.store.get_metric("information_density", dataset_id="voynich_real
 ```
 Still uses Voynich data, but the dependency is explicit and traceable.
 
-**(c) Document as intentional:** If the phase2_analysis deliberately uses observed values as reference points (not as independent validation), add prominent docstring:
+**(c) Document as intentional:** If the analysis deliberately uses observed values as reference points (not as independent validation), add prominent docstring:
 ```
 NOTE: BASELINE values are derived from Voynich Phase 2.2 measurements.
-This phase2_analysis tests STABILITY of the anomaly under perturbation, not independence from Voynich data.
+This analysis tests STABILITY of the anomaly under perturbation, not independence from Voynich data.
 ```
 
-**Recommendation:** Option (a) for clean separation + option (c) for documentation. The stability phase2_analysis inherently needs a reference point; the problem is that it's hidden, not that it exists.
+**Recommendation:** Option (a) for clean separation + option (c) for documentation. The stability analysis inherently needs a reference point; the problem is that it's hidden, not that it exists.
 
 ### C2: Document circularity in capacity_bounding.py
 
@@ -182,7 +182,7 @@ This phase2_analysis tests STABILITY of the anomaly under perturbation, not inde
 
 The `OBSERVED_*` constants serve a legitimate purpose (establishing what capacity bounds must accommodate), but the circularity risk must be documented. Add docstring explaining:
 - These values are Phase 2.2 outputs used as INPUTS to Phase 2.4
-- The capacity bounding phase2_analysis asks "could a non-semantic system produce these numbers?" not "are these numbers anomalous?"
+- The capacity bounding analysis asks "could a non-semantic system produce these numbers?" not "are these numbers anomalous?"
 - Cross-reference `governance/governance/METHODS_REFERENCE.md` for full methodology
 
 ### C3: Document circularity in constraint_analysis.py
@@ -198,7 +198,7 @@ Similar treatment: `observed_value` fields are legitimate constraint definitions
 The fallback values (0.7, 0.35, etc.) may be tuned to Voynich data. For each fallback:
 1. Document where the value came from
 2. If derived from Voynich, flag as potentially circular
-3. If arbitrary, flag for sensitivity phase2_analysis
+3. If arbitrary, flag for sensitivity analysis
 
 ### Verification
 - No `BASELINE_*` constant used without accompanying docstring explaining provenance.
@@ -250,7 +250,7 @@ These 7 `random.uniform()` fallbacks are doubly problematic (unseeded AND placeh
 2. Add `calculation_method="simulated"` tag to results.
 3. Log when simulated path is taken.
 
-### D5: Audit `return {}` stubs in phase4_inference analyzers
+### D5: Audit `return {}` stubs in inference analyzers
 
 **Files:** `phase7_human/phase8_comparative.py:26`, `phase4_inference/*/analyzer.py` (P5)
 
@@ -285,7 +285,7 @@ For each of the 8+ silent handlers (H16, LG1):
 
 | File | Line | Current | Remediation |
 |------|------|---------|-------------|
-| `filesystem.py:68` | `except Exception:` | Add `logger.warning("Atomic write support_cleanup failed for %s", path, exc_info=True)` |
+| `filesystem.py:68` | `except Exception:` | Add `logger.warning("Atomic write cleanup failed for %s", path, exc_info=True)` |
 | `runs/context.py:16` | `except Exception: return "unknown"` | Add `logger.debug("Git revision unavailable", exc_info=True)` |
 | `runs/context.py:22` | `except Exception: return "unknown"` | Add `logger.debug("Git status unavailable", exc_info=True)` |
 | `quire_analysis.py:31` | `except Exception: return 0` | Narrow to `except (ValueError, IndexError):`; add `logger.warning()` |
@@ -319,7 +319,7 @@ For each of the 8+ silent handlers (H16, LG1):
 ## Workstream F: Metric Correctness
 
 **Addresses:** H1/MR1, MR2, H2, H3, H4, TD3
-**Priority:** HIGH — ambiguous metrics undermine phase2_analysis conclusions
+**Priority:** HIGH — ambiguous metrics undermine analysis conclusions
 **Estimated scope:** 2 files
 
 ### F1: Resolve RepetitionRate dual formula
@@ -334,7 +334,7 @@ For each of the 8+ silent handlers (H16, LG1):
 1. Keep `token_repetition_rate` as the primary `value` field.
 2. Rename `vocabulary_entropy_rate` to `vocabulary_coverage` (what it actually measures: 1 - type/token ratio).
 3. Move `vocabulary_coverage` to a separate metric class or clearly label it as a supplementary statistic.
-4. Update `governance/governance/METHODS_REFERENCE.md` to specify which formula is used in all downstream phase2_analysis.
+4. Update `governance/governance/METHODS_REFERENCE.md` to specify which formula is used in all downstream analysis.
 
 ### F2: Document ClusterTightness computation path
 
@@ -430,13 +430,13 @@ Create `src/phase1_foundation/core/queries.py` additions (or new `src/phase1_fou
 
 ```python
 def get_lines_from_store(store: MetadataStore, dataset_id: str) -> List[List[str]]:
-    """Extract tokenized lines from the database. Used by phase5_mechanism pilots."""
+    """Extract tokenized lines from the database. Used by mechanism pilots."""
 
 def get_tokens_and_boundaries(store: MetadataStore, dataset_id: str) -> Tuple[List[str], List[int]]:
     """Extract flat token list and line boundary indices."""
 ```
 
-### I2: Refactor phase5_mechanism pilot scripts
+### I2: Refactor mechanism pilot scripts
 
 **Files:** `scripts/phase5_mechanism/run_5b_pilot.py` through `run_5k_pilot.py` (12 files)
 
@@ -501,7 +501,7 @@ def run_mechanism_pilot(simulator_class, config_path, seed, output_dir):
 **Priority:** HIGH — documentation lag undermines external credibility
 **Estimated scope:** 4 docs files
 
-### K1: Execute sensitivity phase2_analysis OR retract document
+### K1: Execute sensitivity analysis OR retract document
 
 **File:** `governance/SENSITIVITY_ANALYSIS.md` (H17)
 
@@ -523,7 +523,7 @@ The document describes a plan to sweep thresholds and model weights but was neve
 Add sections:
 1. **Phase 4 (Mechanism Simulation):** List all `scripts/phase5_mechanism/run_5*_pilot.py` commands with `--seed` flags.
 2. **Phase 5 (Generator Matching):** Document the matching workflow and seed management.
-3. **Phase 6-7 (Inference, Human):** List phase4_inference and phase7_human factor scripts.
+3. **Phase 6-7 (Inference, Human):** List inference and human factor scripts.
 4. **Automated Verification:** Reference `scripts/ci_check.sh` and `scripts/verify_reproduction.sh`.
 
 ### K3: Update README.md phase status
@@ -561,7 +561,7 @@ Change "Phase 3 Completed" to reflect actual status (through Phase 7).
 **Priority:** MEDIUM — current coverage ~15%
 **Estimated scope:** 6-8 new test files
 
-### L1: Critical module tests (phase3_synthesis)
+### L1: Critical module tests (synthesis)
 
 Create `tests/phase3_synthesis/test_text_generator.py`:
 - Test `ConstrainedMarkovGenerator.train()` with known input.
@@ -572,7 +572,7 @@ Create `tests/phase3_synthesis/test_grammar_based.py`:
 - Test `GrammarBasedGenerator.generate_word()` determinism.
 - Test with various seed values.
 
-### L2: Critical module tests (phase5_mechanism)
+### L2: Critical module tests (mechanism)
 
 Create `tests/phase5_mechanism/test_pool_generator.py`:
 - Test `PoolGenerator.generate()` determinism after Workstream A seeds it.

@@ -15,5 +15,5 @@ This plan addresses the critical findings identified in `COMPREHENSIVE_AUDIT_REP
 **Remediation:**
 1. Extract sensitivity dictionaries from model classes.
 2. Move these parameters to `configs/phase6_functional/model_params.json`.
-3. Update `ExplicitModel` implementations to load these values from the centralized config via `phase1_foundation.config`.
+3. Update `ExplicitModel` implementations to load these values from the centralized config via `foundation.config`.
 4. Document the baseline rationale for each sensitivity value in `governance/CALIBRATION_NOTES.md`.

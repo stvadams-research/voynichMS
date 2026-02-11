@@ -9,9 +9,9 @@
 
 ## EXECUTIVE SUMMARY
 
-This core_audit examined the Phase 1 (Foundation) and Phase 2 (Analysis) codebases for alignment between documentation claims and actual implementation. The review reveals a **critical architectural gap**: while the framework design is methodologically sound with proper abstractions and explicit falsification requirements, the **implementations are predominantly simulations that do not perform the documented analyses**.
+This audit examined the Phase 1 (Foundation) and Phase 2 (Analysis) codebases for alignment between documentation claims and actual implementation. The review reveals a **critical architectural gap**: while the framework design is methodologically sound with proper abstractions and explicit falsification requirements, the **implementations are predominantly simulations that do not perform the documented analyses**.
 
-**Overall Assessment:** The codebase is **not defensible as a methodological contribution** in its current form. The documented findings are derived from hardcoded values and predetermined logic paths, not from actual data phase2_analysis or perturbation experiments.
+**Overall Assessment:** The codebase is **not defensible as a methodological contribution** in its current form. The documented findings are derived from hardcoded values and predetermined logic paths, not from actual data analysis or perturbation experiments.
 
 ---
 
@@ -85,7 +85,7 @@ The codebase documents several assumptions explicitly:
 
 **Additional semantic leakage:**
 - `constraint_analysis.py:108-113`: "Natural language ruled inadmissible" is a semantic category, not a structural measurement
-- `visual_grammar.py:141-145`: "Diagram dependency" test passes based on "spatial locality," not actual diagram phase2_analysis
+- `visual_grammar.py:141-145`: "Diagram dependency" test passes based on "spatial locality," not actual diagram analysis
 
 ### 2.4 Stopping Conditions
 
@@ -112,8 +112,8 @@ The codebase documents several assumptions explicitly:
 | Component | Seed Tracked? | Parameters Stored? |
 |-----------|--------------|-------------------|
 | Control dataset generation | YES | YES |
-| Sensitivity phase2_analysis | NO | YES |
-| Stability phase2_analysis | NO | N/A |
+| Sensitivity analysis | NO | YES |
+| Stability analysis | NO | N/A |
 | Perturbation tests | N/A (hardcoded) | N/A (hardcoded) |
 | RunID | NO (random UUID) | YES |
 
@@ -138,7 +138,7 @@ The codebase documents several assumptions explicitly:
 | Phase 2.1 | YES | Admissibility manager is deterministic |
 | Phase 2.2 | NO | Stress tests return hardcoded constants |
 | Phase 2.3 | NO | Disconfirmation uses hardcoded formulas |
-| Phase 2.4 | NO | Stability phase2_analysis uses invented values |
+| Phase 2.4 | NO | Stability analysis uses invented values |
 
 ---
 
@@ -188,7 +188,7 @@ The manuscript is never analyzed. Instead:
 1. **Metrics are simulated, not computed** (`metrics/library.py`)
    - RepetitionRate returns hardcoded values
    - ClusterTightness returns random noise
-   - No actual data phase2_analysis occurs
+   - No actual data analysis occurs
 
 2. **Perturbation tests are formulas, not experiments** (`hypotheses/destructive.py`)
    - No boundary shifting occurs
@@ -244,7 +244,7 @@ The manuscript is never analyzed. Instead:
 
 ## 7. FINAL DETERMINATION
 
-### Is this codebase and phase2_analysis defensible as a methodological contribution?
+### Is this codebase and analysis defensible as a methodological contribution?
 
 **NO.**
 
@@ -260,7 +260,7 @@ However, the implementations systematically replace measurement with simulation:
 - Stress tests return constants, not data-driven results
 - Model disconfirmation is performative, not genuine
 
-**The documented findings cannot be trusted** because they derive from predetermined logic paths, not actual data phase2_analysis.
+**The documented findings cannot be trusted** because they derive from predetermined logic paths, not actual data analysis.
 
 ### What Would Make It Defensible?
 

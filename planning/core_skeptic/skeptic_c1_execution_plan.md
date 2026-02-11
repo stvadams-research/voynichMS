@@ -9,13 +9,13 @@
 
 ## 1) Objective
 
-Address the `SK-C1` core_skeptic finding by hardening sensitivity evidence so `release_evidence_ready=true` is only possible when evidence is:
+Address the `SK-C1` skeptic finding by hardening sensitivity evidence so `release_evidence_ready=true` is only possible when evidence is:
 
 1. Sufficiently representative of release claims.
 2. Transparent about warning/fallback behavior.
 3. Protected by fail-closed quality gates across scripts and docs.
 
-This plan aims to eliminate the core_skeptic argument that conclusive robustness is being inferred from narrow, warning-heavy evidence without explicit caveat burden.
+This plan aims to eliminate the skeptic argument that conclusive robustness is being inferred from narrow, warning-heavy evidence without explicit caveat burden.
 
 ---
 
@@ -45,7 +45,7 @@ Core risk:
 
 ## Out of Scope
 
-- SK-H/SK-M findings (images, phase8_comparative uncertainty, closure language, provenance orphan policy).
+- SK-H/SK-M findings (images, comparative uncertainty, closure language, provenance orphan policy).
 - Mechanism/model refactoring unrelated to sensitivity evidence gating.
 - Any fix execution in this planning pass.
 
@@ -189,7 +189,7 @@ python3 -m pytest -q tests/phase2_analysis/test_sensitivity_sweep_guardrails.py 
 
 ## WS-C1-F: Documentation and Audit Traceability
 
-**Goal:** Align written policy with executable behavior so core_skeptic attack surface is reduced.
+**Goal:** Align written policy with executable behavior so skeptic attack surface is reduced.
 
 ### Tasks
 
@@ -197,7 +197,7 @@ python3 -m pytest -q tests/phase2_analysis/test_sensitivity_sweep_guardrails.py 
 |---|---|---|---|
 | F1 | Update sensitivity methodology to document representativeness and warning burden criteria for release evidence. | `governance/SENSITIVITY_ANALYSIS.md` | Doc includes exact release-ready prerequisites. |
 | F2 | Update reproducibility guide to reflect new sensitivity policy fields checked by release scripts. | `governance/governance/REPRODUCIBILITY.md` | Guide matches script behavior and field names. |
-| F3 | Add core_audit-log entry documenting SK-C1 remediation boundaries and non-claims. | `AUDIT_LOG.md` | Traceable entry ties implementation to core_skeptic finding. |
+| F3 | Add audit-log entry documenting SK-C1 remediation boundaries and non-claims. | `AUDIT_LOG.md` | Traceable entry ties implementation to skeptic finding. |
 
 ### Verification
 
@@ -214,7 +214,7 @@ rg -n "dataset_policy|warning|caveat|release_evidence_ready" docs scripts tests
 3. WS-C1-C (warning/caveat policy)
 4. WS-C1-D (release/verifier enforcement)
 5. WS-C1-E (tests)
-6. WS-C1-F (docs + core_audit traceability)
+6. WS-C1-F (docs + audit traceability)
 
 Rationale:
 
@@ -230,8 +230,8 @@ Rationale:
 | WS-C1-B Dataset Policy | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added dataset representativeness policy config and enforcement fields. |
 | WS-C1-C Warning/Caveat Gates | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added warning threshold gates and enforced caveats for warning-bearing runs. |
 | WS-C1-D Gate Consumer Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated pre-release and verifier checks for new policy fields. |
-| WS-C1-E Tests/Contracts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended sensitivity and core_audit contract tests; targeted suites pass. |
-| WS-C1-F Docs/Traceability | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated sensitivity/repro docs and added core_audit-log SK-C1 entry. |
+| WS-C1-E Tests/Contracts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended sensitivity and audit contract tests; targeted suites pass. |
+| WS-C1-F Docs/Traceability | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated sensitivity/repro docs and added audit-log SK-C1 entry. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

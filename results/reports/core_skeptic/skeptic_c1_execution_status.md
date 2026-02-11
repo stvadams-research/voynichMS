@@ -19,8 +19,8 @@ Implemented outcomes:
   - enforced caveat behavior for warning-bearing runs,
   - quality diagnostics sidecar output.
 - Tightened release consumers (`pre_release_check.sh`, `verify_reproduction.sh`) to fail closed on missing/failing new policy fields.
-- Extended sensitivity and core_audit contract tests for new policy semantics.
-- Updated sensitivity/reproducibility docs and core_audit log traceability.
+- Extended sensitivity and audit contract tests for new policy semantics.
+- Updated sensitivity/reproducibility docs and audit log traceability.
 
 ---
 

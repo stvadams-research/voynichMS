@@ -17,7 +17,7 @@ This plan must eliminate the specific repeat pattern seen over prior attempts:
 1. preflight passes,
 2. release artifact/report are still missing,
 3. release gate remains degraded for the same reason,
-4. core_skeptic reassessment reopens SK-C1 with no new root-cause decomposition.
+4. skeptic reassessment reopens SK-C1 with no new root-cause decomposition.
 
 ---
 
@@ -96,7 +96,7 @@ Reference surfaces:
   - `scripts/core_audit/check_sensitivity_artifact_contract.py`
   - `scripts/core_audit/build_release_gate_health_status.py`,
 - regression tests that lock missing-artifact and release-path parity failure classes,
-- explicit core_skeptic criteria separation between SK-C1 and approved-lost folio constraints.
+- explicit skeptic criteria separation between SK-C1 and approved-lost folio constraints.
 
 ## Out of Scope
 
@@ -151,7 +151,7 @@ SK-C1.5 is complete only if all are satisfied:
 4. gate-health sensitivity blocker reasons clear or transition to legitimate non-missing release outcome,
 5. long-running release sweep has reliable progress/checkpoint semantics,
 6. regression tests cover this pass-5 failure class and fail-closed behavior,
-7. core_skeptic criteria explicitly prevent recurring misuse of missing-folio constraints as SK-C1 blockers.
+7. skeptic criteria explicitly prevent recurring misuse of missing-folio constraints as SK-C1 blockers.
 
 ---
 
@@ -301,7 +301,7 @@ rg -n "SK-C1.*non-blocking|approved-lost" reports/core_skeptic/SK_C1_5_CONTRACT_
 |---|---|---|---|
 | H1 | Add/extend contract tests for missing release artifact with preflight pass state. | `tests/core_audit/test_pre_release_contract.py`, `tests/core_audit/test_verify_reproduction_contract.py`, `tests/core_audit/test_ci_check_contract.py`, `tests/core_audit/test_sensitivity_artifact_contract.py` | Pass-5 failure class is test-locked. |
 | H2 | Add runner tests for run-core_status/progress/checkpoint schema and stale heartbeat behavior. | `tests/phase2_analysis/test_sensitivity_sweep_end_to_end.py` | Long-run operational integrity is test-covered. |
-| H3 | Define execution status report template and core_audit-log linkage requirements for SK-C1.5. | `reports/core_skeptic/SKEPTIC_C1_5_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | End-to-end traceability from finding to closure lane. |
+| H3 | Define execution status report template and audit-log linkage requirements for SK-C1.5. | `reports/core_skeptic/SKEPTIC_C1_5_EXECUTION_STATUS.md` (during execution), `AUDIT_LOG.md` | End-to-end traceability from finding to closure lane. |
 
 ### Verification
 
@@ -359,7 +359,7 @@ Rationale:
 | WS-C1.5-E Checker/Policy Parity | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added explicit preflight-ok/missing-artifact class and runtime freshness/run-status checks in checker + policy. |
 | WS-C1.5-F Gate Consolidation | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Gate-health now consumes run-status path/state; SK-C1 semantics aligned through shared checker/runtime contract. |
 | WS-C1.5-G Missing-Folio Alignment | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Registered SK-C1 scope boundary excluding approved irrecoverable H3 folio loss as blocker class. |
-| WS-C1.5-H Regression/Governance | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended SK-C1 regression tests and added `SKEPTIC_C1_5_EXECUTION_STATUS.md` + core_audit-log linkage. |
+| WS-C1.5-H Regression/Governance | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended SK-C1 regression tests and added `SKEPTIC_C1_5_EXECUTION_STATUS.md` + audit-log linkage. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 

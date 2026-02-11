@@ -11,7 +11,7 @@
 
 Address the pass-2 `SK-H2 / SK-M1` residual by hardening closure and non-claim language so it remains defensible even when operational gates are degraded.
 
-This plan targets the specific residual core_skeptic leverage from the assessment:
+This plan targets the specific residual skeptic leverage from the assessment:
 
 1. Boundary and non-claim language is materially improved.
 2. Reopening criteria are explicit.
@@ -32,13 +32,13 @@ From `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_2.md`:
   - Boundary and non-claim structure is explicit (`README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`).
   - Conditional reopening language is explicit (`reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`, `governance/REOPENING_CRITERIA.md`).
 - Residual:
-  - Closure remains assertive enough for core_skeptic scope attack when operational gates fail.
+  - Closure remains assertive enough for skeptic scope attack when operational gates fail.
 - Context from same pass:
   - `pre_release_check.sh` failed.
   - `verify_reproduction.sh` failed.
   - `ci_check.sh` failed.
 
-Core core_skeptic attack surface:
+Core skeptic attack surface:
 
 - "You improved wording, but claim strength still outpaces current operational evidence integrity."
 
@@ -52,7 +52,7 @@ Core core_skeptic attack surface:
 - Operationally contingent claim-entitlement model (text strength tied to gate health).
 - Cross-document closure/claim coherence for targeted public artifacts.
 - Checker/test/CI enforcement preventing over-assertive language under failed gate state.
-- Governance and core_audit traceability for H2.2/M1.2 decisions.
+- Governance and audit traceability for H2.2/M1.2 decisions.
 
 ## Out of Scope
 
@@ -180,7 +180,7 @@ rg -n "Operational Entitlement State|release_gate_health_status.json|conditional
 | E1 | Extend SK-H2 checker with optional gate-state enforcement (mode-aware). | `scripts/core_skeptic/check_claim_boundaries.py`, `tests/core_skeptic/test_claim_boundary_checker.py` | Checker fails when claim class exceeds allowed level for gate state. |
 | E2 | Extend SK-M1 checker with gate-state closure constraints. | `scripts/core_skeptic/check_closure_conditionality.py`, `tests/core_skeptic/test_closure_conditionality_checker.py` | Checker blocks contradictory assertive closure under failed gates. |
 | E3 | Add cross-check for report coherence between gate-health artifact and public docs. | `scripts/core_skeptic/check_report_coherence.py`, `configs/core_skeptic/sk_m3_report_coherence_policy.json`, `tests/core_skeptic/test_report_coherence_checker.py` | Coherence checker catches gate-state/report-language divergence. |
-| E4 | Integrate entitlement checks into CI/pre-release/reproduction paths. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, core_audit contract tests | Operational pipeline enforces H2.2/M1.2 contracts automatically. |
+| E4 | Integrate entitlement checks into CI/pre-release/reproduction paths. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, audit contract tests | Operational pipeline enforces H2.2/M1.2 contracts automatically. |
 
 ### Verification
 
@@ -201,13 +201,13 @@ python3 -m pytest -q \
 
 ## WS-H2M1.2-F: Governance and Traceability Closeout
 
-**Goal:** Keep the residual-to-remediation chain auditable and reusable for future core_skeptic passes.
+**Goal:** Keep the residual-to-remediation chain auditable and reusable for future skeptic passes.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | F1 | Extend SK-H2 and SK-M1 registers with entitlement dependencies and current gate-state assumptions. | `reports/core_skeptic/SK_H2_CLAIM_REGISTER.md`, `reports/core_skeptic/SK_M1_CLOSURE_REGISTER.md` | Registers include explicit gate-state coupling. |
 | F2 | Add combined H2.2/M1.2 execution status template. | New `reports/core_skeptic/SKEPTIC_H2_2_EXECUTION_STATUS.md` | Execution pass can be documented consistently. |
-| F3 | Add core_audit log linkage requirement for residual closure decisions and downgrade rationale. | `AUDIT_LOG.md` | Finding -> controls -> outcome trace is complete. |
+| F3 | Add audit log linkage requirement for residual closure decisions and downgrade rationale. | `AUDIT_LOG.md` | Finding -> controls -> outcome trace is complete. |
 
 ### Verification
 
@@ -239,7 +239,7 @@ Rationale:
 |---|---|---|
 | Gate-health artifact is healthy and claim/closure language is fully entitlement-aligned. | `H2_2_M1_2_ALIGNED` | "Closure and non-claim framing is calibrated and operationally entitled." |
 | Language is calibrated and explicitly downgraded under failing gate state; no overclaim remains. | `H2_2_M1_2_QUALIFIED` | "Closure framing is bounded and operationally contingent pending gate recovery." |
-| Policy/checker/report state is internally inconsistent or allows over-assertive language under failed gates. | `H2_2_M1_2_BLOCKED` | "Residual closure/claim scope remains vulnerable to core_skeptic process attack." |
+| Policy/checker/report state is internally inconsistent or allows over-assertive language under failed gates. | `H2_2_M1_2_BLOCKED` | "Residual closure/claim scope remains vulnerable to skeptic process attack." |
 | Evidence is incomplete to determine entitlement alignment. | `H2_2_M1_2_INCONCLUSIVE` | "H2.2/M1.2 status provisional pending gate-entitlement evidence." |
 
 Execution outcome: `H2_2_M1_2_QUALIFIED`.
@@ -254,7 +254,7 @@ Execution outcome: `H2_2_M1_2_QUALIFIED`.
 | WS-H2M1.2-B Policy Extension | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended H2/M1 policy JSON plus boundary/closure/reopening docs for gate-dependent entitlement. |
 | WS-H2M1.2-C Gate-Health Artifact | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added `scripts/core_audit/build_release_gate_health_status.py`; generated canonical + by-run artifacts. |
 | WS-H2M1.2-D Narrative Calibration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated README/phase8_comparative/final closure docs with operational entitlement blocks and downgraded phrasing. |
-| WS-H2M1.2-E Checker/Test Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended claim/closure checks for gate-degraded rules; added/updated core_skeptic and core_audit tests. |
+| WS-H2M1.2-E Checker/Test Hardening | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Extended claim/closure checks for gate-degraded rules; added/updated skeptic and audit tests. |
 | WS-H2M1.2-F Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated registers, reproducibility docs, and added execution core_status/core_audit trace. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.

@@ -23,7 +23,7 @@ Supporting canonical fields:
 3. Residual is specific and actionable:
    - dominant fragility is top-2 identity volatility, not missing-field ambiguity.
 4. Claim boundaries are synchronized:
-   - phase8_comparative reports and policy docs now enforce bounded non-conclusive language.
+   - comparative reports and policy docs now enforce bounded non-conclusive language.
 
 ## Why Stronger Closure Was Not Selected
 

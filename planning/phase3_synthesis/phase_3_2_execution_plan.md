@@ -3,9 +3,9 @@
 **Objective:** Reverse-engineer the Voynich Manuscript's procedural generation algorithm by building a generative model that is statistically indistinguishable from the original text.
 
 **Context:**
-Phase 2 phase2_analysis confirmed that the manuscript is not a natural language (mapping stability 0.02) but possesses high information density (z=5.68) and strong local constraints. This points to a sophisticated procedural generation system. Previous phase3_synthesis attempts relied on simulated data and simple Markov chains, which are insufficient to reproduce the observed anomalies.
+Phase 2 analysis confirmed that the manuscript is not a natural language (mapping stability 0.02) but possesses high information density (z=5.68) and strong local constraints. This points to a sophisticated procedural generation system. Previous synthesis attempts relied on simulated data and simple Markov chains, which are insufficient to reproduce the observed anomalies.
 
-**Goal:** Prove the "phase5_mechanism" of the manuscript by successfully generating "Fake Voynich" pages that pass the Phase 2 phase2_analysis pipeline with matching metrics.
+**Goal:** Prove the "mechanism" of the manuscript by successfully generating "Fake Voynich" pages that pass the Phase 2 analysis pipeline with matching metrics.
 
 ---
 
@@ -29,7 +29,7 @@ Detailed findings: `core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.md`
 
 ## 3.2.4 The Indistinguishability Challenge (The Turing Test) - **INCONCLUSIVE**
 
-*   **Task:** Generate synthetic section and run Phase 2 phase2_analysis.
+*   **Task:** Generate synthetic section and run Phase 2 analysis.
 *   **Outcome:** Grammar-based generator improved z-score but **failed** the repetition rate (0.55 vs 0.90 target).
 *   **Insight:** The current grammar captures local bigrams well but lacks the "Whole-Word Slot" repetition characteristic of Voynichese.
 

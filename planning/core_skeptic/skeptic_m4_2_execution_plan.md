@@ -40,7 +40,7 @@ Cross-finding dependency from same pass:
 
 - Provenance-runner contract failure (SK-C2) materially weakens provenance-confidence credibility even if SK-M4 framing is present.
 
-Core core_skeptic leverage:
+Core skeptic leverage:
 
 - "Uncertainty is explicit, but provenance confidence remains qualified and some provenance summaries drift or decouple from runtime policy state."
 
@@ -59,7 +59,7 @@ Core core_skeptic leverage:
 ## Out of Scope
 
 - Reconstructing unavailable historical runtime evidence that cannot be recovered.
-- Broad rework of non-provenance core_skeptic findings (SK-H1/H2/H3, SK-M1/M2/M3), except dependency integration.
+- Broad rework of non-provenance skeptic findings (SK-H1/H2/H3, SK-M1/M2/M3), except dependency integration.
 - Claiming `PROVENANCE_ALIGNED` by wording alone without metric/contract support.
 
 ---
@@ -149,7 +149,7 @@ python3 scripts/core_skeptic/check_provenance_uncertainty.py --mode release
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| D1 | Re-run reconciliation/backfill core_audit in dry-run and classify residual orphan rows by recoverability class. | `core_status/core_audit/run_status_repair_report.json`, new recoverability section | Residual rows are stratified into recoverable vs irrecoverable classes. |
+| D1 | Re-run reconciliation/backfill audit in dry-run and classify residual orphan rows by recoverability class. | `core_status/core_audit/run_status_repair_report.json`, new recoverability section | Residual rows are stratified into recoverable vs irrecoverable classes. |
 | D2 | Apply only policy-approved reconciliation actions and record delta. | repair workflow + provenance health artifact | Any confidence improvement is measured and reproducible. |
 | D3 | If irrecoverable residual remains, codify bounded closure criteria and non-upgrade conditions. | `governance/HISTORICAL_PROVENANCE_POLICY.md` + register | `PROVENANCE_QUALIFIED` remains explicit and justified, not ambiguous. |
 
@@ -170,7 +170,7 @@ python3 scripts/core_audit/build_provenance_health_status.py
 |---|---|---|---|
 | E1 | Re-validate provenance-confidence language in closure/public docs against canonical artifact class. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`, `governance/PROVENANCE.md` | No document exceeds current provenance entitlement. |
 | E2 | Add/refresh explicit pass-2 residual statement where needed (qualified, bounded, current). | same | Residual uncertainty is explicit and source-linked. |
-| E3 | Ensure core_skeptic-facing provenance register references are current and synchronized. | `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md` | Skeptic evidence trail is no longer stale. |
+| E3 | Ensure skeptic-facing provenance register references are current and synchronized. | `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md` | Skeptic evidence trail is no longer stale. |
 
 ### Verification
 
@@ -193,7 +193,7 @@ rg -n "PROVENANCE_QUALIFIED|provenance_health_status|historical provenance|quali
 |---|---|---|---|
 | F1 | Extend SK-M4 checker for register-drift and contract-coupling rules. | `scripts/core_skeptic/check_provenance_uncertainty.py` | Checker fails closed on stale/split provenance semantics. |
 | F2 | Add tests for stale register mismatch, artifact age, and contract-coupled downgrade behavior. | `tests/core_skeptic/test_provenance_uncertainty_checker.py` | Residual cases are regression-locked. |
-| F3 | Ensure CI/pre-release/reproduction contracts include new M4.2 checks and markers. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, core_audit contract tests | Pipeline blocks provenance over-claim regressions. |
+| F3 | Ensure CI/pre-release/reproduction contracts include new M4.2 checks and markers. | `scripts/ci_check.sh`, `scripts/core_audit/pre_release_check.sh`, `scripts/verify_reproduction.sh`, audit contract tests | Pipeline blocks provenance over-claim regressions. |
 
 ### Verification
 
@@ -215,7 +215,7 @@ python3 -m pytest -q \
 |---|---|---|---|
 | G1 | Create M4.2 execution status template/report path. | New `reports/core_skeptic/SKEPTIC_M4_2_EXECUTION_STATUS.md` | Execution can be documented consistently. |
 | G2 | Update reproducibility/guidance docs for canonical SK-M4.2 command path. | `governance/governance/REPRODUCIBILITY.md` | Repro path includes synchronization and confidence checks. |
-| G3 | Add core_audit-log linkage requirement for SK-M4.2 findings and final class. | `AUDIT_LOG.md` | End-to-end traceability is complete. |
+| G3 | Add audit-log linkage requirement for SK-M4.2 findings and final class. | `AUDIT_LOG.md` | End-to-end traceability is complete. |
 
 ### Verification
 
@@ -265,7 +265,7 @@ Execution outcome: `M4_2_QUALIFIED`.
 | WS-M4.2-D Recovery Path | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Re-ran dry-run repair and refreshed provenance health/register artifacts with recoverability classification. |
 | WS-M4.2-E Report Coherence | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Re-synchronized `SK_M4_PROVENANCE_REGISTER.md` and updated provenance policy docs for pass-2 residual clarity. |
 | WS-M4.2-F Guardrails/Tests | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added checker logic/tests for contract coupling and register drift; updated CI/pre-release/verify contracts. |
-| WS-M4.2-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added M4.2 execution status report and core_audit-log trace linkage. |
+| WS-M4.2-G Governance Closeout | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added M4.2 execution status report and audit-log trace linkage. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 
@@ -277,7 +277,7 @@ Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 |---|---|---|---|---|
 | R1 | Historical orphan uncertainty cannot be fully eliminated because original runtime manifests are irrecoverable. | High | Medium | Prefer qualified bounded closure with explicit irrecoverability classes. |
 | R2 | Register/report synchronization remains manual and drifts again. | Medium | High | Enforce generated register path and staleness checks in CI/release. |
-| R3 | Contract-coupling introduces policy conflicts with other core_skeptic gates. | Medium | Medium | Reuse shared reason-code taxonomy and add contract tests for compatibility. |
+| R3 | Contract-coupling introduces policy conflicts with other skeptic gates. | Medium | Medium | Reuse shared reason-code taxonomy and add contract tests for compatibility. |
 | R4 | Attempted reconciliation changes metadata unexpectedly. | Medium | High | Use dry-run/report-first workflow and diff-based review before mutation. |
 | R5 | Narrative softening obscures valid conclusions. | Low | Medium | Use class-based claim gating rather than blanket language reduction. |
 
@@ -302,7 +302,7 @@ Required deliverables for execution pass:
 
 `SK-M4` pass-2 residual is closed only when:
 
-1. Provenance confidence class and counts are synchronized across canonical artifact and core_skeptic register artifacts.
+1. Provenance confidence class and counts are synchronized across canonical artifact and skeptic register artifacts.
 2. Provenance confidence entitlement is operationally coupled to contract/gate integrity.
 3. Public closure language is no stronger than the current SK-M4 class.
 4. CI/release/reproduction checks detect and block stale or over-assertive provenance confidence regressions.

@@ -19,17 +19,17 @@ Current lane:
 
 Allowed:
 
-- robust phase8_comparative confidence claims tied to confirmed thresholds.
+- robust comparative confidence claims tied to confirmed thresholds.
 
 Disallowed:
 
-- uncertainty caveats omitted from public phase8_comparative summaries.
+- uncertainty caveats omitted from public comparative summaries.
 
 ### `M2_4_QUALIFIED`
 
 Allowed:
 
-- directional phase8_comparative statements with explicit caveats and reopenability.
+- directional comparative statements with explicit caveats and reopenability.
 
 Disallowed:
 
@@ -47,7 +47,7 @@ Disallowed:
 
 - "Nearest-neighbor is confirmed/settled."
 - "Comparative uncertainty is resolved."
-- "Further uncertainty phase2_analysis is unnecessary."
+- "Further uncertainty analysis is unnecessary."
 
 ## Required Marker Semantics in Tracked Comparative Reports
 
@@ -64,7 +64,7 @@ Required SK-M2.4 markers include:
 - `INCONCLUSIVE_UNCERTAINTY`
 - `M2_4_BOUNDED`
 - `phase_7c_uncertainty.json`
-- uncertainty-qualified phase8_comparative language
+- uncertainty-qualified comparative language
 
 ## Reopen Boundary Conditions
 

@@ -1,7 +1,7 @@
 # Methods Reference
 
 This document summarizes the quantitative methods used in phase2_analysis/phase3_synthesis and
-the key caveats needed for core_audit interpretation.
+the key caveats needed for audit interpretation.
 
 ## 1. Foundation Metrics
 
@@ -74,7 +74,7 @@ inputs. This is explicit and scoped:
 - `src/phase2_analysis/anomaly/constraint_analysis.py`:
   uses observed values as fixed constraint parameters for intersection logic.
 - `src/phase2_analysis/anomaly/stability_analysis.py`:
-  baseline values are caller-provided references; phase2_analysis tests perturbation
+  baseline values are caller-provided references; analysis tests perturbation
   stability, not baseline independence.
 
 ## 6. Control Pipeline

@@ -24,7 +24,7 @@ Source: `results/phase7_human/phase_7c_uncertainty.json`
 - `status`: `INCONCLUSIVE_UNCERTAINTY`
 - `reason_code`: `TOP2_IDENTITY_FLIP_DOMINANT`
 - `m2_4_closure_lane`: `M2_4_BOUNDED`
-- `allowed_claim`: phase8_comparative claim remains provisional due unstable nearest-neighbor identity under perturbation.
+- `allowed_claim`: comparative claim remains provisional due unstable nearest-neighbor identity under perturbation.
 - `nearest_neighbor`: `Lullian Wheels`
 - `nearest_neighbor_stability`: `0.4565`
 - `jackknife_nearest_neighbor_stability`: `0.8333`

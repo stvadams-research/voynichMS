@@ -68,7 +68,7 @@ Execution:
 Outputs:
 - Constraint interaction graph
 - Minimal impossibility sets
-- Constraint redundancy phase2_analysis
+- Constraint redundancy analysis
 
 ---
 
@@ -151,7 +151,7 @@ Phase 2.4 does NOT:
 - assign meaning
 - decode symbols
 - identify language
-- privilege phase7_human-readable explanations
+- privilege human-readable explanations
 
 Any appearance of meaning is a violation.
 

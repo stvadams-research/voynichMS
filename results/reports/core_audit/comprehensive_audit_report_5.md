@@ -11,7 +11,7 @@
 
 This fifth-pass assessment was rerun from the playbook with fresh command evidence.
 
-Compared to prior audits, deterministic replay and CI checks now pass. The main unresolved blocker has shifted from core execution determinism to **sensitivity-phase2_analysis validity and interpretation quality**.
+Compared to prior audits, deterministic replay and CI checks now pass. The main unresolved blocker has shifted from core execution determinism to **sensitivity-analysis validity and interpretation quality**.
 
 ### Severity Distribution
 
@@ -30,7 +30,7 @@ Playbook phases 0 through 5 were rerun with static and runtime checks.
 
 ### Runtime commands executed
 
-- `python3 -c "import sys; sys.path.insert(0,'src'); import phase1_foundation.configs.loader; print('loader_import_ok')"`
+- `python3 -c "import sys; sys.path.insert(0,'src'); import foundation.configs.loader; print('loader_import_ok')"`
 - `python3 scripts/phase3_synthesis/run_test_a.py --seed 4242 --output /tmp/audit5_test_a_1.json` (run twice; canonical payload compare)
 - `python3 -m pytest --cov=src --cov-report=term-missing:skip-covered -q tests`
 - `bash scripts/verify_reproduction.sh`
@@ -47,7 +47,7 @@ Playbook phases 0 through 5 were rerun with static and runtime checks.
 | Reproduction verifier | Pass | Warnings still emitted by cluster-tightness fallback path |
 | CI check | Pass | CI coverage gate run reports `34.30%` |
 
-No remediation changes were made for this core_audit.
+No remediation changes were made for this audit.
 
 ---
 
@@ -110,7 +110,7 @@ Top-level source distribution:
 
 | ID | Severity | Finding | Evidence |
 |---|---|---|---|
-| MC-1 | **High** | CI gate tests only `tests/phase1_foundation`, `tests/phase2_analysis`, `tests/core_audit`, excluding present suites (`integration`, `phase7_human`, `phase5_mechanism`, `phase3_synthesis`). | `scripts/ci_check.sh:23` through `scripts/ci_check.sh:25`; test dirs under `tests/` |
+| MC-1 | **High** | CI gate tests only `tests/phase1_foundation`, `tests/phase2_analysis`, `tests/core_audit`, excluding present suites (`integration`, `human`, `mechanism`, `synthesis`). | `scripts/ci_check.sh:23` through `scripts/ci_check.sh:25`; test dirs under `tests/` |
 | MC-2 | **High** | Coverage remains low in critical modules despite global pass (`40%` full-suite, many core files still 0%). | Full pytest coverage output; examples: `src/phase2_analysis/models/*`, `src/phase1_foundation/cli/main.py`, `src/phase1_foundation/qc/*` |
 | MC-3 | Medium | CI coverage (`34.30%`) diverges materially from full-suite coverage (`40%`) because CI runs a subset of suites. | `bash scripts/ci_check.sh` vs `python3 -m pytest ... tests` |
 | MC-4 | Medium | Provenance migration is incomplete in `run_*.py` inventory: 6 runner scripts do not reference `ProvenanceWriter` (`run_phase_2_1.py`, `run_phase_2_3.py`, `run_phase_2_4.py`, `run_phase_3.py`, `run_phase_3_1.py`, `run_sensitivity_sweep.py`). | `rg` inventory over `scripts/**/run_*.py` |
@@ -151,7 +151,7 @@ Top-level source distribution:
 
 | Check | Result | Notes |
 |---|---|---|
-| `python3 -c "... import phase1_foundation.configs.loader ..."` | Pass | Import succeeds (`loader_import_ok`). |
+| `python3 -c "... import foundation.configs.loader ..."` | Pass | Import succeeds (`loader_import_ok`). |
 | `run_test_a.py` replay with same seed | Pass | Canonical `results` payload identical across two runs. |
 | `python3 -m pytest --cov=src ... -q tests` | Pass | Coverage `40%`. |
 | `bash scripts/verify_reproduction.sh` | Pass | Includes warning: cluster-tightness bbox fallback with insufficient regions. |

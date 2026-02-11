@@ -2,13 +2,13 @@
 
 **Date:** 2026-02-09
 **Project:** Voynich Manuscript Structural Admissibility Program
-**Objective:** Capture and document gaps, issues, bugs, and risks per the core_audit playbook.
+**Objective:** Capture and document gaps, issues, bugs, and risks per the audit playbook.
 
 ---
 
 ## Executive Summary
 
-The follow-up core_audit confirms the architectural robustness of the Voynich MS phase2_analysis pipeline but highlights persistent risks in stochastic reproducibility and threshold justification. While core metrics like Repetition Rate and Information Density are well-isolated, the "long-tail" of phase5_mechanism simulators and stress-test heuristics requires further parameterization.
+The follow-up audit confirms the architectural robustness of the Voynich MS analysis pipeline but highlights persistent risks in stochastic reproducibility and threshold justification. While core metrics like Repetition Rate and Information Density are well-isolated, the "long-tail" of mechanism simulators and stress-test heuristics requires further parameterization.
 
 ### Severity Distribution
 
@@ -81,7 +81,7 @@ The follow-up core_audit confirms the architectural robustness of the Voynich MS
 - **Glyph vs Symbol:** "Glyph" is the visual unit; "Symbol" is the identity assigned via alignment.
 
 ### 3.2 Logging Discipline
-- **Assessment:** POOR. Ad-hoc prints used in 90% of phase1_foundation scripts.
+- **Assessment:** POOR. Ad-hoc prints used in 90% of foundation scripts.
 - **Recommendation:** Adopt `setup_logging` from `phase1_foundation/core/logging.py` project-wide.
 
 ---

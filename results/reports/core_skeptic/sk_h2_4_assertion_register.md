@@ -40,7 +40,7 @@ From pass-4 assessment references:
 | Residual ID | Residual | Control | Verification |
 |---|---|---|---|
 | H2.4-R1 | Claim entitlement remains operationally dependent on degraded gate state. | Deterministic H2.4 lane semantics (`H2_4_QUALIFIED`) in gate-health artifact and policy checkers. | `python3 scripts/core_audit/build_release_gate_health_status.py` |
-| H2.4-R2 | Claim-surface coverage drift risk across phase8_comparative and summary reports. | Expanded H2 tracked files + dependency matrix + explicit SK-C1 degraded-state marker requirements. | `python3 scripts/core_skeptic/check_claim_boundaries.py --mode release` |
+| H2.4-R2 | Claim-surface coverage drift risk across comparative and summary reports. | Expanded H2 tracked files + dependency matrix + explicit SK-C1 degraded-state marker requirements. | `python3 scripts/core_skeptic/check_claim_boundaries.py --mode release` |
 | H2.4-R3 | Stale gate-health artifact could silently pass entitlement checks. | Freshness checks (`timestamp_keys`, `max_age_seconds`) in H2/M1 checkers. | `python3 scripts/core_skeptic/check_claim_entitlement_coherence.py --mode ci` |
 | H2.4-R4 | H2 and M1 could diverge on lane-to-class mapping. | Cross-checker coherence script and lane/class requirements by policy. | `python3 scripts/core_skeptic/check_claim_entitlement_coherence.py --mode release` |
 | H2.4-R5 | Repeated SK-H2 reopenings without new operational evidence. | Explicit H2.4 decision record and objective reopen triggers. | `reports/core_skeptic/SK_H2_4_DECISION_RECORD.md` |

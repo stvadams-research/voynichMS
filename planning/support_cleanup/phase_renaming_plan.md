@@ -5,28 +5,28 @@ Standardize the naming convention for all research phases across the repository 
 
 ## 2. Naming Convention
 All phase-related directories in `src/`, `scripts/`, `configs/`, `planning/`, and `results/reports/` will follow the pattern:
-`phase[N]_[name]` (e.g., `phase1_foundation`).
+`phase[N]_[name]` (e.g., `foundation`).
 
 ## 3. Phase Mapping
 | Phase | Original Name | New Standardized Name |
 |---|---|---|
-| 1 | phase1_foundation | phase1_foundation |
-| 2 | phase2_analysis | phase2_analysis |
-| 3 | phase3_synthesis | phase3_synthesis |
-| 4 | phase4_inference | phase4_inference (replaces phase_4) |
-| 5 | phase5_mechanism | phase5_mechanism |
-| 6 | phase6_functional | phase6_functional |
-| 7 | phase7_human | phase7_human |
-| 8 | phase8_comparative | phase8_comparative |
-| 9 | phase9_conjecture | phase9_conjecture |
+| 1 | foundation | foundation |
+| 2 | analysis | analysis |
+| 3 | synthesis | synthesis |
+| 4 | inference | inference (replaces phase_4) |
+| 5 | mechanism | mechanism |
+| 6 | functional | functional |
+| 7 | human | human |
+| 8 | comparative | comparative |
+| 9 | conjecture | conjecture |
 
 ## 4. Support and Governance Directories
 These will be renamed to provide clarity and prevent alphabetical intermingling with research phases:
-- `core_audit` -> `core_audit`
-- `core_skeptic` -> `core_skeptic`
-- `support_visualization` -> `support_visualization`
-- `support_preparation` -> `support_preparation`
-- `support_cleanup` -> `support_cleanup`
+- `audit` -> `audit`
+- `skeptic` -> `skeptic`
+- `visualization` -> `visualization`
+- `preparation` -> `preparation`
+- `cleanup` -> `cleanup`
 - `archive_legacy` -> `archive_legacy`
 
 ## 5. Implementation Steps
@@ -41,8 +41,8 @@ Use `git mv` (where possible) or `mv` to rename directories across:
 
 ### Phase 2: Codebase Ripple Effect (Imports)
 Update all Python imports using a bulk `sed` operation:
-- `from phase1_foundation...` -> `from phase1_foundation...`
-- `import phase2_analysis...` -> `import phase2_analysis...`
+- `from foundation...` -> `from foundation...`
+- `import analysis...` -> `import analysis...`
 - (And so on for all 9 phases and 4 core support modules)
 
 ### Phase 3: Script and Config Path Updates
@@ -56,6 +56,6 @@ Update all hardcoded string paths in:
 Update internal Markdown links in `planning/` and `governance/`.
 
 ## 6. Verification
-1.  Run `phase1_foundation status` (if entry point is updated).
+1.  Run `foundation status` (if entry point is updated).
 2.  Run `pytest`.
 3.  Run `scripts/support_preparation/generate_publication.py` to ensure it can still find all reports.

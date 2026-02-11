@@ -19,7 +19,7 @@
 ## 2. Key Findings
 
 ### 2.1 Dimensionality Mismatch
-The real manuscript requires **83 latent dimensions** to explain 90% of its transition variance. This is significantly higher than a 10x10 (Rank 61) table traversal. This implies that the production phase5_mechanism has a high degree of state-freedom, potentially involving a much larger component set or a hybrid stochastic-table process.
+The real manuscript requires **83 latent dimensions** to explain 90% of its transition variance. This is significantly higher than a 10x10 (Rank 61) table traversal. This implies that the production mechanism has a high degree of state-freedom, potentially involving a much larger component set or a hybrid stochastic-table process.
 
 ### 2.2 The "Line Reset" Signature
 The most decisive finding is the **Reset Score**. 

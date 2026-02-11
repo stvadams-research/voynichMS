@@ -31,7 +31,7 @@ Stress testing (Phase 2.2) revealed a significant structural signature:
 - **Mapping Fragility:** Structural mappings collapsed (**0.02 score**) under minimal perturbation, suggesting a system that lacks the redundancy of natural languages.
 
 ### 2.3 Dominance of Procedural Patterns
-Pattern phase2_analysis (Phase 2.2 Track B3) identified **procedural generation** as the dominant structural regime (Score 0.40).
+Pattern analysis (Phase 2.2 Track B3) identified **procedural generation** as the dominant structural regime (Score 0.40).
 - This finding resolves the "Hybrid System" question: the manuscript behaves as a single, consistent procedural system rather than a collection of different regimes.
 - **Repetition Rate:** Real data shows a **90.03% token repetition rate**, far exceeding any control or placeholder estimate.
 
@@ -66,7 +66,7 @@ The structural investigation has earned the right to stop. The manuscript's form
 ### Justification:
 1. **Admissibility Limits:** Linguistic and cipher models are falsified.
 2. **Sufficiency of Non-Semantics:** Non-semantic models are sufficient to explain the data.
-3. **Integrity of the Foundation:** Escalating to phase3_synthesis without a structural requirement would violate the project's core principles and introduce unearned assumptions.
+3. **Integrity of the Foundation:** Escalating to synthesis without a structural requirement would violate the project's core principles and introduce unearned assumptions.
 
 ---
 
@@ -75,7 +75,7 @@ The structural investigation has earned the right to stop. The manuscript's form
 While Phase 2 has reached its termination point, the following directions remain for structural (not semantic) refinement:
 
 1. **Procedural Logic Mapping:** Deeper investigation into the specific rules of the `cs_procedural_generation` model, which remains the best-fitting explanation.
-2. **Positional Entropy Refinement:** Further phase2_analysis of the highly constrained EVA characters (i, h, e, q, n, k) to map the exact grammar of the procedural system.
+2. **Positional Entropy Refinement:** Further analysis of the highly constrained EVA characters (i, h, e, q, n, k) to map the exact grammar of the procedural system.
 3. **Archive and Preservation:** The current state of the repository, now fully verified with real data, should be preserved as a definitive structural baseline for the Voynich Manuscript.
 
 ---

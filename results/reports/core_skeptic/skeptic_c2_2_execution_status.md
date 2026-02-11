@@ -76,7 +76,7 @@ Observed results:
 - `check_provenance_runner_contract.py --mode ci`: **PASS**.
 - `check_provenance_runner_contract.py --mode release`: **PASS**.
 - Comparative runner output includes delegated provenance contract metadata and writes provenance envelope.
-- Targeted core_audit test suite: **PASS** (`15 passed`).
+- Targeted audit test suite: **PASS** (`15 passed`).
 
 ## Current SK-C2 State
 

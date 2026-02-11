@@ -21,7 +21,7 @@ Supporting canonical fields:
    - non-null residual reasons,
    - deterministic `m2_5_*` lane/residual/reopen fields,
    - checker enforcement for folio-based non-blocking SK-M2 criteria.
-2. Canonical phase8_comparative instability remains objective and reproducible:
+2. Canonical comparative instability remains objective and reproducible:
    - rank/top-2 instability remains below promotion floors.
 3. Claim boundaries and tracked reports now align to `M2_5_BOUNDED` entitlement language.
 4. Release gate-health snapshots now carry SK-M2 lane/reason dependency fields, preserving auditable parity even when SK-C1 is degraded.
@@ -43,7 +43,7 @@ Fixable blockers resolved this pass:
 
 Non-fixable or out-of-scope blockers (explicitly documented, not waived):
 
-1. Persistent top-2 identity flip fragility in canonical phase8_comparative metrics.
+1. Persistent top-2 identity flip fragility in canonical comparative metrics.
 2. SK-C1 release sensitivity evidence artifact missing (`core_status/core_audit/sensitivity_sweep_release.json`) causing release-path failures outside SK-M2 scope.
 
 ## Objective Reopen Triggers
@@ -51,4 +51,4 @@ Non-fixable or out-of-scope blockers (explicitly documented, not waived):
 1. Promote only when qualified/confirmed stability predicates are met in canonical reruns.
 2. Reopen if dominant fragility signal or nearest-neighbor identity materially changes.
 3. Reopen if checker/policy/report parity fails.
-4. Reopen missing-folio SK-M2 blocking only if objective phase8_comparative-input validity failure is demonstrated.
+4. Reopen missing-folio SK-M2 blocking only if objective comparative-input validity failure is demonstrated.

@@ -35,7 +35,7 @@ The "Repetition Anomaly" (0.90 rate) identified in earlier phases does not requi
 The project's findings are macroscopic and robust. They are not artifacts of the Zandbergen-Landini transliteration, nor are they sensitive to fine-grained glyph categorization choices. This increases confidence in the "Linguistic Inadmissibility" determination.
 
 ### 3.3 Closing the "Voynich Mechanism"
-With these results, the structural phase5_mechanism of the Voynich Manuscript is treated as **provisionally solved in principle under current diagnostics**. We have successfully:
+With these results, the structural mechanism of the Voynich Manuscript is treated as **provisionally solved in principle under current diagnostics**. We have successfully:
 - Shown that natural-language explanations are not supported within tested diagnostics.
 - Reverse-engineered the glyph-level grammar.
 - Demonstrated mechanical sufficiency for the highest statistical anomalies.
@@ -60,7 +60,7 @@ This report does not claim:
 - proof of semantic impossibility under all future evidence,
 - final historical/cultural interpretation of manuscript purpose.
 
-For explicit phase5_mechanism non-claims, see:
+For explicit mechanism non-claims, see:
 
 - `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md`
 

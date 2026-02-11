@@ -42,7 +42,7 @@ Required robustness classes:
 
 1. Conclusive statuses are only allowed when adequacy thresholds pass.
 2. `INCONCLUSIVE_UNDERPOWERED` is reserved for adequacy-threshold failures.
-3. `INCONCLUSIVE_INFERENTIAL_AMBIGUITY` is reserved for adequacy-pass + phase4_inference-inconclusive runs.
+3. `INCONCLUSIVE_INFERENTIAL_AMBIGUITY` is reserved for adequacy-pass + inference-inconclusive runs.
 4. Adequacy must include minimum line count, page count, recurring contexts, and balance ratio.
 5. Conclusive claims must include uncertainty metrics:
    - bootstrap confidence interval for delta consistency

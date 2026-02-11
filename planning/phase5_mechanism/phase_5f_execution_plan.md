@@ -3,7 +3,7 @@
 **Project:** Voynich Manuscript, Structural Admissibility Program  
 **Phase:** 5F  
 **Phase Name:** Entry-Point Identifiability  
-**Goal Type:** Path-instance phase4_inference under fixed deterministic traversal  
+**Goal Type:** Path-instance inference under fixed deterministic traversal  
 **Primary Goal:** Infer how entry points and minimal path parameters are selected for each line when traversing a large deterministic structure, and determine whether those selections are independent, structured, or externally anchored, without invoking semantics.
 
 ---
@@ -19,11 +19,11 @@ Phase 5E established that:
 - Lines are paths through a static structure.
 - Line boundaries reset traversal state but not rules.
 
-What remains unknown is the **selection phase5_mechanism** that chooses where and how each line enters the structure.
+What remains unknown is the **selection mechanism** that chooses where and how each line enters the structure.
 
 ### 1.3 What Phase 5F is not
 - Not a decoding attempt.
-- Not a semantic or linguistic phase2_analysis.
+- Not a semantic or linguistic analysis.
 - Not a claim about historical intent.
 - Not a test of alternative traversal rules.
 
@@ -138,7 +138,7 @@ Deliverable:
 
 ## 6. Signature Tests and Analyses
 
-### 6.1 Entry-point clustering phase2_analysis
+### 6.1 Entry-point clustering analysis
 **Objective:**  
 Detect clustering of inferred entry points across lines.
 
@@ -151,12 +151,12 @@ Observed clustering inconsistent with candidate entry class.
 
 ---
 
-### 6.2 Parameter phase4_inference and identifiability
+### 6.2 Parameter inference and identifiability
 **Objective:**  
 Infer minimal parameter sets explaining observed path diversity.
 
 **Methods may include:**
-- Prefix-tree compression phase2_analysis.
+- Prefix-tree compression analysis.
 - Description-length minimization over parameterized paths.
 
 **Kill criteria:**  
@@ -224,7 +224,7 @@ Each run must record:
 
 ## 9. Evaluation and Outcome Labels
 
-### 9.1 Entry phase5_mechanism outcomes
+### 9.1 Entry mechanism outcomes
 Each entry class receives one label:
 - **Eliminated:** incompatible with observed entry statistics.
 - **Sufficient:** explains observed path instantiation with minimal parameters.
@@ -250,20 +250,20 @@ Phase 5F is allowed to conclude:
 
 Phase 5F is not allowed to conclude:
 - That entry choices encode meaning.
-- That the phase5_mechanism reflects language or code.
+- That the mechanism reflects language or code.
 - That the object was historically intended for communication.
 
 ---
 
 ## 11. Phase 5F Termination Statement
 
-Phase 5F identifies the phase5_mechanism by which traversal instances are initiated for each line in the Voynich Manuscript. By constraining entry-point selection and parameterization under a fixed deterministic traversal, Phase 5F further narrows admissible explanations without invoking semantics. Progress beyond this phase requires either external anchoring evidence or a shift from text-internal phase4_inference.
+Phase 5F identifies the mechanism by which traversal instances are initiated for each line in the Voynich Manuscript. By constraining entry-point selection and parameterization under a fixed deterministic traversal, Phase 5F further narrows admissible explanations without invoking semantics. Progress beyond this phase requires either external anchoring evidence or a shift from text-internal inference.
 
 ---
 
 ## 12. Immediate Next Actions
 
-1) Freeze entry phase5_mechanism classes  
+1) Freeze entry mechanism classes  
 2) Pre-register entry-level necessary consequences  
 3) Implement entry simulators with fixed traversal  
 4) Infer path prefixes and entry parameters from real data  

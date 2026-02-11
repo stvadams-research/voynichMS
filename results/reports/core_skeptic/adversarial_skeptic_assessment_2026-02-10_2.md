@@ -10,7 +10,7 @@
 
 The following checks were executed for this pass:
 
-- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-M4: core_skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
+- `ALLOW_DIRTY_RELEASE=1 DIRTY_RELEASE_REASON='SK-M4: skeptic reassessment on intentional working tree' bash scripts/core_audit/pre_release_check.sh` -> **FAILED**
   - Failure cause: sensitivity artifact missing policy-required `dataset_policy_pass=true` condition.
   - Gate requirement is enforced in `scripts/core_audit/pre_release_check.sh:40` through `scripts/core_audit/pre_release_check.sh:48`.
 
@@ -19,7 +19,7 @@ The following checks were executed for this pass:
   - Requirement is enforced in `scripts/verify_reproduction.sh:147` through `scripts/verify_reproduction.sh:155`.
 
 - `bash scripts/ci_check.sh` -> **FAILED**
-  - Policy checks passed through SK-M4 (`claim boundaries`, `control comparability`, `closure conditionality`, `phase8_comparative uncertainty`, `report coherence`, `provenance uncertainty`).
+  - Policy checks passed through SK-M4 (`claim boundaries`, `control comparability`, `closure conditionality`, `comparative uncertainty`, `report coherence`, `provenance uncertainty`).
   - Failure occurred in pytest contract:
     - `tests/core_audit/test_provenance_contract.py:13` through `tests/core_audit/test_provenance_contract.py:22`
     - Missing provenance-writer contract for:
@@ -36,7 +36,7 @@ The following checks were executed for this pass:
 
 This pass shows real hardening in claim-scope calibration and explicit uncertainty governance (notably SK-M3 and SK-M4), but **release readiness is currently blocked by operational evidence-contract regressions**.
 
-Primary reason: core gates now fail on sensitivity-policy and provenance-contract integrity, which gives a hostile core_skeptic a concrete reproducibility/process attack.
+Primary reason: core gates now fail on sensitivity-policy and provenance-contract integrity, which gives a hostile skeptic a concrete reproducibility/process attack.
 
 ---
 
@@ -49,7 +49,7 @@ Primary reason: core gates now fail on sensitivity-policy and provenance-contrac
 | AV3. "Statistics cannot detect meaning" | Partially Defended | Medium |
 | AV4. "You ignored the images" | Partially Defended | High |
 | AV5. "You stopped too early" | Partially Defended | Medium |
-| AV6. "Comparative phase2_analysis is subjective" | Partially Defended | Medium |
+| AV6. "Comparative analysis is subjective" | Partially Defended | Medium |
 | AV7. "You are really saying it is a hoax" | Partially Defended | Medium |
 | Meta: Motivated reasoning | Partially Defended | Medium |
 | Meta: Overreach | Partially Defended | High |
@@ -201,7 +201,7 @@ Residual coherence note:
 1. **Claim-boundary and closure-conditionality calibration improved materially.**  
    Evidence: `README.md:33`, `README.md:47`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md:17`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:34`.
 
-2. **Multimodal and phase8_comparative claims are now explicitly evidence-bounded.**  
+2. **Multimodal and comparative claims are now explicitly evidence-bounded.**  
    Evidence: `results/phase5_mechanism/anchor_coupling_confirmatory.json:13`, `results/phase7_human/phase_7c_uncertainty.json:19`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:21`.
 
 3. **SK-M3 coherence remediation appears durable in current artifacts.**  
@@ -214,13 +214,13 @@ Residual coherence note:
 
 ## 6. Skeptic Success Criteria Check
 
-Against the playbook’s success criteria, a competent core_skeptic can currently still claim:
+Against the playbook’s success criteria, a competent skeptic can currently still claim:
 
 - Operational release confidence is inconsistent (artifact says PASS while gates fail).
 - Provenance contract enforcement is not fully closed (CI provenance contract failure).
 - Multimodal and control-comparability conclusions remain bounded/non-conclusive rather than decisively resolved.
 
-**Result:** Process and framing improved, but this pass is **not release-hardened** against a hostile expert core_skeptic due active gate failures.
+**Result:** Process and framing improved, but this pass is **not release-hardened** against a hostile expert skeptic due active gate failures.
 
 ---
 
@@ -228,4 +228,4 @@ Against the playbook’s success criteria, a competent core_skeptic can currentl
 
 This second pass shows meaningful improvements in epistemic scope control (especially SK-M3 and SK-M4). However, the current run fails three top-level validation gates, and those failures provide a direct credibility path for adversarial critique.
 
-At this point, the strongest core_skeptic attack is no longer primarily rhetorical overreach; it is **evidence-contract inconsistency between generated artifacts and enforced release/CI policy**.
+At this point, the strongest skeptic attack is no longer primarily rhetorical overreach; it is **evidence-contract inconsistency between generated artifacts and enforced release/CI policy**.

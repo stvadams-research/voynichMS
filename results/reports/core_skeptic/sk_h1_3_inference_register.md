@@ -11,7 +11,7 @@ Separate adequacy failure from inferential ambiguity at the status layer and ver
 - `results.status`
 - `results.status_reason`
 - `results.adequacy.pass` / `results.adequacy.blocked`
-- `results.phase4_inference.decision`
+- `results.inference.decision`
 
 ## Baseline (Pass-3 Residual)
 
@@ -28,7 +28,7 @@ This represented semantic conflation: adequacy passed, but status label encoded 
 New SK-H1 status classes:
 
 - `INCONCLUSIVE_UNDERPOWERED`: adequacy thresholds not met.
-- `INCONCLUSIVE_INFERENTIAL_AMBIGUITY`: adequacy passes, phase4_inference remains inconclusive.
+- `INCONCLUSIVE_INFERENTIAL_AMBIGUITY`: adequacy passes, inference remains inconclusive.
 
 Coherence enforcement is configured in:
 
@@ -52,7 +52,7 @@ Canonical publication artifact was restored to policy defaults after matrix exec
 
 | Factor | Current State | Closure Test |
 |---|---|---|
-| Adequacy-vs-phase4_inference status conflation | Closed by explicit status split + checker coherence rules | `python3 scripts/core_skeptic/check_multimodal_coupling.py --mode ci` / `--mode release` |
+| Adequacy-vs-inference status conflation | Closed by explicit status split + checker coherence rules | `python3 scripts/core_skeptic/check_multimodal_coupling.py --mode ci` / `--mode release` |
 | Inference stability across seeds (same lane) | Not fully closed (`seed=42` conclusive; `seed=2718` ambiguous) | Keep seed-lane matrix in governance and avoid unqualified generalization |
 | Adequacy underpower detectability | Closed (small-cohort run deterministically maps to `INCONCLUSIVE_UNDERPOWERED`) | Verify adequacy thresholds via artifact + coherence checker |
 
@@ -65,5 +65,5 @@ Allowed now:
 
 Disallowed:
 
-- Treat `adequacy.pass=true` + `phase4_inference=INCONCLUSIVE` as `INCONCLUSIVE_UNDERPOWERED`.
+- Treat `adequacy.pass=true` + `inference=INCONCLUSIVE` as `INCONCLUSIVE_UNDERPOWERED`.
 - Use categorical coupling/no-coupling claims when emitted status is non-conclusive.

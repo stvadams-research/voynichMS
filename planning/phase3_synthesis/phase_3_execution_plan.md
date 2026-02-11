@@ -37,7 +37,7 @@ The pharmaceutical / jar section is selected because:
 - Long-range dependencies are minimal
 - Section boundaries are clearly defined
 
-This makes it the **highest-confidence region** for continuation phase3_synthesis without semantic leakage.
+This makes it the **highest-confidence region** for continuation synthesis without semantic leakage.
 
 ---
 

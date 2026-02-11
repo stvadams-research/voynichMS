@@ -3,7 +3,7 @@
 **Project:** Voynich Manuscript, Structural Admissibility Program  
 **Phase:** 5B  
 **Phase Name:** Constraint Geometry  
-**Goal Type:** Structural phase5_mechanism refinement and identifiability deepening  
+**Goal Type:** Structural mechanism refinement and identifiability deepening  
 **Primary Goal:** Characterize the topology, locality, and dimensionality of the constraints governing token succession and reuse in the Voynich Manuscript, in order to further narrow admissible production mechanisms without assuming semantics.
 
 ---
@@ -19,11 +19,11 @@ Phase 5 established that:
 - Voynich exhibits stronger successor constraints than naive pool models.
 - Voynich exhibits less local repetition than copying-driven models.
 
-These results invalidate coarse phase5_mechanism classes and force refinement.  
+These results invalidate coarse mechanism classes and force refinement.  
 Phase 5B exists to replace broad labels such as “table” with measurable constraint properties.
 
 ### 1.3 What Phase 5B is not
-- Not a semantic phase2_analysis.
+- Not a semantic analysis.
 - Not a historical reconstruction.
 - Not a new hypothesis fishing expedition.
 - Not a continuation of Phase 4-style proxy testing.
@@ -35,14 +35,14 @@ Phase 5B is successful if it produces:
 - A measurable description of Voynich constraint topology.
 - Bounds on latent state dimensionality and transition sparsity.
 - Clear elimination or refinement of table, pool, and pipeline sub-classes.
-- A reduced and better-defined set of admissible phase5_mechanism families.
+- A reduced and better-defined set of admissible mechanism families.
 
 ---
 
 ## 2. Phase 5B Design Principles
 
 ### 2.1 Geometry over labels
-All phase2_analysis targets structural properties such as:
+All analysis targets structural properties such as:
 - state count
 - transition sharpness
 - locality and reset behavior
@@ -114,7 +114,7 @@ Phase 5B introduces second-order tests that refine Phase 5 signatures.
 Determine whether a small, stable latent state space predicts successor sets better than matched controls.
 
 **Methods may include:**
-- Hidden Markov style phase4_inference with bounded state counts
+- Hidden Markov style inference with bounded state counts
 - Spectral or matrix factorization methods on transition matrices
 - Minimum-description-length model selection
 
@@ -176,7 +176,7 @@ Determine whether constraints decompose into:
 - layered constraints consistent with pipelines
 
 **Tests may include:**
-- residual phase2_analysis after fitting best single-layer models
+- residual analysis after fitting best single-layer models
 - additive versus multiplicative constraint models
 - variance explained by successive layers
 
@@ -230,7 +230,7 @@ In addition to Phase 5 fields, Phase 5B runs must record:
 ## 7. Evaluation and Outcomes
 
 ### 7.1 Outcome categories
-Each refined phase5_mechanism family is assigned one of:
+Each refined mechanism family is assigned one of:
 - **Eliminated:** incompatible with observed constraint geometry
 - **Refined admissible:** compatible but with narrowed parameter space
 - **Observationally equivalent:** indistinguishable from one or more families
@@ -262,11 +262,11 @@ Each refined phase5_mechanism family is assigned one of:
 
 Phase 5B is allowed to conclude:
 - The dimensionality and topology of constraints in the Voynich Manuscript
-- Which refined phase5_mechanism families remain admissible
+- Which refined mechanism families remain admissible
 - Which classes are eliminated by constraint geometry alone
 
 Phase 5B is not allowed to conclude:
-- That any phase5_mechanism is historically true
+- That any mechanism is historically true
 - That semantics is present or absent
 - That constraints encode meaning
 
@@ -274,7 +274,7 @@ Phase 5B is not allowed to conclude:
 
 ## 10. Phase 5B Termination Statement
 
-Phase 5B characterizes the topology and geometry of structural constraints governing the Voynich Manuscript. By refining admissible phase5_mechanism families based on latent state behavior, constraint sharpness, and locality, Phase 5B further narrows the space of explanations without invoking semantics. Progress beyond this phase requires either external anchoring evidence or a shift in inferential target.
+Phase 5B characterizes the topology and geometry of structural constraints governing the Voynich Manuscript. By refining admissible mechanism families based on latent state behavior, constraint sharpness, and locality, Phase 5B further narrows the space of explanations without invoking semantics. Progress beyond this phase requires either external anchoring evidence or a shift in inferential target.
 
 ---
 
@@ -284,4 +284,4 @@ Phase 5B characterizes the topology and geometry of structural constraints gover
 2) Extend generator suite with geometry-matched variants  
 3) Implement constraint locality and sharpness tests  
 4) Run a second pilot focused on latent state stability  
-5) Review whether phase5_mechanism families collapse further or fork into equivalence classes
+5) Review whether mechanism families collapse further or fork into equivalence classes

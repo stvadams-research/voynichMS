@@ -1,7 +1,7 @@
 # ARTIFACT_LIBRARY.md
 ## Phase B: Comparative and Contextual Classification
 
-This document lists the selected artifacts for phase8_comparative phase2_analysis against the Voynich Manuscript.
+This document lists the selected artifacts for comparative analysis against the Voynich Manuscript.
 
 ---
 

@@ -4,7 +4,7 @@ Before writing more code:
 
 Mark every findings file that depended on those components as SIMULATED / INVALIDATED BY AUDIT.
 
-Keep them, do not delete, but move them to an /archive_legacy/simulated_findings/ folder with a README explaining the core_audit.
+Keep them, do not delete, but move them to an /archive_legacy/simulated_findings/ folder with a README explaining the audit.
 
 Add a top-level AUDIT_BREAK.md stating:
 
@@ -94,7 +94,7 @@ Outputs:
 
 computed Phase 2 summary
 
-computed Phase 3 phase3_synthesis attempt
+computed Phase 3 synthesis attempt
 
 computed Phase 3.1 attempt
 
@@ -102,7 +102,7 @@ You may find your earlier conclusions still hold, or not. Either is fine. This i
 
 Step 5: Fix the semantic necessity circularity
 
-Your core_audit flagged a real methodological bug: circular definition.
+Your audit flagged a real methodological bug: circular definition.
 
 Fix pattern:
 
@@ -152,7 +152,7 @@ Plan to implement                                                               
 │                                                                                                │
 │ Executive Summary                                                                              │
 │                                                                                                │
-│ The core_audit found 50+ simulated implementations across 10 files that return hardcoded values     │
+│ The audit found 50+ simulated implementations across 10 files that return hardcoded values     │
 │ instead of computing from actual data. This plan provides a phased approach to replace all     │
 │ simulations with genuine computations using the existing database schema and query             │
 │ infrastructure.                                                                                │
@@ -351,7 +351,7 @@ Plan to implement                                                               
 │     "hypotheses": False,  # Phase 2 (enable after testing)                                     │
 │     "stress_tests": False,                                                                     │
 │     "models": False,                                                                           │
-│     "phase3_synthesis": False,                                                                        │
+│     "synthesis": False,                                                                        │
 │ }                                                                                              │
 │                                                                                                │
 │ Migration Pattern                                                                              │
@@ -440,7 +440,7 @@ Plan to implement                                                               
 │ 3. No methods use string matching on dataset_id for behavior                                   │
 │ 4. All tests pass with real computations enabled                                               │
 │ 5. Results differ meaningfully between real and control datasets                               │
-│ 6. The core_audit can be re-run with PASS results                                                   │
+│ 6. The audit can be re-run with PASS results                                                   │
 │                                                                                                │
 │ ---                                                                                            │
 │ Execution Order                                                                                │

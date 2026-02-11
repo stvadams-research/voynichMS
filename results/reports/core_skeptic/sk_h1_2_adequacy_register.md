@@ -37,7 +37,7 @@ Per-run artifacts: `results/phase5_mechanism/by_run/anchor_coupling_confirmatory
 Adequacy outcome from sweep:
 
 - Adequacy recovered for all tested methods at 1200/1200 cohort lines.
-- Failure mode shifted from adequacy shortfall to phase4_inference ambiguity for higher-threshold methods.
+- Failure mode shifted from adequacy shortfall to inference ambiguity for higher-threshold methods.
 
 ## Stability Envelope (Selected Method)
 

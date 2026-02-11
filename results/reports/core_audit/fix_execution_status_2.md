@@ -35,7 +35,7 @@
 
 ## Summary of Accomplishments
 
-This second remediation pass has finalized the core integrity of the Voynich MS phase2_analysis pipeline:
+This second remediation pass has finalized the core integrity of the Voynich MS analysis pipeline:
 1. **Reproducibility:** `GrammarBasedGenerator` now unconditionally uses a seeded `random.Random` instance (no fallback to global state).
 2. **Logic Integrity:** Fixed the boolean truthiness bug in `mapping_stability.py` and added 10 regression tests verifying 0.0 value propagation.
 3. **Parameter Transparency:** Externalized 24+ model sensitivity weights and evaluation dimension weights to `configs/phase6_functional/model_params.json`. Fixed missing `json`/`pathlib` imports in `config.py`. Rationales documented in `governance/CALIBRATION_NOTES.md`.

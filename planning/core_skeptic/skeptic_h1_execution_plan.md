@@ -27,7 +27,7 @@ From `SK-H1`:
 - `results/reports/phase5_mechanism/PHASE_5I_RESULTS.md` marks layout/illustration coupling as preliminary.
 - `reports/phase7_human/PHASE_7_FINDINGS_SUMMARY.md` states no significant adaptation to illustration proximity as if decisively settled.
 
-Core core_skeptic attack:
+Core skeptic attack:
 
 - "Image coupling was underpowered or exploratory, but downstream conclusions are categorical."
 
@@ -37,17 +37,17 @@ Core core_skeptic attack:
 
 ## In Scope
 
-- Anchor generation and anchor-cohort construction for proximity phase2_analysis.
+- Anchor generation and anchor-cohort construction for proximity analysis.
 - Phase 5I anchor coupling method hardening from exploratory to confirmatory status.
 - Evidence status taxonomy (`conclusive`, `inconclusive`, `blocked`) for multimodal claims.
-- Cross-document claim alignment in Phase 5H, 5I, final Phase 5 phase3_synthesis, and Phase 7 summary.
+- Cross-document claim alignment in Phase 5H, 5I, final Phase 5 synthesis, and Phase 7 summary.
 - Automated tests and reproducibility contract for multimodal outputs.
 
 ## Out of Scope
 
 - Semantics, decipherment, or illustration interpretation.
 - Topology collapse questions (DAG vs lattice) unless directly needed for coupling metrics.
-- Non-SK-H1 core_skeptic items (SK-H2, SK-H3, SK-M*), except wording touchpoints required to remove direct contradiction.
+- Non-SK-H1 skeptic items (SK-H2, SK-H3, SK-M*), except wording touchpoints required to remove direct contradiction.
 
 ---
 
@@ -55,7 +55,7 @@ Core core_skeptic attack:
 
 `SK-H1` is considered closed only if all criteria below are satisfied:
 
-1. Multimodal phase2_analysis explicitly declares one of:
+1. Multimodal analysis explicitly declares one of:
    - `CONCLUSIVE_NO_COUPLING`
    - `CONCLUSIVE_COUPLING_PRESENT`
    - `INCONCLUSIVE_UNDERPOWERED`
@@ -81,7 +81,7 @@ Core core_skeptic attack:
 |---|---|---|---|
 | A1 | Define multimodal status taxonomy and escalation rules. | `governance/SENSITIVITY_ANALYSIS.md` or new `governance/MULTIMODAL_COUPLING_POLICY.md` | Status classes and claim limits documented. |
 | A2 | Add policy config for adequacy thresholds and significance criteria. | `configs/core_skeptic/sk_h1_multimodal_policy.json` (new) | Script reads policy; defaults are explicit and versioned. |
-| A3 | Define canonical output contract for multimodal result artifact. | `results/phase5_mechanism/anchor_coupling_confirmatory.json` (new canonical) | Artifact contains status, adequacy diagnostics, and phase4_inference fields. |
+| A3 | Define canonical output contract for multimodal result artifact. | `results/phase5_mechanism/anchor_coupling_confirmatory.json` (new canonical) | Artifact contains status, adequacy diagnostics, and inference fields. |
 
 ### Verification
 
@@ -102,7 +102,7 @@ PY
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | B1 | Extend anchor generation to support explicit method variants (thresholds/modes) with provenance tags. | `scripts/phase5_mechanism/generate_all_anchors.py` | Multiple anchor methods can be generated/referenced deterministically. |
-| B2 | Add anchor coverage core_audit utility (token coverage, page coverage, cohort ratio). | `scripts/phase5_mechanism/audit_anchor_coverage.py` (new) | Coverage report produced before coupling phase2_analysis. |
+| B2 | Add anchor coverage audit utility (token coverage, page coverage, cohort ratio). | `scripts/phase5_mechanism/audit_anchor_coverage.py` (new) | Coverage report produced before coupling analysis. |
 | B3 | Replace binary anchored/unanchored partition with distance/region-aware cohort builder and matched sampling option. | `scripts/phase5_mechanism/run_5i_anchor_coupling.py` or new shared module under `src/phase5_mechanism` | Cohorts satisfy adequacy thresholds or fail with explicit status. |
 | B4 | Persist adequacy diagnostics (counts, ratios, pages, recurring contexts) to artifact and report table. | `results/phase5_mechanism/anchor_coupling_confirmatory.json`, `results/reports/phase5_mechanism/PHASE_5I_RESULTS.md` | Readers can see why status is conclusive vs inconclusive. |
 
@@ -118,7 +118,7 @@ python3 scripts/phase5_mechanism/audit_anchor_coverage.py
 
 ## WS-H1-C: Confirmatory Coupling Analysis Upgrade
 
-**Goal:** Move from exploratory delta metrics to confirmatory phase4_inference with explicit uncertainty.
+**Goal:** Move from exploratory delta metrics to confirmatory inference with explicit uncertainty.
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
@@ -168,8 +168,8 @@ rg -n "illustration|coupling|inconclusive|conclusive" reports/phase7_human/PHASE
 |---|---|---|---|
 | E1 | Reclassify `PHASE_5H_RESULTS.md` as pilot/inconclusive where adequacy fails. | `results/reports/phase5_mechanism/PHASE_5H_RESULTS.md` | Report no longer claims decisive proximity outcome from underpowered split. |
 | E2 | Align `PHASE_5I_RESULTS.md` conclusion with confirmatory status artifact. | `results/reports/phase5_mechanism/PHASE_5I_RESULTS.md` | Conclusion includes explicit confidence/uncertainty language. |
-| E3 | Update final Phase 5 phase3_synthesis section to prevent overgeneralization. | `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md` | Multimodal paragraph reflects status class and constraints. |
-| E4 | Add core_skeptic-facing trace note describing SK-H1 closure logic and remaining unknowns. | `reports/core_skeptic/SKEPTIC_H1_EXECUTION_STATUS.md` (during execution) | Closure rationale is auditable. |
+| E3 | Update final Phase 5 synthesis section to prevent overgeneralization. | `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md` | Multimodal paragraph reflects status class and constraints. |
+| E4 | Add skeptic-facing trace note describing SK-H1 closure logic and remaining unknowns. | `reports/core_skeptic/SKEPTIC_H1_EXECUTION_STATUS.md` (during execution) | Closure rationale is auditable. |
 
 ### Verification
 
@@ -212,7 +212,7 @@ python3 -m pytest -q tests/phase5_mechanism/test_anchor_coupling.py \
 |---|---|---|---|
 | G1 | Add reproducibility section for anchor-method generation and confirmatory run sequence. | `governance/governance/REPRODUCIBILITY.md` | Operator can run end-to-end multimodal pipeline from docs. |
 | G2 | Document runtime progress/status outputs for long runs. | `governance/governance/REPRODUCIBILITY.md`, script console/progress behavior | Operators can distinguish long-running vs stalled states. |
-| G3 | Record SK-H1 closure entry and artifact pointers in core_audit log. | `AUDIT_LOG.md` | Audit trail ties implementation to core_skeptic finding. |
+| G3 | Record SK-H1 closure entry and artifact pointers in audit log. | `AUDIT_LOG.md` | Audit trail ties implementation to skeptic finding. |
 
 ### Verification
 
@@ -230,7 +230,7 @@ rg -n "SK-H1|anchor coupling|multimodal|illustration proximity" docs AUDIT_LOG.m
 4. WS-H1-D (Phase 7 downstream consistency)
 5. WS-H1-E (report language calibration)
 6. WS-H1-F (tests/contracts)
-7. WS-H1-G (repro docs + core_audit trace)
+7. WS-H1-G (repro docs + audit trace)
 
 Rationale:
 
@@ -243,8 +243,8 @@ Rationale:
 | Condition | Output Status | Allowed Claim |
 |---|---|---|
 | Adequacy pass + inferential pass + effect near zero | `CONCLUSIVE_NO_COUPLING` | "No robust image/layout coupling detected under tested criteria." |
-| Adequacy pass + inferential pass + non-trivial effect | `CONCLUSIVE_COUPLING_PRESENT` | "Coupling signal detected; phase5_mechanism may be modulated by physical context." |
-| Adequacy fail but data available | `INCONCLUSIVE_UNDERPOWERED` | "Current data partition insufficient for conclusive coupling phase4_inference." |
+| Adequacy pass + inferential pass + non-trivial effect | `CONCLUSIVE_COUPLING_PRESENT` | "Coupling signal detected; mechanism may be modulated by physical context." |
+| Adequacy fail but data available | `INCONCLUSIVE_UNDERPOWERED` | "Current data partition insufficient for conclusive coupling inference." |
 | Geometry/data constraints prevent valid cohorts | `BLOCKED_DATA_GEOMETRY` | "Coupling test blocked by anchor geometry/data constraints; claim deferred." |
 
 ---
@@ -254,12 +254,12 @@ Rationale:
 | Workstream | Status | Owner | Start | End | Notes |
 |---|---|---|---|---|---|
 | WS-H1-A Evidence Contract | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added status taxonomy, policy file, and canonical confirmatory artifact contract. |
-| WS-H1-B Geometry/Cohorts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added coverage core_audit script and ratio-based line cohort construction with method selection controls. |
+| WS-H1-B Geometry/Cohorts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added coverage audit script and ratio-based line cohort construction with method selection controls. |
 | WS-H1-C Confirmatory Upgrade | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added bootstrap CI, permutation test, adequacy gates, and fail-closed status mapping. |
 | WS-H1-D Phase 7 Consistency | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Phase 7B now ingests multimodal status artifact and reports evidence grade explicitly. |
 | WS-H1-E Language Calibration | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Updated Phase 5H/5I/final summary and Phase 7 wording to avoid over-strong claims. |
 | WS-H1-F Tests/Contracts | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added phase5_mechanism/phase7_human guardrail tests and validated targeted suites. |
-| WS-H1-G Repro/Audit Trace | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added reproducibility/policy docs, core_audit log traceability, and execution status report. |
+| WS-H1-G Repro/Audit Trace | COMPLETE | Codex | 2026-02-10 | 2026-02-10 | Added reproducibility/policy docs, audit log traceability, and execution status report. |
 
 Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 
@@ -281,7 +281,7 @@ Status vocabulary: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `COMPLETE`.
 Required deliverables for the execution pass:
 
 1. Policy and contract for SK-H1 multimodal status.
-2. Updated anchor coupling pipeline with adequacy checks and confirmatory phase4_inference.
+2. Updated anchor coupling pipeline with adequacy checks and confirmatory inference.
 3. Canonical multimodal artifact with status, uncertainty, and diagnostics.
 4. Aligned Phase 5H/5I/Phase 7 language bounded by evidence status.
 5. New tests preventing underpowered categorical claims.
