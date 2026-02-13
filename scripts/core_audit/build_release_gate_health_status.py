@@ -977,9 +977,9 @@ def _parse_args() -> argparse.Namespace:
         help="Path to canonical SK-H1 multimodal confirmatory artifact.",
     )
     parser.add_argument(
-        "--phase8_comparative-uncertainty-path",
+        "--comparative-uncertainty-path",
         default=str(DEFAULT_COMPARATIVE_UNCERTAINTY_PATH),
-        help="Path to canonical SK-M2 phase8_comparative uncertainty artifact.",
+        help="Path to canonical SK-M2 comparative uncertainty artifact.",
     )
     parser.add_argument(
         "--provenance-health-path",

@@ -17,6 +17,7 @@ profiles:
       - 10_comparative_classification
       - 11_discussion
       - 12_conclusion
+      - 13_references
       - appendix_a_sectional_data
       - appendix_b_artifact_library
     include_figures: true
@@ -45,6 +46,7 @@ profiles:
       - 08_functional_characterization
       - 09_scribal_hand_analysis
       - 10_comparative_classification
+      - 13_references
       - appendix_a_sectional_data
       - appendix_b_artifact_library
     include_figures: true
