@@ -56,6 +56,12 @@ Outputs are saved to `results/publication/`.
 
 ---
 
+## Data Sources
+
+The raw manuscript scans, transliteration files, and external corpora used by this project are too large to commit to the repository. See **[DATA_SOURCES.md](DATA_SOURCES.md)** for the complete list of external data, where to download it, and the expected directory layout. The pipeline will not run without this data in place.
+
+---
+
 ## How to Work on This Project
 
 1.  **Read the Runbook:** `governance/runbook.md` explains how to reproduce the baseline.
