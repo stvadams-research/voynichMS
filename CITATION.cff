@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: "Software Implementation of the Assumption-Resistant Framework for Voynich Manuscript Structural Analysis"
+authors:
+  - family-names: Adams
+    given-names: Steven A.
+doi: 10.5281/zenodo.18651596
+preferred-citation:
+  type: article
+  title: "Structural Identification of the Voynich Manuscript: An Assumption-Resistant Framework for Non-Semantic Analysis"
+  authors:
+    - family-names: Adams
+      given-names: Steven A.
+  year: 2026
+  doi: https://zenodo.org/records/18651937

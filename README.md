@@ -92,3 +92,24 @@ This repository prioritizes **epistemic discipline** over speed, novelty, or cle
 
 If something feels exciting but is not falsifiable, it is probably out of scope.
 If something feels boring but reduces uncertainty, it probably belongs here.
+
+
+## Associated Paper
+
+**Structural Identification of the Voynich Manuscript: An Assumption-Resistant Framework for Non-Semantic Analysis**
+
+Preprint DOI: https://zenodo.org/records/18651937
+
+Citation:
+
+Adams, Steven A. (2026). *Structural Identification of the Voynich Manuscript: An Assumption-Resistant Framework for Non-Semantic Analysis*. Zenodo. https://zenodo.org/records/18651937
+
+
+## Archived Software Release
+
+This repository is permanently archived at:
+
+https://doi.org/10.5281/zenodo.18651596
+
+The Zenodo archive corresponds to software release `v1.0.1` and supports full reproducibility of the associated paper.
+
