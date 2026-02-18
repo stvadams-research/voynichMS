@@ -1,0 +1,436 @@
+{
+  "provenance": {
+    "run_id": "5f85586d-01fc-30c0-61f8-0f34e003c82a",
+    "git_commit": "b7dddfcb61e37d15c277893a59ee80cecd443bce",
+    "timestamp": "2026-02-18T13:31:54.179921+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771421514179260000,
+    "command": "run_phase10_stage5_high_roi"
+  },
+  "results": {
+    "method": "K",
+    "status": "ok",
+    "decision": "indeterminate",
+    "reason": "Residual gaps exist but do not form a decisive correlated-language trend.",
+    "config": {
+      "target_tokens": 30000,
+      "num_runs": 150,
+      "seed": 77
+    },
+    "best_generator_family": "line_reset_markov",
+    "candidate_scores": {
+      "line_reset_markov": {
+        "distance": 0.2229316339129798,
+        "sample_features": {
+          "entropy": 11.394505330140309,
+          "compression_bits_per_token": 19.3168,
+          "type_token_ratio": 0.3117666666666667,
+          "zipf_alpha": 0.8021701711547594,
+          "bigram_cond_entropy": 3.233629910426137,
+          "trigram_cond_entropy": 0.2238405061251374,
+          "bigram_mutual_information": 8.16077805511525,
+          "mean_word_length": 5.139433333333334,
+          "line_initial_entropy": 10.963573732150598,
+          "line_final_entropy": 11.012957692954934,
+          "hapax_ratio": 0.6606436437506682
+        }
+      },
+      "line_reset_backoff": {
+        "distance": 0.22998502594636347,
+        "sample_features": {
+          "entropy": 11.421089802484955,
+          "compression_bits_per_token": 19.373066666666666,
+          "type_token_ratio": 0.31266666666666665,
+          "zipf_alpha": 0.7973987979558381,
+          "bigram_cond_entropy": 3.2167277987826264,
+          "trigram_cond_entropy": 0.19701209073698323,
+          "bigram_mutual_information": 8.204265525281992,
+          "mean_word_length": 5.157633333333333,
+          "line_initial_entropy": 10.98203349091926,
+          "line_final_entropy": 11.0125093721044,
+          "hapax_ratio": 0.6655650319829425
+        }
+      },
+      "line_reset_persistence": {
+        "distance": 0.2238268778881377,
+        "sample_features": {
+          "entropy": 11.411515332893583,
+          "compression_bits_per_token": 19.262666666666668,
+          "type_token_ratio": 0.31143333333333334,
+          "zipf_alpha": 0.8083541378238406,
+          "bigram_cond_entropy": 3.202458705420323,
+          "trigram_cond_entropy": 0.22071590622549486,
+          "bigram_mutual_information": 8.208959829893407,
+          "mean_word_length": 5.135133333333333,
+          "line_initial_entropy": 10.991358498288054,
+          "line_final_entropy": 11.040558860194093,
+          "hapax_ratio": 0.6574975917799422
+        }
+      }
+    },
+    "feature_stats": {
+      "entropy": {
+        "voynich": 12.258255993226053,
+        "generator_mean": 11.404242048516766,
+        "generator_std": 0.019502889439172527,
+        "z_score": 43.78909839861766
+      },
+      "compression_bits_per_token": {
+        "voynich": 15.358470415087458,
+        "generator_mean": 19.32086755555556,
+        "generator_std": 0.063507521391438,
+        "z_score": -62.392564749067745
+      },
+      "type_token_ratio": {
+        "voynich": 0.1684488380069203,
+        "generator_mean": 0.31097755555555556,
+        "generator_std": 0.002057252740794426,
+        "z_score": -69.28109255725019
+      },
+      "zipf_alpha": {
+        "voynich": 0.773840694761673,
+        "generator_mean": 0.8042111461974276,
+        "generator_std": 0.0077670103380952215,
+        "z_score": -3.9101855300481807
+      },
+      "bigram_cond_entropy": {
+        "voynich": 4.848010728415584,
+        "generator_mean": 3.2204096223709153,
+        "generator_std": 0.016459319329035754,
+        "z_score": 98.8862949619934
+      },
+      "trigram_cond_entropy": {
+        "voynich": 0.46932156675739023,
+        "generator_mean": 0.2249413148111454,
+        "generator_std": 0.00622494874221738,
+        "z_score": 39.258195057714566
+      },
+      "bigram_mutual_information": {
+        "voynich": 7.410214883891365,
+        "generator_mean": 8.183817661095922,
+        "generator_std": 0.035380900343094254,
+        "z_score": -21.864982793055212
+      },
+      "mean_word_length": {
+        "voynich": 5.04847245557596,
+        "generator_mean": 5.142891333333334,
+        "generator_std": 0.014193351302112757,
+        "z_score": -6.652331485892187
+      },
+      "line_initial_entropy": {
+        "voynich": 11.822206322851297,
+        "generator_mean": 10.997968786588402,
+        "generator_std": 0.023434042992500112,
+        "z_score": 35.17265614502314
+      },
+      "line_final_entropy": {
+        "voynich": 11.873479786410421,
+        "generator_mean": 11.039772749254205,
+        "generator_std": 0.025093604716097177,
+        "z_score": 33.22388499335074
+      },
+      "hapax_ratio": {
+        "voynich": 0.5918814432989691,
+        "generator_mean": 0.6588013678559486,
+        "generator_std": 0.004048813423943053,
+        "z_score": -16.528280646680823
+      }
+    },
+    "outlier_features": [
+      "entropy",
+      "compression_bits_per_token",
+      "type_token_ratio",
+      "zipf_alpha",
+      "bigram_cond_entropy",
+      "trigram_cond_entropy",
+      "bigram_mutual_information",
+      "mean_word_length",
+      "line_initial_entropy",
+      "line_final_entropy",
+      "hapax_ratio"
+    ],
+    "outlier_correlation_matrix": [
+      [
+        1.0,
+        0.6563605136588985,
+        0.7882333003324009,
+        -0.3999566388558954,
+        -0.9361191181602294,
+        -0.6211115456551006,
+        0.9865893418967137,
+        0.09904633948914633,
+        0.5708603080670686,
+        0.5476769472861739,
+        0.15272787929364232
+      ],
+      [
+        0.6563605136588985,
+        1.0,
+        0.7220082513142014,
+        -0.05579363528659055,
+        -0.5819998735082238,
+        -0.47212393891732857,
+        0.6324011642633129,
+        0.4806649150278522,
+        0.4825523292738291,
+        0.5019486106837866,
+        0.2256470172516042
+      ],
+      [
+        0.7882333003324009,
+        0.7220082513142014,
+        0.9999999999999998,
+        -0.06736650107282219,
+        -0.7120028698830422,
+        -0.5106221182493723,
+        0.7657997887818893,
+        0.18688816000747235,
+        0.5263401598661904,
+        0.4747927811823656,
+        0.480881733390541
+      ],
+      [
+        -0.39995663885589544,
+        -0.05579363528659055,
+        -0.06736650107282219,
+        0.9999999999999999,
+        0.34733590759016747,
+        0.31102676292587483,
+        -0.3816160337954628,
+        0.23375897118683533,
+        -0.050651334625308665,
+        -0.08638117040092191,
+        -0.08815077440302276
+      ],
+      [
+        -0.9361191181602296,
+        -0.5819998735082238,
+        -0.7120028698830421,
+        0.3473359075901675,
+        1.0,
+        0.31776835060641034,
+        -0.9809578763946897,
+        -0.14725734207112348,
+        -0.5482584327466958,
+        -0.5279469551190832,
+        -0.0745075882014534
+      ],
+      [
+        -0.6211115456551006,
+        -0.4721239389173285,
+        -0.5106221182493722,
+        0.31102676292587483,
+        0.31776835060641034,
+        1.0,
+        -0.4903603478907677,
+        0.037177469690933045,
+        -0.29826738025521776,
+        -0.2901604366771868,
+        -0.2002005492916976
+      ],
+      [
+        0.9865893418967137,
+        0.6324011642633129,
+        0.7657997887818894,
+        -0.3816160337954627,
+        -0.9809578763946897,
+        -0.49036034789076766,
+        0.9999999999999998,
+        0.12307188168327544,
+        0.5696508321648706,
+        0.5473019200201317,
+        0.11874609808011917
+      ],
+      [
+        0.09904633948914633,
+        0.4806649150278522,
+        0.18688816000747235,
+        0.23375897118683533,
+        -0.14725734207112348,
+        0.037177469690933045,
+        0.12307188168327544,
+        1.0,
+        0.26284745239507584,
+        0.28205842818855476,
+        -0.10984945016435799
+      ],
+      [
+        0.5708603080670686,
+        0.4825523292738291,
+        0.5263401598661905,
+        -0.05065133462530867,
+        -0.5482584327466958,
+        -0.29826738025521776,
+        0.5696508321648706,
+        0.26284745239507584,
+        1.0,
+        0.827890162551524,
+        0.07444484709918928
+      ],
+      [
+        0.5476769472861739,
+        0.5019486106837866,
+        0.47479278118236573,
+        -0.08638117040092191,
+        -0.5279469551190832,
+        -0.2901604366771868,
+        0.5473019200201317,
+        0.28205842818855476,
+        0.827890162551524,
+        1.0,
+        0.021656229426992805
+      ],
+      [
+        0.15272787929364232,
+        0.22564701725160416,
+        0.480881733390541,
+        -0.08815077440302274,
+        -0.07450758820145338,
+        -0.2002005492916976,
+        0.11874609808011916,
+        -0.10984945016435799,
+        0.07444484709918928,
+        0.021656229426992805,
+        1.0
+      ]
+    ],
+    "outlier_mean_abs_correlation": 0.39977848666004795,
+    "direction_to_language": {
+      "entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 0.911102566785237,
+        "generator_to_latin_distance": 0.05708862207595011
+      },
+      "compression_bits_per_token": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 3.714051324042975,
+        "generator_to_latin_distance": 0.24834581642512532
+      },
+      "type_token_ratio": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.11684883800692028,
+        "generator_to_latin_distance": 0.2593775555555556
+      },
+      "zipf_alpha": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.013106852365983745,
+        "generator_to_latin_distance": 0.01726359906977082
+      },
+      "bigram_cond_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 1.0800408391461325,
+        "generator_to_latin_distance": 0.5475602668985364
+      },
+      "trigram_cond_entropy": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.031016839943164953,
+        "generator_to_latin_distance": 0.27539709188940975
+      },
+      "bigram_mutual_information": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.16898596384822362,
+        "generator_to_latin_distance": 0.6046168133563334
+      },
+      "mean_word_length": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 0.9744579792066483,
+        "generator_to_latin_distance": 0.8800391014492748
+      },
+      "line_initial_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 4.440321447920367,
+        "generator_to_latin_distance": 3.616083911657472
+      },
+      "line_final_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 4.296039667876504,
+        "generator_to_latin_distance": 3.4623326307202875
+      },
+      "hapax_ratio": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.5918814432989691,
+        "generator_to_latin_distance": 0.6588013678559486
+      }
+    },
+    "modification_difficulty": {
+      "entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.8540139447092869,
+        "best_difference": 0.8540139447092869
+      },
+      "compression_bits_per_token": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 3.9623971404681004,
+        "best_difference": 3.9623971404681004
+      },
+      "type_token_ratio": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.14252871754863528,
+        "best_difference": 0.14252871754863528
+      },
+      "zipf_alpha": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.030370451435754564,
+        "best_difference": 0.030370451435754564
+      },
+      "bigram_cond_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 1.627601106044669,
+        "best_difference": 1.627601106044669
+      },
+      "trigram_cond_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.24438025194624483,
+        "best_difference": 0.24438025194624483
+      },
+      "bigram_mutual_information": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.7736027772045571,
+        "best_difference": 0.7736027772045571
+      },
+      "mean_word_length": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.09441887775737356,
+        "best_difference": 0.09441887775737356
+      },
+      "line_initial_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.8242375362628955,
+        "best_difference": 0.8242375362628955
+      },
+      "line_final_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.8337070371562163,
+        "best_difference": 0.8337070371562163
+      },
+      "hapax_ratio": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.06691992455697948,
+        "best_difference": 0.06691992455697948
+      }
+    }
+  }
+}

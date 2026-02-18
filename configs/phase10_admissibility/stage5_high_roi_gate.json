@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "created": "2026-02-18",
+  "description": "Pre-registered high-ROI confirmatory gate for Phase 10 tension resolution.",
+  "method_f": {
+    "seeds": [42, 77, 101],
+    "token_windows": [30000, 45000],
+    "token_offsets": [0],
+    "param_samples_per_family": 10000,
+    "null_sequences": 1000,
+    "perturbations_per_candidate": 12,
+    "max_outlier_probes": 12,
+    "symbol_alphabet_size": 64,
+    "null_profiles": [
+      {
+        "name": "local_block",
+        "null_block_min": 2,
+        "null_block_max": 12
+      },
+      {
+        "name": "wide_block",
+        "null_block_min": 1,
+        "null_block_max": 24
+      }
+    ],
+    "allowed_method_decisions": ["indeterminate", "closure_strengthened"],
+    "max_stable_natural_outliers_per_family": 0
+  },
+  "method_j": {
+    "required_direction": "closure_weakened",
+    "z_threshold": 3.0,
+    "edge_rules": ["line_initial_tokens", "paragraph_initial_tokens"],
+    "min_stable_non_edge_anomalies": 2,
+    "seeds": [42, 77, 101],
+    "target_tokens": 30000,
+    "null_runs": 150
+  },
+  "method_k": {
+    "required_direction": "closure_weakened",
+    "correlation_threshold": 0.4,
+    "min_consistent_outliers": 3,
+    "require_same_outlier_set": true,
+    "require_same_outlier_sign": true,
+    "require_language_ward": true,
+    "require_hard_to_close": true,
+    "seeds": [42, 77, 101],
+    "target_tokens": 30000,
+    "num_runs": 150
+  },
+  "resolution_gate": {
+    "description": "Closure upgrade can only be considered if Method F remains non-decoding across robustness runs and both weakened methods fail strict confirmatory gates.",
+    "closure_upgrade_requires": {
+      "method_f_pass": true,
+      "method_j_pass": false,
+      "method_k_pass": false
+    },
+    "otherwise": "retain_in_tension"
+  }
+}

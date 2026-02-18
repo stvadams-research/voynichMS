@@ -39,6 +39,7 @@ DB_PATH = "sqlite:///data/voynich.db"
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run Phase 10 Stage 3 Method F.")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--token-start", type=int, default=0)
     parser.add_argument("--target-tokens", type=int, default=30000)
     parser.add_argument("--param-samples-per-family", type=int, default=10000)
     parser.add_argument("--null-sequences", type=int, default=1000)
@@ -80,6 +81,7 @@ def _default_status(config: Stage3Config) -> dict[str, Any]:
         "updated_at": now,
         "config": {
             "seed": config.seed,
+            "token_start": config.token_start,
             "target_tokens": config.target_tokens,
             "param_samples_per_family": config.param_samples_per_family,
             "null_sequences": config.null_sequences,
@@ -176,6 +178,7 @@ def _log(message: str) -> None:
 def run_stage3(args: argparse.Namespace) -> None:
     config = Stage3Config(
         seed=args.seed,
+        token_start=args.token_start,
         target_tokens=args.target_tokens,
         param_samples_per_family=args.param_samples_per_family,
         null_sequences=args.null_sequences,
@@ -189,6 +192,7 @@ def run_stage3(args: argparse.Namespace) -> None:
     status = _load_status(status_path, config, args.force)
     status["config"] = {
         "seed": config.seed,
+        "token_start": config.token_start,
         "target_tokens": config.target_tokens,
         "param_samples_per_family": config.param_samples_per_family,
         "null_sequences": config.null_sequences,
@@ -208,7 +212,8 @@ def run_stage3(args: argparse.Namespace) -> None:
     )
     _log(
         "Requested config: "
-        f"seed={config.seed}, target_tokens={config.target_tokens}, "
+        f"seed={config.seed}, token_start={config.token_start}, "
+        f"target_tokens={config.target_tokens}, "
         f"param_samples_per_family={config.param_samples_per_family}, "
         f"null_sequences={config.null_sequences}, "
         f"perturbations_per_candidate={config.perturbations_per_candidate}, "
@@ -368,4 +373,3 @@ def run_stage3(args: argparse.Namespace) -> None:
 
 if __name__ == "__main__":
     run_stage3(parse_args())
-

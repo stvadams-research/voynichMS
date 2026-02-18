@@ -544,6 +544,32 @@ Phase 10 stress-tests the project's central conclusion by asking questions that 
   - `results/data/phase10_admissibility/stage4_synthesis.json`
   - `results/data/phase10_admissibility/stage4_execution_status.json`
 
+### 10.5 Execution Status (High-ROI Confirmatory Reruns)
+
+- **Status:** COMPLETE
+- **Completed at:** 2026-02-18
+- **Primary compute run ID:** `5f85586d-01fc-30c0-61f8-0f34e003c82a`
+- **High-ROI gate config:** `configs/phase10_admissibility/stage5_high_roi_gate.json`
+- **Method F robustness matrix:**
+  - Gate pass: `True`
+  - Matrix size: `12` runs (`seeds=[42,77,101]`, `windows=[30000,45000]`, `null_profiles=[local_block,wide_block]`)
+  - Family outcomes across matrix: table-grille=`12/12 indeterminate`, slot-logic=`12/12 indeterminate`, constrained-Markov=`12/12 indeterminate`
+  - Stable-natural violations: `0`
+- **Strict J/K recalibration:**
+  - Method J strict gate pass (stays weakened): `True`
+  - Method K strict gate pass (stays weakened): `False`
+  - Method K failure reason: mixed direction (`42=closure_weakened`, `77=indeterminate`, `101=closure_weakened`) and one seed below correlation threshold (`0.3998 < 0.4`)
+- **Resolution gate outcome:**
+  - Upgrade rule satisfied: `False`
+  - Resolution class: `partial_resolution_inconclusive`
+  - Recommendation: collect an independent adjudicating test family before any closure upgrade attempt.
+- **Artifacts/checkpoints:**
+  - `results/data/phase10_admissibility/stage5_method_f_matrix.json`
+  - `results/data/phase10_admissibility/stage5_jk_recalibration.json`
+  - `results/data/phase10_admissibility/stage5_high_roi_summary.json`
+  - `results/reports/phase10_admissibility/PHASE_10_STAGE5_HIGH_ROI.md`
+  - `results/data/phase10_admissibility/stage5_high_roi_status.json`
+
 ### Restart/Resume Checkpoints
 
 - Canonical checkpoint file: `results/data/phase10_admissibility/stage1_execution_status.json`
@@ -567,3 +593,6 @@ Phase 10 stress-tests the project's central conclusion by asking questions that 
 - Canonical Stage 4 checkpoint file: `results/data/phase10_admissibility/stage4_execution_status.json`
 - Stage 4 resume command:
   - `python scripts/phase10_admissibility/run_stage4_synthesis.py`
+- Canonical Stage 5 checkpoint file: `results/data/phase10_admissibility/stage5_high_roi_status.json`
+- Stage 5 resume command:
+  - `python scripts/phase10_admissibility/run_stage5_high_roi.py --gate-config configs/phase10_admissibility/stage5_high_roi_gate.json`

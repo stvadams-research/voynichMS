@@ -1,0 +1,839 @@
+{
+  "provenance": {
+    "run_id": "5f85586d-01fc-30c0-61f8-0f34e003c82a",
+    "git_commit": "b7dddfcb61e37d15c277893a59ee80cecd443bce",
+    "timestamp": "2026-02-18T13:31:54.179921+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771421514179260000,
+    "command": "run_phase10_stage5_high_roi"
+  },
+  "results": {
+    "status": "ok",
+    "stage": "10.5",
+    "generated_at": "2026-02-18T14:27:55.565721+00:00",
+    "run_id": "5f85586d-01fc-30c0-61f8-0f34e003c82a",
+    "elapsed_seconds": 3361.335341750004,
+    "method_f_gate": {
+      "pass": true,
+      "run_count": 12,
+      "allowed_method_decisions": [
+        "closure_strengthened",
+        "indeterminate"
+      ],
+      "max_stable_natural_outliers_per_family": 0,
+      "weakened_family_runs": 0,
+      "stable_natural_violations": 0,
+      "aggregate_family_decisions": {
+        "table_grille": {
+          "closure_weakened": 0,
+          "indeterminate": 12,
+          "closure_strengthened": 0
+        },
+        "slot_logic": {
+          "closure_weakened": 0,
+          "indeterminate": 12,
+          "closure_strengthened": 0
+        },
+        "constrained_markov": {
+          "closure_weakened": 0,
+          "indeterminate": 12,
+          "closure_strengthened": 0
+        }
+      },
+      "per_run": {
+        "seed101_w30000_o0_local_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed101_w30000_o0_wide_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed101_w45000_o0_local_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed101_w45000_o0_wide_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed42_w30000_o0_local_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed42_w30000_o0_wide_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed42_w45000_o0_local_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed42_w45000_o0_wide_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed77_w30000_o0_local_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed77_w30000_o0_wide_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed77_w45000_o0_local_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        },
+        "seed77_w45000_o0_wide_block": {
+          "decision": "indeterminate",
+          "decision_pass": true,
+          "family_decisions": {
+            "table_grille": "indeterminate",
+            "slot_logic": "indeterminate",
+            "constrained_markov": "indeterminate"
+          },
+          "any_family_weakened": false,
+          "stable_natural_by_family": {
+            "table_grille": 0,
+            "slot_logic": 0,
+            "constrained_markov": 0
+          },
+          "max_stable_natural_allowed": 0,
+          "stable_natural_pass": true,
+          "pass": true
+        }
+      }
+    },
+    "method_j_gate": {
+      "per_seed": {
+        "42": {
+          "decision": "closure_weakened",
+          "gate": {
+            "pass": true,
+            "reason": "Method J gate passed: stable |z|>threshold anomalies remain after removing line-initial/paragraph-initial effects.",
+            "z_threshold": 3.0,
+            "min_stable_non_edge_anomalies": 2,
+            "ablation": {
+              "z_threshold": 3.0,
+              "edge_rules": [
+                "line_initial_tokens",
+                "paragraph_initial_tokens"
+              ],
+              "stable_anomalies_total": 3,
+              "stable_edge_anomalies": [
+                {
+                  "rule": "paragraph_initial_tokens",
+                  "metric": "entropy",
+                  "z_score": 42.6678217024529,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_2",
+                  "metric": "entropy",
+                  "z_score": 37.26038506296767,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 35.10765038741896,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "permutation_stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_2",
+                  "metric": "entropy",
+                  "z_score": 37.26038506296767,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 35.10765038741896,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "ablated_decision_without_edge_rules": "closure_weakened",
+              "interpretation": "non_line_reset_signal_present"
+            }
+          },
+          "ablation": {
+            "z_threshold": 3.0,
+            "edge_rules": [
+              "line_initial_tokens",
+              "paragraph_initial_tokens"
+            ],
+            "stable_anomalies_total": 3,
+            "stable_edge_anomalies": [
+              {
+                "rule": "paragraph_initial_tokens",
+                "metric": "entropy",
+                "z_score": 42.6678217024529,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_2",
+                "metric": "entropy",
+                "z_score": 37.26038506296767,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 35.10765038741896,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "permutation_stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_2",
+                "metric": "entropy",
+                "z_score": 37.26038506296767,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 35.10765038741896,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "ablated_decision_without_edge_rules": "closure_weakened",
+            "interpretation": "non_line_reset_signal_present"
+          }
+        },
+        "77": {
+          "decision": "closure_weakened",
+          "gate": {
+            "pass": true,
+            "reason": "Method J gate passed: stable |z|>threshold anomalies remain after removing line-initial/paragraph-initial effects.",
+            "z_threshold": 3.0,
+            "min_stable_non_edge_anomalies": 2,
+            "ablation": {
+              "z_threshold": 3.0,
+              "edge_rules": [
+                "line_initial_tokens",
+                "paragraph_initial_tokens"
+              ],
+              "stable_anomalies_total": 3,
+              "stable_edge_anomalies": [
+                {
+                  "rule": "paragraph_initial_tokens",
+                  "metric": "entropy",
+                  "z_score": 38.749743709734865,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_7",
+                  "metric": "entropy",
+                  "z_score": 37.249338174954495,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 35.55205918390942,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "permutation_stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_7",
+                  "metric": "entropy",
+                  "z_score": 37.249338174954495,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 35.55205918390942,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "ablated_decision_without_edge_rules": "closure_weakened",
+              "interpretation": "non_line_reset_signal_present"
+            }
+          },
+          "ablation": {
+            "z_threshold": 3.0,
+            "edge_rules": [
+              "line_initial_tokens",
+              "paragraph_initial_tokens"
+            ],
+            "stable_anomalies_total": 3,
+            "stable_edge_anomalies": [
+              {
+                "rule": "paragraph_initial_tokens",
+                "metric": "entropy",
+                "z_score": 38.749743709734865,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_7",
+                "metric": "entropy",
+                "z_score": 37.249338174954495,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 35.55205918390942,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "permutation_stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_7",
+                "metric": "entropy",
+                "z_score": 37.249338174954495,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 35.55205918390942,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "ablated_decision_without_edge_rules": "closure_weakened",
+            "interpretation": "non_line_reset_signal_present"
+          }
+        },
+        "101": {
+          "decision": "closure_weakened",
+          "gate": {
+            "pass": true,
+            "reason": "Method J gate passed: stable |z|>threshold anomalies remain after removing line-initial/paragraph-initial effects.",
+            "z_threshold": 3.0,
+            "min_stable_non_edge_anomalies": 2,
+            "ablation": {
+              "z_threshold": 3.0,
+              "edge_rules": [
+                "line_initial_tokens",
+                "paragraph_initial_tokens"
+              ],
+              "stable_anomalies_total": 3,
+              "stable_edge_anomalies": [
+                {
+                  "rule": "paragraph_initial_tokens",
+                  "metric": "entropy",
+                  "z_score": 46.616634292395766,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_7",
+                  "metric": "entropy",
+                  "z_score": 39.561394161165715,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 38.69362823034685,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "permutation_stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_7",
+                  "metric": "entropy",
+                  "z_score": 39.561394161165715,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 38.69362823034685,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "ablated_decision_without_edge_rules": "closure_weakened",
+              "interpretation": "non_line_reset_signal_present"
+            }
+          },
+          "ablation": {
+            "z_threshold": 3.0,
+            "edge_rules": [
+              "line_initial_tokens",
+              "paragraph_initial_tokens"
+            ],
+            "stable_anomalies_total": 3,
+            "stable_edge_anomalies": [
+              {
+                "rule": "paragraph_initial_tokens",
+                "metric": "entropy",
+                "z_score": 46.616634292395766,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_7",
+                "metric": "entropy",
+                "z_score": 39.561394161165715,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 38.69362823034685,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "permutation_stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_7",
+                "metric": "entropy",
+                "z_score": 39.561394161165715,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 38.69362823034685,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "ablated_decision_without_edge_rules": "closure_weakened",
+            "interpretation": "non_line_reset_signal_present"
+          }
+        }
+      },
+      "direction_consensus": true,
+      "consensus_direction": "closure_weakened",
+      "required_direction": "closure_weakened",
+      "required_direction_met": true,
+      "seed_gate_all_pass": true,
+      "z_threshold": 3.0,
+      "min_stable_non_edge_anomalies": 2,
+      "edge_rules": [
+        "line_initial_tokens",
+        "paragraph_initial_tokens"
+      ],
+      "pass": true
+    },
+    "method_k_gate": {
+      "per_seed": {
+        "42": {
+          "decision": "closure_weakened",
+          "outliers": [
+            "entropy",
+            "compression_bits_per_token",
+            "type_token_ratio",
+            "zipf_alpha",
+            "bigram_cond_entropy",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "mean_word_length",
+            "line_initial_entropy",
+            "line_final_entropy",
+            "hapax_ratio"
+          ],
+          "correlation": 0.4368508565604824,
+          "correlation_pass": true,
+          "robust_language_hard_features": [
+            "type_token_ratio",
+            "zipf_alpha",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "hapax_ratio"
+          ]
+        },
+        "77": {
+          "decision": "indeterminate",
+          "outliers": [
+            "entropy",
+            "compression_bits_per_token",
+            "type_token_ratio",
+            "zipf_alpha",
+            "bigram_cond_entropy",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "mean_word_length",
+            "line_initial_entropy",
+            "line_final_entropy",
+            "hapax_ratio"
+          ],
+          "correlation": 0.39977848666004795,
+          "correlation_pass": false,
+          "robust_language_hard_features": [
+            "type_token_ratio",
+            "zipf_alpha",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "hapax_ratio"
+          ]
+        },
+        "101": {
+          "decision": "closure_weakened",
+          "outliers": [
+            "entropy",
+            "compression_bits_per_token",
+            "type_token_ratio",
+            "zipf_alpha",
+            "bigram_cond_entropy",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "mean_word_length",
+            "line_initial_entropy",
+            "line_final_entropy",
+            "hapax_ratio"
+          ],
+          "correlation": 0.4662057308056015,
+          "correlation_pass": true,
+          "robust_language_hard_features": [
+            "type_token_ratio",
+            "zipf_alpha",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "hapax_ratio"
+          ]
+        }
+      },
+      "direction_consensus": false,
+      "consensus_direction": "mixed",
+      "required_direction": "closure_weakened",
+      "required_direction_met": false,
+      "same_outlier_set": true,
+      "same_outlier_set_pass": true,
+      "common_outlier_features": [
+        "bigram_cond_entropy",
+        "bigram_mutual_information",
+        "compression_bits_per_token",
+        "entropy",
+        "hapax_ratio",
+        "line_final_entropy",
+        "line_initial_entropy",
+        "mean_word_length",
+        "trigram_cond_entropy",
+        "type_token_ratio",
+        "zipf_alpha"
+      ],
+      "consistent_sign_features": [
+        "bigram_cond_entropy",
+        "bigram_mutual_information",
+        "compression_bits_per_token",
+        "entropy",
+        "hapax_ratio",
+        "line_final_entropy",
+        "line_initial_entropy",
+        "mean_word_length",
+        "trigram_cond_entropy",
+        "type_token_ratio",
+        "zipf_alpha"
+      ],
+      "same_sign_pass": true,
+      "languageward_consistent_features": [
+        "bigram_mutual_information",
+        "hapax_ratio",
+        "trigram_cond_entropy",
+        "type_token_ratio",
+        "zipf_alpha"
+      ],
+      "languageward_pass": true,
+      "hard_to_close_consistent_features": [
+        "bigram_mutual_information",
+        "hapax_ratio",
+        "trigram_cond_entropy",
+        "type_token_ratio",
+        "zipf_alpha"
+      ],
+      "hard_to_close_pass": true,
+      "correlation_threshold": 0.4,
+      "correlation_all_pass": false,
+      "min_consistent_outliers": 3,
+      "pass": false
+    },
+    "closure_upgrade_rule_satisfied": false,
+    "resolution_class": "partial_resolution_inconclusive",
+    "recommendation": "One weakened method persists; collect an independent adjudicating test family.",
+    "gate_config_path": "configs/phase10_admissibility/stage5_high_roi_gate.json"
+  }
+}

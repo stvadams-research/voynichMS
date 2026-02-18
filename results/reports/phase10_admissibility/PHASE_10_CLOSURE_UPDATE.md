@@ -22,3 +22,11 @@ Phase 10 does not produce a closure defeat signal, but it does not support a clo
 
 - Preserve current closure as `in_tension` until a new test family resolves J/K weakening vs H/I strengthening.
 - Future upgrades require either (a) weakened methods to strengthen under stricter controls or (b) independent tests showing no stable content/decoding signal.
+
+## Stage 5 Addendum (2026-02-18)
+
+- High-ROI confirmatory reruns completed under run `5f85586d-01fc-30c0-61f8-0f34e003c82a`.
+- Method F robustness gate passed across 12 runs with no stable-natural violations.
+- Method J remained closure-weakened under stricter gates.
+- Method K did not retain closure-weakened status across strict multi-seed criteria.
+- Closure remains `in_tension`; upgrade gate is not satisfied and adjudicating tests remain required.

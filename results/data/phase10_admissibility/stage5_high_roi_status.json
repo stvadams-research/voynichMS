@@ -1,0 +1,364 @@
+{
+  "phase": "10.5",
+  "stage": "Stage 5",
+  "status": "completed",
+  "created_at": "2026-02-18T13:31:54.064095+00:00",
+  "updated_at": "2026-02-18T14:29:15.682202+00:00",
+  "config": {
+    "gate_config_path": "configs/phase10_admissibility/stage5_high_roi_gate.json",
+    "method_f": {
+      "seeds": [
+        42,
+        77,
+        101
+      ],
+      "token_windows": [
+        30000,
+        45000
+      ],
+      "token_offsets": [
+        0
+      ],
+      "null_profiles": [
+        "local_block",
+        "wide_block"
+      ]
+    },
+    "method_j": {
+      "seeds": [
+        42,
+        77,
+        101
+      ],
+      "target_tokens": 30000,
+      "null_runs": 150
+    },
+    "method_k": {
+      "seeds": [
+        42,
+        77,
+        101
+      ],
+      "target_tokens": 30000,
+      "num_runs": 150
+    }
+  },
+  "steps": {
+    "method_f_matrix": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:31:54.228391+00:00",
+      "completed_at": "2026-02-18T13:42:53.263233+00:00",
+      "artifact": "results/data/phase10_admissibility/stage5_method_f_matrix.json",
+      "error": null
+    },
+    "jk_recalibration": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:42:53.263921+00:00",
+      "completed_at": "2026-02-18T14:27:55.564435+00:00",
+      "artifact": "results/data/phase10_admissibility/stage5_jk_recalibration.json",
+      "error": null
+    },
+    "stage5_summary": {
+      "status": "completed",
+      "started_at": "2026-02-18T14:27:55.565153+00:00",
+      "completed_at": "2026-02-18T14:27:55.568174+00:00",
+      "artifact": "results/data/phase10_admissibility/stage5_high_roi_summary.json",
+      "report": "results/reports/phase10_admissibility/PHASE_10_STAGE5_HIGH_ROI.md",
+      "error": null
+    }
+  },
+  "method_f_runs": {
+    "seed42_w30000_o0_local_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:31:54.229252+00:00",
+      "completed_at": "2026-02-18T13:32:47.876159+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed42_w30000_o0_local_block.json",
+      "config": {
+        "seed": 42,
+        "token_window": 30000,
+        "token_offset": 0,
+        "profile_name": "local_block",
+        "null_block_min": 2,
+        "null_block_max": 12,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed42_w30000_o0_wide_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:32:47.877194+00:00",
+      "completed_at": "2026-02-18T13:33:26.463813+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed42_w30000_o0_wide_block.json",
+      "config": {
+        "seed": 42,
+        "token_window": 30000,
+        "token_offset": 0,
+        "profile_name": "wide_block",
+        "null_block_min": 1,
+        "null_block_max": 24,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed42_w45000_o0_local_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:33:26.464559+00:00",
+      "completed_at": "2026-02-18T13:34:41.890122+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed42_w45000_o0_local_block.json",
+      "config": {
+        "seed": 42,
+        "token_window": 45000,
+        "token_offset": 0,
+        "profile_name": "local_block",
+        "null_block_min": 2,
+        "null_block_max": 12,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed42_w45000_o0_wide_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:34:41.891083+00:00",
+      "completed_at": "2026-02-18T13:35:34.736545+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed42_w45000_o0_wide_block.json",
+      "config": {
+        "seed": 42,
+        "token_window": 45000,
+        "token_offset": 0,
+        "profile_name": "wide_block",
+        "null_block_min": 1,
+        "null_block_max": 24,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed77_w30000_o0_local_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:35:34.738024+00:00",
+      "completed_at": "2026-02-18T13:36:28.273110+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed77_w30000_o0_local_block.json",
+      "config": {
+        "seed": 77,
+        "token_window": 30000,
+        "token_offset": 0,
+        "profile_name": "local_block",
+        "null_block_min": 2,
+        "null_block_max": 12,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed77_w30000_o0_wide_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:36:28.274306+00:00",
+      "completed_at": "2026-02-18T13:37:06.396237+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed77_w30000_o0_wide_block.json",
+      "config": {
+        "seed": 77,
+        "token_window": 30000,
+        "token_offset": 0,
+        "profile_name": "wide_block",
+        "null_block_min": 1,
+        "null_block_max": 24,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed77_w45000_o0_local_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:37:06.397361+00:00",
+      "completed_at": "2026-02-18T13:38:22.141759+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed77_w45000_o0_local_block.json",
+      "config": {
+        "seed": 77,
+        "token_window": 45000,
+        "token_offset": 0,
+        "profile_name": "local_block",
+        "null_block_min": 2,
+        "null_block_max": 12,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed77_w45000_o0_wide_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:38:22.142664+00:00",
+      "completed_at": "2026-02-18T13:39:14.866032+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed77_w45000_o0_wide_block.json",
+      "config": {
+        "seed": 77,
+        "token_window": 45000,
+        "token_offset": 0,
+        "profile_name": "wide_block",
+        "null_block_min": 1,
+        "null_block_max": 24,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed101_w30000_o0_local_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:39:14.867040+00:00",
+      "completed_at": "2026-02-18T13:40:07.727518+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed101_w30000_o0_local_block.json",
+      "config": {
+        "seed": 101,
+        "token_window": 30000,
+        "token_offset": 0,
+        "profile_name": "local_block",
+        "null_block_min": 2,
+        "null_block_max": 12,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed101_w30000_o0_wide_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:40:07.728497+00:00",
+      "completed_at": "2026-02-18T13:40:45.324121+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed101_w30000_o0_wide_block.json",
+      "config": {
+        "seed": 101,
+        "token_window": 30000,
+        "token_offset": 0,
+        "profile_name": "wide_block",
+        "null_block_min": 1,
+        "null_block_max": 24,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed101_w45000_o0_local_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:40:45.325172+00:00",
+      "completed_at": "2026-02-18T13:42:00.772578+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed101_w45000_o0_local_block.json",
+      "config": {
+        "seed": 101,
+        "token_window": 45000,
+        "token_offset": 0,
+        "profile_name": "local_block",
+        "null_block_min": 2,
+        "null_block_max": 12,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    },
+    "seed101_w45000_o0_wide_block": {
+      "status": "completed",
+      "started_at": "2026-02-18T13:42:00.773583+00:00",
+      "completed_at": "2026-02-18T13:42:53.232622+00:00",
+      "artifact": "results/data/phase10_admissibility/method_f_high_roi_seed101_w45000_o0_wide_block.json",
+      "config": {
+        "seed": 101,
+        "token_window": 45000,
+        "token_offset": 0,
+        "profile_name": "wide_block",
+        "null_block_min": 1,
+        "null_block_max": 24,
+        "param_samples_per_family": 10000,
+        "null_sequences": 1000,
+        "perturbations_per_candidate": 12,
+        "max_outlier_probes": 12,
+        "symbol_alphabet_size": 64
+      },
+      "error": null
+    }
+  },
+  "jk_runs": {
+    "42": {
+      "method_j": {
+        "status": "completed",
+        "started_at": "2026-02-18T13:42:56.299015+00:00",
+        "completed_at": "2026-02-18T13:50:25.239290+00:00",
+        "artifact": "results/data/phase10_admissibility/method_j_high_roi_seed_42.json",
+        "error": null
+      },
+      "method_k": {
+        "status": "completed",
+        "started_at": "2026-02-18T13:50:25.240317+00:00",
+        "completed_at": "2026-02-18T13:57:53.107302+00:00",
+        "artifact": "results/data/phase10_admissibility/method_k_high_roi_seed_42.json",
+        "error": null
+      }
+    },
+    "77": {
+      "method_j": {
+        "status": "completed",
+        "started_at": "2026-02-18T13:57:53.108140+00:00",
+        "completed_at": "2026-02-18T14:05:31.493508+00:00",
+        "artifact": "results/data/phase10_admissibility/method_j_high_roi_seed_77.json",
+        "error": null
+      },
+      "method_k": {
+        "status": "completed",
+        "started_at": "2026-02-18T14:05:31.494421+00:00",
+        "completed_at": "2026-02-18T14:13:05.638808+00:00",
+        "artifact": "results/data/phase10_admissibility/method_k_high_roi_seed_77.json",
+        "error": null
+      }
+    },
+    "101": {
+      "method_j": {
+        "status": "completed",
+        "started_at": "2026-02-18T14:13:05.639885+00:00",
+        "completed_at": "2026-02-18T14:20:32.103817+00:00",
+        "artifact": "results/data/phase10_admissibility/method_j_high_roi_seed_101.json",
+        "error": null
+      },
+      "method_k": {
+        "status": "completed",
+        "started_at": "2026-02-18T14:20:32.104505+00:00",
+        "completed_at": "2026-02-18T14:27:55.561276+00:00",
+        "artifact": "results/data/phase10_admissibility/method_k_high_roi_seed_101.json",
+        "error": null
+      }
+    }
+  },
+  "run_id": "1be85a75-e6ea-28bd-a9c4-fc84f5dde389",
+  "completed_at": "2026-02-18T14:29:15.682193+00:00"
+}

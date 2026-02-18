@@ -15,6 +15,7 @@ from phase10_admissibility.stage1_pipeline import load_dataset_bundle
 @dataclass
 class Stage3Config:
     seed: int = 42
+    token_start: int = 0
     target_tokens: int = 30000
     param_samples_per_family: int = 10000
     null_sequences: int = 1000
@@ -707,19 +708,25 @@ def run_method_f(
 ) -> dict[str, Any]:
     voynich_bundle = load_dataset_bundle(store, "voynich_real", "Voynich (Real)")
     token_cap = max(1000, config.target_tokens)
-    tokens = voynich_bundle.tokens[:token_cap]
+    token_start = max(0, int(config.token_start))
+    token_stop = token_start + token_cap
+    tokens = voynich_bundle.tokens[token_start:token_stop]
     if len(tokens) < 1000:
         return {
             "method": "F",
             "status": "failed",
             "decision": "test_invalid",
-            "reason": "Insufficient token coverage for reverse mechanism search.",
+            "reason": (
+                "Insufficient token coverage for reverse mechanism search in the "
+                f"requested token window [{token_start}, {token_stop})."
+            ),
         }
 
     attrs = _build_token_attributes(tokens, alphabet_size=config.symbol_alphabet_size)
     if progress:
         progress(
             "Method F attributes prepared: "
+            f"token_window=[{token_start},{token_stop}), "
             f"token_count={len(tokens)}, attr_count={attrs.attr_stack.shape[0]}"
         )
 
@@ -780,6 +787,7 @@ def run_method_f(
         "reason": reason,
         "config": {
             "seed": config.seed,
+            "token_start": token_start,
             "target_tokens": token_cap,
             "param_samples_per_family": config.param_samples_per_family,
             "null_sequences": config.null_sequences,
