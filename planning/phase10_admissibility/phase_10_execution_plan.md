@@ -404,3 +404,81 @@ Phase 10 stress-tests the project's central conclusion by asking questions that 
 1. Begin Stage 1 (Methods H, J, K) using existing project data
 2. Acquire cross-linguistic corpora and begin illustration feature extraction for Stage 2
 3. Do not begin Method F until Stages 1-2 inform its priority
+
+### 10.1 Execution Status (Stage 1)
+
+- **Status:** COMPLETE
+- **Completed at:** 2026-02-18
+- **Confirmatory run ID (#1):** `e34e89be-55f5-6028-9394-3d44b75f7fba`
+- **Confirmatory execution profile (#1):** `target_tokens=30000`, `method_j_null_runs=100`, `method_k_runs=100`
+- **Prior bounded run ID (historical):** `573ea975-a6d6-dbab-628f-9ee36f1887fe` (`target_tokens=10000`, `method_j_null_runs=20`, `method_k_runs=30`)
+- **Provenance note:** Current canonical Method H/J/K artifacts and Stage 1 summary are from run `e34e89be-55f5-6028-9394-3d44b75f7fba`.
+- **Console progress logging:** Enabled for long-running loops in `scripts/phase10_admissibility/run_stage1_hjk.py` and `src/phase10_admissibility/stage1_pipeline.py` (null calibration, anomaly stability checks, synthetic runs, parameter sweeps).
+- **Method outcomes:**
+  - Method H: `closure_strengthened`
+  - Method J: `closure_weakened`
+  - Method K: `closure_weakened`
+  - Stage 1 aggregate: `closure_weakened`
+- **Artifacts:**
+  - `results/data/phase10_admissibility/method_h_typology.json`
+  - `results/data/phase10_admissibility/method_j_steganographic.json`
+  - `results/data/phase10_admissibility/method_k_residual_gap.json`
+  - `results/data/phase10_admissibility/stage1_summary.json`
+  - `results/reports/phase10_admissibility/PHASE_10_STAGE1_RESULTS.md`
+
+### 10.1b Execution Status (J/K Confirmatory Gates)
+
+- **Status:** COMPLETE
+- **Completed at:** 2026-02-18
+- **Primary compute run ID:** `8e8db350-fed8-a8d5-3e80-8adb5bbf9043` (all three seeds executed end-to-end)
+- **Checkpoint resume/finalization run IDs:** `a19ce99e-c582-85fc-227a-76990250715d`, `90be725c-7807-2223-e4a5-39cbeef6bc8b`
+- **Pre-registered gate config:** `configs/phase10_admissibility/stage1b_upgrade_gate.json`
+- **Replication profile:** `seeds=[42,77,101]`, `target_tokens=30000`, `method_j_null_runs=100`, `method_k_runs=100`
+- **Step 2 (multi-seed direction replication):**
+  - Method J direction consensus: `closure_weakened` across all seeds
+  - Method K direction consensus: `closure_weakened` across all seeds
+- **Step 3 (Method J line-reset ablation + folio-order permutation stability):**
+  - Edge-rule ablation applied to `line_initial_tokens` and `paragraph_initial_tokens`
+  - Stable non-edge anomalies remained after ablation and permutation checks (`2` per seed), so Method J gate passed
+- **Step 4 (Method K outlier robustness):**
+  - Same outlier set/sign behavior persisted across seeds
+  - Correlated residual requirement passed for all seeds
+  - Language-ward hard-to-close residual features persisted across seeds, so Method K gate passed
+- **Step 5 (upgrade gate decision):**
+  - Method J stays `closure_weakened`
+  - Method K stays `closure_weakened`
+- **Step 6 (priority handoff):**
+  - Next priority: `10.2_then_10.3`
+- **Artifacts:**
+  - `results/data/phase10_admissibility/method_j_seed_42.json`
+  - `results/data/phase10_admissibility/method_j_seed_77.json`
+  - `results/data/phase10_admissibility/method_j_seed_101.json`
+  - `results/data/phase10_admissibility/method_k_seed_42.json`
+  - `results/data/phase10_admissibility/method_k_seed_77.json`
+  - `results/data/phase10_admissibility/method_k_seed_101.json`
+  - `results/data/phase10_admissibility/stage1b_jk_multiseed_replication.json`
+  - `results/reports/phase10_admissibility/PHASE_10_STAGE1B_JK_REPLICATION.md`
+  - `results/data/phase10_admissibility/stage1b_jk_replication_status.json`
+
+### 10.2 Execution Status (Stage 2)
+
+- **Status:** NOT STARTED
+- **Reason:** Not executed yet. Stage 10.1b priority now sets Stage 2 as next.
+- **Scope not executed:** cross-linguistic corpus acquisition and illustration-feature extraction tasks.
+
+### 10.3 Execution Status (Stage 3 Priority Gate)
+
+- **Status:** NOT STARTED
+- **Reason:** Not executed yet. Stage 10.1b priority places Stage 3 after Stage 2.
+- **Scope not executed:** Method F launch/prioritization workflow.
+
+### Restart/Resume Checkpoints
+
+- Canonical checkpoint file: `results/data/phase10_admissibility/stage1_execution_status.json`
+- The Stage 1 runner is resume-aware and skips completed steps unless forced.
+- Resume command:
+  - `python scripts/phase10_admissibility/run_stage1_hjk.py`
+- Canonical Stage 1b checkpoint file: `results/data/phase10_admissibility/stage1b_jk_replication_status.json`
+- The Stage 1b runner is resume-aware and reuses completed per-seed artifacts before finalization.
+- Stage 1b resume command:
+  - `python scripts/phase10_admissibility/run_stage1b_jk_replication.py --seeds 42,77,101 --target-tokens 30000 --method-j-null-runs 100 --method-k-runs 100`

@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "created": "2026-02-18",
+  "description": "Pre-registered gate criteria for Phase 10 Stage 1b (Methods J/K multi-seed replication)",
+  "multi_seed": {
+    "seeds": [42, 77, 101],
+    "require_same_direction": true
+  },
+  "method_j": {
+    "required_direction": "closure_weakened",
+    "z_threshold": 3.0,
+    "edge_rules": ["line_initial_tokens", "paragraph_initial_tokens"],
+    "min_stable_non_edge_anomalies": 1,
+    "require_folio_order_permutation_stability": true
+  },
+  "method_k": {
+    "required_direction": "closure_weakened",
+    "correlation_threshold": 0.4,
+    "min_consistent_outliers": 2,
+    "require_language_ward": true,
+    "require_hard_to_close": true,
+    "require_same_outlier_sign": true
+  }
+}

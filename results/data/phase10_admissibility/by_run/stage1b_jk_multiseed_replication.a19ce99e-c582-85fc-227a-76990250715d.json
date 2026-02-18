@@ -1,0 +1,244 @@
+{
+  "provenance": {
+    "run_id": "a19ce99e-c582-85fc-227a-76990250715d",
+    "git_commit": "d2e3f69dc337af08083c9cb805a58d424ac69a3a",
+    "timestamp": "2026-02-18T06:16:03.221649+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771395363221522000,
+    "command": "run_phase10_stage1b_jk_replication"
+  },
+  "results": {
+    "summary": {
+      "status": "ok",
+      "generated_at": "2026-02-18T06:16:06.983845+00:00",
+      "run_id": "a19ce99e-c582-85fc-227a-76990250715d",
+      "seeds": [
+        42,
+        77,
+        101
+      ],
+      "target_tokens": 30000,
+      "method_j_null_runs": 100,
+      "method_k_runs": 100,
+      "gate_config_path": "configs/phase10_admissibility/stage1b_upgrade_gate.json",
+      "method_j_status_after_gate": "indeterminate",
+      "method_k_status_after_gate": "indeterminate",
+      "next_stage_priority": "resolve_stage1b_inconclusive",
+      "elapsed_seconds": 3.7399299159878865,
+      "artifact_path": null,
+      "method_j_directions": {
+        "42": null,
+        "77": null,
+        "101": null
+      },
+      "method_k_directions": {
+        "42": null,
+        "77": null,
+        "101": null
+      }
+    },
+    "gate_config": {
+      "version": "1.0.0",
+      "created": "2026-02-18",
+      "description": "Pre-registered gate criteria for Phase 10 Stage 1b (Methods J/K multi-seed replication)",
+      "multi_seed": {
+        "seeds": [
+          42,
+          77,
+          101
+        ],
+        "require_same_direction": true
+      },
+      "method_j": {
+        "required_direction": "closure_weakened",
+        "z_threshold": 3.0,
+        "edge_rules": [
+          "line_initial_tokens",
+          "paragraph_initial_tokens"
+        ],
+        "min_stable_non_edge_anomalies": 1,
+        "require_folio_order_permutation_stability": true
+      },
+      "method_k": {
+        "required_direction": "closure_weakened",
+        "correlation_threshold": 0.4,
+        "min_consistent_outliers": 2,
+        "require_language_ward": true,
+        "require_hard_to_close": true,
+        "require_same_outlier_sign": true
+      }
+    },
+    "method_j": {
+      "per_seed": {
+        "42": {
+          "decision": null,
+          "gate": {
+            "pass": false,
+            "reason": "Method J gate failed: anomalies are fully explained by line-reset edge rules or are not stable under folio-order permutation.",
+            "z_threshold": 3.0,
+            "min_stable_non_edge_anomalies": 1,
+            "ablation": {
+              "z_threshold": 3.0,
+              "edge_rules": [
+                "line_initial_tokens",
+                "paragraph_initial_tokens"
+              ],
+              "stable_anomalies_total": 0,
+              "stable_edge_anomalies": [],
+              "stable_non_edge_anomalies": [],
+              "permutation_stable_non_edge_anomalies": [],
+              "ablated_decision_without_edge_rules": "closure_strengthened",
+              "interpretation": "no_stable_anomalies"
+            }
+          },
+          "ablation": {
+            "z_threshold": 3.0,
+            "edge_rules": [
+              "line_initial_tokens",
+              "paragraph_initial_tokens"
+            ],
+            "stable_anomalies_total": 0,
+            "stable_edge_anomalies": [],
+            "stable_non_edge_anomalies": [],
+            "permutation_stable_non_edge_anomalies": [],
+            "ablated_decision_without_edge_rules": "closure_strengthened",
+            "interpretation": "no_stable_anomalies"
+          }
+        },
+        "77": {
+          "decision": null,
+          "gate": {
+            "pass": false,
+            "reason": "Method J gate failed: anomalies are fully explained by line-reset edge rules or are not stable under folio-order permutation.",
+            "z_threshold": 3.0,
+            "min_stable_non_edge_anomalies": 1,
+            "ablation": {
+              "z_threshold": 3.0,
+              "edge_rules": [
+                "line_initial_tokens",
+                "paragraph_initial_tokens"
+              ],
+              "stable_anomalies_total": 0,
+              "stable_edge_anomalies": [],
+              "stable_non_edge_anomalies": [],
+              "permutation_stable_non_edge_anomalies": [],
+              "ablated_decision_without_edge_rules": "closure_strengthened",
+              "interpretation": "no_stable_anomalies"
+            }
+          },
+          "ablation": {
+            "z_threshold": 3.0,
+            "edge_rules": [
+              "line_initial_tokens",
+              "paragraph_initial_tokens"
+            ],
+            "stable_anomalies_total": 0,
+            "stable_edge_anomalies": [],
+            "stable_non_edge_anomalies": [],
+            "permutation_stable_non_edge_anomalies": [],
+            "ablated_decision_without_edge_rules": "closure_strengthened",
+            "interpretation": "no_stable_anomalies"
+          }
+        },
+        "101": {
+          "decision": null,
+          "gate": {
+            "pass": false,
+            "reason": "Method J gate failed: anomalies are fully explained by line-reset edge rules or are not stable under folio-order permutation.",
+            "z_threshold": 3.0,
+            "min_stable_non_edge_anomalies": 1,
+            "ablation": {
+              "z_threshold": 3.0,
+              "edge_rules": [
+                "line_initial_tokens",
+                "paragraph_initial_tokens"
+              ],
+              "stable_anomalies_total": 0,
+              "stable_edge_anomalies": [],
+              "stable_non_edge_anomalies": [],
+              "permutation_stable_non_edge_anomalies": [],
+              "ablated_decision_without_edge_rules": "closure_strengthened",
+              "interpretation": "no_stable_anomalies"
+            }
+          },
+          "ablation": {
+            "z_threshold": 3.0,
+            "edge_rules": [
+              "line_initial_tokens",
+              "paragraph_initial_tokens"
+            ],
+            "stable_anomalies_total": 0,
+            "stable_edge_anomalies": [],
+            "stable_non_edge_anomalies": [],
+            "permutation_stable_non_edge_anomalies": [],
+            "ablated_decision_without_edge_rules": "closure_strengthened",
+            "interpretation": "no_stable_anomalies"
+          }
+        }
+      },
+      "direction_consensus": true,
+      "consensus_direction": "None",
+      "required_direction": "closure_weakened",
+      "required_direction_met": false,
+      "seed_gate_all_pass": false,
+      "z_threshold": 3.0,
+      "min_stable_non_edge_anomalies": 1,
+      "edge_rules": [
+        "line_initial_tokens",
+        "paragraph_initial_tokens"
+      ],
+      "pass": false
+    },
+    "method_k": {
+      "per_seed": {
+        "42": {
+          "decision": null,
+          "outliers": [],
+          "correlation": 0.0,
+          "correlation_pass": false,
+          "robust_language_hard_features": []
+        },
+        "77": {
+          "decision": null,
+          "outliers": [],
+          "correlation": 0.0,
+          "correlation_pass": false,
+          "robust_language_hard_features": []
+        },
+        "101": {
+          "decision": null,
+          "outliers": [],
+          "correlation": 0.0,
+          "correlation_pass": false,
+          "robust_language_hard_features": []
+        }
+      },
+      "direction_consensus": true,
+      "consensus_direction": "None",
+      "required_direction": "closure_weakened",
+      "required_direction_met": false,
+      "same_outlier_set": true,
+      "common_outlier_features": [],
+      "consistent_sign_features": [],
+      "languageward_consistent_features": [],
+      "hard_to_close_consistent_features": [],
+      "correlation_threshold": 0.4,
+      "correlation_all_pass": false,
+      "min_consistent_outliers": 2,
+      "pass": false
+    },
+    "seed_artifacts": {
+      "method_j": {
+        "42": "results/data/phase10_admissibility/method_j_seed_42.json",
+        "77": "results/data/phase10_admissibility/method_j_seed_77.json",
+        "101": "results/data/phase10_admissibility/method_j_seed_101.json"
+      },
+      "method_k": {
+        "42": "results/data/phase10_admissibility/method_k_seed_42.json",
+        "77": "results/data/phase10_admissibility/method_k_seed_77.json",
+        "101": "results/data/phase10_admissibility/method_k_seed_101.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "provenance": {
+    "run_id": "e34e89be-55f5-6028-9394-3d44b75f7fba",
+    "git_commit": "d2e3f69dc337af08083c9cb805a58d424ac69a3a",
+    "timestamp": "2026-02-18T05:27:29.422318+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771392449422038000,
+    "command": "run_phase10_stage1_hjk"
+  },
+  "results": {
+    "summary": {
+      "status": "ok",
+      "stage": "10.1",
+      "stage_decision": "closure_weakened",
+      "method_decisions": {
+        "H": "closure_strengthened",
+        "J": "closure_weakened",
+        "K": "closure_weakened"
+      },
+      "generated_at": "2026-02-18T05:37:54.026363+00:00",
+      "run_id": "e34e89be-55f5-6028-9394-3d44b75f7fba"
+    },
+    "method_artifacts": {
+      "H": "results/data/phase10_admissibility/method_h_typology.json",
+      "J": "results/data/phase10_admissibility/method_j_steganographic.json",
+      "K": "results/data/phase10_admissibility/method_k_residual_gap.json"
+    }
+  }
+}

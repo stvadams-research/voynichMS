@@ -1,0 +1,565 @@
+{
+  "provenance": {
+    "run_id": "573ea975-a6d6-dbab-628f-9ee36f1887fe",
+    "git_commit": "d2e3f69dc337af08083c9cb805a58d424ac69a3a",
+    "timestamp": "2026-02-18T05:17:49.784744+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771391869784682000,
+    "command": "run_phase10_stage1_hjk"
+  },
+  "results": {
+    "method": "J",
+    "status": "ok",
+    "decision": "closure_weakened",
+    "reason": "At least one extraction anomaly is strong and stable under resampling tests.",
+    "config": {
+      "target_tokens": 10000,
+      "null_runs": 20,
+      "family_counts": {
+        "line_reset_backoff": 7,
+        "line_reset_markov": 7,
+        "line_reset_persistence": 6
+      },
+      "seed": 42
+    },
+    "voynich_rule_metrics": {
+      "line_initial_tokens": {
+        "description": "First token of each line",
+        "token_count": 103003,
+        "metrics": {
+          "entropy": 11.822206322851297,
+          "compression_ratio": 0.34585989950597473,
+          "type_token_ratio": 0.20837257167266973,
+          "bigram_mutual_information": 7.353972665720835
+        }
+      },
+      "line_final_tokens": {
+        "description": "Last token of each line",
+        "token_count": 103003,
+        "metrics": {
+          "entropy": 11.873479786410421,
+          "compression_ratio": 0.35327276733557694,
+          "type_token_ratio": 0.21209090997349592,
+          "bigram_mutual_information": 7.435109897044201
+        }
+      },
+      "word_initial_glyphs": {
+        "description": "First glyph proxy (first character) of each word",
+        "token_count": 230337,
+        "metrics": {
+          "entropy": 4.346684779866537,
+          "compression_ratio": 0.2935314203350316,
+          "type_token_ratio": 0.000347317191766846,
+          "bigram_mutual_information": 0.45877738581749583
+        }
+      },
+      "nth_token_2": {
+        "description": "Every 2nd token from stream",
+        "token_count": 115168,
+        "metrics": {
+          "entropy": 12.085058733897569,
+          "compression_ratio": 0.34673922725274475,
+          "type_token_ratio": 0.21993088357877189,
+          "bigram_mutual_information": 7.79786556473573
+        }
+      },
+      "nth_token_3": {
+        "description": "Every 3rd token from stream",
+        "token_count": 76779,
+        "metrics": {
+          "entropy": 11.988866611566023,
+          "compression_ratio": 0.3627012839611265,
+          "type_token_ratio": 0.25579911173628206,
+          "bigram_mutual_information": 8.04993306419496
+        }
+      },
+      "nth_token_5": {
+        "description": "Every 5th token from stream",
+        "token_count": 46067,
+        "metrics": {
+          "entropy": 11.793717970346075,
+          "compression_ratio": 0.3797547205138915,
+          "type_token_ratio": 0.30077929971563155,
+          "bigram_mutual_information": 8.275175717116324
+        }
+      },
+      "nth_token_7": {
+        "description": "Every 7th token from stream",
+        "token_count": 32905,
+        "metrics": {
+          "entropy": 11.645413249007065,
+          "compression_ratio": 0.38646313567666646,
+          "type_token_ratio": 0.3307096185989971,
+          "bigram_mutual_information": 8.421867236106179
+        }
+      },
+      "slot_position_3_glyphs": {
+        "description": "Third glyph proxy (third character) from each token",
+        "token_count": 210234,
+        "metrics": {
+          "entropy": 4.629182534790045,
+          "compression_ratio": 0.32516939498224595,
+          "type_token_ratio": 0.00038052836363290426,
+          "bigram_mutual_information": 0.37150519232542517
+        }
+      },
+      "paragraph_initial_tokens": {
+        "description": "First token of each page",
+        "token_count": 223,
+        "metrics": {
+          "entropy": 7.470072825880773,
+          "compression_ratio": 0.4965277777777778,
+          "type_token_ratio": 0.8475336322869955,
+          "bigram_mutual_information": 7.129781294180572
+        }
+      }
+    },
+    "null_summary": {
+      "line_initial_tokens": {
+        "entropy": {
+          "mean": 10.36046070828489,
+          "std": 0.03125531670197439,
+          "z_score": 46.76790283408228,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "compression_ratio": {
+          "mean": 0.4232973030148449,
+          "std": 0.002405037088892597,
+          "z_score": -32.198008033433844,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "type_token_ratio": {
+          "mean": 0.5225491715229583,
+          "std": 0.007843039841110918,
+          "z_score": -40.05801401179512,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "bigram_mutual_information": {
+          "mean": 8.59366611476809,
+          "std": 0.06973555564308652,
+          "z_score": -17.777064190785687,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        }
+      },
+      "line_final_tokens": {
+        "entropy": {
+          "mean": 10.390044945616086,
+          "std": 0.031845904257931865,
+          "z_score": 46.58165234623084,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "compression_ratio": {
+          "mean": 0.4266075311321651,
+          "std": 0.0024064315394796035,
+          "z_score": -30.47448580749859,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "type_token_ratio": {
+          "mean": 0.528896582396454,
+          "std": 0.008245469662816552,
+          "z_score": -38.42178619025337,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "bigram_mutual_information": {
+          "mean": 8.652611135977285,
+          "std": 0.06920027818965645,
+          "z_score": -17.593877810668495,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        }
+      },
+      "word_initial_glyphs": {
+        "entropy": {
+          "mean": 4.189705732144767,
+          "std": 0.022619402228639313,
+          "z_score": 6.940017518368057,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "compression_ratio": {
+          "mean": 0.3631356567828391,
+          "std": 0.0021596377339392113,
+          "z_score": -32.22958895094333,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "type_token_ratio": {
+          "mean": 0.0063100000000000005,
+          "std": 0.00018947295321496415,
+          "z_score": -31.469836232869966,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "bigram_mutual_information": {
+          "mean": 0.33213429954788565,
+          "std": 0.01319414381284137,
+          "z_score": 9.598431551606492,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        }
+      },
+      "nth_token_2": {
+        "entropy": {
+          "mean": 10.47671886287841,
+          "std": 0.03903157567435066,
+          "z_score": 41.20612204943773,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "compression_ratio": {
+          "mean": 0.424552022622287,
+          "std": 0.00258240711985537,
+          "z_score": -30.131885391448346,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "type_token_ratio": {
+          "mean": 0.51668,
+          "std": 0.007717357060548634,
+          "z_score": -38.452168805071715,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "bigram_mutual_information": {
+          "mean": 8.687221275271067,
+          "std": 0.0761101974057273,
+          "z_score": -11.685105818269934,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        }
+      },
+      "nth_token_3": {
+        "entropy": {
+          "mean": 10.195919360272871,
+          "std": 0.03512355332563699,
+          "z_score": 51.04686404221134,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "compression_ratio": {
+          "mean": 0.4341102526434365,
+          "std": 0.003265806408987806,
+          "z_score": -21.86564656306198,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "type_token_ratio": {
+          "mean": 0.5676867686768676,
+          "std": 0.006185204197730734,
+          "z_score": -50.4247955233253,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "bigram_mutual_information": {
+          "mean": 8.699039910634658,
+          "std": 0.06846611694290881,
+          "z_score": -9.480701921228613,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        }
+      },
+      "nth_token_5": {
+        "entropy": {
+          "mean": 9.782115452681463,
+          "std": 0.04104875822418973,
+          "z_score": 49.00519783517323,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "compression_ratio": {
+          "mean": 0.4461448779593452,
+          "std": 0.004288703427019044,
+          "z_score": -15.480239791633167,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "type_token_ratio": {
+          "mean": 0.6302,
+          "std": 0.01059882068911441,
+          "z_score": -31.080882481831416,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "bigram_mutual_information": {
+          "mean": 8.603305336631289,
+          "std": 0.08281210737922114,
+          "z_score": -3.9623387195348347,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        }
+      },
+      "nth_token_7": {
+        "entropy": {
+          "mean": 9.492901512650597,
+          "std": 0.05343946167999097,
+          "z_score": 40.27944273178225,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "compression_ratio": {
+          "mean": 0.45300761852052795,
+          "std": 0.0037805777338302585,
+          "z_score": -17.601670307792496,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "type_token_ratio": {
+          "mean": 0.6720938375350141,
+          "std": 0.012929369014747866,
+          "z_score": -26.403780304098177,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "bigram_mutual_information": {
+          "mean": 8.510704529171699,
+          "std": 0.10593711207767817,
+          "z_score": -0.8385851881669227,
+          "p_two_sided": 0.42857142857142855,
+          "n": 20
+        }
+      },
+      "slot_position_3_glyphs": {
+        "entropy": {
+          "mean": 4.486883504916858,
+          "std": 0.027669727598705812,
+          "z_score": 5.142769453207147,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "compression_ratio": {
+          "mean": 0.39169340747985104,
+          "std": 0.002021206204130242,
+          "z_score": -32.91302607406722,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "type_token_ratio": {
+          "mean": 0.007438371651846772,
+          "std": 0.00023533700117437726,
+          "z_score": -29.990368080641215,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "bigram_mutual_information": {
+          "mean": 0.33937352779363744,
+          "std": 0.01482295957402964,
+          "z_score": 2.1676956191720014,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        }
+      },
+      "paragraph_initial_tokens": {
+        "entropy": {
+          "mean": 3.337213066733937,
+          "std": 0.07513988880990266,
+          "z_score": 55.0022075438867,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "compression_ratio": {
+          "mean": 1.0197969784942187,
+          "std": 0.07129475355858751,
+          "z_score": -7.339519033282537,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "type_token_ratio": {
+          "mean": 0.9904545454545455,
+          "std": 0.02867241597801847,
+          "z_score": -4.984613549033307,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        },
+        "bigram_mutual_information": {
+          "mean": 3.165703552581353,
+          "std": 0.1324946562915086,
+          "z_score": 29.918774481573344,
+          "p_two_sided": 0.047619047619047616,
+          "n": 20
+        }
+      }
+    },
+    "anomalies": [
+      {
+        "rule": "paragraph_initial_tokens",
+        "metric": "entropy",
+        "z_score": 55.0022075438867,
+        "stability": {
+          "bootstrap_pass_rate": 1.0,
+          "line_permutation_pass_rate": 1.0,
+          "stable": true
+        }
+      },
+      {
+        "rule": "nth_token_3",
+        "metric": "entropy",
+        "z_score": 51.04686404221134,
+        "stability": {
+          "bootstrap_pass_rate": 1.0,
+          "line_permutation_pass_rate": 1.0,
+          "stable": true
+        }
+      },
+      {
+        "rule": "nth_token_5",
+        "metric": "entropy",
+        "z_score": 49.00519783517323,
+        "stability": {
+          "bootstrap_pass_rate": 1.0,
+          "line_permutation_pass_rate": 1.0,
+          "stable": true
+        }
+      },
+      {
+        "rule": "line_initial_tokens",
+        "metric": "entropy",
+        "z_score": 46.76790283408228,
+        "stability": {
+          "bootstrap_pass_rate": 1.0,
+          "line_permutation_pass_rate": 1.0,
+          "stable": true
+        }
+      },
+      {
+        "rule": "line_final_tokens",
+        "metric": "entropy",
+        "z_score": 46.58165234623084,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "nth_token_2",
+        "metric": "entropy",
+        "z_score": 41.20612204943773,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "nth_token_7",
+        "metric": "entropy",
+        "z_score": 40.27944273178225,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "paragraph_initial_tokens",
+        "metric": "bigram_mutual_information",
+        "z_score": 29.918774481573344,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "line_initial_tokens",
+        "metric": "bigram_mutual_information",
+        "z_score": -17.777064190785687,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "line_final_tokens",
+        "metric": "bigram_mutual_information",
+        "z_score": -17.593877810668495,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "nth_token_2",
+        "metric": "bigram_mutual_information",
+        "z_score": -11.685105818269934,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "word_initial_glyphs",
+        "metric": "bigram_mutual_information",
+        "z_score": 9.598431551606492,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "nth_token_3",
+        "metric": "bigram_mutual_information",
+        "z_score": -9.480701921228613,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "word_initial_glyphs",
+        "metric": "entropy",
+        "z_score": 6.940017518368057,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "slot_position_3_glyphs",
+        "metric": "entropy",
+        "z_score": 5.142769453207147,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      },
+      {
+        "rule": "nth_token_5",
+        "metric": "bigram_mutual_information",
+        "z_score": -3.9623387195348347,
+        "stability": {
+          "bootstrap_pass_rate": 0.0,
+          "line_permutation_pass_rate": 0.0,
+          "stable": false,
+          "skipped_reason": "stability_cap_reached"
+        }
+      }
+    ]
+  }
+}

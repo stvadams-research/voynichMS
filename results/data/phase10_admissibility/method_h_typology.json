@@ -1,0 +1,412 @@
+{
+  "provenance": {
+    "run_id": "e34e89be-55f5-6028-9394-3d44b75f7fba",
+    "git_commit": "d2e3f69dc337af08083c9cb805a58d424ac69a3a",
+    "timestamp": "2026-02-18T05:27:29.422318+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771392449422038000,
+    "command": "run_phase10_stage1_hjk"
+  },
+  "results": {
+    "method": "H",
+    "status": "ok",
+    "decision": "closure_strengthened",
+    "reason": "Voynich occupies the same typological neighborhood as at least one generator or falls outside most typology ranges.",
+    "voynich_dataset_id": "voynich_real",
+    "voynich_excluded_typologies": [
+      "alphabet",
+      "abjad",
+      "syllabary",
+      "logographic"
+    ],
+    "features": {
+      "voynich_real": {
+        "token_count": 230337,
+        "glyph_count": 89,
+        "mean_word_length": 5.04847245557596,
+        "median_word_length": 5,
+        "mode_word_length": 5,
+        "type_token_ratio": 0.1684488380069203,
+        "ttr_scales": {
+          "1000": 0.511,
+          "5000": 0.3602,
+          "10000": 0.3213,
+          "50000": 0.21736
+        },
+        "ttr_10000": 0.3213,
+        "combinatorial_productivity_log_ratio": -5.158118307630358
+      },
+      "latin_classic": {
+        "token_count": 230000,
+        "glyph_count": 37,
+        "mean_word_length": 6.022930434782609,
+        "median_word_length": 6.0,
+        "mode_word_length": 2,
+        "type_token_ratio": 0.0516,
+        "ttr_scales": {
+          "1000": 0.612,
+          "5000": 0.461,
+          "10000": 0.394,
+          "50000": 0.19172
+        },
+        "ttr_10000": 0.394,
+        "combinatorial_productivity_log_ratio": -5.3348328067571655
+      },
+      "self_citation": {
+        "token_count": 230000,
+        "glyph_count": 26,
+        "mean_word_length": 4.975121739130435,
+        "median_word_length": 5.0,
+        "mode_word_length": 3,
+        "type_token_ratio": 0.0883,
+        "ttr_scales": {
+          "1000": 0.502,
+          "5000": 0.3232,
+          "10000": 0.2096,
+          "50000": 0.11478
+        },
+        "ttr_10000": 0.2096,
+        "combinatorial_productivity_log_ratio": -2.767178200258929
+      },
+      "table_grille": {
+        "token_count": 230000,
+        "glyph_count": 16,
+        "mean_word_length": 4.760230434782609,
+        "median_word_length": 4.0,
+        "mode_word_length": 4,
+        "type_token_ratio": 0.0003956521739130435,
+        "ttr_scales": {
+          "1000": 0.091,
+          "5000": 0.0182,
+          "10000": 0.0091,
+          "50000": 0.00182
+        },
+        "ttr_10000": 0.0091,
+        "combinatorial_productivity_log_ratio": -4.06155852095853
+      },
+      "mechanical_reuse": {
+        "token_count": 230000,
+        "glyph_count": 64,
+        "mean_word_length": 5.827347826086957,
+        "median_word_length": 5.0,
+        "mode_word_length": 3,
+        "type_token_ratio": 0.13035652173913043,
+        "ttr_scales": {
+          "1000": 0.247,
+          "5000": 0.2056,
+          "10000": 0.1899,
+          "50000": 0.15662
+        },
+        "ttr_10000": 0.1899,
+        "combinatorial_productivity_log_ratio": -6.360219244077091
+      },
+      "shuffled_global": {
+        "token_count": 230000,
+        "glyph_count": 89,
+        "mean_word_length": 5.0484,
+        "median_word_length": 5.0,
+        "mode_word_length": 5,
+        "type_token_ratio": 0.1685391304347826,
+        "ttr_scales": {
+          "1000": 0.735,
+          "5000": 0.5426,
+          "10000": 0.4647,
+          "50000": 0.29298
+        },
+        "ttr_10000": 0.4647,
+        "combinatorial_productivity_log_ratio": -5.158521448326329
+      },
+      "line_reset_markov_h": {
+        "token_count": 30000,
+        "glyph_count": 87,
+        "mean_word_length": 5.1226,
+        "median_word_length": 5.0,
+        "mode_word_length": 5,
+        "type_token_ratio": 0.3118,
+        "ttr_scales": {
+          "1000": 0.736,
+          "5000": 0.5116,
+          "10000": 0.4354
+        },
+        "ttr_10000": 0.4354,
+        "combinatorial_productivity_log_ratio": -5.726598897520608
+      },
+      "line_reset_backoff_h": {
+        "token_count": 30000,
+        "glyph_count": 87,
+        "mean_word_length": 5.136966666666667,
+        "median_word_length": 5.0,
+        "mode_word_length": 5,
+        "type_token_ratio": 0.3112,
+        "ttr_scales": {
+          "1000": 0.705,
+          "5000": 0.496,
+          "10000": 0.4268
+        },
+        "ttr_10000": 0.4268,
+        "combinatorial_productivity_log_ratio": -5.727435420055779
+      },
+      "line_reset_persistence_h": {
+        "token_count": 30000,
+        "glyph_count": 88,
+        "mean_word_length": 5.1423,
+        "median_word_length": 5.0,
+        "mode_word_length": 5,
+        "type_token_ratio": 0.31143333333333334,
+        "ttr_scales": {
+          "1000": 0.7,
+          "5000": 0.5098,
+          "10000": 0.4276
+        },
+        "ttr_10000": 0.4276,
+        "combinatorial_productivity_log_ratio": -5.751927011903193
+      }
+    },
+    "assignments": {
+      "voynich_real": {
+        "nearest_typology": "alphabet",
+        "distance": 0.6645074478064575,
+        "ranked_distances": [
+          {
+            "typology": "alphabet",
+            "distance": 0.6645074478064575
+          },
+          {
+            "typology": "abjad",
+            "distance": 1.1143512238765625
+          },
+          {
+            "typology": "abugida",
+            "distance": 1.3156655911249036
+          },
+          {
+            "typology": "syllabary",
+            "distance": 2.911565182774225
+          },
+          {
+            "typology": "logographic",
+            "distance": 5.2804297744406465
+          }
+        ]
+      },
+      "latin_classic": {
+        "nearest_typology": "alphabet",
+        "distance": 0.967275202873326,
+        "ranked_distances": [
+          {
+            "typology": "alphabet",
+            "distance": 0.967275202873326
+          },
+          {
+            "typology": "abjad",
+            "distance": 1.8385976458113613
+          },
+          {
+            "typology": "abugida",
+            "distance": 2.1443997115203115
+          },
+          {
+            "typology": "syllabary",
+            "distance": 3.828317804197262
+          },
+          {
+            "typology": "logographic",
+            "distance": 6.183745002858174
+          }
+        ]
+      },
+      "self_citation": {
+        "nearest_typology": "abugida",
+        "distance": 1.456466633625333,
+        "ranked_distances": [
+          {
+            "typology": "abugida",
+            "distance": 1.456466633625333
+          },
+          {
+            "typology": "abjad",
+            "distance": 1.5701964825999826
+          },
+          {
+            "typology": "alphabet",
+            "distance": 1.834232612034883
+          },
+          {
+            "typology": "syllabary",
+            "distance": 2.287302065810164
+          },
+          {
+            "typology": "logographic",
+            "distance": 4.283433758396252
+          }
+        ]
+      },
+      "table_grille": {
+        "nearest_typology": "abjad",
+        "distance": 0.5940466095225422,
+        "ranked_distances": [
+          {
+            "typology": "abjad",
+            "distance": 0.5940466095225422
+          },
+          {
+            "typology": "abugida",
+            "distance": 0.8186487136084674
+          },
+          {
+            "typology": "alphabet",
+            "distance": 0.8927072909047188
+          },
+          {
+            "typology": "syllabary",
+            "distance": 2.3210065329708707
+          },
+          {
+            "typology": "logographic",
+            "distance": 4.818950163018213
+          }
+        ]
+      },
+      "mechanical_reuse": {
+        "nearest_typology": "alphabet",
+        "distance": 1.580347453435528,
+        "ranked_distances": [
+          {
+            "typology": "alphabet",
+            "distance": 1.580347453435528
+          },
+          {
+            "typology": "abjad",
+            "distance": 2.300728769745092
+          },
+          {
+            "typology": "abugida",
+            "distance": 2.599440198422435
+          },
+          {
+            "typology": "syllabary",
+            "distance": 4.207284160339255
+          },
+          {
+            "typology": "logographic",
+            "distance": 6.604015568495845
+          }
+        ]
+      },
+      "shuffled_global": {
+        "nearest_typology": "alphabet",
+        "distance": 0.6927969664996048,
+        "ranked_distances": [
+          {
+            "typology": "alphabet",
+            "distance": 0.6927969664996048
+          },
+          {
+            "typology": "abjad",
+            "distance": 1.135307103774076
+          },
+          {
+            "typology": "abugida",
+            "distance": 1.3367453170661985
+          },
+          {
+            "typology": "syllabary",
+            "distance": 2.9241706615846383
+          },
+          {
+            "typology": "logographic",
+            "distance": 5.276371244206069
+          }
+        ]
+      },
+      "line_reset_markov_h": {
+        "nearest_typology": "alphabet",
+        "distance": 1.0114153475968584,
+        "ranked_distances": [
+          {
+            "typology": "alphabet",
+            "distance": 1.0114153475968584
+          },
+          {
+            "typology": "abjad",
+            "distance": 1.520400943509907
+          },
+          {
+            "typology": "abugida",
+            "distance": 1.7654046689507872
+          },
+          {
+            "typology": "syllabary",
+            "distance": 3.3168136545143976
+          },
+          {
+            "typology": "logographic",
+            "distance": 5.695189908017091
+          }
+        ]
+      },
+      "line_reset_backoff_h": {
+        "nearest_typology": "alphabet",
+        "distance": 1.0095748014167605,
+        "ranked_distances": [
+          {
+            "typology": "alphabet",
+            "distance": 1.0095748014167605
+          },
+          {
+            "typology": "abjad",
+            "distance": 1.5267302788692605
+          },
+          {
+            "typology": "abugida",
+            "distance": 1.772448069204619
+          },
+          {
+            "typology": "syllabary",
+            "distance": 3.326665663148318
+          },
+          {
+            "typology": "logographic",
+            "distance": 5.7048209805124275
+          }
+        ]
+      },
+      "line_reset_persistence_h": {
+        "nearest_typology": "alphabet",
+        "distance": 1.030605866030495,
+        "ranked_distances": [
+          {
+            "typology": "alphabet",
+            "distance": 1.030605866030495
+          },
+          {
+            "typology": "abjad",
+            "distance": 1.5487042597305187
+          },
+          {
+            "typology": "abugida",
+            "distance": 1.794390093123394
+          },
+          {
+            "typology": "syllabary",
+            "distance": 3.3459512709187673
+          },
+          {
+            "typology": "logographic",
+            "distance": 5.722859679132393
+          }
+        ]
+      }
+    },
+    "generator_same_typology": [
+      "latin_classic",
+      "mechanical_reuse",
+      "shuffled_global",
+      "line_reset_markov_h",
+      "line_reset_backoff_h",
+      "line_reset_persistence_h"
+    ],
+    "skipped_comparison_datasets": []
+  }
+}

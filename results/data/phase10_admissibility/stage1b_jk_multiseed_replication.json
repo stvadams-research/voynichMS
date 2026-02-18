@@ -1,0 +1,652 @@
+{
+  "provenance": {
+    "run_id": "90be725c-7807-2223-e4a5-39cbeef6bc8b",
+    "git_commit": "d2e3f69dc337af08083c9cb805a58d424ac69a3a",
+    "timestamp": "2026-02-18T06:17:10.863930+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771395430863872000,
+    "command": "run_phase10_stage1b_jk_replication"
+  },
+  "results": {
+    "summary": {
+      "status": "ok",
+      "generated_at": "2026-02-18T06:17:13.581241+00:00",
+      "run_id": "90be725c-7807-2223-e4a5-39cbeef6bc8b",
+      "seeds": [
+        42,
+        77,
+        101
+      ],
+      "target_tokens": 30000,
+      "method_j_null_runs": 100,
+      "method_k_runs": 100,
+      "gate_config_path": "configs/phase10_admissibility/stage1b_upgrade_gate.json",
+      "method_j_status_after_gate": "closure_weakened",
+      "method_k_status_after_gate": "closure_weakened",
+      "next_stage_priority": "10.2_then_10.3",
+      "elapsed_seconds": 2.6948364580166526,
+      "artifact_path": "results/data/phase10_admissibility/stage1b_jk_multiseed_replication.json",
+      "method_j_directions": {
+        "42": "closure_weakened",
+        "77": "closure_weakened",
+        "101": "closure_weakened"
+      },
+      "method_k_directions": {
+        "42": "closure_weakened",
+        "77": "closure_weakened",
+        "101": "closure_weakened"
+      }
+    },
+    "gate_config": {
+      "version": "1.0.0",
+      "created": "2026-02-18",
+      "description": "Pre-registered gate criteria for Phase 10 Stage 1b (Methods J/K multi-seed replication)",
+      "multi_seed": {
+        "seeds": [
+          42,
+          77,
+          101
+        ],
+        "require_same_direction": true
+      },
+      "method_j": {
+        "required_direction": "closure_weakened",
+        "z_threshold": 3.0,
+        "edge_rules": [
+          "line_initial_tokens",
+          "paragraph_initial_tokens"
+        ],
+        "min_stable_non_edge_anomalies": 1,
+        "require_folio_order_permutation_stability": true
+      },
+      "method_k": {
+        "required_direction": "closure_weakened",
+        "correlation_threshold": 0.4,
+        "min_consistent_outliers": 2,
+        "require_language_ward": true,
+        "require_hard_to_close": true,
+        "require_same_outlier_sign": true
+      }
+    },
+    "method_j": {
+      "per_seed": {
+        "42": {
+          "decision": "closure_weakened",
+          "gate": {
+            "pass": true,
+            "reason": "Method J gate passed: stable |z|>threshold anomalies remain after removing line-initial/paragraph-initial effects.",
+            "z_threshold": 3.0,
+            "min_stable_non_edge_anomalies": 1,
+            "ablation": {
+              "z_threshold": 3.0,
+              "edge_rules": [
+                "line_initial_tokens",
+                "paragraph_initial_tokens"
+              ],
+              "stable_anomalies_total": 3,
+              "stable_edge_anomalies": [
+                {
+                  "rule": "paragraph_initial_tokens",
+                  "metric": "entropy",
+                  "z_score": 43.253260172285096,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 36.325223874787966,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_2",
+                  "metric": "entropy",
+                  "z_score": 34.8417165108912,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "permutation_stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 36.325223874787966,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_2",
+                  "metric": "entropy",
+                  "z_score": 34.8417165108912,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "ablated_decision_without_edge_rules": "closure_weakened",
+              "interpretation": "non_line_reset_signal_present"
+            }
+          },
+          "ablation": {
+            "z_threshold": 3.0,
+            "edge_rules": [
+              "line_initial_tokens",
+              "paragraph_initial_tokens"
+            ],
+            "stable_anomalies_total": 3,
+            "stable_edge_anomalies": [
+              {
+                "rule": "paragraph_initial_tokens",
+                "metric": "entropy",
+                "z_score": 43.253260172285096,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 36.325223874787966,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_2",
+                "metric": "entropy",
+                "z_score": 34.8417165108912,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "permutation_stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 36.325223874787966,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_2",
+                "metric": "entropy",
+                "z_score": 34.8417165108912,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "ablated_decision_without_edge_rules": "closure_weakened",
+            "interpretation": "non_line_reset_signal_present"
+          }
+        },
+        "77": {
+          "decision": "closure_weakened",
+          "gate": {
+            "pass": true,
+            "reason": "Method J gate passed: stable |z|>threshold anomalies remain after removing line-initial/paragraph-initial effects.",
+            "z_threshold": 3.0,
+            "min_stable_non_edge_anomalies": 1,
+            "ablation": {
+              "z_threshold": 3.0,
+              "edge_rules": [
+                "line_initial_tokens",
+                "paragraph_initial_tokens"
+              ],
+              "stable_anomalies_total": 3,
+              "stable_edge_anomalies": [
+                {
+                  "rule": "paragraph_initial_tokens",
+                  "metric": "entropy",
+                  "z_score": 37.823451174196016,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_7",
+                  "metric": "entropy",
+                  "z_score": 42.36611413350218,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 34.27325556243462,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "permutation_stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_7",
+                  "metric": "entropy",
+                  "z_score": 42.36611413350218,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_5",
+                  "metric": "entropy",
+                  "z_score": 34.27325556243462,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "ablated_decision_without_edge_rules": "closure_weakened",
+              "interpretation": "non_line_reset_signal_present"
+            }
+          },
+          "ablation": {
+            "z_threshold": 3.0,
+            "edge_rules": [
+              "line_initial_tokens",
+              "paragraph_initial_tokens"
+            ],
+            "stable_anomalies_total": 3,
+            "stable_edge_anomalies": [
+              {
+                "rule": "paragraph_initial_tokens",
+                "metric": "entropy",
+                "z_score": 37.823451174196016,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_7",
+                "metric": "entropy",
+                "z_score": 42.36611413350218,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 34.27325556243462,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "permutation_stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_7",
+                "metric": "entropy",
+                "z_score": 42.36611413350218,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_5",
+                "metric": "entropy",
+                "z_score": 34.27325556243462,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "ablated_decision_without_edge_rules": "closure_weakened",
+            "interpretation": "non_line_reset_signal_present"
+          }
+        },
+        "101": {
+          "decision": "closure_weakened",
+          "gate": {
+            "pass": true,
+            "reason": "Method J gate passed: stable |z|>threshold anomalies remain after removing line-initial/paragraph-initial effects.",
+            "z_threshold": 3.0,
+            "min_stable_non_edge_anomalies": 1,
+            "ablation": {
+              "z_threshold": 3.0,
+              "edge_rules": [
+                "line_initial_tokens",
+                "paragraph_initial_tokens"
+              ],
+              "stable_anomalies_total": 3,
+              "stable_edge_anomalies": [
+                {
+                  "rule": "paragraph_initial_tokens",
+                  "metric": "entropy",
+                  "z_score": 46.35223636213332,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_7",
+                  "metric": "entropy",
+                  "z_score": 40.62902885031277,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_2",
+                  "metric": "entropy",
+                  "z_score": 38.29551460472118,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "permutation_stable_non_edge_anomalies": [
+                {
+                  "rule": "nth_token_7",
+                  "metric": "entropy",
+                  "z_score": 40.62902885031277,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                },
+                {
+                  "rule": "nth_token_2",
+                  "metric": "entropy",
+                  "z_score": 38.29551460472118,
+                  "stability": {
+                    "bootstrap_pass_rate": 1.0,
+                    "line_permutation_pass_rate": 1.0,
+                    "stable": true
+                  }
+                }
+              ],
+              "ablated_decision_without_edge_rules": "closure_weakened",
+              "interpretation": "non_line_reset_signal_present"
+            }
+          },
+          "ablation": {
+            "z_threshold": 3.0,
+            "edge_rules": [
+              "line_initial_tokens",
+              "paragraph_initial_tokens"
+            ],
+            "stable_anomalies_total": 3,
+            "stable_edge_anomalies": [
+              {
+                "rule": "paragraph_initial_tokens",
+                "metric": "entropy",
+                "z_score": 46.35223636213332,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_7",
+                "metric": "entropy",
+                "z_score": 40.62902885031277,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_2",
+                "metric": "entropy",
+                "z_score": 38.29551460472118,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "permutation_stable_non_edge_anomalies": [
+              {
+                "rule": "nth_token_7",
+                "metric": "entropy",
+                "z_score": 40.62902885031277,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              },
+              {
+                "rule": "nth_token_2",
+                "metric": "entropy",
+                "z_score": 38.29551460472118,
+                "stability": {
+                  "bootstrap_pass_rate": 1.0,
+                  "line_permutation_pass_rate": 1.0,
+                  "stable": true
+                }
+              }
+            ],
+            "ablated_decision_without_edge_rules": "closure_weakened",
+            "interpretation": "non_line_reset_signal_present"
+          }
+        }
+      },
+      "direction_consensus": true,
+      "consensus_direction": "closure_weakened",
+      "required_direction": "closure_weakened",
+      "required_direction_met": true,
+      "seed_gate_all_pass": true,
+      "z_threshold": 3.0,
+      "min_stable_non_edge_anomalies": 1,
+      "edge_rules": [
+        "line_initial_tokens",
+        "paragraph_initial_tokens"
+      ],
+      "pass": true
+    },
+    "method_k": {
+      "per_seed": {
+        "42": {
+          "decision": "closure_weakened",
+          "outliers": [
+            "entropy",
+            "compression_bits_per_token",
+            "type_token_ratio",
+            "zipf_alpha",
+            "bigram_cond_entropy",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "mean_word_length",
+            "line_initial_entropy",
+            "line_final_entropy",
+            "hapax_ratio"
+          ],
+          "correlation": 0.4596297963777869,
+          "correlation_pass": true,
+          "robust_language_hard_features": [
+            "type_token_ratio",
+            "zipf_alpha",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "hapax_ratio"
+          ]
+        },
+        "77": {
+          "decision": "closure_weakened",
+          "outliers": [
+            "entropy",
+            "compression_bits_per_token",
+            "type_token_ratio",
+            "zipf_alpha",
+            "bigram_cond_entropy",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "mean_word_length",
+            "line_initial_entropy",
+            "line_final_entropy",
+            "hapax_ratio"
+          ],
+          "correlation": 0.4265548710523999,
+          "correlation_pass": true,
+          "robust_language_hard_features": [
+            "type_token_ratio",
+            "zipf_alpha",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "hapax_ratio"
+          ]
+        },
+        "101": {
+          "decision": "closure_weakened",
+          "outliers": [
+            "entropy",
+            "compression_bits_per_token",
+            "type_token_ratio",
+            "zipf_alpha",
+            "bigram_cond_entropy",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "mean_word_length",
+            "line_initial_entropy",
+            "line_final_entropy",
+            "hapax_ratio"
+          ],
+          "correlation": 0.46493118236871095,
+          "correlation_pass": true,
+          "robust_language_hard_features": [
+            "type_token_ratio",
+            "zipf_alpha",
+            "trigram_cond_entropy",
+            "bigram_mutual_information",
+            "hapax_ratio"
+          ]
+        }
+      },
+      "direction_consensus": true,
+      "consensus_direction": "closure_weakened",
+      "required_direction": "closure_weakened",
+      "required_direction_met": true,
+      "same_outlier_set": true,
+      "common_outlier_features": [
+        "bigram_cond_entropy",
+        "bigram_mutual_information",
+        "compression_bits_per_token",
+        "entropy",
+        "hapax_ratio",
+        "line_final_entropy",
+        "line_initial_entropy",
+        "mean_word_length",
+        "trigram_cond_entropy",
+        "type_token_ratio",
+        "zipf_alpha"
+      ],
+      "consistent_sign_features": [
+        "bigram_cond_entropy",
+        "bigram_mutual_information",
+        "compression_bits_per_token",
+        "entropy",
+        "hapax_ratio",
+        "line_final_entropy",
+        "line_initial_entropy",
+        "mean_word_length",
+        "trigram_cond_entropy",
+        "type_token_ratio",
+        "zipf_alpha"
+      ],
+      "languageward_consistent_features": [
+        "bigram_mutual_information",
+        "hapax_ratio",
+        "trigram_cond_entropy",
+        "type_token_ratio",
+        "zipf_alpha"
+      ],
+      "hard_to_close_consistent_features": [
+        "bigram_mutual_information",
+        "hapax_ratio",
+        "trigram_cond_entropy",
+        "type_token_ratio",
+        "zipf_alpha"
+      ],
+      "correlation_threshold": 0.4,
+      "correlation_all_pass": true,
+      "min_consistent_outliers": 2,
+      "pass": true
+    },
+    "seed_artifacts": {
+      "method_j": {
+        "42": "results/data/phase10_admissibility/method_j_seed_42.json",
+        "77": "results/data/phase10_admissibility/method_j_seed_77.json",
+        "101": "results/data/phase10_admissibility/method_j_seed_101.json"
+      },
+      "method_k": {
+        "42": "results/data/phase10_admissibility/method_k_seed_42.json",
+        "77": "results/data/phase10_admissibility/method_k_seed_77.json",
+        "101": "results/data/phase10_admissibility/method_k_seed_101.json"
+      }
+    }
+  }
+}

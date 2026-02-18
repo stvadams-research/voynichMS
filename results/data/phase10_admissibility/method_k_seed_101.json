@@ -1,0 +1,436 @@
+{
+  "provenance": {
+    "run_id": "8e8db350-fed8-a8d5-3e80-8adb5bbf9043",
+    "git_commit": "d2e3f69dc337af08083c9cb805a58d424ac69a3a",
+    "timestamp": "2026-02-18T05:44:47.431523+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771393487430893000,
+    "command": "run_phase10_stage1b_jk_replication"
+  },
+  "results": {
+    "method": "K",
+    "status": "ok",
+    "decision": "closure_weakened",
+    "reason": "Residual outliers are correlated, trend toward language baseline, and are not closed by small generator parameter changes.",
+    "config": {
+      "target_tokens": 30000,
+      "num_runs": 100,
+      "seed": 101
+    },
+    "best_generator_family": "line_reset_markov",
+    "candidate_scores": {
+      "line_reset_markov": {
+        "distance": 0.21921062422005982,
+        "sample_features": {
+          "entropy": 11.399896942248976,
+          "compression_bits_per_token": 19.263733333333334,
+          "type_token_ratio": 0.30943333333333334,
+          "zipf_alpha": 0.7980949779539984,
+          "bigram_cond_entropy": 3.2216549025519363,
+          "trigram_cond_entropy": 0.2259921153257718,
+          "bigram_mutual_information": 8.178377201578797,
+          "mean_word_length": 5.138166666666667,
+          "line_initial_entropy": 11.006576297647266,
+          "line_final_entropy": 11.038374771846094,
+          "hapax_ratio": 0.6534525476677798
+        }
+      },
+      "line_reset_backoff": {
+        "distance": 0.22539907141623683,
+        "sample_features": {
+          "entropy": 11.392580634326242,
+          "compression_bits_per_token": 19.277066666666666,
+          "type_token_ratio": 0.3106333333333333,
+          "zipf_alpha": 0.8079117275710743,
+          "bigram_cond_entropy": 3.2334485904066916,
+          "trigram_cond_entropy": 0.20971606896204698,
+          "bigram_mutual_information": 8.159268500977214,
+          "mean_word_length": 5.1371,
+          "line_initial_entropy": 10.962223959479644,
+          "line_final_entropy": 11.002898427085348,
+          "hapax_ratio": 0.6597274385663697
+        }
+      },
+      "line_reset_persistence": {
+        "distance": 0.22215120108960082,
+        "sample_features": {
+          "entropy": 11.404329108681363,
+          "compression_bits_per_token": 19.272266666666667,
+          "type_token_ratio": 0.3087666666666667,
+          "zipf_alpha": 0.803251375789027,
+          "bigram_cond_entropy": 3.21755944096709,
+          "trigram_cond_entropy": 0.21119490902962745,
+          "bigram_mutual_information": 8.186900328514954,
+          "mean_word_length": 5.122866666666667,
+          "line_initial_entropy": 11.008508109872148,
+          "line_final_entropy": 11.070668407640886,
+          "hapax_ratio": 0.6545395660153298
+        }
+      }
+    },
+    "feature_stats": {
+      "entropy": {
+        "voynich": 12.258255993226053,
+        "generator_mean": 11.40453475151176,
+        "generator_std": 0.022986591691446987,
+        "z_score": 37.13996634098442
+      },
+      "compression_bits_per_token": {
+        "voynich": 15.358470415087458,
+        "generator_mean": 19.31854133333333,
+        "generator_std": 0.07190337669709565,
+        "z_score": -55.074894951433166
+      },
+      "type_token_ratio": {
+        "voynich": 0.1684488380069203,
+        "generator_mean": 0.3112826666666667,
+        "generator_std": 0.0024953800868360255,
+        "z_score": -57.23930771638485
+      },
+      "zipf_alpha": {
+        "voynich": 0.773840694761673,
+        "generator_mean": 0.8057191378611386,
+        "generator_std": 0.0070488703917053926,
+        "z_score": -4.5224896086864925
+      },
+      "bigram_cond_entropy": {
+        "voynich": 4.848010728415584,
+        "generator_mean": 3.2204277250831366,
+        "generator_std": 0.018555237624829184,
+        "z_score": 87.71555698939376
+      },
+      "trigram_cond_entropy": {
+        "voynich": 0.46932156675739023,
+        "generator_mean": 0.22466176714759503,
+        "generator_std": 0.007112787240492956,
+        "z_score": 34.397176709708376
+      },
+      "bigram_mutual_information": {
+        "voynich": 7.410214883891365,
+        "generator_mean": 8.184094875945082,
+        "generator_std": 0.04106190237212017,
+        "z_score": -18.846666796888552
+      },
+      "mean_word_length": {
+        "voynich": 5.04847245557596,
+        "generator_mean": 5.143909000000001,
+        "generator_std": 0.017776192477580787,
+        "z_score": -5.3687843751919475
+      },
+      "line_initial_entropy": {
+        "voynich": 11.822206322851297,
+        "generator_mean": 10.997200915112193,
+        "generator_std": 0.025187591638550017,
+        "z_score": 32.75443796208049
+      },
+      "line_final_entropy": {
+        "voynich": 11.873479786410421,
+        "generator_mean": 11.039709349473691,
+        "generator_std": 0.024808180601188883,
+        "z_score": 33.60868942145532
+      },
+      "hapax_ratio": {
+        "voynich": 0.5918814432989691,
+        "generator_mean": 0.6594998986541459,
+        "generator_std": 0.004281756151530154,
+        "z_score": -15.792224723262747
+      }
+    },
+    "outlier_features": [
+      "entropy",
+      "compression_bits_per_token",
+      "type_token_ratio",
+      "zipf_alpha",
+      "bigram_cond_entropy",
+      "trigram_cond_entropy",
+      "bigram_mutual_information",
+      "mean_word_length",
+      "line_initial_entropy",
+      "line_final_entropy",
+      "hapax_ratio"
+    ],
+    "outlier_correlation_matrix": [
+      [
+        1.0,
+        0.705907273386728,
+        0.8109620783532657,
+        -0.5142976653488048,
+        -0.9529750267168335,
+        -0.7348306773116084,
+        0.9905560714914637,
+        0.1858223573056364,
+        0.6888200039493615,
+        0.6404200870802707,
+        0.16396671785242659
+      ],
+      [
+        0.7059072733867281,
+        1.0,
+        0.6894046506481304,
+        -0.22828405011292424,
+        -0.6461527380831975,
+        -0.5798848727558906,
+        0.6871443521315111,
+        0.5585131240960238,
+        0.589782184016867,
+        0.5939152963744333,
+        0.1602794223859056
+      ],
+      [
+        0.8109620783532657,
+        0.6894046506481304,
+        1.0,
+        -0.22514117449539264,
+        -0.7855576041385136,
+        -0.5483916208782573,
+        0.8087043750984363,
+        0.21625614244151475,
+        0.5663937728123274,
+        0.48056360923031605,
+        0.5721201889308974
+      ],
+      [
+        -0.5142976653488047,
+        -0.22828405011292421,
+        -0.22514117449539262,
+        1.0,
+        0.4984472871939127,
+        0.3517056793031371,
+        -0.5131799253935335,
+        0.014529576333777201,
+        -0.3300031488260161,
+        -0.25990022892893183,
+        -0.05981273158670344
+      ],
+      [
+        -0.9529750267168335,
+        -0.6461527380831974,
+        -0.7855576041385136,
+        0.49844728719391257,
+        1.0,
+        0.502021568002996,
+        -0.9855184640994383,
+        -0.2115802091616518,
+        -0.6542020965227562,
+        -0.5885854898148503,
+        -0.15512078748538466
+      ],
+      [
+        -0.7348306773116084,
+        -0.5798848727558906,
+        -0.5483916208782573,
+        0.35170567930313706,
+        0.502021568002996,
+        1.0,
+        -0.6382687357545975,
+        -0.08137173353029513,
+        -0.5082741492737085,
+        -0.538759216705863,
+        -0.09217723565677369
+      ],
+      [
+        0.9905560714914637,
+        0.6871443521315111,
+        0.8087043750984362,
+        -0.5131799253935335,
+        -0.9855184640994384,
+        -0.6382687357545975,
+        0.9999999999999998,
+        0.19969692318839327,
+        0.6812614525430802,
+        0.624508226207424,
+        0.1614209368468878
+      ],
+      [
+        0.18582235730563637,
+        0.5585131240960238,
+        0.21625614244151473,
+        0.014529576333777201,
+        -0.2115802091616518,
+        -0.08137173353029512,
+        0.19969692318839327,
+        1.0,
+        0.34120368718402067,
+        0.33126047004984444,
+        0.013857307629762049
+      ],
+      [
+        0.6888200039493616,
+        0.589782184016867,
+        0.5663937728123274,
+        -0.33000314882601617,
+        -0.6542020965227561,
+        -0.5082741492737085,
+        0.6812614525430801,
+        0.34120368718402067,
+        1.0,
+        0.8082865596693337,
+        0.08572867906619157
+      ],
+      [
+        0.6404200870802707,
+        0.5939152963744333,
+        0.48056360923031605,
+        -0.25990022892893183,
+        -0.5885854898148503,
+        -0.538759216705863,
+        0.624508226207424,
+        0.3312604700498445,
+        0.8082865596693337,
+        0.9999999999999999,
+        0.015485386892897844
+      ],
+      [
+        0.16396671785242659,
+        0.1602794223859056,
+        0.5721201889308974,
+        -0.05981273158670344,
+        -0.15512078748538463,
+        -0.0921772356567737,
+        0.1614209368468878,
+        0.013857307629762049,
+        0.08572867906619157,
+        0.015485386892897846,
+        1.0
+      ]
+    ],
+    "outlier_mean_abs_correlation": 0.46493118236871095,
+    "direction_to_language": {
+      "entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 0.911102566785237,
+        "generator_to_latin_distance": 0.057381325070943845
+      },
+      "compression_bits_per_token": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 3.714051324042975,
+        "generator_to_latin_distance": 0.24601959420289532
+      },
+      "type_token_ratio": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.11684883800692028,
+        "generator_to_latin_distance": 0.25968266666666673
+      },
+      "zipf_alpha": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.013106852365983745,
+        "generator_to_latin_distance": 0.01877159073348178
+      },
+      "bigram_cond_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 1.0800408391461325,
+        "generator_to_latin_distance": 0.5475421641863152
+      },
+      "trigram_cond_entropy": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.031016839943164953,
+        "generator_to_latin_distance": 0.2756766395529602
+      },
+      "bigram_mutual_information": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.16898596384822362,
+        "generator_to_latin_distance": 0.6048940282054929
+      },
+      "mean_word_length": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 0.9744579792066483,
+        "generator_to_latin_distance": 0.879021434782608
+      },
+      "line_initial_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 4.440321447920367,
+        "generator_to_latin_distance": 3.6153160401812636
+      },
+      "line_final_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 4.296039667876504,
+        "generator_to_latin_distance": 3.462269230939774
+      },
+      "hapax_ratio": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.5918814432989691,
+        "generator_to_latin_distance": 0.6594998986541459
+      }
+    },
+    "modification_difficulty": {
+      "entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.8537212417142932,
+        "best_difference": 0.8537212417142932
+      },
+      "compression_bits_per_token": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 3.9600709182458704,
+        "best_difference": 3.9600709182458704
+      },
+      "type_token_ratio": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.14283382865974642,
+        "best_difference": 0.14283382865974642
+      },
+      "zipf_alpha": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.031878443099465525,
+        "best_difference": 0.031878443099465525
+      },
+      "bigram_cond_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 1.6275830033324477,
+        "best_difference": 1.6275830033324477
+      },
+      "trigram_cond_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.2446597996097952,
+        "best_difference": 0.2446597996097952
+      },
+      "bigram_mutual_information": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.7738799920537165,
+        "best_difference": 0.7738799920537165
+      },
+      "mean_word_length": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.09543654442404037,
+        "best_difference": 0.09543654442404037
+      },
+      "line_initial_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.8250054077391038,
+        "best_difference": 0.8250054077391038
+      },
+      "line_final_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.8337704369367298,
+        "best_difference": 0.8337704369367298
+      },
+      "hapax_ratio": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.06761845535517685,
+        "best_difference": 0.06761845535517685
+      }
+    }
+  }
+}

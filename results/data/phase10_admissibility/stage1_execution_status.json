@@ -1,0 +1,45 @@
+{
+  "phase": "10.1",
+  "stage": "Stage 1",
+  "status": "completed",
+  "created_at": "2026-02-18T05:27:29.250274+00:00",
+  "updated_at": "2026-02-18T05:37:54.026964+00:00",
+  "config": {
+    "seed": 42,
+    "target_tokens": 30000,
+    "method_j_null_runs": 100,
+    "method_k_runs": 100
+  },
+  "steps": {
+    "method_h": {
+      "status": "completed",
+      "started_at": "2026-02-18T05:27:33.139279+00:00",
+      "completed_at": "2026-02-18T05:27:49.889427+00:00",
+      "artifact": "results/data/phase10_admissibility/method_h_typology.json",
+      "error": null
+    },
+    "method_j": {
+      "status": "completed",
+      "started_at": "2026-02-18T05:27:49.889953+00:00",
+      "completed_at": "2026-02-18T05:32:50.143044+00:00",
+      "artifact": "results/data/phase10_admissibility/method_j_steganographic.json",
+      "error": null
+    },
+    "method_k": {
+      "status": "completed",
+      "started_at": "2026-02-18T05:32:50.143624+00:00",
+      "completed_at": "2026-02-18T05:37:54.025518+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_residual_gap.json",
+      "error": null
+    },
+    "stage1_summary": {
+      "status": "completed",
+      "started_at": "2026-02-18T05:37:54.026011+00:00",
+      "completed_at": "2026-02-18T05:37:54.026957+00:00",
+      "artifact": "results/data/phase10_admissibility/stage1_summary.json",
+      "error": null
+    }
+  },
+  "run_id": "e34e89be-55f5-6028-9394-3d44b75f7fba",
+  "completed_at": "2026-02-18T05:37:54.026962+00:00"
+}
