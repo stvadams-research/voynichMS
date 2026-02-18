@@ -559,6 +559,7 @@ Phase 10 stress-tests the project's central conclusion by asking questions that 
   - Method J strict gate pass (stays weakened): `True`
   - Method K strict gate pass (stays weakened): `False`
   - Method K failure reason: mixed direction (`42=closure_weakened`, `77=indeterminate`, `101=closure_weakened`) and one seed below correlation threshold (`0.3998 < 0.4`)
+- **Follow-on action triggered:** targeted Method K adjudication (Stage 5b)
 - **Resolution gate outcome:**
   - Upgrade rule satisfied: `False`
   - Resolution class: `partial_resolution_inconclusive`
@@ -569,6 +570,34 @@ Phase 10 stress-tests the project's central conclusion by asking questions that 
   - `results/data/phase10_admissibility/stage5_high_roi_summary.json`
   - `results/reports/phase10_admissibility/PHASE_10_STAGE5_HIGH_ROI.md`
   - `results/data/phase10_admissibility/stage5_high_roi_status.json`
+
+### 10.5b Execution Status (Targeted Method K Adjudication)
+
+- **Status:** COMPLETE
+- **Completed at:** 2026-02-18
+- **Primary compute run ID:** `6c7b700e-f2f5-0988-1f2c-7975d8014d77`
+- **Adjudication gate config:** `configs/phase10_admissibility/stage5b_k_adjudication_gate.json`
+- **Focal-depth confirmation (seed 77):**
+  - Profile: `target_tokens=30000`, `num_runs=300`
+  - Decision: `closure_weakened`
+  - Mean outlier correlation: `0.4114` (threshold `0.4`)
+  - Language-ward hard-to-close features: `5` (threshold `>=3`)
+  - Focal-depth pass: `True`
+- **Seed-band confirmation:**
+  - Profile: seeds=`[17,29,42,53,77,89,101,137]`, `num_runs=150` per seed
+  - Decision counts: `closure_weakened=7`, `indeterminate=1`
+  - Pass count/rate: `7/8 = 0.875` (threshold `>=0.75`)
+  - Correlation range across seeds: `0.3998` to `0.4712`
+  - Stage 5 artifacts reused where compatible: seeds `42`, `77`, `101`
+- **Final adjudication outcome:**
+  - Method K adjudication class: `closure_weakened_supported`
+  - Rationale: focal-depth run passed and seed-band pass rate met the pre-registered threshold.
+- **Artifacts/checkpoints:**
+  - `results/data/phase10_admissibility/stage5b_k_focal_depth.json`
+  - `results/data/phase10_admissibility/stage5b_k_seed_band.json`
+  - `results/data/phase10_admissibility/stage5b_k_adjudication_summary.json`
+  - `results/reports/phase10_admissibility/PHASE_10_STAGE5B_K_ADJUDICATION.md`
+  - `results/data/phase10_admissibility/stage5b_k_adjudication_status.json`
 
 ### Restart/Resume Checkpoints
 
@@ -596,3 +625,6 @@ Phase 10 stress-tests the project's central conclusion by asking questions that 
 - Canonical Stage 5 checkpoint file: `results/data/phase10_admissibility/stage5_high_roi_status.json`
 - Stage 5 resume command:
   - `python scripts/phase10_admissibility/run_stage5_high_roi.py --gate-config configs/phase10_admissibility/stage5_high_roi_gate.json`
+- Canonical Stage 5b checkpoint file: `results/data/phase10_admissibility/stage5b_k_adjudication_status.json`
+- Stage 5b resume command:
+  - `python scripts/phase10_admissibility/run_stage5b_k_adjudication.py --gate-config configs/phase10_admissibility/stage5b_k_adjudication_gate.json --status-path results/data/phase10_admissibility/stage5b_k_adjudication_status.json`

@@ -1,0 +1,163 @@
+{
+  "provenance": {
+    "run_id": "6c7b700e-f2f5-0988-1f2c-7975d8014d77",
+    "git_commit": "64adc46e31723fec564fe6a3f4b214f6dfe06156",
+    "timestamp": "2026-02-18T14:54:01.033330+00:00",
+    "seed": 77,
+    "experiment_id": "69f96763-5917-09d3-cb38-faa27c5cd6e7",
+    "run_nonce": 1771426441033019000,
+    "command": "run_phase10_stage5b_k_adjudication"
+  },
+  "results": {
+    "status": "ok",
+    "stage": "10.5b",
+    "generated_at": "2026-02-18T15:45:55.370541+00:00",
+    "run_id": "6c7b700e-f2f5-0988-1f2c-7975d8014d77",
+    "elapsed_seconds": 3114.2807685419684,
+    "gate_config_path": "configs/phase10_admissibility/stage5b_k_adjudication_gate.json",
+    "focal_seed": 77,
+    "focal_num_runs": [
+      300
+    ],
+    "focal_eval": {
+      "seed77_runs300": {
+        "decision": "closure_weakened",
+        "correlation": 0.4114401628953396,
+        "correlation_threshold": 0.4,
+        "correlation_pass": true,
+        "required_direction": "closure_weakened",
+        "decision_pass": true,
+        "language_hard_count": 5,
+        "min_language_hard_features": 3,
+        "language_hard_pass": true,
+        "pass": true
+      }
+    },
+    "focal_pass": true,
+    "focal_direction_stable": true,
+    "seed_band": [
+      17,
+      29,
+      42,
+      53,
+      77,
+      89,
+      101,
+      137
+    ],
+    "seed_band_runs": 150,
+    "seed_eval": {
+      "17": {
+        "decision": "closure_weakened",
+        "correlation": 0.4133079626444087,
+        "correlation_threshold": 0.4,
+        "correlation_pass": true,
+        "required_direction": "closure_weakened",
+        "decision_pass": true,
+        "language_hard_count": 5,
+        "min_language_hard_features": 3,
+        "language_hard_pass": true,
+        "pass": true
+      },
+      "29": {
+        "decision": "closure_weakened",
+        "correlation": 0.4276305506834796,
+        "correlation_threshold": 0.4,
+        "correlation_pass": true,
+        "required_direction": "closure_weakened",
+        "decision_pass": true,
+        "language_hard_count": 5,
+        "min_language_hard_features": 3,
+        "language_hard_pass": true,
+        "pass": true
+      },
+      "42": {
+        "decision": "closure_weakened",
+        "correlation": 0.4368508565604824,
+        "correlation_threshold": 0.4,
+        "correlation_pass": true,
+        "required_direction": "closure_weakened",
+        "decision_pass": true,
+        "language_hard_count": 5,
+        "min_language_hard_features": 3,
+        "language_hard_pass": true,
+        "pass": true
+      },
+      "53": {
+        "decision": "closure_weakened",
+        "correlation": 0.4152950807683502,
+        "correlation_threshold": 0.4,
+        "correlation_pass": true,
+        "required_direction": "closure_weakened",
+        "decision_pass": true,
+        "language_hard_count": 5,
+        "min_language_hard_features": 3,
+        "language_hard_pass": true,
+        "pass": true
+      },
+      "77": {
+        "decision": "indeterminate",
+        "correlation": 0.39977848666004795,
+        "correlation_threshold": 0.4,
+        "correlation_pass": false,
+        "required_direction": "closure_weakened",
+        "decision_pass": false,
+        "language_hard_count": 5,
+        "min_language_hard_features": 3,
+        "language_hard_pass": true,
+        "pass": false
+      },
+      "89": {
+        "decision": "closure_weakened",
+        "correlation": 0.4711974978235402,
+        "correlation_threshold": 0.4,
+        "correlation_pass": true,
+        "required_direction": "closure_weakened",
+        "decision_pass": true,
+        "language_hard_count": 4,
+        "min_language_hard_features": 3,
+        "language_hard_pass": true,
+        "pass": true
+      },
+      "101": {
+        "decision": "closure_weakened",
+        "correlation": 0.4662057308056015,
+        "correlation_threshold": 0.4,
+        "correlation_pass": true,
+        "required_direction": "closure_weakened",
+        "decision_pass": true,
+        "language_hard_count": 5,
+        "min_language_hard_features": 3,
+        "language_hard_pass": true,
+        "pass": true
+      },
+      "137": {
+        "decision": "closure_weakened",
+        "correlation": 0.43522745718678263,
+        "correlation_threshold": 0.4,
+        "correlation_pass": true,
+        "required_direction": "closure_weakened",
+        "decision_pass": true,
+        "language_hard_count": 5,
+        "min_language_hard_features": 3,
+        "language_hard_pass": true,
+        "pass": true
+      }
+    },
+    "seed_band_pass_count": 7,
+    "seed_band_count": 8,
+    "seed_band_pass_rate": 0.875,
+    "min_seed_pass_rate_for_weakened": 0.75,
+    "seed_decision_counts": {
+      "closure_weakened": 7,
+      "indeterminate": 1
+    },
+    "seed_correlation_summary": {
+      "mean": 0.4331867028915867,
+      "min": 0.39977848666004795,
+      "max": 0.4711974978235402
+    },
+    "final_adjudication": "closure_weakened_supported",
+    "decision_rationale": "Focal depth run(s) passed and seed-band pass rate met the registered threshold."
+  }
+}

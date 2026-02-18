@@ -1,0 +1,148 @@
+{
+  "phase": "10.5b",
+  "stage": "Stage 5b",
+  "status": "completed",
+  "created_at": "2026-02-18T14:54:00.923227+00:00",
+  "updated_at": "2026-02-18T15:45:55.372103+00:00",
+  "config": {
+    "gate_config_path": "configs/phase10_admissibility/stage5b_k_adjudication_gate.json",
+    "focal_seed": 77,
+    "focal_num_runs": [
+      300
+    ],
+    "seed_band": [
+      17,
+      29,
+      42,
+      53,
+      77,
+      89,
+      101,
+      137
+    ],
+    "seed_band_runs": 150,
+    "correlation_threshold": 0.4,
+    "required_direction": "closure_weakened",
+    "min_language_hard_features": 3,
+    "min_seed_pass_rate_for_weakened": 0.75
+  },
+  "steps": {
+    "focal_depth": {
+      "status": "completed",
+      "started_at": "2026-02-18T14:54:04.804682+00:00",
+      "completed_at": "2026-02-18T15:08:41.956961+00:00",
+      "artifact": "results/data/phase10_admissibility/stage5b_k_focal_depth.json",
+      "error": null
+    },
+    "seed_band": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:08:41.957247+00:00",
+      "completed_at": "2026-02-18T15:45:55.369643+00:00",
+      "artifact": "results/data/phase10_admissibility/stage5b_k_seed_band.json",
+      "error": null
+    },
+    "summary": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:45:55.370095+00:00",
+      "completed_at": "2026-02-18T15:45:55.371720+00:00",
+      "artifact": "results/data/phase10_admissibility/stage5b_k_adjudication_summary.json",
+      "report": "results/reports/phase10_admissibility/PHASE_10_STAGE5B_K_ADJUDICATION.md",
+      "error": null
+    }
+  },
+  "focal_runs": {
+    "seed77_runs300": {
+      "status": "completed",
+      "started_at": "2026-02-18T14:54:04.805225+00:00",
+      "completed_at": "2026-02-18T15:08:41.954785+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_adjudication_seed77_runs300.json",
+      "seed": 77,
+      "num_runs": 300,
+      "error": null
+    }
+  },
+  "seed_runs": {
+    "17": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:08:41.957771+00:00",
+      "completed_at": "2026-02-18T15:16:21.302257+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_adjudication_seed_17_runs_150.json",
+      "seed": 17,
+      "num_runs": 150,
+      "source": "fresh",
+      "error": null
+    },
+    "29": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:16:21.303009+00:00",
+      "completed_at": "2026-02-18T15:23:53.750184+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_adjudication_seed_29_runs_150.json",
+      "seed": 29,
+      "num_runs": 150,
+      "source": "fresh",
+      "error": null
+    },
+    "42": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:23:53.752524+00:00",
+      "completed_at": "2026-02-18T15:23:53.752526+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_high_roi_seed_42.json",
+      "seed": 42,
+      "num_runs": 150,
+      "source": "reused_stage5",
+      "error": null
+    },
+    "53": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:23:53.752983+00:00",
+      "completed_at": "2026-02-18T15:31:26.297303+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_adjudication_seed_53_runs_150.json",
+      "seed": 53,
+      "num_runs": 150,
+      "source": "fresh",
+      "error": null
+    },
+    "77": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:31:26.298467+00:00",
+      "completed_at": "2026-02-18T15:31:26.298471+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_high_roi_seed_77.json",
+      "seed": 77,
+      "num_runs": 150,
+      "source": "reused_stage5",
+      "error": null
+    },
+    "89": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:31:26.298983+00:00",
+      "completed_at": "2026-02-18T15:38:26.167013+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_adjudication_seed_89_runs_150.json",
+      "seed": 89,
+      "num_runs": 150,
+      "source": "fresh",
+      "error": null
+    },
+    "101": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:38:26.168441+00:00",
+      "completed_at": "2026-02-18T15:38:26.168444+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_high_roi_seed_101.json",
+      "seed": 101,
+      "num_runs": 150,
+      "source": "reused_stage5",
+      "error": null
+    },
+    "137": {
+      "status": "completed",
+      "started_at": "2026-02-18T15:38:26.168951+00:00",
+      "completed_at": "2026-02-18T15:45:55.361027+00:00",
+      "artifact": "results/data/phase10_admissibility/method_k_adjudication_seed_137_runs_150.json",
+      "seed": 137,
+      "num_runs": 150,
+      "source": "fresh",
+      "error": null
+    }
+  },
+  "run_id": "6c7b700e-f2f5-0988-1f2c-7975d8014d77",
+  "completed_at": "2026-02-18T15:45:55.372100+00:00"
+}

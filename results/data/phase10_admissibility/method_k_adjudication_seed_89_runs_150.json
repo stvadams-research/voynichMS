@@ -1,0 +1,436 @@
+{
+  "provenance": {
+    "run_id": "6c7b700e-f2f5-0988-1f2c-7975d8014d77",
+    "git_commit": "64adc46e31723fec564fe6a3f4b214f6dfe06156",
+    "timestamp": "2026-02-18T14:54:01.033330+00:00",
+    "seed": 77,
+    "experiment_id": "69f96763-5917-09d3-cb38-faa27c5cd6e7",
+    "run_nonce": 1771426441033019000,
+    "command": "run_phase10_stage5b_k_adjudication"
+  },
+  "results": {
+    "method": "K",
+    "status": "ok",
+    "decision": "closure_weakened",
+    "reason": "Residual outliers are correlated, trend toward language baseline, and are not closed by small generator parameter changes.",
+    "config": {
+      "target_tokens": 30000,
+      "num_runs": 150,
+      "seed": 89
+    },
+    "best_generator_family": "line_reset_persistence",
+    "candidate_scores": {
+      "line_reset_markov": {
+        "distance": 0.2252757451421708,
+        "sample_features": {
+          "entropy": 11.431291237025782,
+          "compression_bits_per_token": 19.385066666666667,
+          "type_token_ratio": 0.31393333333333334,
+          "zipf_alpha": 0.7974473825994133,
+          "bigram_cond_entropy": 3.205859853264176,
+          "trigram_cond_entropy": 0.21738469303957864,
+          "bigram_mutual_information": 8.225335245400474,
+          "mean_word_length": 5.136333333333333,
+          "line_initial_entropy": 11.012744441669645,
+          "line_final_entropy": 11.052609703410768,
+          "hapax_ratio": 0.659163304310894
+        }
+      },
+      "line_reset_backoff": {
+        "distance": 0.22665713775228663,
+        "sample_features": {
+          "entropy": 11.424707602265487,
+          "compression_bits_per_token": 19.340533333333333,
+          "type_token_ratio": 0.31133333333333335,
+          "zipf_alpha": 0.8102956701122216,
+          "bigram_cond_entropy": 3.2076493703429954,
+          "trigram_cond_entropy": 0.20158700918433503,
+          "bigram_mutual_information": 8.217060737468499,
+          "mean_word_length": 5.109466666666667,
+          "line_initial_entropy": 11.003555556902162,
+          "line_final_entropy": 11.040918049658584,
+          "hapax_ratio": 0.6519271948608137
+        }
+      },
+      "line_reset_persistence": {
+        "distance": 0.22183147460068933,
+        "sample_features": {
+          "entropy": 11.375297586028438,
+          "compression_bits_per_token": 19.177066666666665,
+          "type_token_ratio": 0.30866666666666664,
+          "zipf_alpha": 0.8214493794824904,
+          "bigram_cond_entropy": 3.230589716367531,
+          "trigram_cond_entropy": 0.22540326673016153,
+          "bigram_mutual_information": 8.144663521253525,
+          "mean_word_length": 5.132,
+          "line_initial_entropy": 10.951682319220307,
+          "line_final_entropy": 11.008373343426301,
+          "hapax_ratio": 0.6570194384449244
+        }
+      }
+    },
+    "feature_stats": {
+      "entropy": {
+        "voynich": 12.258255993226053,
+        "generator_mean": 11.39138191796949,
+        "generator_std": 0.024566624520788727,
+        "z_score": 35.286657901373395
+      },
+      "compression_bits_per_token": {
+        "voynich": 15.358470415087458,
+        "generator_mean": 19.219971555555556,
+        "generator_std": 0.06723405942280411,
+        "z_score": -57.43370508368224
+      },
+      "type_token_ratio": {
+        "voynich": 0.1684488380069203,
+        "generator_mean": 0.30886955555555556,
+        "generator_std": 0.002407488122863412,
+        "z_score": -58.32665017745635
+      },
+      "zipf_alpha": {
+        "voynich": 0.773840694761673,
+        "generator_mean": 0.8038176356046414,
+        "generator_std": 0.00795643650067894,
+        "z_score": -3.767634020633523
+      },
+      "bigram_cond_entropy": {
+        "voynich": 4.848010728415584,
+        "generator_mean": 3.223880348241842,
+        "generator_std": 0.01963142768855795,
+        "z_score": 82.73113937201603
+      },
+      "trigram_cond_entropy": {
+        "voynich": 0.46932156675739023,
+        "generator_mean": 0.21865690145089606,
+        "generator_std": 0.006863056708546164,
+        "z_score": 36.5237642571649
+      },
+      "bigram_mutual_information": {
+        "voynich": 7.410214883891365,
+        "generator_mean": 8.167497640411455,
+        "generator_std": 0.04370405770119559,
+        "z_score": -17.327515941371562
+      },
+      "mean_word_length": {
+        "voynich": 5.04847245557596,
+        "generator_mean": 5.12934888888889,
+        "generator_std": 0.01697163501439175,
+        "z_score": -4.765388440438838
+      },
+      "line_initial_entropy": {
+        "voynich": 11.822206322851297,
+        "generator_mean": 10.97136188254147,
+        "generator_std": 0.02528862309732868,
+        "z_score": 33.64534466883274
+      },
+      "line_final_entropy": {
+        "voynich": 11.873479786410421,
+        "generator_mean": 11.020295559105204,
+        "generator_std": 0.02441599188505788,
+        "z_score": 34.9436644360678
+      },
+      "hapax_ratio": {
+        "voynich": 0.5918814432989691,
+        "generator_mean": 0.6567051356598351,
+        "generator_std": 0.004492682978069,
+        "z_score": -14.42872614811738
+      }
+    },
+    "outlier_features": [
+      "entropy",
+      "compression_bits_per_token",
+      "type_token_ratio",
+      "zipf_alpha",
+      "bigram_cond_entropy",
+      "trigram_cond_entropy",
+      "bigram_mutual_information",
+      "mean_word_length",
+      "line_initial_entropy",
+      "line_final_entropy",
+      "hapax_ratio"
+    ],
+    "outlier_correlation_matrix": [
+      [
+        0.9999999999999999,
+        0.772064088956688,
+        0.825342779308531,
+        -0.5487132759781603,
+        -0.955714840296857,
+        -0.7646508556933453,
+        0.9911950312407551,
+        0.33125107035418355,
+        0.5873307334542692,
+        0.6191832233236862,
+        0.07747819121873487
+      ],
+      [
+        0.7720640889566879,
+        1.0,
+        0.7746317280531568,
+        -0.3165489161101682,
+        -0.722973389700389,
+        -0.6272650688300055,
+        0.758624573339657,
+        0.6122049401508265,
+        0.4202179616053098,
+        0.46943856848272425,
+        0.16904884551221194
+      ],
+      [
+        0.8253427793085311,
+        0.7746317280531568,
+        0.9999999999999998,
+        -0.3181401310565126,
+        -0.7837331824381553,
+        -0.6109558756192965,
+        0.8155985992899976,
+        0.3422165449111929,
+        0.44702802339743075,
+        0.4677411937023231,
+        0.45189462319330354
+      ],
+      [
+        -0.5487132759781603,
+        -0.3165489161101682,
+        -0.3181401310565126,
+        0.9999999999999998,
+        0.488447555973653,
+        0.4798711450267554,
+        -0.5277714952240312,
+        -0.029378694406819936,
+        -0.36471653956450284,
+        -0.3506562463021806,
+        -0.16227567468639903
+      ],
+      [
+        -0.955714840296857,
+        -0.722973389700389,
+        -0.7837331824381553,
+        0.4884475559736531,
+        1.0,
+        0.5571288951542042,
+        -0.9862605141432029,
+        -0.3790827699859947,
+        -0.5667457640203014,
+        -0.6005476895471951,
+        -0.027771323852811364
+      ],
+      [
+        -0.7646508556933453,
+        -0.6272650688300057,
+        -0.6109558756192965,
+        0.4798711450267554,
+        0.5571288951542043,
+        1.0,
+        -0.6798418027404043,
+        -0.1841815193864013,
+        -0.4389034482276658,
+        -0.47333119934784695,
+        -0.11230904908791489
+      ],
+      [
+        0.9911950312407551,
+        0.7586245733396569,
+        0.8155985992899976,
+        -0.5277714952240312,
+        -0.9862605141432029,
+        -0.6798418027404042,
+        1.0,
+        0.3566480182878973,
+        0.5844973200937135,
+        0.617617486668289,
+        0.05555422335459985
+      ],
+      [
+        0.33125107035418355,
+        0.6122049401508265,
+        0.3422165449111929,
+        -0.029378694406819932,
+        -0.37908276998599466,
+        -0.1841815193864013,
+        0.3566480182878973,
+        0.9999999999999998,
+        0.1587764933869717,
+        0.21117960858962745,
+        -0.048943008849884444
+      ],
+      [
+        0.5873307334542692,
+        0.4202179616053098,
+        0.4470280233974307,
+        -0.3647165395645029,
+        -0.5667457640203013,
+        -0.4389034482276658,
+        0.5844973200937135,
+        0.15877649338697172,
+        1.0,
+        0.8469594104909518,
+        0.025698737766276538
+      ],
+      [
+        0.6191832233236862,
+        0.46943856848272425,
+        0.46774119370232303,
+        -0.3506562463021806,
+        -0.6005476895471952,
+        -0.47333119934784695,
+        0.617617486668289,
+        0.21117960858962745,
+        0.8469594104909518,
+        1.0,
+        -0.019580490910338536
+      ],
+      [
+        0.07747819121873488,
+        0.16904884551221194,
+        0.4518946231933035,
+        -0.16227567468639903,
+        -0.02777132385281136,
+        -0.11230904908791489,
+        0.05555422335459985,
+        -0.04894300884988444,
+        0.02569873776627654,
+        -0.019580490910338536,
+        1.0
+      ]
+    ],
+    "outlier_mean_abs_correlation": 0.4711974978235402,
+    "direction_to_language": {
+      "entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 0.911102566785237,
+        "generator_to_latin_distance": 0.04422849152867414
+      },
+      "compression_bits_per_token": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 3.714051324042975,
+        "generator_to_latin_distance": 0.147449816425123
+      },
+      "type_token_ratio": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.11684883800692028,
+        "generator_to_latin_distance": 0.2572695555555556
+      },
+      "zipf_alpha": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.013106852365983745,
+        "generator_to_latin_distance": 0.016870088476984568
+      },
+      "bigram_cond_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 1.0800408391461325,
+        "generator_to_latin_distance": 0.5440895410276099
+      },
+      "trigram_cond_entropy": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.031016839943164953,
+        "generator_to_latin_distance": 0.2816815052496591
+      },
+      "bigram_mutual_information": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.16898596384822362,
+        "generator_to_latin_distance": 0.5882967926718656
+      },
+      "mean_word_length": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 0.9744579792066483,
+        "generator_to_latin_distance": 0.8935815458937189
+      },
+      "line_initial_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 4.440321447920367,
+        "generator_to_latin_distance": 3.5894770076105393
+      },
+      "line_final_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 4.296039667876504,
+        "generator_to_latin_distance": 3.442855440571287
+      },
+      "hapax_ratio": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.5918814432989691,
+        "generator_to_latin_distance": 0.6567051356598351
+      }
+    },
+    "modification_difficulty": {
+      "entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "{'boundary_persistence_rho': 0.15, 'trigram_use_prob': 0.55, 'unigram_noise_prob': 0.03}",
+        "improvement_ratio": 0.0465888930373716,
+        "baseline_difference": 0.8668740752565629,
+        "best_difference": 0.8264873716875645
+      },
+      "compression_bits_per_token": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "{'boundary_persistence_rho': 0.35, 'trigram_use_prob': 0.55, 'unigram_noise_prob': 0.03}",
+        "improvement_ratio": 0.014425708257627855,
+        "baseline_difference": 3.861501140468098,
+        "best_difference": 3.805796251579208
+      },
+      "type_token_ratio": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.14042071754863528,
+        "best_difference": 0.14042071754863528
+      },
+      "zipf_alpha": {
+        "difficulty": "moderate",
+        "best_setting": "{'boundary_persistence_rho': 0.15, 'trigram_use_prob': 0.55, 'unigram_noise_prob': 0.03}",
+        "improvement_ratio": 0.31589510428109213,
+        "baseline_difference": 0.029976940842968314,
+        "best_difference": 0.02050737198935071
+      },
+      "bigram_cond_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 1.6241303801737423,
+        "best_difference": 1.6241303801737423
+      },
+      "trigram_cond_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "{'boundary_persistence_rho': 0.35, 'trigram_use_prob': 0.55, 'unigram_noise_prob': 0.03}",
+        "improvement_ratio": 0.039716696658427614,
+        "baseline_difference": 0.25066466530649417,
+        "best_difference": 0.24070909283152986
+      },
+      "bigram_mutual_information": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.7572827565200893,
+        "best_difference": 0.7572827565200893
+      },
+      "mean_word_length": {
+        "difficulty": "moderate",
+        "best_setting": "{'boundary_persistence_rho': 0.25, 'trigram_use_prob': 0.7, 'unigram_noise_prob': 0.03}",
+        "improvement_ratio": 0.29158336064324236,
+        "baseline_difference": 0.08087643331292949,
+        "best_difference": 0.057294211090706426
+      },
+      "line_initial_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "{'boundary_persistence_rho': 0.25, 'trigram_use_prob': 0.7, 'unigram_noise_prob': 0.03}",
+        "improvement_ratio": 0.012052487290052838,
+        "baseline_difference": 0.8508444403098281,
+        "best_difference": 0.8405896485071818
+      },
+      "line_final_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "{'boundary_persistence_rho': 0.25, 'trigram_use_prob': 0.7, 'unigram_noise_prob': 0.03}",
+        "improvement_ratio": 0.02661972932009886,
+        "baseline_difference": 0.853184227305217,
+        "best_difference": 0.8304726941141745
+      },
+      "hapax_ratio": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "{'boundary_persistence_rho': 0.35, 'trigram_use_prob': 0.55, 'unigram_noise_prob': 0.03}",
+        "improvement_ratio": 0.02324536759838617,
+        "baseline_difference": 0.06482369236086605,
+        "best_difference": 0.06331684180285302
+      }
+    }
+  }
+}

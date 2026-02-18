@@ -28,3 +28,12 @@ Run ID: 5f85586d-01fc-30c0-61f8-0f34e003c82a
 - J/K strict artifact: `results/data/phase10_admissibility/stage5_jk_recalibration.json`
 - Stage 5 summary artifact: `results/data/phase10_admissibility/stage5_high_roi_summary.json`
 - Status tracker: `results/data/phase10_admissibility/stage5_high_roi_status.json`
+
+## Stage 5b Follow-On (2026-02-18)
+
+- Trigger: Method K strict gate miss in this Stage 5 run.
+- Follow-on run ID: `6c7b700e-f2f5-0988-1f2c-7975d8014d77`
+- Focal-depth result (seed 77, runs 300): `closure_weakened` with correlation `0.4114`.
+- Seed-band result (8 seeds, 150 runs each): pass rate `0.875` (threshold `0.750`).
+- Method K adjudication outcome: `closure_weakened_supported`.
+- Follow-on report: `results/reports/phase10_admissibility/PHASE_10_STAGE5B_K_ADJUDICATION.md`

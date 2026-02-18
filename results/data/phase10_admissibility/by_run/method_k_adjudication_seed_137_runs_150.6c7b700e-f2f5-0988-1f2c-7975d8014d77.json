@@ -1,0 +1,436 @@
+{
+  "provenance": {
+    "run_id": "6c7b700e-f2f5-0988-1f2c-7975d8014d77",
+    "git_commit": "64adc46e31723fec564fe6a3f4b214f6dfe06156",
+    "timestamp": "2026-02-18T14:54:01.033330+00:00",
+    "seed": 77,
+    "experiment_id": "69f96763-5917-09d3-cb38-faa27c5cd6e7",
+    "run_nonce": 1771426441033019000,
+    "command": "run_phase10_stage5b_k_adjudication"
+  },
+  "results": {
+    "method": "K",
+    "status": "ok",
+    "decision": "closure_weakened",
+    "reason": "Residual outliers are correlated, trend toward language baseline, and are not closed by small generator parameter changes.",
+    "config": {
+      "target_tokens": 30000,
+      "num_runs": 150,
+      "seed": 137
+    },
+    "best_generator_family": "line_reset_markov",
+    "candidate_scores": {
+      "line_reset_markov": {
+        "distance": 0.2181949993704838,
+        "sample_features": {
+          "entropy": 11.393064138012496,
+          "compression_bits_per_token": 19.241866666666667,
+          "type_token_ratio": 0.3070333333333333,
+          "zipf_alpha": 0.7979124289128152,
+          "bigram_cond_entropy": 3.2279417860156183,
+          "trigram_cond_entropy": 0.22634356212398998,
+          "bigram_mutual_information": 8.165214315310363,
+          "mean_word_length": 5.138066666666667,
+          "line_initial_entropy": 10.973355222217284,
+          "line_final_entropy": 11.009291366822078,
+          "hapax_ratio": 0.6550863098469222
+        }
+      },
+      "line_reset_backoff": {
+        "distance": 0.22251296505805437,
+        "sample_features": {
+          "entropy": 11.374283917494465,
+          "compression_bits_per_token": 19.2568,
+          "type_token_ratio": 0.30946666666666667,
+          "zipf_alpha": 0.8038937644921104,
+          "bigram_cond_entropy": 3.248489705958997,
+          "trigram_cond_entropy": 0.21298921891477818,
+          "bigram_mutual_information": 8.125893729562698,
+          "mean_word_length": 5.148233333333334,
+          "line_initial_entropy": 11.004207229612094,
+          "line_final_entropy": 11.033983606444075,
+          "hapax_ratio": 0.6589831968978889
+        }
+      },
+      "line_reset_persistence": {
+        "distance": 0.22029389603287194,
+        "sample_features": {
+          "entropy": 11.375510182671421,
+          "compression_bits_per_token": 19.201333333333334,
+          "type_token_ratio": 0.3086333333333333,
+          "zipf_alpha": 0.799343123678527,
+          "bigram_cond_entropy": 3.2316143688548493,
+          "trigram_cond_entropy": 0.2263491910185227,
+          "bigram_mutual_information": 8.143996435568866,
+          "mean_word_length": 5.138766666666666,
+          "line_initial_entropy": 10.955407191985705,
+          "line_final_entropy": 11.006626485611857,
+          "hapax_ratio": 0.6637865860244087
+        }
+      }
+    },
+    "feature_stats": {
+      "entropy": {
+        "voynich": 12.258255993226053,
+        "generator_mean": 11.405562820671875,
+        "generator_std": 0.022344222624082404,
+        "z_score": 38.161684427327195
+      },
+      "compression_bits_per_token": {
+        "voynich": 15.358470415087458,
+        "generator_mean": 19.330922666666666,
+        "generator_std": 0.06517192127948385,
+        "z_score": -60.95343168638083
+      },
+      "type_token_ratio": {
+        "voynich": 0.1684488380069203,
+        "generator_mean": 0.3112442222222222,
+        "generator_std": 0.0024342509583843387,
+        "z_score": -58.660913215816535
+      },
+      "zipf_alpha": {
+        "voynich": 0.773840694761673,
+        "generator_mean": 0.8040448933506119,
+        "generator_std": 0.00759491442336615,
+        "z_score": -3.9768978167830396
+      },
+      "bigram_cond_entropy": {
+        "voynich": 4.848010728415584,
+        "generator_mean": 3.2199742665556155,
+        "generator_std": 0.018483572564313683,
+        "z_score": 88.08018342748447
+      },
+      "trigram_cond_entropy": {
+        "voynich": 0.46932156675739023,
+        "generator_mean": 0.22426287278024867,
+        "generator_std": 0.0067770595433539645,
+        "z_score": 36.16003259370245
+      },
+      "bigram_mutual_information": {
+        "voynich": 7.410214883891365,
+        "generator_mean": 8.185583527711836,
+        "generator_std": 0.0403548155173068,
+        "z_score": -19.213782392040475
+      },
+      "mean_word_length": {
+        "voynich": 5.04847245557596,
+        "generator_mean": 5.143941555555555,
+        "generator_std": 0.014114095889054752,
+        "z_score": -6.764096030666021
+      },
+      "line_initial_entropy": {
+        "voynich": 11.822206322851297,
+        "generator_mean": 10.997470139041075,
+        "generator_std": 0.02571719285674925,
+        "z_score": 32.06944818605181
+      },
+      "line_final_entropy": {
+        "voynich": 11.873479786410421,
+        "generator_mean": 11.041401463009255,
+        "generator_std": 0.024727510302817765,
+        "z_score": 33.64990301131727
+      },
+      "hapax_ratio": {
+        "voynich": 0.5918814432989691,
+        "generator_mean": 0.6597303369334782,
+        "generator_std": 0.0040641623281887675,
+        "z_score": -16.694434955000084
+      }
+    },
+    "outlier_features": [
+      "entropy",
+      "compression_bits_per_token",
+      "type_token_ratio",
+      "zipf_alpha",
+      "bigram_cond_entropy",
+      "trigram_cond_entropy",
+      "bigram_mutual_information",
+      "mean_word_length",
+      "line_initial_entropy",
+      "line_final_entropy",
+      "hapax_ratio"
+    ],
+    "outlier_correlation_matrix": [
+      [
+        0.9999999999999999,
+        0.7538600586139582,
+        0.8069918853995749,
+        -0.4335379253193613,
+        -0.9537809166606079,
+        -0.6894148493593644,
+        0.9904699011296354,
+        0.14247769182811013,
+        0.6266906686144689,
+        0.6645974036838248,
+        0.05504432397522538
+      ],
+      [
+        0.7538600586139582,
+        1.0,
+        0.8061203575821463,
+        -0.16927627310834867,
+        -0.6953436162822572,
+        -0.5493230929297077,
+        0.7356954082633497,
+        0.4394091801312745,
+        0.5304651040648404,
+        0.5407398498070324,
+        0.21912569085509773
+      ],
+      [
+        0.806991885399575,
+        0.8061203575821463,
+        1.0,
+        -0.09988016720767223,
+        -0.7802260435813066,
+        -0.47393335500821804,
+        0.8041975160521031,
+        0.2635615722771691,
+        0.5235544758832746,
+        0.542792330375516,
+        0.4121762180503207
+      ],
+      [
+        -0.43353792531936125,
+        -0.16927627310834867,
+        -0.09988016720767225,
+        0.9999999999999999,
+        0.3955456394116132,
+        0.3642210946208979,
+        -0.42108583702248636,
+        0.08154084188204914,
+        -0.23731356833844275,
+        -0.2753240008117606,
+        -0.08736504494674263
+      ],
+      [
+        -0.9537809166606078,
+        -0.6953436162822572,
+        -0.7802260435813066,
+        0.3955456394116132,
+        1.0,
+        0.45091779255441894,
+        -0.9860715107723864,
+        -0.16889720386955134,
+        -0.5939545166737362,
+        -0.6631998076361019,
+        -0.02233245701074267
+      ],
+      [
+        -0.6894148493593645,
+        -0.5493230929297076,
+        -0.4739333550082181,
+        0.3642210946208979,
+        0.4509177925544189,
+        1.0,
+        -0.5880686357062508,
+        -0.014716503023301328,
+        -0.42794978864685757,
+        -0.38621485489809193,
+        -0.03701822786899736
+      ],
+      [
+        0.9904699011296354,
+        0.7356954082633496,
+        0.8041975160521031,
+        -0.4210858370224864,
+        -0.9860715107723865,
+        -0.5880686357062507,
+        1.0,
+        0.15638336880659157,
+        0.6187978732912343,
+        0.6716095762578437,
+        0.04058676321478958
+      ],
+      [
+        0.14247769182811013,
+        0.4394091801312745,
+        0.2635615722771691,
+        0.08154084188204914,
+        -0.16889720386955132,
+        -0.014716503023301328,
+        0.15638336880659157,
+        1.0,
+        0.27465641938907925,
+        0.25390069698317885,
+        0.09585905576698507
+      ],
+      [
+        0.6266906686144689,
+        0.5304651040648404,
+        0.5235544758832746,
+        -0.23731356833844275,
+        -0.5939545166737361,
+        -0.4279497886468576,
+        0.6187978732912343,
+        0.27465641938907925,
+        1.0,
+        0.8643688348726479,
+        0.045604141026244514
+      ],
+      [
+        0.6645974036838248,
+        0.5407398498070324,
+        0.5427923303755161,
+        -0.2753240008117606,
+        -0.6631998076361019,
+        -0.3862148548980919,
+        0.6716095762578437,
+        0.25390069698317885,
+        0.8643688348726479,
+        1.0,
+        0.01132021392625516
+      ],
+      [
+        0.05504432397522538,
+        0.2191256908550977,
+        0.4121762180503206,
+        -0.08736504494674263,
+        -0.02233245701074267,
+        -0.03701822786899736,
+        0.04058676321478958,
+        0.09585905576698507,
+        0.045604141026244514,
+        0.01132021392625516,
+        0.9999999999999998
+      ]
+    ],
+    "outlier_mean_abs_correlation": 0.43522745718678263,
+    "direction_to_language": {
+      "entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 0.911102566785237,
+        "generator_to_latin_distance": 0.05840939423105951
+      },
+      "compression_bits_per_token": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 3.714051324042975,
+        "generator_to_latin_distance": 0.25840092753623267
+      },
+      "type_token_ratio": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.11684883800692028,
+        "generator_to_latin_distance": 0.2596442222222222
+      },
+      "zipf_alpha": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.013106852365983745,
+        "generator_to_latin_distance": 0.017097346222955112
+      },
+      "bigram_cond_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 1.0800408391461325,
+        "generator_to_latin_distance": 0.5479956227138363
+      },
+      "trigram_cond_entropy": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.031016839943164953,
+        "generator_to_latin_distance": 0.2760755339203065
+      },
+      "bigram_mutual_information": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.16898596384822362,
+        "generator_to_latin_distance": 0.6063826799722474
+      },
+      "mean_word_length": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 0.9744579792066483,
+        "generator_to_latin_distance": 0.8789888792270535
+      },
+      "line_initial_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 4.440321447920367,
+        "generator_to_latin_distance": 3.6155852641101456
+      },
+      "line_final_entropy": {
+        "toward_language": false,
+        "voynich_to_latin_distance": 4.296039667876504,
+        "generator_to_latin_distance": 3.4639613444753374
+      },
+      "hapax_ratio": {
+        "toward_language": true,
+        "voynich_to_latin_distance": 0.5918814432989691,
+        "generator_to_latin_distance": 0.6597303369334782
+      }
+    },
+    "modification_difficulty": {
+      "entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.8526931725541775,
+        "best_difference": 0.8526931725541775
+      },
+      "compression_bits_per_token": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 3.972452251579208,
+        "best_difference": 3.972452251579208
+      },
+      "type_token_ratio": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.1427953842153019,
+        "best_difference": 0.1427953842153019
+      },
+      "zipf_alpha": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.030204198588938858,
+        "best_difference": 0.030204198588938858
+      },
+      "bigram_cond_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 1.6280364618599688,
+        "best_difference": 1.6280364618599688
+      },
+      "trigram_cond_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.24505869397714156,
+        "best_difference": 0.24505869397714156
+      },
+      "bigram_mutual_information": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.775368643820471,
+        "best_difference": 0.775368643820471
+      },
+      "mean_word_length": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.09546909997959485,
+        "best_difference": 0.09546909997959485
+      },
+      "line_initial_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.8247361838102218,
+        "best_difference": 0.8247361838102218
+      },
+      "line_final_entropy": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.8320783234011664,
+        "best_difference": 0.8320783234011664
+      },
+      "hapax_ratio": {
+        "difficulty": "hard_framework_shift",
+        "best_setting": "none",
+        "improvement_ratio": 0.0,
+        "baseline_difference": 0.06784889363450908,
+        "best_difference": 0.06784889363450908
+      }
+    }
+  }
+}

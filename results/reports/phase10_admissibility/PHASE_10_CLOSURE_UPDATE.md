@@ -30,3 +30,11 @@ Phase 10 does not produce a closure defeat signal, but it does not support a clo
 - Method J remained closure-weakened under stricter gates.
 - Method K did not retain closure-weakened status across strict multi-seed criteria.
 - Closure remains `in_tension`; upgrade gate is not satisfied and adjudicating tests remain required.
+
+## Stage 5b Addendum (2026-02-18)
+
+- Targeted Method K adjudication completed under run `6c7b700e-f2f5-0988-1f2c-7975d8014d77`.
+- Focal-depth seed check passed: seed `77`, runs `300`, decision `closure_weakened`, correlation `0.4114`.
+- Expanded seed-band check passed: `7/8` seed passes (`0.875`) against threshold `0.750`.
+- Method K adjudication status updated to `closure_weakened_supported`.
+- Closure remains `in_tension` overall because strengthened, weakened, and indeterminate methods all persist; no closure upgrade rule is satisfied.

@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "created": "2026-02-18",
+  "description": "Targeted Method K adjudication gate to close the remaining Phase 10 tension angle.",
+  "baseline_strict_artifact": "results/data/phase10_admissibility/stage5_jk_recalibration.json",
+  "target_tokens": 30000,
+  "required_direction": "closure_weakened",
+  "correlation_threshold": 0.4,
+  "min_language_hard_features": 3,
+  "focal_seed": 77,
+  "focal_num_runs": [300],
+  "seed_band": [17, 29, 42, 53, 77, 89, 101, 137],
+  "seed_band_runs": 150,
+  "min_seed_pass_rate_for_weakened": 0.75,
+  "decision_rule": {
+    "closure_weakened_supported_requires": {
+      "focal_pass": true,
+      "focal_direction_stable": true,
+      "seed_pass_rate_gte": 0.75
+    },
+    "otherwise": "indeterminate_confirmed"
+  }
+}

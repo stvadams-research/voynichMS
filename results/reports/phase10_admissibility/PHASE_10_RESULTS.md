@@ -35,6 +35,14 @@ Closure status: **in_tension**
 - Resolution class: `partial_resolution_inconclusive`
 - Upgrade rule satisfied: `False`
 
+## Stage 5b K Adjudication Addendum (2026-02-18)
+
+- Run ID: `6c7b700e-f2f5-0988-1f2c-7975d8014d77`
+- Focal-depth check (seed 77, 300 runs): `pass=True` (`decision=closure_weakened`, correlation `0.4114`).
+- Seed-band check (8 seeds, 150 runs each): `pass_rate=0.875` against threshold `0.750`.
+- Final adjudication: Method K `closure_weakened_supported`.
+- Interpretation: the strict 3-seed Stage 5 miss was a narrow-threshold instability; broader registered adjudication retained K as weakened.
+
 ## Artifacts
 
 - Stage 4 synthesis artifact: `results/data/phase10_admissibility/stage4_synthesis.json`
@@ -47,3 +55,5 @@ Closure status: **in_tension**
 - Stage 5 J/K strict recalibration: `results/data/phase10_admissibility/stage5_jk_recalibration.json`
 - Stage 5 summary: `results/data/phase10_admissibility/stage5_high_roi_summary.json`
 - Stage 5 report: `results/reports/phase10_admissibility/PHASE_10_STAGE5_HIGH_ROI.md`
+- Stage 5b K adjudication summary: `results/data/phase10_admissibility/stage5b_k_adjudication_summary.json`
+- Stage 5b K adjudication report: `results/reports/phase10_admissibility/PHASE_10_STAGE5B_K_ADJUDICATION.md`
