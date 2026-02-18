@@ -1,32 +1,49 @@
-# Next Steps: Project Refinement & Academic Polish
+# Next Steps: Post-Phase-10 Priorities
 
-This document identifies high-value engineering and research gaps that, if addressed, would significantly enhance the academic quality and skeptic-proofing of the Voynich Manuscript project.
+Phase 10 is complete through Stage 4 synthesis.
 
-## 1. Publication Enhancements (High Priority)
+Current aggregate state:
+- `mixed_results_tension`
+- closure status: `in_tension`
+- strengthened: H, I
+- weakened: J, K
+- indeterminate: G, F
 
-### A. Formal Citation Management (BibTeX Integration)
-*   **Gap**: Currently, research references are stored in a flat Markdown file. Academic publications require a standardized bibliography (e.g., APA or Chicago style).
-*   **Feature**: Implement a `support_research/references.bib` or `.json` file and update `generate_publication.py` to automatically append a "References" section with properly formatted citations.
+This list captures the highest-value follow-up work from that state.
 
-### B. Native Word Table Rendering
-*   **Gap**: The publication generator currently renders technical data tables as plain text blocks.
-*   **Feature**: Use the `python-docx` Table API to render results (like the Phase 5 Mechanism Comparison) as native, high-fidelity Word tables with professional formatting.
+## 1. Resolve Closure Tension (Highest Priority)
 
-## 2. Technical and Integrity Gaps (Security & Rigor)
+### A. Tighten Method J/K adjudication
+- Add stricter preregistered thresholds for what qualifies as a stable weakened signal.
+- Re-run J/K under independent null families and external corpora controls.
+- Add a unified report lane that compares J/K weakened signals against F indeterminate outcomes.
 
-### A. Schema Migration Governance (Alembic)
-*   **Gap**: As research enters Phase 8 (Comparative), the database schema (`data/voynich.db`) may need to evolve to support new metadata.
-*   **Feature**: Fully implement Alembic migrations within `src/phase1_foundation/storage/` to ensure that database changes are version-controlled and reproducible across environments.
+### B. Expand Method F search diagnostics
+- Add secondary stability criteria beyond perturbation pass-rate (e.g., cross-seed parameter neighborhoods).
+- Add explicit negative controls where reverse decoders run on synthetic generator corpora.
+- Track whether outlier classes recur across seeds and token windows.
 
-### B. Automated End-to-End Replication (CI/CD)
-*   **Gap**: While `replicate_all.py` exists, it is not currently triggered by the CI pipeline (`scripts/ci_check.sh`).
-*   **Feature**: Add a "Smoke Test" mode to `replicate_all.py` that runs a subset of all 9 phases on every Pull Request to ensure that code changes never break the narrative flow or data integrity.
+## 2. Publication and Reproducibility
 
-## 3. Advanced Diagnostic Features (The "Wow" Factor)
+### A. Keep final Phase 10 reports canonical
+- Use:
+  - `results/reports/phase10_admissibility/PHASE_10_RESULTS.md`
+  - `results/reports/phase10_admissibility/PHASE_10_CLOSURE_UPDATE.md`
+- Ensure any summary elsewhere cites these two files directly.
 
-### A. Interactive Lattice Explorer
-*   **Gap**: The "Implicit Constraint Lattice" is the project's core discovery, but it is currently represented as static entropy scores.
-*   **Feature**: Create a lightweight web-based or Plotly-based tool that allows a researcher to "traverse" the lattice, seeing the deterministic successors for any given bigram and position. This would be a powerful tool for visual peer review.
+### B. Add Phase 10 smoke-test path in CI
+- Add a reduced Stage 2/3/4 smoke profile to validate pipeline contracts on PRs.
+- Keep full-size Phase 10 runs as manual/overnight jobs.
 
-### B. Cross-Scribe Stability Mapping
-*   **Gap**: We have established sectional stability (Phase 5I), but a granular mapping of mechanism stability across different "Hands" (Scribes) would provide the final "Kill Step" for any remaining authorial theories.
+## 3. Tooling and Data Hygiene
+
+### A. Corpus expansion reproducibility
+- Keep `tools/download_corpora.py` as the machine-only corpus-expansion path.
+- Preserve checkpoint artifact:
+  - `results/data/phase10_admissibility/corpus_expansion_status.json`
+
+### B. Documentation synchronization
+- Update top-level docs whenever Phase 10 status changes:
+  - `README.md`
+  - `governance/runbook.md`
+  - `planning/phase10_admissibility/phase_10_execution_plan.md`

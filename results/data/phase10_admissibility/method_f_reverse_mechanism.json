@@ -1,0 +1,1135 @@
+{
+  "provenance": {
+    "run_id": "0259b6fc-88c3-87e9-fb89-50bb56136638",
+    "git_commit": "9e415edd20b95e1ba7d9e5e85d173099d8bc90b3",
+    "timestamp": "2026-02-18T12:59:48.279369+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771419588278652000,
+    "command": "run_phase10_stage3_f"
+  },
+  "results": {
+    "method": "F",
+    "status": "ok",
+    "decision": "indeterminate",
+    "reason": "Reverse search produced mixed or unstable outliers across mechanism families.",
+    "config": {
+      "seed": 42,
+      "target_tokens": 30000,
+      "param_samples_per_family": 10000,
+      "null_sequences": 1000,
+      "perturbations_per_candidate": 12,
+      "max_outlier_probes": 12,
+      "null_block_min": 2,
+      "null_block_max": 12,
+      "symbol_alphabet_size": 64
+    },
+    "token_attributes": {
+      "token_count": 30000,
+      "attribute_names": [
+        "token_mod",
+        "first_char_mod",
+        "last_char_mod",
+        "third_char_mod",
+        "length_mod",
+        "vowel_count_mod"
+      ]
+    },
+    "family_decisions": {
+      "table_grille": "indeterminate",
+      "slot_logic": "indeterminate",
+      "constrained_markov": "indeterminate"
+    },
+    "family_results": {
+      "table_grille": {
+        "family": "table_grille",
+        "decision": "indeterminate",
+        "reason": "Low-entropy outliers were found, but they were unstable or lacked language-like frequency support.",
+        "coverage": {
+          "parameter_samples": 10000,
+          "constrained_space_estimate": 1205601408,
+          "coverage_ratio_estimate": 8.294615395804183e-06
+        },
+        "entropy_thresholds": {
+          "null_q01": 4.00856214467985,
+          "null_q05": 4.84211041221822,
+          "null_q50": 5.805447105461066
+        },
+        "real_entropy_distribution": {
+          "mean": 5.646645771000086,
+          "std": 0.4446512655523695,
+          "min": 2.3557962495100977,
+          "q01": 3.9749683359196815,
+          "q05": 4.716380323995581
+        },
+        "null_entropy_distribution": {
+          "mean": 5.65608715853697,
+          "std": 0.4253725163730335,
+          "min": 3.3520932499078113,
+          "q01": 4.00856214467985,
+          "q05": 4.84211041221822
+        },
+        "null_reference_metrics": {
+          "bigram_mutual_information_q95": 2.814816233124153,
+          "zipf_alpha_q05": 0.0693740249628466,
+          "zipf_alpha_q95": 1.972070683994668
+        },
+        "outlier_count_below_q01": 118,
+        "stable_outlier_count": 0,
+        "stable_natural_outlier_count": 0,
+        "candidate_reviews": [
+          {
+            "rank": 1,
+            "parameter_index": 7376,
+            "parameterization": [
+              5,
+              5,
+              5,
+              23,
+              5,
+              4,
+              9
+            ],
+            "entropy": 2.3557962495100977,
+            "bigram_mutual_information": 0.04576534202203812,
+            "zipf_alpha": 3.6682137326672297,
+            "top_symbol_frequency": 0.29873333333333335,
+            "compression_ratio": 0.17313333333333333,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.406454681208638,
+              "perturb_entropy_max": 5.990551775727532
+            }
+          },
+          {
+            "rank": 2,
+            "parameter_index": 3081,
+            "parameterization": [
+              11,
+              11,
+              11,
+              15,
+              5,
+              23,
+              47
+            ],
+            "entropy": 2.3557962495100977,
+            "bigram_mutual_information": 0.04576534202203812,
+            "zipf_alpha": 3.6682137326672297,
+            "top_symbol_frequency": 0.29873333333333335,
+            "compression_ratio": 0.17313333333333333,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 2.9816345326586693,
+              "perturb_entropy_max": 5.991756217671574
+            }
+          },
+          {
+            "rank": 3,
+            "parameter_index": 6674,
+            "parameterization": [
+              5,
+              5,
+              5,
+              9,
+              5,
+              30,
+              30
+            ],
+            "entropy": 2.3557962495100977,
+            "bigram_mutual_information": 0.04576534202203812,
+            "zipf_alpha": 3.6682137326672297,
+            "top_symbol_frequency": 0.29873333333333335,
+            "compression_ratio": 0.17313333333333333,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 3.8971371764555855,
+              "perturb_entropy_max": 5.987719489585244
+            }
+          },
+          {
+            "rank": 4,
+            "parameter_index": 2777,
+            "parameterization": [
+              5,
+              1,
+              9,
+              26,
+              5,
+              1,
+              30
+            ],
+            "entropy": 2.961604056856056,
+            "bigram_mutual_information": 0.14659472583463998,
+            "zipf_alpha": 2.7357287482032375,
+            "top_symbol_frequency": 0.19263333333333332,
+            "compression_ratio": 0.23963333333333334,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 2.9609617678753826,
+              "perturb_entropy_max": 5.986569449550448
+            }
+          },
+          {
+            "rank": 5,
+            "parameter_index": 7562,
+            "parameterization": [
+              15,
+              6,
+              6,
+              0,
+              5,
+              21,
+              38
+            ],
+            "entropy": 2.9638212352330497,
+            "bigram_mutual_information": 0.10900932151670796,
+            "zipf_alpha": 2.799752801683135,
+            "top_symbol_frequency": 0.1926,
+            "compression_ratio": 0.2402,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.492744329774261,
+              "perturb_entropy_max": 5.997668630204226
+            }
+          },
+          {
+            "rank": 6,
+            "parameter_index": 6725,
+            "parameterization": [
+              5,
+              10,
+              10,
+              18,
+              4,
+              14,
+              61
+            ],
+            "entropy": 2.9816345326586693,
+            "bigram_mutual_information": 0.05858938939724504,
+            "zipf_alpha": 3.3555978418760595,
+            "top_symbol_frequency": 0.2329,
+            "compression_ratio": 0.22876666666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.276891633034599,
+              "perturb_entropy_max": 5.990253424007959
+            }
+          },
+          {
+            "rank": 7,
+            "parameter_index": 7666,
+            "parameterization": [
+              6,
+              8,
+              6,
+              0,
+              5,
+              1,
+              14
+            ],
+            "entropy": 3.0691425552648344,
+            "bigram_mutual_information": 0.30204272996986414,
+            "zipf_alpha": 2.980102186943329,
+            "top_symbol_frequency": 0.16613333333333333,
+            "compression_ratio": 0.23898333333333333,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 3.121442480500083,
+              "perturb_entropy_max": 5.341423348919305
+            }
+          },
+          {
+            "rank": 8,
+            "parameter_index": 656,
+            "parameterization": [
+              6,
+              9,
+              7,
+              1,
+              5,
+              1,
+              61
+            ],
+            "entropy": 3.1107135804240933,
+            "bigram_mutual_information": 0.13875492362620523,
+            "zipf_alpha": 2.4022048161033647,
+            "top_symbol_frequency": 0.1633,
+            "compression_ratio": 0.2456,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 3.4284012408501154,
+              "perturb_entropy_max": 5.9878696295750675
+            }
+          },
+          {
+            "rank": 9,
+            "parameter_index": 2428,
+            "parameterization": [
+              6,
+              7,
+              4,
+              0,
+              5,
+              1,
+              54
+            ],
+            "entropy": 3.1184003751931844,
+            "bigram_mutual_information": 0.22029766294472636,
+            "zipf_alpha": 2.3471793422805898,
+            "top_symbol_frequency": 0.1689,
+            "compression_ratio": 0.24306666666666665,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 2.9629864952821166,
+              "perturb_entropy_max": 5.986509611585985
+            }
+          },
+          {
+            "rank": 10,
+            "parameter_index": 6341,
+            "parameterization": [
+              7,
+              3,
+              1,
+              2,
+              5,
+              1,
+              39
+            ],
+            "entropy": 3.258043416821163,
+            "bigram_mutual_information": 0.22523603065327558,
+            "zipf_alpha": 2.6460300034502113,
+            "top_symbol_frequency": 0.14243333333333333,
+            "compression_ratio": 0.26156666666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 3.1175978654206937,
+              "perturb_entropy_max": 5.374650020545834
+            }
+          },
+          {
+            "rank": 11,
+            "parameter_index": 8347,
+            "parameterization": [
+              7,
+              2,
+              9,
+              21,
+              5,
+              1,
+              8
+            ],
+            "entropy": 3.2595692951765045,
+            "bigram_mutual_information": 0.2696172190324913,
+            "zipf_alpha": 2.594076692518283,
+            "top_symbol_frequency": 0.1441,
+            "compression_ratio": 0.25633333333333336,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 3.3973309703167724,
+              "perturb_entropy_max": 5.987654686841746
+            }
+          },
+          {
+            "rank": 12,
+            "parameter_index": 7899,
+            "parameterization": [
+              21,
+              3,
+              6,
+              16,
+              5,
+              21,
+              35
+            ],
+            "entropy": 3.2605554469665305,
+            "bigram_mutual_information": 0.376616565789798,
+            "zipf_alpha": 2.6410964745512997,
+            "top_symbol_frequency": 0.1432,
+            "compression_ratio": 0.24261666666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 5.077238266774122,
+              "perturb_entropy_max": 5.997526104499516
+            }
+          }
+        ]
+      },
+      "slot_logic": {
+        "family": "slot_logic",
+        "decision": "indeterminate",
+        "reason": "Low-entropy outliers were found, but they were unstable or lacked language-like frequency support.",
+        "coverage": {
+          "parameter_samples": 10000,
+          "constrained_space_estimate": 56623104,
+          "coverage_ratio_estimate": 0.0001766063548900463
+        },
+        "entropy_thresholds": {
+          "null_q01": 5.752318502086714,
+          "null_q05": 5.904470441042925,
+          "null_q50": 5.998427465152308
+        },
+        "real_entropy_distribution": {
+          "mean": 5.979945714052521,
+          "std": 0.05470347512393819,
+          "min": 5.0529003292285495,
+          "q01": 5.742702281164842,
+          "q05": 5.8979264931900905
+        },
+        "null_entropy_distribution": {
+          "mean": 5.9799426322351374,
+          "std": 0.061321540468984574,
+          "min": 5.050354732091126,
+          "q01": 5.752318502086714,
+          "q05": 5.904470441042925
+        },
+        "null_reference_metrics": {
+          "bigram_mutual_information_q95": 1.672897777607284,
+          "zipf_alpha_q05": 0.03777399283069786,
+          "zipf_alpha_q95": 0.3480725243267551
+        },
+        "outlier_count_below_q01": 109,
+        "stable_outlier_count": 0,
+        "stable_natural_outlier_count": 0,
+        "candidate_reviews": [
+          {
+            "rank": 1,
+            "parameter_index": 4790,
+            "parameterization": [
+              5,
+              1,
+              5,
+              5,
+              15,
+              16,
+              13
+            ],
+            "entropy": 5.0529003292285495,
+            "bigram_mutual_information": 1.3306579221847685,
+            "zipf_alpha": 1.59905908352768,
+            "top_symbol_frequency": 0.0553,
+            "compression_ratio": 0.31975,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 5.37249910609853,
+              "perturb_entropy_max": 5.998595737087636
+            }
+          },
+          {
+            "rank": 2,
+            "parameter_index": 3000,
+            "parameterization": [
+              4,
+              3,
+              5,
+              5,
+              1,
+              16,
+              13
+            ],
+            "entropy": 5.157233331771056,
+            "bigram_mutual_information": 1.307218946529289,
+            "zipf_alpha": 1.3749778772762962,
+            "top_symbol_frequency": 0.0539,
+            "compression_ratio": 0.3354666666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 5.118233444747315,
+              "perturb_entropy_max": 5.99197571999834
+            }
+          },
+          {
+            "rank": 3,
+            "parameter_index": 6196,
+            "parameterization": [
+              8,
+              5,
+              5,
+              3,
+              16,
+              16,
+              32
+            ],
+            "entropy": 5.186798379731856,
+            "bigram_mutual_information": 1.1503204211660776,
+            "zipf_alpha": 1.3349036302175672,
+            "top_symbol_frequency": 0.05293333333333333,
+            "compression_ratio": 0.3671833333333333,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 5.582182658216332,
+              "perturb_entropy_max": 5.999007322252455
+            }
+          },
+          {
+            "rank": 4,
+            "parameter_index": 2580,
+            "parameterization": [
+              14,
+              0,
+              5,
+              5,
+              16,
+              16,
+              5
+            ],
+            "entropy": 5.252296304089798,
+            "bigram_mutual_information": 1.379801168033818,
+            "zipf_alpha": 0.9961430123430497,
+            "top_symbol_frequency": 0.05793333333333334,
+            "compression_ratio": 0.36235,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 2,
+              "pass_rate": 0.16666666666666666,
+              "stable": false,
+              "perturb_entropy_min": 4.992022145507345,
+              "perturb_entropy_max": 5.998965454462393
+            }
+          },
+          {
+            "rank": 5,
+            "parameter_index": 8871,
+            "parameterization": [
+              4,
+              2,
+              4,
+              5,
+              2,
+              16,
+              9
+            ],
+            "entropy": 5.263953358294739,
+            "bigram_mutual_information": 1.6272942303611817,
+            "zipf_alpha": 1.3978206827109352,
+            "top_symbol_frequency": 0.0489,
+            "compression_ratio": 0.3290666666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 2,
+              "pass_rate": 0.16666666666666666,
+              "stable": false,
+              "perturb_entropy_min": 5.118233444747315,
+              "perturb_entropy_max": 5.9991232505303715
+            }
+          },
+          {
+            "rank": 6,
+            "parameter_index": 7784,
+            "parameterization": [
+              3,
+              5,
+              5,
+              1,
+              14,
+              16,
+              28
+            ],
+            "entropy": 5.267255865366248,
+            "bigram_mutual_information": 1.4008612393538178,
+            "zipf_alpha": 1.344496258473734,
+            "top_symbol_frequency": 0.0418,
+            "compression_ratio": 0.3274166666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 5.3929051571359405,
+              "perturb_entropy_max": 5.998907667167368
+            }
+          },
+          {
+            "rank": 7,
+            "parameter_index": 3473,
+            "parameterization": [
+              8,
+              1,
+              4,
+              5,
+              16,
+              16,
+              12
+            ],
+            "entropy": 5.304825780515621,
+            "bigram_mutual_information": 1.3517406441851378,
+            "zipf_alpha": 1.4970919419156938,
+            "top_symbol_frequency": 0.0456,
+            "compression_ratio": 0.36255,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 1,
+              "pass_rate": 0.08333333333333333,
+              "stable": false,
+              "perturb_entropy_min": 5.49541982358768,
+              "perturb_entropy_max": 5.9987527530617335
+            }
+          },
+          {
+            "rank": 8,
+            "parameter_index": 6744,
+            "parameterization": [
+              4,
+              3,
+              5,
+              4,
+              15,
+              16,
+              50
+            ],
+            "entropy": 5.318355655532695,
+            "bigram_mutual_information": 1.1037098529968887,
+            "zipf_alpha": 1.1892138285353249,
+            "top_symbol_frequency": 0.0455,
+            "compression_ratio": 0.3672,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 5.3553431788271135,
+              "perturb_entropy_max": 5.998780787931502
+            }
+          },
+          {
+            "rank": 9,
+            "parameter_index": 7519,
+            "parameterization": [
+              10,
+              5,
+              2,
+              2,
+              16,
+              16,
+              36
+            ],
+            "entropy": 5.318936474660826,
+            "bigram_mutual_information": 1.7527944594230744,
+            "zipf_alpha": 1.3014267907010322,
+            "top_symbol_frequency": 0.061033333333333335,
+            "compression_ratio": 0.33615,
+            "natural_like_profile": true,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 1,
+              "pass_rate": 0.08333333333333333,
+              "stable": false,
+              "perturb_entropy_min": 5.154488492132807,
+              "perturb_entropy_max": 5.999064784657058
+            }
+          },
+          {
+            "rank": 10,
+            "parameter_index": 6119,
+            "parameterization": [
+              9,
+              5,
+              1,
+              4,
+              16,
+              16,
+              20
+            ],
+            "entropy": 5.3284345364566645,
+            "bigram_mutual_information": 1.1250108422530702,
+            "zipf_alpha": 1.536365588280263,
+            "top_symbol_frequency": 0.046266666666666664,
+            "compression_ratio": 0.37735,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 5.304825780515622,
+              "perturb_entropy_max": 5.99890081595011
+            }
+          },
+          {
+            "rank": 11,
+            "parameter_index": 3503,
+            "parameterization": [
+              3,
+              0,
+              5,
+              5,
+              16,
+              16,
+              30
+            ],
+            "entropy": 5.342779112602884,
+            "bigram_mutual_information": 0.5476826008267273,
+            "zipf_alpha": 0.9164946856723681,
+            "top_symbol_frequency": 0.056266666666666666,
+            "compression_ratio": 0.39255,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 1,
+              "pass_rate": 0.08333333333333333,
+              "stable": false,
+              "perturb_entropy_min": 5.099624496442424,
+              "perturb_entropy_max": 5.99862759838449
+            }
+          },
+          {
+            "rank": 12,
+            "parameter_index": 9538,
+            "parameterization": [
+              17,
+              4,
+              1,
+              4,
+              16,
+              16,
+              49
+            ],
+            "entropy": 5.373929679955295,
+            "bigram_mutual_information": 1.361065169905806,
+            "zipf_alpha": 1.3792315161564481,
+            "top_symbol_frequency": 0.04296666666666667,
+            "compression_ratio": 0.37415,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 5.383274245114917,
+              "perturb_entropy_max": 5.998796238960229
+            }
+          }
+        ]
+      },
+      "constrained_markov": {
+        "family": "constrained_markov",
+        "decision": "indeterminate",
+        "reason": "Low-entropy outliers were found, but they were unstable or lacked language-like frequency support.",
+        "coverage": {
+          "parameter_samples": 10000,
+          "constrained_space_estimate": 87736320,
+          "coverage_ratio_estimate": 0.00011397788281979459
+        },
+        "entropy_thresholds": {
+          "null_q01": 4.7842547202987245,
+          "null_q05": 5.484830267367304,
+          "null_q50": 5.976300540797082
+        },
+        "real_entropy_distribution": {
+          "mean": 5.886895040761468,
+          "std": 0.21802102898638087,
+          "min": 3.324196400964438,
+          "q01": 4.938334815052378,
+          "q05": 5.497623420853028
+        },
+        "null_entropy_distribution": {
+          "mean": 5.884913607648861,
+          "std": 0.23444937671374874,
+          "min": 4.0563635942041545,
+          "q01": 4.7842547202987245,
+          "q05": 5.484830267367304
+        },
+        "null_reference_metrics": {
+          "bigram_mutual_information_q95": 0.8469808106651647,
+          "zipf_alpha_q05": 0.04887977463606021,
+          "zipf_alpha_q95": 1.0343103039755934
+        },
+        "outlier_count_below_q01": 67,
+        "stable_outlier_count": 0,
+        "stable_natural_outlier_count": 0,
+        "candidate_reviews": [
+          {
+            "rank": 1,
+            "parameter_index": 6720,
+            "parameterization": [
+              4,
+              5,
+              4,
+              1,
+              0,
+              22,
+              25
+            ],
+            "entropy": 3.324196400964438,
+            "bigram_mutual_information": 0.08904182578593454,
+            "zipf_alpha": 3.060256010568333,
+            "top_symbol_frequency": 0.1651,
+            "compression_ratio": 0.2597333333333333,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.682712420629513,
+              "perturb_entropy_max": 5.997295576450034
+            }
+          },
+          {
+            "rank": 2,
+            "parameter_index": 8427,
+            "parameterization": [
+              7,
+              5,
+              4,
+              1,
+              0,
+              22,
+              54
+            ],
+            "entropy": 3.325429758787131,
+            "bigram_mutual_information": 0.08658885465903307,
+            "zipf_alpha": 3.0868252064565835,
+            "top_symbol_frequency": 0.165,
+            "compression_ratio": 0.2655166666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 1,
+              "pass_rate": 0.08333333333333333,
+              "stable": false,
+              "perturb_entropy_min": 3.3295639627755724,
+              "perturb_entropy_max": 5.989592257774072
+            }
+          },
+          {
+            "rank": 3,
+            "parameter_index": 2241,
+            "parameterization": [
+              1,
+              4,
+              5,
+              1,
+              0,
+              16,
+              49
+            ],
+            "entropy": 3.3527993383140404,
+            "bigram_mutual_information": 0.2392477021839255,
+            "zipf_alpha": 3.0219192422548127,
+            "top_symbol_frequency": 0.16366666666666665,
+            "compression_ratio": 0.2517,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.82363306911542,
+              "perturb_entropy_max": 5.994907067290862
+            }
+          },
+          {
+            "rank": 4,
+            "parameter_index": 9016,
+            "parameterization": [
+              1,
+              5,
+              4,
+              1,
+              0,
+              11,
+              16
+            ],
+            "entropy": 3.365103912055439,
+            "bigram_mutual_information": 0.22365659837366414,
+            "zipf_alpha": 2.9524512007013373,
+            "top_symbol_frequency": 0.1616,
+            "compression_ratio": 0.25321666666666665,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.789056674083691,
+              "perturb_entropy_max": 5.990634270437523
+            }
+          },
+          {
+            "rank": 5,
+            "parameter_index": 3061,
+            "parameterization": [
+              3,
+              4,
+              4,
+              1,
+              0,
+              21,
+              31
+            ],
+            "entropy": 3.574829727439759,
+            "bigram_mutual_information": 0.1003404942043745,
+            "zipf_alpha": 2.8576830839345897,
+            "top_symbol_frequency": 0.1441,
+            "compression_ratio": 0.27666666666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.805615167110026,
+              "perturb_entropy_max": 5.997794548147269
+            }
+          },
+          {
+            "rank": 6,
+            "parameter_index": 2201,
+            "parameterization": [
+              4,
+              4,
+              5,
+              2,
+              0,
+              5,
+              10
+            ],
+            "entropy": 3.7937895972138125,
+            "bigram_mutual_information": 0.09874740577289216,
+            "zipf_alpha": 2.5613813215255945,
+            "top_symbol_frequency": 0.1156,
+            "compression_ratio": 0.2909333333333333,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 3.6089953834693125,
+              "perturb_entropy_max": 5.981068698930867
+            }
+          },
+          {
+            "rank": 7,
+            "parameter_index": 2566,
+            "parameterization": [
+              4,
+              4,
+              4,
+              1,
+              1,
+              9,
+              31
+            ],
+            "entropy": 4.014724373810111,
+            "bigram_mutual_information": 0.19483013741242208,
+            "zipf_alpha": 2.550416743114729,
+            "top_symbol_frequency": 0.10013333333333334,
+            "compression_ratio": 0.3284666666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.2199366879912725,
+              "perturb_entropy_max": 5.996891034822422
+            }
+          },
+          {
+            "rank": 8,
+            "parameter_index": 8746,
+            "parameterization": [
+              4,
+              5,
+              4,
+              1,
+              3,
+              4,
+              54
+            ],
+            "entropy": 4.086214785567588,
+            "bigram_mutual_information": 0.3613941371490841,
+            "zipf_alpha": 2.6700539569617527,
+            "top_symbol_frequency": 0.08263333333333334,
+            "compression_ratio": 0.3128166666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 5.063493300843839,
+              "perturb_entropy_max": 5.996017448199863
+            }
+          },
+          {
+            "rank": 9,
+            "parameter_index": 4413,
+            "parameterization": [
+              6,
+              5,
+              5,
+              3,
+              0,
+              10,
+              59
+            ],
+            "entropy": 4.092469512131831,
+            "bigram_mutual_information": 0.10636454350768974,
+            "zipf_alpha": 2.5001276052936885,
+            "top_symbol_frequency": 0.09683333333333333,
+            "compression_ratio": 0.30195,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.189609142224386,
+              "perturb_entropy_max": 5.997555623143072
+            }
+          },
+          {
+            "rank": 10,
+            "parameter_index": 9982,
+            "parameterization": [
+              5,
+              5,
+              5,
+              3,
+              0,
+              6,
+              61
+            ],
+            "entropy": 4.097582837046989,
+            "bigram_mutual_information": 0.1095614326773225,
+            "zipf_alpha": 2.3535697637939603,
+            "top_symbol_frequency": 0.09523333333333334,
+            "compression_ratio": 0.29946666666666666,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.106692972391876,
+              "perturb_entropy_max": 5.996284218578909
+            }
+          },
+          {
+            "rank": 11,
+            "parameter_index": 4925,
+            "parameterization": [
+              4,
+              4,
+              5,
+              1,
+              2,
+              6,
+              37
+            ],
+            "entropy": 4.108877003792877,
+            "bigram_mutual_information": 0.3885672816582742,
+            "zipf_alpha": 2.5868021974145203,
+            "top_symbol_frequency": 0.084,
+            "compression_ratio": 0.3168666666666667,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.64926848778124,
+              "perturb_entropy_max": 5.997435530376453
+            }
+          },
+          {
+            "rank": 12,
+            "parameter_index": 7331,
+            "parameterization": [
+              7,
+              5,
+              2,
+              16,
+              0,
+              18,
+              16
+            ],
+            "entropy": 4.120951737754531,
+            "bigram_mutual_information": 0.131605184581699,
+            "zipf_alpha": 2.533613541631525,
+            "top_symbol_frequency": 0.14266666666666666,
+            "compression_ratio": 0.30505,
+            "natural_like_profile": false,
+            "stability": {
+              "perturbations": 12,
+              "pass_count": 0,
+              "pass_rate": 0.0,
+              "stable": false,
+              "perturb_entropy_min": 4.7489576726414295,
+              "perturb_entropy_max": 5.9930279914452385
+            }
+          }
+        ]
+      }
+    }
+  }
+}

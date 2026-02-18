@@ -1,0 +1,28 @@
+{
+  "provenance": {
+    "run_id": "0259b6fc-88c3-87e9-fb89-50bb56136638",
+    "git_commit": "9e415edd20b95e1ba7d9e5e85d173099d8bc90b3",
+    "timestamp": "2026-02-18T12:59:48.279369+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771419588278652000,
+    "command": "run_phase10_stage3_f"
+  },
+  "results": {
+    "status": "ok",
+    "generated_at": "2026-02-18T12:59:48.325195+00:00",
+    "priority": "urgent",
+    "reason": "Method F is prioritized because Stage 1/2 includes non-strengthening signals (weakened or indeterminate outcomes).",
+    "inputs": {
+      "stage1_method_decisions": {
+        "H": "closure_strengthened",
+        "J": "closure_weakened",
+        "K": "closure_weakened"
+      },
+      "stage2_method_decisions": {
+        "G": "indeterminate",
+        "I": "closure_strengthened"
+      }
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "provenance": {
+    "run_id": "3e0a6664-c39d-fb61-8064-e24fd8922d11",
+    "git_commit": "9e415edd20b95e1ba7d9e5e85d173099d8bc90b3",
+    "timestamp": "2026-02-18T13:15:43.996279+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771420543995620000,
+    "command": "run_phase10_stage4_synthesis"
+  },
+  "results": {
+    "status": "ok",
+    "stage": "10.4",
+    "generated_at": "2026-02-18T13:15:44.034118+00:00",
+    "baseline_closure_statement": "structurally indistinguishable under tested methods",
+    "method_decisions": {
+      "H": "closure_strengthened",
+      "J": "closure_weakened",
+      "K": "closure_weakened",
+      "G": "indeterminate",
+      "I": "closure_strengthened",
+      "F": "indeterminate"
+    },
+    "outcome_counts": {
+      "closure_defeated": 0,
+      "closure_strengthened": 2,
+      "closure_weakened": 2,
+      "indeterminate": 2,
+      "test_invalid": 0,
+      "unknown": 0
+    },
+    "aggregate_class": "mixed_results_tension",
+    "closure_status": "in_tension",
+    "closure_reason": "Results are mixed across methods; closure is neither defeated nor upgradable and must be stated with explicit tensions.",
+    "urgent_designation": {
+      "priority": "urgent",
+      "gate_reason": "Method F is prioritized because Stage 1/2 includes non-strengthening signals (weakened or indeterminate outcomes).",
+      "meaning": "Urgent is a scheduling/compute-priority designation for Method F. It means Stage 1/2 had at least one non-strengthening signal and deep reverse search should not be deferred. It is not itself evidence that closure is defeated.",
+      "trigger_rule": "Rule trigger: urgent when not (G and I both closure_strengthened) or when Stage 1 contains closure_weakened findings.",
+      "inputs": {
+        "stage1_method_decisions": {
+          "H": "closure_strengthened",
+          "J": "closure_weakened",
+          "K": "closure_weakened"
+        },
+        "stage2_method_decisions": {
+          "G": "indeterminate",
+          "I": "closure_strengthened"
+        }
+      }
+    },
+    "inputs": {
+      "stage1": {
+        "status": "ok",
+        "stage": "10.1",
+        "stage_decision": "closure_weakened",
+        "method_decisions": {
+          "H": "closure_strengthened",
+          "J": "closure_weakened",
+          "K": "closure_weakened"
+        },
+        "generated_at": "2026-02-18T05:37:54.026363+00:00",
+        "run_id": "e34e89be-55f5-6028-9394-3d44b75f7fba"
+      },
+      "stage1b": {
+        "status": "ok",
+        "generated_at": "2026-02-18T06:17:13.581241+00:00",
+        "run_id": "90be725c-7807-2223-e4a5-39cbeef6bc8b",
+        "seeds": [
+          42,
+          77,
+          101
+        ],
+        "target_tokens": 30000,
+        "method_j_null_runs": 100,
+        "method_k_runs": 100,
+        "gate_config_path": "configs/phase10_admissibility/stage1b_upgrade_gate.json",
+        "method_j_status_after_gate": "closure_weakened",
+        "method_k_status_after_gate": "closure_weakened",
+        "next_stage_priority": "10.2_then_10.3",
+        "elapsed_seconds": 2.6948364580166526,
+        "artifact_path": "results/data/phase10_admissibility/stage1b_jk_multiseed_replication.json",
+        "method_j_directions": {
+          "42": "closure_weakened",
+          "77": "closure_weakened",
+          "101": "closure_weakened"
+        },
+        "method_k_directions": {
+          "42": "closure_weakened",
+          "77": "closure_weakened",
+          "101": "closure_weakened"
+        }
+      },
+      "stage2": {
+        "status": "ok",
+        "stage": "10.2",
+        "stage_decision": "indeterminate",
+        "method_decisions": {
+          "G": "indeterminate",
+          "I": "closure_strengthened"
+        },
+        "generated_at": "2026-02-18T12:49:34.010809+00:00",
+        "elapsed_seconds": 31.884530875016935
+      },
+      "stage3": {
+        "status": "ok",
+        "stage": "10.3",
+        "priority": "urgent",
+        "stage_decision": "indeterminate",
+        "method_decisions": {
+          "F": "indeterminate"
+        },
+        "generated_at": "2026-02-18T13:00:40.786762+00:00",
+        "elapsed_seconds": 52.47942308301572
+      },
+      "stage3_priority_gate": {
+        "status": "ok",
+        "generated_at": "2026-02-18T12:59:48.325195+00:00",
+        "priority": "urgent",
+        "reason": "Method F is prioritized because Stage 1/2 includes non-strengthening signals (weakened or indeterminate outcomes).",
+        "inputs": {
+          "stage1_method_decisions": {
+            "H": "closure_strengthened",
+            "J": "closure_weakened",
+            "K": "closure_weakened"
+          },
+          "stage2_method_decisions": {
+            "G": "indeterminate",
+            "I": "closure_strengthened"
+          }
+        }
+      }
+    }
+  }
+}

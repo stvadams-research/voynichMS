@@ -1,0 +1,83 @@
+{
+  "provenance": {
+    "run_id": "3f8c8871-e032-a486-d267-bcc3c105d87a",
+    "git_commit": "9e415edd20b95e1ba7d9e5e85d173099d8bc90b3",
+    "timestamp": "2026-02-18T12:30:48.865389+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771417848864743000,
+    "command": "run_phase10_stage2_gi"
+  },
+  "results": {
+    "status": "ok",
+    "generated_at": "2026-02-18T12:30:48.968029+00:00",
+    "data_root": "data/",
+    "scan_inventory": {
+      "jpg_variants": {
+        "folios_1000": 208,
+        "folios_2000": 209,
+        "folios_full": 209
+      },
+      "tiff_count": 213
+    },
+    "external_corpora_files": [
+      {
+        "path": "data/external_corpora/english.txt",
+        "bytes": 174355
+      },
+      {
+        "path": "data/external_corpora/german.txt",
+        "bytes": 146024
+      },
+      {
+        "path": "data/external_corpora/latin_corpus.txt",
+        "bytes": 425526
+      }
+    ],
+    "datasets_registered_in_db": [
+      "audit_scrambled",
+      "audit_synthetic",
+      "demo_ds_2b",
+      "latin_classic",
+      "mechanical_reuse",
+      "scrambled_anchors_v1",
+      "scrambled_v1",
+      "self_citation",
+      "shuffled_global",
+      "synthesis_baseline",
+      "synthetic_v1",
+      "table_grille",
+      "test_a_pool_10",
+      "test_a_pool_10_s12345",
+      "test_a_pool_10_s1729",
+      "test_a_pool_10_s42",
+      "test_a_pool_10_s4242",
+      "test_a_pool_10_s424242",
+      "test_a_pool_10_s777",
+      "test_a_pool_20",
+      "test_a_pool_20_s12345",
+      "test_a_pool_20_s1729",
+      "test_a_pool_20_s42",
+      "test_a_pool_20_s4242",
+      "test_a_pool_20_s424242",
+      "test_a_pool_20_s777",
+      "test_a_pool_30",
+      "test_a_pool_30_s12345",
+      "test_a_pool_30_s1729",
+      "test_a_pool_30_s42",
+      "test_a_pool_30_s4242",
+      "test_a_pool_30_s424242",
+      "test_a_pool_30_s777",
+      "test_ds",
+      "voynich_real",
+      "voynich_scrambled",
+      "voynich_synthetic",
+      "voynich_synthetic_grammar"
+    ],
+    "notes": [
+      "Resolution-aware extraction available: folios_1000, folios_2000, folios_full, tiff.",
+      "Stage 2 defaults to folios_2000 for throughput/quality balance.",
+      "Label tagging remains machine-only unless explicit annotation resources are provided."
+    ]
+  }
+}

@@ -177,3 +177,33 @@ SK-H1.4 minimum semantic checks before release claims:
 - Conclusive status + `robustness_class in {MIXED, FRAGILE}` must map to `h1_4_closure_lane=H1_4_QUALIFIED`.
 - `h1_4_reopen_conditions` must be present and non-empty.
 - For `H1_4_QUALIFIED`, claim language must include: robustness remains qualified across registered lanes.
+
+## 12. Phase 10 Admissibility Retest
+
+Run Stage 10 workflows in order (resume-aware status files are included for each stage):
+
+```bash
+# Stage 1 (H/J/K)
+python3 scripts/phase10_admissibility/run_stage1_hjk.py
+
+# Stage 1b (J/K confirmatory gates)
+python3 scripts/phase10_admissibility/run_stage1b_jk_replication.py --seeds 42,77,101 --target-tokens 30000 --method-j-null-runs 100 --method-k-runs 100
+
+# Stage 2 (G/I)
+python3 scripts/phase10_admissibility/run_stage2_gi.py --scan-resolution folios_2000 --scan-fallbacks folios_full,tiff,folios_1000 --image-max-side 1400 --method-g-permutations 1000 --method-i-bootstrap 500 --method-i-min-languages 12 --language-token-cap 50000
+
+# Optional: machine-only multilingual corpus expansion used by Stage 2 follow-up
+python3 -m tools.download_corpora --languages finnish,hungarian,vietnamese,mandarin,japanese --target-tokens 5000 --min-article-tokens 40 --min-final-tokens 2200 --batch-size 10 --max-batches 40 --sleep-seconds 0.4 --max-retries-per-batch 8 --retry-backoff-seconds 1.5 --status-path results/data/phase10_admissibility/corpus_expansion_status.json
+
+# Stage 3 (F)
+python3 scripts/phase10_admissibility/run_stage3_f.py --target-tokens 30000 --param-samples-per-family 10000 --null-sequences 1000 --perturbations-per-candidate 12 --max-outlier-probes 12 --null-block-min 2 --null-block-max 12 --symbol-alphabet-size 64
+
+# Stage 4 synthesis
+python3 scripts/phase10_admissibility/run_stage4_synthesis.py
+```
+
+Canonical Phase 10 outputs:
+- `results/reports/phase10_admissibility/PHASE_10_RESULTS.md`
+- `results/reports/phase10_admissibility/PHASE_10_CLOSURE_UPDATE.md`
+- `results/data/phase10_admissibility/stage4_synthesis.json`
+- `results/data/phase10_admissibility/stage4_execution_status.json`

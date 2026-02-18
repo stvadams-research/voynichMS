@@ -1,0 +1,22 @@
+{
+  "provenance": {
+    "run_id": "2c9d1421-498b-f264-bbf4-1ce6fbcfcaf5",
+    "git_commit": "9e415edd20b95e1ba7d9e5e85d173099d8bc90b3",
+    "timestamp": "2026-02-18T12:49:02.089041+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771418942088414000,
+    "command": "run_phase10_stage2_gi"
+  },
+  "results": {
+    "status": "ok",
+    "stage": "10.2",
+    "stage_decision": "indeterminate",
+    "method_decisions": {
+      "G": "indeterminate",
+      "I": "closure_strengthened"
+    },
+    "generated_at": "2026-02-18T12:49:34.010809+00:00",
+    "elapsed_seconds": 31.884530875016935
+  }
+}

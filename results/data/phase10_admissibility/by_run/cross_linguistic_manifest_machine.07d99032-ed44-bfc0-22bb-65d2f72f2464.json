@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "run_id": "07d99032-ed44-bfc0-22bb-65d2f72f2464",
+    "git_commit": "9e415edd20b95e1ba7d9e5e85d173099d8bc90b3",
+    "timestamp": "2026-02-18T12:31:46.851568+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771417906851506000,
+    "command": "run_phase10_stage2_gi"
+  },
+  "results": {
+    "status": "ok",
+    "generated_at": "2026-02-18T12:32:05.772463+00:00",
+    "token_cap": 50000,
+    "language_entries": [
+      {
+        "language_id": "english",
+        "display_name": "English",
+        "typology": "fusional",
+        "source": "data/external_corpora/english.txt",
+        "token_count": 30330,
+        "raw_token_count": 30330
+      },
+      {
+        "language_id": "german",
+        "display_name": "German",
+        "typology": "fusional",
+        "source": "data/external_corpora/german.txt",
+        "token_count": 22271,
+        "raw_token_count": 22271
+      },
+      {
+        "language_id": "latin",
+        "display_name": "Latin",
+        "typology": "fusional",
+        "source": "db:latin_classic",
+        "token_count": 50000,
+        "raw_token_count": 230000
+      }
+    ],
+    "language_count": 3,
+    "typology_classes_present": [
+      "fusional"
+    ],
+    "typology_class_count": 1,
+    "notes": [
+      "Manifest built from local /data resources only.",
+      "No manual corpus labeling was used; language identity derived from filenames/db IDs."
+    ]
+  }
+}

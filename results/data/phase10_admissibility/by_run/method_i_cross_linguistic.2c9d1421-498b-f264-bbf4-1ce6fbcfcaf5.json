@@ -1,0 +1,86 @@
+{
+  "provenance": {
+    "run_id": "2c9d1421-498b-f264-bbf4-1ce6fbcfcaf5",
+    "git_commit": "9e415edd20b95e1ba7d9e5e85d173099d8bc90b3",
+    "timestamp": "2026-02-18T12:49:02.089041+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771418942088414000,
+    "command": "run_phase10_stage2_gi"
+  },
+  "results": {
+    "method": "I",
+    "status": "ok",
+    "decision": "closure_strengthened",
+    "reason": "Voynich remains closer to generator controls than to language controls.",
+    "config": {
+      "bootstrap_iterations": 500,
+      "seed": 42,
+      "min_languages": 12
+    },
+    "coverage": {
+      "language_count": 13,
+      "typology_class_count": 5,
+      "min_languages_required": 12,
+      "min_typology_classes_required": 4,
+      "coverage_ok": true
+    },
+    "feature_keys": [
+      "bigram_cond_entropy",
+      "bigram_mutual_information",
+      "compression_bits_per_token",
+      "entropy",
+      "hapax_ratio",
+      "line_final_entropy",
+      "line_initial_entropy",
+      "mean_word_length",
+      "trigram_cond_entropy",
+      "type_token_ratio",
+      "zipf_alpha"
+    ],
+    "nearest_language": {
+      "language_id": "latin",
+      "distance": 3.807516646032284,
+      "typology": "fusional"
+    },
+    "nearest_generator": {
+      "dataset_id": "shuffled_global",
+      "distance": 2.8153812792968798
+    },
+    "cloud_distances": {
+      "to_language_centroid": 5.469048625120456,
+      "to_generator_centroid": 3.3630731774679257,
+      "generator_minus_language_margin": -2.10597544765253,
+      "bootstrap_margin_q05": -2.9133634685860876,
+      "bootstrap_margin_q95": -0.00586340339465833,
+      "bootstrap_confidence_language_closer": 0.05,
+      "bootstrap_confidence_generator_closer": 0.95
+    },
+    "null_baseline": {
+      "mean_distance_to_real_languages": 5.970467415814246,
+      "mean_distance_to_shuffled_languages": 11.157481858515423,
+      "shuffled_minus_real_margin": 5.187014442701177
+    },
+    "language_distances": {
+      "arabic": 6.105329785274161,
+      "english": 5.336017241407261,
+      "finnish": 6.837911053568794,
+      "german": 5.6059473011562595,
+      "greek": 5.914514604284339,
+      "hebrew": 6.296516862131023,
+      "hungarian": 6.30447021487919,
+      "japanese": 6.943784082462603,
+      "latin": 3.807516646032284,
+      "mandarin": 6.037472547836767,
+      "russian": 6.125246216244981,
+      "turkish": 6.6108784976867465,
+      "vietnamese": 5.690471352620801
+    },
+    "generator_distances": {
+      "mechanical_reuse": 4.033917752784653,
+      "self_citation": 4.00195262553675,
+      "shuffled_global": 2.8153812792968798,
+      "table_grille": 7.726443062242655
+    }
+  }
+}

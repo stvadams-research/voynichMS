@@ -1,0 +1,135 @@
+{
+  "provenance": {
+    "run_id": "2c9d1421-498b-f264-bbf4-1ce6fbcfcaf5",
+    "git_commit": "9e415edd20b95e1ba7d9e5e85d173099d8bc90b3",
+    "timestamp": "2026-02-18T12:49:02.089041+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771418942088414000,
+    "command": "run_phase10_stage2_gi"
+  },
+  "results": {
+    "status": "ok",
+    "generated_at": "2026-02-18T12:49:22.046350+00:00",
+    "token_cap": 50000,
+    "language_entries": [
+      {
+        "language_id": "arabic",
+        "display_name": "Arabic",
+        "typology": "abjad",
+        "source": "data/external_corpora/arabic.txt",
+        "token_count": 6687,
+        "raw_token_count": 6687
+      },
+      {
+        "language_id": "english",
+        "display_name": "English",
+        "typology": "fusional",
+        "source": "data/external_corpora/english.txt",
+        "token_count": 10378,
+        "raw_token_count": 10378
+      },
+      {
+        "language_id": "finnish",
+        "display_name": "Finnish",
+        "typology": "agglutinative",
+        "source": "data/external_corpora/finnish.txt",
+        "token_count": 5009,
+        "raw_token_count": 5009
+      },
+      {
+        "language_id": "german",
+        "display_name": "German",
+        "typology": "fusional",
+        "source": "data/external_corpora/german.txt",
+        "token_count": 11453,
+        "raw_token_count": 11453
+      },
+      {
+        "language_id": "greek",
+        "display_name": "Greek",
+        "typology": "fusional",
+        "source": "data/external_corpora/greek.txt",
+        "token_count": 8492,
+        "raw_token_count": 8492
+      },
+      {
+        "language_id": "hebrew",
+        "display_name": "Hebrew",
+        "typology": "abjad",
+        "source": "data/external_corpora/hebrew.txt",
+        "token_count": 12371,
+        "raw_token_count": 12371
+      },
+      {
+        "language_id": "hungarian",
+        "display_name": "Hungarian",
+        "typology": "agglutinative",
+        "source": "data/external_corpora/hungarian.txt",
+        "token_count": 5125,
+        "raw_token_count": 5125
+      },
+      {
+        "language_id": "japanese",
+        "display_name": "Japanese",
+        "typology": "syllabic",
+        "source": "data/external_corpora/japanese.txt",
+        "token_count": 5967,
+        "raw_token_count": 5967
+      },
+      {
+        "language_id": "latin",
+        "display_name": "Latin",
+        "typology": "fusional",
+        "source": "db:latin_classic",
+        "token_count": 50000,
+        "raw_token_count": 230000
+      },
+      {
+        "language_id": "mandarin",
+        "display_name": "Mandarin",
+        "typology": "isolating",
+        "source": "data/external_corpora/mandarin.txt",
+        "token_count": 5012,
+        "raw_token_count": 5012
+      },
+      {
+        "language_id": "russian",
+        "display_name": "Russian",
+        "typology": "fusional",
+        "source": "data/external_corpora/russian.txt",
+        "token_count": 6793,
+        "raw_token_count": 6793
+      },
+      {
+        "language_id": "turkish",
+        "display_name": "Turkish",
+        "typology": "agglutinative",
+        "source": "data/external_corpora/turkish.txt",
+        "token_count": 3694,
+        "raw_token_count": 3694
+      },
+      {
+        "language_id": "vietnamese",
+        "display_name": "Vietnamese",
+        "typology": "isolating",
+        "source": "data/external_corpora/vietnamese.txt",
+        "token_count": 5060,
+        "raw_token_count": 5060
+      }
+    ],
+    "language_count": 13,
+    "typology_classes_present": [
+      "abjad",
+      "agglutinative",
+      "fusional",
+      "isolating",
+      "syllabic"
+    ],
+    "typology_class_count": 5,
+    "notes": [
+      "Manifest built from local /data resources only.",
+      "No manual corpus labeling was used; language identity derived from filenames/db IDs."
+    ]
+  }
+}

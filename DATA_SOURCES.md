@@ -105,6 +105,34 @@ Matched-length natural-language texts used as semantic baselines and comparative
 
 Download the plain-text UTF-8 versions from the Gutenberg URLs above and place them at the paths shown. No preprocessing is needed — the corpus builder (`scripts/phase4_inference/build_corpora.py`) handles tokenization.
 
+### 3d. Phase 10 multilingual expansion corpora (machine-extracted)
+
+Phase 10 Stage 2 follow-up adds additional typology coverage using automated extraction
+from Wikipedia plaintext API endpoints (no manual tagging required).
+
+Typical files produced under `data/external_corpora/`:
+
+- `arabic.txt`
+- `finnish.txt`
+- `greek.txt`
+- `hebrew.txt`
+- `hungarian.txt`
+- `japanese.txt`
+- `mandarin.txt`
+- `russian.txt`
+- `turkish.txt`
+- `vietnamese.txt`
+
+Generation path:
+
+```bash
+python3 -m tools.download_corpora
+```
+
+Checkpoint artifact:
+
+- `results/data/phase10_admissibility/corpus_expansion_status.json`
+
 ---
 
 ## 4. Derived / Generated Data (not committed)

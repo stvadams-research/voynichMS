@@ -183,6 +183,24 @@ Formalize the framework's findings into human-interpretable and peer-reviewed fo
 
 ---
 
+### Layer 6: Adversarial Closure Retest (Completed)
+
+**Purpose**  
+Stress-test closure with methods that challenge sequence exploitability and external grounding.
+
+**Scope**
+- Reverse mechanism search (Method F)
+- Text-illustration coupling and multilingual positioning (Methods G/I)
+- Typology and residual/anomaly re-tests (Methods H/J/K)
+- Stage-level synthesis and closure update
+
+**Outcome**  
+Phase 10 completed with mixed results (`mixed_results_tension`): strengthened signals,
+weakened signals, and indeterminate signals coexist. Closure is currently documented as
+`in_tension`, not defeated and not fully upgraded.
+
+---
+
 ## 5. Translation as a Separate Endeavor (Unjustified to Date)
 
 Translation is not currently an admissible activity.
@@ -220,7 +238,8 @@ Interpretation is deferred until inference itself is justified.
 - Phase 2 maps to Layer 2 (Admissibility)
 - Phase 3 maps to Layer 3 (Structural Sufficiency)
 - Phase 4 maps to Layer 4 (Inference Admissibility)
-- Phases 5-7 map to Layer 5 (Visualization and Reporting)
+- Phases 5-9 map to Layer 5 (Visualization, reporting, publication, and comparative synthesis)
+- Phase 10 maps to Layer 6 (Adversarial closure retest)
 
 Phases may conclude.
 Layers define what kinds of questions are allowed.

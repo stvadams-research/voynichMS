@@ -16,9 +16,10 @@ If it only adds structure, it does not belong here.
 
 ---
 
-## Current Status: AUDIT-REMEDIATED
+## Current Status: PHASE-10-COMPLETE
 
-The project has executable phase runners through **Phase 9**, an automated **Visualization Layer**, and a **Publication Framework** for academic-grade reporting.
+The project has executable phase runners through **Phase 10**, an automated
+**Visualization Layer**, and a **Publication Framework** for academic-grade reporting.
 
 ### Research Phases
 1.  **Phase 1 (Foundation)**: Digital ledgering and data integrity.
@@ -30,11 +31,17 @@ The project has executable phase runners through **Phase 9**, an automated **Vis
 7.  **Phase 7 (Human)**: Physical scribe constraints and codicology.
 8.  **Phase 8 (Comparative)**: Proximity to historical mechanical artifacts.
 9.  **Phase 9 (Conjecture)**: Speculative synthesis and Algorithmic Glossolalia.
+10. **Phase 10 (Admissibility Retest)**: Adversarial re-testing of closure via
+    Methods F/G/H/I/J/K, including external grounding and reverse-mechanism search.
 
 ### Key Findings
 1.  **Natural-language/simple-cipher hypotheses are not supported:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic.
 2.  **Mechanism class identified:** The manuscript is identified as a Globally Stable, Deterministic Rule-Evaluated Constraint Lattice.
 3.  **Inference Admissibility defined:** Established a statistical "noise floor" proving that standard decipherment tools find "meaning" in random noise as easily as in the manuscript.
+4.  **Phase 10 closure stress-test completed:** Outcomes are mixed
+    (strengthened: H/I; weakened: J/K; indeterminate: G/F), yielding
+    `mixed_results_tension` and closure status `in_tension` rather than a full
+    upgrade or defeat.
 
 ---
 
@@ -112,4 +119,3 @@ This repository is permanently archived at:
 https://doi.org/10.5281/zenodo.18651596
 
 The Zenodo archive corresponds to software release `v1.0.1` and supports full reproducibility of the associated paper.
-

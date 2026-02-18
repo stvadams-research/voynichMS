@@ -313,8 +313,8 @@ All Phase 10 runs must follow the existing provenance framework:
 - Corpus hashes recorded
 - Code version and commit hash locked
 - RandomnessController set to SEEDED for all stochastic operations
-- Results stored in `results/data/phase10_/<method_name>.json`
-- Run copies in `results/data/phase10_/by_run/<artifact>.<run_id>.json`
+- Results stored in `results/data/phase10_admissibility/<method_name>.json`
+- Run copies in `results/data/phase10_admissibility/by_run/<artifact>.<run_id>.json`
 
 ---
 
@@ -357,8 +357,8 @@ This is the most ambitious test. Run last, informed by the results of Stages 1-2
 - If all methods strengthen closure, write a substantially stronger closure with the new evidence base
 
 **Deliverables:**
-- `results/reports/phase10_/PHASE_10_RESULTS.md`
-- `results/reports/phase10_/PHASE_10_CLOSURE_UPDATE.md`
+- `results/reports/phase10_admissibility/PHASE_10_RESULTS.md`
+- `results/reports/phase10_admissibility/PHASE_10_CLOSURE_UPDATE.md`
 
 ---
 
@@ -462,15 +462,87 @@ Phase 10 stress-tests the project's central conclusion by asking questions that 
 
 ### 10.2 Execution Status (Stage 2)
 
-- **Status:** NOT STARTED
-- **Reason:** Not executed yet. Stage 10.1b priority now sets Stage 2 as next.
-- **Scope not executed:** cross-linguistic corpus acquisition and illustration-feature extraction tasks.
+- **Status:** COMPLETE (FOLLOW-UP RECOMPUTE COMPLETE)
+- **Initial completion at:** 2026-02-18 (`07d99032-ed44-bfc0-22bb-65d2f72f2464`; Method I coverage invalid)
+- **Resume verification run ID:** `070c6121-2eca-ef99-3953-fd4967f89092`
+- **Follow-up corpus expansion window (UTC):** 2026-02-18 12:44 to 12:48
+- **Follow-up Stage 2 recompute run ID:** `2c9d1421-498b-f264-bbf4-1ce6fbcfcaf5`
+- **Execution profile:** `scan_resolution=folios_2000`, `scan_fallbacks=[folios_full,tiff,folios_1000]`, `image_max_side=1400`, `method_g_permutations=1000`, `method_i_bootstrap=500`, `method_i_min_languages=12`, `language_token_cap=50000`
+- **Machine-extraction policy:** Applied end-to-end.
+  - Illustration features: machine-extracted from scans, no manual folio labeling.
+  - Cross-linguistic corpora: machine-extracted via scripted API ingestion, no manual corpus tagging.
+- **Data resources explicitly inventoried from `/data`:**
+  - Scans (JPG): `folios_1000=208`, `folios_2000=209`, `folios_full=209`
+  - Scans (TIFF): `213` files in `data/raw/scans/tiff`
+  - External corpora after follow-up: `13` usable language corpora (`>=2000` tokens each)
+  - Typology classes after follow-up: `5` (`abjad`, `agglutinative`, `fusional`, `isolating`, `syllabic`)
+- **Stage 2 method outcomes (latest recompute):**
+  - Method G: `indeterminate` (full coupling significant; residual effect non-positive)
+  - Method I: `closure_strengthened` (coverage met: `13` languages, `5` typology classes; generator-cloud proximity favored with bootstrap confidence `0.95`)
+  - Stage 2 aggregate: `indeterminate`
+- **Deliverables created/updated:**
+  - `data/illustration_features.json` (refreshed)
+  - `data/corpora/cross_linguistic_manifest.json` (refreshed)
+  - `data/external_corpora/arabic.txt`
+  - `data/external_corpora/finnish.txt`
+  - `data/external_corpora/greek.txt`
+  - `data/external_corpora/hebrew.txt`
+  - `data/external_corpora/hungarian.txt`
+  - `data/external_corpora/japanese.txt`
+  - `data/external_corpora/mandarin.txt`
+  - `data/external_corpora/russian.txt`
+  - `data/external_corpora/turkish.txt`
+  - `data/external_corpora/vietnamese.txt`
+- **Artifacts/checkpoints:**
+  - `results/data/phase10_admissibility/corpus_expansion_status.json`
+  - `results/data/phase10_admissibility/stage2_data_inventory.json`
+  - `results/data/phase10_admissibility/illustration_features_machine.json`
+  - `results/data/phase10_admissibility/cross_linguistic_manifest_machine.json`
+  - `results/data/phase10_admissibility/method_g_text_illustration.json`
+  - `results/data/phase10_admissibility/method_i_cross_linguistic.json`
+  - `results/data/phase10_admissibility/stage2_summary.json`
+  - `results/reports/phase10_admissibility/PHASE_10_STAGE2_RESULTS.md`
+  - `results/data/phase10_admissibility/stage2_execution_status.json`
 
 ### 10.3 Execution Status (Stage 3 Priority Gate)
 
-- **Status:** NOT STARTED
-- **Reason:** Not executed yet. Stage 10.1b priority places Stage 3 after Stage 2.
-- **Scope not executed:** Method F launch/prioritization workflow.
+- **Status:** COMPLETE
+- **Completed at:** 2026-02-18
+- **Primary compute run ID:** `0259b6fc-88c3-87e9-fb89-50bb56136638`
+- **Priority gate outcome:** `urgent`
+  - Gate reason: Stage 1/2 contained non-strengthening signals, so Method F stayed high-priority.
+- **Execution profile:** `target_tokens=30000`, `param_samples_per_family=10000`, `null_sequences=1000`, `perturbations_per_candidate=12`, `max_outlier_probes=12`, `null_block=[2,12]`, `symbol_alphabet_size=64`
+- **Method F outcomes:**
+  - Table-grille reverse search: `indeterminate` (`118` low-entropy outliers, `0` stable-natural)
+  - Slot-logic reverse search: `indeterminate` (`109` low-entropy outliers, `0` stable-natural)
+  - Constrained-Markov reverse search: `indeterminate` (`67` low-entropy outliers, `0` stable-natural)
+  - Method F aggregate: `indeterminate`
+- **Interpretation note:** Outliers below null-q01 were found in all families, but none survived perturbation stability with language-like profile requirements.
+- **Artifacts:**
+  - `results/data/phase10_admissibility/stage3_priority_gate.json`
+  - `results/data/phase10_admissibility/method_f_reverse_mechanism.json`
+  - `results/data/phase10_admissibility/stage3_summary.json`
+  - `results/reports/phase10_admissibility/PHASE_10_STAGE3_RESULTS.md`
+  - `results/data/phase10_admissibility/stage3_execution_status.json`
+
+### 10.4 Execution Status (Stage 4 Synthesis)
+
+- **Status:** COMPLETE
+- **Completed at:** 2026-02-18
+- **Primary compute run ID:** `3e0a6664-c39d-fb61-8064-e24fd8922d11`
+- **Stage 4 synthesis outcome:**
+  - Aggregate class: `mixed_results_tension`
+  - Closure status: `in_tension`
+  - Outcome counts: strengthened=`2` (H, I), weakened=`2` (J, K), indeterminate=`2` (G, F), defeated=`0`
+- **Urgent designation interpretation (explicit):**
+  - Priority gate remained `urgent` because Stage 1/2 had non-strengthening signals.
+  - `urgent` is a scheduling/compute-priority flag for Method F, not a closure-defeat verdict.
+- **Deliverables created:**
+  - `results/reports/phase10_admissibility/PHASE_10_RESULTS.md`
+  - `results/reports/phase10_admissibility/PHASE_10_CLOSURE_UPDATE.md`
+- **Artifacts/checkpoints:**
+  - `results/data/phase10_admissibility/stage4_synthesis.json`
+  - `results/data/phase10_admissibility/stage4_execution_status.json`
 
 ### Restart/Resume Checkpoints
 
@@ -482,3 +554,16 @@ Phase 10 stress-tests the project's central conclusion by asking questions that 
 - The Stage 1b runner is resume-aware and reuses completed per-seed artifacts before finalization.
 - Stage 1b resume command:
   - `python scripts/phase10_admissibility/run_stage1b_jk_replication.py --seeds 42,77,101 --target-tokens 30000 --method-j-null-runs 100 --method-k-runs 100`
+- Canonical Stage 2 checkpoint file: `results/data/phase10_admissibility/stage2_execution_status.json`
+- The Stage 2 runner is resume-aware and reuses completed step artifacts unless forced.
+- Stage 2 resume command:
+  - `python scripts/phase10_admissibility/run_stage2_gi.py --scan-resolution folios_2000 --scan-fallbacks folios_full,tiff,folios_1000 --image-max-side 1400 --method-g-permutations 1000 --method-i-bootstrap 500 --method-i-min-languages 12 --language-token-cap 50000`
+- Canonical corpus-expansion checkpoint file: `results/data/phase10_admissibility/corpus_expansion_status.json`
+- Corpus-expansion resume command (machine extraction only):
+  - `python -m tools.download_corpora --languages finnish,hungarian,vietnamese,mandarin,japanese --target-tokens 5000 --min-article-tokens 40 --min-final-tokens 2200 --batch-size 10 --max-batches 40 --sleep-seconds 0.4 --max-retries-per-batch 8 --retry-backoff-seconds 1.5 --status-path results/data/phase10_admissibility/corpus_expansion_status.json`
+- Canonical Stage 3 checkpoint file: `results/data/phase10_admissibility/stage3_execution_status.json`
+- Stage 3 resume command:
+  - `python scripts/phase10_admissibility/run_stage3_f.py --target-tokens 30000 --param-samples-per-family 10000 --null-sequences 1000 --perturbations-per-candidate 12 --max-outlier-probes 12 --null-block-min 2 --null-block-max 12 --symbol-alphabet-size 64`
+- Canonical Stage 4 checkpoint file: `results/data/phase10_admissibility/stage4_execution_status.json`
+- Stage 4 resume command:
+  - `python scripts/phase10_admissibility/run_stage4_synthesis.py`

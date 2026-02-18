@@ -1,0 +1,105 @@
+{
+  "provenance": {
+    "run_id": "2c9d1421-498b-f264-bbf4-1ce6fbcfcaf5",
+    "git_commit": "9e415edd20b95e1ba7d9e5e85d173099d8bc90b3",
+    "timestamp": "2026-02-18T12:49:02.089041+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771418942088414000,
+    "command": "run_phase10_stage2_gi"
+  },
+  "results": {
+    "method": "G",
+    "status": "ok",
+    "decision": "indeterminate",
+    "reason": "Section-level coupling exists but residual evidence is not decisive.",
+    "config": {
+      "permutations": 1000,
+      "seed": 42
+    },
+    "folio_count": 222,
+    "sections_present": [
+      "astronomical",
+      "biological",
+      "cosmological",
+      "herbal",
+      "pharmaceutical",
+      "stars"
+    ],
+    "correlation": {
+      "full": {
+        "r_observed": 0.22104903124565717,
+        "p_one_sided": 0.000999000999000999,
+        "p_two_sided": 0.000999000999000999,
+        "null_mean": -0.0002075386075157984,
+        "null_std": 0.0267504464330184,
+        "null_q05": -0.042177741723400386,
+        "null_q95": 0.04179382926837633,
+        "permutations": 1000
+      },
+      "within_section_permutation": {
+        "r_observed": 0.22104903124565717,
+        "p_one_sided": 0.000999000999000999,
+        "p_two_sided": 0.000999000999000999,
+        "null_mean": 0.1617216264578443,
+        "null_std": 0.019057671570607705,
+        "null_q05": 0.1307372541769708,
+        "null_q95": 0.19319066476170407,
+        "permutations": 1000
+      },
+      "residual_after_text_demean": {
+        "r_observed": -0.00027227804741818286,
+        "p_one_sided": 0.000999000999000999,
+        "p_two_sided": 1.0,
+        "null_mean": -0.028955970776176794,
+        "null_std": 0.0023618954228466164,
+        "null_q05": -0.03231196099863427,
+        "null_q95": -0.02442878500239554,
+        "permutations": 1000
+      }
+    },
+    "label_specificity": {
+      "status": "not_evaluable",
+      "reason": "No reliable local machine-readable label-to-illustration alignment resource is available; manual labeling was intentionally not used."
+    },
+    "visual_feature_keys": [
+      "component_area_max_ratio",
+      "component_area_mean_ratio",
+      "component_count_per_megapixel",
+      "edge_density",
+      "effective_height",
+      "effective_width",
+      "gray_mean",
+      "gray_std",
+      "h_mean",
+      "h_std",
+      "ink_grid_r0c0",
+      "ink_grid_r0c1",
+      "ink_grid_r0c2",
+      "ink_grid_r0c3",
+      "ink_grid_r1c0",
+      "ink_grid_r1c1",
+      "ink_grid_r1c2",
+      "ink_grid_r1c3",
+      "ink_grid_r2c0",
+      "ink_grid_r2c1",
+      "ink_grid_r2c2",
+      "ink_grid_r2c3",
+      "ink_grid_r3c0",
+      "ink_grid_r3c1",
+      "ink_grid_r3c2",
+      "ink_grid_r3c3",
+      "ink_ratio",
+      "laplacian_variance",
+      "large_contour_count_per_megapixel",
+      "mean_circularity",
+      "projection_entropy_cols",
+      "projection_entropy_rows",
+      "resize_scale",
+      "s_mean",
+      "s_std",
+      "v_mean",
+      "v_std"
+    ]
+  }
+}

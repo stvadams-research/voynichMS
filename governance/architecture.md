@@ -39,6 +39,12 @@ Refining findings for human interpretability.
 - **Visualization:** Automatic generation of phase-specific diagnostic plots.
 - **Publication:** Automated assembly of substantive research drafts from result records.
 
+### Layer 6: Admissibility Retest (`src/phase10_admissibility/` & `scripts/phase10_admissibility/`)
+Adversarial closure retest workflows that operate after the core phase stack.
+- **Reverse Search:** Method F parameter-space and null-calibrated reverse mechanism tests.
+- **External Grounding:** Method G/I coupling and multilingual positioning checks.
+- **Synthesis:** Stage 4 closure update with explicit mixed-result tension handling.
+
 ---
 
 ## 3. Global Data Flow
