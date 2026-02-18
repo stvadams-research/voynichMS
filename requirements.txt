@@ -16,4 +16,5 @@ mypy>=1.10
 types-PyYAML
 ipykernel>=6.29
 matplotlib>=3.8
+umap-learn>=0.5.11
 python-docx>=1.1.0

@@ -1,0 +1,352 @@
+{
+  "provenance": {
+    "run_id": "6f620308-694e-5253-19eb-0157546f5ed0",
+    "git_commit": "204d1a9eb4a4e5cde1844826deaf6d0032ec662d",
+    "timestamp": "2026-02-18T02:43:45.258869+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771382625258550000,
+    "command": "run_discrimination_check_phase4"
+  },
+  "results": {
+    "status": "ok",
+    "config": {
+      "window_size": 72,
+      "windows_per_dataset": 160,
+      "max_features": 2000,
+      "ngram_min": 2,
+      "ngram_max": 2,
+      "train_fraction": 0.7,
+      "random_state": 42,
+      "voynich_dataset_id": "voynich_real"
+    },
+    "doc_counts": {
+      "voynich_real": 160,
+      "latin_classic": 160,
+      "self_citation": 160,
+      "table_grille": 160,
+      "mechanical_reuse": 160,
+      "shuffled_global": 160
+    },
+    "n_docs": 960,
+    "n_features": 2000,
+    "n_train": 672,
+    "n_test": 288,
+    "classes": [
+      "latin_classic",
+      "mechanical_reuse",
+      "self_citation",
+      "shuffled_global",
+      "table_grille",
+      "voynich_real"
+    ],
+    "models": {
+      "nearest_centroid": {
+        "accuracy": 0.5972222222222222,
+        "confusion_counts": {
+          "latin_classic": {
+            "latin_classic": 48,
+            "mechanical_reuse": 0,
+            "self_citation": 0,
+            "shuffled_global": 0,
+            "table_grille": 0,
+            "voynich_real": 0
+          },
+          "mechanical_reuse": {
+            "latin_classic": 0,
+            "mechanical_reuse": 47,
+            "self_citation": 0,
+            "shuffled_global": 1,
+            "table_grille": 0,
+            "voynich_real": 0
+          },
+          "self_citation": {
+            "latin_classic": 48,
+            "mechanical_reuse": 0,
+            "self_citation": 0,
+            "shuffled_global": 0,
+            "table_grille": 0,
+            "voynich_real": 0
+          },
+          "shuffled_global": {
+            "latin_classic": 20,
+            "mechanical_reuse": 8,
+            "self_citation": 0,
+            "shuffled_global": 9,
+            "table_grille": 0,
+            "voynich_real": 11
+          },
+          "table_grille": {
+            "latin_classic": 0,
+            "mechanical_reuse": 0,
+            "self_citation": 0,
+            "shuffled_global": 0,
+            "table_grille": 48,
+            "voynich_real": 0
+          },
+          "voynich_real": {
+            "latin_classic": 20,
+            "mechanical_reuse": 1,
+            "self_citation": 0,
+            "shuffled_global": 7,
+            "table_grille": 0,
+            "voynich_real": 20
+          }
+        },
+        "confusion_row_normalized": {
+          "latin_classic": {
+            "latin_classic": 1.0,
+            "mechanical_reuse": 0.0,
+            "self_citation": 0.0,
+            "shuffled_global": 0.0,
+            "table_grille": 0.0,
+            "voynich_real": 0.0
+          },
+          "mechanical_reuse": {
+            "latin_classic": 0.0,
+            "mechanical_reuse": 0.9791666666666666,
+            "self_citation": 0.0,
+            "shuffled_global": 0.020833333333333332,
+            "table_grille": 0.0,
+            "voynich_real": 0.0
+          },
+          "self_citation": {
+            "latin_classic": 1.0,
+            "mechanical_reuse": 0.0,
+            "self_citation": 0.0,
+            "shuffled_global": 0.0,
+            "table_grille": 0.0,
+            "voynich_real": 0.0
+          },
+          "shuffled_global": {
+            "latin_classic": 0.4166666666666667,
+            "mechanical_reuse": 0.16666666666666666,
+            "self_citation": 0.0,
+            "shuffled_global": 0.1875,
+            "table_grille": 0.0,
+            "voynich_real": 0.22916666666666666
+          },
+          "table_grille": {
+            "latin_classic": 0.0,
+            "mechanical_reuse": 0.0,
+            "self_citation": 0.0,
+            "shuffled_global": 0.0,
+            "table_grille": 1.0,
+            "voynich_real": 0.0
+          },
+          "voynich_real": {
+            "latin_classic": 0.4166666666666667,
+            "mechanical_reuse": 0.020833333333333332,
+            "self_citation": 0.0,
+            "shuffled_global": 0.14583333333333334,
+            "table_grille": 0.0,
+            "voynich_real": 0.4166666666666667
+          }
+        }
+      },
+      "knn_1_cosine": {
+        "accuracy": 0.5694444444444444,
+        "confusion_counts": {
+          "latin_classic": {
+            "latin_classic": 44,
+            "mechanical_reuse": 0,
+            "self_citation": 0,
+            "shuffled_global": 0,
+            "table_grille": 0,
+            "voynich_real": 4
+          },
+          "mechanical_reuse": {
+            "latin_classic": 0,
+            "mechanical_reuse": 23,
+            "self_citation": 0,
+            "shuffled_global": 17,
+            "table_grille": 0,
+            "voynich_real": 8
+          },
+          "self_citation": {
+            "latin_classic": 0,
+            "mechanical_reuse": 0,
+            "self_citation": 0,
+            "shuffled_global": 0,
+            "table_grille": 0,
+            "voynich_real": 48
+          },
+          "shuffled_global": {
+            "latin_classic": 0,
+            "mechanical_reuse": 5,
+            "self_citation": 0,
+            "shuffled_global": 15,
+            "table_grille": 0,
+            "voynich_real": 28
+          },
+          "table_grille": {
+            "latin_classic": 0,
+            "mechanical_reuse": 0,
+            "self_citation": 0,
+            "shuffled_global": 0,
+            "table_grille": 48,
+            "voynich_real": 0
+          },
+          "voynich_real": {
+            "latin_classic": 0,
+            "mechanical_reuse": 1,
+            "self_citation": 0,
+            "shuffled_global": 13,
+            "table_grille": 0,
+            "voynich_real": 34
+          }
+        },
+        "confusion_row_normalized": {
+          "latin_classic": {
+            "latin_classic": 0.9166666666666666,
+            "mechanical_reuse": 0.0,
+            "self_citation": 0.0,
+            "shuffled_global": 0.0,
+            "table_grille": 0.0,
+            "voynich_real": 0.08333333333333333
+          },
+          "mechanical_reuse": {
+            "latin_classic": 0.0,
+            "mechanical_reuse": 0.4791666666666667,
+            "self_citation": 0.0,
+            "shuffled_global": 0.3541666666666667,
+            "table_grille": 0.0,
+            "voynich_real": 0.16666666666666666
+          },
+          "self_citation": {
+            "latin_classic": 0.0,
+            "mechanical_reuse": 0.0,
+            "self_citation": 0.0,
+            "shuffled_global": 0.0,
+            "table_grille": 0.0,
+            "voynich_real": 1.0
+          },
+          "shuffled_global": {
+            "latin_classic": 0.0,
+            "mechanical_reuse": 0.10416666666666667,
+            "self_citation": 0.0,
+            "shuffled_global": 0.3125,
+            "table_grille": 0.0,
+            "voynich_real": 0.5833333333333334
+          },
+          "table_grille": {
+            "latin_classic": 0.0,
+            "mechanical_reuse": 0.0,
+            "self_citation": 0.0,
+            "shuffled_global": 0.0,
+            "table_grille": 1.0,
+            "voynich_real": 0.0
+          },
+          "voynich_real": {
+            "latin_classic": 0.0,
+            "mechanical_reuse": 0.020833333333333332,
+            "self_citation": 0.0,
+            "shuffled_global": 0.2708333333333333,
+            "table_grille": 0.0,
+            "voynich_real": 0.7083333333333334
+          }
+        }
+      }
+    },
+    "centroid_cosine_distance": {
+      "latin_classic": {
+        "latin_classic": -2.220446049250313e-16,
+        "mechanical_reuse": 1.0,
+        "self_citation": 1.0,
+        "shuffled_global": 0.9993444580035913,
+        "table_grille": 1.0,
+        "voynich_real": 0.9995955290306923
+      },
+      "mechanical_reuse": {
+        "latin_classic": 1.0,
+        "mechanical_reuse": 4.440892098500626e-16,
+        "self_citation": 1.0,
+        "shuffled_global": 0.8861315021925473,
+        "table_grille": 0.9952394558471169,
+        "voynich_real": 0.8930274604326156
+      },
+      "self_citation": {
+        "latin_classic": 1.0,
+        "mechanical_reuse": 1.0,
+        "self_citation": 0.0,
+        "shuffled_global": 1.0,
+        "table_grille": 1.0,
+        "voynich_real": 1.0
+      },
+      "shuffled_global": {
+        "latin_classic": 0.9993444580035913,
+        "mechanical_reuse": 0.8861315021925473,
+        "self_citation": 1.0,
+        "shuffled_global": 0.0,
+        "table_grille": 1.0,
+        "voynich_real": 0.7357974235781086
+      },
+      "table_grille": {
+        "latin_classic": 1.0,
+        "mechanical_reuse": 0.9952394558471169,
+        "self_citation": 1.0,
+        "shuffled_global": 1.0,
+        "table_grille": -2.220446049250313e-16,
+        "voynich_real": 1.0
+      },
+      "voynich_real": {
+        "latin_classic": 0.9995955290306923,
+        "mechanical_reuse": 0.8930274604326156,
+        "self_citation": 1.0,
+        "shuffled_global": 0.7357974235781086,
+        "table_grille": 1.0,
+        "voynich_real": 0.0
+      }
+    },
+    "voynich_summary": {
+      "status": "ok",
+      "voynich_dataset_id": "voynich_real",
+      "closest_centroids": [
+        {
+          "dataset_id": "shuffled_global",
+          "cosine_distance": 0.7357974235781086
+        },
+        {
+          "dataset_id": "mechanical_reuse",
+          "cosine_distance": 0.8930274604326156
+        },
+        {
+          "dataset_id": "latin_classic",
+          "cosine_distance": 0.9995955290306923
+        },
+        {
+          "dataset_id": "self_citation",
+          "cosine_distance": 1.0
+        },
+        {
+          "dataset_id": "table_grille",
+          "cosine_distance": 1.0
+        }
+      ],
+      "voynich_test_assignment_nearest_centroid": {
+        "latin_classic": 0.4166666666666667,
+        "mechanical_reuse": 0.020833333333333332,
+        "self_citation": 0.0,
+        "shuffled_global": 0.14583333333333334,
+        "table_grille": 0.0,
+        "voynich_real": 0.4166666666666667
+      },
+      "voynich_test_assignment_knn_1": {
+        "latin_classic": 0.0,
+        "mechanical_reuse": 0.020833333333333332,
+        "self_citation": 0.0,
+        "shuffled_global": 0.2708333333333333,
+        "table_grille": 0.0,
+        "voynich_real": 0.7083333333333334
+      }
+    },
+    "dataset_labels": {
+      "voynich_real": "Voynich (Real)",
+      "latin_classic": "Latin (Semantic)",
+      "self_citation": "Self-Citation",
+      "table_grille": "Table-Grille",
+      "mechanical_reuse": "Mechanical Reuse",
+      "shuffled_global": "Shuffled (Global)"
+    }
+  }
+}

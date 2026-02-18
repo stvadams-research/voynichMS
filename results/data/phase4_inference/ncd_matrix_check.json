@@ -1,0 +1,183 @@
+{
+  "provenance": {
+    "run_id": "b42840c6-bad4-569a-900d-25b386aaf93f",
+    "git_commit": "204d1a9eb4a4e5cde1844826deaf6d0032ec662d",
+    "timestamp": "2026-02-18T03:07:28.343626+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771384048343560000,
+    "command": "run_ncd_matrix_check_phase4"
+  },
+  "results": {
+    "status": "ok",
+    "config": {
+      "token_limit": 80000,
+      "bootstraps": 40,
+      "block_size": 512,
+      "random_state": 42,
+      "focus_dataset_id": "voynich_real"
+    },
+    "dataset_ids": [
+      "voynich_real",
+      "latin_classic",
+      "self_citation",
+      "table_grille",
+      "mechanical_reuse",
+      "shuffled_global",
+      "line_reset_markov"
+    ],
+    "point_estimate_ncd": {
+      "voynich_real": {
+        "voynich_real": 0.0,
+        "latin_classic": 1.0001092782432222,
+        "self_citation": 1.001069688857682,
+        "table_grille": 1.0026761757795666,
+        "mechanical_reuse": 0.9998568904153912,
+        "shuffled_global": 0.9965766906015956,
+        "line_reset_markov": 0.9960649440794109
+      },
+      "latin_classic": {
+        "voynich_real": 1.0001092782432222,
+        "latin_classic": 0.0,
+        "self_citation": 1.000655669459333,
+        "table_grille": 1.0041005359837645,
+        "mechanical_reuse": 1.0007493365249518,
+        "shuffled_global": 1.000847107129154,
+        "line_reset_markov": 1.0003330384555342
+      },
+      "self_citation": {
+        "voynich_real": 1.001069688857682,
+        "latin_classic": 1.000655669459333,
+        "self_citation": 0.0,
+        "table_grille": 1.0070928599640145,
+        "mechanical_reuse": 1.0021722912186772,
+        "shuffled_global": 1.0013553714066463,
+        "line_reset_markov": 1.0011116272030312
+      },
+      "table_grille": {
+        "voynich_real": 1.0026761757795666,
+        "latin_classic": 1.0041005359837645,
+        "self_citation": 1.0070928599640145,
+        "table_grille": 0.0,
+        "mechanical_reuse": 1.01144876676871,
+        "shuffled_global": 1.0081920242372298,
+        "line_reset_markov": 1.0082719676845275
+      },
+      "mechanical_reuse": {
+        "voynich_real": 0.9998568904153912,
+        "latin_classic": 1.0007493365249518,
+        "self_citation": 1.0021722912186772,
+        "table_grille": 1.01144876676871,
+        "mechanical_reuse": 0.0,
+        "shuffled_global": 1.0009168688927312,
+        "line_reset_markov": 1.0000835025129038
+      },
+      "shuffled_global": {
+        "voynich_real": 0.9965766906015956,
+        "latin_classic": 1.000847107129154,
+        "self_citation": 1.0013553714066463,
+        "table_grille": 1.0081920242372298,
+        "mechanical_reuse": 1.0009168688927312,
+        "shuffled_global": 0.0,
+        "line_reset_markov": 0.9952362681442872
+      },
+      "line_reset_markov": {
+        "voynich_real": 0.9960649440794109,
+        "latin_classic": 1.0003330384555342,
+        "self_citation": 1.0011116272030312,
+        "table_grille": 1.0082719676845275,
+        "mechanical_reuse": 1.0000835025129038,
+        "shuffled_global": 0.9952362681442872,
+        "line_reset_markov": 0.0
+      }
+    },
+    "point_compressed_sizes": {
+      "voynich_real": 143862,
+      "latin_classic": 192170,
+      "self_citation": 182296,
+      "table_grille": 30134,
+      "mechanical_reuse": 160716,
+      "shuffled_global": 200683,
+      "line_reset_markov": 191611
+    },
+    "focus_dataset_id": "voynich_real",
+    "focus_bootstrap_summary": {
+      "latin_classic": {
+        "point_ncd": 1.0001092782432222,
+        "bootstrap_mean_ncd": 1.0004397464695707,
+        "bootstrap_ci95_low_ncd": 0.9999605131757736,
+        "bootstrap_ci95_high_ncd": 1.001121934002766,
+        "closest_probability": 0.0,
+        "rank_mean": 4.225,
+        "rank_ci95_low": 4.0,
+        "rank_ci95_high": 5.0
+      },
+      "self_citation": {
+        "point_ncd": 1.001069688857682,
+        "bootstrap_mean_ncd": 1.0008359682488552,
+        "bootstrap_ci95_low_ncd": 0.9999985592023745,
+        "bootstrap_ci95_high_ncd": 1.0018524565552616,
+        "closest_probability": 0.0,
+        "rank_mean": 5.2,
+        "rank_ci95_low": 4.975,
+        "rank_ci95_high": 6.0
+      },
+      "table_grille": {
+        "point_ncd": 1.0026761757795666,
+        "bootstrap_mean_ncd": 1.00270206699054,
+        "bootstrap_ci95_low_ncd": 0.9988952586592759,
+        "bootstrap_ci95_high_ncd": 1.00700957790533,
+        "closest_probability": 0.0,
+        "rank_mean": 5.525,
+        "rank_ci95_low": 3.0,
+        "rank_ci95_high": 6.0
+      },
+      "mechanical_reuse": {
+        "point_ncd": 0.9998568904153912,
+        "bootstrap_mean_ncd": 0.9994468942224175,
+        "bootstrap_ci95_low_ncd": 0.9988158055616919,
+        "bootstrap_ci95_high_ncd": 1.0000917968137046,
+        "closest_probability": 0.0,
+        "rank_mean": 3.05,
+        "rank_ci95_low": 3.0,
+        "rank_ci95_high": 4.0
+      },
+      "shuffled_global": {
+        "point_ncd": 0.9965766906015956,
+        "bootstrap_mean_ncd": 0.9959630294455281,
+        "bootstrap_ci95_low_ncd": 0.9955368752343258,
+        "bootstrap_ci95_high_ncd": 0.9965484046274029,
+        "closest_probability": 0.0,
+        "rank_mean": 2.0,
+        "rank_ci95_low": 2.0,
+        "rank_ci95_high": 2.0
+      },
+      "line_reset_markov": {
+        "point_ncd": 0.9960649440794109,
+        "bootstrap_mean_ncd": 0.9951319346458082,
+        "bootstrap_ci95_low_ncd": 0.994698291781953,
+        "bootstrap_ci95_high_ncd": 0.9955395267289513,
+        "closest_probability": 1.0,
+        "rank_mean": 1.0,
+        "rank_ci95_low": 1.0,
+        "rank_ci95_high": 1.0
+      }
+    },
+    "dataset_labels": {
+      "voynich_real": "Voynich (Real)",
+      "latin_classic": "Latin (Semantic)",
+      "self_citation": "Self-Citation",
+      "table_grille": "Table-Grille",
+      "mechanical_reuse": "Mechanical Reuse",
+      "shuffled_global": "Shuffled (Global)",
+      "line_reset_markov": "Line-Reset Markov (Generated)"
+    },
+    "generator_fit_stats": {
+      "num_lines": 103003,
+      "vocab_size": 38800,
+      "start_vocab_size": 21463,
+      "transition_states": 26199,
+      "avg_line_length": 2.2362164208809454
+    }
+  }
+}

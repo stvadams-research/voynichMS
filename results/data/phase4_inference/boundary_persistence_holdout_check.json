@@ -1,0 +1,980 @@
+{
+  "provenance": {
+    "run_id": "c5a32601-d301-2284-81b3-97cd665ad303",
+    "git_commit": "204d1a9eb4a4e5cde1844826deaf6d0032ec662d",
+    "timestamp": "2026-02-18T03:49:32.374779+00:00",
+    "seed": 1771386572374,
+    "experiment_id": "cf1c326a-f835-68b8-1890-990d330b94be",
+    "run_nonce": 1771386572374222000,
+    "command": "run_boundary_persistence_holdout_check_phase4"
+  },
+  "results": {
+    "status": "ok",
+    "split": {
+      "holdout_fraction": 0.2,
+      "random_state": 42,
+      "all_folios": [
+        "f2v",
+        "f3r",
+        "f3v",
+        "f4r",
+        "f4v",
+        "f5r",
+        "f5v",
+        "f6r",
+        "f6v",
+        "f7r",
+        "f7v",
+        "f8r",
+        "f8v",
+        "f9r",
+        "f9v",
+        "f10r",
+        "f10v",
+        "f11r",
+        "f11v",
+        "f13r",
+        "f13v",
+        "f14r",
+        "f14v",
+        "f15r",
+        "f15v",
+        "f16r",
+        "f16v",
+        "f17r",
+        "f17v",
+        "f18r",
+        "f18v",
+        "f19r",
+        "f19v",
+        "f20r",
+        "f20v",
+        "f21r",
+        "f21v",
+        "f22r",
+        "f22v",
+        "f23r",
+        "f23v",
+        "f24r",
+        "f24v",
+        "f25r",
+        "f25v",
+        "f26r",
+        "f26v",
+        "f27r",
+        "f27v",
+        "f28r",
+        "f28v",
+        "f29r",
+        "f29v",
+        "f30r",
+        "f30v",
+        "f31r",
+        "f31v",
+        "f32r",
+        "f32v",
+        "f33r",
+        "f33v",
+        "f34r",
+        "f34v",
+        "f35r",
+        "f35v",
+        "f36r",
+        "f36v",
+        "f37r",
+        "f37v",
+        "f38r",
+        "f38v",
+        "f39r",
+        "f39v",
+        "f40r",
+        "f40v",
+        "f41r",
+        "f41v",
+        "f42r",
+        "f42v",
+        "f43r",
+        "f43v",
+        "f44r",
+        "f44v",
+        "f45r",
+        "f45v",
+        "f46r",
+        "f46v",
+        "f47r",
+        "f47v",
+        "f48r",
+        "f48v",
+        "f49r",
+        "f49v",
+        "f50r",
+        "f50v",
+        "f51r",
+        "f51v",
+        "f52r",
+        "f52v",
+        "f53r",
+        "f53v",
+        "f54r",
+        "f54v",
+        "f55r",
+        "f55v",
+        "f56r",
+        "f56v",
+        "f57r",
+        "f57v",
+        "f58r",
+        "f58v",
+        "f65r",
+        "f65v",
+        "f66r",
+        "f66v",
+        "f67r1",
+        "f67r2",
+        "f67v1",
+        "f67v2",
+        "f68r1",
+        "f68r2",
+        "f68r3",
+        "f68v1",
+        "f68v2",
+        "f68v3",
+        "f69r",
+        "f69v",
+        "f70r1",
+        "f70r2",
+        "f70v1",
+        "f70v2",
+        "f71r",
+        "f71v",
+        "f72r1",
+        "f72r2",
+        "f72r3",
+        "f72v1",
+        "f72v2",
+        "f72v3",
+        "f73r",
+        "f73v",
+        "f75r",
+        "f75v",
+        "f76r",
+        "f76v",
+        "f77r",
+        "f77v",
+        "f78r",
+        "f78v",
+        "f79r",
+        "f79v",
+        "f80r",
+        "f80v",
+        "f81r",
+        "f81v",
+        "f82r",
+        "f82v",
+        "f83r",
+        "f83v",
+        "f84r",
+        "f84v",
+        "f85r1",
+        "f85r2",
+        "f86v3",
+        "f86v4",
+        "f86v5",
+        "f86v6",
+        "f87r",
+        "f87v",
+        "f88r",
+        "f88v",
+        "f89r1",
+        "f89r2",
+        "f89v1",
+        "f89v2",
+        "f90r1",
+        "f90r2",
+        "f90v1",
+        "f90v2",
+        "f93r",
+        "f93v",
+        "f94r",
+        "f94v",
+        "f95r1",
+        "f95r2",
+        "f95v1",
+        "f95v2",
+        "f96r",
+        "f96v",
+        "f99r",
+        "f99v",
+        "f100v",
+        "f101r",
+        "f101v",
+        "f102r1",
+        "f102r2",
+        "f102v1",
+        "f102v2",
+        "f103r",
+        "f103v",
+        "f104r",
+        "f104v",
+        "f105r",
+        "f105v",
+        "f106r",
+        "f106v",
+        "f107r",
+        "f107v",
+        "f108r",
+        "f108v",
+        "f111r",
+        "f111v",
+        "f112r",
+        "f112v",
+        "f113r",
+        "f113v",
+        "f114r",
+        "f114v",
+        "f115r",
+        "f115v",
+        "f116r",
+        "f116v"
+      ],
+      "train_folios": [
+        "f2v",
+        "f3r",
+        "f3v",
+        "f4r",
+        "f4v",
+        "f5r",
+        "f5v",
+        "f6v",
+        "f7v",
+        "f8r",
+        "f8v",
+        "f9r",
+        "f9v",
+        "f10r",
+        "f10v",
+        "f11r",
+        "f11v",
+        "f13r",
+        "f14r",
+        "f14v",
+        "f15r",
+        "f17r",
+        "f17v",
+        "f18r",
+        "f18v",
+        "f19r",
+        "f19v",
+        "f20r",
+        "f20v",
+        "f21r",
+        "f21v",
+        "f23r",
+        "f23v",
+        "f24r",
+        "f24v",
+        "f25r",
+        "f25v",
+        "f26r",
+        "f27r",
+        "f27v",
+        "f28r",
+        "f29r",
+        "f29v",
+        "f30r",
+        "f31r",
+        "f31v",
+        "f32r",
+        "f32v",
+        "f33r",
+        "f33v",
+        "f34r",
+        "f34v",
+        "f35r",
+        "f35v",
+        "f36r",
+        "f36v",
+        "f37v",
+        "f38r",
+        "f39r",
+        "f39v",
+        "f40r",
+        "f40v",
+        "f41v",
+        "f42r",
+        "f42v",
+        "f44r",
+        "f44v",
+        "f45r",
+        "f46r",
+        "f47r",
+        "f47v",
+        "f48r",
+        "f48v",
+        "f49r",
+        "f49v",
+        "f50r",
+        "f50v",
+        "f51r",
+        "f52r",
+        "f53r",
+        "f53v",
+        "f54r",
+        "f54v",
+        "f55r",
+        "f56r",
+        "f57v",
+        "f58r",
+        "f58v",
+        "f65r",
+        "f65v",
+        "f66r",
+        "f66v",
+        "f67r1",
+        "f67r2",
+        "f67v1",
+        "f68r1",
+        "f68r2",
+        "f68r3",
+        "f68v1",
+        "f68v2",
+        "f68v3",
+        "f69r",
+        "f69v",
+        "f70r1",
+        "f70r2",
+        "f70v1",
+        "f70v2",
+        "f72r2",
+        "f72r3",
+        "f72v1",
+        "f72v2",
+        "f72v3",
+        "f73r",
+        "f73v",
+        "f75r",
+        "f75v",
+        "f76r",
+        "f77r",
+        "f77v",
+        "f78v",
+        "f79r",
+        "f79v",
+        "f80v",
+        "f81r",
+        "f82r",
+        "f82v",
+        "f83r",
+        "f83v",
+        "f84r",
+        "f84v",
+        "f85r1",
+        "f85r2",
+        "f86v3",
+        "f86v4",
+        "f86v5",
+        "f86v6",
+        "f88v",
+        "f89r1",
+        "f89r2",
+        "f89v2",
+        "f90r1",
+        "f90r2",
+        "f90v1",
+        "f90v2",
+        "f93r",
+        "f94r",
+        "f94v",
+        "f95r1",
+        "f95r2",
+        "f95v1",
+        "f95v2",
+        "f96r",
+        "f96v",
+        "f99r",
+        "f99v",
+        "f100v",
+        "f101r",
+        "f101v",
+        "f102r1",
+        "f102v1",
+        "f103r",
+        "f104r",
+        "f104v",
+        "f105r",
+        "f105v",
+        "f106r",
+        "f106v",
+        "f107r",
+        "f107v",
+        "f111v",
+        "f112r",
+        "f113r",
+        "f113v",
+        "f114r",
+        "f115r",
+        "f115v",
+        "f116r",
+        "f116v"
+      ],
+      "holdout_folios": [
+        "f6r",
+        "f7r",
+        "f13v",
+        "f15v",
+        "f16r",
+        "f16v",
+        "f22r",
+        "f22v",
+        "f26v",
+        "f28v",
+        "f30v",
+        "f37r",
+        "f38v",
+        "f41r",
+        "f43r",
+        "f43v",
+        "f45v",
+        "f46v",
+        "f51v",
+        "f52v",
+        "f55v",
+        "f56v",
+        "f57r",
+        "f67v2",
+        "f71r",
+        "f71v",
+        "f72r1",
+        "f76v",
+        "f78r",
+        "f80r",
+        "f81v",
+        "f87r",
+        "f87v",
+        "f88r",
+        "f89v1",
+        "f93v",
+        "f102r2",
+        "f102v2",
+        "f103v",
+        "f108r",
+        "f108v",
+        "f111r",
+        "f112v",
+        "f114v"
+      ],
+      "train_line_count": 82506,
+      "holdout_line_count": 20497,
+      "holdout_token_count": 47095
+    },
+    "generator_params": {
+      "markov": {
+        "random_state": 42
+      },
+      "backoff": {
+        "random_state": 42,
+        "trigram_use_prob": 0.55,
+        "unigram_noise_prob": 0.03
+      },
+      "persistence": {
+        "random_state": 42,
+        "trigram_use_prob": 0.65,
+        "unigram_noise_prob": 0.01,
+        "boundary_persistence_rho": 0.5
+      }
+    },
+    "generators": {
+      "line_reset_markov_trainfit": {
+        "num_lines": 82506,
+        "vocab_size": 32788,
+        "start_vocab_size": 18191,
+        "transition_states": 22177,
+        "avg_line_length": 2.2209536276149615
+      },
+      "line_reset_backoff_trainfit": {
+        "num_lines": 82506,
+        "vocab_size": 32788,
+        "start_vocab_size": 18191,
+        "bigram_states": 22177,
+        "trigram_states": 13407,
+        "avg_line_length": 2.2209536276149615
+      },
+      "line_reset_persistence_trainfit": {
+        "num_lines": 82506,
+        "vocab_size": 32788,
+        "start_vocab_size": 18191,
+        "bigram_states": 22177,
+        "trigram_states": 13407,
+        "boundary_bigram_states": 18450,
+        "boundary_trigram_states": 1941,
+        "avg_line_length": 2.2209536276149615
+      }
+    },
+    "order_constraints": {
+      "status": "ok",
+      "config": {
+        "token_limit": 120000,
+        "vocab_limit": 500,
+        "permutations": 50,
+        "random_state": 42
+      },
+      "datasets": {
+        "voynich_holdout": {
+          "status": "ok",
+          "token_count": 47095,
+          "vocab_size": 500,
+          "metrics": {
+            "bigram_cond_entropy": {
+              "observed": 4.153404490853254,
+              "perm_mean": 4.409701196311699,
+              "perm_std": 0.003670647557628174,
+              "delta": -0.2562967054584453,
+              "z_score": -69.82329450993491,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            },
+            "trigram_cond_entropy": {
+              "observed": 2.4909686597496083,
+              "perm_mean": 2.8453810093921255,
+              "perm_std": 0.008008836220908474,
+              "delta": -0.3544123496425171,
+              "z_score": -44.25266541439085,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            },
+            "bigram_mutual_information": {
+              "observed": 1.1274310572887263,
+              "perm_mean": 0.8710663612959899,
+              "perm_std": 0.0036557651582644767,
+              "delta": 0.25636469599273637,
+              "z_score": 70.1261390965392,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            }
+          }
+        },
+        "line_reset_markov_trainfit": {
+          "status": "ok",
+          "token_count": 47095,
+          "vocab_size": 500,
+          "metrics": {
+            "bigram_cond_entropy": {
+              "observed": 4.283552438763058,
+              "perm_mean": 4.424266997773744,
+              "perm_std": 0.0034058178607679437,
+              "delta": -0.14071455901068575,
+              "z_score": -41.315937834373045,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            },
+            "trigram_cond_entropy": {
+              "observed": 2.7777187052485672,
+              "perm_mean": 2.852372460128489,
+              "perm_std": 0.008785866872254088,
+              "delta": -0.07465375487992176,
+              "z_score": -8.49702777943057,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            },
+            "bigram_mutual_information": {
+              "observed": 0.9938397544382553,
+              "perm_mean": 0.8530229926330718,
+              "perm_std": 0.003417270485349203,
+              "delta": 0.14081676180518354,
+              "z_score": 41.207379517923584,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            }
+          }
+        },
+        "line_reset_backoff_trainfit": {
+          "status": "ok",
+          "token_count": 47095,
+          "vocab_size": 500,
+          "metrics": {
+            "bigram_cond_entropy": {
+              "observed": 4.272184793436148,
+              "perm_mean": 4.4269659689251855,
+              "perm_std": 0.004140790180914861,
+              "delta": -0.15478117548903736,
+              "z_score": -37.379622904447714,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            },
+            "trigram_cond_entropy": {
+              "observed": 2.7583578017187094,
+              "perm_mean": 2.8549665461652536,
+              "perm_std": 0.009641959254903692,
+              "delta": -0.09660874444654421,
+              "z_score": -10.019617579011351,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            },
+            "bigram_mutual_information": {
+              "observed": 1.0104590979046364,
+              "perm_mean": 0.8555852893440394,
+              "perm_std": 0.004135600683859308,
+              "delta": 0.15487380856059696,
+              "z_score": 37.44892710871447,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            }
+          }
+        },
+        "line_reset_persistence_trainfit": {
+          "status": "ok",
+          "token_count": 47095,
+          "vocab_size": 500,
+          "metrics": {
+            "bigram_cond_entropy": {
+              "observed": 4.239690068350934,
+              "perm_mean": 4.412457606338256,
+              "perm_std": 0.004036192467793479,
+              "delta": -0.1727675379873217,
+              "z_score": -42.80458361832554,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            },
+            "trigram_cond_entropy": {
+              "observed": 2.7300819174022983,
+              "perm_mean": 2.853397121682968,
+              "perm_std": 0.007538489615721922,
+              "delta": -0.12331520428066955,
+              "z_score": -16.35807841712604,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            },
+            "bigram_mutual_information": {
+              "observed": 1.0230259630626586,
+              "perm_mean": 0.8501658660344599,
+              "perm_std": 0.004030961644617851,
+              "delta": 0.1728600970281987,
+              "z_score": 42.88309149728624,
+              "p_directional": 0.0196078431372549,
+              "num_permutations": 50
+            }
+          }
+        }
+      },
+      "dataset_labels": {
+        "voynich_holdout": "Voynich Holdout",
+        "line_reset_markov_trainfit": "Line-Reset Markov (Train-Fit)",
+        "line_reset_backoff_trainfit": "Line-Reset Backoff (Train-Fit)",
+        "line_reset_persistence_trainfit": "Line-Reset Persistence (Train-Fit)"
+      }
+    },
+    "order_holdout_gaps_ranked": [
+      {
+        "dataset_id": "line_reset_persistence_trainfit",
+        "h2_gap": 0.0835291674711236,
+        "h3_gap": 0.23109714536184756,
+        "mi2_gap": 0.08350459896453766,
+        "order_l1_gap": 0.3981309117975088
+      },
+      {
+        "dataset_id": "line_reset_backoff_trainfit",
+        "h2_gap": 0.10151552996940794,
+        "h3_gap": 0.2578036051959729,
+        "mi2_gap": 0.10149088743213941,
+        "order_l1_gap": 0.46081002259752024
+      },
+      {
+        "dataset_id": "line_reset_markov_trainfit",
+        "h2_gap": 0.11558214644775955,
+        "h3_gap": 0.27975859476259535,
+        "mi2_gap": 0.11554793418755283,
+        "order_l1_gap": 0.5108886753979077
+      }
+    ],
+    "discrimination": {
+      "status": "ok",
+      "config": {
+        "window_size": 72,
+        "windows_per_dataset": 160,
+        "max_features": 2000,
+        "ngram_min": 1,
+        "ngram_max": 2,
+        "train_fraction": 0.7,
+        "random_state": 42,
+        "voynich_dataset_id": "voynich_holdout"
+      },
+      "doc_counts": {
+        "voynich_holdout": 160,
+        "line_reset_markov_trainfit": 160,
+        "line_reset_backoff_trainfit": 160,
+        "line_reset_persistence_trainfit": 160
+      },
+      "n_docs": 640,
+      "n_features": 2000,
+      "n_train": 448,
+      "n_test": 192,
+      "classes": [
+        "line_reset_backoff_trainfit",
+        "line_reset_markov_trainfit",
+        "line_reset_persistence_trainfit",
+        "voynich_holdout"
+      ],
+      "models": {
+        "nearest_centroid": {
+          "accuracy": 0.3385416666666667,
+          "confusion_counts": {
+            "line_reset_backoff_trainfit": {
+              "line_reset_backoff_trainfit": 14,
+              "line_reset_markov_trainfit": 17,
+              "line_reset_persistence_trainfit": 13,
+              "voynich_holdout": 4
+            },
+            "line_reset_markov_trainfit": {
+              "line_reset_backoff_trainfit": 15,
+              "line_reset_markov_trainfit": 13,
+              "line_reset_persistence_trainfit": 14,
+              "voynich_holdout": 6
+            },
+            "line_reset_persistence_trainfit": {
+              "line_reset_backoff_trainfit": 14,
+              "line_reset_markov_trainfit": 14,
+              "line_reset_persistence_trainfit": 16,
+              "voynich_holdout": 4
+            },
+            "voynich_holdout": {
+              "line_reset_backoff_trainfit": 10,
+              "line_reset_markov_trainfit": 8,
+              "line_reset_persistence_trainfit": 8,
+              "voynich_holdout": 22
+            }
+          },
+          "confusion_row_normalized": {
+            "line_reset_backoff_trainfit": {
+              "line_reset_backoff_trainfit": 0.2916666666666667,
+              "line_reset_markov_trainfit": 0.3541666666666667,
+              "line_reset_persistence_trainfit": 0.2708333333333333,
+              "voynich_holdout": 0.08333333333333333
+            },
+            "line_reset_markov_trainfit": {
+              "line_reset_backoff_trainfit": 0.3125,
+              "line_reset_markov_trainfit": 0.2708333333333333,
+              "line_reset_persistence_trainfit": 0.2916666666666667,
+              "voynich_holdout": 0.125
+            },
+            "line_reset_persistence_trainfit": {
+              "line_reset_backoff_trainfit": 0.2916666666666667,
+              "line_reset_markov_trainfit": 0.2916666666666667,
+              "line_reset_persistence_trainfit": 0.3333333333333333,
+              "voynich_holdout": 0.08333333333333333
+            },
+            "voynich_holdout": {
+              "line_reset_backoff_trainfit": 0.20833333333333334,
+              "line_reset_markov_trainfit": 0.16666666666666666,
+              "line_reset_persistence_trainfit": 0.16666666666666666,
+              "voynich_holdout": 0.4583333333333333
+            }
+          }
+        },
+        "knn_1_cosine": {
+          "accuracy": 0.4114583333333333,
+          "confusion_counts": {
+            "line_reset_backoff_trainfit": {
+              "line_reset_backoff_trainfit": 10,
+              "line_reset_markov_trainfit": 8,
+              "line_reset_persistence_trainfit": 10,
+              "voynich_holdout": 20
+            },
+            "line_reset_markov_trainfit": {
+              "line_reset_backoff_trainfit": 13,
+              "line_reset_markov_trainfit": 10,
+              "line_reset_persistence_trainfit": 9,
+              "voynich_holdout": 16
+            },
+            "line_reset_persistence_trainfit": {
+              "line_reset_backoff_trainfit": 13,
+              "line_reset_markov_trainfit": 9,
+              "line_reset_persistence_trainfit": 15,
+              "voynich_holdout": 11
+            },
+            "voynich_holdout": {
+              "line_reset_backoff_trainfit": 2,
+              "line_reset_markov_trainfit": 0,
+              "line_reset_persistence_trainfit": 2,
+              "voynich_holdout": 44
+            }
+          },
+          "confusion_row_normalized": {
+            "line_reset_backoff_trainfit": {
+              "line_reset_backoff_trainfit": 0.20833333333333334,
+              "line_reset_markov_trainfit": 0.16666666666666666,
+              "line_reset_persistence_trainfit": 0.20833333333333334,
+              "voynich_holdout": 0.4166666666666667
+            },
+            "line_reset_markov_trainfit": {
+              "line_reset_backoff_trainfit": 0.2708333333333333,
+              "line_reset_markov_trainfit": 0.20833333333333334,
+              "line_reset_persistence_trainfit": 0.1875,
+              "voynich_holdout": 0.3333333333333333
+            },
+            "line_reset_persistence_trainfit": {
+              "line_reset_backoff_trainfit": 0.2708333333333333,
+              "line_reset_markov_trainfit": 0.1875,
+              "line_reset_persistence_trainfit": 0.3125,
+              "voynich_holdout": 0.22916666666666666
+            },
+            "voynich_holdout": {
+              "line_reset_backoff_trainfit": 0.041666666666666664,
+              "line_reset_markov_trainfit": 0.0,
+              "line_reset_persistence_trainfit": 0.041666666666666664,
+              "voynich_holdout": 0.9166666666666666
+            }
+          }
+        }
+      },
+      "centroid_cosine_distance": {
+        "line_reset_backoff_trainfit": {
+          "line_reset_backoff_trainfit": 0.0,
+          "line_reset_markov_trainfit": 0.12111271138400803,
+          "line_reset_persistence_trainfit": 0.11705832528419247,
+          "voynich_holdout": 0.20164440776484682
+        },
+        "line_reset_markov_trainfit": {
+          "line_reset_backoff_trainfit": 0.12111271138400803,
+          "line_reset_markov_trainfit": 2.220446049250313e-16,
+          "line_reset_persistence_trainfit": 0.12431696918270652,
+          "voynich_holdout": 0.20144848370133572
+        },
+        "line_reset_persistence_trainfit": {
+          "line_reset_backoff_trainfit": 0.11705832528419247,
+          "line_reset_markov_trainfit": 0.12431696918270652,
+          "line_reset_persistence_trainfit": 0.0,
+          "voynich_holdout": 0.20414675301164298
+        },
+        "voynich_holdout": {
+          "line_reset_backoff_trainfit": 0.20164440776484682,
+          "line_reset_markov_trainfit": 0.20144848370133572,
+          "line_reset_persistence_trainfit": 0.20414675301164298,
+          "voynich_holdout": 2.220446049250313e-16
+        }
+      },
+      "voynich_summary": {
+        "status": "ok",
+        "voynich_dataset_id": "voynich_holdout",
+        "closest_centroids": [
+          {
+            "dataset_id": "line_reset_markov_trainfit",
+            "cosine_distance": 0.20144848370133572
+          },
+          {
+            "dataset_id": "line_reset_backoff_trainfit",
+            "cosine_distance": 0.20164440776484682
+          },
+          {
+            "dataset_id": "line_reset_persistence_trainfit",
+            "cosine_distance": 0.20414675301164298
+          }
+        ],
+        "voynich_test_assignment_nearest_centroid": {
+          "line_reset_backoff_trainfit": 0.20833333333333334,
+          "line_reset_markov_trainfit": 0.16666666666666666,
+          "line_reset_persistence_trainfit": 0.16666666666666666,
+          "voynich_holdout": 0.4583333333333333
+        },
+        "voynich_test_assignment_knn_1": {
+          "line_reset_backoff_trainfit": 0.041666666666666664,
+          "line_reset_markov_trainfit": 0.0,
+          "line_reset_persistence_trainfit": 0.041666666666666664,
+          "voynich_holdout": 0.9166666666666666
+        }
+      },
+      "dataset_labels": {
+        "voynich_holdout": "Voynich Holdout",
+        "line_reset_markov_trainfit": "Line-Reset Markov (Train-Fit)",
+        "line_reset_backoff_trainfit": "Line-Reset Backoff (Train-Fit)",
+        "line_reset_persistence_trainfit": "Line-Reset Persistence (Train-Fit)"
+      }
+    },
+    "ncd": {
+      "status": "ok",
+      "config": {
+        "token_limit": 80000,
+        "bootstraps": 30,
+        "block_size": 512,
+        "random_state": 42,
+        "focus_dataset_id": "voynich_holdout"
+      },
+      "dataset_ids": [
+        "voynich_holdout",
+        "line_reset_markov_trainfit",
+        "line_reset_backoff_trainfit",
+        "line_reset_persistence_trainfit"
+      ],
+      "point_estimate_ncd": {
+        "voynich_holdout": {
+          "voynich_holdout": 0.0,
+          "line_reset_markov_trainfit": 0.9940959213026263,
+          "line_reset_backoff_trainfit": 0.9942433772186984,
+          "line_reset_persistence_trainfit": 0.9940610834242045
+        },
+        "line_reset_markov_trainfit": {
+          "voynich_holdout": 0.9940959213026263,
+          "line_reset_markov_trainfit": 0.0,
+          "line_reset_backoff_trainfit": 0.9907399186746453,
+          "line_reset_persistence_trainfit": 0.9910950512278708
+        },
+        "line_reset_backoff_trainfit": {
+          "voynich_holdout": 0.9942433772186984,
+          "line_reset_markov_trainfit": 0.9907399186746453,
+          "line_reset_backoff_trainfit": 0.0,
+          "line_reset_persistence_trainfit": 0.990148002061013
+        },
+        "line_reset_persistence_trainfit": {
+          "voynich_holdout": 0.9940610834242045,
+          "line_reset_markov_trainfit": 0.9910950512278708,
+          "line_reset_backoff_trainfit": 0.990148002061013,
+          "line_reset_persistence_trainfit": 0.0
+        }
+      },
+      "point_compressed_sizes": {
+        "voynich_holdout": 90771,
+        "line_reset_markov_trainfit": 112634,
+        "line_reset_backoff_trainfit": 112566,
+        "line_reset_persistence_trainfit": 110963
+      },
+      "focus_dataset_id": "voynich_holdout",
+      "focus_bootstrap_summary": {
+        "line_reset_markov_trainfit": {
+          "point_ncd": 0.9940959213026263,
+          "bootstrap_mean_ncd": 0.9957422417753149,
+          "bootstrap_ci95_low_ncd": 0.9951434149110844,
+          "bootstrap_ci95_high_ncd": 0.9963075669604028,
+          "closest_probability": 0.16666666666666666,
+          "rank_mean": 2.3,
+          "rank_ci95_low": 1.0,
+          "rank_ci95_high": 3.0
+        },
+        "line_reset_backoff_trainfit": {
+          "point_ncd": 0.9942433772186984,
+          "bootstrap_mean_ncd": 0.995716881691408,
+          "bootstrap_ci95_low_ncd": 0.995171870593337,
+          "bootstrap_ci95_high_ncd": 0.9962075590510493,
+          "closest_probability": 0.23333333333333334,
+          "rank_mean": 2.1,
+          "rank_ci95_low": 1.0,
+          "rank_ci95_high": 3.0
+        },
+        "line_reset_persistence_trainfit": {
+          "point_ncd": 0.9940610834242045,
+          "bootstrap_mean_ncd": 0.9955407647666411,
+          "bootstrap_ci95_low_ncd": 0.9948965729170395,
+          "bootstrap_ci95_high_ncd": 0.9961431859906097,
+          "closest_probability": 0.6,
+          "rank_mean": 1.6,
+          "rank_ci95_low": 1.0,
+          "rank_ci95_high": 3.0
+        }
+      },
+      "dataset_labels": {
+        "voynich_holdout": "Voynich Holdout",
+        "line_reset_markov_trainfit": "Line-Reset Markov (Train-Fit)",
+        "line_reset_backoff_trainfit": "Line-Reset Backoff (Train-Fit)",
+        "line_reset_persistence_trainfit": "Line-Reset Persistence (Train-Fit)"
+      }
+    }
+  }
+}

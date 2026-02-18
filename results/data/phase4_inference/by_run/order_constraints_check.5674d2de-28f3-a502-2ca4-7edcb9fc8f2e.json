@@ -1,0 +1,233 @@
+{
+  "provenance": {
+    "run_id": "5674d2de-28f3-a502-2ca4-7edcb9fc8f2e",
+    "git_commit": "204d1a9eb4a4e5cde1844826deaf6d0032ec662d",
+    "timestamp": "2026-02-18T02:47:28.982026+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771382848981475000,
+    "command": "run_order_constraints_check_phase4"
+  },
+  "results": {
+    "status": "ok",
+    "config": {
+      "token_limit": 120000,
+      "permutations": 50,
+      "random_state": 42
+    },
+    "datasets": {
+      "voynich_real": {
+        "status": "ok",
+        "token_count": 120000,
+        "vocab_size": 23641,
+        "metrics": {
+          "bigram_cond_entropy": {
+            "observed": 4.268054415664352,
+            "perm_mean": 4.67787491159887,
+            "perm_std": 0.0014622230771838085,
+            "delta": -0.4098204959345182,
+            "z_score": -280.2722117638975,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          },
+          "trigram_cond_entropy": {
+            "observed": 0.302642714453075,
+            "perm_mean": 0.13344767114561193,
+            "perm_std": 0.0014526056261682184,
+            "delta": 0.16919504330746307,
+            "z_score": 116.47692963559368,
+            "p_directional": 1.0,
+            "num_permutations": 50
+          },
+          "bigram_mutual_information": {
+            "observed": 7.792971940849252,
+            "perm_mean": 7.38320232203202,
+            "perm_std": 0.0014607574331733444,
+            "delta": 0.40976961881723195,
+            "z_score": 280.51859228061556,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          }
+        }
+      },
+      "latin_classic": {
+        "status": "ok",
+        "token_count": 120000,
+        "vocab_size": 11868,
+        "metrics": {
+          "bigram_cond_entropy": {
+            "observed": 3.7350020492082123,
+            "perm_mean": 5.304767177079566,
+            "perm_std": 0.0020792595806345413,
+            "delta": -1.5697651278713538,
+            "z_score": -754.9635180193799,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          },
+          "trigram_cond_entropy": {
+            "observed": 0.49944946977612403,
+            "perm_mean": 0.2690176930754232,
+            "perm_std": 0.0020788607161235906,
+            "delta": 0.2304317767007008,
+            "z_score": 110.84522157423912,
+            "p_directional": 1.0,
+            "num_permutations": 50
+          },
+          "bigram_mutual_information": {
+            "observed": 7.562450801450581,
+            "perm_mean": 5.992648259123957,
+            "perm_std": 0.002081225092832401,
+            "delta": 1.5698025423266238,
+            "z_score": 754.2685064354249,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          }
+        }
+      },
+      "self_citation": {
+        "status": "ok",
+        "token_count": 120000,
+        "vocab_size": 11627,
+        "metrics": {
+          "bigram_cond_entropy": {
+            "observed": 4.507685082107578,
+            "perm_mean": 4.530152460212412,
+            "perm_std": 0.0003242695181614071,
+            "delta": -0.022467378104834346,
+            "z_score": -69.28612418528674,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          },
+          "trigram_cond_entropy": {
+            "observed": 0.032025120315246625,
+            "perm_mean": 0.009632570078338674,
+            "perm_std": 0.00032604919777229574,
+            "delta": 0.02239255023690795,
+            "z_score": 68.67843990999887,
+            "p_directional": 1.0,
+            "num_permutations": 50
+          },
+          "bigram_mutual_information": {
+            "observed": 7.825174732101104,
+            "perm_mean": 7.802729270881799,
+            "perm_std": 0.00032709577649756624,
+            "delta": 0.022445461219304796,
+            "z_score": 68.62045563425917,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          }
+        }
+      },
+      "table_grille": {
+        "status": "ok",
+        "token_count": 120000,
+        "vocab_size": 91,
+        "metrics": {
+          "bigram_cond_entropy": {
+            "observed": 1.1335939639845218,
+            "perm_mean": 6.405941465769412,
+            "perm_std": 0.0007299704592865609,
+            "delta": -5.27234750178489,
+            "z_score": -7222.686116555781,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          },
+          "trigram_cond_entropy": {
+            "observed": 1.0471733371243763,
+            "perm_mean": 3.8161298700952044,
+            "perm_std": 0.0015681474022757173,
+            "delta": -2.768956532970828,
+            "z_score": -1765.7501641443146,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          },
+          "bigram_mutual_information": {
+            "observed": 5.321889569760619,
+            "perm_mean": 0.04953535096139095,
+            "perm_std": 0.0007298570362618341,
+            "delta": 5.272354218799228,
+            "z_score": 7223.817757246072,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          }
+        }
+      },
+      "mechanical_reuse": {
+        "status": "ok",
+        "token_count": 120000,
+        "vocab_size": 16832,
+        "metrics": {
+          "bigram_cond_entropy": {
+            "observed": 4.894868293737204,
+            "perm_mean": 5.053921086654566,
+            "perm_std": 0.0038558424684698982,
+            "delta": -0.15905279291736196,
+            "z_score": -41.24981614730707,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          },
+          "trigram_cond_entropy": {
+            "observed": 0.7456304270505072,
+            "perm_mean": 0.6109068323681319,
+            "perm_std": 0.0034211060521485708,
+            "delta": 0.13472359468237527,
+            "z_score": 39.380128130715,
+            "p_directional": 1.0,
+            "num_permutations": 50
+          },
+          "bigram_mutual_information": {
+            "observed": 6.294869810725178,
+            "perm_mean": 6.13583480845099,
+            "perm_std": 0.003854781670622499,
+            "delta": 0.1590350022741882,
+            "z_score": 41.256552475125275,
+            "p_directional": 0.0196078431372549,
+            "num_permutations": 50
+          }
+        }
+      },
+      "shuffled_global": {
+        "status": "ok",
+        "token_count": 120000,
+        "vocab_size": 26040,
+        "metrics": {
+          "bigram_cond_entropy": {
+            "observed": 4.631637666778214,
+            "perm_mean": 4.632004654569974,
+            "perm_std": 0.001599820928114896,
+            "delta": -0.00036698779175914353,
+            "z_score": -0.2293930435024208,
+            "p_directional": 0.4117647058823529,
+            "num_permutations": 50
+          },
+          "trigram_cond_entropy": {
+            "observed": 0.13815554873662705,
+            "perm_mean": 0.13771412686942888,
+            "perm_std": 0.001587837401608082,
+            "delta": 0.0004414218671981718,
+            "z_score": 0.27800193316464383,
+            "p_directional": 0.6078431372549019,
+            "num_permutations": 50
+          },
+          "bigram_mutual_information": {
+            "observed": 7.4709881527242885,
+            "perm_mean": 7.470671606690139,
+            "perm_std": 0.0015998770187215423,
+            "delta": 0.0003165460341492121,
+            "z_score": 0.197856479244988,
+            "p_directional": 0.43137254901960786,
+            "num_permutations": 50
+          }
+        }
+      }
+    },
+    "dataset_labels": {
+      "voynich_real": "Voynich (Real)",
+      "latin_classic": "Latin (Semantic)",
+      "self_citation": "Self-Citation",
+      "table_grille": "Table-Grille",
+      "mechanical_reuse": "Mechanical Reuse",
+      "shuffled_global": "Shuffled (Global)"
+    }
+  }
+}

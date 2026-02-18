@@ -1,0 +1,213 @@
+{
+  "provenance": {
+    "run_id": "6780f5a5-440e-c1ba-3d89-db1c280707b8",
+    "git_commit": "204d1a9eb4a4e5cde1844826deaf6d0032ec662d",
+    "timestamp": "2026-02-18T03:00:39.519281+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771383639518755000,
+    "command": "run_kolmogorov_proxy_check_phase4"
+  },
+  "results": {
+    "status": "ok",
+    "config": {
+      "token_limit": 120000,
+      "permutations": 30,
+      "random_state": 42,
+      "codecs": [
+        "zlib",
+        "lzma"
+      ]
+    },
+    "datasets": {
+      "voynich_real": {
+        "status": "ok",
+        "token_count": 120000,
+        "codec_results": {
+          "zlib": {
+            "observed_compressed_bytes": 233276,
+            "raw_bytes": 727741,
+            "observed_compression_ratio": 0.320548107087549,
+            "observed_bits_per_token": 15.551733333333333,
+            "perm_mean_compressed_bytes": 300014.9666666667,
+            "perm_std_compressed_bytes": 126.05408451225301,
+            "delta_bytes_vs_perm_mean": -66738.96666666667,
+            "z_score": -529.4470776167459,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          },
+          "lzma": {
+            "observed_compressed_bytes": 205968,
+            "raw_bytes": 727741,
+            "observed_compression_ratio": 0.28302376807133306,
+            "observed_bits_per_token": 13.7312,
+            "perm_mean_compressed_bytes": 267243.73333333334,
+            "perm_std_compressed_bytes": 82.66193534847558,
+            "delta_bytes_vs_perm_mean": -61275.73333333334,
+            "z_score": -741.2811359305218,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          }
+        }
+      },
+      "latin_classic": {
+        "status": "ok",
+        "token_count": 120000,
+        "codec_results": {
+          "zlib": {
+            "observed_compressed_bytes": 282347,
+            "raw_bytes": 839929,
+            "observed_compression_ratio": 0.3361557941206935,
+            "observed_bits_per_token": 18.823133333333335,
+            "perm_mean_compressed_bytes": 312170.76666666666,
+            "perm_std_compressed_bytes": 164.0133497276636,
+            "delta_bytes_vs_perm_mean": -29823.766666666663,
+            "z_score": -181.837434063676,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          },
+          "lzma": {
+            "observed_compressed_bytes": 115880,
+            "raw_bytes": 839929,
+            "observed_compression_ratio": 0.1379640421988049,
+            "observed_bits_per_token": 7.725333333333333,
+            "perm_mean_compressed_bytes": 262627.6,
+            "perm_std_compressed_bytes": 116.16700621662476,
+            "delta_bytes_vs_perm_mean": -146747.59999999998,
+            "z_score": -1263.2468097382957,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          }
+        }
+      },
+      "self_citation": {
+        "status": "ok",
+        "token_count": 120000,
+        "codec_results": {
+          "zlib": {
+            "observed_compressed_bytes": 272733,
+            "raw_bytes": 704670,
+            "observed_compression_ratio": 0.38703648516326794,
+            "observed_bits_per_token": 18.1822,
+            "perm_mean_compressed_bytes": 320100.1666666667,
+            "perm_std_compressed_bytes": 128.0872315607176,
+            "delta_bytes_vs_perm_mean": -47367.166666666686,
+            "z_score": -369.80396944728307,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          },
+          "lzma": {
+            "observed_compressed_bytes": 243000,
+            "raw_bytes": 704670,
+            "observed_compression_ratio": 0.34484226659287326,
+            "observed_bits_per_token": 16.2,
+            "perm_mean_compressed_bytes": 280235.73333333334,
+            "perm_std_compressed_bytes": 129.47456206615342,
+            "delta_bytes_vs_perm_mean": -37235.73333333334,
+            "z_score": -287.59111240946464,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          }
+        }
+      },
+      "table_grille": {
+        "status": "ok",
+        "token_count": 120000,
+        "codec_results": {
+          "zlib": {
+            "observed_compressed_bytes": 44650,
+            "raw_bytes": 691278,
+            "observed_compression_ratio": 0.06459051206605736,
+            "observed_bits_per_token": 2.9766666666666666,
+            "perm_mean_compressed_bytes": 156312.06666666668,
+            "perm_std_compressed_bytes": 93.22908463683541,
+            "delta_bytes_vs_perm_mean": -111662.06666666668,
+            "z_score": -1197.717076185346,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          },
+          "lzma": {
+            "observed_compressed_bytes": 39796,
+            "raw_bytes": 691278,
+            "observed_compression_ratio": 0.0575687350096488,
+            "observed_bits_per_token": 2.6530666666666667,
+            "perm_mean_compressed_bytes": 134555.6,
+            "perm_std_compressed_bytes": 122.3562013140323,
+            "delta_bytes_vs_perm_mean": -94759.6,
+            "z_score": -774.4568643218624,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          }
+        }
+      },
+      "mechanical_reuse": {
+        "status": "ok",
+        "token_count": 120000,
+        "codec_results": {
+          "zlib": {
+            "observed_compressed_bytes": 240254,
+            "raw_bytes": 816840,
+            "observed_compression_ratio": 0.294126144655012,
+            "observed_bits_per_token": 16.016933333333334,
+            "perm_mean_compressed_bytes": 316233.4,
+            "perm_std_compressed_bytes": 193.51099882607878,
+            "delta_bytes_vs_perm_mean": -75979.40000000002,
+            "z_score": -392.63607991754395,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          },
+          "lzma": {
+            "observed_compressed_bytes": 211684,
+            "raw_bytes": 816840,
+            "observed_compression_ratio": 0.2591498947162235,
+            "observed_bits_per_token": 14.112266666666667,
+            "perm_mean_compressed_bytes": 256436.4,
+            "perm_std_compressed_bytes": 78.40646231869752,
+            "delta_bytes_vs_perm_mean": -44752.399999999994,
+            "z_score": -570.774381046496,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          }
+        }
+      },
+      "shuffled_global": {
+        "status": "ok",
+        "token_count": 120000,
+        "codec_results": {
+          "zlib": {
+            "observed_compressed_bytes": 300327,
+            "raw_bytes": 725642,
+            "observed_compression_ratio": 0.41387764214309536,
+            "observed_bits_per_token": 20.0218,
+            "perm_mean_compressed_bytes": 300430.86666666664,
+            "perm_std_compressed_bytes": 124.86305387192091,
+            "delta_bytes_vs_perm_mean": -103.8666666666395,
+            "z_score": -0.8318446765940981,
+            "p_low_bytes": 0.22580645161290322,
+            "num_permutations": 30
+          },
+          "lzma": {
+            "observed_compressed_bytes": 268440,
+            "raw_bytes": 725642,
+            "observed_compression_ratio": 0.36993448560033737,
+            "observed_bits_per_token": 17.896,
+            "perm_mean_compressed_bytes": 268649.4666666667,
+            "perm_std_compressed_bytes": 97.18426941754629,
+            "delta_bytes_vs_perm_mean": -209.46666666667443,
+            "z_score": -2.1553556755848384,
+            "p_low_bytes": 0.03225806451612903,
+            "num_permutations": 30
+          }
+        }
+      }
+    },
+    "dataset_labels": {
+      "voynich_real": "Voynich (Real)",
+      "latin_classic": "Latin (Semantic)",
+      "self_citation": "Self-Citation",
+      "table_grille": "Table-Grille",
+      "mechanical_reuse": "Mechanical Reuse",
+      "shuffled_global": "Shuffled (Global)"
+    }
+  }
+}
