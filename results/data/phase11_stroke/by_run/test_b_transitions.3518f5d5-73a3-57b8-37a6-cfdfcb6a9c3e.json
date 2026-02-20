@@ -1,0 +1,47 @@
+{
+  "provenance": {
+    "run_id": "3518f5d5-73a3-57b8-37a6-cfdfcb6a9c3e",
+    "git_commit": "7cecf035e443f2a965c834e544d0c0b69377b4e2",
+    "timestamp": "2026-02-20T13:23:14.290344+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771593794290275000,
+    "command": "run_11c_transitions"
+  },
+  "results": {
+    "test_id": "B",
+    "B1_boundary_mi": 0.07989560829256388,
+    "B1_p_value": 0.8441,
+    "B1_determination": "null",
+    "B2_intra_mi": 1.0534026835894035,
+    "B2_p_value": 0.8199,
+    "B2_determination": "null",
+    "B3_character_mi": 0.12649124402190762,
+    "B3_information_ratio": 0.6316295559455988,
+    "production_constraint_evidence": false,
+    "abstraction_quality": "non_trivial",
+    "n_permutations": 10000,
+    "details": {
+      "boundary_pair_count": 29838,
+      "intra_pair_count": 146499,
+      "null_distribution_summary_boundary": {
+        "mean": 0.09860254389692324,
+        "std": 0.017265655324472003,
+        "percentile_95": 0.11836204301910849,
+        "percentile_99": 0.11961375669735096
+      },
+      "null_distribution_summary_intra": {
+        "mean": 1.2003537151493426,
+        "std": 0.15641728788239773,
+        "percentile_95": 1.4472677705459234,
+        "percentile_99": 1.5172664349866458
+      }
+    },
+    "duration_seconds": 9.769788980484009,
+    "input_metadata": {
+      "transcription_path": "data/raw/transliterations/ivtff2.0/ZL3b-n.txt",
+      "corpus_hash": "3d077a26ab13c0ba5e3f3cd7645200a3a57b467291c9786b035ca631ba19c0c3",
+      "schema_version": "71a59d84cdd12ceed8e62fae80f209fc90d2922416a6c23773ecb92c17dcc5cc"
+    }
+  }
+}
