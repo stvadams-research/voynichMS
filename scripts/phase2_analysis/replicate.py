@@ -27,7 +27,7 @@ def main():
     # 3. Generate Visuals
     print("\n>> Generating Analysis Visuals...")
     # Note: Using the core_status path for sweep results
-    run_command("support_visualization analysis sensitivity-sweep core_status/core_audit/sensitivity_sweep.json")
+    run_command("python3 -m support_visualization.cli.main analysis sensitivity-sweep core_status/core_audit/sensitivity_sweep.json")
 
     # 4. Generate Word Report
     print("\n>> Generating Phase 2 Word Report...")

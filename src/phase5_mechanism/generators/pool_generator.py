@@ -7,12 +7,14 @@ Matches Voynich structural summaries while enforcing pool constraints.
 import random
 from typing import List, Dict, Any, Optional
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+from phase1_foundation.config import require_seed_if_strict
 from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 
 class PoolGenerator:
     def __init__(self, grammar_path: Path, pool_size: int = 20, seed: Optional[int] = None):
+        require_seed_if_strict(seed, "PoolGenerator")
         self.rng = random.Random(seed)
         self.generator = GrammarBasedGenerator(grammar_path, seed=seed)
         self.pool_size = pool_size

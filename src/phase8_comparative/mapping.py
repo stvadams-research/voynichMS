@@ -668,7 +668,7 @@ def write_proximity_report(
             f"`{objective_validity_failure}`\n"
         )
         handle.write(
-            "- **Uncertainty Artifact:** `results/phase7_human/phase_7c_uncertainty.json`\n"
+            "- **Uncertainty Artifact:** `results/data/phase7_human/phase_7c_uncertainty.json`\n"
         )
 
 
@@ -688,7 +688,7 @@ def run_analysis(
         "results/reports/phase8_comparative/COMPARATIVE_MATRIX.csv",
     )
     output_report = Path(report_path or "results/reports/phase8_comparative/PROXIMITY_ANALYSIS.md")
-    output_uncertainty = Path(uncertainty_output_path or "results/phase7_human/phase_7c_uncertainty.json")
+    output_uncertainty = Path(uncertainty_output_path or "results/data/phase7_human/phase_7c_uncertainty.json")
 
     matrix = load_matrix(csv_path)
     distances = calculate_distances(matrix, target=target)

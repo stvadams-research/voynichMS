@@ -263,6 +263,22 @@ def get_tracker() -> ComputationTracker:
     return _tracker
 
 
+def require_seed_if_strict(seed, component: str) -> None:
+    """
+    Raise if seed is None and REQUIRE_COMPUTED=1 is set.
+
+    Call this at the top of any constructor or function that creates a
+    ``random.Random(seed)`` instance from an Optional[int] seed parameter.
+    In strict replication mode, every source of randomness must be
+    explicitly seeded.
+    """
+    if seed is None and os.environ.get("REQUIRE_COMPUTED", "0") == "1":
+        raise RuntimeError(
+            f"No seed provided to {component} while REQUIRE_COMPUTED=1 is set. "
+            "All randomness must be explicitly seeded for reproducibility."
+        )
+
+
 # Generation Constants
 POSITIONAL_BIAS_PROBABILITY = 0.4
 DEFAULT_SEED = 42

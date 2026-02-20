@@ -91,7 +91,7 @@ def run_pilot_5g():
         console.print(table)
         
         # Save results
-        output_dir = Path("results/phase5_mechanism/topology_collapse")
+        output_dir = Path("results/data/phase5_mechanism/topology_collapse")
         output_dir.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, output_dir / "pilot_5g_results.json")
             

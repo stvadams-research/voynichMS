@@ -120,7 +120,7 @@ def run_phase_7a():
         console.print(table)
         
         # 6. Save Artifacts
-        output_dir = Path("results/phase7_human")
+        output_dir = Path("results/data/phase7_human")
         output_dir.mkdir(parents=True, exist_ok=True)
         
         results = {

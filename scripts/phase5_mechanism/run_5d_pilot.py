@@ -78,7 +78,7 @@ def run_pilot_5d():
             "sim_profile": sim_profile
         }
         
-        output_dir = Path("results/phase5_mechanism/deterministic_grammar")
+        output_dir = Path("results/data/phase5_mechanism/deterministic_grammar")
         output_dir.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, output_dir / "pilot_5d_results.json")
             

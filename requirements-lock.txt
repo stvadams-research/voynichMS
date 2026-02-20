@@ -1,0 +1,68 @@
+# Pinned dependency versions for exact reproduction of publication results.
+# Generated: 2026-02-20
+# Python: 3.11.13 (CPython) on Darwin arm64
+# Publication: Voynich_Structural_Identification_Final_021526
+#
+# Usage:
+#   pip install -r requirements-lock.txt
+#
+# For compatible (not exact) reproduction, use requirements.txt instead.
+# See replicateResults.md for the full reproduction guide.
+
+alembic==1.18.3
+annotated-types==0.7.0
+click==8.3.1
+contourpy==1.3.3
+coverage==7.13.3
+cycler==0.12.1
+fonttools==4.61.1
+iniconfig==2.3.0
+joblib==1.5.3
+kiwisolver==1.4.9
+Levenshtein==0.27.3
+librt==0.7.8
+llvmlite==0.46.0
+lxml==6.0.2
+Mako==1.3.10
+markdown-it-py==4.0.0
+MarkupSafe==3.0.3
+matplotlib==3.10.8
+mdurl==0.1.2
+mypy==1.19.1
+mypy_extensions==1.1.0
+networkx==3.6.1
+numba==0.63.1
+numpy==2.3.5
+opencv-python==4.13.0.92
+packaging==26.0
+pathspec==1.0.4
+pillow==12.1.0
+pluggy==1.6.0
+pydantic==2.12.5
+pydantic-settings==2.12.0
+pydantic_core==2.41.5
+Pygments==2.19.2
+pynndescent==0.6.0
+pyparsing==3.3.2
+pytest==9.0.2
+pytest-cov==7.0.0
+python-dateutil==2.9.0.post0
+python-docx==1.2.0
+python-dotenv==1.2.1
+python-Levenshtein==0.27.3
+PyYAML==6.0.3
+RapidFuzz==3.14.3
+rich==14.3.2
+ruff==0.15.0
+scikit-learn==1.8.0
+scipy==1.17.0
+shellingham==1.5.4
+six==1.17.0
+SQLAlchemy==2.0.46
+threadpoolctl==3.6.0
+tqdm==4.67.3
+typer==0.21.1
+types-PyYAML==6.0.12.20250915
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+umap-learn==0.5.11

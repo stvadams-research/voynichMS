@@ -111,7 +111,7 @@ def run_pilot_5k():
         console.print(table_res)
         
         # Save results
-        output_dir = Path("results/phase5_mechanism/parsimony")
+        output_dir = Path("results/data/phase5_mechanism/parsimony")
         output_dir.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, output_dir / "pilot_5k_results.json")
             

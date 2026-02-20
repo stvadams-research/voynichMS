@@ -100,7 +100,7 @@ def run_lattice_overlap():
         console.print(table)
         
         # Save results
-        output_dir = Path("results/phase5_mechanism")
+        output_dir = Path("results/data/phase5_mechanism")
         output_dir.mkdir(parents=True, exist_ok=True)
         # JSON doesn't like tuple values, so normalize pair fields.
         serializable_results = [

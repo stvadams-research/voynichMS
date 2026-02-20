@@ -9,6 +9,7 @@ import json
 import random
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple, Any
+from phase1_foundation.config import require_seed_if_strict
 import logging
 logger = logging.getLogger(__name__)
 
@@ -17,13 +18,14 @@ class GrammarBasedGenerator:
     Generates words glyph-by-glyph using a probabilistic grammar.
     """
     def __init__(self, grammar_path: Path, seed: Optional[int] = None):
+        require_seed_if_strict(seed, "GrammarBasedGenerator")
         with open(grammar_path, "r") as f:
             self.grammar = json.load(f)
-        
+
         self.transitions = self.grammar["transitions"]
         self.positions = self.grammar["positions"]
         self.word_lengths = self.grammar["word_lengths"]
-        
+
         self.rng = random.Random(seed)
         
         # Pre-process for weighted sampling

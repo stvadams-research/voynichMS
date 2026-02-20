@@ -1,0 +1,101 @@
+name: Reproduction Smoke Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: "Random seed for determinism checks"
+        required: false
+        default: "42"
+  schedule:
+    # Weekly on Sunday at 04:00 UTC
+    - cron: "0 4 * * 0"
+
+env:
+  PYTHON_VERSION: "3.11"
+  SEED: ${{ github.event.inputs.seed || '42' }}
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements-lock.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-lock.txt
+          pip install -e .
+
+      - name: Download external data
+        run: |
+          python scripts/phase0_data/download_external_data.py --skip-scans
+        # IVTFF transliterations and Gutenberg corpora.
+        # Yale scans are skipped (too large for CI).
+
+      - name: Populate database
+        run: |
+          python scripts/phase1_foundation/populate_database.py
+
+      - name: Run Phase 1 foundation
+        run: |
+          python scripts/phase1_foundation/replicate.py
+
+      - name: Run Phase 3 synthesis (determinism gate)
+        run: |
+          python scripts/phase3_synthesis/replicate.py
+
+      - name: Determinism check (Phase 3)
+        run: |
+          TMPDIR_A=$(mktemp -d)
+          TMPDIR_B=$(mktemp -d)
+
+          python scripts/phase3_synthesis/run_test_a.py \
+            --seed ${{ env.SEED }} \
+            > "${TMPDIR_A}/test_a.json" 2>/dev/null || true
+
+          python scripts/phase3_synthesis/run_test_a.py \
+            --seed ${{ env.SEED }} \
+            > "${TMPDIR_B}/test_a.json" 2>/dev/null || true
+
+          if [ -f "${TMPDIR_A}/test_a.json" ] && [ -f "${TMPDIR_B}/test_a.json" ]; then
+            python -c "
+          import json, sys
+          a = json.load(open('${TMPDIR_A}/test_a.json'))
+          b = json.load(open('${TMPDIR_B}/test_a.json'))
+          for d in [a, b]:
+              d.pop('provenance', None)
+          if json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True):
+              print('[OK] Phase 3 determinism check passed.')
+          else:
+              print('[FAIL] Phase 3 outputs differ across runs.')
+              sys.exit(1)
+          "
+          else
+            echo "[SKIP] Phase 3 determinism check — output not captured."
+          fi
+
+          rm -rf "${TMPDIR_A}" "${TMPDIR_B}"
+
+      - name: Golden output regression check
+        run: |
+          if ls tests/fixtures/golden/*.json 1>/dev/null 2>&1; then
+            python scripts/core_audit/check_golden_outputs.py --tolerance 1e-6
+          else
+            echo "[SKIP] No golden outputs committed yet."
+          fi

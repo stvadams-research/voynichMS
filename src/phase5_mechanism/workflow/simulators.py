@@ -7,6 +7,7 @@ Implements minimal simulators for line-conditioned workflows.
 import random
 from typing import List, Dict, Any, Tuple, Optional
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+from phase1_foundation.config import require_seed_if_strict
 from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
@@ -16,6 +17,7 @@ class LineScopedPoolSimulator:
     Family 1: Each line has its own independent, bounded pool.
     """
     def __init__(self, grammar_path: Path, mean_pool_size: float = 10.0, seed: Optional[int] = None):
+        require_seed_if_strict(seed, "LineScopedPoolSimulator")
         # Intentional controller bypass: simulators keep local RNG state per run.
         self.rng = random.Random(seed)
         self.generator = GrammarBasedGenerator(grammar_path, seed=seed)
@@ -39,6 +41,7 @@ class WeaklyCoupledPoolSimulator:
     Family 2: Line pools are sampled from a drifting reservoir.
     """
     def __init__(self, grammar_path: Path, reservoir_size: int = 50, drift_rate: float = 0.1, seed: Optional[int] = None):
+        require_seed_if_strict(seed, "WeaklyCoupledPoolSimulator")
         # Intentional controller bypass: simulators keep local RNG state per run.
         self.rng = random.Random(seed)
         self.generator = GrammarBasedGenerator(grammar_path, seed=seed)

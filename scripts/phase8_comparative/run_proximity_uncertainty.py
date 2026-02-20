@@ -66,7 +66,7 @@ def _parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output-path",
-        default="results/phase7_human/phase_7c_uncertainty.json",
+        default="results/data/phase7_human/phase_7c_uncertainty.json",
         help="Uncertainty artifact output path.",
     )
     parser.add_argument(

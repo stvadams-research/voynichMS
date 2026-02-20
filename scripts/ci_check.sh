@@ -222,9 +222,9 @@ echo "2e. Verifying SK-M2.5 uncertainty lane semantics..."
 import json
 from pathlib import Path
 
-path = Path("results/phase7_human/phase_7c_uncertainty.json")
+path = Path("results/data/phase7_human/phase_7c_uncertainty.json")
 if not path.exists():
-    raise SystemExit("SK-M2 artifact missing: results/phase7_human/phase_7c_uncertainty.json")
+    raise SystemExit("SK-M2 artifact missing: results/data/phase7_human/phase_7c_uncertainty.json")
 
 payload = json.loads(path.read_text(encoding="utf-8"))
 results = payload.get("results", {})
@@ -355,9 +355,9 @@ echo "2j. Verifying SK-H1.4/SK-H1.5 multimodal robustness parity..."
 import json
 from pathlib import Path
 
-path = Path("results/phase5_mechanism/anchor_coupling_confirmatory.json")
+path = Path("results/data/phase5_mechanism/anchor_coupling_confirmatory.json")
 if not path.exists():
-    raise SystemExit("SK-H1 artifact missing: results/phase5_mechanism/anchor_coupling_confirmatory.json")
+    raise SystemExit("SK-H1 artifact missing: results/data/phase5_mechanism/anchor_coupling_confirmatory.json")
 
 payload = json.loads(path.read_text(encoding="utf-8"))
 results = payload.get("results", {})

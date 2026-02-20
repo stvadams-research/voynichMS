@@ -86,10 +86,10 @@ python3 - <<'PY'
 import json
 from pathlib import Path
 
-path = Path("results/phase5_mechanism/anchor_coupling_confirmatory.json")
+path = Path("results/data/phase5_mechanism/anchor_coupling_confirmatory.json")
 if not path.exists():
     raise SystemExit(
-        "[FAIL] Missing results/phase5_mechanism/anchor_coupling_confirmatory.json for SK-H1 checks."
+        "[FAIL] Missing results/data/phase5_mechanism/anchor_coupling_confirmatory.json for SK-H1 checks."
     )
 payload = json.loads(path.read_text(encoding="utf-8"))
 results = payload.get("results", {})
@@ -609,9 +609,9 @@ python3 - <<'PY'
 import json
 from pathlib import Path
 
-path = Path("results/phase7_human/phase_7c_uncertainty.json")
+path = Path("results/data/phase7_human/phase_7c_uncertainty.json")
 if not path.exists():
-    raise SystemExit("[FAIL] Missing SK-M2 artifact: results/phase7_human/phase_7c_uncertainty.json")
+    raise SystemExit("[FAIL] Missing SK-M2 artifact: results/data/phase7_human/phase_7c_uncertainty.json")
 
 payload = json.loads(path.read_text(encoding="utf-8"))
 results = payload.get("results", {})

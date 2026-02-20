@@ -1,14 +1,18 @@
 # Reproducibility Guide
 
-This guide documents the command path to reproduce Phases 2 through 7 using the
+This guide documents the command path to reproduce all 11 phases using the
 current repository scripts.
+
+> **Single-command replication:** `python3 scripts/support_preparation/replicate_all.py`
+> For the full external reproduction guide, see `replicateResults.md`.
 
 ## 1. Environment Setup
 
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-lock.txt   # exact pins for reproducibility
+pip install -e .
 ```
 
 If you do not activate a venv, the verification scripts still run but print a warning.
@@ -18,38 +22,52 @@ Set an explicit interpreter if needed:
 export PYTHON_BIN=python3
 ```
 
-## 2. Data and Schema Initialization
+## 2. Phase 1: Foundation (Data and Schema Initialization)
 
 ```bash
 python3 scripts/phase1_foundation/acceptance_test.py
+python3 scripts/phase1_foundation/populate_database.py
+python3 scripts/phase1_foundation/run_destructive_audit.py
 ```
 
-## 3. Phase 2 (Analysis) Reproduction
+## 3. Phase 2: Analysis
 
 ```bash
 python3 scripts/phase2_analysis/run_phase_2_1.py
 python3 scripts/phase2_analysis/run_phase_2_2.py
 python3 scripts/phase2_analysis/run_phase_2_3.py
 python3 scripts/phase2_analysis/run_phase_2_4.py
+python3 scripts/phase2_analysis/run_sensitivity_sweep.py --mode smoke
 ```
 
-## 4. Phase 3 (Synthesis) Reproduction
+## 4. Phase 3: Synthesis
 
 ```bash
 python3 scripts/phase3_synthesis/extract_grammar.py
 python3 scripts/phase3_synthesis/run_phase_3.py
-python3 scripts/phase3_synthesis/run_test_a.py --seed 42 --output core_status/phase3_synthesis/TEST_A_RESULTS.json
+python3 scripts/phase3_synthesis/run_test_a.py --seed 42
 python3 scripts/phase3_synthesis/run_test_b.py
 python3 scripts/phase3_synthesis/run_test_c.py
 python3 scripts/phase3_synthesis/run_indistinguishability_test.py
+python3 scripts/phase3_synthesis/run_control_matching_audit.py
 python3 scripts/phase3_synthesis/run_baseline_assessment.py
 ```
 
-## 5. Phase 4-6 (Mechanism and Inference) Reproduction
-
-### Mechanism pilots (Phase 5 family)
+## 5. Phase 4: Inference
 
 ```bash
+python3 scripts/phase4_inference/build_corpora.py
+python3 scripts/phase4_inference/run_lang_id.py
+python3 scripts/phase4_inference/run_montemurro.py
+python3 scripts/phase4_inference/run_network.py
+python3 scripts/phase4_inference/run_morph.py
+python3 scripts/phase4_inference/run_topics.py
+```
+
+## 6. Phase 5: Mechanism
+
+```bash
+python3 scripts/phase5_mechanism/run_pilot.py
 python3 scripts/phase5_mechanism/run_5b_pilot.py
 python3 scripts/phase5_mechanism/run_5c_pilot.py
 python3 scripts/phase5_mechanism/run_5d_pilot.py
@@ -58,21 +76,20 @@ python3 scripts/phase5_mechanism/run_5f_pilot.py
 python3 scripts/phase5_mechanism/run_5g_pilot.py
 python3 scripts/phase5_mechanism/run_5j_pilot.py
 python3 scripts/phase5_mechanism/run_5k_pilot.py
-python3 scripts/phase5_mechanism/run_pilot.py
+python3 scripts/phase5_mechanism/generate_all_anchors.py --dataset-id voynich_real --method-name geometric_v1 --threshold 0.10
+python3 scripts/phase5_mechanism/audit_anchor_coverage.py
+python3 scripts/phase5_mechanism/run_5i_anchor_coupling.py
 ```
 
-### Inference runners
+## 7. Phase 6: Functional
 
 ```bash
-python3 scripts/phase4_inference/build_corpora.py
-python3 scripts/phase4_inference/run_lang_id.py
-python3 scripts/phase4_inference/run_montemurro.py
-python3 scripts/phase4_inference/run_morph.py
-python3 scripts/phase4_inference/run_network.py
-python3 scripts/phase4_inference/run_topics.py
+python3 scripts/phase6_functional/run_6a_exhaustion.py
+python3 scripts/phase6_functional/run_6b_efficiency.py
+python3 scripts/phase6_functional/run_6c_adversarial.py
 ```
 
-## 6. Phase 7 (Human/Codicological) Reproduction
+## 8. Phase 7: Human (Codicological)
 
 ```bash
 python3 scripts/phase7_human/run_7a_human_factors.py
@@ -80,32 +97,50 @@ python3 scripts/phase7_human/run_7b_codicology.py
 python3 scripts/phase7_human/run_7c_comparative.py
 ```
 
-## 7. Phase 8 (Visualization and Publication) Reproduction
-
-### Visualization generation
+## 9. Phase 8: Comparative
 
 ```bash
-# Foundation plots
-visualization foundation token-frequency voynich_real
-visualization foundation repetition-rate voynich_real
-
-# Analysis plots (after running sensitivity sweep)
-visualization analysis sensitivity-sweep core_status/core_audit/sensitivity_sweep.json
-
-# Synthesis plots (after baseline assessment)
-visualization synthesis gap-analysis core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.json
-
-# Inference plots (after running inference runners)
-visualization inference lang-id results/data/phase4_inference/lang_id_results.json
+python3 scripts/phase8_comparative/run_proximity_uncertainty.py --iterations 2000 --seed 42
 ```
 
-### Publication drafting
+## 10. Phase 9: Conjecture
+
+Phase 9 is a synthesis phase. Its per-phase `replicate.py` orchestrates any
+necessary steps.
+
+## 11. Phase 10: Admissibility Retest
 
 ```bash
+python3 scripts/phase10_admissibility/run_stage1_hjk.py --seed 42
+python3 scripts/phase10_admissibility/run_stage1b_jk_replication.py --seeds 42,77,101
+python3 scripts/phase10_admissibility/run_stage2_gi.py --seed 42
+python3 scripts/phase10_admissibility/run_stage3_f.py --seed 42
+python3 scripts/phase10_admissibility/run_stage4_synthesis.py
+python3 scripts/phase10_admissibility/run_stage5_high_roi.py
+python3 scripts/phase10_admissibility/run_stage5b_k_adjudication.py
+```
+
+## 12. Phase 11: Stroke Topology
+
+```bash
+python3 scripts/phase11_stroke/run_11a_extract.py
+python3 scripts/phase11_stroke/run_11b_cluster.py --seed 42 --permutations 10000
+python3 scripts/phase11_stroke/run_11c_transitions.py --seed 42 --permutations 10000
+```
+
+## 13. Visualization and Publication
+
+```bash
+python3 -m support_visualization.cli.main foundation token-frequency voynich_real
+python3 -m support_visualization.cli.main foundation repetition-rate voynich_real
+python3 -m support_visualization.cli.main analysis sensitivity-sweep core_status/core_audit/sensitivity_sweep.json
+python3 -m support_visualization.cli.main synthesis gap-analysis core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.json
+python3 -m support_visualization.cli.main inference lang-id results/data/phase4_inference/lang_id_results.json
+python3 scripts/support_preparation/generate_publication.py
 python3 scripts/support_preparation/assemble_draft.py
 ```
 
-## 8. Seed and Determinism Notes
+## 14. Seed and Determinism Notes
 
 - Most scripts encode deterministic seed usage internally (commonly `seed=42`
   via `active_run(config=...)` and seeded constructors).
@@ -138,7 +173,7 @@ REQUIRE_COMPUTED=1 python3 scripts/phase3_synthesis/run_indistinguishability_tes
 export REQUIRE_COMPUTED=1
 ```
 
-## 9. Provenance and Outputs
+## 15. Provenance and Outputs
 
 - Runner outputs include a `provenance` block (`run_id`, timestamps, commit).
 - Outputs are written to both:
@@ -148,7 +183,7 @@ export REQUIRE_COMPUTED=1
 - `core_status/` is transient execution output and is not treated as release evidence.
 - Release evidence should come from `reports/` plus provenance-managed `results/.../by_run/`.
 
-## 10. Automated Verification
+## 16. Automated Verification
 
 Use both checks after a clean reproduction run:
 
@@ -210,7 +245,7 @@ VERIFY_STRICT=1 bash scripts/verify_reproduction.sh
 
 This enables additional `REQUIRE_COMPUTED=1` enforcement checks.
 
-## 11. Sensitivity Sweep Iteration Modes
+## 17. Sensitivity Sweep Iteration Modes
 
 `scripts/phase2_analysis/run_sensitivity_sweep.py` supports lower-cost iteration modes for frequent local checks.
 
@@ -254,7 +289,7 @@ Checkpoint/resume behavior:
 python3 scripts/phase2_analysis/run_sensitivity_sweep.py --mode release --dataset-id voynich_real --no-resume
 ```
 
-## 12. SK-H1 Multimodal Coupling Reproduction
+## 18. SK-H1 Multimodal Coupling Reproduction
 
 Run this sequence to reproduce confirmatory image/layout coupling evidence:
 
@@ -299,7 +334,7 @@ python3 scripts/core_skeptic/check_multimodal_coupling.py --mode release
 python3 -m pytest -q tests/core_skeptic/test_multimodal_coupling_checker.py
 ```
 
-## 13. SK-H2 Claim Boundary Verification
+## 19. SK-H2 Claim Boundary Verification
 
 Run claim-boundary checks for public-facing conclusion language:
 
@@ -317,7 +352,7 @@ Claim-boundary policy sources:
 - `governance/CLAIM_BOUNDARY_POLICY.md`
 - `configs/core_skeptic/sk_h2_claim_language_policy.json`
 
-## 14. SK-H3 Control Comparability Verification
+## 20. SK-H3 Control Comparability Verification
 
 Run SK-H3 comparability artifacts and policy checks:
 
@@ -371,7 +406,7 @@ print('lane_parity', s['h3_4_closure_lane'] == a['h3_4_closure_lane'])
 PY
 ```
 
-## 15. SK-M1 Closure Conditionality Verification
+## 21. SK-M1 Closure Conditionality Verification
 
 Run closure-conditionality policy checks:
 
@@ -394,7 +429,7 @@ Primary trace artifact:
 
 - `reports/core_skeptic/SK_M1_CLOSURE_REGISTER.md`
 
-## 16. SK-M2 Comparative Uncertainty Verification
+## 22. SK-M2 Comparative Uncertainty Verification
 
 Run comparative uncertainty artifact and policy checks:
 
@@ -434,7 +469,7 @@ Primary artifact:
 
 - `results/phase7_human/phase_7c_uncertainty.json`
 
-## 17. SK-M3 Report Coherence Verification
+## 23. SK-M3 Report Coherence Verification
 
 Run report-coherence policy checks:
 
@@ -453,7 +488,7 @@ Primary SK-M3 artifact:
 
 - `results/reports/phase4_inference/PHASE_4_STATUS_INDEX.json`
 
-## 18. SK-M4 Historical Provenance Verification
+## 24. SK-M4 Historical Provenance Verification
 
 Run canonical provenance-health generation and policy checks:
 
@@ -478,7 +513,7 @@ Primary SK-M4 artifact:
 - `core_status/core_audit/provenance_health_status.json`
 - `core_status/core_audit/provenance_register_sync_status.json`
 
-## 19. Release Baseline Checklist
+## 25. Release Baseline Checklist
 
 Before declaring a reproducible release baseline:
 

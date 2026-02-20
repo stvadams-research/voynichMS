@@ -104,7 +104,7 @@ def run_pilot_5b():
             "table": {"dim": table_dim, "reset": table_reset}
         }
         
-        output_dir = Path("results/phase5_mechanism/constraint_geometry")
+        output_dir = Path("results/data/phase5_mechanism/constraint_geometry")
         output_dir.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, output_dir / "pilot_5b_results.json")
             

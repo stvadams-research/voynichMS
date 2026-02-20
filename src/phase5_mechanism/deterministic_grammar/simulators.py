@@ -7,6 +7,7 @@ Implements minimal non-stochastic generators for slot-based models.
 import random
 from typing import List, Dict, Any, Tuple, Optional
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+from phase1_foundation.config import require_seed_if_strict
 from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
@@ -16,6 +17,7 @@ class DeterministicSlotSimulator:
     Family 1: Each line is a sequence of N slots from disjoint pools.
     """
     def __init__(self, grammar_path: Path, num_slots: int = 8, seed: Optional[int] = None):
+        require_seed_if_strict(seed, "DeterministicSlotSimulator")
         # Intentional controller bypass: simulators keep local RNG state per run.
         self.rng = random.Random(seed)
         self.generator = GrammarBasedGenerator(grammar_path, seed=seed)

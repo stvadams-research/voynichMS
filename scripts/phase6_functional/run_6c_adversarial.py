@@ -128,7 +128,7 @@ def run_phase_6c():
         console.print(table)
         
         # 4. Save Artifacts
-        output_dir = Path("results/phase6_functional/phase_6c")
+        output_dir = Path("results/data/phase6_functional/phase_6c")
         output_dir.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, output_dir / "phase_6c_results.json")
             

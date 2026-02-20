@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements-lock.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-lock.txt
+          pip install -e .
+
+      - name: Lint with ruff
+        run: |
+          pip install ruff
+          ruff check src/ tests/ scripts/ --select E,F,W --ignore E501,E402,W503 || true
+        # Non-blocking lint — warns but does not fail the build.
+        # Remove "|| true" once all existing lint issues are resolved.
+
+      - name: Run unit tests
+        run: |
+          python -m pytest tests/ \
+            --ignore=tests/integration \
+            -q \
+            --tb=short \
+            -x
+        # Integration tests require the database and pipeline artifacts.
+        # They are covered by the reproduce workflow instead.
+
+      - name: Import smoke test
+        run: |
+          python -c "
+          import src.phase1_foundation.core.queries
+          import src.phase1_foundation.core.provenance
+          import src.phase1_foundation.runs.manager
+          import src.phase2_analysis.admissibility.manager
+          import src.phase3_synthesis.generators.text_generator
+          import src.phase5_mechanism.simulators.pool_generator
+          print('All critical modules imported successfully.')
+          "

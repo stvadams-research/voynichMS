@@ -98,7 +98,7 @@ def run_pilot_5f():
             "coupled": {"dist": syn_cpl_dist, "coup": syn_cpl_coup}
         }
         
-        output_dir = Path("results/phase5_mechanism/entry_selection")
+        output_dir = Path("results/data/phase5_mechanism/entry_selection")
         output_dir.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, output_dir / "pilot_5f_results.json")
             

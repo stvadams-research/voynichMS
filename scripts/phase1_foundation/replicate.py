@@ -29,8 +29,8 @@ def main():
 
     # 4. Generate Visuals
     print("\n>> Generating Foundation Visuals...")
-    run_command("support_visualization foundation token-frequency voynich_real")
-    run_command("support_visualization foundation repetition-rate voynich_real")
+    run_command("python3 -m support_visualization.cli.main foundation token-frequency voynich_real")
+    run_command("python3 -m support_visualization.cli.main foundation repetition-rate voynich_real")
 
     # 5. Generate Word Report
     print("\n>> Generating Phase 1 Word Report...")

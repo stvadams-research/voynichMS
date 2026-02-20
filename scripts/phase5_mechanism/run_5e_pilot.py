@@ -82,7 +82,7 @@ def run_pilot_5e():
             "sim": sim_coll
         }
         
-        output_dir = Path("results/phase5_mechanism/large_object")
+        output_dir = Path("results/data/phase5_mechanism/large_object")
         output_dir.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, output_dir / "pilot_5e_results.json")
             

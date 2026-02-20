@@ -96,7 +96,7 @@ def run_pilot_5c():
             "sim2_coupled": sim2_dist
         }
         
-        output_dir = Path("results/phase5_mechanism/workflow")
+        output_dir = Path("results/data/phase5_mechanism/workflow")
         output_dir.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, output_dir / "pilot_5c_results.json")
             

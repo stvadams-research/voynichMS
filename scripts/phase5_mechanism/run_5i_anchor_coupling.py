@@ -66,8 +66,8 @@ from phase5_mechanism.anchor_coupling import (
 console = Console()
 DEFAULT_DB_URL = "sqlite:///data/voynich.db"
 POLICY_PATH = PROJECT_ROOT / "configs/core_skeptic/sk_h1_multimodal_policy.json"
-OUTPUT_PATH = PROJECT_ROOT / "results/phase5_mechanism/anchor_coupling_confirmatory.json"
-LEGACY_OUTPUT_PATH = PROJECT_ROOT / "results/phase5_mechanism/anchor_coupling.json"
+OUTPUT_PATH = PROJECT_ROOT / "results/data/phase5_mechanism/anchor_coupling_confirmatory.json"
+LEGACY_OUTPUT_PATH = PROJECT_ROOT / "results/data/phase5_mechanism/anchor_coupling.json"
 
 
 def _utc_now_iso() -> str:

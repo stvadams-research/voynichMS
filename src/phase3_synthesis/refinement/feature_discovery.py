@@ -57,6 +57,8 @@ class FeatureComputer:
     """Registry of real feature computation functions."""
 
     def __init__(self, store: Optional[MetadataStore] = None, seed: Optional[int] = None):
+        from phase1_foundation.config import require_seed_if_strict
+        require_seed_if_strict(seed, "FeatureComputer")
         self.store = store
         self.fallback_seed = seed
         self.fallback_rng = random.Random(seed)

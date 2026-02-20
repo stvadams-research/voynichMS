@@ -27,7 +27,7 @@ from phase7_human.scribe_coupling import ScribeAnalyzer
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
-MULTIMODAL_STATUS_PATH = Path("results/phase5_mechanism/anchor_coupling_confirmatory.json")
+MULTIMODAL_STATUS_PATH = Path("results/data/phase5_mechanism/anchor_coupling_confirmatory.json")
 
 
 def _load_json(path: Path) -> Dict[str, Any]:
@@ -239,7 +239,7 @@ def run_phase_7b():
         console.print(table)
         
         # 7. Save Artifacts
-        output_dir = Path("results/phase7_human")
+        output_dir = Path("results/data/phase7_human")
         output_dir.mkdir(parents=True, exist_ok=True)
         
         results = {

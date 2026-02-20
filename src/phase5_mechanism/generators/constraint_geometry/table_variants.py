@@ -7,12 +7,14 @@ Produces text using tables of varying dimensions to test dimensionality signatur
 import random
 from typing import List, Dict, Any, Tuple, Optional
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+from phase1_foundation.config import require_seed_if_strict
 from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 
 class GeometricTableGenerator:
     def __init__(self, grammar_path: Path, rows: int = 10, cols: int = 10, seed: Optional[int] = None):
+        require_seed_if_strict(seed, "GeometricTableGenerator")
         self.generator = GrammarBasedGenerator(grammar_path, seed=seed)
         self.rng = random.Random(seed)
         self.rows = rows

@@ -18,7 +18,7 @@ from phase3_synthesis.interface import (
     SyntheticPage,
     GeneratorType,
 )
-from phase1_foundation.config import POSITIONAL_BIAS_PROBABILITY
+from phase1_foundation.config import POSITIONAL_BIAS_PROBABILITY, require_seed_if_strict
 
 
 def _stable_seed_fragment(value: Any, modulus: int = 1_000_000) -> int:
@@ -66,6 +66,7 @@ class ConstrainedMarkovGenerator:
     """
 
     def __init__(self, order: int = 2, locality_window: Tuple[int, int] = (2, 4), seed: Optional[int] = None):
+        require_seed_if_strict(seed, "ConstrainedMarkovGenerator")
         self.order = order
         self.locality_window = locality_window
         self.seed = seed
@@ -232,6 +233,7 @@ class TextContinuationGenerator:
     """
 
     def __init__(self, section_profile: SectionProfile, seed: Optional[int] = None):
+        require_seed_if_strict(seed, "TextContinuationGenerator")
         self.section_profile = section_profile
         self.seed = seed
         # Intentional controller bypass: this generator keeps a local seeded RNG

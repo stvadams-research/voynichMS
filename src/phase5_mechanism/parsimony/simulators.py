@@ -11,6 +11,7 @@ Models:
 import random
 from typing import List, Dict, Any, Tuple, Optional
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+from phase1_foundation.config import require_seed_if_strict
 from pathlib import Path
 from phase5_mechanism.dependency_scope.features import TokenFeatureExtractor
 import logging
@@ -18,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 class ParsimonySimulator:
     def __init__(self, grammar_path: Path, vocab_size: int = 1000, seed: Optional[int] = None):
+        require_seed_if_strict(seed, "ParsimonySimulator")
         # Intentional controller bypass: simulators keep local RNG state per run.
         self.rng = random.Random(seed)
         self.generator = GrammarBasedGenerator(grammar_path, seed=seed)

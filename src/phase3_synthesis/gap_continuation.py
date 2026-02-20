@@ -65,6 +65,8 @@ class GapConditionedContinuation:
     """
 
     def __init__(self, section_profile: SectionProfile, seed: Optional[int] = None):
+        from phase1_foundation.config import require_seed_if_strict
+        require_seed_if_strict(seed, "GapConditionedContinuation")
         self.section_profile = section_profile
         self.rng = random.Random(seed)
         self.generator = TextContinuationGenerator(section_profile, seed=seed)

@@ -98,10 +98,53 @@ with open(dst, "w") as f:
 PY
 
 if diff "$CAN1" "$CAN2"; then
-    echo "  [OK] Outputs are identical for the same seed."
+    echo "  [OK] Phase 3 outputs are identical for the same seed."
 else
-    echo "  [FAIL] Non-deterministic output detected!"
+    echo "  [FAIL] Phase 3 non-deterministic output detected!"
     exit 1
+fi
+
+# 3b. Cross-phase determinism: Phase 11 (stroke transitions, ~10s per run)
+echo "3b. Verifying Phase 11 determinism..."
+P11_INPUT="results/data/phase11_stroke/stroke_features.json"
+if [ -f "$P11_INPUT" ]; then
+    P11_OUT1="$(mktemp /tmp/verify_p11_1.XXXXXX.json)"
+    P11_OUT2="$(mktemp /tmp/verify_p11_2.XXXXXX.json)"
+    P11_CAN1="$(mktemp /tmp/verify_p11_1.canon.XXXXXX.json)"
+    P11_CAN2="$(mktemp /tmp/verify_p11_2.canon.XXXXXX.json)"
+
+    echo "  Running Phase 11 transitions (1/2)..."
+    "${PYTHON_BIN}" scripts/phase11_stroke/run_11c_transitions.py --seed "$SEED" --permutations 100 --output "$P11_OUT1" > /dev/null 2>&1
+
+    echo "  Running Phase 11 transitions (2/2)..."
+    "${PYTHON_BIN}" scripts/phase11_stroke/run_11c_transitions.py --seed "$SEED" --permutations 100 --output "$P11_OUT2" > /dev/null 2>&1
+
+    "${PYTHON_BIN}" - <<'PY' "$P11_OUT1" "$P11_CAN1"
+import json, sys
+data = json.load(open(sys.argv[1]))
+payload = data.get("results", data)
+with open(sys.argv[2], "w") as f:
+    json.dump(payload, f, sort_keys=True, separators=(",", ":"))
+PY
+
+    "${PYTHON_BIN}" - <<'PY' "$P11_OUT2" "$P11_CAN2"
+import json, sys
+data = json.load(open(sys.argv[1]))
+payload = data.get("results", data)
+with open(sys.argv[2], "w") as f:
+    json.dump(payload, f, sort_keys=True, separators=(",", ":"))
+PY
+
+    if diff "$P11_CAN1" "$P11_CAN2"; then
+        echo "  [OK] Phase 11 outputs are identical for the same seed."
+    else
+        echo "  [FAIL] Phase 11 non-deterministic output detected!"
+        rm -f "$P11_OUT1" "$P11_OUT2" "$P11_CAN1" "$P11_CAN2"
+        exit 1
+    fi
+    rm -f "$P11_OUT1" "$P11_OUT2" "$P11_CAN1" "$P11_CAN2"
+else
+    echo "  [SKIP] Phase 11 stroke features not found - run Phase 11 first."
 fi
 
 # 4. Analysis Spot Check
@@ -127,9 +170,9 @@ echo "5d. Verifying SK-H1.4/SK-H1.5 multimodal robustness semantics..."
 import json
 from pathlib import Path
 
-path = Path("results/phase5_mechanism/anchor_coupling_confirmatory.json")
+path = Path("results/data/phase5_mechanism/anchor_coupling_confirmatory.json")
 if not path.exists():
-    raise SystemExit("Missing results/phase5_mechanism/anchor_coupling_confirmatory.json for SK-H1 checks.")
+    raise SystemExit("Missing results/data/phase5_mechanism/anchor_coupling_confirmatory.json for SK-H1 checks.")
 
 payload = json.loads(path.read_text(encoding="utf-8"))
 results = payload.get("results", {})
@@ -715,9 +758,9 @@ echo "10. Checking SK-M2 phase8_comparative uncertainty policy..."
 import json
 from pathlib import Path
 
-path = Path("results/phase7_human/phase_7c_uncertainty.json")
+path = Path("results/data/phase7_human/phase_7c_uncertainty.json")
 if not path.exists():
-    raise SystemExit("Missing results/phase7_human/phase_7c_uncertainty.json")
+    raise SystemExit("Missing results/data/phase7_human/phase_7c_uncertainty.json")
 
 results = json.loads(path.read_text(encoding="utf-8")).get("results", {})
 required = [

@@ -7,6 +7,7 @@ Implements traversal models for grids and DAGs.
 import random
 from typing import List, Dict, Any, Tuple, Optional
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+from phase1_foundation.config import require_seed_if_strict
 from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
@@ -16,6 +17,7 @@ class LargeGridSimulator:
     Family 1: A large M x N grid of Voynich tokens.
     """
     def __init__(self, grammar_path: Path, rows: int = 50, cols: int = 50, seed: Optional[int] = None):
+        require_seed_if_strict(seed, "LargeGridSimulator")
         # Intentional controller bypass: simulators keep local RNG state per run.
         self.rng = random.Random(seed)
         self.generator = GrammarBasedGenerator(grammar_path, seed=seed)

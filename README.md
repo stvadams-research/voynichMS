@@ -18,9 +18,9 @@ If it only adds structure, it does not belong here.
 
 ---
 
-## Current Status: PHASE-10-COMPLETE
+## Current Status: PHASE-11-COMPLETE
 
-The project has executable phase runners through **Phase 10**, an automated
+The project has executable phase runners through **Phase 11**, an automated
 **Visualization Layer**, and a **Publication Framework** for academic-grade reporting.
 
 ### Research Phases
@@ -35,6 +35,8 @@ The project has executable phase runners through **Phase 10**, an automated
 9.  **Phase 9 (Conjecture)**: Speculative synthesis and Algorithmic Glossolalia.
 10. **Phase 10 (Admissibility Retest)**: Adversarial re-testing of closure via
     Methods F/G/H/I/J/K, including external grounding and reverse-mechanism search.
+11. **Phase 11 (Stroke Topology)**: Fast-kill glyph-stroke extraction, clustering,
+    and transition analysis testing whether stroke patterns break the lattice model.
 
 ### Key Findings
 1.  **Natural-language/simple-cipher hypotheses are not supported:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic.
@@ -71,12 +73,22 @@ The raw manuscript scans, transliteration files, and external corpora used by th
 
 ---
 
+## Reproducing Results
+
+For step-by-step external reproduction instructions, see **[replicateResults.md](replicateResults.md)**.
+
+Single-command full replication (all 11 phases):
+
+```bash
+python3 scripts/support_preparation/replicate_all.py
+```
+
 ## How to Work on This Project
 
 1.  **Read the Runbook:** `governance/runbook.md` explains how to reproduce the baseline.
-2.  **Visualization:** Use the `visualization` CLI to generate plots:
+2.  **Visualization:** Use the visualization CLI to generate plots:
     ```bash
-    visualization foundation token-frequency voynich_real
+    python3 -m support_visualization.cli.main foundation token-frequency voynich_real
     ```
 3.  **Enforce Standards:** All contributions must pass the CI check (`scripts/ci_check.sh`) and adhere to the `REQUIRE_COMPUTED` standard.
 4.  **Check the Rules:** `RULES_FOR_AGENTS.md` defines the strict constraints on AI and human contributors.

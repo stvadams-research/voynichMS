@@ -214,6 +214,8 @@ class RefinedSynthesis:
                  gaps: List[GapDefinition],
                  constraints: List[StructuralConstraint],
                  seed: Optional[int] = None):
+        from phase1_foundation.config import require_seed_if_strict
+        require_seed_if_strict(seed, "Resynthesizer")
         self.section_profile = section_profile
         self.gaps = gaps
         self.constraints = constraints

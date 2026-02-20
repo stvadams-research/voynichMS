@@ -4,7 +4,7 @@ MASTER REPLICATION SCRIPT
 Project: Voynich Manuscript Assumption-Resistant Foundation
 
 This script runs the entire project lifecycle from raw data to final publication draft.
-Covers all 9 research phases (Foundation through Conjecture).
+Covers all 11 research phases (Foundation through Stroke Topology).
 """
 
 import subprocess
@@ -43,10 +43,12 @@ def main():
         (6, "phase6_functional"),
         (7, "phase7_human"),
         (8, "phase8_comparative"),
-        (9, "phase9_conjecture")
+        (9, "phase9_conjecture"),
+        (10, "phase10_admissibility"),
+        (11, "phase11_stroke"),
     ]
-    
-    print("!!! Voynich Project: FULL MASTER REPLICATION (9 PHASES) !!!")
+
+    print("!!! Voynich Project: FULL MASTER REPLICATION (11 PHASES) !!!")
     print(f"Starting at: {time.ctime()}")
     
     for num, path in phases:
@@ -66,7 +68,7 @@ def main():
     
     print("\n" + "#"*60)
     print("!!! MASTER REPLICATION SUCCESSFUL !!!")
-    print(f"9 Phase Reports and Master Draft available in: results/publication/")
+    print("11 Phase Reports and Master Draft available in: results/publication/")
     print("#"*60 + "\n")
 
 if __name__ == "__main__":

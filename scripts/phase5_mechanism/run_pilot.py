@@ -107,7 +107,7 @@ def run_pilot():
             "table": {"real": real_table, "syn": syn_table}
         }
         
-        output_dir = Path("results/phase5_mechanism")
+        output_dir = Path("results/data/phase5_mechanism")
         output_dir.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, output_dir / "pilot_results.json")
             

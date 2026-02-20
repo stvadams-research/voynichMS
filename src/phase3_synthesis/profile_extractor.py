@@ -38,6 +38,8 @@ from phase1_foundation.storage.metadata import (
 class NeutralTokenGenerator:
     """Generates neutral, procedurally generated tokens to avoid bias."""
     def __init__(self, seed: Optional[int] = None):
+        from phase1_foundation.config import require_seed_if_strict
+        require_seed_if_strict(seed, "NeutralTokenGenerator")
         self.rng = random.Random(seed)
         self.chars = "abcdefghijklmnopqrstuvwxyz"
         
@@ -93,6 +95,8 @@ class PharmaceuticalProfileExtractor:
     }
 
     def __init__(self, store: Optional[MetadataStore] = None, seed: Optional[int] = None):
+        from phase1_foundation.config import require_seed_if_strict
+        require_seed_if_strict(seed, "PharmProfileExtractor")
         self.store = store
         self.seed = seed
         self.rng = random.Random(seed)

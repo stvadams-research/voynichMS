@@ -16,17 +16,37 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 5: Mechanism Identification ===")
-    
-    # 1. Run the Mechanism Pilot (Iterative Collapse)
-    run_command("python3 scripts/phase5_mechanism/run_pilot.py")
-    
-    # 2. Test External Anchoring (Illustration Coupling)
-    run_command("python3 scripts/phase5_mechanism/run_5i_anchor_coupling.py")
-    
-    # 3. Final Topology Assessment
-    run_command("python3 scripts/phase5_mechanism/run_5g_pilot.py")
 
-    # 4. Generate Word Report
+    # 1. Mechanism Pilot (iterative collapse baseline)
+    run_command("python3 scripts/phase5_mechanism/run_pilot.py")
+
+    # 2. Mechanism signature pilots (5b-5k)
+    run_command("python3 scripts/phase5_mechanism/run_5b_pilot.py")
+    run_command("python3 scripts/phase5_mechanism/run_5c_pilot.py")
+    run_command("python3 scripts/phase5_mechanism/run_5d_pilot.py")
+    run_command("python3 scripts/phase5_mechanism/run_5e_pilot.py")
+    run_command("python3 scripts/phase5_mechanism/run_5f_pilot.py")
+    run_command("python3 scripts/phase5_mechanism/run_5g_pilot.py")   # Topology assessment
+    run_command("python3 scripts/phase5_mechanism/run_5j_pilot.py")
+    run_command("python3 scripts/phase5_mechanism/run_5k_pilot.py")   # Parsimony collapse (key kill-step)
+
+    # 3. Anchor generation, coverage audit, and coupling test
+    run_command(
+        "python3 scripts/phase5_mechanism/generate_all_anchors.py"
+        " --dataset-id voynich_real --method-name geometric_v1 --threshold 0.10"
+    )
+    run_command("python3 scripts/phase5_mechanism/audit_anchor_coverage.py")
+    run_command("python3 scripts/phase5_mechanism/run_5i_anchor_coupling.py")
+
+    # 4. Supplementary 5i analyses
+    run_command("python3 scripts/phase5_mechanism/run_5i_lattice_overlap.py")
+    run_command("python3 scripts/phase5_mechanism/run_5i_sectional_profiling.py")
+
+    # 5. Section categorization and region generation
+    run_command("python3 scripts/phase5_mechanism/categorize_sections.py")
+    run_command("python3 scripts/phase5_mechanism/generate_all_regions.py")
+
+    # 6. Generate Word Report
     print("\n>> Generating Phase 5 Word Report...")
     run_command("python3 scripts/support_preparation/generate_publication.py --phase 5")
 

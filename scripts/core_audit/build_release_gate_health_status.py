@@ -31,10 +31,10 @@ DEFAULT_CONTROL_DATA_AVAILABILITY_PATH = (
     PROJECT_ROOT / "core_status/phase3_synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json"
 )
 DEFAULT_MULTIMODAL_STATUS_PATH = (
-    PROJECT_ROOT / "results/phase5_mechanism/anchor_coupling_confirmatory.json"
+    PROJECT_ROOT / "results/data/phase5_mechanism/anchor_coupling_confirmatory.json"
 )
 DEFAULT_COMPARATIVE_UNCERTAINTY_PATH = (
-    PROJECT_ROOT / "results/phase7_human/phase_7c_uncertainty.json"
+    PROJECT_ROOT / "results/data/phase7_human/phase_7c_uncertainty.json"
 )
 DEFAULT_PROVENANCE_HEALTH_PATH = PROJECT_ROOT / "core_status/core_audit/provenance_health_status.json"
 DEFAULT_PROVENANCE_SYNC_PATH = PROJECT_ROOT / "core_status/core_audit/provenance_register_sync_status.json"
