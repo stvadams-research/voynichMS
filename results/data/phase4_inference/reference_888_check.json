@@ -1,0 +1,844 @@
+{
+  "provenance": {
+    "run_id": "ce71e234-31f2-d274-8715-c71e043a97db",
+    "git_commit": "0959bd6e43bc54675610acc13ac52a4547f60d20",
+    "timestamp": "2026-02-18T23:50:33.072184+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771458633071540000,
+    "command": "run_reference_42_check_phase4"
+  },
+  "results": {
+    "status": "ok",
+    "config": {
+      "target_value": 888,
+      "local_window_radius": 6,
+      "top_k": 5
+    },
+    "metrics": {
+      "line_token_count": {
+        "status": "ok",
+        "target_value": 888,
+        "n_observations": 31841,
+        "target_count": 0,
+        "target_rate": 0.0,
+        "value_range": {
+          "min": 1,
+          "max": 68,
+          "slot_count": 68
+        },
+        "global_uniform_test": {
+          "expected_count": 468.25,
+          "std_count": 21.479384781418563,
+          "z_score": -21.799972613977044,
+          "p_one_sided": 1.0
+        },
+        "local_window_test": {
+          "window_radius": 6,
+          "window_low": 882,
+          "window_high": 894,
+          "slot_count": 13,
+          "observations_in_window": 0,
+          "expected_count": 0.0,
+          "std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5
+        },
+        "neighborhood_test": {
+          "window_radius": 6,
+          "neighbor_mean_count": 0.0,
+          "neighbor_std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5,
+          "max_neighbor_count": 0
+        },
+        "top_values": [
+          {
+            "value": 1,
+            "count": 4307
+          },
+          {
+            "value": 10,
+            "count": 3586
+          },
+          {
+            "value": 9,
+            "count": 3448
+          },
+          {
+            "value": 8,
+            "count": 3081
+          },
+          {
+            "value": 11,
+            "count": 2783
+          }
+        ],
+        "closest_to_target": [
+          {
+            "value": 68,
+            "count": 1,
+            "distance": 820
+          },
+          {
+            "value": 67,
+            "count": 2,
+            "distance": 821
+          },
+          {
+            "value": 54,
+            "count": 1,
+            "distance": 834
+          },
+          {
+            "value": 52,
+            "count": 2,
+            "distance": 836
+          },
+          {
+            "value": 51,
+            "count": 3,
+            "distance": 837
+          }
+        ],
+        "classification": "NO_HIT"
+      },
+      "line_char_count": {
+        "status": "ok",
+        "target_value": 888,
+        "n_observations": 31841,
+        "target_count": 0,
+        "target_rate": 0.0,
+        "value_range": {
+          "min": 1,
+          "max": 277,
+          "slot_count": 277
+        },
+        "global_uniform_test": {
+          "expected_count": 114.94945848375451,
+          "std_count": 10.702078232251356,
+          "z_score": -10.740853878020383,
+          "p_one_sided": 1.0
+        },
+        "local_window_test": {
+          "window_radius": 6,
+          "window_low": 882,
+          "window_high": 894,
+          "slot_count": 13,
+          "observations_in_window": 0,
+          "expected_count": 0.0,
+          "std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5
+        },
+        "neighborhood_test": {
+          "window_radius": 6,
+          "neighbor_mean_count": 0.0,
+          "neighbor_std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5,
+          "max_neighbor_count": 0
+        },
+        "top_values": [
+          {
+            "value": 6,
+            "count": 906
+          },
+          {
+            "value": 5,
+            "count": 830
+          },
+          {
+            "value": 44,
+            "count": 746
+          },
+          {
+            "value": 48,
+            "count": 705
+          },
+          {
+            "value": 45,
+            "count": 691
+          }
+        ],
+        "closest_to_target": [
+          {
+            "value": 277,
+            "count": 1,
+            "distance": 611
+          },
+          {
+            "value": 273,
+            "count": 1,
+            "distance": 615
+          },
+          {
+            "value": 261,
+            "count": 1,
+            "distance": 627
+          },
+          {
+            "value": 259,
+            "count": 1,
+            "distance": 629
+          },
+          {
+            "value": 253,
+            "count": 2,
+            "distance": 635
+          }
+        ],
+        "classification": "NO_HIT"
+      },
+      "page_line_count": {
+        "status": "ok",
+        "target_value": 888,
+        "n_observations": 222,
+        "target_count": 0,
+        "target_rate": 0.0,
+        "value_range": {
+          "min": 2,
+          "max": 488,
+          "slot_count": 487
+        },
+        "global_uniform_test": {
+          "expected_count": 0.45585215605749485,
+          "std_count": 0.6744746953513426,
+          "z_score": -0.6758625033664688,
+          "p_one_sided": 0.7504360267691748
+        },
+        "local_window_test": {
+          "window_radius": 6,
+          "window_low": 882,
+          "window_high": 894,
+          "slot_count": 13,
+          "observations_in_window": 0,
+          "expected_count": 0.0,
+          "std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5
+        },
+        "neighborhood_test": {
+          "window_radius": 6,
+          "neighbor_mean_count": 0.0,
+          "neighbor_std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5,
+          "max_neighbor_count": 0
+        },
+        "top_values": [
+          {
+            "value": 77,
+            "count": 13
+          },
+          {
+            "value": 91,
+            "count": 12
+          },
+          {
+            "value": 63,
+            "count": 9
+          },
+          {
+            "value": 84,
+            "count": 8
+          },
+          {
+            "value": 98,
+            "count": 8
+          }
+        ],
+        "closest_to_target": [
+          {
+            "value": 488,
+            "count": 1,
+            "distance": 400
+          },
+          {
+            "value": 444,
+            "count": 1,
+            "distance": 444
+          },
+          {
+            "value": 392,
+            "count": 1,
+            "distance": 496
+          },
+          {
+            "value": 374,
+            "count": 1,
+            "distance": 514
+          },
+          {
+            "value": 372,
+            "count": 1,
+            "distance": 516
+          }
+        ],
+        "classification": "NO_HIT"
+      },
+      "page_token_count": {
+        "status": "ok",
+        "target_value": 888,
+        "n_observations": 222,
+        "target_count": 0,
+        "target_rate": 0.0,
+        "value_range": {
+          "min": 10,
+          "max": 3803,
+          "slot_count": 3794
+        },
+        "global_uniform_test": {
+          "expected_count": 0.05851344227727991,
+          "std_count": 0.24186363854759566,
+          "z_score": -0.2419274043368252,
+          "p_one_sided": 0.5955817924127996
+        },
+        "local_window_test": {
+          "window_radius": 6,
+          "window_low": 882,
+          "window_high": 894,
+          "slot_count": 13,
+          "observations_in_window": 1,
+          "expected_count": 0.07692307692307693,
+          "std_count": 0.2664693550105965,
+          "z_score": -0.2886751345948129,
+          "p_one_sided": 0.6135850036577762
+        },
+        "neighborhood_test": {
+          "window_radius": 6,
+          "neighbor_mean_count": 0.08333333333333333,
+          "neighbor_std_count": 0.2763853991962833,
+          "z_score": -0.30151134457776363,
+          "p_one_sided": 0.6184876997235025,
+          "max_neighbor_count": 1
+        },
+        "top_values": [
+          {
+            "value": 433,
+            "count": 3
+          },
+          {
+            "value": 520,
+            "count": 3
+          },
+          {
+            "value": 574,
+            "count": 3
+          },
+          {
+            "value": 751,
+            "count": 3
+          },
+          {
+            "value": 474,
+            "count": 2
+          }
+        ],
+        "closest_to_target": [
+          {
+            "value": 894,
+            "count": 1,
+            "distance": 6
+          },
+          {
+            "value": 897,
+            "count": 1,
+            "distance": 9
+          },
+          {
+            "value": 875,
+            "count": 1,
+            "distance": 13
+          },
+          {
+            "value": 869,
+            "count": 1,
+            "distance": 19
+          },
+          {
+            "value": 919,
+            "count": 1,
+            "distance": 31
+          }
+        ],
+        "classification": "NO_HIT"
+      },
+      "page_char_count": {
+        "status": "ok",
+        "target_value": 888,
+        "n_observations": 222,
+        "target_count": 0,
+        "target_rate": 0.0,
+        "value_range": {
+          "min": 45,
+          "max": 19016,
+          "slot_count": 18972
+        },
+        "global_uniform_test": {
+          "expected_count": 0.01170145477545857,
+          "std_count": 0.10817041185317831,
+          "z_score": -0.10817611373562273,
+          "p_one_sided": 0.5430720038861425
+        },
+        "local_window_test": {
+          "window_radius": 6,
+          "window_low": 882,
+          "window_high": 894,
+          "slot_count": 13,
+          "observations_in_window": 0,
+          "expected_count": 0.0,
+          "std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5
+        },
+        "neighborhood_test": {
+          "window_radius": 6,
+          "neighbor_mean_count": 0.0,
+          "neighbor_std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5,
+          "max_neighbor_count": 0
+        },
+        "top_values": [
+          {
+            "value": 2555,
+            "count": 2
+          },
+          {
+            "value": 2875,
+            "count": 2
+          },
+          {
+            "value": 2898,
+            "count": 2
+          },
+          {
+            "value": 4162,
+            "count": 2
+          },
+          {
+            "value": 10972,
+            "count": 2
+          }
+        ],
+        "closest_to_target": [
+          {
+            "value": 1159,
+            "count": 1,
+            "distance": 271
+          },
+          {
+            "value": 1307,
+            "count": 1,
+            "distance": 419
+          },
+          {
+            "value": 1345,
+            "count": 1,
+            "distance": 457
+          },
+          {
+            "value": 1457,
+            "count": 1,
+            "distance": 569
+          },
+          {
+            "value": 1522,
+            "count": 1,
+            "distance": 634
+          }
+        ],
+        "classification": "NO_HIT"
+      },
+      "section_page_count": {
+        "status": "ok",
+        "target_value": 888,
+        "n_observations": 6,
+        "target_count": 0,
+        "target_rate": 0.0,
+        "value_range": {
+          "min": 6,
+          "max": 115,
+          "slot_count": 110
+        },
+        "global_uniform_test": {
+          "expected_count": 0.05454545454545454,
+          "std_count": 0.23248567004626222,
+          "z_score": -0.23461856610173248,
+          "p_one_sided": 0.5927476009658921
+        },
+        "local_window_test": {
+          "window_radius": 6,
+          "window_low": 882,
+          "window_high": 894,
+          "slot_count": 13,
+          "observations_in_window": 0,
+          "expected_count": 0.0,
+          "std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5
+        },
+        "neighborhood_test": {
+          "window_radius": 6,
+          "neighbor_mean_count": 0.0,
+          "neighbor_std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5,
+          "max_neighbor_count": 0
+        },
+        "top_values": [
+          {
+            "value": 6,
+            "count": 1
+          },
+          {
+            "value": 20,
+            "count": 1
+          },
+          {
+            "value": 24,
+            "count": 1
+          },
+          {
+            "value": 26,
+            "count": 1
+          },
+          {
+            "value": 31,
+            "count": 1
+          }
+        ],
+        "closest_to_target": [
+          {
+            "value": 115,
+            "count": 1,
+            "distance": 773
+          },
+          {
+            "value": 31,
+            "count": 1,
+            "distance": 857
+          },
+          {
+            "value": 26,
+            "count": 1,
+            "distance": 862
+          },
+          {
+            "value": 24,
+            "count": 1,
+            "distance": 864
+          },
+          {
+            "value": 20,
+            "count": 1,
+            "distance": 868
+          }
+        ],
+        "classification": "NO_HIT"
+      },
+      "section_line_count": {
+        "status": "ok",
+        "target_value": 888,
+        "n_observations": 6,
+        "target_count": 0,
+        "target_rate": 0.0,
+        "value_range": {
+          "min": 1080,
+          "max": 10844,
+          "slot_count": 9765
+        },
+        "global_uniform_test": {
+          "expected_count": 0.0006144393241167435,
+          "std_count": 0.02478661738726982,
+          "z_score": -0.024789155959308667,
+          "p_one_sided": 0.5098884296535457
+        },
+        "local_window_test": {
+          "window_radius": 6,
+          "window_low": 882,
+          "window_high": 894,
+          "slot_count": 13,
+          "observations_in_window": 0,
+          "expected_count": 0.0,
+          "std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5
+        },
+        "neighborhood_test": {
+          "window_radius": 6,
+          "neighbor_mean_count": 0.0,
+          "neighbor_std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5,
+          "max_neighbor_count": 0
+        },
+        "top_values": [
+          {
+            "value": 1080,
+            "count": 1
+          },
+          {
+            "value": 3530,
+            "count": 1
+          },
+          {
+            "value": 3707,
+            "count": 1
+          },
+          {
+            "value": 6179,
+            "count": 1
+          },
+          {
+            "value": 6501,
+            "count": 1
+          }
+        ],
+        "closest_to_target": [
+          {
+            "value": 1080,
+            "count": 1,
+            "distance": 192
+          },
+          {
+            "value": 3530,
+            "count": 1,
+            "distance": 2642
+          },
+          {
+            "value": 3707,
+            "count": 1,
+            "distance": 2819
+          },
+          {
+            "value": 6179,
+            "count": 1,
+            "distance": 5291
+          },
+          {
+            "value": 6501,
+            "count": 1,
+            "distance": 5613
+          }
+        ],
+        "classification": "NO_HIT"
+      },
+      "section_token_count": {
+        "status": "ok",
+        "target_value": 888,
+        "n_observations": 6,
+        "target_count": 0,
+        "target_rate": 0.0,
+        "value_range": {
+          "min": 10375,
+          "max": 72037,
+          "slot_count": 61663
+        },
+        "global_uniform_test": {
+          "expected_count": 9.730308288600944e-05,
+          "std_count": 0.009864152518303483,
+          "z_score": -0.009864312489639447,
+          "p_one_sided": 0.503935227499776
+        },
+        "local_window_test": {
+          "window_radius": 6,
+          "window_low": 882,
+          "window_high": 894,
+          "slot_count": 13,
+          "observations_in_window": 0,
+          "expected_count": 0.0,
+          "std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5
+        },
+        "neighborhood_test": {
+          "window_radius": 6,
+          "neighbor_mean_count": 0.0,
+          "neighbor_std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5,
+          "max_neighbor_count": 0
+        },
+        "top_values": [
+          {
+            "value": 10375,
+            "count": 1
+          },
+          {
+            "value": 15174,
+            "count": 1
+          },
+          {
+            "value": 22154,
+            "count": 1
+          },
+          {
+            "value": 47063,
+            "count": 1
+          },
+          {
+            "value": 63534,
+            "count": 1
+          }
+        ],
+        "closest_to_target": [
+          {
+            "value": 10375,
+            "count": 1,
+            "distance": 9487
+          },
+          {
+            "value": 15174,
+            "count": 1,
+            "distance": 14286
+          },
+          {
+            "value": 22154,
+            "count": 1,
+            "distance": 21266
+          },
+          {
+            "value": 47063,
+            "count": 1,
+            "distance": 46175
+          },
+          {
+            "value": 63534,
+            "count": 1,
+            "distance": 62646
+          }
+        ],
+        "classification": "NO_HIT"
+      },
+      "section_char_count": {
+        "status": "ok",
+        "target_value": 888,
+        "n_observations": 6,
+        "target_count": 0,
+        "target_rate": 0.0,
+        "value_range": {
+          "min": 51966,
+          "max": 349758,
+          "slot_count": 297793
+        },
+        "global_uniform_test": {
+          "expected_count": 2.0148223766173147e-05,
+          "std_count": 0.004488669748119851,
+          "z_score": -0.004488684821290883,
+          "p_one_sided": 0.5017907201452818
+        },
+        "local_window_test": {
+          "window_radius": 6,
+          "window_low": 882,
+          "window_high": 894,
+          "slot_count": 13,
+          "observations_in_window": 0,
+          "expected_count": 0.0,
+          "std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5
+        },
+        "neighborhood_test": {
+          "window_radius": 6,
+          "neighbor_mean_count": 0.0,
+          "neighbor_std_count": 0.0,
+          "z_score": 0.0,
+          "p_one_sided": 0.5,
+          "max_neighbor_count": 0
+        },
+        "top_values": [
+          {
+            "value": 51966,
+            "count": 1
+          },
+          {
+            "value": 83393,
+            "count": 1
+          },
+          {
+            "value": 114274,
+            "count": 1
+          },
+          {
+            "value": 230706,
+            "count": 1
+          },
+          {
+            "value": 332753,
+            "count": 1
+          }
+        ],
+        "closest_to_target": [
+          {
+            "value": 51966,
+            "count": 1,
+            "distance": 51078
+          },
+          {
+            "value": 83393,
+            "count": 1,
+            "distance": 82505
+          },
+          {
+            "value": 114274,
+            "count": 1,
+            "distance": 113386
+          },
+          {
+            "value": 230706,
+            "count": 1,
+            "distance": 229818
+          },
+          {
+            "value": 332753,
+            "count": 1,
+            "distance": 331865
+          }
+        ],
+        "classification": "NO_HIT"
+      }
+    },
+    "aggregate": {
+      "target_value": 888,
+      "metric_count": 9,
+      "hit_metric_count": 0,
+      "strong_signal_metric_count": 0,
+      "weak_signal_metric_count": 0,
+      "mean_target_rate": 0.0,
+      "max_local_z_score": 0.0,
+      "max_neighbor_z_score": 0.0,
+      "category_coverage": {
+        "line": {
+          "metrics": 2,
+          "hit": false,
+          "strong_signal": false
+        },
+        "page": {
+          "metrics": 3,
+          "hit": false,
+          "strong_signal": false
+        },
+        "section": {
+          "metrics": 4,
+          "hit": false,
+          "strong_signal": false
+        }
+      },
+      "assessment": "NO_REFERENCE_SIGNAL"
+    },
+    "dataset_id": "voynich_real",
+    "metric_value_counts": {
+      "line_token_count": 31841,
+      "line_char_count": 31841,
+      "page_line_count": 222,
+      "page_token_count": 222,
+      "page_char_count": 222,
+      "section_page_count": 6,
+      "section_line_count": 6,
+      "section_token_count": 6,
+      "section_char_count": 6
+    }
+  }
+}

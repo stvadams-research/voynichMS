@@ -59,6 +59,11 @@ Hybrid line-reset backoff benchmark:
 python3 scripts/phase4_inference/run_line_reset_backoff_check.py --target-tokens 230000
 ```
 
+Reference-number relevance check (default target: 42):
+```bash
+python3 scripts/phase4_inference/run_reference_42_check.py --target 42 --window-radius 6
+```
+
 Boundary persistence sweep (find best rho, then benchmark):
 ```bash
 python3 scripts/phase4_inference/run_boundary_persistence_sweep.py --rho-values 0.00,0.10,0.20,0.30,0.40,0.50,0.60 --trigram-use-probs 0.45,0.55,0.65 --unigram-noise-probs 0.01,0.03,0.05
@@ -91,6 +96,7 @@ python3 scripts/phase4_inference/run_boundary_persistence_section_holdout_check.
 *   **Image-Encoding Hypothesis Check**: Tests decoded-image symbolic streams (format-agnostic) against the same structural diagnostics.
 *   **Music-Like Hypothesis Check**: Tests motif/transposition non-text controls against the same structural diagnostics.
 *   **Line-Reset Backoff Check**: Tests whether moderate higher-order backoff closes the remaining gap to Voynich.
+*   **Reference-Number Check**: Tests whether a target integer (default 42) is unusually over-represented in line/page/section structural counts.
 *   **Boundary Persistence Sweep**: Optimizes line-boundary memory strength (`rho`) and benchmarks the best hybrid model.
 *   **Boundary Persistence Holdout Check**: Tests whether the persistence signal survives on unseen folios (out-of-sample checkpoint).
 *   **Boundary Persistence Section-Holdout Check**: Tests whether the persistence signal survives when entire manuscript sections are held out.
