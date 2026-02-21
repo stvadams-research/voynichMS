@@ -17,6 +17,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SLIPS_PATH = PROJECT_ROOT / "results/data/phase13_demonstration/slip_viz_data.json"
 LATTICE_PATH = PROJECT_ROOT / "results/data/phase14_machine/full_palette_grid.json"
 FOLIO_PATH = PROJECT_ROOT / "data/raw/transliterations/ivtff2.0/ZL3b-n.txt"
+PAGE_SCHEDULE_PATH = (
+    PROJECT_ROOT / "results/data/phase18_generate/folio_state_schedule.json"
+)
+PAGE_PRIORS_PATH = (
+    PROJECT_ROOT / "results/data/phase18_generate/page_priors.json"
+)
 SCAN_1000_DIR = PROJECT_ROOT / "data/raw/scans/jpg/folios_1000"
 SCAN_2000_DIR = PROJECT_ROOT / "data/raw/scans/jpg/folios_2000"
 SCAN_MANIFEST_PATH = SCAN_1000_DIR / "manifest_mapping.csv"
@@ -31,6 +37,11 @@ OID_PATTERN = re.compile(r".*_(\d+)\.jpg$")
 def load_json(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def extract_results(payload: dict) -> dict:
+    results = payload.get("results")
+    return results if isinstance(results, dict) else payload
 
 
 def write_js(path: Path, variable_name: str, payload: dict) -> None:
@@ -265,6 +276,29 @@ def main() -> None:
     }
     scan_manifest = load_scan_manifest()
     folios = build_folio_bundle(FOLIO_PATH, scan_manifest)
+    if PAGE_SCHEDULE_PATH.exists():
+        page_schedule = extract_results(load_json(PAGE_SCHEDULE_PATH))
+        page_schedule["available"] = True
+    else:
+        page_schedule = {
+            "available": False,
+            "reason": (
+                "Missing results/data/phase18_generate/folio_state_schedule.json. "
+                "Run scripts/phase18_generate/build_page_generation_assets.py."
+            ),
+        }
+
+    if PAGE_PRIORS_PATH.exists():
+        page_priors = extract_results(load_json(PAGE_PRIORS_PATH))
+        page_priors["available"] = True
+    else:
+        page_priors = {
+            "available": False,
+            "reason": (
+                "Missing results/data/phase18_generate/page_priors.json. "
+                "Run scripts/phase18_generate/build_page_generation_assets.py."
+            ),
+        }
 
     metadata = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -272,6 +306,16 @@ def main() -> None:
             "slips": str(SLIPS_PATH.relative_to(PROJECT_ROOT)),
             "lattice": str(LATTICE_PATH.relative_to(PROJECT_ROOT)),
             "folios": str(FOLIO_PATH.relative_to(PROJECT_ROOT)),
+            "page_schedule": (
+                str(PAGE_SCHEDULE_PATH.relative_to(PROJECT_ROOT))
+                if PAGE_SCHEDULE_PATH.exists()
+                else None
+            ),
+            "page_priors": (
+                str(PAGE_PRIORS_PATH.relative_to(PROJECT_ROOT))
+                if PAGE_PRIORS_PATH.exists()
+                else None
+            ),
         },
         "counts": {
             "slips": len(slips["slips"]),
@@ -280,6 +324,16 @@ def main() -> None:
             "folios": folios["folio_count"],
             "folio_lines": folios["line_count"],
             "folio_scans_mapped": folios["scan_mapped_folios"],
+            "page_schedule_folios": len(page_schedule.get("folios", []))
+            if page_schedule.get("available")
+            else 0,
+            "page_priors_folios": len(page_priors.get("observed_folios", {}))
+            if page_priors.get("available")
+            else 0,
+        },
+        "phase18": {
+            "page_schedule_available": bool(page_schedule.get("available")),
+            "page_priors_available": bool(page_priors.get("available")),
         },
     }
 
@@ -287,12 +341,24 @@ def main() -> None:
     write_js(OUT_DIR / "slips_data.js", "WORKBENCH_SLIPS", slips)
     write_js(OUT_DIR / "lattice_data.js", "WORKBENCH_LATTICE", lattice)
     write_js(OUT_DIR / "folio_data.js", "WORKBENCH_FOLIOS", folios)
+    write_js(
+        OUT_DIR / "page_schedule_data.js",
+        "WORKBENCH_PAGE_SCHEDULE",
+        page_schedule,
+    )
+    write_js(
+        OUT_DIR / "page_priors_data.js",
+        "WORKBENCH_PAGE_PRIORS",
+        page_priors,
+    )
     write_js(OUT_DIR / "metadata.js", "WORKBENCH_METADATA", metadata)
 
     print("Built workbench bundles:")
     print(f"  - {OUT_DIR / 'slips_data.js'}")
     print(f"  - {OUT_DIR / 'lattice_data.js'}")
     print(f"  - {OUT_DIR / 'folio_data.js'}")
+    print(f"  - {OUT_DIR / 'page_schedule_data.js'}")
+    print(f"  - {OUT_DIR / 'page_priors_data.js'}")
     print(f"  - {OUT_DIR / 'metadata.js'}")
     print("Counts:")
     print(f"  slips={metadata['counts']['slips']}")
@@ -301,6 +367,8 @@ def main() -> None:
     print(f"  folios={metadata['counts']['folios']}")
     print(f"  folio_lines={metadata['counts']['folio_lines']}")
     print(f"  folio_scans_mapped={metadata['counts']['folio_scans_mapped']}")
+    print(f"  page_schedule_folios={metadata['counts']['page_schedule_folios']}")
+    print(f"  page_priors_folios={metadata['counts']['page_priors_folios']}")
 
 
 if __name__ == "__main__":

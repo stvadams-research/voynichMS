@@ -6,6 +6,8 @@
       app.renderLatticeView();
     } else if (route === "explorer") {
       app.renderExplorerView();
+    } else if (route === "page" && typeof app.renderPageView === "function") {
+      app.renderPageView();
     }
   };
 

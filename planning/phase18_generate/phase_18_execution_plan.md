@@ -2,7 +2,7 @@
 
 **Date:** 2026-02-21
 **Revised:** 2026-02-21 (critical assessment pass)
-**Status:** PLANNED (not executed)
+**Status:** EXECUTED (implementation completed 2026-02-21)
 **Scope:** `tools/workbench/` page generation by folio id
 
 ---
@@ -11,7 +11,25 @@
 
 Implement the missing `Page Generator` capability in `tools/workbench` so a user can request a folio id (for example `f42r`) and generate structurally valid output using the lattice model, with explicit controls and validation.
 
-This phase is implementation planning only. No execution is included in this document.
+This document started as a planning artifact and has now been executed in the
+current repository state.
+
+## 1.1 Execution Snapshot (Completed)
+
+1. Extended `scripts/phase14_machine/run_14x_mask_inference.py` to persist per-line schedule metadata.
+2. Added `scripts/phase18_generate/build_page_generation_assets.py` and generated:
+   - `results/data/phase18_generate/folio_state_schedule.json`
+   - `results/data/phase18_generate/page_priors.json`
+3. Extended `scripts/tools/build_workbench_bundle.py` to emit:
+   - `tools/workbench/data/page_schedule_data.js`
+   - `tools/workbench/data/page_priors_data.js`
+4. Implemented workbench page generation:
+   - `tools/workbench/js/core/page_generator.js`
+   - `tools/workbench/js/views/page_generator_view.js`
+   - Updated `tools/workbench/index.html`, loader/state wiring.
+5. Added validation/docs:
+   - `tests/integration/test_phase18_assets.py` (passing)
+   - `tools/workbench/docs/page_generator.md`
 
 ---
 

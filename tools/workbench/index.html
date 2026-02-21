@@ -21,7 +21,7 @@
     <button class="nav-btn" data-route="explorer">Folio Explorer</button>
     <button class="nav-btn" data-route="validator">IVTFF Validator</button>
     <button class="nav-btn" data-route="folio">Folio Generator</button>
-    <button class="nav-btn" data-route="page" title="Planned capability">Page Generator (Planned)</button>
+    <button class="nav-btn" data-route="page">Page Generator</button>
   </nav>
 
   <main class="app-main">
@@ -174,14 +174,51 @@
 
     <section class="view" id="view-page">
       <div class="panel">
-        <h2>Page Generator (Planned)</h2>
-        <p>This capability is intentionally deferred.</p>
-        <ul>
-          <li>Need a validated mapping from folio id to section-level mask/state schedule.</li>
-          <li>Need stable line-count and line-entry priors by folio/quire context.</li>
-          <li>Need transliteration-bridge rules for source-specific rendering.</li>
-        </ul>
-        <p>Current recommendation: use Folio Generator for synthetic output and validate with the IVTFF Validator.</p>
+        <h2>Page Generator</h2>
+        <p class="muted compact-note">Why it matters: generates folio-conditioned output using schedule offsets and line-count policies, then validates in-place.</p>
+        <p id="page-availability" class="muted">Checking page-generator artifact availability...</p>
+        <div class="control-grid">
+          <label>Folio ID
+            <input id="page-folio-id" type="text" list="page-folio-list" placeholder="e.g., f42r">
+            <datalist id="page-folio-list"></datalist>
+          </label>
+          <label>Schedule Mode
+            <select id="page-schedule-mode">
+              <option value="auto">Auto (line/folio/section/global)</option>
+              <option value="global_only">Global Mode Only</option>
+            </select>
+          </label>
+          <label>Line Count Mode
+            <select id="page-line-count-mode">
+              <option value="observed">Observed Folio Line Count</option>
+              <option value="sampled">Sampled From Priors</option>
+            </select>
+          </label>
+          <label>Seed <input id="page-seed" type="number" value="42"></label>
+          <label>Min Words/Line <input id="page-min-words" type="number" min="1" max="50" value="6"></label>
+          <label>Max Words/Line <input id="page-max-words" type="number" min="1" max="60" value="12"></label>
+          <label>Scribe Profile
+            <select id="page-profile">
+              <option value="hand1">Hand 1</option>
+              <option value="hand2">Hand 2</option>
+            </select>
+          </label>
+          <label><input id="page-canonical-filter" type="checkbox" checked> Canonical lowercase token filter</label>
+          <label>Output Format
+            <select id="page-format">
+              <option value="content">Content Only</option>
+              <option value="ivtff">Full IVTFF Lines</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions">
+          <button id="page-generate">Generate Page</button>
+          <button id="page-generate-validate">Generate -> Validate</button>
+        </div>
+        <div id="page-status" class="report-box muted">No page generated yet.</div>
+        <h3>Generation Diagnostics</h3>
+        <div id="page-diagnostics" class="report-box muted">No diagnostics available.</div>
+        <textarea id="page-output" rows="14" placeholder="Generated page output appears here..." readonly></textarea>
       </div>
     </section>
   </main>
@@ -202,6 +239,8 @@
   <script src="data/slips_data.js"></script>
   <script src="data/lattice_data.js"></script>
   <script src="data/folio_data.js"></script>
+  <script src="data/page_schedule_data.js"></script>
+  <script src="data/page_priors_data.js"></script>
   <script src="data/metadata.js"></script>
 
   <script src="js/state.js"></script>
@@ -214,6 +253,7 @@
   <script src="js/core/ivtff_validator.js"></script>
   <script src="js/core/lattice_engine.js"></script>
   <script src="js/core/folio_generator.js"></script>
+  <script src="js/core/page_generator.js"></script>
 
   <script src="js/views/slips_view.js"></script>
   <script src="js/views/lattice_view.js"></script>

@@ -8,6 +8,8 @@
       grid: null,
       folios: [],
       folioMap: {},
+      pageSchedule: null,
+      pagePriors: null,
       metadata: {},
       windowIds: [],
       windowSets: {},
@@ -26,6 +28,10 @@
     explorer: {
       selectedFolio: null,
       filterText: "",
+    },
+    page: {
+      selectedFolio: null,
+      lastResult: null,
     },
   };
 })();

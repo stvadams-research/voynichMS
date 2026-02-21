@@ -10,6 +10,8 @@
     const slipsBlob = window.WORKBENCH_SLIPS || { slips: [] };
     const latticeBlob = window.WORKBENCH_LATTICE || {};
     const folioBlob = window.WORKBENCH_FOLIOS || { folios: [] };
+    const scheduleBlob = window.WORKBENCH_PAGE_SCHEDULE || { available: false };
+    const priorsBlob = window.WORKBENCH_PAGE_PRIORS || { available: false };
     const grid = latticeBlob.results || latticeBlob;
 
     app.state.data.slips = Array.isArray(slipsBlob.slips) ? slipsBlob.slips : [];
@@ -22,6 +24,8 @@
       }
     });
     app.state.data.folioMap = folioMap;
+    app.state.data.pageSchedule = scheduleBlob && scheduleBlob.available ? scheduleBlob : null;
+    app.state.data.pagePriors = priorsBlob && priorsBlob.available ? priorsBlob : null;
     app.state.data.metadata = window.WORKBENCH_METADATA || {};
 
     if (app.state.data.grid) {
@@ -48,6 +52,21 @@
     const slipCount = app.state.data.slips.length;
     const vocab = app.state.data.grid ? Object.keys(app.state.data.grid.lattice_map).length : 0;
     const folioCount = app.state.data.folios.length;
-    app.log(`Loaded data: slips=${slipCount}, lattice_vocab=${vocab}, folios=${folioCount}`);
+    const scheduleCount = app.state.data.pageSchedule
+      ? (app.state.data.pageSchedule.summary || {}).folio_count || 0
+      : 0;
+    const priorsCount = app.state.data.pagePriors
+      ? ((app.state.data.pagePriors.summary || {}).folio_count || 0)
+      : 0;
+
+    if (!app.state.data.pageSchedule) {
+      app.log("Page schedule bundle missing or unavailable. Page Generator will use graceful fallback.");
+    }
+    if (!app.state.data.pagePriors) {
+      app.log("Page priors bundle missing or unavailable. Page Generator sampled mode will be disabled.");
+    }
+    app.log(
+      `Loaded data: slips=${slipCount}, lattice_vocab=${vocab}, folios=${folioCount}, page_schedule=${scheduleCount}, page_priors=${priorsCount}`
+    );
   };
 })();

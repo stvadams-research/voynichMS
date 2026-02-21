@@ -15,6 +15,7 @@ once per line (or per section).  This script:
 """
 
 import json
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -26,10 +27,15 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.data_loading import load_canonical_lines  # noqa: E402
+from phase1_foundation.core.data_loading import sanitize_token  # noqa: E402
 from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
 from phase1_foundation.runs.manager import active_run  # noqa: E402
-from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
+    MetadataStore,
+    PageRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 
 DB_PATH = "sqlite:///data/voynich.db"
 ORIGINAL_PATH = (
@@ -42,6 +48,131 @@ OUTPUT_PATH = (
     project_root / "results/data/phase14_machine/mask_inference.json"
 )
 console = Console()
+
+SECTIONS = {
+    "Herbal A": (1, 57),
+    "Herbal B": (58, 66),
+    "Astro": (67, 74),
+    "Biological": (75, 84),
+    "Cosmo": (85, 86),
+    "Pharma": (87, 102),
+    "Stars": (103, 116),
+}
+
+
+def get_folio_num(folio_id):
+    """Extract numeric folio index from page id."""
+    match = re.search(r"f(\d+)", folio_id)
+    return int(match.group(1)) if match else 0
+
+
+def get_section(folio_num):
+    """Map folio number into the canonical section bins."""
+    for name, (lo, hi) in SECTIONS.items():
+        if lo <= folio_num <= hi:
+            return name
+    return "Other"
+
+
+def get_hand(folio_num):
+    """Approximate Currier hand assignment used in Phase 14 scripts."""
+    if folio_num <= 66:
+        return "Hand1"
+    if 75 <= folio_num <= 84 or 103 <= folio_num <= 116:
+        return "Hand2"
+    return "Unknown"
+
+
+def load_lines_with_metadata(store):
+    """Load canonical ZL lines with folio and local line metadata.
+
+    Returns:
+        List of dict entries:
+            {
+              "tokens": [...],
+              "folio_id": "f1r",
+              "folio_num": 1,
+              "line_index": 0,   # local within folio
+              "section": "Herbal A",
+              "hand": "Hand1",
+            }
+    """
+    session = store.Session()
+    try:
+        rows = (
+            session.query(
+                TranscriptionTokenRecord.content,
+                PageRecord.id,
+                TranscriptionLineRecord.id,
+                TranscriptionLineRecord.line_index,
+            )
+            .join(
+                TranscriptionLineRecord,
+                TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id,
+            )
+            .join(
+                PageRecord,
+                TranscriptionLineRecord.page_id == PageRecord.id,
+            )
+            .filter(PageRecord.dataset_id == "voynich_real")
+            .filter(TranscriptionLineRecord.source_id == "zandbergen_landini")
+            .order_by(
+                PageRecord.id,
+                TranscriptionLineRecord.line_index,
+                TranscriptionTokenRecord.token_index,
+            )
+            .all()
+        )
+
+        lines = []
+        current_tokens = []
+        current_folio = None
+        current_line_id = None
+        folio_local_line_idx = {}
+
+        for content, folio_id, line_id, _line_index in rows:
+            clean = sanitize_token(content)
+            if not clean:
+                continue
+
+            if current_line_id is not None and line_id != current_line_id:
+                if current_tokens:
+                    local_idx = folio_local_line_idx.get(current_folio, 0)
+                    f_num = get_folio_num(current_folio)
+                    lines.append(
+                        {
+                            "tokens": current_tokens,
+                            "folio_id": current_folio,
+                            "folio_num": f_num,
+                            "line_index": local_idx,
+                            "section": get_section(f_num),
+                            "hand": get_hand(f_num),
+                        }
+                    )
+                    folio_local_line_idx[current_folio] = local_idx + 1
+                current_tokens = []
+
+            current_tokens.append(clean)
+            current_folio = folio_id
+            current_line_id = line_id
+
+        if current_tokens:
+            local_idx = folio_local_line_idx.get(current_folio, 0)
+            f_num = get_folio_num(current_folio)
+            lines.append(
+                {
+                    "tokens": current_tokens,
+                    "folio_id": current_folio,
+                    "folio_num": f_num,
+                    "line_index": local_idx,
+                    "section": get_section(f_num),
+                    "hand": get_hand(f_num),
+                }
+            )
+
+        return lines
+    finally:
+        session.close()
 
 
 def load_palette(path):
@@ -171,7 +302,8 @@ def main():
         return
 
     store = MetadataStore(DB_PATH)
-    lines = load_canonical_lines(store)
+    line_entries = load_lines_with_metadata(store)
+    lines = [entry["tokens"] for entry in line_entries]
     console.print(f"Loaded {len(lines)} lines.")
 
     # Test with both original and reordered palettes
@@ -249,6 +381,21 @@ def main():
             f"  Restricted to top-12 offsets: {r12_rate:.2f}%"
         )
 
+        line_schedule = []
+        for idx, entry in enumerate(line_entries):
+            best_offset = offsets[idx]
+            line_schedule.append(
+                {
+                    "folio_id": entry["folio_id"],
+                    "folio_num": int(entry["folio_num"]),
+                    "line_index": int(entry["line_index"]),
+                    "section": entry["section"],
+                    "hand": entry["hand"],
+                    "best_offset": int(best_offset),
+                    "line_score": float(scores[idx]),
+                }
+            )
+
         all_results[palette_name] = {
             "baseline_admissibility": base_rate / 100,
             "mask_admissibility": mask_rate / 100,
@@ -261,6 +408,7 @@ def main():
             ],
             "cumulative_coverage": cumulative_coverage,
             "avg_line_score": float(np.mean(scores)),
+            "line_schedule": line_schedule,
         }
 
     # Save combined results
