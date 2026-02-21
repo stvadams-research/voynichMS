@@ -1,0 +1,111 @@
+{
+  "provenance": {
+    "run_id": "b3fb2d87-c989-54e7-984e-cdffa8db9c40",
+    "git_commit": "4835fe81250d1c07c9ce629fb7032e338573306f",
+    "timestamp": "2026-02-21T22:47:09.055192+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771714029054689000,
+    "command": "run_17e_choice_structure"
+  },
+  "results": {
+    "stream_stats": {
+      "length": 12519,
+      "mean": 0.2467,
+      "std": 0.2362,
+      "ks_statistic": 0.3861,
+      "ks_p_value": 0.0,
+      "is_uniform": false
+    },
+    "autocorrelation": {
+      "max_abs_acf": 0.062,
+      "max_abs_acf_lag": 1,
+      "ljung_box_q": 517.27,
+      "ljung_box_p": 0.0,
+      "ljung_box_df": 20,
+      "n_significant_lags": 20,
+      "significance_bound": 0.0175,
+      "has_autocorrelation": true,
+      "acf_first20": [
+        0.062,
+        0.0475,
+        0.0382,
+        0.0448,
+        0.0593,
+        0.0467,
+        0.0429,
+        0.0369,
+        0.049,
+        0.0388,
+        0.052,
+        0.0442,
+        0.061,
+        0.0371,
+        0.044,
+        0.0334,
+        0.0331,
+        0.0478,
+        0.0366,
+        0.0372
+      ]
+    },
+    "spectral": {
+      "top_frequencies": [
+        {
+          "k": 1,
+          "period": 12519.0,
+          "power_fraction": 0.0095
+        },
+        {
+          "k": 6,
+          "period": 2086.5,
+          "power_fraction": 0.0073
+        },
+        {
+          "k": 2,
+          "period": 6259.5,
+          "power_fraction": 0.005
+        },
+        {
+          "k": 3,
+          "period": 4173.0,
+          "power_fraction": 0.0038
+        },
+        {
+          "k": 5,
+          "period": 2503.8,
+          "power_fraction": 0.003
+        }
+      ],
+      "dominant_power_fraction": 0.0095,
+      "has_dominant_frequency": false,
+      "spectral_flatness": 0.5432
+    },
+    "compression": {
+      "raw_size_bytes": 12519,
+      "compressed_size_bytes": 11242,
+      "compression_ratio": 0.898,
+      "is_compressible": true
+    },
+    "permutation_test": {
+      "acf1": {
+        "real": 0.062,
+        "z_score": 6.95,
+        "significant": true
+      },
+      "compression": {
+        "real": 0.898,
+        "z_score": 1.81,
+        "significant": false
+      },
+      "spectral_peak": {
+        "real": 0.0095,
+        "z_score": 43.7,
+        "significant": true
+      },
+      "n_significant": 2,
+      "verdict": "STRUCTURED"
+    },
+    "final_verdict": "STRUCTURED"
+  }
+}

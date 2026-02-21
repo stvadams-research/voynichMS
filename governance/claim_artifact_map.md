@@ -294,6 +294,48 @@ raw float (e.g., 88.11% = 0.8811).
 | 131 | BIC: volvelle best-fit model | 168.6 | `run_14zf_physical_integration.py` | `results/data/phase14_machine/physical_integration.json` | `results.sprint3_device_inference.models.volvelle.bic` | ΔBIC=2.3 over tabula, 31.9 over grille |
 | 132 | Temporal slip clustering CV | 1.81 | `run_14zf_physical_integration.py` | `results/data/phase14_machine/physical_integration.json` | `results.sprint2_slip_correlation.temporal_clustering.cv` | Clustered in folio batches |
 
+## Opportunity B — Frequency-Stratified Corrections
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 133 | Tiered corrections CV mean delta | +0.74pp | `run_14zh_tiered_corrections.py` | `results/data/phase14_machine/tiered_corrections.json` | `results.sprint_b1_tiered_corrections.cv_mean_delta_pp` | Gate FAIL (threshold ≥2.0pp) |
+| 134 | Full corpus tiered admissibility | 65.92% | `run_14zh_tiered_corrections.py` | `results/data/phase14_machine/tiered_corrections.json` | `results.sprint_b1_tiered_corrections.full_corpus_tiered_rate` | Not significantly better than uniform |
+| 135 | Hapax suffix coverage | 93.9% | `run_14zh_tiered_corrections.py` | `results/data/phase14_machine/tiered_corrections.json` | `results.sprint_b2_hapax_grouping.suffix_coverage.coverage_pct` | 6,578/7,009 hapax words |
+| 136 | Hapax suffix grouping impact | +3.04pp | `run_14zh_tiered_corrections.py` | `results/data/phase14_machine/tiered_corrections.json` | `results.sprint_b2_hapax_grouping.impact_pp` | Already captured in Phase 14O |
+
+## Opportunity C — Device Specification
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 137 | Volvelle diameter (naive) | 1,410mm | `run_17f_device_specification.py` | `results/data/phase17_finality/device_specification.json` | `results.sprint_c1_device_specification.volvelle.total_diameter_mm` | Historically implausible |
+| 138 | Historical plausibility | FALSE | `run_17f_device_specification.py` | `results/data/phase17_finality/device_specification.json` | `results.sprint_c1_device_specification.historical_plausibility.plausible` | 11.75× Alberti disc |
+| 139 | Window 18 usage fraction | 49.6% | `run_17f_device_specification.py` | `results/data/phase17_finality/device_specification.json` | `results.sprint_c2_wear_predictions.anchor_wear.usage_fraction` | Dominant anchor window |
+| 140 | Top-5 window usage concentration | 74.4% | `run_17f_device_specification.py` | `results/data/phase17_finality/device_specification.json` | `results.sprint_c2_wear_predictions.usage_concentration.top5_fraction` | Extreme concentration |
+
+## Opportunity A — Steganographic Channel Analysis
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 141 | Residual steganographic bandwidth | 2.21 bpw | `run_17c_residual_bandwidth.py` | `results/data/phase17_finality/residual_bandwidth.json` | `results.rsb_bpw` | After conditioning on 5 drivers |
+| 142 | RSB total capacity | 3.4 KB | `run_17c_residual_bandwidth.py` | `results/data/phase17_finality/residual_bandwidth.json` | `results.rsb_total_kb` | ~6,740 Latin characters |
+| 143 | Channel capacity (theoretical max) | 106,858 bits | `run_17d_latin_test.py` | `results/data/phase17_finality/latin_test.json` | `results.channel_capacity.total_capacity_bits` | 13.0 KB |
+| 144 | Latin encoding round-trip | EXACT | `run_17d_latin_test.py` | `results/data/phase17_finality/latin_test.json` | `results.encoding_result.round_trip_match` | Genesis 1:1-5 encoded in 2.7% of choices |
+| 145 | Choice stream ACF(1) z-score | 6.95 | `run_17e_choice_structure.py` | `results/data/phase17_finality/choice_structure.json` | `results.permutation_test.acf1.z_score` | Significant sequential dependence |
+| 146 | Choice stream structure verdict | STRUCTURED | `run_17e_choice_structure.py` | `results/data/phase17_finality/choice_structure.json` | `results.final_verdict` | 2/3 tests significant at z>3 |
+
+## Opportunity D — Cross-Manuscript Comparison
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 147 | Voynich corrected admissibility (signature) | 64.13% | `run_18a_signature_battery.py` | `results/data/phase18_comparative/signature_definition.json` | `results.voynich_signature.corrected_admissibility` | Reference card value |
+| 148 | FFT dominant power z-score vs null | 6.15 | `run_18a_signature_battery.py` | `results/data/phase18_comparative/signature_definition.json` | `results.signature_card.fft_dominant_power.z_score` | Strongest discriminator |
+| 149 | Cross-section transfer rate | 7/7 | `run_18a_signature_battery.py` | `results/data/phase18_comparative/signature_definition.json` | `results.voynich_signature.cross_section_transfer` | All folds positive |
+| 150 | Shuffled Voynich admissibility (own lattice) | 44.37% | `run_18c_comparative_analysis.py` | `results/data/phase18_comparative/comparative_signatures.json` | `results.corpus_signatures.shuffled_voynich.corrected_admissibility` | −20pp from Voynich |
+| 151 | Latin admissibility (own lattice) | 43.26% | `run_18c_comparative_analysis.py` | `results/data/phase18_comparative/comparative_signatures.json` | `results.corpus_signatures.latin.corrected_admissibility` | Natural language baseline |
+| 152 | Shuffled Voynich Euclidean distance | 988 | `run_18c_comparative_analysis.py` | `results/data/phase18_comparative/comparative_signatures.json` | `results.comparison.shuffled_voynich.euclidean_distance_z` | VERY_DISTINCT |
+| 153 | Latin Euclidean distance | 1,044 | `run_18c_comparative_analysis.py` | `results/data/phase18_comparative/comparative_signatures.json` | `results.comparison.latin.euclidean_distance_z` | VERY_DISTINCT |
+| 154 | Discrimination verdict (all texts) | VERY_DISTINCT | `run_18c_comparative_analysis.py` | `results/data/phase18_comparative/comparative_signatures.json` | `results.discrimination.*.verdict` | All comparison texts d > 5 |
+
 ---
 
 ## Traceability Notes
@@ -324,7 +366,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 130 | #1, #6-70, #62a-e, #71-132 |
+| **Fully verifiable** (JSON key path exists) | 152 | #1, #6-70, #62a-e, #71-154 |
 | **Console-only** (requires script re-run) | 2 | #2, #3 |
 | **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
 | **Static config** (manually synchronized) | 1 | #1 (also in config) |
@@ -340,6 +382,10 @@ Claims #109-116 added for Phase 14L (2026-02-21).
 Claims #117-123 added for Phase 14M (2026-02-21).
 Claims #124-126 added for Phase 14O (2026-02-21).
 Claims #127-132 added for Phase 14N (2026-02-21).
+Claims #133-136 added for Opportunity B: Frequency-Stratified Corrections (2026-02-21).
+Claims #137-140 added for Opportunity C: Device Specification (2026-02-21).
+Claims #141-146 added for Opportunity A: Steganographic Channel Analysis (2026-02-21).
+Claims #147-154 added for Opportunity D: Cross-Manuscript Comparison (2026-02-21).
 
 ### Recommended Fixes (future sprint)
 

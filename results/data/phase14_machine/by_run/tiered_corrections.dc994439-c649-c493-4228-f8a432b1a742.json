@@ -1,0 +1,295 @@
+{
+  "provenance": {
+    "run_id": "dc994439-c649-c493-4228-f8a432b1a742",
+    "git_commit": "4835fe81250d1c07c9ce629fb7032e338573306f",
+    "timestamp": "2026-02-21T22:33:58.675271+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771713238675221000,
+    "command": "run_14zh_tiered_corrections"
+  },
+  "results": {
+    "sprint_b1_tiered_corrections": {
+      "cv_folds": [
+        {
+          "section": "Astro",
+          "tiered_rate": 53.91,
+          "uniform_rate": 50.63,
+          "delta_pp": 3.28,
+          "test_transitions": 2135,
+          "per_tier": {
+            "common": {
+              "total": 451,
+              "admissible": 445,
+              "rate": 98.67
+            },
+            "hapax": {
+              "total": 596,
+              "admissible": 140,
+              "rate": 23.49
+            },
+            "rare": {
+              "total": 480,
+              "admissible": 131,
+              "rate": 27.29
+            },
+            "medium": {
+              "total": 608,
+              "admissible": 435,
+              "rate": 71.55
+            }
+          }
+        },
+        {
+          "section": "Biological",
+          "tiered_rate": 75.1,
+          "uniform_rate": 75.26,
+          "delta_pp": -0.16,
+          "test_transitions": 4947,
+          "per_tier": {
+            "common": {
+              "total": 2310,
+              "admissible": 2242,
+              "rate": 97.06
+            },
+            "hapax": {
+              "total": 347,
+              "admissible": 59,
+              "rate": 17.0
+            },
+            "medium": {
+              "total": 1583,
+              "admissible": 1216,
+              "rate": 76.82
+            },
+            "rare": {
+              "total": 707,
+              "admissible": 198,
+              "rate": 28.01
+            }
+          }
+        },
+        {
+          "section": "Cosmo",
+          "tiered_rate": 73.84,
+          "uniform_rate": 77.54,
+          "delta_pp": -3.7,
+          "test_transitions": 1082,
+          "per_tier": {
+            "medium": {
+              "total": 476,
+              "admissible": 371,
+              "rate": 77.94
+            },
+            "common": {
+              "total": 377,
+              "admissible": 374,
+              "rate": 99.2
+            },
+            "rare": {
+              "total": 229,
+              "admissible": 54,
+              "rate": 23.58
+            }
+          }
+        },
+        {
+          "section": "Herbal A",
+          "tiered_rate": 61.78,
+          "uniform_rate": 59.35,
+          "delta_pp": 2.43,
+          "test_transitions": 7211,
+          "per_tier": {
+            "medium": {
+              "total": 2460,
+              "admissible": 1868,
+              "rate": 75.93
+            },
+            "rare": {
+              "total": 1349,
+              "admissible": 407,
+              "rate": 30.17
+            },
+            "hapax": {
+              "total": 1478,
+              "admissible": 282,
+              "rate": 19.08
+            },
+            "common": {
+              "total": 1924,
+              "admissible": 1898,
+              "rate": 98.65
+            }
+          }
+        },
+        {
+          "section": "Herbal B",
+          "tiered_rate": 58.66,
+          "uniform_rate": 54.58,
+          "delta_pp": 4.07,
+          "test_transitions": 982,
+          "per_tier": {
+            "hapax": {
+              "total": 233,
+              "admissible": 51,
+              "rate": 21.89
+            },
+            "rare": {
+              "total": 214,
+              "admissible": 69,
+              "rate": 32.24
+            },
+            "medium": {
+              "total": 298,
+              "admissible": 224,
+              "rate": 75.17
+            },
+            "common": {
+              "total": 237,
+              "admissible": 232,
+              "rate": 97.89
+            }
+          }
+        },
+        {
+          "section": "Pharma",
+          "tiered_rate": 69.13,
+          "uniform_rate": 70.3,
+          "delta_pp": -1.17,
+          "test_transitions": 2128,
+          "per_tier": {
+            "hapax": {
+              "total": 169,
+              "admissible": 30,
+              "rate": 17.75
+            },
+            "rare": {
+              "total": 464,
+              "admissible": 112,
+              "rate": 24.14
+            },
+            "medium": {
+              "total": 855,
+              "admissible": 704,
+              "rate": 82.34
+            },
+            "common": {
+              "total": 640,
+              "admissible": 625,
+              "rate": 97.66
+            }
+          }
+        },
+        {
+          "section": "Stars",
+          "tiered_rate": 64.15,
+          "uniform_rate": 63.76,
+          "delta_pp": 0.4,
+          "test_transitions": 9011,
+          "per_tier": {
+            "medium": {
+              "total": 2998,
+              "admissible": 2306,
+              "rate": 76.92
+            },
+            "hapax": {
+              "total": 1497,
+              "admissible": 284,
+              "rate": 18.97
+            },
+            "common": {
+              "total": 2815,
+              "admissible": 2751,
+              "rate": 97.73
+            },
+            "rare": {
+              "total": 1701,
+              "admissible": 440,
+              "rate": 25.87
+            }
+          }
+        }
+      ],
+      "cv_mean_tiered": 65.22,
+      "cv_mean_uniform": 64.49,
+      "cv_mean_delta_pp": 0.74,
+      "full_corpus_tiered_rate": 65.92,
+      "stability": {
+        "common": {
+          "data_poor_windows": 19,
+          "total_windows": 50
+        },
+        "medium": {
+          "data_poor_windows": 14,
+          "total_windows": 50
+        },
+        "rare": {
+          "data_poor_windows": 8,
+          "total_windows": 50
+        },
+        "hapax": {
+          "data_poor_windows": 0,
+          "total_windows": 50
+        }
+      },
+      "full_corpus_per_tier": {
+        "hapax": {
+          "total": 4320,
+          "admissible": 977,
+          "rate": 22.62
+        },
+        "rare": {
+          "total": 5144,
+          "admissible": 1446,
+          "rate": 28.11
+        },
+        "medium": {
+          "total": 9278,
+          "admissible": 7136,
+          "rate": 76.91
+        },
+        "common": {
+          "total": 8754,
+          "admissible": 8567,
+          "rate": 97.86
+        }
+      },
+      "gate_threshold_pp": 2.0,
+      "gate_pass": false
+    },
+    "sprint_b2_hapax_grouping": {
+      "n_hapax_words": 7009,
+      "suffix_coverage": {
+        "with_suffix": 6578,
+        "with_map": 6578,
+        "coverage_pct": 93.9,
+        "mapped_pct": 93.9
+      },
+      "suffix_distribution": {
+        "y": 1776,
+        "dy": 937,
+        "in": 818,
+        "ar": 446,
+        "s": 398,
+        "ol": 380,
+        "or": 322,
+        "al": 309,
+        "d": 249,
+        "o": 244,
+        "am": 226,
+        "r": 200,
+        "m": 117,
+        "l": 111,
+        "an": 45
+      },
+      "hapax_transitions": {
+        "total": 902,
+        "suffix_recovered": 858,
+        "suffix_admissible": 836,
+        "baseline_admissible": 0
+      },
+      "impact_pp": 3.04,
+      "verdict": "Hapax suffix grouping is worth integrating"
+    }
+  }
+}

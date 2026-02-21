@@ -1,0 +1,516 @@
+{
+  "provenance": {
+    "run_id": "f930c1d3-49f7-e1d2-a70e-a88bc752967e",
+    "git_commit": "4835fe81250d1c07c9ce629fb7032e338573306f",
+    "timestamp": "2026-02-21T22:33:03.436917+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771713183436629000,
+    "command": "run_17c_residual_bandwidth"
+  },
+  "results": {
+    "num_choices": 12519,
+    "entropy_chain": [
+      {
+        "conditioning": "window",
+        "h": 7.1679
+      },
+      {
+        "conditioning": "window + prev_word",
+        "h": 3.9898
+      },
+      {
+        "conditioning": "window + prev_word + position",
+        "h": 2.7893
+      },
+      {
+        "conditioning": "window + prev_word + position + recency",
+        "h": 2.2075
+      },
+      {
+        "conditioning": "window + prev_word + position + recency + suffix",
+        "h": 2.2075
+      }
+    ],
+    "rsb_bpw": 2.2075,
+    "rsb_total_bits": 27635.69,
+    "rsb_total_kb": 3.37,
+    "rsb_latin_chars": 6740.0,
+    "independence_check": {
+      "joint_reduction_bits": 4.9604,
+      "marginal_sum_bits": 3.5707,
+      "overlap_bits": -1.3897,
+      "overlap_pct": -38.92,
+      "drivers_mostly_independent": true
+    },
+    "per_window_rsb": {
+      "per_window": [
+        {
+          "window": 0,
+          "n_choices": 9,
+          "n_unique_words": 9,
+          "h_marginal": 3.1699,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.1699
+        },
+        {
+          "window": 1,
+          "n_choices": 8,
+          "n_unique_words": 8,
+          "h_marginal": 3.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.0
+        },
+        {
+          "window": 2,
+          "n_choices": 9,
+          "n_unique_words": 9,
+          "h_marginal": 3.1699,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.1699
+        },
+        {
+          "window": 3,
+          "n_choices": 98,
+          "n_unique_words": 71,
+          "h_marginal": 5.9421,
+          "h_conditioned": 0.1583,
+          "rsb": 0.1583,
+          "reduction_bits": 5.7838
+        },
+        {
+          "window": 4,
+          "n_choices": 28,
+          "n_unique_words": 28,
+          "h_marginal": 4.8074,
+          "h_conditioned": 0.0714,
+          "rsb": 0.0714,
+          "reduction_bits": 4.7359
+        },
+        {
+          "window": 5,
+          "n_choices": 235,
+          "n_unique_words": 107,
+          "h_marginal": 6.0707,
+          "h_conditioned": 0.54,
+          "rsb": 0.54,
+          "reduction_bits": 5.5308
+        },
+        {
+          "window": 6,
+          "n_choices": 4,
+          "n_unique_words": 4,
+          "h_marginal": 2.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.0
+        },
+        {
+          "window": 7,
+          "n_choices": 3,
+          "n_unique_words": 3,
+          "h_marginal": 1.585,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 1.585
+        },
+        {
+          "window": 8,
+          "n_choices": 3,
+          "n_unique_words": 3,
+          "h_marginal": 1.585,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 1.585
+        },
+        {
+          "window": 9,
+          "n_choices": 7,
+          "n_unique_words": 7,
+          "h_marginal": 2.8074,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.8074
+        },
+        {
+          "window": 10,
+          "n_choices": 10,
+          "n_unique_words": 10,
+          "h_marginal": 3.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.3219
+        },
+        {
+          "window": 11,
+          "n_choices": 145,
+          "n_unique_words": 93,
+          "h_marginal": 6.3416,
+          "h_conditioned": 0.2035,
+          "rsb": 0.2035,
+          "reduction_bits": 6.1381
+        },
+        {
+          "window": 12,
+          "n_choices": 25,
+          "n_unique_words": 24,
+          "h_marginal": 4.5639,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 4.5639
+        },
+        {
+          "window": 13,
+          "n_choices": 7,
+          "n_unique_words": 7,
+          "h_marginal": 2.8074,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.8074
+        },
+        {
+          "window": 14,
+          "n_choices": 2,
+          "n_unique_words": 2,
+          "h_marginal": 1.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 1.0
+        },
+        {
+          "window": 15,
+          "n_choices": 6,
+          "n_unique_words": 6,
+          "h_marginal": 2.585,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.585
+        },
+        {
+          "window": 16,
+          "n_choices": 8,
+          "n_unique_words": 8,
+          "h_marginal": 3.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.0
+        },
+        {
+          "window": 17,
+          "n_choices": 7,
+          "n_unique_words": 7,
+          "h_marginal": 2.8074,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.8074
+        },
+        {
+          "window": 18,
+          "n_choices": 6,
+          "n_unique_words": 6,
+          "h_marginal": 2.585,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.585
+        },
+        {
+          "window": 19,
+          "n_choices": 8,
+          "n_unique_words": 8,
+          "h_marginal": 3.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.0
+        },
+        {
+          "window": 20,
+          "n_choices": 56,
+          "n_unique_words": 48,
+          "h_marginal": 5.5082,
+          "h_conditioned": 0.0714,
+          "rsb": 0.0714,
+          "reduction_bits": 5.4367
+        },
+        {
+          "window": 21,
+          "n_choices": 9,
+          "n_unique_words": 9,
+          "h_marginal": 3.1699,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.1699
+        },
+        {
+          "window": 22,
+          "n_choices": 4,
+          "n_unique_words": 4,
+          "h_marginal": 2.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.0
+        },
+        {
+          "window": 23,
+          "n_choices": 4,
+          "n_unique_words": 4,
+          "h_marginal": 2.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.0
+        },
+        {
+          "window": 24,
+          "n_choices": 5,
+          "n_unique_words": 5,
+          "h_marginal": 2.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.3219
+        },
+        {
+          "window": 25,
+          "n_choices": 1,
+          "n_unique_words": 1,
+          "h_marginal": 0.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 0.0
+        },
+        {
+          "window": 26,
+          "n_choices": 4,
+          "n_unique_words": 4,
+          "h_marginal": 2.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.0
+        },
+        {
+          "window": 27,
+          "n_choices": 6,
+          "n_unique_words": 6,
+          "h_marginal": 2.585,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.585
+        },
+        {
+          "window": 28,
+          "n_choices": 3,
+          "n_unique_words": 3,
+          "h_marginal": 1.585,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 1.585
+        },
+        {
+          "window": 29,
+          "n_choices": 10,
+          "n_unique_words": 9,
+          "h_marginal": 3.1219,
+          "h_conditioned": 0.2,
+          "rsb": 0.2,
+          "reduction_bits": 2.9219
+        },
+        {
+          "window": 30,
+          "n_choices": 4,
+          "n_unique_words": 4,
+          "h_marginal": 2.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.0
+        },
+        {
+          "window": 31,
+          "n_choices": 5,
+          "n_unique_words": 5,
+          "h_marginal": 2.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.3219
+        },
+        {
+          "window": 32,
+          "n_choices": 10,
+          "n_unique_words": 10,
+          "h_marginal": 3.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.3219
+        },
+        {
+          "window": 33,
+          "n_choices": 2,
+          "n_unique_words": 2,
+          "h_marginal": 1.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 1.0
+        },
+        {
+          "window": 34,
+          "n_choices": 5,
+          "n_unique_words": 5,
+          "h_marginal": 2.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.3219
+        },
+        {
+          "window": 35,
+          "n_choices": 1338,
+          "n_unique_words": 282,
+          "h_marginal": 7.1683,
+          "h_conditioned": 1.086,
+          "rsb": 1.086,
+          "reduction_bits": 6.0823
+        },
+        {
+          "window": 36,
+          "n_choices": 10096,
+          "n_unique_words": 377,
+          "h_marginal": 7.3444,
+          "h_conditioned": 2.5621,
+          "rsb": 2.5621,
+          "reduction_bits": 4.7823
+        },
+        {
+          "window": 37,
+          "n_choices": 240,
+          "n_unique_words": 190,
+          "h_marginal": 7.4396,
+          "h_conditioned": 0.5638,
+          "rsb": 0.5638,
+          "reduction_bits": 6.8758
+        },
+        {
+          "window": 38,
+          "n_choices": 10,
+          "n_unique_words": 10,
+          "h_marginal": 3.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.3219
+        },
+        {
+          "window": 39,
+          "n_choices": 5,
+          "n_unique_words": 5,
+          "h_marginal": 2.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.3219
+        },
+        {
+          "window": 40,
+          "n_choices": 4,
+          "n_unique_words": 4,
+          "h_marginal": 2.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.0
+        },
+        {
+          "window": 41,
+          "n_choices": 8,
+          "n_unique_words": 8,
+          "h_marginal": 3.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.0
+        },
+        {
+          "window": 42,
+          "n_choices": 10,
+          "n_unique_words": 10,
+          "h_marginal": 3.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.3219
+        },
+        {
+          "window": 43,
+          "n_choices": 6,
+          "n_unique_words": 6,
+          "h_marginal": 2.585,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.585
+        },
+        {
+          "window": 44,
+          "n_choices": 7,
+          "n_unique_words": 7,
+          "h_marginal": 2.8074,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.8074
+        },
+        {
+          "window": 45,
+          "n_choices": 4,
+          "n_unique_words": 4,
+          "h_marginal": 2.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.0
+        },
+        {
+          "window": 46,
+          "n_choices": 5,
+          "n_unique_words": 5,
+          "h_marginal": 2.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.3219
+        },
+        {
+          "window": 47,
+          "n_choices": 10,
+          "n_unique_words": 10,
+          "h_marginal": 3.3219,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 3.3219
+        },
+        {
+          "window": 48,
+          "n_choices": 4,
+          "n_unique_words": 4,
+          "h_marginal": 2.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 2.0
+        },
+        {
+          "window": 49,
+          "n_choices": 16,
+          "n_unique_words": 16,
+          "h_marginal": 4.0,
+          "h_conditioned": 0.0,
+          "rsb": 0.0,
+          "reduction_bits": 4.0
+        }
+      ],
+      "summary": {
+        "mean_rsb": 0.1091,
+        "min_rsb": 0.0,
+        "max_rsb": 2.5621,
+        "std_rsb": 0.3968,
+        "n_windows_with_rsb": 9,
+        "n_windows_total": 50
+      }
+    },
+    "bootstrap_ci": {
+      "rsb_mean_bootstrap": 1.7504,
+      "ci_95_lo": 1.72,
+      "ci_95_hi": 1.7799,
+      "n_bootstrap": 1000
+    },
+    "interpretation": "After conditioning on all 5 known drivers, 2.21 bits/word remain unexplained. This is the upper bound on hidden information content. Total residual capacity: 3.4 KB (~6,740 Latin characters)."
+  }
+}

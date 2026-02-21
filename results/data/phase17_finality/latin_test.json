@@ -1,0 +1,36 @@
+{
+  "provenance": {
+    "run_id": "879df522-9d90-9daf-175d-c63e602f3c0e",
+    "git_commit": "4835fe81250d1c07c9ce629fb7032e338573306f",
+    "timestamp": "2026-02-21T22:46:29.255137+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771713989254725000,
+    "command": "run_17d_latin_test"
+  },
+  "results": {
+    "channel_capacity": {
+      "total_capacity_bits": 106858.29,
+      "total_capacity_kb": 13.04,
+      "mean_bits_per_choice": 8.5357,
+      "n_choices": 12519,
+      "latin_chars_equivalent": 26063.0
+    },
+    "latin_passage": {
+      "text_preview": "In principio creavit Deus caelum et terram. Terra autem erat inanis et vacua et tenebrae super facie...",
+      "chars": 339
+    },
+    "encoding_result": {
+      "passage_chars": 339,
+      "passage_bits": 2712,
+      "encoding_success": true,
+      "bits_consumed": 2715,
+      "choices_needed": 342,
+      "choices_available": 12519,
+      "fraction_of_manuscript": 0.0273,
+      "round_trip_match": true,
+      "decoded_first_80": "In principio creavit Deus caelum et terram. Terra autem erat inanis et vacua et "
+    },
+    "rsb_bpw": 2.2075
+  }
+}

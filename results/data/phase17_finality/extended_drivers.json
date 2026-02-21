@@ -1,0 +1,432 @@
+{
+  "provenance": {
+    "run_id": "bb9988d9-1e3d-b45d-9f49-360b11bae357",
+    "git_commit": "4835fe81250d1c07c9ce629fb7032e338573306f",
+    "timestamp": "2026-02-21T23:29:51.441238+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771716591440907000,
+    "command": "run_17g_extended_drivers"
+  },
+  "results": {
+    "num_choices": 12519,
+    "marginal_reductions": {
+      "h_5_drivers": 2.2075,
+      "trigram": {
+        "h_after": 1.2193,
+        "marginal_reduction": 0.9882
+      },
+      "section": {
+        "h_after": 1.1591,
+        "marginal_reduction": 1.0484
+      },
+      "persistence": {
+        "h_after": 1.9668,
+        "marginal_reduction": 0.2407
+      }
+    },
+    "entropy_chain": [
+      {
+        "conditioning": "window",
+        "h": 7.1679
+      },
+      {
+        "conditioning": "+ prev_word",
+        "h": 3.9898
+      },
+      {
+        "conditioning": "+ position",
+        "h": 2.7893
+      },
+      {
+        "conditioning": "+ recency",
+        "h": 2.2075
+      },
+      {
+        "conditioning": "+ suffix",
+        "h": 2.2075
+      },
+      {
+        "conditioning": "+ trigram",
+        "h": 1.2193
+      },
+      {
+        "conditioning": "+ section",
+        "h": 0.5777
+      },
+      {
+        "conditioning": "+ persistence",
+        "h": 0.4776
+      }
+    ],
+    "chain_summary": {
+      "rsb_5_drivers": 2.2075,
+      "rsb_8_drivers": 0.4776,
+      "new_drivers_reduction": 1.7299,
+      "pct_remaining_explained": 78.36
+    },
+    "per_window_rsb": {
+      "per_window": [
+        {
+          "window": 0,
+          "n_choices": 9,
+          "n_unique": 9,
+          "h_marginal": 3.1699,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 1,
+          "n_choices": 8,
+          "n_unique": 8,
+          "h_marginal": 3.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 2,
+          "n_choices": 9,
+          "n_unique": 9,
+          "h_marginal": 3.1699,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 3,
+          "n_choices": 98,
+          "n_unique": 71,
+          "h_marginal": 5.9421,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 4,
+          "n_choices": 28,
+          "n_unique": 28,
+          "h_marginal": 4.8074,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 5,
+          "n_choices": 235,
+          "n_unique": 107,
+          "h_marginal": 6.0707,
+          "rsb_8": 0.1309
+        },
+        {
+          "window": 6,
+          "n_choices": 4,
+          "n_unique": 4,
+          "h_marginal": 2.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 7,
+          "n_choices": 3,
+          "n_unique": 3,
+          "h_marginal": 1.585,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 8,
+          "n_choices": 3,
+          "n_unique": 3,
+          "h_marginal": 1.585,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 9,
+          "n_choices": 7,
+          "n_unique": 7,
+          "h_marginal": 2.8074,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 10,
+          "n_choices": 10,
+          "n_unique": 10,
+          "h_marginal": 3.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 11,
+          "n_choices": 145,
+          "n_unique": 93,
+          "h_marginal": 6.3416,
+          "rsb_8": 0.0138
+        },
+        {
+          "window": 12,
+          "n_choices": 25,
+          "n_unique": 24,
+          "h_marginal": 4.5639,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 13,
+          "n_choices": 7,
+          "n_unique": 7,
+          "h_marginal": 2.8074,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 14,
+          "n_choices": 2,
+          "n_unique": 2,
+          "h_marginal": 1.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 15,
+          "n_choices": 6,
+          "n_unique": 6,
+          "h_marginal": 2.585,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 16,
+          "n_choices": 8,
+          "n_unique": 8,
+          "h_marginal": 3.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 17,
+          "n_choices": 7,
+          "n_unique": 7,
+          "h_marginal": 2.8074,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 18,
+          "n_choices": 6,
+          "n_unique": 6,
+          "h_marginal": 2.585,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 19,
+          "n_choices": 8,
+          "n_unique": 8,
+          "h_marginal": 3.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 20,
+          "n_choices": 56,
+          "n_unique": 48,
+          "h_marginal": 5.5082,
+          "rsb_8": 0.0357
+        },
+        {
+          "window": 21,
+          "n_choices": 9,
+          "n_unique": 9,
+          "h_marginal": 3.1699,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 22,
+          "n_choices": 4,
+          "n_unique": 4,
+          "h_marginal": 2.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 23,
+          "n_choices": 4,
+          "n_unique": 4,
+          "h_marginal": 2.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 24,
+          "n_choices": 5,
+          "n_unique": 5,
+          "h_marginal": 2.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 25,
+          "n_choices": 1,
+          "n_unique": 1,
+          "h_marginal": 0.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 26,
+          "n_choices": 4,
+          "n_unique": 4,
+          "h_marginal": 2.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 27,
+          "n_choices": 6,
+          "n_unique": 6,
+          "h_marginal": 2.585,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 28,
+          "n_choices": 3,
+          "n_unique": 3,
+          "h_marginal": 1.585,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 29,
+          "n_choices": 10,
+          "n_unique": 9,
+          "h_marginal": 3.1219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 30,
+          "n_choices": 4,
+          "n_unique": 4,
+          "h_marginal": 2.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 31,
+          "n_choices": 5,
+          "n_unique": 5,
+          "h_marginal": 2.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 32,
+          "n_choices": 10,
+          "n_unique": 10,
+          "h_marginal": 3.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 33,
+          "n_choices": 2,
+          "n_unique": 2,
+          "h_marginal": 1.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 34,
+          "n_choices": 5,
+          "n_unique": 5,
+          "h_marginal": 2.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 35,
+          "n_choices": 1338,
+          "n_unique": 282,
+          "h_marginal": 7.1683,
+          "rsb_8": 0.1562
+        },
+        {
+          "window": 36,
+          "n_choices": 10096,
+          "n_unique": 377,
+          "h_marginal": 7.3444,
+          "rsb_8": 0.5666
+        },
+        {
+          "window": 37,
+          "n_choices": 240,
+          "n_unique": 190,
+          "h_marginal": 7.4396,
+          "rsb_8": 0.0583
+        },
+        {
+          "window": 38,
+          "n_choices": 10,
+          "n_unique": 10,
+          "h_marginal": 3.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 39,
+          "n_choices": 5,
+          "n_unique": 5,
+          "h_marginal": 2.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 40,
+          "n_choices": 4,
+          "n_unique": 4,
+          "h_marginal": 2.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 41,
+          "n_choices": 8,
+          "n_unique": 8,
+          "h_marginal": 3.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 42,
+          "n_choices": 10,
+          "n_unique": 10,
+          "h_marginal": 3.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 43,
+          "n_choices": 6,
+          "n_unique": 6,
+          "h_marginal": 2.585,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 44,
+          "n_choices": 7,
+          "n_unique": 7,
+          "h_marginal": 2.8074,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 45,
+          "n_choices": 4,
+          "n_unique": 4,
+          "h_marginal": 2.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 46,
+          "n_choices": 5,
+          "n_unique": 5,
+          "h_marginal": 2.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 47,
+          "n_choices": 10,
+          "n_unique": 10,
+          "h_marginal": 3.3219,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 48,
+          "n_choices": 4,
+          "n_unique": 4,
+          "h_marginal": 2.0,
+          "rsb_8": 0.0
+        },
+        {
+          "window": 49,
+          "n_choices": 16,
+          "n_unique": 16,
+          "h_marginal": 4.0,
+          "rsb_8": 0.0
+        }
+      ],
+      "summary": {
+        "mean_rsb": 0.0192,
+        "max_rsb": 0.5666,
+        "min_rsb": 0.0,
+        "n_windows_with_rsb": 6
+      }
+    },
+    "total_rsb_bits": 5979.07,
+    "total_rsb_kb": 0.73,
+    "interpretation": "After conditioning on all 8 drivers, 0.48 bits/word remain unexplained (down from 2.21 with 5 drivers). New drivers explain 1.73 bits (78.4% of the 5-driver residual). Total residual capacity: 0.7 KB."
+  }
+}

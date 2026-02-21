@@ -1,0 +1,675 @@
+{
+  "provenance": {
+    "run_id": "9dfba5ea-7227-2e60-fa4a-76100dad2a80",
+    "git_commit": "4835fe81250d1c07c9ce629fb7032e338573306f",
+    "timestamp": "2026-02-21T22:33:05.820535+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771713185820477000,
+    "command": "run_17f_device_specification"
+  },
+  "results": {
+    "sprint_c1_device_specification": {
+      "window_sizes": {
+        "0": {
+          "n_words": 18,
+          "avg_word_length": 6.4,
+          "max_word_length": 11
+        },
+        "1": {
+          "n_words": 54,
+          "avg_word_length": 7.2,
+          "max_word_length": 12
+        },
+        "2": {
+          "n_words": 21,
+          "avg_word_length": 8.9,
+          "max_word_length": 19
+        },
+        "3": {
+          "n_words": 54,
+          "avg_word_length": 7.4,
+          "max_word_length": 16
+        },
+        "4": {
+          "n_words": 68,
+          "avg_word_length": 7.5,
+          "max_word_length": 16
+        },
+        "5": {
+          "n_words": 167,
+          "avg_word_length": 7.5,
+          "max_word_length": 16
+        },
+        "6": {
+          "n_words": 149,
+          "avg_word_length": 7.1,
+          "max_word_length": 13
+        },
+        "7": {
+          "n_words": 163,
+          "avg_word_length": 7.0,
+          "max_word_length": 13
+        },
+        "8": {
+          "n_words": 223,
+          "avg_word_length": 7.0,
+          "max_word_length": 19
+        },
+        "9": {
+          "n_words": 276,
+          "avg_word_length": 7.3,
+          "max_word_length": 15
+        },
+        "10": {
+          "n_words": 148,
+          "avg_word_length": 7.1,
+          "max_word_length": 15
+        },
+        "11": {
+          "n_words": 291,
+          "avg_word_length": 6.3,
+          "max_word_length": 15
+        },
+        "12": {
+          "n_words": 54,
+          "avg_word_length": 7.7,
+          "max_word_length": 18
+        },
+        "13": {
+          "n_words": 164,
+          "avg_word_length": 7.3,
+          "max_word_length": 18
+        },
+        "14": {
+          "n_words": 256,
+          "avg_word_length": 7.1,
+          "max_word_length": 16
+        },
+        "15": {
+          "n_words": 52,
+          "avg_word_length": 7.1,
+          "max_word_length": 14
+        },
+        "16": {
+          "n_words": 210,
+          "avg_word_length": 7.0,
+          "max_word_length": 17
+        },
+        "17": {
+          "n_words": 312,
+          "avg_word_length": 6.2,
+          "max_word_length": 19
+        },
+        "18": {
+          "n_words": 396,
+          "avg_word_length": 5.4,
+          "max_word_length": 13
+        },
+        "19": {
+          "n_words": 297,
+          "avg_word_length": 6.1,
+          "max_word_length": 17
+        },
+        "20": {
+          "n_words": 327,
+          "avg_word_length": 6.0,
+          "max_word_length": 15
+        },
+        "21": {
+          "n_words": 182,
+          "avg_word_length": 7.2,
+          "max_word_length": 15
+        },
+        "22": {
+          "n_words": 341,
+          "avg_word_length": 6.1,
+          "max_word_length": 15
+        },
+        "23": {
+          "n_words": 301,
+          "avg_word_length": 7.2,
+          "max_word_length": 15
+        },
+        "24": {
+          "n_words": 261,
+          "avg_word_length": 7.0,
+          "max_word_length": 18
+        },
+        "25": {
+          "n_words": 266,
+          "avg_word_length": 7.1,
+          "max_word_length": 21
+        },
+        "26": {
+          "n_words": 219,
+          "avg_word_length": 7.1,
+          "max_word_length": 18
+        },
+        "27": {
+          "n_words": 232,
+          "avg_word_length": 7.1,
+          "max_word_length": 19
+        },
+        "28": {
+          "n_words": 209,
+          "avg_word_length": 7.1,
+          "max_word_length": 15
+        },
+        "29": {
+          "n_words": 202,
+          "avg_word_length": 7.2,
+          "max_word_length": 15
+        },
+        "30": {
+          "n_words": 163,
+          "avg_word_length": 7.3,
+          "max_word_length": 19
+        },
+        "31": {
+          "n_words": 163,
+          "avg_word_length": 7.1,
+          "max_word_length": 16
+        },
+        "32": {
+          "n_words": 187,
+          "avg_word_length": 7.0,
+          "max_word_length": 16
+        },
+        "33": {
+          "n_words": 135,
+          "avg_word_length": 7.3,
+          "max_word_length": 16
+        },
+        "34": {
+          "n_words": 158,
+          "avg_word_length": 7.7,
+          "max_word_length": 16
+        },
+        "35": {
+          "n_words": 190,
+          "avg_word_length": 7.4,
+          "max_word_length": 17
+        },
+        "36": {
+          "n_words": 138,
+          "avg_word_length": 7.2,
+          "max_word_length": 14
+        },
+        "37": {
+          "n_words": 97,
+          "avg_word_length": 7.4,
+          "max_word_length": 18
+        },
+        "38": {
+          "n_words": 120,
+          "avg_word_length": 7.3,
+          "max_word_length": 16
+        },
+        "39": {
+          "n_words": 65,
+          "avg_word_length": 7.2,
+          "max_word_length": 13
+        },
+        "40": {
+          "n_words": 60,
+          "avg_word_length": 7.2,
+          "max_word_length": 14
+        },
+        "41": {
+          "n_words": 76,
+          "avg_word_length": 7.7,
+          "max_word_length": 21
+        },
+        "42": {
+          "n_words": 58,
+          "avg_word_length": 7.9,
+          "max_word_length": 15
+        },
+        "43": {
+          "n_words": 29,
+          "avg_word_length": 7.4,
+          "max_word_length": 12
+        },
+        "44": {
+          "n_words": 35,
+          "avg_word_length": 8.1,
+          "max_word_length": 20
+        },
+        "45": {
+          "n_words": 36,
+          "avg_word_length": 7.0,
+          "max_word_length": 15
+        },
+        "46": {
+          "n_words": 24,
+          "avg_word_length": 7.8,
+          "max_word_length": 13
+        },
+        "47": {
+          "n_words": 23,
+          "avg_word_length": 7.2,
+          "max_word_length": 13
+        },
+        "48": {
+          "n_words": 23,
+          "avg_word_length": 8.0,
+          "max_word_length": 17
+        },
+        "49": {
+          "n_words": 24,
+          "avg_word_length": 7.2,
+          "max_word_length": 11
+        }
+      },
+      "volvelle": {
+        "sector_angle_deg": 7.2,
+        "n_rings": 5,
+        "ring_specs": [
+          {
+            "ring": 1,
+            "inner_radius_mm": 5.0,
+            "outer_radius_mm": 141.0,
+            "n_windows": 10,
+            "max_word_count": 52
+          },
+          {
+            "ring": 2,
+            "inner_radius_mm": 146.0,
+            "outer_radius_mm": 282.0,
+            "n_windows": 10,
+            "max_word_count": 120
+          },
+          {
+            "ring": 3,
+            "inner_radius_mm": 287.0,
+            "outer_radius_mm": 423.0,
+            "n_windows": 10,
+            "max_word_count": 167
+          },
+          {
+            "ring": 4,
+            "inner_radius_mm": 428.0,
+            "outer_radius_mm": 564.0,
+            "n_windows": 10,
+            "max_word_count": 261
+          },
+          {
+            "ring": 5,
+            "inner_radius_mm": 569.0,
+            "outer_radius_mm": 705.0,
+            "n_windows": 10,
+            "max_word_count": 396
+          }
+        ],
+        "total_diameter_mm": 1410.0,
+        "total_diameter_cm": 141.0,
+        "anchor_window": 18,
+        "anchor_angle_deg": 129.6
+      },
+      "tabula": {
+        "grid": "10x5",
+        "cell_width_mm": 551.0,
+        "cell_height_mm": 136.0,
+        "total_width_mm": 2766.0,
+        "total_height_mm": 1370.0,
+        "total_width_cm": 276.6,
+        "total_height_cm": 137.0
+      },
+      "historical_plausibility": {
+        "volvelle_vs_alberti": 11.75,
+        "volvelle_vs_apian": 4.03,
+        "plausible": false
+      }
+    },
+    "sprint_c2_wear_predictions": {
+      "usage_profile": [
+        {
+          "window": 0,
+          "token_count": 18,
+          "usage_fraction": 0.0005,
+          "correction": 0
+        },
+        {
+          "window": 1,
+          "token_count": 55,
+          "usage_fraction": 0.0017,
+          "correction": 4
+        },
+        {
+          "window": 2,
+          "token_count": 23,
+          "usage_fraction": 0.0007,
+          "correction": 2
+        },
+        {
+          "window": 3,
+          "token_count": 56,
+          "usage_fraction": 0.0017,
+          "correction": 3
+        },
+        {
+          "window": 4,
+          "token_count": 68,
+          "usage_fraction": 0.0021,
+          "correction": 5
+        },
+        {
+          "window": 5,
+          "token_count": 181,
+          "usage_fraction": 0.0055,
+          "correction": 13
+        },
+        {
+          "window": 6,
+          "token_count": 157,
+          "usage_fraction": 0.0048,
+          "correction": 12
+        },
+        {
+          "window": 7,
+          "token_count": 183,
+          "usage_fraction": 0.0056,
+          "correction": 11
+        },
+        {
+          "window": 8,
+          "token_count": 288,
+          "usage_fraction": 0.0088,
+          "correction": 10
+        },
+        {
+          "window": 9,
+          "token_count": 405,
+          "usage_fraction": 0.0123,
+          "correction": 9
+        },
+        {
+          "window": 10,
+          "token_count": 164,
+          "usage_fraction": 0.005,
+          "correction": 8
+        },
+        {
+          "window": 11,
+          "token_count": 1194,
+          "usage_fraction": 0.0363,
+          "correction": 7
+        },
+        {
+          "window": 12,
+          "token_count": 55,
+          "usage_fraction": 0.0017,
+          "correction": 9
+        },
+        {
+          "window": 13,
+          "token_count": 175,
+          "usage_fraction": 0.0053,
+          "correction": 5
+        },
+        {
+          "window": 14,
+          "token_count": 367,
+          "usage_fraction": 0.0112,
+          "correction": 4
+        },
+        {
+          "window": 15,
+          "token_count": 55,
+          "usage_fraction": 0.0017,
+          "correction": -8
+        },
+        {
+          "window": 16,
+          "token_count": 353,
+          "usage_fraction": 0.0107,
+          "correction": 2
+        },
+        {
+          "window": 17,
+          "token_count": 2529,
+          "usage_fraction": 0.077,
+          "correction": 1
+        },
+        {
+          "window": 18,
+          "token_count": 16295,
+          "usage_fraction": 0.496,
+          "correction": 0
+        },
+        {
+          "window": 19,
+          "token_count": 1513,
+          "usage_fraction": 0.0461,
+          "correction": -1
+        },
+        {
+          "window": 20,
+          "token_count": 2331,
+          "usage_fraction": 0.071,
+          "correction": -2
+        },
+        {
+          "window": 21,
+          "token_count": 212,
+          "usage_fraction": 0.0065,
+          "correction": -3
+        },
+        {
+          "window": 22,
+          "token_count": 1753,
+          "usage_fraction": 0.0534,
+          "correction": -4
+        },
+        {
+          "window": 23,
+          "token_count": 457,
+          "usage_fraction": 0.0139,
+          "correction": -5
+        },
+        {
+          "window": 24,
+          "token_count": 342,
+          "usage_fraction": 0.0104,
+          "correction": -6
+        },
+        {
+          "window": 25,
+          "token_count": 462,
+          "usage_fraction": 0.0141,
+          "correction": -7
+        },
+        {
+          "window": 26,
+          "token_count": 290,
+          "usage_fraction": 0.0088,
+          "correction": -8
+        },
+        {
+          "window": 27,
+          "token_count": 357,
+          "usage_fraction": 0.0109,
+          "correction": -9
+        },
+        {
+          "window": 28,
+          "token_count": 292,
+          "usage_fraction": 0.0089,
+          "correction": -10
+        },
+        {
+          "window": 29,
+          "token_count": 271,
+          "usage_fraction": 0.0082,
+          "correction": -11
+        },
+        {
+          "window": 30,
+          "token_count": 184,
+          "usage_fraction": 0.0056,
+          "correction": -12
+        },
+        {
+          "window": 31,
+          "token_count": 181,
+          "usage_fraction": 0.0055,
+          "correction": -13
+        },
+        {
+          "window": 32,
+          "token_count": 201,
+          "usage_fraction": 0.0061,
+          "correction": -14
+        },
+        {
+          "window": 33,
+          "token_count": 155,
+          "usage_fraction": 0.0047,
+          "correction": -15
+        },
+        {
+          "window": 34,
+          "token_count": 165,
+          "usage_fraction": 0.005,
+          "correction": -16
+        },
+        {
+          "window": 35,
+          "token_count": 203,
+          "usage_fraction": 0.0062,
+          "correction": -17
+        },
+        {
+          "window": 36,
+          "token_count": 149,
+          "usage_fraction": 0.0045,
+          "correction": -18
+        },
+        {
+          "window": 37,
+          "token_count": 103,
+          "usage_fraction": 0.0031,
+          "correction": -14
+        },
+        {
+          "window": 38,
+          "token_count": 141,
+          "usage_fraction": 0.0043,
+          "correction": -20
+        },
+        {
+          "window": 39,
+          "token_count": 69,
+          "usage_fraction": 0.0021,
+          "correction": -17
+        },
+        {
+          "window": 40,
+          "token_count": 65,
+          "usage_fraction": 0.002,
+          "correction": -20
+        },
+        {
+          "window": 41,
+          "token_count": 80,
+          "usage_fraction": 0.0024,
+          "correction": -16
+        },
+        {
+          "window": 42,
+          "token_count": 58,
+          "usage_fraction": 0.0018,
+          "correction": -7
+        },
+        {
+          "window": 43,
+          "token_count": 30,
+          "usage_fraction": 0.0009,
+          "correction": -3
+        },
+        {
+          "window": 44,
+          "token_count": 35,
+          "usage_fraction": 0.0011,
+          "correction": 0
+        },
+        {
+          "window": 45,
+          "token_count": 37,
+          "usage_fraction": 0.0011,
+          "correction": 0
+        },
+        {
+          "window": 46,
+          "token_count": 25,
+          "usage_fraction": 0.0008,
+          "correction": -8
+        },
+        {
+          "window": 47,
+          "token_count": 23,
+          "usage_fraction": 0.0007,
+          "correction": 0
+        },
+        {
+          "window": 48,
+          "token_count": 23,
+          "usage_fraction": 0.0007,
+          "correction": 0
+        },
+        {
+          "window": 49,
+          "token_count": 24,
+          "usage_fraction": 0.0007,
+          "correction": 0
+        }
+      ],
+      "usage_concentration": {
+        "top5_fraction": 0.7435,
+        "top10_fraction": 0.8313
+      },
+      "anchor_wear": {
+        "window": 18,
+        "token_count": 16295,
+        "usage_fraction": 0.496,
+        "visit_count": 16295,
+        "predicted_signatures": [
+          "Alignment marks or registration features at this position",
+          "Higher ink density from frequent scribe positioning",
+          "Potential wear on reading aperture edge near anchor",
+          "92.6% of mechanical slips occur here \u2014 visible as correction marks"
+        ]
+      },
+      "temporal_gradient": {
+        "midpoint_folio": 53,
+        "early_lines": 1301,
+        "early_tokens": 8014,
+        "late_lines": 3844,
+        "late_tokens": 26591
+      },
+      "falsifiable_predictions": {
+        "volvelle_confirmatory": [
+          "Circular wear marks on a disc-shaped artifact or template",
+          "Registration mark or notch at the angular position corresponding to window 18",
+          "Radially arranged vocabulary in 50 angular sectors",
+          "Concentric rings accommodating varying word-count density per window",
+          "Disc diameter approximately 1410mm (within range of known 15th-century volvelles: 120-350mm)",
+          "Wear concentrated at high-usage windows (particularly windows 18, 0, and 36)"
+        ],
+        "tabula_confirmatory": [
+          "Rectangular wear pattern consistent with a sliding mask",
+          "Track marks from a sliding grille on a flat sheet",
+          "Grid-arranged vocabulary in a 10\u00d75 pattern",
+          "Uniform cell sizes (no radial distortion)"
+        ],
+        "refutatory_both": [
+          "No physical production artifact found despite analysis",
+          "Vocabulary arrangement inconsistent with any geometric layout",
+          "Uniform wear across all positions (suggesting cognitive process)",
+          "Slip distribution inconsistent with any single device geometry"
+        ]
+      }
+    }
+  }
+}
