@@ -78,7 +78,7 @@ class RepetitionRate(Metric):
                 )]
 
             # Count token frequencies
-            token_contents = [t[0] if isinstance(t, tuple) else t for t in tokens]
+            token_contents = [t[0] if hasattr(t, '__getitem__') and not isinstance(t, str) else t for t in tokens]
             token_counts = Counter(token_contents)
 
             total_tokens = len(token_contents)
