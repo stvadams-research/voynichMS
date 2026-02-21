@@ -56,18 +56,18 @@ package-dir = {"" = "src"}
 [tool.setuptools.packages.find]
 where = ["src"]
 include = [
-    "phase1_foundation", 
-    "phase2_analysis", 
-    "phase3_synthesis", 
-    "phase4_inference", 
-    "phase5_mechanism", 
-    "phase6_functional", 
-    "phase7_human", 
-    "phase8_comparative",
-    "phase10_admissibility",
-    "phase11_stroke",
-    "support_visualization",
-    "core_audit"
+    "phase1_foundation*",
+    "phase2_analysis*",
+    "phase3_synthesis*",
+    "phase4_inference*",
+    "phase5_mechanism*",
+    "phase6_functional*",
+    "phase7_human*",
+    "phase8_comparative*",
+    "phase10_admissibility*",
+    "phase11_stroke*",
+    "support_visualization*",
+    "core_audit*"
 ]
 
 [tool.ruff]
