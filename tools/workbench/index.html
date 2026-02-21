@@ -178,7 +178,7 @@
         <p class="muted compact-note">Why it matters: generates folio-conditioned output using schedule offsets and line-count policies, then validates in-place.</p>
         <p id="page-availability" class="muted">Checking page-generator artifact availability...</p>
         <div class="control-grid page-control-grid">
-          <label>Folio ID
+          <label class="page-field-short">Folio ID
             <select id="page-folio-id"></select>
           </label>
           <label>Schedule Mode
@@ -193,7 +193,7 @@
               <option value="sampled">Sampled From Priors</option>
             </select>
           </label>
-          <label>Seed <input id="page-seed" type="number" value="42"></label>
+          <label class="page-field-tiny">Seed <input id="page-seed" type="number" value="42"></label>
           <label>Scribe Profile
             <select id="page-profile">
               <option value="hand1">Hand 1</option>
@@ -201,10 +201,10 @@
             </select>
           </label>
         </div>
-        <div class="control-grid page-control-grid">
-          <label>Min Words/Line <input id="page-min-words" type="number" min="1" max="50" value="6"></label>
-          <label>Max Words/Line <input id="page-max-words" type="number" min="1" max="60" value="12"></label>
-          <label><input id="page-canonical-filter" type="checkbox" checked> Canonical lowercase token filter</label>
+        <div class="control-grid page-control-grid page-control-grid-secondary">
+          <label class="page-field-short">Min Words/Line <input id="page-min-words" type="number" min="1" max="50" value="6"></label>
+          <label class="page-field-short">Max Words/Line <input id="page-max-words" type="number" min="1" max="60" value="12"></label>
+          <label class="inline-check"><input id="page-canonical-filter" type="checkbox" checked> Canonical lowercase token filter</label>
           <label>Output Format
             <select id="page-format">
               <option value="content">Content Only</option>

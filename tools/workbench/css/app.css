@@ -403,6 +403,59 @@ body.modal-open {
   margin-bottom: 12px;
 }
 
+.control-grid label {
+  min-width: 0;
+}
+
+.control-grid select,
+.control-grid input:not([type="checkbox"]) {
+  width: 100%;
+  min-width: 0;
+}
+
+.control-grid label.inline-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 26px;
+}
+
+.control-grid label.inline-check input[type="checkbox"] {
+  width: auto;
+  min-width: auto;
+  margin: 0;
+}
+
+.page-control-grid {
+  grid-template-columns:
+    minmax(130px, 180px)
+    minmax(260px, 360px)
+    minmax(260px, 360px)
+    minmax(90px, 120px)
+    minmax(180px, 240px);
+  justify-content: start;
+  align-items: end;
+}
+
+.page-control-grid.page-control-grid-secondary {
+  grid-template-columns:
+    minmax(130px, 180px)
+    minmax(130px, 180px)
+    minmax(240px, 360px)
+    minmax(180px, 260px);
+  justify-content: start;
+  align-items: end;
+}
+
+.page-control-grid .page-field-short select,
+.page-control-grid .page-field-short input:not([type="checkbox"]) {
+  max-width: 160px;
+}
+
+.page-control-grid .page-field-tiny input:not([type="checkbox"]) {
+  max-width: 100px;
+}
+
 .page-output-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -444,6 +497,11 @@ body.modal-open {
     grid-template-columns: 1fr;
   }
 
+  .page-control-grid,
+  .page-control-grid.page-control-grid-secondary {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .scroll-list,
   .word-grid {
     max-height: 38vh;
@@ -454,6 +512,13 @@ body.modal-open {
   }
 
   .page-diagnostics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .page-control-grid,
+  .page-control-grid.page-control-grid-secondary {
     grid-template-columns: 1fr;
   }
 }
