@@ -5,19 +5,19 @@ Calculates the 'Physical Effort Score' for every word in the vocabulary
 based on sub-glyph stroke complexity.
 """
 
-import sys
 import json
 import re
+import sys
 from pathlib import Path
+
 from rich.console import Console
-from collections import defaultdict
 
 project_root = Path(__file__).resolve().parent.parent.parent
 STROKE_PATH = project_root / "results/data/phase11_stroke/stroke_features.json"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
 OUTPUT_PATH = project_root / "results/data/phase16_physical/word_ergonomic_costs.json"
 sys.path.insert(0, str(project_root / "src"))
-from phase1_foundation.runs.manager import active_run
+from phase1_foundation.runs.manager import active_run  # noqa: E402
 
 console = Console()
 
@@ -36,7 +36,7 @@ def main():
         return
 
     # 1. Load Stroke Features
-    with open(STROKE_PATH, "r") as f:
+    with open(STROKE_PATH) as f:
         stroke_data = json.load(f)["results"]
     
     token_features = stroke_data["token_type_features"]
@@ -46,11 +46,12 @@ def main():
     word_to_strokes = {}
     for raw_t, feats in token_features.items():
         clean = clean_token(raw_t)
-        if not clean: continue
+        if not clean:
+            continue
         word_to_strokes[clean] = feats["mean_profile"][5]
 
     # 2. Load Palette (Target Vocabulary)
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         p_data = json.load(f)["results"]
     lattice_map = p_data["lattice_map"]
     
@@ -58,7 +59,7 @@ def main():
     costs = {}
     missing_count = 0
     
-    for word in lattice_map.keys():
+    for word in lattice_map:
         if word in word_to_strokes:
             # Base cost: strokes per glyph * word length
             # Actually mean_profile is already aggregate per token in Phase 11?
@@ -85,7 +86,7 @@ def main():
     }
     
     from phase1_foundation.core.provenance import ProvenanceWriter
-    saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
     
     console.print(f"\n[green]Success! Physical costs assigned to {len(costs)} words.[/green]")
     console.print(f"Average Effort Score: [bold]{results['avg_cost']:.2f}[/bold]")

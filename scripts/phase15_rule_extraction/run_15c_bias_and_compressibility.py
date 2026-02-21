@@ -19,15 +19,16 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
 
 TRACE_PATH = project_root / "results/data/phase15_selection/choice_stream_trace.json"
 OUTPUT_PATH = project_root / "results/data/phase15_selection/bias_modeling.json"
 console = Console()
 
 def calculate_entropy(data):
-    if not data: return 0.0
+    if not data:
+        return 0.0
     counts = Counter(data)
     total = len(data)
     return -sum((c/total) * math.log2(c/total) for c in counts.values())
@@ -40,7 +41,7 @@ def main():
         return
 
     # 1. Load Instrumented Trace
-    with open(TRACE_PATH, "r") as f:
+    with open(TRACE_PATH) as f:
         trace_data = json.load(f)["results"]
     choices = trace_data["choices"]
 
@@ -57,7 +58,8 @@ def main():
 
     window_stats = []
     for wid, idxs in win_choices.items():
-        if len(idxs) < 50: continue  # Need enough samples
+        if len(idxs) < 50:
+            continue  # Need enough samples
         ent = calculate_entropy(idxs)
         # Use THIS window's actual candidate count for max entropy
         candidates = win_candidate_counts.get(wid, len(set(idxs)))
@@ -110,17 +112,28 @@ def main():
         }
     }
 
-    saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
 
-    console.print(f"\n[green]Success! Analysis complete.[/green]")
+    console.print("\n[green]Success! Analysis complete.[/green]")
     console.print(f"Average Selection Skew: [bold]{results['avg_skew']*100:.2f}%[/bold]")
 
     # Report compression honestly
     if improvement > 0:
-        console.print(f"Compressibility: Real is [bold green]{improvement*100:.2f}% more compressible[/bold green] than uniform baseline")
+        console.print(
+            f"Compressibility: Real is [bold green]"
+            f"{improvement*100:.2f}% more compressible"
+            f"[/bold green] than uniform baseline"
+        )
     else:
-        console.print(f"Compressibility: Real is [bold yellow]{abs(improvement)*100:.2f}% less compressible[/bold yellow] than uniform baseline")
-        console.print("  (Higher entropy in real choice-stream than uniform — selection may be more dispersed)")
+        console.print(
+            f"Compressibility: Real is [bold yellow]"
+            f"{abs(improvement)*100:.2f}% less compressible"
+            f"[/bold yellow] than uniform baseline"
+        )
+        console.print(
+            "  (Higher entropy in choice-stream than uniform "
+            "— selection may be more dispersed)"
+        )
 
     table = Table(title="Top 10 Most Skewed Windows")
     table.add_column("Window", justify="right")

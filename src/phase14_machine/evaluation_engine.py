@@ -7,7 +7,7 @@ admissibility, MDL (Description Length), and overgeneration.
 
 import math
 from collections import Counter, defaultdict
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any
 
 
 class EvaluationEngine:
@@ -17,7 +17,7 @@ class EvaluationEngine:
     Attributes:
         vocab: The set of tokens that define the model's lexicon scope (lexicon clamp).
     """
-    def __init__(self, vocab: Set[str]):
+    def __init__(self, vocab: set[str]):
         """
         Initializes the evaluation engine with a fixed vocabulary.
         
@@ -26,7 +26,7 @@ class EvaluationEngine:
         """
         self.vocab = vocab 
 
-    def calculate_coverage(self, tokens: List[str]) -> float:
+    def calculate_coverage(self, tokens: list[str]) -> float:
         """
         Calculates the percentage of tokens in a list that are covered by the lexicon clamp.
         
@@ -42,10 +42,10 @@ class EvaluationEngine:
         return covered / len(tokens)
 
     def calculate_admissibility(self,
-                               lines: List[List[str]],
-                               lattice_map: Dict[str, int],
-                               window_contents: Dict[int, List[str]],
-                               fuzzy_suffix: bool = False) -> Dict[str, Any]:
+                               lines: list[list[str]],
+                               lattice_map: dict[str, int],
+                               window_contents: dict[int, list[str]],
+                               fuzzy_suffix: bool = False) -> dict[str, Any]:
         """
         Measures how often real transitions follow the physical lattice constraints.
         Reports both strict (offset=0 only) and drift (±1) admissibility rates,
@@ -73,10 +73,11 @@ class EvaluationEngine:
         # Precompute chance baseline: probability a random vocab word
         # falls in k windows by vocabulary overlap
         all_window_words = set()
-        for wid, words in window_contents.items():
+        for _wid, words in window_contents.items():
             all_window_words.update(words)
         total_lattice_vocab = len(all_window_words)
-        avg_window_size = sum(len(v) for v in window_contents.values()) / num_wins if num_wins > 0 else 0
+        total_words = sum(len(v) for v in window_contents.values())
+        avg_window_size = total_words / num_wins if num_wins > 0 else 0
         strict_chance = avg_window_size / total_lattice_vocab if total_lattice_vocab > 0 else 0
         drift_chance = min(1.0, 3 * strict_chance)  # 3 windows checked
 
@@ -107,8 +108,9 @@ class EvaluationEngine:
 
                         if fuzzy_suffix:
                             for s in suffixes:
-                                if word.endswith(s):
-                                    if any(w.endswith(s) for w in drift_words):
+                                if word.endswith(s) and any(
+                                    w.endswith(s) for w in drift_words
+                                ):
                                         is_drift = True
                                         current_window = check_win
                                         break
@@ -127,16 +129,19 @@ class EvaluationEngine:
                     if word in lattice_map:
                         current_window = lattice_map[word]
 
+        n = total_transitions
+        strict_rate = strict_admissible / n if n > 0 else 0
+        drift_rate = drift_admissible / n if n > 0 else 0
         return {
-            "strict_admissibility": strict_admissible / total_transitions if total_transitions > 0 else 0,
-            "drift_admissibility": drift_admissible / total_transitions if total_transitions > 0 else 0,
-            "admissibility_rate": drift_admissible / total_transitions if total_transitions > 0 else 0,
+            "strict_admissibility": strict_rate,
+            "drift_admissibility": drift_rate,
+            "admissibility_rate": drift_rate,
             "strict_chance_baseline": strict_chance,
             "drift_chance_baseline": drift_chance,
-            "total_clamped_tokens": total_transitions
+            "total_clamped_tokens": n,
         }
 
-    def calculate_markov_residual_entropy(self, tokens: List[str]) -> float:
+    def calculate_markov_residual_entropy(self, tokens: list[str]) -> float:
         """
         Calculates the conditional entropy H(Y|X) of a token sequence (Order 1).
         
@@ -174,9 +179,9 @@ class EvaluationEngine:
         return float(cond_entropy * total)
 
     def calculate_mdl_bits(self, 
-                           tokens: List[str], 
+                           tokens: list[str], 
                            model_params: int, 
-                           is_markov: bool = False) -> Dict[str, float]:
+                           is_markov: bool = False) -> dict[str, float]:
         """
         Calculates the total description length L(total) = L(model) + L(data | model).
         
@@ -212,8 +217,8 @@ class EvaluationEngine:
         }
 
     def calculate_overgeneration(self, 
-                                 syn_lines: List[List[str]], 
-                                 real_lines: List[List[str]]) -> Dict[str, Any]:
+                                 syn_lines: list[list[str]], 
+                                 real_lines: list[list[str]]) -> dict[str, Any]:
         """
         Measures sequential overgeneration (BUR/TUR) within the lexicon clamp.
         
@@ -225,7 +230,7 @@ class EvaluationEngine:
             A dictionary mapping BUR (Bigram Unattested Rate) and TUR (Trigram Unattested Rate)
             to their respective counts and rates.
         """
-        def get_ngrams(lines: List[List[str]], n: int) -> Set[Tuple[str, ...]]:
+        def get_ngrams(lines: list[list[str]], n: int) -> set[tuple[str, ...]]:
             ngrams = set()
             for line in lines:
                 for i in range(len(line)-n+1):

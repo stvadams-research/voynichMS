@@ -18,7 +18,7 @@ from scipy.stats import spearmanr
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.runs.manager import active_run
+from phase1_foundation.runs.manager import active_run  # noqa: E402
 
 TRACE_PATH = project_root / "results/data/phase15_selection/choice_stream_trace.json"
 COST_PATH = project_root / "results/data/phase16_physical/word_ergonomic_costs.json"
@@ -26,16 +26,19 @@ OUTPUT_PATH = project_root / "results/data/phase16_physical/effort_correlation.j
 console = Console()
 
 def main():
-    console.print("[bold magenta]Phase 16B: Effort Correlation (Physical Preference)[/bold magenta]")
+    console.print(
+        "[bold magenta]Phase 16B: Effort Correlation"
+        " (Physical Preference)[/bold magenta]"
+    )
 
     if not TRACE_PATH.exists() or not COST_PATH.exists():
         console.print("[red]Error: Trace or Cost data missing.[/red]")
         return
 
     # 1. Load Data
-    with open(TRACE_PATH, "r") as f:
+    with open(TRACE_PATH) as f:
         choices = json.load(f)["results"]["choices"]
-    with open(COST_PATH, "r") as f:
+    with open(COST_PATH) as f:
         costs = json.load(f)["results"]["word_costs"]
 
     # 2. Compute per-window selection frequency for each word
@@ -89,28 +92,48 @@ def main():
         "avg_effort_gradient": avg_gradient,
         "is_ergonomically_coupled": bool(p_value < 0.01 and abs(rho) > 0.1),
         "interpretation": (
-            "Negative rho: lower-effort words are selected more often (ergonomic preference). "
-            "Positive rho: higher-effort words are selected more often (contradicts ergonomic hypothesis). "
-            f"Effect size: rho^2 = {rho**2:.4f} ({rho**2*100:.1f}% of variance explained)."
+            "Negative rho: lower-effort words selected more often. "
+            "Positive rho: higher-effort words selected more often. "
+            f"rho^2 = {rho**2:.4f} "
+            f"({rho**2*100:.1f}% variance explained)."
         )
     }
 
     from phase1_foundation.core.provenance import ProvenanceWriter
-    saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
 
-    console.print(f"\n[green]Success! Effort correlation complete.[/green]")
+    console.print("\n[green]Success! Effort correlation complete.[/green]")
     console.print(f"Word-Window Pairs Analyzed: [bold]{len(efforts)}[/bold]")
-    console.print(f"Spearman Rho (Effort vs Frequency): [bold cyan]{rho:.4f}[/bold cyan] (p={p_value:.4e})")
-    console.print(f"Variance Explained (rho^2): [bold]{rho**2*100:.1f}%[/bold]")
-    console.print(f"Average Effort Gradient: [bold]{avg_gradient:.2f} strokes/word[/bold]")
+    console.print(
+        f"Spearman Rho: [bold cyan]{rho:.4f}[/bold cyan] "
+        f"(p={p_value:.4e})"
+    )
+    console.print(
+        f"Variance Explained (rho^2): "
+        f"[bold]{rho**2*100:.1f}%[/bold]"
+    )
+    console.print(
+        f"Effort Gradient: "
+        f"[bold]{avg_gradient:.2f} strokes/word[/bold]"
+    )
 
     if results['is_ergonomically_coupled'] and rho < 0:
-        console.print("\n[bold green]VERIFIED:[/bold green] Lower-effort words are preferred (ergonomic bias).")
+        console.print(
+            "\n[bold green]VERIFIED:[/bold green] "
+            "Lower-effort words are preferred."
+        )
     elif results['is_ergonomically_coupled'] and rho > 0:
-        console.print("\n[bold yellow]UNEXPECTED:[/bold yellow] Higher-effort words are preferred. Ergonomic hypothesis rejected.")
+        console.print(
+            "\n[bold yellow]UNEXPECTED:[/bold yellow] "
+            "Higher-effort words preferred. "
+            "Ergonomic hypothesis rejected."
+        )
     else:
-        console.print("\n[bold yellow]WEAK:[/bold yellow] Effort correlation is not strong enough to confirm ergonomic coupling "
-                      f"(need |rho| > 0.1 and p < 0.01).")
+        console.print(
+            "\n[bold yellow]WEAK:[/bold yellow] "
+            "Effort correlation not strong enough "
+            "(need |rho|>0.1, p<0.01)."
+        )
 
 if __name__ == "__main__":
     with active_run(config={"seed": 42, "command": "run_16b_effort_correlation"}):

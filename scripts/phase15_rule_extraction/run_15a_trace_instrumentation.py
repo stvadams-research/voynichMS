@@ -5,19 +5,20 @@ Traces the real manuscript through the Voynich Engine and logs the choice
 context for every admissible transition.
 """
 
-import sys
 import json
+import sys
 from pathlib import Path
+
 from rich.console import Console
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase14_machine.high_fidelity_emulator import HighFidelityVolvelle
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.queries import get_lines_from_store
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import get_lines_from_store  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase14_machine.high_fidelity_emulator import HighFidelityVolvelle  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -25,14 +26,16 @@ OUTPUT_PATH = project_root / "results/data/phase15_selection/choice_stream_trace
 console = Console()
 
 def main():
-    console.print("[bold cyan]Phase 15A: Trace Instrumentation (The Scribe's Decisions)[/bold cyan]")
+    console.print(
+        "[bold cyan]Phase 15A: Trace Instrumentation (The Scribe's Decisions)[/bold cyan]"
+    )
     
     if not PALETTE_PATH.exists():
         console.print("[red]Error: Palette grid not found.[/red]")
         return
 
     # 1. Load Model
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         data = json.load(f)["results"]
     lattice_map = data["lattice_map"]
     window_contents = data["window_contents"]
@@ -57,7 +60,7 @@ def main():
         "choices": log
     }
     
-    saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
     console.print(f"Artifact saved to: [bold]{OUTPUT_PATH}[/bold]")
 
 if __name__ == "__main__":

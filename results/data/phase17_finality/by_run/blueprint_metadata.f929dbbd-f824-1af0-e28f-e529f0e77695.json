@@ -1,0 +1,222 @@
+{
+  "provenance": {
+    "run_id": "f929dbbd-f824-1af0-e28f-e529f0e77695",
+    "git_commit": "6d553194db7379a8140a0d63cf6da71b23e43ec0",
+    "timestamp": "2026-02-21T15:18:27.950427+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771687107950372000,
+    "command": "run_17a_generate_blueprints"
+  },
+  "results": {
+    "num_windows": 50,
+    "total_words": 1986,
+    "avg_words_per_window": 39.72,
+    "window_sizes": [
+      {
+        "window_id": 0,
+        "word_count": 49
+      },
+      {
+        "window_id": 1,
+        "word_count": 75
+      },
+      {
+        "window_id": 2,
+        "word_count": 57
+      },
+      {
+        "window_id": 3,
+        "word_count": 64
+      },
+      {
+        "window_id": 4,
+        "word_count": 7
+      },
+      {
+        "window_id": 5,
+        "word_count": 40
+      },
+      {
+        "window_id": 6,
+        "word_count": 44
+      },
+      {
+        "window_id": 7,
+        "word_count": 23
+      },
+      {
+        "window_id": 8,
+        "word_count": 91
+      },
+      {
+        "window_id": 9,
+        "word_count": 10
+      },
+      {
+        "window_id": 10,
+        "word_count": 28
+      },
+      {
+        "window_id": 11,
+        "word_count": 24
+      },
+      {
+        "window_id": 12,
+        "word_count": 58
+      },
+      {
+        "window_id": 13,
+        "word_count": 14
+      },
+      {
+        "window_id": 14,
+        "word_count": 72
+      },
+      {
+        "window_id": 15,
+        "word_count": 55
+      },
+      {
+        "window_id": 16,
+        "word_count": 15
+      },
+      {
+        "window_id": 17,
+        "word_count": 12
+      },
+      {
+        "window_id": 18,
+        "word_count": 60
+      },
+      {
+        "window_id": 19,
+        "word_count": 1
+      },
+      {
+        "window_id": 20,
+        "word_count": 129
+      },
+      {
+        "window_id": 21,
+        "word_count": 13
+      },
+      {
+        "window_id": 22,
+        "word_count": 16
+      },
+      {
+        "window_id": 23,
+        "word_count": 23
+      },
+      {
+        "window_id": 24,
+        "word_count": 64
+      },
+      {
+        "window_id": 25,
+        "word_count": 36
+      },
+      {
+        "window_id": 26,
+        "word_count": 7
+      },
+      {
+        "window_id": 27,
+        "word_count": 2
+      },
+      {
+        "window_id": 28,
+        "word_count": 49
+      },
+      {
+        "window_id": 29,
+        "word_count": 41
+      },
+      {
+        "window_id": 30,
+        "word_count": 7
+      },
+      {
+        "window_id": 31,
+        "word_count": 35
+      },
+      {
+        "window_id": 32,
+        "word_count": 14
+      },
+      {
+        "window_id": 33,
+        "word_count": 90
+      },
+      {
+        "window_id": 34,
+        "word_count": 43
+      },
+      {
+        "window_id": 35,
+        "word_count": 81
+      },
+      {
+        "window_id": 36,
+        "word_count": 2
+      },
+      {
+        "window_id": 37,
+        "word_count": 79
+      },
+      {
+        "window_id": 38,
+        "word_count": 33
+      },
+      {
+        "window_id": 39,
+        "word_count": 5
+      },
+      {
+        "window_id": 40,
+        "word_count": 77
+      },
+      {
+        "window_id": 41,
+        "word_count": 32
+      },
+      {
+        "window_id": 42,
+        "word_count": 27
+      },
+      {
+        "window_id": 43,
+        "word_count": 74
+      },
+      {
+        "window_id": 44,
+        "word_count": 36
+      },
+      {
+        "window_id": 45,
+        "word_count": 5
+      },
+      {
+        "window_id": 46,
+        "word_count": 60
+      },
+      {
+        "window_id": 47,
+        "word_count": 1
+      },
+      {
+        "window_id": 48,
+        "word_count": 42
+      },
+      {
+        "window_id": 49,
+        "word_count": 64
+      }
+    ],
+    "artifacts": [
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/palette_layout.txt",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/mask_settings.txt"
+    ]
+  }
+}

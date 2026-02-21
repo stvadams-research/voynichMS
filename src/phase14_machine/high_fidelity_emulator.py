@@ -5,7 +5,7 @@ A full-scale mechanical emulator using a Lattice-Modulated Window system.
 """
 
 import random
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class HighFidelityVolvelle:
@@ -20,9 +20,9 @@ class HighFidelityVolvelle:
         current_scribe: The profile of the scribe agent (Hand 1 or Hand 2).
     """
     def __init__(self, 
-                 lattice_map: Dict[str, int], 
-                 window_contents: Dict[int, List[str]], 
-                 seed: Optional[int] = None,
+                 lattice_map: dict[str, int], 
+                 window_contents: dict[int, list[str]], 
+                 seed: int | None = None,
                  log_choices: bool = False) -> None:
         """
         Initializes the emulator with a solved lattice and window set.
@@ -40,7 +40,7 @@ class HighFidelityVolvelle:
         self.num_windows = len(self.window_contents)
         self.mask_state = 0
         self.log_choices = log_choices
-        self.choice_log: List[Dict[str, Any]] = []
+        self.choice_log: list[dict[str, Any]] = []
         
         # Scribe Agent Profiles (Based on Phase 7/14 calibration)
         self.scribe_profiles = {
@@ -58,7 +58,7 @@ class HighFidelityVolvelle:
         """Sets the current mask rotation state (0 to 11)."""
         self.mask_state = state % 12
 
-    def generate_token(self, window_idx: int, prev_word: Optional[str] = None, pos: int = 0) -> str:
+    def generate_token(self, window_idx: int, prev_word: str | None = None, pos: int = 0) -> str:
         """
         Generates a single token from a given window, applying scribe biases.
         
@@ -117,7 +117,7 @@ class HighFidelityVolvelle:
             
         return chosen_word
 
-    def generate_line(self, length: int) -> List[str]:
+    def generate_line(self, length: int) -> list[str]:
         """
         Generates a full line of synthetic Voynichese.
         
@@ -139,7 +139,7 @@ class HighFidelityVolvelle:
             
         return line
 
-    def generate_mirror_corpus(self, num_lines: int) -> List[List[str]]:
+    def generate_mirror_corpus(self, num_lines: int) -> list[list[str]]:
         """
         Generates a large-scale synthetic corpus mirroring the manuscript.
         
@@ -160,7 +160,7 @@ class HighFidelityVolvelle:
             corpus.append(self.generate_line(length=self.rng.randint(4, 10)))
         return corpus
 
-    def trace_lines(self, lines: List[List[str]]) -> None:
+    def trace_lines(self, lines: list[list[str]]) -> None:
         """
         Traces the real manuscript lines through the lattice and logs 
         the choice context for every admissible token.

@@ -24,8 +24,8 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
 
 BIAS_PATH = project_root / "results/data/phase14_machine/selection_bias.json"
 EFFORT_PATH = project_root / "results/data/phase16_physical/effort_correlation.json"
@@ -49,7 +49,7 @@ def main():
         return
 
     # 1. Load selection entropy from Phase 14P
-    with open(BIAS_PATH, "r") as f:
+    with open(BIAS_PATH) as f:
         bias_data = json.load(f)["results"]
 
     num_decisions = bias_data["admissible_choices"]
@@ -60,7 +60,7 @@ def main():
     # 2. Load ergonomic correlation from Phase 16B (if available)
     ergonomic_rho = None
     if EFFORT_PATH.exists():
-        with open(EFFORT_PATH, "r") as f:
+        with open(EFFORT_PATH) as f:
             effort_data = json.load(f)["results"]
         ergonomic_rho = effort_data.get("correlation_rho")
 
@@ -119,10 +119,10 @@ def main():
         )
     }
 
-    saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
 
     # Report
-    console.print(f"\n[green]Success! Bandwidth audit complete.[/green]")
+    console.print("\n[green]Success! Bandwidth audit complete.[/green]")
 
     table = Table(title="Steganographic Bandwidth Analysis")
     table.add_column("Metric", style="cyan")
@@ -142,12 +142,23 @@ def main():
 
     console.print(f"\nStego Threshold: {stego_threshold} bits/word")
     if has_sufficient_bandwidth:
-        console.print(f"[bold yellow]SUBSTANTIAL:[/bold yellow] At {realized_capacity_bpw:.2f} bits/word, "
-                      f"the manuscript's choices carry enough entropy to potentially encode hidden content.")
-        console.print("This does NOT prove meaning exists — only that the mechanical model does not rule it out.")
+        console.print(
+            f"[bold yellow]SUBSTANTIAL:[/bold yellow] "
+            f"At {realized_capacity_bpw:.2f} bits/word, "
+            "the manuscript's choices carry enough entropy "
+            "to potentially encode hidden content."
+        )
+        console.print(
+            "This does NOT prove meaning exists — only that "
+            "the mechanical model does not rule it out."
+        )
     else:
-        console.print(f"[bold green]CONSTRAINED:[/bold green] At {realized_capacity_bpw:.2f} bits/word, "
-                      f"the choice-stream lacks sufficient entropy for natural language encoding.")
+        console.print(
+            f"[bold green]CONSTRAINED:[/bold green] "
+            f"At {realized_capacity_bpw:.2f} bits/word, "
+            "the choice-stream lacks sufficient entropy "
+            "for natural language encoding."
+        )
 
     # Comparison table
     console.print("")

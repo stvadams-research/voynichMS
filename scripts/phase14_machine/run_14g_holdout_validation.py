@@ -19,15 +19,15 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     MetadataStore,
     PageRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from phase14_machine.palette_solver import GlobalPaletteSolver
+from phase14_machine.palette_solver import GlobalPaletteSolver  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 SLIP_PATH = project_root / "results/data/phase12_mechanical/slip_detection_results.json"
@@ -42,11 +42,25 @@ def get_section_lines(store, start_f, end_f):
     session = store.Session()
     try:
         rows = (
-            session.query(TranscriptionTokenRecord.content, PageRecord.id, TranscriptionLineRecord.id)
-            .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
-            .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
+            session.query(
+                TranscriptionTokenRecord.content,
+                PageRecord.id,
+                TranscriptionLineRecord.id,
+            )
+            .join(
+                TranscriptionLineRecord,
+                TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id,
+            )
+            .join(
+                PageRecord,
+                TranscriptionLineRecord.page_id == PageRecord.id,
+            )
             .filter(PageRecord.dataset_id == "voynich_real")
-            .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
+            .order_by(
+                PageRecord.id,
+                TranscriptionLineRecord.line_index,
+                TranscriptionTokenRecord.token_index,
+            )
             .all()
         )
 
@@ -79,7 +93,10 @@ def binomial_z_score(observed_rate, chance_rate, n):
 
 
 def main():
-    console.print("[bold green]Phase 14G: Holdout Validation (The Generalization Test)[/bold green]")
+    console.print(
+        "[bold green]Phase 14G: Holdout Validation"
+        " (The Generalization Test)[/bold green]"
+    )
 
     store = MetadataStore(DB_PATH)
 
@@ -106,7 +123,11 @@ def main():
 
     # Precompute chance baselines from window sizes
     vocab_in_lattice = set(lattice_map.keys())
-    avg_window_size = sum(len(v) for v in window_contents.values()) / num_windows if num_windows > 0 else 0
+    avg_window_size = (
+        sum(len(v) for v in window_contents.values()) / num_windows
+        if num_windows > 0
+        else 0
+    )
     total_lattice_vocab = len(vocab_in_lattice)
     strict_chance = avg_window_size / total_lattice_vocab if total_lattice_vocab > 0 else 0
     drift_chance = min(1.0, 3 * strict_chance)
@@ -162,7 +183,10 @@ def main():
         "train_lines": len(train_lines),
         "test_lines": len(test_lines),
         "total_test_tokens": total_tokens,
-        "note": "Holdout uses transitions-only model (no slips). Production model uses slips at weight=10.0.",
+        "note": (
+            "Holdout uses transitions-only model (no slips)."
+            " Production model uses slips at weight=10.0."
+        ),
         "strict": {
             "admissibility_rate": strict_rate,
             "chance_baseline": strict_chance,
@@ -177,7 +201,7 @@ def main():
         "admissibility_rate": drift_rate
     }
 
-    saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
     console.print("\n[green]Success! Holdout validation complete.[/green]")
 
     table = Table(title="Holdout Validation Results (Herbal → Biological)")
@@ -192,12 +216,21 @@ def main():
     console.print(table)
 
     if drift_z > 10:
-        console.print(f"\n[bold green]PASS:[/bold green] Holdout admissibility is {drift_z:.1f}σ above chance. "
-                      f"Lattice generalizes across sections.")
+        console.print(
+            f"\n[bold green]PASS:[/bold green] Holdout admissibility"
+            f" is {drift_z:.1f}\u03c3 above chance."
+            f" Lattice generalizes across sections."
+        )
     elif drift_z > 3:
-        console.print(f"\n[bold yellow]MARGINAL:[/bold yellow] Holdout admissibility is {drift_z:.1f}σ above chance.")
+        console.print(
+            f"\n[bold yellow]MARGINAL:[/bold yellow] Holdout"
+            f" admissibility is {drift_z:.1f}\u03c3 above chance."
+        )
     else:
-        console.print(f"\n[bold red]FAIL:[/bold red] Holdout admissibility not significantly above chance ({drift_z:.1f}σ).")
+        console.print(
+            f"\n[bold red]FAIL:[/bold red] Holdout admissibility"
+            f" not significantly above chance ({drift_z:.1f}\u03c3)."
+        )
 
 if __name__ == "__main__":
     with active_run(config={"seed": 42, "command": "run_14g_holdout_validation"}):

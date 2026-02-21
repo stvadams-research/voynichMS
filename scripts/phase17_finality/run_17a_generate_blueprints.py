@@ -14,8 +14,8 @@ from rich.console import Console
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
 
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
 OUTPUT_DIR = project_root / "results/visuals/phase17_finality"
@@ -29,7 +29,7 @@ def main():
         return
 
     # 1. Load Model
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         data = json.load(f)["results"]
     window_contents = data["window_contents"]
 
@@ -47,7 +47,10 @@ def main():
         sheet.append(" | ".join(row))
 
     palette_grid = "\n".join(sheet)
-    avg_words = sum(w["word_count"] for w in window_stats) / len(window_stats) if window_stats else 0
+    avg_words = (
+        sum(w["word_count"] for w in window_stats) / len(window_stats)
+        if window_stats else 0
+    )
 
     # 3. Save Blueprint Artifacts
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -84,7 +87,11 @@ def main():
     )
 
     console.print(f"\n[green]Success! Physical blueprints generated in:[/green] {OUTPUT_DIR}")
-    console.print(f"  Windows: {len(window_contents)}, Total Words: {results['total_words']}, Avg/Window: {avg_words:.0f}")
+    console.print(
+        f"  Windows: {len(window_contents)}, "
+        f"Total Words: {results['total_words']}, "
+        f"Avg/Window: {avg_words:.0f}"
+    )
 
 if __name__ == "__main__":
     with active_run(config={"seed": 42, "command": "run_17a_generate_blueprints"}):

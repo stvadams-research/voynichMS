@@ -5,21 +5,21 @@ Measures the entropy of the 'choice stream' (word indices within windows)
 to prove non-random selection bias.
 """
 
-import sys
 import json
 import math
-import numpy as np
-from pathlib import Path
-from rich.console import Console
+import sys
 from collections import Counter
+from pathlib import Path
+
+from rich.console import Console
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.queries import get_lines_from_store
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import get_lines_from_store  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -27,7 +27,8 @@ OUTPUT_PATH = project_root / "results/data/phase14_machine/selection_bias.json"
 console = Console()
 
 def calculate_entropy(data):
-    if not data: return 0.0
+    if not data:
+        return 0.0
     counts = Counter(data)
     total = len(data)
     return -sum((c/total) * math.log2(c/total) for c in counts.values())
@@ -40,7 +41,7 @@ def main():
         return
 
     # 1. Load Model
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         data = json.load(f)["results"]
     lattice_map = data["lattice_map"]
     window_contents = {int(k): v for k, v in data["window_contents"].items()}
@@ -57,12 +58,12 @@ def main():
     
     for line in real_lines:
         for word in line:
-            if word not in lattice_map: continue
+            if word not in lattice_map:
+                continue
             total_clamped += 1
-            
+
             # Find which window word belongs to
             target_win = lattice_map[word]
-            win_words = window_contents.get(target_win, [])
             
             # Check if it's in the neighborhood of current state (Admissible)
             found = False
@@ -92,7 +93,8 @@ def main():
     current_window = 0
     for line in real_lines:
         for word in line:
-            if word not in lattice_map: continue
+            if word not in lattice_map:
+                continue
             target_win = lattice_map[word]
             found = False
             for offset in [-1, 0, 1]:
@@ -114,20 +116,33 @@ def main():
         "admissible_choices": len(choice_stream),
         "real_choice_entropy": real_entropy,
         "uniform_random_entropy": uniform_entropy,
-        "entropy_reduction": (uniform_entropy - real_entropy) / uniform_entropy if uniform_entropy > 0 else 0
+        "entropy_reduction": (
+            (uniform_entropy - real_entropy) / uniform_entropy
+            if uniform_entropy > 0 else 0
+        )
     }
     
-    saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
     
     console.print("\n[green]Success! Selection bias analysis complete.[/green]")
     console.print(f"  Real Choice Entropy: [bold]{real_entropy:.4f} bits/word[/bold]")
     console.print(f"  Uniform Random Baseline: [bold]{uniform_entropy:.4f} bits/word[/bold]")
-    console.print(f"  Selection Bias Efficiency: [bold green]{results['entropy_reduction']*100:.2f}% improvement[/bold green]")
-    
+    ent_red_pct = results['entropy_reduction'] * 100
+    console.print(
+        f"  Selection Bias Efficiency: "
+        f"[bold green]{ent_red_pct:.2f}% improvement[/bold green]"
+    )
+
     if results['entropy_reduction'] > 0.10:
-        console.print("\n[bold green]PASS:[/bold green] Word selection is significantly non-random.")
+        console.print(
+            "\n[bold green]PASS:[/bold green] "
+            "Word selection is significantly non-random."
+        )
     else:
-        console.print("\n[bold yellow]WARNING:[/bold yellow] Low selection bias detected. Choices are near-uniform.")
+        console.print(
+            "\n[bold yellow]WARNING:[/bold yellow] "
+            "Low selection bias detected. Choices are near-uniform."
+        )
 
 if __name__ == "__main__":
     with active_run(config={"seed": 42, "command": "run_14p_selection_bias"}):

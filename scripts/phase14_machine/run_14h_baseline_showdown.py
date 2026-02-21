@@ -20,10 +20,10 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.core.queries import get_lines_from_store
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import get_lines_from_store  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -175,7 +175,6 @@ def table_grille_mdl(all_tokens, lines, num_cells=50):
     to draw from. Each cell has its own unigram distribution.
     """
     vocab_size = len(set(all_tokens))
-    fallback_cost = math.log2(vocab_size) if vocab_size > 1 else 1.0
 
     # Assign tokens to cells by position
     cell_counts = defaultdict(Counter)
@@ -212,12 +211,12 @@ def main():
     # 1. Load Real Data
     store = MetadataStore(DB_PATH)
     real_lines = get_lines_from_store(store, "voynich_real")
-    all_tokens = [t for l in real_lines for t in l]
+    all_tokens = [t for line in real_lines for t in line]
     total_tokens = len(all_tokens)
     console.print(f"Loaded {total_tokens} tokens across {len(real_lines)} lines.")
 
     # 2. Load Lattice
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         p_data = json.load(f)
     lattice_results = p_data.get("results", p_data)
     lattice_map = lattice_results.get("lattice_map", {})
@@ -256,7 +255,7 @@ def main():
             "bpt": m["l_total"] / total_tokens
         }
 
-    saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
 
     table = Table(title="Model Comparison (Two-Part MDL)")
     table.add_column("Model Family", style="cyan")
