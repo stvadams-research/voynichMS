@@ -1,0 +1,18 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T03:36:57.608957+00:00"
+  },
+  "results": {
+    "comparison": "herbal_vs_biological",
+    "overlap": {
+      "overlap_score": 0.005784805244890089,
+      "shared_contexts": 2593,
+      "exact_matches": 15
+    },
+    "structural_similarity": {
+      "structural_correlation": 0.7213449527489955,
+      "is_mechanically_equivalent": false
+    }
+  }
+}

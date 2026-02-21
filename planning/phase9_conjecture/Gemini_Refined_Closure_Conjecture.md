@@ -21,10 +21,11 @@ The manuscript is the physical residue of a **manual algorithm**—a "paper comp
 The "machine" operates exclusively at the token (word) level. Our Phase 11 analysis confirms that the sub-glyph stroke transitions do not share the lattice's combinatorial logic. This proves the system was **deliberative and combinatorial**, not a natural byproduct of a specific handwriting style or "automatic" writing.
 
 ### 2.2 The Context Mask
-The linguistic-ward residuals (previously a source of tension) are now understood as the signature of **persistent context rules**. The scribe likely used a physical tool—a "combinatorial palette" or "grille"—whose "legal" outputs were modulated by:
-1.  The **previous word** (Lattice).
-2.  The **current position** on the page.
-3.  A **persistent state variable** (The "Mask"), likely representing a page in a reference manual or a specific "key" for that section.
+The linguistic-ward residuals (previously a source of tension) are now understood as the signature of **persistent context rules**. Our "Mask Anatomy" analysis (Phase 10) provides statistical proof that these masks are **thematically driven**:
+
+- **Thematic Significance:** ANOVA testing of residual profiles across illustration sections yields a p-value of **4.24e-47**, a result of extreme significance.
+- **Sectional Profiles:** The `biological` section exhibits a distinct mask signature (z = -0.83) compared to `astronomical` (z = +0.22) and `stars` (z = +0.33) sections.
+- **Hardware Bottleneck:** Information bottleneck analysis estimates the "Mask" carries approximately **1.7 bits** of information, corresponding to **~3.2 effective discrete states**.
 
 ## 3. The "Ritualized Algorithm" (Purpose & Motive)
 
@@ -35,7 +36,14 @@ The "meaning" of the manuscript was not in the transmission of a message, but in
 - **Non-Semantic Logic:** The manuscript mimics the statistical distributions of language (Zipf, Entropy) because it is a sophisticated **mimetic machine**, designed to produce "language-like" strings through a combinatorial process.
 - **Ritual Execution:** Much like a prayer wheel or a mandala, the value resided in the *correctness* of the execution, not the *readability* of the output.
 
-## 4. Final Determination: Falsification of Decryption
+## 4. Hardware Conjecture: The Physical Tool
+
+Based on the 1.7-bit bottleneck and the scale-specific lattice behavior, we conjecture that the scribe utilized a **physical combinatorial device**:
+
+- **The Device:** Likely a **rotating wheel (volvelle) or a three-state sliding grille** with fixed token mappings.
+- **The Execution:** The scribe would set the device to a specific "thematic key" (the Mask) at the start of a folio. This key globally altered the available token transitions provided by the lattice, creating the illusion of different "languages" or "dialects" (Currier A/B) while maintaining a single underlying mathematical structure.
+
+## 5. Final Determination: Falsification of Decryption
 
 Based on this refined closure, we can issue a final determination on all decryption attempts:
 

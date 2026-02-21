@@ -1,0 +1,12 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T03:37:39.707517+00:00"
+  },
+  "results": {
+    "prototype_config": "4-ring_8-sector_3-state",
+    "real_global_entropy": 12.258255993226053,
+    "syn_global_entropy": 4.042679969851304,
+    "entropy_similarity": 0.3297924249652888
+  }
+}
