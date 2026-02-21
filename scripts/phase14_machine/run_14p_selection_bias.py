@@ -19,6 +19,7 @@ sys.path.insert(0, str(project_root / "src"))
 from phase1_foundation.storage.metadata import MetadataStore
 from phase1_foundation.core.queries import get_lines_from_store
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.runs.manager import active_run
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -129,4 +130,5 @@ def main():
         console.print("\n[bold yellow]WARNING:[/bold yellow] Low selection bias detected. Choices are near-uniform.")
 
 if __name__ == "__main__":
-    main()
+    with active_run(config={"seed": 42, "command": "run_14p_selection_bias"}):
+        main()

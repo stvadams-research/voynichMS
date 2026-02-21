@@ -9,8 +9,10 @@ import sys
 from pathlib import Path
 
 def run_command(cmd):
-    print(f"
->> Executing: {cmd}")
+    print(f"\n>> Executing: {cmd}")
+    # Fix: Ensure we use the virtualenv python
+    if cmd.startswith("python3"):
+        cmd = cmd.replace("python3", "./.venv/bin/python3")
     result = subprocess.run(cmd, shell=True)
     if result.returncode != 0:
         print(f"Error executing {cmd}")
@@ -43,12 +45,10 @@ def main():
     run_command("python3 scripts/phase14_machine/run_14o_export_logic.py")
 
     # 5. Generate Word Report
-    print("
->> Generating Phase 14 Word Report...")
+    print("\n>> Generating Phase 14 Word Report...")
     run_command("python3 scripts/support_preparation/generate_publication.py --phase 14")
 
-    print("
-[SUCCESS] Phase 14 Replication Complete.")
+    print("\n[SUCCESS] Phase 14 Replication Complete.")
 
 if __name__ == "__main__":
     main()

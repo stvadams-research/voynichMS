@@ -6,8 +6,9 @@ admissibility, MDL (Description Length), and overgeneration.
 """
 
 import math
-from typing import List, Set, Dict, Any, Tuple, Optional
 from collections import Counter, defaultdict
+from typing import Any, Dict, List, Set, Tuple
+
 
 class EvaluationEngine:
     """
@@ -40,70 +41,98 @@ class EvaluationEngine:
         covered = sum(1 for t in tokens if t in self.vocab)
         return covered / len(tokens)
 
-    def calculate_admissibility(self, 
-                               lines: List[List[str]], 
-                               lattice_map: Dict[str, int], 
-                               window_contents: Dict[int, List[str]], 
+    def calculate_admissibility(self,
+                               lines: List[List[str]],
+                               lattice_map: Dict[str, int],
+                               window_contents: Dict[int, List[str]],
                                fuzzy_suffix: bool = False) -> Dict[str, Any]:
         """
         Measures how often real transitions follow the physical lattice constraints.
-        
+        Reports both strict (offset=0 only) and drift (±1) admissibility rates,
+        plus a chance baseline for each.
+
         Args:
             lines: The real manuscript lines (tokens).
             lattice_map: Mapping from word to its predicted next window ID.
             window_contents: Mapping from window ID to the list of words in that window.
-            fuzzy_suffix: If True, allows admissibility if any word in the target window 
+            fuzzy_suffix: If True, allows admissibility if any word in the target window
                          shares the same suffix as the actual word (simulates scribe bias).
-                         
+
         Returns:
-            A dictionary containing the admissibility rate and total clamped tokens processed.
+            A dictionary containing strict and drift admissibility rates,
+            chance baselines, and total clamped tokens processed.
         """
-        admissible_count = 0
+        strict_admissible = 0
+        drift_admissible = 0
         total_transitions = 0
         current_window = 0
-        
+
+        num_wins = len(window_contents)
         suffixes = ["dy", "in", "y", "m", "ol"]
-        
+
+        # Precompute chance baseline: probability a random vocab word
+        # falls in k windows by vocabulary overlap
+        all_window_words = set()
+        for wid, words in window_contents.items():
+            all_window_words.update(words)
+        total_lattice_vocab = len(all_window_words)
+        avg_window_size = sum(len(v) for v in window_contents.values()) / num_wins if num_wins > 0 else 0
+        strict_chance = avg_window_size / total_lattice_vocab if total_lattice_vocab > 0 else 0
+        drift_chance = min(1.0, 3 * strict_chance)  # 3 windows checked
+
         for line in lines:
             for word in line:
-                if word not in self.vocab: 
+                if word not in self.vocab:
                     continue
-                
+
                 total_transitions += 1
-                is_valid = False
-                
-                # Admissible if word is in current window or adjacent (drift)
-                num_wins = len(window_contents)
-                for offset in [-1, 0, 1]:
-                    check_win = (current_window + offset) % num_wins
-                    win_words = window_contents.get(check_win, [])
-                    if word in win_words:
-                        is_valid = True
-                        current_window = check_win
-                        break
-                    
-                    if fuzzy_suffix:
-                        # Check if ANY word in window has same suffix (Scribe Suffix Bias)
-                        for s in suffixes:
-                            if word.endswith(s):
-                                if any(w.endswith(s) for w in win_words):
-                                    is_valid = True
-                                    current_window = check_win
-                                    break
-                        if is_valid: 
+                is_strict = False
+                is_drift = False
+
+                # Check strict (offset=0 only)
+                win_words = window_contents.get(current_window, [])
+                if word in win_words:
+                    is_strict = True
+                    is_drift = True
+
+                # Check drift (±1) if not already strict
+                if not is_drift:
+                    for offset in [-1, 1]:
+                        check_win = (current_window + offset) % num_wins
+                        drift_words = window_contents.get(check_win, [])
+                        if word in drift_words:
+                            is_drift = True
+                            current_window = check_win
                             break
-                
-                if is_valid:
-                    admissible_count += 1
-                    # Advance to next predicted window
+
+                        if fuzzy_suffix:
+                            for s in suffixes:
+                                if word.endswith(s):
+                                    if any(w.endswith(s) for w in drift_words):
+                                        is_drift = True
+                                        current_window = check_win
+                                        break
+                            if is_drift:
+                                break
+
+                if is_strict:
+                    strict_admissible += 1
+                    drift_admissible += 1
+                    current_window = lattice_map.get(word, (current_window + 1) % num_wins)
+                elif is_drift:
+                    drift_admissible += 1
                     current_window = lattice_map.get(word, (current_window + 1) % num_wins)
                 else:
-                    # Snap to real window if word is known, to recover from the error
+                    # Snap to real window if word is known, to recover
                     if word in lattice_map:
                         current_window = lattice_map[word]
-                        
+
         return {
-            "admissibility_rate": admissible_count / total_transitions if total_transitions > 0 else 0,
+            "strict_admissibility": strict_admissible / total_transitions if total_transitions > 0 else 0,
+            "drift_admissibility": drift_admissible / total_transitions if total_transitions > 0 else 0,
+            "admissibility_rate": drift_admissible / total_transitions if total_transitions > 0 else 0,
+            "strict_chance_baseline": strict_chance,
+            "drift_chance_baseline": drift_chance,
             "total_clamped_tokens": total_transitions
         }
 

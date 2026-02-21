@@ -123,6 +123,69 @@ raw float (e.g., 88.11% = 0.8811).
 
 ---
 
+## Phase 11 — Stroke Topology
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 48 | Test A Spearman rho | 0.0157 | `run_11b_cluster.py` | `results/data/phase11_stroke/test_a_clustering.json` | `results.partial_rho` | Determination: NULL (p=0.307) |
+| 49 | Test B boundary MI | 0.1219 bits | `run_11c_transitions.py` | `results/data/phase11_stroke/test_b_transitions.json` | `results.boundary_mi` | Determination: NULL (p=0.711) |
+
+---
+
+## Phase 12 — Mechanical Slip Detection
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 50 | Mechanical slips detected | 914 | `run_12a_slip_detection.py` | `results/data/phase12_mechanical/slip_detection_results.json` | `results.num_slips` | Signal-to-noise: 19.87x (no formal p-value) |
+| 51 | Slip rate | 0.89% | `run_12a_slip_detection.py` | `results/data/phase12_mechanical/slip_detection_results.json` | `results.slip_rate` | |
+| 52 | Section structural correlation | 0.721 | `run_12d_matrix_alignment.py` | `results/data/phase12_mechanical/cross_section_analysis.json` | `results.structural_correlation` | Herbal vs Biological |
+
+---
+
+## Phase 14 — Voynich Engine (Mechanical Reconstruction)
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 53 | Drift admissibility rate | 64.66% | `run_14c_mirror_corpus.py` | `results/data/phase14_machine/mirror_corpus_evaluation.json` | `results.admissibility_rate` | ±1 window drift; strict rate also reported |
+| 54 | Token coverage | 81.64% | `run_14c_mirror_corpus.py` | `results/data/phase14_machine/mirror_corpus_evaluation.json` | `results.coverage` | Lexicon clamp: top 7,755 tokens |
+| 55 | Synthetic entropy | 11.49 bits | `run_14c_mirror_corpus.py` | `results/data/phase14_machine/mirror_corpus_evaluation.json` | `results.synthetic_entropy` | Real: 12.26 bits (93.7% fit) |
+| 56 | Holdout admissibility (Herbal→Biological) | 13.26% | `run_14g_holdout_validation.py` | `results/data/phase14_machine/holdout_performance.json` | `results.drift.admissibility_rate` | Transition-only model (no slips) |
+| 57 | Holdout z-score | See output | `run_14g_holdout_validation.py` | `results/data/phase14_machine/holdout_performance.json` | `results.drift.z_score` | Computed vs binomial chance baseline |
+| 58 | MDL: Lattice BPT | See output | `run_14h_baseline_showdown.py` | `results/data/phase14_machine/baseline_comparison.json` | `results.models.Lattice (Ours).bpt` | Two-part MDL with proper L(data\|model) |
+| 59 | Optimal window count | 50 | `run_14q_minimality_sweep.py` | `results/data/phase14_machine/minimality_sweep.json` | `results.optimal_k` | Complexity knee |
+
+---
+
+## Phase 15 — Instrumented Choice & Rule Extraction
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 60 | Scribal decisions logged | 49,159 | `run_15a_trace_instrumentation.py` | `results/data/phase15_selection/choice_stream_trace.json` | `results.num_decisions` | |
+| 61 | Average selection skew | 24.93% | `run_15c_bias_and_compressibility.py` | `results/data/phase15_selection/bias_modeling.json` | `results.avg_skew` | Per-window max entropy corrected |
+| 62 | Compressibility improvement | See output | `run_15c_bias_and_compressibility.py` | `results/data/phase15_selection/bias_modeling.json` | `results.compression.improvement` | Positive = more compressible than random |
+
+---
+
+## Phase 16 — Ergonomic Grounding
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 63 | Effort correlation (Spearman rho) | See output | `run_16b_effort_correlation.py` | `results/data/phase16_physical/effort_correlation.json` | `results.correlation_rho` | Effort vs within-window selection frequency |
+| 64 | Variance explained (rho²) | See output | `run_16b_effort_correlation.py` | `results/data/phase16_physical/effort_correlation.json` | `results.interpretation` | |
+| 65 | Grid layout efficiency | 68.33% | `run_16c_layout_projection.py` | `results/data/phase16_physical/layout_projection.json` | `results.grid_efficiency` | vs random baseline |
+
+---
+
+## Phase 17 — Physical Synthesis & Bandwidth Audit
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 66 | Realized steganographic bandwidth | See output | `run_17b_bandwidth_audit.py` | `results/data/phase17_finality/bandwidth_audit.json` | `results.realized_bandwidth_bpw` | Bits/word available for hidden content |
+| 67 | Total steganographic capacity | See output | `run_17b_bandwidth_audit.py` | `results/data/phase17_finality/bandwidth_audit.json` | `results.total_capacity_kb` | KB of encodable information |
+| 68 | Bandwidth judgment | See output | `run_17b_bandwidth_audit.py` | `results/data/phase17_finality/bandwidth_audit.json` | `results.has_sufficient_bandwidth` | Whether enough entropy for hidden natural language |
+
+---
+
 ## Traceability Notes
 
 1. **Static config values:** Repetition rate (0.9003) and mapping stability (0.02)
@@ -151,7 +214,8 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 42 | #1, #6-47 |
+| **Fully verifiable** (JSON key path exists) | 57 | #1, #6-65 |
+| **Pending re-run** (scripts fixed, need re-execution) | 3 | #58, #63, #64 |
 | **Console-only** (requires script re-run) | 2 | #2, #3 |
 | **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
 | **Static config** (manually synchronized) | 1 | #1 (also in config) |

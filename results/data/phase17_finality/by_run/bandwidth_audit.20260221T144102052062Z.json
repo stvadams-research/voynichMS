@@ -1,0 +1,14 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T14:41:02.052053+00:00"
+  },
+  "results": {
+    "num_decisions": 49159,
+    "bits_per_word_raw": 8.097358003907276,
+    "intent_bandwidth_bits_per_word": 6.207434645795318,
+    "total_steganographic_capacity_kb": 48.59106715259738,
+    "max_latin_chars_total": 99514.50552851944,
+    "bandwidth_judgment": "INSIGNIFICANT"
+  }
+}

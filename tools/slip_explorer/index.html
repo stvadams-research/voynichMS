@@ -53,7 +53,7 @@
     <div id="pane-slips" class="scroll-area">
         <div class="upload-card">
             <strong>1. Mechanical Slips</strong> <span id="status-slips" style="float:right; color:#d93025">● Offline</span>
-            <input type="file" onchange="handleFile(this, 'slips')" style="margin-top:10px; width:100%">
+            <input type="file" id="input-slips" onchange="handleFile(this, 'slips')" style="margin-top:10px; width:100%">
         </div>
         <div id="list-slips"></div>
     </div>
@@ -61,7 +61,7 @@
     <div id="pane-lattice" class="scroll-area" style="display:none">
         <div class="upload-card">
             <strong>2. Machine Grid</strong> <span id="status-grid" style="float:right; color:#d93025">● Offline</span>
-            <input type="file" onchange="handleFile(this, 'grid')" style="margin-top:10px; width:100%">
+            <input type="file" id="input-grid" onchange="handleFile(this, 'grid')" style="margin-top:10px; width:100%">
         </div>
         <div id="list-windows"></div>
     </div>
@@ -72905,15 +72905,17 @@
     function processData(data, type) {
         if(type === 'slips') {
             app.slips = data.slips || [];
-            document.getElementById('status-slips').innerText = "● Live";
+            document.getElementById('status-slips').innerText = "● Live (Embedded)";
             document.getElementById('status-slips').style.color = "#188038";
+            document.getElementById('input-slips').style.display = "none";
             document.getElementById('welcome-slips').style.display = 'none';
             document.getElementById('viz-slips').style.display = 'block';
             renderSlipSidebar();
         } else {
             app.grid = data.results || data;
-            document.getElementById('status-grid').innerText = "● Live";
+            document.getElementById('status-grid').innerText = "● Live (Embedded)";
             document.getElementById('status-grid').style.color = "#188038";
+            document.getElementById('input-grid').style.display = "none";
             renderWindowSidebar();
             renderLattice();
         }
@@ -73018,7 +73020,7 @@
         
         const words = app.grid.window_contents[winId] || [];
         // Only show top 24 words to keep UI clean
-        words.slice(0, 24).forEach(word => {
+        words.forEach(word => {
             const nextWin = app.grid.lattice_map[word];
             const div = document.createElement('div');
             div.className = 'engine-word';

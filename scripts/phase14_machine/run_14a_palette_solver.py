@@ -38,7 +38,25 @@ def main():
     slips = slips_data.get("results", slips_data).get("slips", [])
     
     store = MetadataStore(DB_PATH)
-    lines = get_lines_from_store(store, "voynich_real")
+    # Filter strictly for the canonical ZL transcription
+    lines_raw = get_lines_from_store(store, "voynich_real", source_id="zandbergen_landini")
+    
+    # 1.1 Token Sanitization
+    import re
+    def sanitize(t):
+        t = re.sub(r'<!.*?>', '', t) # Remove inline metadata
+        t = re.sub(r'<.*?>', '', t)  # Remove brackets
+        t = re.sub(r'[\{\}\[\]\*\$]', '', t) # Remove transcription symbols
+        t = t.replace('.', '').replace(',', '') # Remove dots/commas
+        return t.strip()
+
+    lines = []
+    for line in lines_raw:
+        clean_line = [sanitize(t) for t in line if sanitize(t)]
+        if clean_line:
+            lines.append(clean_line)
+            
+    console.print(f"Loaded [bold cyan]{len(lines)}[/bold cyan] canonical lines from Zandbergen-Landini.")
     
     # 2. Solve Palette
     solver = GlobalPaletteSolver()

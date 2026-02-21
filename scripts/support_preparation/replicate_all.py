@@ -66,7 +66,8 @@ def main():
         (11, "phase11_stroke"),
         (12, "phase12_mechanical"),
         (13, "phase13_demonstration"),
-        (14, "phase14_machine")
+        (14, "phase14_machine"),
+        (17, "phase17_finality")
     ]
 
     for num, path in phases:

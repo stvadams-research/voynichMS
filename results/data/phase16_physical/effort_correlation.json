@@ -1,0 +1,13 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T14:26:02.321458+00:00"
+  },
+  "results": {
+    "num_samples": 49159,
+    "correlation_rho": 0.2333976919004971,
+    "p_value": 0.0,
+    "avg_effort_gradient": 1.2737995228094239,
+    "is_ergonomically_coupled": true
+  }
+}

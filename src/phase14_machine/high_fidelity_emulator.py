@@ -4,9 +4,9 @@ High-Fidelity Voynich Engine (Phase 14)
 A full-scale mechanical emulator using a Lattice-Modulated Window system.
 """
 
-from typing import List, Dict, Any, Optional
 import random
-import numpy as np
+from typing import Any, Dict, List, Optional
+
 
 class HighFidelityVolvelle:
     """
@@ -22,7 +22,8 @@ class HighFidelityVolvelle:
     def __init__(self, 
                  lattice_map: Dict[str, int], 
                  window_contents: Dict[int, List[str]], 
-                 seed: Optional[int] = None) -> None:
+                 seed: Optional[int] = None,
+                 log_choices: bool = False) -> None:
         """
         Initializes the emulator with a solved lattice and window set.
         
@@ -30,6 +31,7 @@ class HighFidelityVolvelle:
             lattice_map: Mapping from token to next window index.
             window_contents: Mapping from window index to token list.
             seed: Optional seed for reproducibility.
+            log_choices: If True, records the context of every generated token.
         """
         self.rng = random.Random(seed)
         self.lattice_map = lattice_map 
@@ -37,6 +39,8 @@ class HighFidelityVolvelle:
         self.window_contents = {int(k): v for k, v in window_contents.items()}
         self.num_windows = len(self.window_contents)
         self.mask_state = 0
+        self.log_choices = log_choices
+        self.choice_log: List[Dict[str, Any]] = []
         
         # Scribe Agent Profiles (Based on Phase 7/14 calibration)
         self.scribe_profiles = {
@@ -54,13 +58,14 @@ class HighFidelityVolvelle:
         """Sets the current mask rotation state (0 to 11)."""
         self.mask_state = state % 12
 
-    def generate_token(self, window_idx: int, prev_word: Optional[str] = None) -> str:
+    def generate_token(self, window_idx: int, prev_word: Optional[str] = None, pos: int = 0) -> str:
         """
         Generates a single token from a given window, applying scribe biases.
         
         Args:
             window_idx: The base window index to select from.
             prev_word: The previously generated word (for repetition bias).
+            pos: Current word index in line.
             
         Returns:
             A single generated token string.
@@ -75,30 +80,42 @@ class HighFidelityVolvelle:
             
         candidates = []
         # Simulate the scribe scanning the window for 'attractive' candidates
-        # We sample 20 random tokens from the window and weight them by bias
         for _ in range(20):
             idx = self.rng.randint(0, len(col) - 1)
             word = col[idx]
             
-            # 1. Base Suffix Bias (Physical ergonomics of certain strokes)
+            # 1. Base Suffix Bias
             weight = 1.0
             for s, w in profile['suffix_weights'].items():
                 if word.endswith(s): 
                     weight += w
             
-            # 2. Repetition Echo (Phase 14.3):
-            # Scribes are biased toward echoing character patterns from the 
-            # previous word (Physical stroke-rhythm).
+            # 2. Repetition Echo
             if prev_word:
-                # Simple character-set overlap as proxy for stroke-rhythm similarity
                 overlap = len(set(word) & set(prev_word))
                 weight += (overlap * 2.0)
                 
-            candidates.append((word, weight))
+            candidates.append((word, weight, idx))
             
         words = [c[0] for c in candidates]
         weights = [c[1] for c in candidates]
-        return self.rng.choices(words, weights=weights, k=1)[0]
+        chosen_word = self.rng.choices(words, weights=weights, k=1)[0]
+        
+        if self.log_choices:
+            # Find the original index of the chosen word in the window
+            chosen_orig_idx = col.index(chosen_word)
+            self.choice_log.append({
+                "window_id": modulated_idx,
+                "candidates_count": len(col),
+                "chosen_word": chosen_word,
+                "chosen_index": chosen_orig_idx,
+                "token_pos": pos,
+                "prev_word": prev_word,
+                "mask_state": self.mask_state,
+                "scribe": self.current_scribe
+            })
+            
+        return chosen_word
 
     def generate_line(self, length: int) -> List[str]:
         """
@@ -111,14 +128,12 @@ class HighFidelityVolvelle:
             A list of token strings.
         """
         line = []
-        # Lines usually start from a stable reset point or random entry
         current_window = self.rng.randint(0, self.num_windows - 1)
         prev_word = None
         
         for p in range(length):
-            word = self.generate_token(current_window, prev_word=prev_word)
+            word = self.generate_token(current_window, prev_word=prev_word, pos=p)
             line.append(word)
-            # Lattice advances the machine state to the next window
             current_window = self.lattice_map.get(word, (current_window + 1) % self.num_windows)
             prev_word = word
             
@@ -142,5 +157,50 @@ class HighFidelityVolvelle:
             # Simulate frequent mask rotations (settings)
             if i % 20 == 0:
                 self.set_mask(self.rng.randint(0, 11))
-            corpus.append(self.generate_line(length=random.randint(4, 10)))
+            corpus.append(self.generate_line(length=self.rng.randint(4, 10)))
         return corpus
+
+    def trace_lines(self, lines: List[List[str]]) -> None:
+        """
+        Traces the real manuscript lines through the lattice and logs 
+        the choice context for every admissible token.
+        
+        Args:
+            lines: List of manuscript lines (tokenized).
+        """
+        current_window = 0
+        prev_word = None
+        
+        for l_idx, line in enumerate(lines):
+            for p_idx, word in enumerate(line):
+                # 1. Check if word is known
+                if word not in self.lattice_map:
+                    # Snapping logic
+                    continue
+                
+                # 2. Check Admissibility
+                found_win = None
+                for offset in [-1, 0, 1]:
+                    check_win = (current_window + offset) % self.num_windows
+                    col = self.window_contents.get(check_win, [])
+                    if word in col:
+                        found_win = check_win
+                        break
+                
+                if found_win is not None:
+                    # Log the choice
+                    chosen_orig_idx = self.window_contents[found_win].index(word)
+                    self.choice_log.append({
+                        "type": "real_trace",
+                        "line_no": l_idx,
+                        "token_pos": p_idx,
+                        "window_id": found_win,
+                        "candidates_count": len(self.window_contents[found_win]),
+                        "chosen_word": word,
+                        "chosen_index": chosen_orig_idx,
+                        "prev_word": prev_word
+                    })
+
+                # Advance machine to next predicted window
+                current_window = self.lattice_map.get(word, (current_window + 1) % self.num_windows)
+                prev_word = word

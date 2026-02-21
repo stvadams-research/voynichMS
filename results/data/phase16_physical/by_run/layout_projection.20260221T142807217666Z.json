@@ -1,0 +1,12 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T14:28:07.217658+00:00"
+  },
+  "results": {
+    "avg_grid_dist": 1.2943992521612373,
+    "avg_circle_dist": 4.956445002033528,
+    "random_baseline_grid": 4.087432085712011,
+    "grid_efficiency": 0.6833221384433696
+  }
+}

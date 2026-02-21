@@ -18,22 +18,25 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def get_lines_from_store(store: MetadataStore, dataset_id: str) -> List[List[str]]:
+def get_lines_from_store(store: MetadataStore, dataset_id: str, source_id: str = None) -> List[List[str]]:
     """Extract tokenized lines from the database in page/line order."""
     session = store.Session()
     try:
-        rows = (
+        query = (
             session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
             .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
             .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
             .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(
+        )
+        
+        if source_id:
+            query = query.filter(TranscriptionLineRecord.source_id == source_id)
+            
+        rows = query.order_by(
                 PageRecord.id,
                 TranscriptionLineRecord.line_index,
                 TranscriptionTokenRecord.token_index,
-            )
-            .all()
-        )
+            ).all()
 
         lines: List[List[str]] = []
         current_line: List[str] = []

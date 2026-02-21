@@ -40,6 +40,9 @@ The project has executable phase runners through **Phase 14**, an automated
 12. **Phase 12 (Mechanical Reconstruction)**: Large-scale detection of vertical eye-slips and physical columnar reconstruction.
 13. **Phase 13 (Interactive Demonstration)**: Interactive "Mechanical Sandbox" and Evidence Gallery generation.
 14. **Phase 14 (Voynich Engine)**: Reconstructing the full physical device (grille/volvelle) with 100% statistical fit and formal parsimony proof.
+15. **Phase 15 (Rule Formalization)**: Extraction of the declarative rule table and choice stream instrumentation.
+16. **Phase 16 (Physical Grounding)**: Ergonomic and geometric verification of the 10x5 sliding grille.
+17. **Phase 17 (Finality)**: Physical synthesis (blueprints) and steganographic bandwidth boundary mapping.
 
 ### Key Findings
 1.  **Natural-language/simple-cipher hypotheses are not supported:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic.
