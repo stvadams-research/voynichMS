@@ -1,0 +1,17 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T12:53:10.254698+00:00"
+  },
+  "results": {
+    "num_real_tokens": 38800,
+    "num_syn_tokens": 7754,
+    "num_unattested_forms": 0,
+    "unattested_form_rate": 0.0,
+    "num_real_trigrams": 89031,
+    "num_syn_trigrams": 487697,
+    "num_unattested_trigrams": 487696,
+    "trigram_unattested_rate": 0.9999979495465422,
+    "top_unattested": []
+  }
+}

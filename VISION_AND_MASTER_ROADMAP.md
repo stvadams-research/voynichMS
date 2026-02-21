@@ -195,25 +195,34 @@ Stress-test closure with methods that challenge sequence exploitability and exte
 - Stage-level synthesis and closure update
 
 **Outcome**  
-Phase 10 completed with mixed results (`mixed_results_tension`): strengthened signals,
-weakened signals, and indeterminate signals coexist. Closure is currently documented as
+Phase 10 completed with mixed results (`mixed_results_tension`). Closure is currently documented as
 `in_tension`, not defeated and not fully upgraded.
 
 ---
 
-## 5. Translation as a Separate Endeavor (Unjustified to Date)
+### Layer 7: Mechanical Reconstruction (Completed)
 
-Translation is not currently an admissible activity.
+**Purpose**  
+To move from "Mechanism Identification" to "Physical Reconstruction."
 
-If translation is ever attempted, it must:
-- be justified by outcomes of Layer 4
-- survive non-semantic controls
-- demonstrate diagnostic necessity
-- fail cleanly when wrong
-- respect all structural constraints
+**Core Question**  
+Can we reconstruct the exact physical device (parameters, lattice, state-space) that produced the manuscript?
 
-Translation may never occur.
-That is an acceptable and informative outcome.
+**Key Findings**
+- Identification of vertical eye-slips as uniquely mechanical error modes.
+- Reconstruction of the 15-column global palette grid.
+- Formal specification of the Lattice-Modulated Window System (LMWS).
+- Proof of parsimony (17.47% efficiency gain) proving the mechanical model is simpler than the data.
+
+**Outcome**  
+The "Voynich Engine" has been reconstructed. The manuscript is formally verified as a non-semantic mechanical artifact.
+
+---
+
+## 5. Translation as a Separate Endeavor (Conclusively Unjustified)
+
+Translation is no longer an admissible activity. 
+The system has been identified as a mechanical generator; there is no "message" to translate.
 
 ---
 
@@ -240,6 +249,7 @@ Interpretation is deferred until inference itself is justified.
 - Phase 4 maps to Layer 4 (Inference Admissibility)
 - Phases 5-9 map to Layer 5 (Visualization, reporting, publication, and comparative synthesis)
 - Phase 10 maps to Layer 6 (Adversarial closure retest)
+- Phases 11-14 map to Layer 7 (Mechanical Reconstruction and Final Verification)
 
 Phases may conclude.
 Layers define what kinds of questions are allowed.

@@ -1,0 +1,7017 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T12:47:32.463506+00:00"
+  },
+  "results": {
+    "total_tokens": 230337,
+    "total_failures": 181178,
+    "failure_rate": 0.7865779271241702,
+    "categories": {
+      "Unknown Noise": 180599,
+      "vertical_offset_down": 579
+    },
+    "failures": [
+      {
+        "line": 0,
+        "pos": 0,
+        "word": "<%>HZ8CG",
+        "category": "Unknown Noise",
+        "predicted_window": 0
+      },
+      {
+        "line": 0,
+        "pos": 1,
+        "word": "SCOPZG",
+        "category": "Unknown Noise",
+        "predicted_window": 0
+      },
+      {
+        "line": 0,
+        "pos": 3,
+        "word": "DZOOR",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 0,
+        "pos": 4,
+        "word": "AR",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 0,
+        "pos": 5,
+        "word": "TOR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 0,
+        "pos": 6,
+        "word": "OHCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 1,
+        "pos": 4,
+        "word": "TCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 1,
+        "pos": 5,
+        "word": "4OOEDCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 1,
+        "pos": 6,
+        "word": "TOE",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 1,
+        "pos": 9,
+        "word": "TOHOE2",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 2,
+        "pos": 0,
+        "word": "GDCCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 2,
+        "pos": 1,
+        "word": "TOE",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 2,
+        "pos": 3,
+        "word": "CCO2CCO",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 2,
+        "pos": 4,
+        "word": "2",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 2,
+        "pos": 5,
+        "word": "SCCO",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 2,
+        "pos": 6,
+        "word": "ODCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 2,
+        "pos": 7,
+        "word": "TCR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 2,
+        "pos": 8,
+        "word": "ODCOR",
+        "category": "Unknown Noise",
+        "predicted_window": 46
+      },
+      {
+        "line": 2,
+        "pos": 9,
+        "word": "ODCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 3,
+        "pos": 0,
+        "word": "SODZCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 3,
+        "pos": 2,
+        "word": "DTCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 3,
+        "pos": 3,
+        "word": "4ODCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 3,
+        "pos": 6,
+        "word": "TOHOR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 3,
+        "pos": 7,
+        "word": "T2O",
+        "category": "Unknown Noise",
+        "predicted_window": 27
+      },
+      {
+        "line": 3,
+        "pos": 8,
+        "word": "2OE",
+        "category": "Unknown Noise",
+        "predicted_window": 27
+      },
+      {
+        "line": 3,
+        "pos": 9,
+        "word": "HZG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 4,
+        "pos": 0,
+        "word": "HOTCO",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 4,
+        "pos": 1,
+        "word": "2OE",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 4,
+        "pos": 3,
+        "word": "TCCOR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 4,
+        "pos": 4,
+        "word": "O8AI8G",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 4,
+        "pos": 5,
+        "word": "DZO8",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 4,
+        "pos": 6,
+        "word": "S",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 4,
+        "pos": 7,
+        "word": "TO8",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 4,
+        "pos": 8,
+        "word": "4ODCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 5,
+        "pos": 1,
+        "word": "TCODCO2",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 5,
+        "pos": 2,
+        "word": "TODZG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 5,
+        "pos": 3,
+        "word": "TOHZCG",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 5,
+        "pos": 4,
+        "word": "DCO8G",
+        "category": "Unknown Noise",
+        "predicted_window": 2
+      },
+      {
+        "line": 5,
+        "pos": 5,
+        "word": "TODZOR",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 5,
+        "pos": 6,
+        "word": "TDZCG",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 5,
+        "pos": 7,
+        "word": "8A",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 6,
+        "pos": 0,
+        "word": "GTCODG",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 6,
+        "pos": 1,
+        "word": "SODCC2G",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 6,
+        "pos": 2,
+        "word": "4ODCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 6,
+        "pos": 3,
+        "word": "TOODCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 6,
+        "pos": 5,
+        "word": "AEOAEG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 6,
+        "pos": 8,
+        "word": "TCDZAR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 7,
+        "pos": 0,
+        "word": "2ORAE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 7,
+        "pos": 1,
+        "word": "ODOR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 7,
+        "pos": 2,
+        "word": "OE",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 7,
+        "pos": 3,
+        "word": "TOG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 7,
+        "pos": 4,
+        "word": "EG",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 7,
+        "pos": 5,
+        "word": "ARAROG",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 7,
+        "pos": 7,
+        "word": "TCCAE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 7,
+        "pos": 8,
+        "word": "TCODCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 7,
+        "pos": 9,
+        "word": "ORCG",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 8,
+        "pos": 0,
+        "word": "8AM",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 8,
+        "pos": 1,
+        "word": "TCDG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 8,
+        "pos": 2,
+        "word": "TORG<$>",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 9,
+        "pos": 0,
+        "word": "tolchd",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 10,
+        "pos": 0,
+        "word": "chols",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 11,
+        "pos": 0,
+        "word": "opchor",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 12,
+        "pos": 0,
+        "word": "rolsy",
+        "category": "Unknown Noise",
+        "predicted_window": 46
+      },
+      {
+        "line": 13,
+        "pos": 0,
+        "word": "sol",
+        "category": "Unknown Noise",
+        "predicted_window": 46
+      },
+      {
+        "line": 13,
+        "pos": 1,
+        "word": "eesos",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 14,
+        "pos": 0,
+        "word": "ykchochdy",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 15,
+        "pos": 0,
+        "word": "ykchdy",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 16,
+        "pos": 0,
+        "word": "dchdy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 17,
+        "pos": 0,
+        "word": "dalsy",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 18,
+        "pos": 0,
+        "word": "okcheor",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 19,
+        "pos": 0,
+        "word": "ytchol",
+        "category": "Unknown Noise",
+        "predicted_window": 0
+      },
+      {
+        "line": 20,
+        "pos": 0,
+        "word": "dykchal",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 21,
+        "pos": 0,
+        "word": "tolchd",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 22,
+        "pos": 0,
+        "word": "chos",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 23,
+        "pos": 0,
+        "word": "chols",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 24,
+        "pos": 0,
+        "word": "cthoral",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 25,
+        "pos": 0,
+        "word": "cthdeecthy",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 26,
+        "pos": 0,
+        "word": "opchor",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 27,
+        "pos": 0,
+        "word": "sheocphy",
+        "category": "Unknown Noise",
+        "predicted_window": 46
+      },
+      {
+        "line": 27,
+        "pos": 1,
+        "word": "qoteody",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 27,
+        "pos": 2,
+        "word": "ckhoor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 27,
+        "pos": 3,
+        "word": "ar",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 27,
+        "pos": 5,
+        "word": "oteey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 27,
+        "pos": 6,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 27,
+        "pos": 7,
+        "word": "qokomo",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 29,
+        "pos": 0,
+        "word": "rolsy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 30,
+        "pos": 0,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 30,
+        "pos": 1,
+        "word": "dair",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 30,
+        "pos": 2,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 30,
+        "pos": 4,
+        "word": "qoolkeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 30,
+        "pos": 5,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 30,
+        "pos": 6,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 30,
+        "pos": 8,
+        "word": "chotols",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 31,
+        "pos": 0,
+        "word": "ykeeol",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 32,
+        "pos": 0,
+        "word": "sol",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 33,
+        "pos": 0,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 34,
+        "pos": 0,
+        "word": "eesos",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 35,
+        "pos": 1,
+        "word": "eeoseeos",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 35,
+        "pos": 2,
+        "word": "sheeo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 35,
+        "pos": 4,
+        "word": "ches",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 35,
+        "pos": 6,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 35,
+        "pos": 7,
+        "word": "dy",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 36,
+        "pos": 0,
+        "word": "chockhey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 37,
+        "pos": 0,
+        "word": "ykchochdy",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 38,
+        "pos": 0,
+        "word": "cholkcheol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 38,
+        "pos": 1,
+        "word": "qokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 38,
+        "pos": 2,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 38,
+        "pos": 3,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 38,
+        "pos": 4,
+        "word": "chotor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 38,
+        "pos": 5,
+        "word": "chso",
+        "category": "Unknown Noise",
+        "predicted_window": 36
+      },
+      {
+        "line": 38,
+        "pos": 6,
+        "word": "solcthy",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 39,
+        "pos": 0,
+        "word": "tocheo",
+        "category": "Unknown Noise",
+        "predicted_window": 34
+      },
+      {
+        "line": 40,
+        "pos": 0,
+        "word": "ykchdy",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 41,
+        "pos": 0,
+        "word": "sol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 41,
+        "pos": 1,
+        "word": "cheo",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 41,
+        "pos": 2,
+        "word": "cheeor",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 41,
+        "pos": 3,
+        "word": "odaidy",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 41,
+        "pos": 4,
+        "word": "ckhod",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 41,
+        "pos": 5,
+        "word": "sh",
+        "category": "Unknown Noise",
+        "predicted_window": 38
+      },
+      {
+        "line": 43,
+        "pos": 0,
+        "word": "dchdy",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 44,
+        "pos": 0,
+        "word": "cheokeos",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 44,
+        "pos": 1,
+        "word": "chockhy",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 44,
+        "pos": 2,
+        "word": "chocthey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 44,
+        "pos": 3,
+        "word": "kchody",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 44,
+        "pos": 4,
+        "word": "chockhhor",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 44,
+        "pos": 5,
+        "word": "chckhey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 44,
+        "pos": 6,
+        "word": "dan",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 45,
+        "pos": 0,
+        "word": "ycheoky",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 46,
+        "pos": 0,
+        "word": "dalsy",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 47,
+        "pos": 0,
+        "word": "shokeesy",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 47,
+        "pos": 1,
+        "word": "qokeey",
+        "category": "Unknown Noise",
+        "predicted_window": 37
+      },
+      {
+        "line": 47,
+        "pos": 2,
+        "word": "chokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 47,
+        "pos": 3,
+        "word": "soraloaly",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 47,
+        "pos": 4,
+        "word": "cheor",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 47,
+        "pos": 5,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 47,
+        "pos": 6,
+        "word": "chockhar",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 48,
+        "pos": 0,
+        "word": "soral",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 49,
+        "pos": 0,
+        "word": "okcheor",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 50,
+        "pos": 0,
+        "word": "okor",
+        "category": "Unknown Noise",
+        "predicted_window": 0
+      },
+      {
+        "line": 50,
+        "pos": 2,
+        "word": "choy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 50,
+        "pos": 3,
+        "word": "ly",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 50,
+        "pos": 5,
+        "word": "okar",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 50,
+        "pos": 6,
+        "word": "cheeeal",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 50,
+        "pos": 7,
+        "word": "cheokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 50,
+        "pos": 8,
+        "word": "orey",
+        "category": "Unknown Noise",
+        "predicted_window": 34
+      },
+      {
+        "line": 51,
+        "pos": 0,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 13
+      },
+      {
+        "line": 52,
+        "pos": 0,
+        "word": "ytchol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 53,
+        "pos": 0,
+        "word": "cheky",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 53,
+        "pos": 1,
+        "word": "chory",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 54,
+        "pos": 0,
+        "word": "dykchal",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 55,
+        "pos": 0,
+        "word": "chos",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 55,
+        "pos": 1,
+        "word": "cthoral",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 56,
+        "pos": 0,
+        "word": "<%>cthdeecthy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 56,
+        "pos": 1,
+        "word": "sheocphy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 56,
+        "pos": 2,
+        "word": "qoteody",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 56,
+        "pos": 3,
+        "word": "ckhoor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 56,
+        "pos": 4,
+        "word": "ar",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 56,
+        "pos": 6,
+        "word": "oteey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 56,
+        "pos": 7,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 56,
+        "pos": 8,
+        "word": "qokomo",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 57,
+        "pos": 1,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 57,
+        "pos": 2,
+        "word": "dair",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 57,
+        "pos": 3,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 57,
+        "pos": 5,
+        "word": "qoolkeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 57,
+        "pos": 6,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 57,
+        "pos": 7,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 57,
+        "pos": 9,
+        "word": "chotols",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 58,
+        "pos": 0,
+        "word": "ykeeol",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 58,
+        "pos": 1,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 58,
+        "pos": 3,
+        "word": "eeoseeos",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 58,
+        "pos": 4,
+        "word": "sheeo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 58,
+        "pos": 6,
+        "word": "ches",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 58,
+        "pos": 8,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 58,
+        "pos": 9,
+        "word": "dy",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 59,
+        "pos": 0,
+        "word": "chockhey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 59,
+        "pos": 1,
+        "word": "cholkcheol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 59,
+        "pos": 2,
+        "word": "qokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 59,
+        "pos": 3,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 59,
+        "pos": 4,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 59,
+        "pos": 5,
+        "word": "chotor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 59,
+        "pos": 6,
+        "word": "chso",
+        "category": "Unknown Noise",
+        "predicted_window": 36
+      },
+      {
+        "line": 59,
+        "pos": 7,
+        "word": "solcthy",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 60,
+        "pos": 0,
+        "word": "tocheo",
+        "category": "Unknown Noise",
+        "predicted_window": 34
+      },
+      {
+        "line": 60,
+        "pos": 1,
+        "word": "sol",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 60,
+        "pos": 2,
+        "word": "cheo",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 60,
+        "pos": 3,
+        "word": "cheeor",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 60,
+        "pos": 4,
+        "word": "odaidy",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 60,
+        "pos": 5,
+        "word": "ckhod",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 60,
+        "pos": 6,
+        "word": "sh",
+        "category": "Unknown Noise",
+        "predicted_window": 38
+      },
+      {
+        "line": 61,
+        "pos": 1,
+        "word": "cheokeos",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 61,
+        "pos": 2,
+        "word": "chockhy",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 61,
+        "pos": 3,
+        "word": "chocthey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 61,
+        "pos": 4,
+        "word": "kchody",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 61,
+        "pos": 5,
+        "word": "chockhhor",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 61,
+        "pos": 6,
+        "word": "chckhey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 61,
+        "pos": 7,
+        "word": "dan",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 62,
+        "pos": 0,
+        "word": "ycheoky",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 62,
+        "pos": 1,
+        "word": "shokeesy",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 62,
+        "pos": 2,
+        "word": "qokeey",
+        "category": "Unknown Noise",
+        "predicted_window": 37
+      },
+      {
+        "line": 62,
+        "pos": 3,
+        "word": "chokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 62,
+        "pos": 4,
+        "word": "soraloaly",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 62,
+        "pos": 5,
+        "word": "cheor",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 62,
+        "pos": 6,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 62,
+        "pos": 7,
+        "word": "chockhar",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 63,
+        "pos": 0,
+        "word": "soral",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 63,
+        "pos": 1,
+        "word": "okor",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 63,
+        "pos": 3,
+        "word": "choy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 63,
+        "pos": 4,
+        "word": "ly",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 63,
+        "pos": 6,
+        "word": "okar",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 63,
+        "pos": 7,
+        "word": "cheeeal",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 63,
+        "pos": 8,
+        "word": "cheokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 63,
+        "pos": 9,
+        "word": "orey",
+        "category": "Unknown Noise",
+        "predicted_window": 34
+      },
+      {
+        "line": 64,
+        "pos": 0,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 13
+      },
+      {
+        "line": 64,
+        "pos": 1,
+        "word": "cheky",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 64,
+        "pos": 2,
+        "word": "chory<$>",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 65,
+        "pos": 0,
+        "word": "tolchd",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 66,
+        "pos": 0,
+        "word": "chols",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 67,
+        "pos": 0,
+        "word": "opchor",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 68,
+        "pos": 0,
+        "word": "solsy",
+        "category": "Unknown Noise",
+        "predicted_window": 46
+      },
+      {
+        "line": 69,
+        "pos": 0,
+        "word": "soleesos",
+        "category": "Unknown Noise",
+        "predicted_window": 46
+      },
+      {
+        "line": 70,
+        "pos": 0,
+        "word": "ykchochdy",
+        "category": "Unknown Noise",
+        "predicted_window": 46
+      },
+      {
+        "line": 71,
+        "pos": 0,
+        "word": "ykchdy",
+        "category": "Unknown Noise",
+        "predicted_window": 46
+      },
+      {
+        "line": 72,
+        "pos": 0,
+        "word": "dchdy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 73,
+        "pos": 0,
+        "word": "dalsy",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 74,
+        "pos": 0,
+        "word": "okcheor",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 75,
+        "pos": 0,
+        "word": "ytchol",
+        "category": "Unknown Noise",
+        "predicted_window": 0
+      },
+      {
+        "line": 76,
+        "pos": 0,
+        "word": "dykchal",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 77,
+        "pos": 0,
+        "word": "chos",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 77,
+        "pos": 1,
+        "word": "ctharal",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 78,
+        "pos": 0,
+        "word": "cphdeecfhy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 78,
+        "pos": 1,
+        "word": "sheocphy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 78,
+        "pos": 2,
+        "word": "qoteody",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 78,
+        "pos": 3,
+        "word": "ckhoor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 78,
+        "pos": 4,
+        "word": "ar",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 78,
+        "pos": 6,
+        "word": "oteey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 78,
+        "pos": 7,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 78,
+        "pos": 8,
+        "word": "qokomo",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 79,
+        "pos": 1,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 79,
+        "pos": 2,
+        "word": "dair",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 79,
+        "pos": 3,
+        "word": "al",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 79,
+        "pos": 4,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 79,
+        "pos": 5,
+        "word": "qoolkeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 79,
+        "pos": 6,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 79,
+        "pos": 7,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 79,
+        "pos": 9,
+        "word": "chotols",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 80,
+        "pos": 0,
+        "word": "ykeeol",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 80,
+        "pos": 1,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 80,
+        "pos": 3,
+        "word": "eeoseeos",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 80,
+        "pos": 4,
+        "word": "sheeo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 80,
+        "pos": 6,
+        "word": "ches",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 80,
+        "pos": 8,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 80,
+        "pos": 9,
+        "word": "dy",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 81,
+        "pos": 0,
+        "word": "chocthey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 81,
+        "pos": 1,
+        "word": "sholkcheol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 81,
+        "pos": 2,
+        "word": "qokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 81,
+        "pos": 3,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 81,
+        "pos": 4,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 81,
+        "pos": 5,
+        "word": "chotor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 81,
+        "pos": 6,
+        "word": "chso",
+        "category": "Unknown Noise",
+        "predicted_window": 36
+      },
+      {
+        "line": 81,
+        "pos": 7,
+        "word": "solcthy",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 82,
+        "pos": 0,
+        "word": "tochso",
+        "category": "Unknown Noise",
+        "predicted_window": 34
+      },
+      {
+        "line": 82,
+        "pos": 1,
+        "word": "s",
+        "category": "Unknown Noise",
+        "predicted_window": 49
+      },
+      {
+        "line": 82,
+        "pos": 2,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 82,
+        "pos": 3,
+        "word": "cheo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 82,
+        "pos": 4,
+        "word": "cheeor",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 82,
+        "pos": 5,
+        "word": "odaidy",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 82,
+        "pos": 6,
+        "word": "ckhod",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 82,
+        "pos": 7,
+        "word": "sh",
+        "category": "Unknown Noise",
+        "predicted_window": 38
+      },
+      {
+        "line": 83,
+        "pos": 1,
+        "word": "cheokeos",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 83,
+        "pos": 2,
+        "word": "chockhy",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 83,
+        "pos": 3,
+        "word": "chocthey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 83,
+        "pos": 4,
+        "word": "keody",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 83,
+        "pos": 5,
+        "word": "chockhhor",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 83,
+        "pos": 6,
+        "word": "chckhey",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 83,
+        "pos": 7,
+        "word": "du",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 84,
+        "pos": 0,
+        "word": "ycheoky",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 84,
+        "pos": 1,
+        "word": "shokeesy",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 84,
+        "pos": 2,
+        "word": "qokeey",
+        "category": "Unknown Noise",
+        "predicted_window": 37
+      },
+      {
+        "line": 84,
+        "pos": 3,
+        "word": "chokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 84,
+        "pos": 4,
+        "word": "saraloaly",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 84,
+        "pos": 5,
+        "word": "cheor",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 84,
+        "pos": 6,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 84,
+        "pos": 7,
+        "word": "chockhar",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 85,
+        "pos": 0,
+        "word": "soral",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 85,
+        "pos": 1,
+        "word": "okor",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 85,
+        "pos": 3,
+        "word": "choy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 85,
+        "pos": 4,
+        "word": "ly",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 85,
+        "pos": 6,
+        "word": "okar",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 85,
+        "pos": 7,
+        "word": "cheeeal",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 85,
+        "pos": 8,
+        "word": "cheokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 85,
+        "pos": 9,
+        "word": "orey",
+        "category": "Unknown Noise",
+        "predicted_window": 34
+      },
+      {
+        "line": 86,
+        "pos": 0,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 13
+      },
+      {
+        "line": 86,
+        "pos": 1,
+        "word": "cheky",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 86,
+        "pos": 2,
+        "word": "chory",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 87,
+        "pos": 0,
+        "word": "koe18",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 88,
+        "pos": 0,
+        "word": "1oes",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 89,
+        "pos": 0,
+        "word": "oj1oy",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 90,
+        "pos": 0,
+        "word": "soes9",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 91,
+        "pos": 0,
+        "word": "soedsos",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 92,
+        "pos": 0,
+        "word": "9h1o189",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 93,
+        "pos": 0,
+        "word": "9h189",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 94,
+        "pos": 0,
+        "word": "8189",
+        "category": "Unknown Noise",
+        "predicted_window": 2
+      },
+      {
+        "line": 95,
+        "pos": 0,
+        "word": "8aes9",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 96,
+        "pos": 0,
+        "word": "oh1coy",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 97,
+        "pos": 0,
+        "word": "(k1oe",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 98,
+        "pos": 0,
+        "word": "89h1ae",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 99,
+        "pos": 0,
+        "word": "1os",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 99,
+        "pos": 1,
+        "word": "KAyae",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 100,
+        "pos": 0,
+        "word": "<%>K7C19",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 100,
+        "pos": 1,
+        "word": "2coJ9",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 100,
+        "pos": 2,
+        "word": "4okco89",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 100,
+        "pos": 3,
+        "word": "Hooy",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 100,
+        "pos": 4,
+        "word": "ay",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 100,
+        "pos": 5,
+        "word": "1oy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 100,
+        "pos": 6,
+        "word": "okcc9",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 100,
+        "pos": 7,
+        "word": "8am",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 100,
+        "pos": 8,
+        "word": "4ohopo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 101,
+        "pos": 2,
+        "word": "8aiy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 101,
+        "pos": 3,
+        "word": "ae",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 101,
+        "pos": 4,
+        "word": "1coe",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 101,
+        "pos": 5,
+        "word": "4o,oehcc9",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 101,
+        "pos": 6,
+        "word": "1oe",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 101,
+        "pos": 9,
+        "word": "1okoe,s",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 102,
+        "pos": 0,
+        "word": "9hccoe",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 102,
+        "pos": 2,
+        "word": "1c(",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 102,
+        "pos": 3,
+        "word": "ccosCo,s",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 102,
+        "pos": 4,
+        "word": "!Co",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 102,
+        "pos": 5,
+        "word": "ohcoe",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 102,
+        "pos": 6,
+        "word": "1cs",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 102,
+        "pos": 8,
+        "word": "ohcoe",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 102,
+        "pos": 9,
+        "word": "89",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 103,
+        "pos": 0,
+        "word": "2oKc9",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 103,
+        "pos": 1,
+        "word": "2oeh,1coe",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 103,
+        "pos": 2,
+        "word": "4ohcoe",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 103,
+        "pos": 5,
+        "word": "1okoy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 103,
+        "pos": 6,
+        "word": "1so",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 103,
+        "pos": 7,
+        "word": "soe,K9",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 104,
+        "pos": 0,
+        "word": "ko1co",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 104,
+        "pos": 1,
+        "word": "s",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 104,
+        "pos": 2,
+        "word": "oe",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 104,
+        "pos": 4,
+        "word": "1Coy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 104,
+        "pos": 5,
+        "word": "o8ai89",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 104,
+        "pos": 6,
+        "word": "Ho7",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 104,
+        "pos": 7,
+        "word": "!",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 104,
+        "pos": 8,
+        "word": "1o8",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 104,
+        "pos": 9,
+        "word": "4ohcoe",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 105,
+        "pos": 1,
+        "word": "1cohcos",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 105,
+        "pos": 3,
+        "word": "1oKc9",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 105,
+        "pos": 4,
+        "word": "hcco89",
+        "category": "Unknown Noise",
+        "predicted_window": 46
+      },
+      {
+        "line": 105,
+        "pos": 5,
+        "word": "1oloy",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 105,
+        "pos": 6,
+        "word": "1Hc9",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 105,
+        "pos": 7,
+        "word": "8@193;",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 106,
+        "pos": 0,
+        "word": "91coh9",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 106,
+        "pos": 1,
+        "word": "2ohCs9",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 106,
+        "pos": 2,
+        "word": "4ohC9",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 106,
+        "pos": 3,
+        "word": "1ohcoe",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 106,
+        "pos": 4,
+        "word": "sAy,aeoae9",
+        "category": "Unknown Noise",
+        "predicted_window": 2
+      },
+      {
+        "line": 106,
+        "pos": 5,
+        "word": "1coy",
+        "category": "Unknown Noise",
+        "predicted_window": 2
+      },
+      {
+        "line": 106,
+        "pos": 7,
+        "word": "1oHay",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 107,
+        "pos": 0,
+        "word": "soyae",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 107,
+        "pos": 1,
+        "word": "ohoy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 107,
+        "pos": 2,
+        "word": "oe",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 107,
+        "pos": 3,
+        "word": "1o9",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 107,
+        "pos": 4,
+        "word": "e9",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 107,
+        "pos": 5,
+        "word": "ayayo9",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 107,
+        "pos": 6,
+        "word": "ohay",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 107,
+        "pos": 7,
+        "word": "1dae",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 107,
+        "pos": 8,
+        "word": "1cohcoe",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 107,
+        "pos": 9,
+        "word": "oyc9",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 108,
+        "pos": 2,
+        "word": "1oy9<$>",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 109,
+        "pos": 0,
+        "word": "<!131>tolchd",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 110,
+        "pos": 0,
+        "word": "<!132>chols",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 111,
+        "pos": 0,
+        "word": "<!133>opchor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 112,
+        "pos": 0,
+        "word": "<!134>solsy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 113,
+        "pos": 0,
+        "word": "<!135>soleesos",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 114,
+        "pos": 0,
+        "word": "<!136>ykchochdy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 115,
+        "pos": 0,
+        "word": "<!137>ykchdy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 116,
+        "pos": 0,
+        "word": "<!138>dchdy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 117,
+        "pos": 0,
+        "word": "<!139>dalsy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 118,
+        "pos": 0,
+        "word": "<!140>okcheor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 119,
+        "pos": 0,
+        "word": "<!141>ytchol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 120,
+        "pos": 0,
+        "word": "<!142>dykchal",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 121,
+        "pos": 0,
+        "word": "<!143>chos",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 121,
+        "pos": 1,
+        "word": "ctharal",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 122,
+        "pos": 0,
+        "word": "<%>{c@132;h}dee{c@133;h}y",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 122,
+        "pos": 1,
+        "word": "sheocphy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 122,
+        "pos": 2,
+        "word": "qoteody",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 122,
+        "pos": 3,
+        "word": "ckhoor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 122,
+        "pos": 4,
+        "word": "ar",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 122,
+        "pos": 6,
+        "word": "oteey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 122,
+        "pos": 7,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 122,
+        "pos": 8,
+        "word": "qokomo",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 123,
+        "pos": 1,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 123,
+        "pos": 2,
+        "word": "dair",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 123,
+        "pos": 3,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 123,
+        "pos": 5,
+        "word": "qoolkeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 123,
+        "pos": 6,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 123,
+        "pos": 7,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 123,
+        "pos": 9,
+        "word": "chotol,s",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 124,
+        "pos": 1,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 124,
+        "pos": 3,
+        "word": "eeoseeo,s",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 124,
+        "pos": 4,
+        "word": "sheeo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 124,
+        "pos": 6,
+        "word": "ches",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 124,
+        "pos": 8,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 124,
+        "pos": 9,
+        "word": "dy",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 125,
+        "pos": 0,
+        "word": "chockhey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 125,
+        "pos": 1,
+        "word": "sholkcheol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 125,
+        "pos": 2,
+        "word": "qokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 125,
+        "pos": 3,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 125,
+        "pos": 4,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 125,
+        "pos": 5,
+        "word": "chotor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 125,
+        "pos": 6,
+        "word": "chso",
+        "category": "Unknown Noise",
+        "predicted_window": 36
+      },
+      {
+        "line": 125,
+        "pos": 7,
+        "word": "solcthy",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 126,
+        "pos": 0,
+        "word": "tachso",
+        "category": "Unknown Noise",
+        "predicted_window": 34
+      },
+      {
+        "line": 126,
+        "pos": 1,
+        "word": "s",
+        "category": "Unknown Noise",
+        "predicted_window": 34
+      },
+      {
+        "line": 126,
+        "pos": 2,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 126,
+        "pos": 3,
+        "word": "cheo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 126,
+        "pos": 4,
+        "word": "cheeor",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 126,
+        "pos": 5,
+        "word": "odaidy",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 126,
+        "pos": 6,
+        "word": "ckhod",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 126,
+        "pos": 7,
+        "word": "sh",
+        "category": "Unknown Noise",
+        "predicted_window": 38
+      },
+      {
+        "line": 127,
+        "pos": 1,
+        "word": "cheokeos",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 127,
+        "pos": 2,
+        "word": "chockhy",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 127,
+        "pos": 3,
+        "word": "chocthey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 127,
+        "pos": 4,
+        "word": "keody",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 127,
+        "pos": 5,
+        "word": "cho{ckhh}or",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 127,
+        "pos": 6,
+        "word": "chckhey",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 127,
+        "pos": 7,
+        "word": "du",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 128,
+        "pos": 0,
+        "word": "ycheoky",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 128,
+        "pos": 1,
+        "word": "shokeesy",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 128,
+        "pos": 2,
+        "word": "qokeey",
+        "category": "Unknown Noise",
+        "predicted_window": 37
+      },
+      {
+        "line": 128,
+        "pos": 3,
+        "word": "chokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 128,
+        "pos": 4,
+        "word": "saraloaly",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 128,
+        "pos": 5,
+        "word": "cheor",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 128,
+        "pos": 6,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 128,
+        "pos": 7,
+        "word": "chockhar",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 129,
+        "pos": 0,
+        "word": "soral",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 129,
+        "pos": 1,
+        "word": "okor",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 129,
+        "pos": 3,
+        "word": "choy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 129,
+        "pos": 4,
+        "word": "ly",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 129,
+        "pos": 6,
+        "word": "okar",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 129,
+        "pos": 7,
+        "word": "cheeeal",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 129,
+        "pos": 8,
+        "word": "cheokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 129,
+        "pos": 9,
+        "word": "orey",
+        "category": "Unknown Noise",
+        "predicted_window": 34
+      },
+      {
+        "line": 130,
+        "pos": 0,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 13
+      },
+      {
+        "line": 130,
+        "pos": 1,
+        "word": "cheky",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 130,
+        "pos": 2,
+        "word": "chory<$>",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 131,
+        "pos": 0,
+        "word": "<%>PTCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 131,
+        "pos": 1,
+        "word": "SCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 131,
+        "pos": 4,
+        "word": "SOR",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 131,
+        "pos": 5,
+        "word": "GHCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 131,
+        "pos": 6,
+        "word": "SCODZCG",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 131,
+        "pos": 7,
+        "word": "4POE",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 131,
+        "pos": 10,
+        "word": "OECCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 131,
+        "pos": 11,
+        "word": "4DCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 131,
+        "pos": 12,
+        "word": "TOPTCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 131,
+        "pos": 13,
+        "word": "TCDZCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 131,
+        "pos": 14,
+        "word": "PZCOHZG",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 131,
+        "pos": 15,
+        "word": "GDTG",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 131,
+        "pos": 16,
+        "word": "TCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 131,
+        "pos": 17,
+        "word": "TCDCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 131,
+        "pos": 18,
+        "word": "8AE",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 132,
+        "pos": 0,
+        "word": "8OE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 132,
+        "pos": 1,
+        "word": "TODCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 132,
+        "pos": 2,
+        "word": "TDCG",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 132,
+        "pos": 3,
+        "word": "HZCG",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 132,
+        "pos": 6,
+        "word": "DOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 132,
+        "pos": 7,
+        "word": "ODCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 132,
+        "pos": 9,
+        "word": "AE",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 132,
+        "pos": 10,
+        "word": "ODOEOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 132,
+        "pos": 12,
+        "word": "4ODTAE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 132,
+        "pos": 17,
+        "word": "HCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 132,
+        "pos": 18,
+        "word": "OR",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 133,
+        "pos": 0,
+        "word": "<%>HOETCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 133,
+        "pos": 1,
+        "word": "ODCOR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 133,
+        "pos": 2,
+        "word": "2",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 133,
+        "pos": 3,
+        "word": "SCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 133,
+        "pos": 4,
+        "word": "4ODOE",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 133,
+        "pos": 6,
+        "word": "8OE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 133,
+        "pos": 7,
+        "word": "SCG",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 133,
+        "pos": 8,
+        "word": "ODCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 133,
+        "pos": 10,
+        "word": "GHCCOE8G",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 133,
+        "pos": 11,
+        "word": "DTOE",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 133,
+        "pos": 12,
+        "word": "OESCO8G",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 133,
+        "pos": 16,
+        "word": "4OHAIIR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 133,
+        "pos": 17,
+        "word": "OHOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 133,
+        "pos": 18,
+        "word": "SCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 133,
+        "pos": 19,
+        "word": "2SCO",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 133,
+        "pos": 20,
+        "word": "HTCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 133,
+        "pos": 21,
+        "word": "AE",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 133,
+        "pos": 23,
+        "word": "AK",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 134,
+        "pos": 1,
+        "word": "OR",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 134,
+        "pos": 6,
+        "word": "HZCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 134,
+        "pos": 7,
+        "word": "SDCCO",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 134,
+        "pos": 8,
+        "word": "4ODZCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 134,
+        "pos": 9,
+        "word": "8AM",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 134,
+        "pos": 12,
+        "word": "ODCCOR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 134,
+        "pos": 13,
+        "word": "HZO8G",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 134,
+        "pos": 14,
+        "word": "TDTOE",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 134,
+        "pos": 15,
+        "word": "8AHCO8G",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 134,
+        "pos": 16,
+        "word": "ODCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 134,
+        "pos": 17,
+        "word": "8AIRM",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 134,
+        "pos": 18,
+        "word": "ODCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 134,
+        "pos": 20,
+        "word": "8AIRM",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 135,
+        "pos": 0,
+        "word": "8AM",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 135,
+        "pos": 1,
+        "word": "HZCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 135,
+        "pos": 3,
+        "word": "ODOR",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 135,
+        "pos": 4,
+        "word": "OR",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 135,
+        "pos": 6,
+        "word": "TCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 135,
+        "pos": 7,
+        "word": "TO",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 135,
+        "pos": 8,
+        "word": "DCCO",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 135,
+        "pos": 9,
+        "word": "8TCG",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 135,
+        "pos": 10,
+        "word": "ODOE",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 135,
+        "pos": 15,
+        "word": "RAM",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 135,
+        "pos": 16,
+        "word": "OHCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 135,
+        "pos": 17,
+        "word": "OR",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 135,
+        "pos": 21,
+        "word": "OHCCO8",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 135,
+        "pos": 22,
+        "word": "SCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 135,
+        "pos": 23,
+        "word": "ODCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 135,
+        "pos": 24,
+        "word": "TO2AM",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 135,
+        "pos": 25,
+        "word": "SCAK",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 136,
+        "pos": 0,
+        "word": "ODCCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 136,
+        "pos": 1,
+        "word": "SO",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 136,
+        "pos": 2,
+        "word": "SO8G",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 136,
+        "pos": 3,
+        "word": "SO",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 136,
+        "pos": 5,
+        "word": "ODCCCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 136,
+        "pos": 6,
+        "word": "TCG2",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 136,
+        "pos": 7,
+        "word": "SCODCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 136,
+        "pos": 9,
+        "word": "TTG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 136,
+        "pos": 10,
+        "word": "TO8AM",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 136,
+        "pos": 11,
+        "word": "SCCDZCG",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 136,
+        "pos": 12,
+        "word": "HCCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 136,
+        "pos": 13,
+        "word": "2TCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 136,
+        "pos": 14,
+        "word": "2AR",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 136,
+        "pos": 15,
+        "word": "OCCOR<$>",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 0,
+        "word": "<%>PZOAR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 1,
+        "word": "OAM",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 2,
+        "word": "GPTOEG",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 137,
+        "pos": 3,
+        "word": "8AM",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 137,
+        "pos": 6,
+        "word": "GFOEAM",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 7,
+        "word": "FTCOEAM",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 8,
+        "word": "GPTCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 9,
+        "word": "GPCO8G",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 10,
+        "word": "SOHCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 11,
+        "word": "O8ARM",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 12,
+        "word": "SCOAR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 17,
+        "word": "TOEP",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 18,
+        "word": "TCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 137,
+        "pos": 19,
+        "word": "?G",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 138,
+        "pos": 0,
+        "word": "OEAM",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 138,
+        "pos": 1,
+        "word": "OHCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 138,
+        "pos": 2,
+        "word": "TOR",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 138,
+        "pos": 3,
+        "word": "OHCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 138,
+        "pos": 4,
+        "word": "TODTCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 138,
+        "pos": 5,
+        "word": "DOR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 138,
+        "pos": 6,
+        "word": "8AM",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 138,
+        "pos": 7,
+        "word": "SOD",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 138,
+        "pos": 8,
+        "word": "TOE",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 138,
+        "pos": 14,
+        "word": "G8AR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 138,
+        "pos": 15,
+        "word": "8AM",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 138,
+        "pos": 18,
+        "word": "ODCCG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 138,
+        "pos": 19,
+        "word": "8AM",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 139,
+        "pos": 2,
+        "word": "4ODTCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 139,
+        "pos": 3,
+        "word": "GDCOR",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 140,
+        "pos": 1,
+        "word": "TCC2",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 140,
+        "pos": 2,
+        "word": "GDCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 140,
+        "pos": 4,
+        "word": "8OE",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 140,
+        "pos": 5,
+        "word": "DOR",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 140,
+        "pos": 6,
+        "word": "AHZG",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 140,
+        "pos": 8,
+        "word": "S2O",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 140,
+        "pos": 9,
+        "word": "SA",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 140,
+        "pos": 10,
+        "word": "OETCCOE",
+        "category": "Unknown Noise",
+        "predicted_window": 49
+      },
+      {
+        "line": 140,
+        "pos": 11,
+        "word": "DOE",
+        "category": "Unknown Noise",
+        "predicted_window": 49
+      },
+      {
+        "line": 140,
+        "pos": 12,
+        "word": "SCG",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 140,
+        "pos": 13,
+        "word": "ODCOEG",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 140,
+        "pos": 14,
+        "word": "O??",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 140,
+        "pos": 15,
+        "word": "A?OEG<$>",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 141,
+        "pos": 0,
+        "word": "pcheol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 141,
+        "pos": 1,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 141,
+        "pos": 3,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 141,
+        "pos": 4,
+        "word": "qockhol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 141,
+        "pos": 5,
+        "word": "shor",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 141,
+        "pos": 6,
+        "word": "yteol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 141,
+        "pos": 7,
+        "word": "sheockhey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 141,
+        "pos": 8,
+        "word": "qpol",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 141,
+        "pos": 9,
+        "word": "cheor",
+        "category": "Unknown Noise",
+        "predicted_window": 27
+      },
+      {
+        "line": 141,
+        "pos": 11,
+        "word": "olo",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 141,
+        "pos": 12,
+        "word": "o",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 141,
+        "pos": 13,
+        "word": "qkeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 141,
+        "pos": 14,
+        "word": "chopcheey",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 141,
+        "pos": 15,
+        "word": "checkhey",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 141,
+        "pos": 16,
+        "word": "cpheocthy",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 141,
+        "pos": 17,
+        "word": "ykchy",
+        "category": "Unknown Noise",
+        "predicted_window": 36
+      },
+      {
+        "line": 141,
+        "pos": 18,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 141,
+        "pos": 19,
+        "word": "chekeey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 141,
+        "pos": 20,
+        "word": "dal",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 141,
+        "pos": 21,
+        "word": "chsm",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 142,
+        "pos": 1,
+        "word": "chokeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 142,
+        "pos": 2,
+        "word": "chkey",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 142,
+        "pos": 3,
+        "word": "cthey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 142,
+        "pos": 4,
+        "word": "okal",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 142,
+        "pos": 5,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 142,
+        "pos": 6,
+        "word": "kol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 142,
+        "pos": 9,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 142,
+        "pos": 11,
+        "word": "okolol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 142,
+        "pos": 12,
+        "word": "olchey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 142,
+        "pos": 13,
+        "word": "qokchor",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 142,
+        "pos": 14,
+        "word": "okey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 142,
+        "pos": 15,
+        "word": "qokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 142,
+        "pos": 18,
+        "word": "teol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 142,
+        "pos": 19,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 142,
+        "pos": 20,
+        "word": "aiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 142,
+        "pos": 21,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 142,
+        "pos": 22,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 143,
+        "pos": 0,
+        "word": "etolctheol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 143,
+        "pos": 1,
+        "word": "okeor",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 143,
+        "pos": 2,
+        "word": "r",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 143,
+        "pos": 4,
+        "word": "qotol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 143,
+        "pos": 5,
+        "word": "sheo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 143,
+        "pos": 6,
+        "word": "dol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 143,
+        "pos": 7,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 143,
+        "pos": 9,
+        "word": "ctheea",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 143,
+        "pos": 10,
+        "word": "yteeoldy",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 143,
+        "pos": 11,
+        "word": "kchdol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 143,
+        "pos": 12,
+        "word": "sheody",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 143,
+        "pos": 15,
+        "word": "sheor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 143,
+        "pos": 16,
+        "word": "qotoiir",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 143,
+        "pos": 18,
+        "word": "sheey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 143,
+        "pos": 19,
+        "word": "ssheo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 143,
+        "pos": 20,
+        "word": "tchey",
+        "category": "Unknown Noise",
+        "predicted_window": 2
+      },
+      {
+        "line": 143,
+        "pos": 21,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 143,
+        "pos": 22,
+        "word": "dar",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 143,
+        "pos": 23,
+        "word": "am",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 144,
+        "pos": 0,
+        "word": "ycheeo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 144,
+        "pos": 1,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 144,
+        "pos": 2,
+        "word": "sheeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 144,
+        "pos": 3,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 144,
+        "pos": 4,
+        "word": "sheeol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 144,
+        "pos": 5,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 144,
+        "pos": 6,
+        "word": "ctheol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 144,
+        "pos": 7,
+        "word": "shkeeo",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 144,
+        "pos": 8,
+        "word": "qockheol",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 144,
+        "pos": 9,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 144,
+        "pos": 10,
+        "word": "shy",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 144,
+        "pos": 11,
+        "word": "csol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 144,
+        "pos": 13,
+        "word": "ctody",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 144,
+        "pos": 14,
+        "word": "chkchol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 144,
+        "pos": 15,
+        "word": "doteoda",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 144,
+        "pos": 16,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 144,
+        "pos": 17,
+        "word": "daisin",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 144,
+        "pos": 18,
+        "word": "okeey",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 144,
+        "pos": 20,
+        "word": "dairin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 145,
+        "pos": 0,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 37
+      },
+      {
+        "line": 145,
+        "pos": 1,
+        "word": "ctheol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 145,
+        "pos": 2,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 145,
+        "pos": 5,
+        "word": "aiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 145,
+        "pos": 6,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 145,
+        "pos": 7,
+        "word": "cho",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 145,
+        "pos": 8,
+        "word": "keeo",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 145,
+        "pos": 9,
+        "word": "dchey",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 145,
+        "pos": 10,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 145,
+        "pos": 12,
+        "word": "dor",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 145,
+        "pos": 13,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 145,
+        "pos": 14,
+        "word": "chy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 145,
+        "pos": 19,
+        "word": "olchey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 145,
+        "pos": 20,
+        "word": "oteeod",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 145,
+        "pos": 21,
+        "word": "sheol",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 145,
+        "pos": 22,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 145,
+        "pos": 23,
+        "word": "chosaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 145,
+        "pos": 24,
+        "word": "sheom",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 146,
+        "pos": 0,
+        "word": "okeeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 146,
+        "pos": 1,
+        "word": "sho",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 146,
+        "pos": 2,
+        "word": "shody",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 146,
+        "pos": 3,
+        "word": "sho",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 146,
+        "pos": 5,
+        "word": "okeeeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 146,
+        "pos": 6,
+        "word": "cheos",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 146,
+        "pos": 7,
+        "word": "sheokeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 146,
+        "pos": 8,
+        "word": "sheeor",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 146,
+        "pos": 9,
+        "word": "chchy",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 146,
+        "pos": 10,
+        "word": "chodaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 146,
+        "pos": 11,
+        "word": "sheeckhey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 146,
+        "pos": 12,
+        "word": "teeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 146,
+        "pos": 13,
+        "word": "scheol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 146,
+        "pos": 14,
+        "word": "sar",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 146,
+        "pos": 15,
+        "word": "oeeor",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 147,
+        "pos": 0,
+        "word": "cphoar",
+        "category": "Unknown Noise",
+        "predicted_window": 36
+      },
+      {
+        "line": 147,
+        "pos": 1,
+        "word": "oaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 36
+      },
+      {
+        "line": 147,
+        "pos": 2,
+        "word": "ypcholy",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 147,
+        "pos": 3,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 147,
+        "pos": 4,
+        "word": "otaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 147,
+        "pos": 6,
+        "word": "yfolaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 147,
+        "pos": 7,
+        "word": "fcheolain",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 147,
+        "pos": 8,
+        "word": "ypchey",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 147,
+        "pos": 9,
+        "word": "yphoo",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 147,
+        "pos": 10,
+        "word": "shotey",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 147,
+        "pos": 11,
+        "word": "odariin",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 147,
+        "pos": 12,
+        "word": "sheoor",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 147,
+        "pos": 13,
+        "word": "sheor",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 147,
+        "pos": 14,
+        "word": "ckheey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 147,
+        "pos": 15,
+        "word": "ykhey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 147,
+        "pos": 16,
+        "word": "qokchey",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 147,
+        "pos": 17,
+        "word": "cholp",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 147,
+        "pos": 18,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 147,
+        "pos": 19,
+        "word": "dy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 148,
+        "pos": 2,
+        "word": "chor",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 148,
+        "pos": 3,
+        "word": "oteey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 148,
+        "pos": 4,
+        "word": "chokchey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 148,
+        "pos": 5,
+        "word": "kor",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 148,
+        "pos": 6,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 148,
+        "pos": 7,
+        "word": "shok",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 148,
+        "pos": 8,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 148,
+        "pos": 10,
+        "word": "qoky",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 148,
+        "pos": 11,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 148,
+        "pos": 12,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 148,
+        "pos": 13,
+        "word": "s",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 148,
+        "pos": 14,
+        "word": "al",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 148,
+        "pos": 15,
+        "word": "ydar",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 148,
+        "pos": 16,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 148,
+        "pos": 17,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 148,
+        "pos": 18,
+        "word": "ory",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 148,
+        "pos": 19,
+        "word": "okeey",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 148,
+        "pos": 20,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 148,
+        "pos": 23,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 148,
+        "pos": 24,
+        "word": "chear",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 149,
+        "pos": 0,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 149,
+        "pos": 1,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 149,
+        "pos": 2,
+        "word": "qokcheol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 149,
+        "pos": 3,
+        "word": "ykeor",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 149,
+        "pos": 4,
+        "word": "dar",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 149,
+        "pos": 5,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 149,
+        "pos": 6,
+        "word": "otechy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 149,
+        "pos": 7,
+        "word": "ykeor",
+        "category": "Unknown Noise",
+        "predicted_window": 2
+      },
+      {
+        "line": 149,
+        "pos": 8,
+        "word": "dor",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 149,
+        "pos": 10,
+        "word": "chls",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 149,
+        "pos": 11,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 149,
+        "pos": 12,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 149,
+        "pos": 13,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 149,
+        "pos": 14,
+        "word": "qodar",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 149,
+        "pos": 15,
+        "word": "soiin",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 149,
+        "pos": 16,
+        "word": "choko",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 149,
+        "pos": 17,
+        "word": "qokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 149,
+        "pos": 18,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 149,
+        "pos": 19,
+        "word": "odar",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 149,
+        "pos": 22,
+        "word": "chety",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 150,
+        "pos": 0,
+        "word": "kor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 150,
+        "pos": 2,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 150,
+        "pos": 3,
+        "word": "chs",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 150,
+        "pos": 4,
+        "word": "sho",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 150,
+        "pos": 5,
+        "word": "olcheeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 150,
+        "pos": 6,
+        "word": "kalshey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 150,
+        "pos": 9,
+        "word": "aiioly",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 151,
+        "pos": 0,
+        "word": "<%>pcheol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 151,
+        "pos": 1,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 151,
+        "pos": 3,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 151,
+        "pos": 4,
+        "word": "qockhol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 151,
+        "pos": 5,
+        "word": "shor",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 151,
+        "pos": 6,
+        "word": "yteol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 151,
+        "pos": 7,
+        "word": "sheockhey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 151,
+        "pos": 8,
+        "word": "qpol",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 151,
+        "pos": 9,
+        "word": "cheor",
+        "category": "Unknown Noise",
+        "predicted_window": 27
+      },
+      {
+        "line": 151,
+        "pos": 11,
+        "word": "olo",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 151,
+        "pos": 12,
+        "word": "o",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 151,
+        "pos": 13,
+        "word": "qkeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 151,
+        "pos": 14,
+        "word": "chopcheey",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 151,
+        "pos": 15,
+        "word": "checkhey",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 151,
+        "pos": 16,
+        "word": "cpheocthy",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 151,
+        "pos": 17,
+        "word": "ykchy",
+        "category": "Unknown Noise",
+        "predicted_window": 36
+      },
+      {
+        "line": 151,
+        "pos": 18,
+        "word": "cheey",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 151,
+        "pos": 19,
+        "word": "chekeey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 151,
+        "pos": 20,
+        "word": "dal",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 151,
+        "pos": 21,
+        "word": "chsm",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 152,
+        "pos": 1,
+        "word": "chokeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 152,
+        "pos": 2,
+        "word": "chkey",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 152,
+        "pos": 3,
+        "word": "cthey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 152,
+        "pos": 4,
+        "word": "okal",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 152,
+        "pos": 5,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 152,
+        "pos": 6,
+        "word": "kol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 152,
+        "pos": 9,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 152,
+        "pos": 11,
+        "word": "okolol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 152,
+        "pos": 12,
+        "word": "olchey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 152,
+        "pos": 13,
+        "word": "qokchor",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 152,
+        "pos": 14,
+        "word": "okey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 152,
+        "pos": 15,
+        "word": "qokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 152,
+        "pos": 18,
+        "word": "teol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 152,
+        "pos": 19,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 152,
+        "pos": 20,
+        "word": "aiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 152,
+        "pos": 21,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 153,
+        "pos": 0,
+        "word": "<%>etolctheol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 153,
+        "pos": 2,
+        "word": "r",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 153,
+        "pos": 4,
+        "word": "qotol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 153,
+        "pos": 5,
+        "word": "sheo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 153,
+        "pos": 6,
+        "word": "dol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 153,
+        "pos": 7,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 153,
+        "pos": 9,
+        "word": "ctheea",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 153,
+        "pos": 10,
+        "word": "yteeoldy",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 153,
+        "pos": 11,
+        "word": "kchdol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 153,
+        "pos": 12,
+        "word": "sheody",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 153,
+        "pos": 15,
+        "word": "sheor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 153,
+        "pos": 16,
+        "word": "qotoiir",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 153,
+        "pos": 18,
+        "word": "sheey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 153,
+        "pos": 19,
+        "word": "ssheo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 153,
+        "pos": 20,
+        "word": "tchey",
+        "category": "Unknown Noise",
+        "predicted_window": 2
+      },
+      {
+        "line": 153,
+        "pos": 21,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 153,
+        "pos": 22,
+        "word": "dar",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 153,
+        "pos": 23,
+        "word": "am",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 154,
+        "pos": 0,
+        "word": "ycheeo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 154,
+        "pos": 1,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 154,
+        "pos": 2,
+        "word": "sheeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 154,
+        "pos": 3,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 154,
+        "pos": 4,
+        "word": "sheeol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 154,
+        "pos": 5,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 154,
+        "pos": 6,
+        "word": "ctheol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 154,
+        "pos": 7,
+        "word": "shkeeo",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 154,
+        "pos": 8,
+        "word": "qockheol",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 154,
+        "pos": 9,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 154,
+        "pos": 10,
+        "word": "shy",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 154,
+        "pos": 11,
+        "word": "csol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 154,
+        "pos": 13,
+        "word": "ctody",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 154,
+        "pos": 14,
+        "word": "chkchol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 154,
+        "pos": 15,
+        "word": "doteoda",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 154,
+        "pos": 16,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 154,
+        "pos": 17,
+        "word": "daisin",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 154,
+        "pos": 18,
+        "word": "okeey",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 154,
+        "pos": 20,
+        "word": "dairin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 155,
+        "pos": 0,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 37
+      },
+      {
+        "line": 155,
+        "pos": 1,
+        "word": "ctheol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 155,
+        "pos": 2,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 155,
+        "pos": 5,
+        "word": "aiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 155,
+        "pos": 6,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 155,
+        "pos": 7,
+        "word": "cho",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 155,
+        "pos": 8,
+        "word": "keeo",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 155,
+        "pos": 9,
+        "word": "dchey",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 155,
+        "pos": 10,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 155,
+        "pos": 12,
+        "word": "dor",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 155,
+        "pos": 13,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 155,
+        "pos": 14,
+        "word": "chy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 155,
+        "pos": 19,
+        "word": "olchey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 155,
+        "pos": 20,
+        "word": "oteeod",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 155,
+        "pos": 21,
+        "word": "sheol",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 155,
+        "pos": 22,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 155,
+        "pos": 23,
+        "word": "chosaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 155,
+        "pos": 24,
+        "word": "sheom",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 156,
+        "pos": 0,
+        "word": "okeeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 156,
+        "pos": 1,
+        "word": "sho",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 156,
+        "pos": 2,
+        "word": "shody",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 156,
+        "pos": 3,
+        "word": "sho",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 156,
+        "pos": 5,
+        "word": "okeeeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 156,
+        "pos": 6,
+        "word": "cheos",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 156,
+        "pos": 7,
+        "word": "sheokeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 156,
+        "pos": 8,
+        "word": "sheeor",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 156,
+        "pos": 9,
+        "word": "chchy",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 156,
+        "pos": 10,
+        "word": "chodaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 156,
+        "pos": 11,
+        "word": "sheeckhey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 156,
+        "pos": 12,
+        "word": "teeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 156,
+        "pos": 13,
+        "word": "scheol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 156,
+        "pos": 14,
+        "word": "sar",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 156,
+        "pos": 15,
+        "word": "oeeor<$>",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 157,
+        "pos": 0,
+        "word": "<%>cphoar",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 157,
+        "pos": 2,
+        "word": "ypcholy",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 157,
+        "pos": 3,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 157,
+        "pos": 4,
+        "word": "otaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 157,
+        "pos": 6,
+        "word": "yfolaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 157,
+        "pos": 7,
+        "word": "fcheolain",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 157,
+        "pos": 8,
+        "word": "ypchey",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 157,
+        "pos": 9,
+        "word": "ypho?o<->shotey",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 157,
+        "pos": 10,
+        "word": "odariin",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 157,
+        "pos": 11,
+        "word": "sheoor",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 157,
+        "pos": 12,
+        "word": "sheor",
+        "category": "Unknown Noise",
+        "predicted_window": 5
+      },
+      {
+        "line": 157,
+        "pos": 13,
+        "word": "ckheey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 157,
+        "pos": 14,
+        "word": "ykhey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 157,
+        "pos": 15,
+        "word": "qokchey",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 157,
+        "pos": 16,
+        "word": "cholp",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 157,
+        "pos": 17,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 33
+      },
+      {
+        "line": 157,
+        "pos": 18,
+        "word": "dy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 158,
+        "pos": 2,
+        "word": "chor",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 158,
+        "pos": 3,
+        "word": "oteey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 158,
+        "pos": 4,
+        "word": "chokchey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 158,
+        "pos": 5,
+        "word": "kor",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 158,
+        "pos": 6,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 158,
+        "pos": 7,
+        "word": "shok",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 158,
+        "pos": 8,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 158,
+        "pos": 10,
+        "word": "qoky",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 158,
+        "pos": 11,
+        "word": "daiin<->ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 158,
+        "pos": 13,
+        "word": "al",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 158,
+        "pos": 14,
+        "word": "ydar",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 158,
+        "pos": 15,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 47
+      },
+      {
+        "line": 158,
+        "pos": 16,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 158,
+        "pos": 17,
+        "word": "ory",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 158,
+        "pos": 18,
+        "word": "okeey",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 158,
+        "pos": 19,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 158,
+        "pos": 22,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 158,
+        "pos": 23,
+        "word": "chear",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 159,
+        "pos": 0,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 159,
+        "pos": 1,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 159,
+        "pos": 2,
+        "word": "qokcheol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 159,
+        "pos": 3,
+        "word": "ykeor",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 159,
+        "pos": 4,
+        "word": "dar",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 159,
+        "pos": 5,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 159,
+        "pos": 6,
+        "word": "otechy",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 159,
+        "pos": 7,
+        "word": "ykeor",
+        "category": "Unknown Noise",
+        "predicted_window": 2
+      },
+      {
+        "line": 159,
+        "pos": 8,
+        "word": "dor",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 159,
+        "pos": 10,
+        "word": "chls",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 159,
+        "pos": 11,
+        "word": "cheol<->okol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 159,
+        "pos": 12,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 159,
+        "pos": 13,
+        "word": "qodar",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 159,
+        "pos": 14,
+        "word": "soiin",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 159,
+        "pos": 15,
+        "word": "choko",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 159,
+        "pos": 16,
+        "word": "qokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 159,
+        "pos": 17,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 159,
+        "pos": 18,
+        "word": "odar",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 159,
+        "pos": 21,
+        "word": "chety",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 160,
+        "pos": 0,
+        "word": "kor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 160,
+        "pos": 2,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 160,
+        "pos": 3,
+        "word": "chs<->sho",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 160,
+        "pos": 4,
+        "word": "olcheeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 160,
+        "pos": 5,
+        "word": "kalshey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 160,
+        "pos": 6,
+        "word": "okeoly",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 160,
+        "pos": 8,
+        "word": "aiioly<$>",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 161,
+        "pos": 0,
+        "word": "pcheol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 161,
+        "pos": 1,
+        "word": "sheol",
+        "category": "vertical_offset_down",
+        "predicted_window": 40
+      },
+      {
+        "line": 161,
+        "pos": 2,
+        "word": "ol",
+        "category": "vertical_offset_down",
+        "predicted_window": 15
+      },
+      {
+        "line": 161,
+        "pos": 3,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 161,
+        "pos": 4,
+        "word": "qockhol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 161,
+        "pos": 5,
+        "word": "shor",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 161,
+        "pos": 6,
+        "word": "yteol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 161,
+        "pos": 7,
+        "word": "sheockhey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 161,
+        "pos": 8,
+        "word": "qpol",
+        "category": "Unknown Noise",
+        "predicted_window": 8
+      },
+      {
+        "line": 161,
+        "pos": 9,
+        "word": "chear",
+        "category": "Unknown Noise",
+        "predicted_window": 27
+      },
+      {
+        "line": 161,
+        "pos": 10,
+        "word": "s",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 161,
+        "pos": 12,
+        "word": "aly,eeey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 161,
+        "pos": 13,
+        "word": "qkeey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 161,
+        "pos": 14,
+        "word": "chopcheey",
+        "category": "Unknown Noise",
+        "predicted_window": 9
+      },
+      {
+        "line": 161,
+        "pos": 15,
+        "word": "checkhey",
+        "category": "Unknown Noise",
+        "predicted_window": 3
+      },
+      {
+        "line": 161,
+        "pos": 16,
+        "word": "cpheocthy",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 161,
+        "pos": 17,
+        "word": "ykchy",
+        "category": "Unknown Noise",
+        "predicted_window": 36
+      },
+      {
+        "line": 161,
+        "pos": 18,
+        "word": "cheea",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 161,
+        "pos": 19,
+        "word": "chekeey",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 161,
+        "pos": 20,
+        "word": "dal",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 162,
+        "pos": 1,
+        "word": "chokeey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 162,
+        "pos": 2,
+        "word": "chkey",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 162,
+        "pos": 3,
+        "word": "cthey",
+        "category": "Unknown Noise",
+        "predicted_window": 14
+      },
+      {
+        "line": 162,
+        "pos": 4,
+        "word": "okal,chol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 162,
+        "pos": 5,
+        "word": "kol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 162,
+        "pos": 6,
+        "word": "o",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 162,
+        "pos": 8,
+        "word": "r",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 162,
+        "pos": 9,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 162,
+        "pos": 11,
+        "word": "okol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 162,
+        "pos": 12,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 162,
+        "pos": 13,
+        "word": "olchey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 162,
+        "pos": 14,
+        "word": "qokchal",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 162,
+        "pos": 15,
+        "word": "okey",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 162,
+        "pos": 16,
+        "word": "qokeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 162,
+        "pos": 19,
+        "word": "teol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 162,
+        "pos": 20,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 23
+      },
+      {
+        "line": 162,
+        "pos": 21,
+        "word": "aiiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 162,
+        "pos": 22,
+        "word": "choldaiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 163,
+        "pos": 0,
+        "word": "cpolcfheol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 163,
+        "pos": 1,
+        "word": "akeor",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 163,
+        "pos": 2,
+        "word": "r",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 163,
+        "pos": 4,
+        "word": "qotol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 163,
+        "pos": 5,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 163,
+        "pos": 6,
+        "word": "dol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 163,
+        "pos": 7,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 163,
+        "pos": 9,
+        "word": "ctheey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 163,
+        "pos": 10,
+        "word": "yteeoldy",
+        "category": "Unknown Noise",
+        "predicted_window": 40
+      },
+      {
+        "line": 163,
+        "pos": 11,
+        "word": "kchol,ol",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 163,
+        "pos": 12,
+        "word": "sheody",
+        "category": "Unknown Noise",
+        "predicted_window": 22
+      },
+      {
+        "line": 163,
+        "pos": 15,
+        "word": "sheor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 163,
+        "pos": 16,
+        "word": "qotaiir",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 163,
+        "pos": 18,
+        "word": "sheey",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 163,
+        "pos": 19,
+        "word": "s",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 163,
+        "pos": 20,
+        "word": "sheo",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 163,
+        "pos": 21,
+        "word": "tchey",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 163,
+        "pos": 22,
+        "word": "ol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 163,
+        "pos": 23,
+        "word": "dar",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 163,
+        "pos": 24,
+        "word": "am",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 164,
+        "pos": 0,
+        "word": "ycheeo",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 164,
+        "pos": 1,
+        "word": "or",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 164,
+        "pos": 2,
+        "word": "sheeol",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 164,
+        "pos": 3,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 164,
+        "pos": 4,
+        "word": "sheeol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 164,
+        "pos": 5,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 164,
+        "pos": 6,
+        "word": "ctheol",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 164,
+        "pos": 7,
+        "word": "sykeeo",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 164,
+        "pos": 9,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 16
+      },
+      {
+        "line": 164,
+        "pos": 10,
+        "word": "shey",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 164,
+        "pos": 11,
+        "word": "chol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 164,
+        "pos": 12,
+        "word": "okeeor",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 164,
+        "pos": 13,
+        "word": "ctody",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 164,
+        "pos": 14,
+        "word": "chkchol",
+        "category": "Unknown Noise",
+        "predicted_window": 1
+      },
+      {
+        "line": 164,
+        "pos": 15,
+        "word": "dateody",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 164,
+        "pos": 16,
+        "word": "okeol",
+        "category": "Unknown Noise",
+        "predicted_window": 17
+      },
+      {
+        "line": 164,
+        "pos": 17,
+        "word": "dairin",
+        "category": "Unknown Noise",
+        "predicted_window": 41
+      },
+      {
+        "line": 164,
+        "pos": 18,
+        "word": "okeey",
+        "category": "Unknown Noise",
+        "predicted_window": 37
+      },
+      {
+        "line": 164,
+        "pos": 20,
+        "word": "dairin",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 165,
+        "pos": 0,
+        "word": "daiin",
+        "category": "Unknown Noise",
+        "predicted_window": 37
+      },
+      {
+        "line": 165,
+        "pos": 1,
+        "word": "ctheol",
+        "category": "Unknown Noise",
+        "predicted_window": 45
+      },
+      {
+        "line": 165,
+        "pos": 2,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      },
+      {
+        "line": 165,
+        "pos": 5,
+        "word": "aiin",
+        "category": "Unknown Noise",
+        "predicted_window": 31
+      },
+      {
+        "line": 165,
+        "pos": 6,
+        "word": "cheol",
+        "category": "Unknown Noise",
+        "predicted_window": 15
+      }
+    ]
+  }
+}

@@ -24,7 +24,9 @@ Phase 1 (Foundation)
   │                                        │
   │                                        └──► Phase 10 (Admissibility Retest)
   │
-  └──► Phase 11 (Stroke Topology)
+  ├──► Phase 11 (Stroke Topology)
+  │
+  └──► Phase 12 (Mechanical) ──► Phase 13 (Demonstration) ──► Phase 14 (Engine)
 
 Phase 9 (Conjecture) ← reads all prior outputs (narrative only, no computation)
 ```
@@ -49,6 +51,9 @@ after Phase 1 because it only needs glyph/token data.
 | **9 Conjecture** | Phases 1-8 | All prior reports (read-only) | Publication narrative (no computation) |
 | **10 Retest** | Phases 1-8 | All prior results, external corpora | Method F-K outcomes, closure status |
 | **11 Stroke** | Phase 1 | Glyph candidates, transcription tokens | Stroke features, clustering, transition matrices |
+| **12 Mechanical** | Phase 5, Phase 11 | Adjacency graph, slip candidates | Grid coordinates, columnar segments, volvelle geometry |
+| **13 Demonstration**| Phase 12 | Slip register, context lines | Interactive viz data, evidence gallery |
+| **14 Engine** | Phase 12 | Global palette grid, state profiles | Canonical metrics, formal spec, logic export |
 
 ---
 
@@ -78,6 +83,11 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7 
 ```
 Phase 10 re-examines conclusions from all prior phases.
 
+### "I want to verify the full mechanical reconstruction (Phase 14)"
+```
+Phase 1 → Phase 5 → Phase 11 → Phase 12 → Phase 14
+```
+
 ### "I want to regenerate the publication"
 ```
 Phase 1 through Phase 11 (all)  →  Phase 9
@@ -97,6 +107,9 @@ Phase 1 through Phase 11 (all)  →  Phase 9
 | `results/data/phase5_mechanism/anchor_coupling_confirmatory.json` | Phase 5 | Phase 7, CI checks |
 | `results/data/phase7_human/phase_7c_uncertainty.json` | Phase 7 | Phase 8, CI checks |
 | `results/data/phase11_stroke/test_a_clustering.json` | Phase 11 | Verification |
+| `results/data/phase12_mechanical/slip_detection_results.json` | Phase 12 | Phase 13, Phase 14 |
+| `results/data/phase14_machine/full_palette_grid.json` | Phase 14 | Documentation, interactive tools |
+| `results/reports/phase14_machine/CANONICAL_EVALUATION.md` | Phase 14 | Publication |
 | `core_status/` (7+ files) | Various | `ci_check.sh`, `verify_reproduction.sh` |
 
 ---
@@ -116,4 +129,7 @@ Phase 1 through Phase 11 (all)  →  Phase 9
 | Phase 9 | 2-5 min | Publication generation only |
 | Phase 10 | 60-120 min | 7 adversarial stages (most expensive) |
 | Phase 11 | 5-15 min | Stroke extraction + clustering |
-| **Total** | **3-6 hours** | Full replication on modern hardware |
+| Phase 12 | 10-20 min | Columnar solving + slip detection |
+| Phase 13 | 5-10 min | Evidence gallery generation |
+| Phase 14 | 15-30 min | Global palette solving + formal spec |
+| **Total** | **4-8 hours** | Full replication on modern hardware |

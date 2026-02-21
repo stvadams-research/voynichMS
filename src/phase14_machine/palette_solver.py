@@ -14,12 +14,27 @@ class GlobalPaletteSolver:
     """
     Infers 2D coordinates for every word in the vocabulary based on 
     physical adjacency signals (slips and transitions).
+    
+    Attributes:
+        G: A networkx Graph where nodes are words and edges represent 
+           physical proximity signals (slips or transitions).
     """
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initializes an empty adjacency graph."""
         self.G = nx.Graph()
 
-    def ingest_data(self, slips: List[Dict[str, Any]], lines: List[List[str]], top_n: Optional[int] = 8000):
-        """Builds the global physical adjacency graph with frequency filtering."""
+    def ingest_data(self, 
+                    slips: List[Dict[str, Any]], 
+                    lines: List[List[str]], 
+                    top_n: Optional[int] = 8000) -> None:
+        """
+        Builds the global physical adjacency graph with frequency filtering.
+        
+        Args:
+            slips: A list of detected mechanical slips (with actual contexts).
+            lines: A list of manuscript lines (tokenized).
+            top_n: The maximum number of frequent tokens to include in the graph.
+        """
         # Standardize: Always cap at 8,000 to avoid long-tail noise
         target_n = top_n if top_n else 8000
         
@@ -29,13 +44,16 @@ class GlobalPaletteSolver:
         print(f"Building graph for top {target_n} tokens...")
 
         # 1. Signal from Slips (Weight = 10.0)
+        # Slips are high-confidence signals of vertical adjacency
         for s in slips:
             word_a = s['word']
+            # actual_context[0] is the word physically above the slip
             word_b = s['actual_context'][0]
             if word_a in keep_tokens and word_b in keep_tokens:
                 self.G.add_edge(word_a, word_b, weight=10.0, type='slip')
             
         # 2. Signal from Transitions (Weight = 1.0)
+        # Transitions are signals of horizontal/state adjacency
         for line in lines:
             for i in range(len(line) - 1):
                 u, v = line[i], line[i+1]
@@ -44,18 +62,27 @@ class GlobalPaletteSolver:
 
     def solve_grid(self, iterations: int = 30) -> Dict[str, Tuple[float, float]]:
         """
-        Uses an iterative force-directed layout with heartbeats to prevent timeouts.
+        Infers 2D coordinates using an iterative force-directed layout.
+        
+        Args:
+            iterations: Total number of optimization steps.
+            
+        Returns:
+            A dictionary mapping each word to its (x, y) coordinates.
         """
         num_nodes = self.G.number_of_nodes()
+        if num_nodes == 0:
+            return {}
+            
         print(f"Solving physical grid for {num_nodes} tokens...")
         
-        # We run iterations in batches of 5 to provide status updates
+        # We run iterations in batches to provide status heartbeats
         batch_size = 5
         current_pos = None
         
         for i in range(0, iterations, batch_size):
             actual_iter = min(batch_size, iterations - i)
-            # Use fixed seed for first batch, then use previous positions
+            # Use fixed seed for first batch, then use previous positions for stability
             current_pos = nx.spring_layout(
                 self.G, 
                 weight='weight', 
@@ -66,27 +93,42 @@ class GlobalPaletteSolver:
             print(f"  [HEARTBEAT] Completed {i + actual_iter}/{iterations} iterations...")
         
         print("Layout optimization complete.")
-        return {word: tuple(coord) for word, coord in current_pos.items()}
+        return {word: (float(coord[0]), float(coord[1])) for word, coord in current_pos.items()}
 
-    def cluster_lattice(self, solved_pos: Dict[str, Tuple[float, float]], num_windows: int = 50) -> Dict[str, int]:
+    def cluster_lattice(self, 
+                        solved_pos: Dict[str, Tuple[float, float]], 
+                        num_windows: int = 50) -> Dict[str, Any]:
         """
-        Groups words into discrete functional windows based on their 
-        coordinates in the solved physical space.
+        Groups words into discrete functional windows based on their 2D coordinates.
+        
+        Args:
+            solved_pos: Mapping from word to its physical coordinates.
+            num_windows: The number of clusters (windows) to create.
+            
+        Returns:
+            A dictionary containing the word-to-window map and the window-to-words list.
         """
+        if not solved_pos:
+            return {"word_to_window": {}, "window_contents": {}}
+            
         from sklearn.cluster import KMeans
         words = list(solved_pos.keys())
         coords = np.array([solved_pos[w] for w in words])
         
+        # KMeans finds the most natural 'windows' in the physical space
         print(f"Clustering {len(words)} tokens into {num_windows} physical windows...")
         kmeans = KMeans(n_clusters=num_windows, random_state=42, n_init=10)
         labels = kmeans.fit_predict(coords)
         
         word_to_window = {words[i]: int(labels[i]) for i in range(len(words))}
         
-        # Build the 'Window Transition' map
+        # Build the 'Window Contents' map
         # window_id -> list of words in that window
         window_contents = defaultdict(list)
         for w, wid in word_to_window.items():
             window_contents[wid].append(w)
             
-        return {"word_to_window": word_to_window, "window_contents": dict(window_contents)}
+        return {
+            "word_to_window": word_to_window, 
+            "window_contents": dict(window_contents)
+        }

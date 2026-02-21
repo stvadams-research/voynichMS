@@ -1,0 +1,28 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T13:00:30.995502+00:00"
+  },
+  "results": {
+    "ngrams": {
+      "n2": {
+        "real_count": 88708,
+        "syn_count": 55987,
+        "overlap_count": 30,
+        "false_positive_rate": 0.9994641613231643
+      },
+      "n3": {
+        "real_count": 89031,
+        "syn_count": 49253,
+        "overlap_count": 0,
+        "false_positive_rate": 1.0
+      },
+      "n4": {
+        "real_count": 77866,
+        "syn_count": 39449,
+        "overlap_count": 0,
+        "false_positive_rate": 1.0
+      }
+    }
+  }
+}

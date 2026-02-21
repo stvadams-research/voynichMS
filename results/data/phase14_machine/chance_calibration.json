@@ -1,0 +1,15 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T13:14:50.793026+00:00"
+  },
+  "results": {
+    "mean_chance": 0.05998051338490921,
+    "ci_95": [
+      0.05911274398731104,
+      0.061209173599197225
+    ],
+    "num_iterations": 100,
+    "observed_holdout_score": 0.1326
+  }
+}

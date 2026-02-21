@@ -1,0 +1,55 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T13:35:35.884731+00:00"
+  },
+  "results": {
+    "sweep": [
+      {
+        "num_windows": 2,
+        "admissibility": 1.0,
+        "l_total_bits": 1541364.8695303292
+      },
+      {
+        "num_windows": 5,
+        "admissibility": 0.7600815718771242,
+        "l_total_bits": 1339817.1025433277
+      },
+      {
+        "num_windows": 10,
+        "admissibility": 0.549787977859062,
+        "l_total_bits": 1187352.1025433277
+      },
+      {
+        "num_windows": 25,
+        "admissibility": 0.3562295665684783,
+        "l_total_bits": 985804.3355563259
+      },
+      {
+        "num_windows": 50,
+        "admissibility": 0.2102094325575373,
+        "l_total_bits": 833339.3355563259
+      },
+      {
+        "num_windows": 75,
+        "admissibility": 0.16316317612404105,
+        "l_total_bits": 744153.0278838748
+      },
+      {
+        "num_windows": 100,
+        "admissibility": 0.1302366231832454,
+        "l_total_bits": 680874.3355563259
+      },
+      {
+        "num_windows": 200,
+        "admissibility": 0.0855727834784579,
+        "l_total_bits": 528409.3355563259
+      },
+      {
+        "num_windows": 500,
+        "admissibility": 0.04274107402971547,
+        "l_total_bits": 326861.56856932415
+      }
+    ]
+  }
+}

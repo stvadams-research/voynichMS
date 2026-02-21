@@ -1,0 +1,13 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T13:33:09.146098+00:00"
+  },
+  "results": {
+    "admissible_choices": 49159,
+    "real_choice_entropy": 8.097358003907276,
+    "uniform_random_entropy": 7.277054876148728,
+    "entropy_reduction": -0.1127246038018997,
+    "avg_window_size": 155.1
+  }
+}

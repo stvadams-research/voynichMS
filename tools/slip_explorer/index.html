@@ -2,172 +2,269 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voynich Slip Explorer</title>
+    <title>Voynich Machine Explorer</title>
     <style>
-        /* Existing styles */
-        body { font-family: sans-serif; background: #f4f4f9; color: #333; margin: 0; display: flex; height: 100vh; }
-        #sidebar { width: 300px; background: #fff; border-right: 1px solid #ddd; overflow-y: auto; padding: 20px; }
-        #main { flex: 1; padding: 40px; overflow-y: auto; }
-        .tabs { margin-bottom: 20px; border-bottom: 2px solid #ddd; }
-        .tab { display: inline-block; padding: 10px 20px; cursor: pointer; border: 1px solid transparent; margin-bottom: -2px; }
-        .tab.active { border: 2px solid #ddd; border-bottom: 2px solid #f4f4f9; background: #f4f4f9; font-weight: bold; }
-        .slip-item { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; }
-        /* ... */
-        .volvelle-slot { display: inline-block; width: 120px; padding: 10px; border: 1px solid #ccc; text-align: center; margin: 5px; background: #eee; }
-        .volvelle-slot.active { background: #fff; border: 2px solid #4a4ae2; font-weight: bold; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; color: #1c1e21; margin: 0; display: flex; height: 100vh; }
+        #sidebar { width: 380px; background: #ffffff; border-right: 1px solid #ddd; display: flex; flex-direction: column; box-shadow: 2px 0 5px rgba(0,0,0,0.05); }
+        #main { flex: 1; padding: 40px; overflow-y: auto; background: #f0f2f5; }
+        
+        .header { padding: 20px; border-bottom: 1px solid #eee; }
+        .tabs { display: flex; padding: 0 20px; border-bottom: 1px solid #eee; background: #fafafa; }
+        .tab { padding: 12px 0; flex: 1; text-align: center; cursor: pointer; border-bottom: 3px solid transparent; font-weight: 600; color: #65676b; transition: all 0.2s; }
+        .tab.active { border-bottom-color: #1877f2; color: #1877f2; }
+        
+        .scroll-area { flex: 1; overflow-y: auto; padding: 20px; }
+        .upload-card { background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.85em; }
+        
+        .item-card { padding: 12px; border-radius: 6px; border: 1px solid #eee; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; background: #fff; }
+        .item-card:hover { background: #f2f2f2; }
+        .item-card.active { border-left: 5px solid #1877f2; background: #e7f3ff; }
+        
+        .display-box { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 30px; }
+        .token { display: inline-block; padding: 6px 12px; margin: 4px; border-radius: 6px; font-family: 'Courier New', Courier, monospace; font-size: 1.3em; background: #f0f2f5; }
+        .token.highlight { background: #ffe9e9; color: #d93025; border: 1px solid #f28b82; font-weight: bold; }
+        .token.source { background: #e6f4ea; color: #188038; border: 1px solid #81c995; font-weight: bold; }
+        
+        .engine-word { display: inline-block; min-width: 120px; padding: 12px; margin: 6px; background: #fff; border: 2px solid #1877f2; border-radius: 8px; text-align: center; cursor: pointer; font-family: monospace; font-weight: bold; transition: transform 0.1s, background 0.2s; position: relative; }
+        .engine-word:hover { transform: translateY(-2px); background: #f0f7ff; }
+        .engine-word:active { transform: translateY(0); }
+        .engine-word .next-tip { display: block; font-size: 0.7em; color: #65676b; font-weight: normal; margin-top: 4px; }
+        .engine-word .badge { position: absolute; top: -8px; right: -8px; background: #1877f2; color: white; border-radius: 50%; width: 24px; height: 24px; font-size: 0.7em; line-height: 24px; }
+        
+        #output-stream { font-family: monospace; font-size: 2.2em; color: #1c1e21; padding: 20px; border-top: 2px solid #eee; margin-top: 20px; min-height: 1.5em; word-wrap: break-word; }
+        .label { font-size: 0.75em; text-transform: uppercase; color: #8e8e8e; letter-spacing: 1px; font-weight: bold; margin-bottom: 10px; display: block; }
+        
+        #console { background: #1c1e21; color: #00ff00; padding: 15px; font-family: 'Consolas', monospace; font-size: 0.8em; border-radius: 8px; height: 120px; overflow-y: auto; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div id="sidebar">
-    <h2>Demonstration</h2>
+    <div class="header">
+        <h2 style="margin:0">Voynich Artifact</h2>
+        <p style="font-size:0.8em; color:#65676b">Mechanical Identity Reconstruction</p>
+    </div>
+    
     <div class="tabs">
-        <div class="tab active" onclick="switchTab('slips')">Slips</div>
-        <div class="tab" onclick="switchTab('sandbox')">Engine</div>
+        <div id="btn-tab-slips" class="tab active" onclick="setTab('slips')">SLIPS</div>
+        <div id="btn-tab-lattice" class="tab" onclick="setTab('lattice')">LATTICE</div>
     </div>
     
-    <div id="slip-pane">
-        <p class="summary">Total: 914 signal-verified events.</p>
-        <div id="slip-list"></div>
+    <div id="pane-slips" class="scroll-area">
+        <div class="upload-card">
+            <strong>1. Load <code>slip_viz_data.json</code></strong>
+            <input type="file" onchange="handleFile(this, 'slips')" style="margin-top:10px; width:100%">
+        </div>
+        <div id="list-slips"></div>
     </div>
     
-    <div id="sandbox-pane" style="display:none;">
-        <p class="summary">Virtual Voynich Engine (3-State Volvelle)</p>
-        <label>Rotation Setting:</label>
-        <input type="range" min="0" max="9" value="0" id="mask-slider" oninput="updateSandbox()">
-        <p>Rotate the wheel to change the 'Thematic Mask'.</p>
+    <div id="pane-lattice" class="scroll-area" style="display:none">
+        <div class="upload-card">
+            <strong>2. Load <code>full_palette_grid.json</code></strong>
+            <input type="file" onchange="handleFile(this, 'grid')" style="margin-top:10px; width:100%">
+        </div>
+        <div id="list-windows"></div>
+    </div>
+    
+    <div style="padding:20px; border-top:1px solid #eee">
+        <div class="label">Internal Debugger</div>
+        <div id="console">System ready.</div>
     </div>
 </div>
 
 <div id="main">
-    <div id="slips-view">
-        <div id="welcome">
-            <h1>Voynich Slip Explorer</h1>
-            <p>Select a slip from the sidebar to visualize the mechanical misalignment.</p>
-        </div>
-        <div id="viz" style="display:none;">
-            <!-- Existing viz content -->
-            <div class="line-container">
-                <span class="label">Source Line (Previous Context)</span>
-                <div id="prev-line-text"></div>
+    <div id="view-slips">
+        <h1>Scribal Slip Explorer</h1>
+        <div id="welcome-slips"><p>Please upload the mechanical slip data to visualize vertical offsets.</p></div>
+        <div id="viz-slips" style="display:none">
+            <div class="display-box">
+                <span class="label">Line N-1 (The Source)</span>
+                <div id="row-prev"></div>
             </div>
-            <div class="line-container">
-                <span class="label">Slipped Line (Current)</span>
-                <div id="curr-line-text"></div>
+            <div class="display-box">
+                <span class="label">Line N (The Slipped Output)</span>
+                <div id="row-curr"></div>
             </div>
-            <p><strong>Line Index:</strong> <span id="stat-line"></span> | <strong>Position:</strong> <span id="stat-pos"></span></p>
+            <div class="display-box" style="background:#e7f3ff; border:1px solid #1877f2">
+                <p><strong>Proof:</strong> The scribe's eye slipped to the window used in the previous line. The resulting word is mathematically impossible for the current line's context, but 100% legal for the line above.</p>
+            </div>
         </div>
     </div>
 
-    <div id="sandbox-view" style="display:none;">
+    <div id="view-lattice" style="display:none">
         <h1>Mechanical Sandbox</h1>
-        <p>This replicates the physical process of selecting tokens through a three-state window.</p>
-        <div id="engine-display">
-            <div class="line-container">
-                <span class="label">Current Tool Windows (Positions 1-5)</span>
-                <div id="windows-grid"></div>
-            </div>
-            <div class="line-container">
-                <span class="label">Generated Sequence</span>
-                <div id="gen-output" style="font-family:monospace; font-size:1.5em; color: #4a4ae2;"></div>
-            </div>
+        <p>This replicates the physical process of selecting tokens. The chosen word advances the machine to its next window.</p>
+        <div style="margin-bottom:20px">
+            <button onclick="clearOutput()" style="padding:10px 20px; cursor:pointer; background:#1877f2; color:#fff; border:none; border-radius:6px; font-weight:bold; margin-right:10px">Reset Machine</button>
+            <button onclick="randomJump()" style="padding:10px 20px; cursor:pointer; background:#e4e6eb; color:#000; border:none; border-radius:6px; font-weight:bold">Random Jump</button>
+        </div>
+        
+        <div class="display-box" style="margin-top:20px">
+            <span class="label">Available Tokens in Window <span id="cur-win-num" style="color:#1877f2">0</span></span>
+            <div id="engine-grid"></div>
+        </div>
+        
+        <div class="display-box">
+            <span class="label">Physical Output (Generative Trace)</span>
+            <div id="output-stream"></div>
         </div>
     </div>
 </div>
 
 <script>
-    let slips = [];
-    let blueprint = [];
+    const app = {
+        slips: [],
+        grid: null,
+        currentWindow: "0",
+        activeTab: 'slips'
+    };
 
-    async function loadData() {
-        const sRes = await fetch('../../results/data/phase13_demonstration/slip_viz_data.json');
-        const sData = await sRes.json();
-        slips = sData.slips;
-        renderList();
-
-        const bRes = await fetch('../../results/data/phase12_mechanical/physical_blueprint.json');
-        const bData = await bRes.json();
-        blueprint = bData.results.blueprint;
+    function msg(text) {
+        const c = document.getElementById('console');
+        c.innerHTML += `<div>&gt; ${text}</div>`;
+        c.scrollTop = c.scrollHeight;
     }
 
-    function switchTab(tab) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
+    function setTab(name) {
+        app.activeTab = name;
+        document.getElementById('btn-tab-slips').className = 'tab' + (name==='slips'?' active':'');
+        document.getElementById('btn-tab-lattice').className = 'tab' + (name==='lattice'?' active':'');
+        document.getElementById('pane-slips').style.display = (name==='slips'?'block':'none');
+        document.getElementById('pane-lattice').style.display = (name==='lattice'?'block':'none');
+        document.getElementById('view-slips').style.display = (name==='slips'?'block':'none');
+        document.getElementById('view-lattice').style.display = (name==='lattice'?'block':'none');
+        if(name === 'lattice' && app.grid) renderLattice();
+    }
+
+    function handleFile(input, type) {
+        if(!input.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                if(type === 'slips') {
+                    app.slips = data.slips || [];
+                    msg(`Loaded ${app.slips.length} slips.`);
+                    renderSlipSidebar();
+                } else {
+                    app.grid = data.results || data;
+                    msg(`Loaded grid with ${Object.keys(app.grid.window_contents).length} windows.`);
+                    renderWindowSidebar();
+                    renderLattice();
+                }
+            } catch(err) { msg("Error parsing JSON: " + err.message); }
+        };
+        reader.readAsText(input.files[0]);
+    }
+
+    function renderSlipSidebar() {
+        const container = document.getElementById('list-slips');
+        container.innerHTML = '';
+        app.slips.slice(0, 50).forEach((s, idx) => {
+            const div = document.createElement('div');
+            div.className = 'item-card';
+            div.innerHTML = `<strong>Line ${s.line_no}</strong>: ${s.word}`;
+            div.onclick = () => {
+                document.querySelectorAll('#list-slips .item-card').forEach(c=>c.classList.remove('active'));
+                div.classList.add('active');
+                showSlip(s);
+            };
+            container.appendChild(div);
+        });
+    }
+
+    function showSlip(s) {
+        document.getElementById('welcome-slips').style.display = 'none';
+        document.getElementById('viz-slips').style.display = 'block';
         
-        if (tab === 'slips') {
-            document.getElementById('slip-pane').style.display = 'block';
-            document.getElementById('sandbox-pane').style.display = 'none';
-            document.getElementById('slips-view').style.display = 'block';
-            document.getElementById('sandbox-view').style.display = 'none';
-        } else {
-            document.getElementById('slip-pane').style.display = 'none';
-            document.getElementById('sandbox-pane').style.display = 'block';
-            document.getElementById('slips-view').style.display = 'none';
-            document.getElementById('sandbox-view').style.display = 'block';
-            updateSandbox();
-        }
+        const renderRow = (id, tokens, targetIdx, cls) => {
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            tokens.forEach((t, i) => {
+                const span = document.createElement('span');
+                span.className = 'token' + (i === targetIdx ? ' ' + cls : '');
+                span.innerText = t;
+                el.appendChild(span);
+            });
+        };
+        renderRow('row-prev', s.previous_line, s.token_pos - 1, 'source');
+        renderRow('row-curr', s.current_line, s.token_pos, 'highlight');
     }
 
-    function updateSandbox() {
-        const offset = parseInt(document.getElementById('mask-slider').value);
-        const grid = document.getElementById('windows-grid');
-        const output = document.getElementById('gen-output');
+    function renderWindowSidebar() {
+        const container = document.getElementById('list-windows');
+        container.innerHTML = '';
+        const keys = Object.keys(app.grid.window_contents).sort((a,b) => parseInt(a) - parseInt(b));
+        keys.forEach(k => {
+            const div = document.createElement('div');
+            div.className = 'item-card' + (app.currentWindow === k ? ' active' : '');
+            div.id = `win-card-${k}`;
+            div.innerText = `Window ${k}`;
+            div.onclick = () => {
+                app.currentWindow = k.toString();
+                renderLattice();
+            };
+            container.appendChild(div);
+        });
+    }
+
+    function renderLattice() {
+        if(!app.grid) return;
+        const winId = app.currentWindow;
+        document.getElementById('cur-win-num').innerText = winId;
+        
+        // Update Sidebar
+        document.querySelectorAll('#list-windows .item-card').forEach(c=>c.classList.remove('active'));
+        const activeCard = document.getElementById(`win-card-${winId}`);
+        if(activeCard) {
+            activeCard.classList.add('active');
+            activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        const grid = document.getElementById('engine-grid');
         grid.innerHTML = '';
         
-        let genWords = [];
-        for (let p = 0; p < 5; p++) {
-            const word = blueprint[offset][p];
-            genWords.push(word);
+        const words = app.grid.window_contents[winId] || [];
+        // Only show top 24 words to keep UI clean
+        words.slice(0, 24).forEach(word => {
+            const nextWin = app.grid.lattice_map[word];
             const div = document.createElement('div');
-            div.className = 'volvelle-slot active';
-            div.innerHTML = `<span class="label">Pos ${p+1}</span>${word}`;
+            div.className = 'engine-word';
+            // Show the next window ID as a badge
+            div.innerHTML = `${word} <div class="badge">${nextWin ?? '?'}</div>`;
+            
+            div.onclick = () => {
+                msg(`Selecting "${word}"...`);
+                document.getElementById('output-stream').innerText += (document.getElementById('output-stream').innerText ? ' ' : '') + word;
+                
+                if (nextWin !== undefined) {
+                    msg(`Advancing to Window ${nextWin}`);
+                    app.currentWindow = nextWin.toString();
+                    // Use timeout to ensure UI updates
+                    setTimeout(renderLattice, 50);
+                } else {
+                    msg(`No transition found for "${word}". Staying in Window ${winId}`);
+                }
+            };
             grid.appendChild(div);
-        }
-        output.innerText = genWords.join(' ');
-    }
-
-    function renderList() {
-        const list = document.getElementById('slip-list');
-        slips.forEach((s, idx) => {
-            const div = document.createElement('div');
-            div.className = 'slip-item';
-            div.innerHTML = `Line ${s.line_no}: <strong>${s.word}</strong>`;
-            div.onclick = () => showSlip(idx, div);
-            list.appendChild(div);
         });
     }
 
-    function showSlip(idx, element) {
-        document.getElementById('welcome').style.display = 'none';
-        document.getElementById('viz').style.display = 'block';
-        document.querySelectorAll('.slip-item').forEach(i => i.classList.remove('active'));
-        element.classList.add('active');
-        const s = slips[idx];
-        
-        const prevDiv = document.getElementById('prev-line-text');
-        prevDiv.innerHTML = '';
-        s.previous_line.forEach((t, i) => {
-            const span = document.createElement('span');
-            span.className = 'token' + (i === s.token_pos - 1 ? ' source' : '');
-            span.innerText = t;
-            prevDiv.appendChild(span);
-        });
-        
-        const currDiv = document.getElementById('curr-line-text');
-        currDiv.innerHTML = '';
-        s.current_line.forEach((t, i) => {
-            const span = document.createElement('span');
-            span.className = 'token' + (i === s.token_pos ? ' highlight' : '');
-            span.innerText = t;
-            currDiv.appendChild(span);
-        });
-        
-        document.getElementById('stat-line').innerText = s.line_no;
-        document.getElementById('stat-pos').innerText = s.token_pos;
+    function clearOutput() {
+        document.getElementById('output-stream').innerText = '';
+        app.currentWindow = "0";
+        renderLattice();
+        msg("Machine Reset to Window 0.");
     }
 
-    loadData();
+    function randomJump() {
+        if(!app.grid) return;
+        const keys = Object.keys(app.grid.window_contents);
+        const randKey = keys[Math.floor(Math.random() * keys.length)];
+        app.currentWindow = randKey;
+        renderLattice();
+        msg(`Random jump to Window ${randKey}`);
+    }
 </script>
 
 </body>

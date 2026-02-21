@@ -1,0 +1,19 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T13:13:50.160826+00:00"
+  },
+  "results": {
+    "lattice": {
+      "l_model": 155100.0,
+      "l_data_given_model": 2095422.8969251695,
+      "l_total": 2250522.8969251695
+    },
+    "markov_equal_budget": {
+      "l_model": 155100.0,
+      "l_data_given_model": 1025337.3977703933,
+      "l_total": 1180437.3977703932
+    },
+    "is_parsimonious": false
+  }
+}

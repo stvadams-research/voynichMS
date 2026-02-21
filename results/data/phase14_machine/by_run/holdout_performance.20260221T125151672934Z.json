@@ -1,0 +1,12 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T12:51:51.672918+00:00"
+  },
+  "results": {
+    "train_lines": 48807,
+    "test_lines": 20813,
+    "admissibility_rate": 0.1325882327943395,
+    "total_test_tokens": 47063
+  }
+}

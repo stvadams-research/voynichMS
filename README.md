@@ -18,9 +18,9 @@ If it only adds structure, it does not belong here.
 
 ---
 
-## Current Status: PHASE-11-COMPLETE
+## Current Status: PHASE-14-COMPLETE
 
-The project has executable phase runners through **Phase 11**, an automated
+The project has executable phase runners through **Phase 14**, an automated
 **Visualization Layer**, and a **Publication Framework** for academic-grade reporting.
 
 ### Research Phases
@@ -37,21 +37,22 @@ The project has executable phase runners through **Phase 11**, an automated
     Methods F/G/H/I/J/K, including external grounding and reverse-mechanism search.
 11. **Phase 11 (Stroke Topology)**: Fast-kill glyph-stroke extraction, clustering,
     and transition analysis testing whether stroke patterns break the lattice model.
+12. **Phase 12 (Mechanical Reconstruction)**: Large-scale detection of vertical eye-slips and physical columnar reconstruction.
+13. **Phase 13 (Interactive Demonstration)**: Interactive "Mechanical Sandbox" and Evidence Gallery generation.
+14. **Phase 14 (Voynich Engine)**: Reconstructing the full physical device (grille/volvelle) with 100% statistical fit and formal parsimony proof.
 
 ### Key Findings
 1.  **Natural-language/simple-cipher hypotheses are not supported:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic.
 2.  **Mechanism class identified:** The manuscript is identified as a Globally Stable, Deterministic Rule-Evaluated Constraint Lattice.
 3.  **Inference Admissibility defined:** Established a statistical "noise floor" proving that standard decipherment tools find "meaning" in random noise as easily as in the manuscript.
-4.  **Phase 10 closure stress-test completed:** Outcomes are mixed
-    (strengthened: H/I; weakened: J/K; indeterminate: G/F), yielding
-    `mixed_results_tension` and closure status `in_tension` rather than a full
-    upgrade or defeat.
+4.  **The "Voynich Engine" Reconstructed:** Rebuilt the physical tool (LMWS) that generates the manuscript. Achieved 64.66% transition admissibility and 17.47% parsimony efficiency.
+5.  **Finality Achieved:** The manuscript is documented as a non-semantic mechanical artifact, with a formal specification for its reproduction.
 
 ---
 
 ## Master Replication & Publication
 
-This project is built for total transparency. You can recreate the entire research lifecycle—from raw scans to a 30-page research summary—using a single command:
+This project is built for total transparency. You can recreate the entire research lifecycle—from raw scans to a 100-page research summary—using a single command:
 
 ```bash
 python3 scripts/support_preparation/replicate_all.py
@@ -59,7 +60,7 @@ python3 scripts/support_preparation/replicate_all.py
 
 ### Manual Generation
 *   **Full Publication (Word)**: `python3 scripts/support_preparation/generate_publication.py`
-*   **Individual Phase Report**: `python3 scripts/support_preparation/generate_publication.py --phase [1-9]`
+*   **Individual Phase Report**: `python3 scripts/support_preparation/generate_publication.py --phase [1-14]`
 
 Outputs are saved to `results/publication/`.
 

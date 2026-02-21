@@ -1,0 +1,16 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T13:34:34.021739+00:00"
+  },
+  "results": {
+    "total_clamped": 188051,
+    "categories": {
+      "Admissible (Dist 0-1)": 49159,
+      "Extreme Jump (>10)": 100989,
+      "Mechanical Slip (Dist 4-10)": 34550,
+      "Extended Drift (Dist 2-3)": 3353
+    },
+    "extended_admissibility_rate": 0.27924339673811893
+  }
+}

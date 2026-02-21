@@ -23,10 +23,14 @@ For reproduction instructions, see [replicateResults.md](replicateResults.md).
                        │              │                Phase 8  (Comparative)
   Gutenberg ────► External ─────►    │                Phase 10 (Admissibility Retest)
   corpora          Corpora           │                Phase 11 (Stroke Topology)
+                                     │                Phase 12 (Mechanical Recon)
+                                     │                Phase 13 (Demonstration)
+                                     │                Phase 14 (Voynich Engine)
                                      │                    │
                                      │                    ▼
                                results/data/         results/reports/
                                (JSON artifacts)      (Markdown reports)
+
                                      │
                                      ▼
                               results/publication/
@@ -74,6 +78,8 @@ src/
 ├── phase8_comparative/      Proximity to historical mechanical artifacts
 ├── phase10_admissibility/   Adversarial retest via Methods F/G/H/I/J/K
 ├── phase11_stroke/          Sub-glyph stroke extraction and transition analysis
+├── phase12_mechanical/      Slip detection and geometry inference
+├── phase14_machine/         Palette solver, state discovery, and emulator
 └── support_visualization/   Publication-quality figure generation
 
 scripts/
@@ -89,6 +95,9 @@ scripts/
 ├── phase9_conjecture/       Publication generation (narrative only)
 ├── phase10_admissibility/   Adversarial retest stages
 ├── phase11_stroke/          Stroke topology analysis
+├── phase12_mechanical/      Mechanical reconstruction runners
+├── phase13_demonstration/   Evidence gallery and export runners
+├── phase14_machine/         Voynich Engine reconstruction stages
 ├── support_preparation/     replicate_all.py, publication generation
 ├── core_audit/              Verification, golden outputs, provenance checks
 └── core_skeptic/            Adversarial policy enforcement
@@ -253,6 +262,9 @@ replicate_all.py
   └── phase9/replicate.py    (publication generation only)
   └── phase10/replicate.py   (adversarial retest, 7 stages)
   └── phase11/replicate.py   (stroke topology)
+  └── phase12/replicate.py   (mechanical reconstruction)
+  └── phase13/replicate.py   (demonstration)
+  └── phase14/replicate.py   (voynich engine)
 ```
 
 ### Verification Chain

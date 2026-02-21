@@ -1,0 +1,13 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T12:43:40.011187+00:00"
+  },
+  "results": {
+    "num_real_tokens": 38800,
+    "num_syn_tokens": 7755,
+    "num_unattested_forms": 0,
+    "unattested_form_rate": 0.0,
+    "top_unattested": []
+  }
+}
