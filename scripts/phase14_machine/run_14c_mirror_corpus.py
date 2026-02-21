@@ -12,10 +12,10 @@ from rich.console import Console
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.data_loading import load_canonical_lines
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.storage.metadata import MetadataStore
-from phase14_machine.high_fidelity_emulator import HighFidelityVolvelle
+from phase1_foundation.core.data_loading import load_canonical_lines  # noqa: E402
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase14_machine.high_fidelity_emulator import HighFidelityVolvelle  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -30,7 +30,7 @@ def calculate_entropy(tokens):
 
 def main():
     console.print("[bold magenta]Phase 14C: Mirror Corpus Validation (The 100% Fit Test)[/bold magenta]")
-    
+
     if not PALETTE_PATH.exists():
         console.print(f"[red]Error: {PALETTE_PATH} not found.[/red]")
         return
@@ -41,24 +41,24 @@ def main():
     results = p_data.get("results", p_data)
     lattice_map = results.get("lattice_map", {})
     window_contents = results.get("window_contents", {})
-    
+
     # 2. Setup High-Fidelity Emulator
     emulator = HighFidelityVolvelle(lattice_map, window_contents, seed=42)
-    
+
     # 3. Generate Mirror Corpus
     console.print("Generating 100,000 synthetic lines from high-fidelity engine...")
     syn_lines = emulator.generate_mirror_corpus(100000)
     syn_tokens = [t for l in syn_lines for t in l]
-    
+
     # 4. Load Real Baseline for Final Comparison
     store = MetadataStore(DB_PATH)
     real_lines = load_canonical_lines(store)
     real_tokens = [t for l in real_lines for t in l]
-    
+
     real_ent = calculate_entropy(real_tokens)
     syn_ent = calculate_entropy(syn_tokens)
     fit = 1.0 - abs(real_ent - syn_ent) / real_ent
-    
+
     # 5. Save and Report
     results = {
         "real_entropy": real_ent,
@@ -66,13 +66,13 @@ def main():
         "fit_score": fit,
         "num_syn_tokens": len(syn_tokens)
     }
-    
+
     saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
     console.print("\n[green]Success! Mirror corpus validated.[/green]")
     console.print(f"Real Entropy: [bold]{real_ent:.4f}[/bold]")
     console.print(f"Synthetic Entropy: [bold]{syn_ent:.4f}[/bold]")
     console.print(f"Final Structural Fit: [bold green]{fit*100:.2f}%[/bold green]")
-    
+
     if fit > 0.90:
         console.print("\n[bold yellow]!!! ARCHITECTURAL DISCOVERY VERIFIED !!![/bold yellow]")
         console.print("The reconstructed mechanical engine is statistically identical to the real manuscript.")

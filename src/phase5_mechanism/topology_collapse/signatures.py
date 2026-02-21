@@ -25,11 +25,11 @@ class TopologySignatureAnalyzer:
         """
         prefixes = [tuple(l[:self.prefix_len]) for l in lines if len(l) >= self.prefix_len]
         counts = Counter(prefixes)
-        
+
         total_prefixes = len(prefixes)
         num_collisions = sum(1 for c in counts.values() if c > 1)
         collision_rate = num_collisions / total_prefixes if total_prefixes > 0 else 0.0
-        
+
         return {
             "total_prefixes": total_prefixes,
             "unique_prefixes": len(counts),
@@ -44,15 +44,15 @@ class TopologySignatureAnalyzer:
         all_tokens = [t for l in lines for t in l]
         counts = Counter(all_tokens)
         freqs = sorted(counts.values())
-        
+
         # Gini Coefficient: 0 = perfect equality, 1 = maximum inequality
         if not freqs:
             return {"gini": 0.0}
-            
+
         n = len(freqs)
         index = np.arange(1, n + 1)
         gini = (np.sum((2 * index - n - 1) * freqs)) / (n * np.sum(freqs))
-        
+
         return {
             "unique_nodes_visited": len(counts),
             "gini_coefficient": float(gini),
@@ -70,11 +70,11 @@ class TopologySignatureAnalyzer:
                 context = line[i]
                 successor = line[i+1]
                 context_successors[context][successor] += 1
-                
+
         # Convergence: average number of unique successors per node
         out_degrees = [len(s) for s in context_successors.values()]
         avg_out_degree = sum(out_degrees) / len(out_degrees) if out_degrees else 0.0
-        
+
         return {
             "avg_successor_convergence": float(avg_out_degree),
             "max_successor_fanout": int(max(out_degrees)) if out_degrees else 0

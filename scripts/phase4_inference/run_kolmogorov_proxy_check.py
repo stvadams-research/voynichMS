@@ -15,15 +15,15 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.core.queries import get_tokens_and_boundaries
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
-from phase4_inference.projection_diagnostics.kolmogorov_proxy import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import get_tokens_and_boundaries  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase4_inference.projection_diagnostics.kolmogorov_proxy import (  # noqa: E402
     KolmogorovProxyAnalyzer,
     KolmogorovProxyConfig,
 )

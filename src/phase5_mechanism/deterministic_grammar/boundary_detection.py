@@ -23,12 +23,12 @@ class SlotBoundaryDetector:
         Calculates entropy of token distributions at each position in the line.
         """
         pos_counts = defaultdict(Counter)
-        
+
         for line in all_lines:
             for i, token in enumerate(line):
                 if i < self.max_pos:
                     pos_counts[i][token] += 1
-                    
+
         entropies = {}
         for pos, counts in pos_counts.items():
             total = sum(counts.values())
@@ -38,7 +38,7 @@ class SlotBoundaryDetector:
                 entropy -= p * math.log2(p)
             # Normalize by log2(total) to see how 'saturated' the slot is
             entropies[pos] = entropy
-            
+
         return entropies
 
     def calculate_successor_sharpness(self, all_lines: list[list[str]]) -> list[float]:
@@ -46,13 +46,13 @@ class SlotBoundaryDetector:
         Calculates successor entropy as a function of word position.
         """
         pos_successors = defaultdict(Counter)
-        
+
         for line in all_lines:
             for i in range(len(line) - 1):
                 if i < self.max_pos:
                     u, v = line[i], line[i+1]
                     pos_successors[i][v] += 1 # Distribution of what follows word at pos i
-                    
+
         entropies = []
         for i in range(self.max_pos):
             counts = pos_successors[i]
@@ -64,5 +64,5 @@ class SlotBoundaryDetector:
                 p = count / total
                 entropy -= p * math.log2(p)
             entropies.append(entropy)
-            
+
         return entropies

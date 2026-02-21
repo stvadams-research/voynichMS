@@ -25,13 +25,13 @@ class PoolGenerator:
         tokens = []
         # Initial pool
         self.pool = [self.generator.generate_word() for _ in range(self.pool_size)]
-        
+
         while len(tokens) < target_tokens:
             # Randomly reuse from pool
             tokens.append(self.rng.choice(self.pool))
-            
+
             # 5% chance to replenish one pool slot
             if self.rng.random() < 0.05:
                 self.pool[self.rng.randint(0, self.pool_size - 1)] = self.generator.generate_word()
-                
+
         return tokens

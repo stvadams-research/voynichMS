@@ -17,10 +17,10 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 17: Finality & Synthesis ===")
-    
+
     # 1. Blueprints
     run_command("python3 scripts/phase17_finality/run_17a_generate_blueprints.py")
-    
+
     # 2. Bandwidth
     run_command("python3 scripts/phase17_finality/run_17b_bandwidth_audit.py")
 

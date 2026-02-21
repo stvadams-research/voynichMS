@@ -75,13 +75,13 @@ class Box(BaseModel):
         inter = self.intersection(other)
         if inter is None:
             return 0.0
-        
+
         inter_area = inter.area
         union_area = self.area + other.area - inter_area
-        
+
         if union_area == 0:
             return 0.0
-            
+
         return inter_area / union_area
 
     def clip(self, bounds: 'Box') -> 'Box':
@@ -92,11 +92,11 @@ class Box(BaseModel):
         y_min = max(self.y_min, bounds.y_min)
         x_max = min(self.x_max, bounds.x_max)
         y_max = min(self.y_max, bounds.y_max)
-        
+
         # Ensure we don't return an invalid box if completely outside
         x_max = max(x_min, x_max)
         y_max = max(y_min, y_max)
-        
+
         return Box(x_min=x_min, y_min=y_min, x_max=x_max, y_max=y_max)
 
     def contains(self, other: 'Box') -> bool:
@@ -156,14 +156,14 @@ class Transform(BaseModel):
         a, b, c, d, tx, ty = self.matrix
         new_x = a * point.x + b * point.y + tx
         new_y = c * point.x + d * point.y + ty
-        
+
         # Clamp to 0-1 range to ensure valid Point
         clamped_x = max(0.0, min(1.0, new_x))
         clamped_y = max(0.0, min(1.0, new_y))
-        
+
         if clamped_x != new_x or clamped_y != new_y:
             logger.warning("Transform result clipped to [0,1] range: (%f, %f) -> (%f, %f)", new_x, new_y, clamped_x, clamped_y)
-            
+
         return Point(x=clamped_x, y=clamped_y)
 
     def invert(self) -> 'Transform':
@@ -171,16 +171,16 @@ class Transform(BaseModel):
         det = a * d - b * c
         if abs(det) < 1e-12:
             raise ValueError(f"Transform is not invertible (determinant {det:.2e} near zero)")
-        
+
         inv_det = 1.0 / det
-        
+
         new_a = d * inv_det
         new_b = -b * inv_det
         new_c = -c * inv_det
         new_d = a * inv_det
         new_tx = (b * ty - d * tx) * inv_det
         new_ty = (c * tx - a * ty) * inv_det
-        
+
         return Transform(matrix=(new_a, new_b, new_c, new_d, new_tx, new_ty))
 
     def compose(self, other: 'Transform') -> 'Transform':
@@ -190,12 +190,12 @@ class Transform(BaseModel):
         """
         a1, b1, c1, d1, tx1, ty1 = self.matrix
         a2, b2, c2, d2, tx2, ty2 = other.matrix
-        
+
         new_a = a2 * a1 + b2 * c1
         new_b = a2 * b1 + b2 * d1
         new_c = c2 * a1 + d2 * c1
         new_d = c2 * b1 + d2 * d1
         new_tx = a2 * tx1 + b2 * ty1 + tx2
         new_ty = c2 * tx1 + d2 * ty1 + ty2
-        
+
         return Transform(matrix=(new_a, new_b, new_c, new_d, new_tx, new_ty))

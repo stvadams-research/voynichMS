@@ -23,18 +23,18 @@ class MechanicalSignalAuditor:
         """
         # 1. Build Base Model
         model = self._build_model(lines)
-        
+
         # 2. Detect Slips (Real)
         real_slips = self._detect_slips(lines, model)
-        
+
         # 3. Shuffle Control (Skeptic's Gate)
         shuffled_lines = list(lines)
         random.shuffle(shuffled_lines)
         shuffled_slips = self._detect_slips(shuffled_lines, model)
-        
+
         # 4. Calculate Significance
         snr = len(real_slips) / len(shuffled_slips) if len(shuffled_slips) > 0 else len(real_slips)
-        
+
         return {
             "real_slip_count": len(real_slips),
             "noise_floor": len(shuffled_slips),
@@ -50,7 +50,7 @@ class MechanicalSignalAuditor:
             for i in range(len(line) - 1):
                 ctx = (line[i], i + 1)
                 counts[(ctx, line[i+1])] += 1
-        
+
         for (ctx, next_w), count in counts.items():
             if count >= self.min_transition_count:
                 model[ctx].add(next_w)

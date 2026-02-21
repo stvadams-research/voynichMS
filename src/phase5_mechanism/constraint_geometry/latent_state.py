@@ -39,30 +39,30 @@ class LatentStateAnalyzer:
         row_indices = []
         col_indices = []
         data = []
-        
+
         for i in range(len(tokens) - 1):
             u, v = tokens[i], tokens[i+1]
             if u in token_to_idx and v in token_to_idx:
                 row_indices.append(token_to_idx[u])
                 col_indices.append(token_to_idx[v])
                 data.append(1.0)
-                
+
         if not data:
             return {"error": "no_transitions_found"}
 
         T = csr_matrix((data, (row_indices, col_indices)), shape=(K, K))
-        
+
         # 3. SVD for Dimensionality
         # We look at singular value decay
         num_vals = min(K - 1, 100)
         u, s, vt = svds(T.astype(float), k=num_vals)
         s = sorted(s, reverse=True)
-        
+
         # Calculate 'Effective Rank' (number of values explaining 90% of variance)
         total_var = np.sum(s)
         cumulative_var = np.cumsum(s) / total_var
         effective_rank_90 = int(np.searchsorted(cumulative_var, 0.90)) + 1
-        
+
         return {
             "vocab_size": K,
             "singular_values": [float(val) for val in s[:20]],

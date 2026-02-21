@@ -12,21 +12,21 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 sys.path.insert(0, str(project_root))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     MetadataStore,
     PageRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from phase6_functional.adversarial.metrics import AdversarialAnalyzer
-from phase6_functional.adversarial.simulators import AdversarialLatticeSimulator
-from phase6_functional.formal_system.simulators import LatticeTraversalSimulator
+from phase6_functional.adversarial.metrics import AdversarialAnalyzer  # noqa: E402
+from phase6_functional.adversarial.simulators import AdversarialLatticeSimulator  # noqa: E402
+from phase6_functional.formal_system.simulators import LatticeTraversalSimulator  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -43,11 +43,11 @@ def get_real_lines(store, dataset_id="voynich_real"):
             .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
             .all()
         )
-        
+
         lines = []
         current_line = []
         last_line_id = None
-        
+
         for content, line_id in tokens_recs:
             if last_line_id and line_id != last_line_id:
                 lines.append(current_line)
@@ -56,7 +56,7 @@ def get_real_lines(store, dataset_id="voynich_real"):
             last_line_id = line_id
         if current_line:
             lines.append(current_line)
-            
+
         return lines
     finally:
         session.close()
@@ -92,58 +92,58 @@ def run_phase_6c(seed: int = 42, output_dir: str | None = None):
         # H6C.2: Adversarial (Section-variant rules, decoys)
         adversarial_sim = AdversarialLatticeSimulator(vocab_size=5000, seed=seed)
         adversarial_lines = adversarial_sim.generate_corpus_adversarial(num_lines=num_lines, line_len=8, sections=10)
-        
+
         datasets = {
             "Voynich (Real)": real_lines,
             "Indifferent (H6C.1)": indifferent_lines,
             "Adversarial (H6C.2)": adversarial_lines
         }
-        
+
         # 2. Run Audit
         results = {}
         for label, lines in datasets.items():
             console.print(f"\n[bold blue]Auditing {label}...[/bold blue]")
             results[label] = analyzer.run_adversarial_audit(lines)
-            
+
         # 3. Display Results
         table = Table(title="Phase 6C: Adversarial Signature Results")
         table.add_column("Metric", style="cyan")
         table.add_column("Voynich (Real)", justify="right")
         table.add_column("Indifferent (H6C.1)", justify="right")
         table.add_column("Adversarial (H6C.2)", justify="right")
-        
-        table.add_row("Final Predict. Acc.", 
+
+        table.add_row("Final Predict. Acc.",
                       f"{results['Voynich (Real)']['learnability']['final_accuracy']:.4f}",
                       f"{results['Indifferent (H6C.1)']['learnability']['final_accuracy']:.4f}",
                       f"{results['Adversarial (H6C.2)']['learnability']['final_accuracy']:.4f}")
-        
-        table.add_row("Monotonic Learn.?", 
+
+        table.add_row("Monotonic Learn.?",
                       str(results['Voynich (Real)']['learnability']['is_monotonic']),
                       str(results['Indifferent (H6C.1)']['learnability']['is_monotonic']),
                       str(results['Adversarial (H6C.2)']['learnability']['is_monotonic']))
-        
-        table.add_row("Decoy Rule Rate", 
+
+        table.add_row("Decoy Rule Rate",
                       f"{results['Voynich (Real)']['decoy_regularity']['decoy_rate']:.4f}",
                       f"{results['Indifferent (H6C.1)']['decoy_regularity']['decoy_rate']:.4f}",
                       f"{results['Adversarial (H6C.2)']['decoy_regularity']['decoy_rate']:.4f}")
-        
-        table.add_row("Ent. Reduction (bits)", 
+
+        table.add_row("Ent. Reduction (bits)",
                       f"{results['Voynich (Real)']['conditioning_sensitivity']['entropy_reduction']:.4f}",
                       f"{results['Indifferent (H6C.1)']['conditioning_sensitivity']['entropy_reduction']:.4f}",
                       f"{results['Adversarial (H6C.2)']['conditioning_sensitivity']['entropy_reduction']:.4f}")
-        
-        table.add_row("Conditioning Paradox?", 
+
+        table.add_row("Conditioning Paradox?",
                       str(results['Voynich (Real)']['conditioning_sensitivity']['is_paradoxical']),
                       str(results['Indifferent (H6C.1)']['conditioning_sensitivity']['is_paradoxical']),
                       str(results['Adversarial (H6C.2)']['conditioning_sensitivity']['is_paradoxical']))
-        
+
         console.print(table)
-        
+
         # 4. Save Artifacts
         out = Path(output_dir) if output_dir else Path("results/data/phase6_functional/phase_6c")
         out.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, out / "phase_6c_results.json")
-            
+
         # Generate Report
         report_path = Path("results/reports/phase6_functional/PHASE_6C_RESULTS.md")
         with open(report_path, "w") as f:
@@ -154,13 +154,13 @@ def run_phase_6c(seed: int = 42, output_dir: str | None = None):
             f.write(f"| Predict. Acc. | {results['Voynich (Real)']['learnability']['final_accuracy']:.4f} | {results['Indifferent (H6C.1)']['learnability']['final_accuracy']:.4f} | {results['Adversarial (H6C.2)']['learnability']['final_accuracy']:.4f} |\n")
             f.write(f"| Decoy Rate | {results['Voynich (Real)']['decoy_regularity']['decoy_rate']:.4f} | {results['Indifferent (H6C.1)']['decoy_regularity']['decoy_rate']:.4f} | {results['Adversarial (H6C.2)']['decoy_regularity']['decoy_rate']:.4f} |\n")
             f.write(f"| Ent. Reduction | {results['Voynich (Real)']['conditioning_sensitivity']['entropy_reduction']:.4f} | {results['Indifferent (H6C.1)']['conditioning_sensitivity']['entropy_reduction']:.4f} | {results['Adversarial (H6C.2)']['conditioning_sensitivity']['entropy_reduction']:.4f} |\n\n")
-            
+
             f.write("## Analysis\n\n")
             if not results['Voynich (Real)']['learnability']['is_monotonic']:
                 f.write("- **Non-Monotonic Learnability:** Predictability does not increase smoothly with data, suggesting potential adversarial state-switching or high noise.\n")
             else:
                 f.write("- **Monotonic Learnability:** Predictability increases smoothly, supporting H6C.1 (Formal Indifference).\n")
-                
+
             if results['Voynich (Real)']['conditioning_sensitivity']['is_paradoxical']:
                 f.write("- **Conditioning Paradox Detected:** Adding context increases ambiguity, a signature of adversarial misdirection (H6C.2).\n")
             else:

@@ -23,7 +23,7 @@ class PageID(BaseModel):
     Structured representation of a page identity.
     """
     folio: str
-    
+
     @field_validator("folio")
     @classmethod
     def validate_folio(cls, v: str) -> str:

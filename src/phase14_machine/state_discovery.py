@@ -24,7 +24,7 @@ class StateSpaceSolver:
         all_tokens = [t for l in lines for t in l]
         top_50 = [w for w, c in Counter(all_tokens).most_common(50)]
         word_to_idx = {w: i for i, w in enumerate(top_50)}
-        
+
         vectors = []
         for start in range(0, len(lines) - window_size, 100):
             window = lines[start:start + window_size]
@@ -40,7 +40,7 @@ class StateSpaceSolver:
             if np.sum(vec) > 0:
                 vec /= np.sum(vec)
             vectors.append(vec)
-            
+
         return np.array(vectors)
 
     def solve_states(self, vectors: np.ndarray, num_states: int = 3) -> dict[str, Any]:
@@ -49,13 +49,13 @@ class StateSpaceSolver:
         """
         if vectors.shape[0] < num_states:
             return {"num_states": 0}
-            
+
         kmeans = KMeans(n_clusters=num_states, random_state=42, n_init=10)
         labels = kmeans.fit_predict(vectors)
-        
+
         # Calculate cluster centroids (The 'Prototypes' for each mask state)
         centroids = kmeans.cluster_centers_
-        
+
         return {
             "num_states": num_states,
             "labels": labels.tolist(),

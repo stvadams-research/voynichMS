@@ -23,26 +23,26 @@ def test_grammar_generator_determinism(tmp_path):
     grammar_path = tmp_path / "grammar.json"
     with open(grammar_path, "w") as f:
         json.dump(grammar, f)
-        
+
     # Same seed should produce same output
     gen1 = GrammarBasedGenerator(grammar_path, seed=42)
     gen2 = GrammarBasedGenerator(grammar_path, seed=42)
-    
+
     words1 = [gen1.generate_word() for _ in range(10)]
     words2 = [gen2.generate_word() for _ in range(10)]
-    
+
     assert words1 == words2
-    
+
     # Different seed should likely produce different output
     gen3 = GrammarBasedGenerator(grammar_path, seed=43)
     words3 = [gen3.generate_word() for _ in range(10)]
-    
+
     assert words1 != words3
 
 def test_randomness_controller_forbidden():
     controller = get_randomness_controller()
     controller.patch_random_module()
-    
+
     try:
         with controller.forbidden_context("test"), pytest.raises(RandomnessViolationError):
             random.random()
@@ -52,14 +52,14 @@ def test_randomness_controller_forbidden():
 def test_randomness_controller_seeded():
     controller = get_randomness_controller()
     controller.patch_random_module()
-    
+
     try:
         with controller.seeded_context("test", seed=123):
             val1 = random.random()
-            
+
         with controller.seeded_context("test", seed=123):
             val2 = random.random()
-            
+
         assert val1 == val2
     finally:
         controller.unpatch_random_module()
@@ -67,7 +67,7 @@ def test_randomness_controller_seeded():
 def test_unrestricted_context():
     controller = get_randomness_controller()
     controller.patch_random_module()
-    
+
     try:
         with controller.forbidden_context("test"), controller.unrestricted_context():
             # Should not raise

@@ -16,9 +16,9 @@ from rich.console import Console
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.data_loading import load_canonical_lines
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.core.data_loading import load_canonical_lines  # noqa: E402
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -33,7 +33,7 @@ def calculate_bits(data):
 
 def main():
     console.print("[bold cyan]Phase 14E: MDL Analysis (The Parsimony Proof)[/bold cyan]")
-    
+
     if not PALETTE_PATH.exists():
         console.print(f"[red]Error: {PALETTE_PATH} not found.[/red]")
         return
@@ -45,27 +45,27 @@ def main():
     lattice_map = results.get("lattice_map", {})
     window_contents = results.get("window_contents", {})
     num_windows = len(window_contents)
-    
+
     # 2. Load Real Corpus
     store = MetadataStore(DB_PATH)
     real_lines = load_canonical_lines(store)
     real_tokens = [t for l in real_lines for t in l]
     total_tokens = len(real_tokens)
-    
+
     # 3. Cost of Baseline Model (Unigram)
     baseline_bits = calculate_bits(real_tokens)
-    
+
     # 4. Cost of Lattice Model
     # 4.1 Cost(Model Structure)
     # Bits needed to map words to windows: words * log2(num_windows)
     model_struct_bits = len(lattice_map) * math.log2(num_windows)
-    
+
     # 4.2 Cost(Data | Model)
     # We assume each word selection costs log2(len(window)) bits
     # We'll calculate the actual cost based on the real words found in their windows
     data_given_model_bits = 0
     explained_count = 0
-    
+
     # Track which window we are in
     current_window = 0
     for line in real_lines:
@@ -80,19 +80,19 @@ def main():
                     # Cost = -log2(1 / len(words_in_win)) = log2(len(words_in_win))
                     data_given_model_bits += math.log2(len(words_in_win))
                     explained_count += 1
-                
+
                 # Advance window
                 current_window = lattice_map.get(word, (current_window + 1) % num_windows)
             else:
                 # Unexplained token cost (use baseline bits as penalty)
                 # In a real MDL, this would be much higher
                 data_given_model_bits += 16 # Penalty bits
-        
+
     total_model_bits = model_struct_bits + data_given_model_bits
-    
+
     # 5. Compression Comparison
     compression_ratio = total_model_bits / baseline_bits if baseline_bits > 0 else 0
-    
+
     # 6. Save and Report
     results = {
         "baseline_unigram_bits": baseline_bits,
@@ -102,13 +102,13 @@ def main():
         "compression_ratio": compression_ratio,
         "explained_token_rate": explained_count / total_tokens if total_tokens > 0 else 0
     }
-    
+
     saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
     console.print("\n[green]Success! MDL analysis complete.[/green]")
     console.print(f"Baseline Unigram Size: [bold]{baseline_bits/8192:.2f} KB[/bold]")
     console.print(f"Lattice Model Size: [bold]{total_model_bits/8192:.2f} KB[/bold]")
     console.print(f"Compression Efficiency: [bold green]{(1 - compression_ratio)*100:.2f}%[/bold green]")
-    
+
     if compression_ratio < 0.70:
         console.print("\n[bold green]PASS:[/bold green] The model provides significant compression/parsimony.")
     else:

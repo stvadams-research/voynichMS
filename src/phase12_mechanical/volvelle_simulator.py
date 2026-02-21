@@ -27,7 +27,7 @@ class VolvelleSimulator:
             self.rings.append(ring)
             # Remove used vocab
             self.vocab = self.vocab[8:]
-            
+
         self.mask_state = 0 # 0, 1, or 2
 
     def rotate(self, state: int):

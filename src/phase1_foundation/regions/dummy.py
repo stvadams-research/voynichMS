@@ -21,7 +21,7 @@ class GridProposer(RegionProposer):
         regions = []
         w_step = 1.0 / self.cols
         h_step = 1.0 / self.rows
-        
+
         for r in range(self.rows):
             for c in range(self.cols):
                 # Calculate padded box
@@ -29,7 +29,7 @@ class GridProposer(RegionProposer):
                 y_min = r * h_step + (h_step * self.padding)
                 x_max = (c + 1) * w_step - (w_step * self.padding)
                 y_max = (r + 1) * h_step - (h_step * self.padding)
-                
+
                 bbox = Box(
                     x_min=x_min,
                     y_min=y_min,
@@ -59,7 +59,7 @@ class RandomBlobProposer(RegionProposer):
         # Intentional controller bypass: this dummy proposer is used for synthetic
         # region stubs and keeps deterministic randomness fully local.
         rng = random.Random(self.seed)
-        
+
         for _ in range(self.count):
             # Random center
             cx = rng.uniform(0.1, 0.9)
@@ -67,7 +67,7 @@ class RandomBlobProposer(RegionProposer):
             # Random size
             w = rng.uniform(0.01, 0.05)
             h = rng.uniform(0.01, 0.05)
-            
+
             bbox = Box(
                 x_min=max(0, cx - w/2),
                 y_min=max(0, cy - h/2),

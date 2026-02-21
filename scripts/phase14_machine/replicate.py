@@ -20,11 +20,11 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 14: Voynich Engine ===")
-    
+
     # 1. Reconstruction
     run_command("python3 scripts/phase14_machine/run_14a_palette_solver.py --full")
     run_command("python3 scripts/phase14_machine/run_14b_state_discovery.py")
-    
+
     # 2. Validation
     run_command("python3 scripts/phase14_machine/run_14c_mirror_corpus.py")
     run_command("python3 scripts/phase14_machine/run_14d_overgeneration_audit.py")
@@ -35,12 +35,12 @@ def main():
     run_command("python3 scripts/phase14_machine/run_14i_ablation_study.py")
     run_command("python3 scripts/phase14_machine/run_14j_sequence_audit.py")
     run_command("python3 scripts/phase14_machine/run_14k_failure_viz.py")
-    
+
     # 3. Canonical Evaluation
     run_command("python3 scripts/phase14_machine/run_14l_canonical_metrics.py")
     run_command("python3 scripts/phase14_machine/run_14m_refined_mdl.py")
     run_command("python3 scripts/phase14_machine/run_14n_chance_calibration.py")
-    
+
     # 4. Logic Export
     run_command("python3 scripts/phase14_machine/run_14o_export_logic.py")
 

@@ -28,7 +28,7 @@ console = Console()
 def main():
     msg_title = "[bold yellow]Phase 14Q: Residual Analysis (Spatial Mapping of Error)[/bold yellow]"
     console.print(msg_title)
-    
+
     if not PALETTE_PATH.exists():
         return
 
@@ -38,22 +38,22 @@ def main():
     lattice_map = data["lattice_map"]
     window_contents = {int(k): v for k, v in data["window_contents"].items()}
     num_wins = len(window_contents)
-    
+
     # 2. Load Real Data
     store = MetadataStore(DB_PATH)
     real_lines = load_canonical_lines(store)
-    
+
     # 3. Analyze Residuals
     categories = Counter()
     current_window = 0
     total_clamped = 0
-    
+
     for line in real_lines:
         for word in line:
             if word not in lattice_map:
                 continue
             total_clamped += 1
-            
+
             # Distance search
             found_dist = None
             # Search up to distance 10
@@ -65,7 +65,7 @@ def main():
                         break
                 if found_dist is not None:
                     break
-            
+
             if found_dist is None:
                 categories["Extreme Jump (>10)"] += 1
                 current_window = lattice_map[word]
@@ -87,18 +87,18 @@ def main():
         "categories": dict(categories),
         "extended_admissibility_rate": ext_admissibility
     }
-    
+
     ProvenanceWriter.save_results(results, OUTPUT_PATH)
-    
+
     table = Table(title="Transition Category Distribution")
     table.add_column("Category", style="cyan")
     table.add_column("Count", justify="right")
     table.add_column("Percent", justify="right", style="bold green")
-    
+
     for cat, count in categories.items():
         table.add_row(cat, str(count), f"{(count/total_clamped)*100:.2f}%")
     console.print(table)
-    
+
     msg_out = (
         f"\n[bold green]Extended Admissibility (Drift <= 3):[/bold green] "
         f"{ext_admissibility*100:.2f}%"

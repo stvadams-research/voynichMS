@@ -24,7 +24,7 @@ class EvaluationEngine:
         Args:
             vocab: A set of strings representing the allowed vocabulary.
         """
-        self.vocab = vocab 
+        self.vocab = vocab
 
     def calculate_coverage(self, tokens: list[str]) -> float:
         """
@@ -36,7 +36,7 @@ class EvaluationEngine:
         Returns:
             The coverage ratio as a float (0.0 to 1.0).
         """
-        if not tokens: 
+        if not tokens:
             return 0.0
         covered = sum(1 for t in tokens if t in self.vocab)
         return covered / len(tokens)
@@ -153,21 +153,21 @@ class EvaluationEngine:
         Returns:
             The total bits required to encode the data given a Markov-O1 model.
         """
-        if not tokens: 
+        if not tokens:
             return 0.0
-        
+
         # 1. Calculate P(x)
         counts = Counter(tokens)
         total = len(tokens)
         px = {t: c/total for t, c in counts.items()}
-        
+
         # 2. Calculate P(y | x)
         transitions = defaultdict(Counter)
         for i in range(len(tokens)-1):
             u, v = tokens[i], tokens[i+1]
             if u in self.vocab and v in self.vocab:
                 transitions[u][v] += 1
-                
+
         # 3. Calculate conditional entropy
         cond_entropy = 0.0
         for x, next_tokens in transitions.items():
@@ -175,12 +175,12 @@ class EvaluationEngine:
             # H(Y | X=x)
             hx = -sum((c/total_x) * math.log2(c/total_x) for c in next_tokens.values())
             cond_entropy += px[x] * hx
-            
+
         return float(cond_entropy * total)
 
-    def calculate_mdl_bits(self, 
-                           tokens: list[str], 
-                           model_params: int, 
+    def calculate_mdl_bits(self,
+                           tokens: list[str],
+                           model_params: int,
                            is_markov: bool = False) -> dict[str, float]:
         """
         Calculates the total description length L(total) = L(model) + L(data | model).
@@ -194,8 +194,8 @@ class EvaluationEngine:
             A dictionary with bits for model, data, and total length.
         """
         # L(model) - Assumes 10 bits per parameter (standard approximation)
-        param_bits = model_params * 10 
-        
+        param_bits = model_params * 10
+
         # L(data | model)
         if is_markov:
             data_bits = self.calculate_markov_residual_entropy(tokens)
@@ -209,15 +209,15 @@ class EvaluationEngine:
                 counts = Counter(clamped_tokens)
                 total = len(clamped_tokens)
                 data_bits = -sum(c * math.log2(c/total) for c in counts.values())
-        
+
         return {
             "l_model": float(param_bits),
             "l_data_given_model": float(data_bits),
             "l_total": float(param_bits + data_bits)
         }
 
-    def calculate_overgeneration(self, 
-                                 syn_lines: list[list[str]], 
+    def calculate_overgeneration(self,
+                                 syn_lines: list[list[str]],
                                  real_lines: list[list[str]]) -> dict[str, Any]:
         """
         Measures sequential overgeneration (BUR/TUR) within the lexicon clamp.
@@ -243,11 +243,11 @@ class EvaluationEngine:
         for n, label in [(2, "BUR"), (3, "TUR")]:
             real_ng = get_ngrams(real_lines, n)
             syn_ng = get_ngrams(syn_lines, n)
-            
+
             # Unattested but "legal" according to the machine
             unattested = syn_ng - real_ng
             rate = len(unattested) / len(syn_ng) if syn_ng else 0
-            
+
             res[label] = {
                 "real_count": len(real_ng),
                 "syn_count": len(syn_ng),

@@ -27,24 +27,24 @@ class CopyingSignatureTest:
 
         local_matches = 0
         total_pairs_checked = 0
-        
+
         # O(N * window)
         for i in range(len(tokens)):
             target = tokens[i]
             # Look ahead in window
             for j in range(i + 1, min(i + self.window_size, len(tokens))):
                 neighbor = tokens[j]
-                
+
                 # Check for near-identity
                 # Simple optimization: skip if length difference > max_edit_dist
                 if abs(len(target) - len(neighbor)) <= self.max_edit_dist:
                     if self._edit_distance(target, neighbor) <= self.max_edit_dist:
                         local_matches += 1
-                
+
                 total_pairs_checked += 1
-                
+
         clustering_score = local_matches / len(tokens) if tokens else 0.0
-        
+
         return {
             "num_tokens": len(tokens),
             "window_size": self.window_size,

@@ -71,18 +71,18 @@ class ConstrainedMarkovGenerator:
         self.locality_window = locality_window
         self.seed = seed
         self.rng = random.Random(seed)
-        
+
         # Neutral vocabulary to avoid bias
         from phase3_synthesis.profile_extractor import NeutralTokenGenerator
         self.token_gen = NeutralTokenGenerator(seed=seed)
         self.VOCABULARY = self.token_gen.generate_tokens(50)
-        
+
         self.POSITION_BIAS = {
             "start": self.token_gen.generate_tokens(6),
             "middle": self.token_gen.generate_tokens(7),
             "end": self.token_gen.generate_tokens(8),
         }
-        
+
         self.states: dict[tuple[str, ...], MarkovState] = {}
         self.start_contexts: list[tuple[str, ...]] = []
 
@@ -294,7 +294,7 @@ class TextContinuationGenerator:
                 # Fallback to neutral tokens
                 tokens = self.token_gen.generate_tokens(2)
                 block = [tokens * (words_per_line // 2) for _ in range(lines_per_jar)]
-                
+
             # Flatten to word list per jar for SyntheticPage format
             words = [word for line in block for word in line]
             text_blocks.append(words)

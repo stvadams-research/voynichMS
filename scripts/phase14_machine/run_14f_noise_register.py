@@ -15,9 +15,9 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.data_loading import load_canonical_lines
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.core.data_loading import load_canonical_lines  # noqa: E402
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -27,7 +27,7 @@ console = Console()
 
 def main():
     console.print("[bold yellow]Phase 14F: Noise Register (The Failure Audit)[/bold yellow]")
-    
+
     if not PALETTE_PATH.exists():
         console.print(f"[red]Error: {PALETTE_PATH} not found.[/red]")
         return
@@ -38,7 +38,7 @@ def main():
     results = p_data.get("results", p_data)
     lattice_map = results.get("lattice_map", {})
     window_contents = results.get("window_contents", {})
-    
+
     # 2. Load Known Slips
     slips_by_pos = {}
     if SLIP_PATH.exists():
@@ -46,16 +46,16 @@ def main():
             slip_data = json.load(f)
         for s in slip_data.get("results", {}).get("slips", []):
             slips_by_pos[(s['line_index'], s['token_index'])] = s['type']
-    
+
     # 3. Load Real Corpus
     store = MetadataStore(DB_PATH)
     real_lines = load_canonical_lines(store)
-    
+
     # 4. Audit Failures
     register = []
     current_window = 0
     failure_counts = Counter()
-    
+
     for l_idx, line in enumerate(real_lines):
         # We assume the first word of each line 'resets' the window or we follow from previous
         # For simplicity, let's track the window across lines if they are sequential
@@ -68,7 +68,7 @@ def main():
                     is_valid = True
                     current_window = int(check_win)
                     break
-            
+
             if not is_valid:
                 # Failure detected
                 slip_type = slips_by_pos.get((l_idx, t_idx), "Unknown Noise")
@@ -80,14 +80,14 @@ def main():
                     "predicted_window": current_window
                 })
                 failure_counts[slip_type] += 1
-                
+
                 # In case of failure, we 'snap' to the word's real window if possible
                 if word in lattice_map:
                     current_window = lattice_map[word]
             else:
                 # Move to next window
                 current_window = lattice_map.get(word, (current_window + 1) % len(window_contents))
-                
+
     # 5. Save and Report
     total_tokens = sum(len(l) for l in real_lines)
     results = {
@@ -97,15 +97,15 @@ def main():
         "categories": dict(failure_counts),
         "failures": register[:1000] # Cap for JSON size
     }
-    
+
     saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
     console.print("\n[green]Success! Noise register compiled.[/green]")
     console.print(f"Total Failure Rate: [bold]{(len(register)/total_tokens)*100:.2f}%[/bold]")
-    
+
     table = Table(title="Failure Categorization")
     table.add_column("Category", style="cyan")
     table.add_column("Count", justify="right")
-    
+
     for cat, count in failure_counts.items():
         table.add_row(cat, str(count))
     console.print(table)

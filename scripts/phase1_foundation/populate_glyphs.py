@@ -15,12 +15,12 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.progress import Progress
+from rich.console import Console  # noqa: E402
+from rich.progress import Progress  # noqa: E402
 
-from phase1_foundation.core.id_factory import DeterministicIDFactory
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.id_factory import DeterministicIDFactory  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     GlyphAlignmentRecord,
     GlyphCandidateRecord,
     LineRecord,

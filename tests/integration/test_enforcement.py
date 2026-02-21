@@ -27,19 +27,19 @@ if _src_path in sys.path:
 # Insert at position 0 (before tests directory)
 sys.path.insert(0, _src_path)
 
-from phase1_foundation.config import (
+from phase1_foundation.config import (  # noqa: E402
     SimulationViolationError,
     get_tracker,
 )
-from phase1_foundation.core.id_factory import DeterministicIDFactory
-from phase1_foundation.core.ids import RunID
-from phase1_foundation.core.randomness import (
+from phase1_foundation.core.id_factory import DeterministicIDFactory  # noqa: E402
+from phase1_foundation.core.ids import RunID  # noqa: E402
+from phase1_foundation.core.randomness import (  # noqa: E402
     RandomnessViolationError,
     get_randomness_controller,
     no_randomness,
     requires_seed,
 )
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.storage.metadata import (  # noqa: E402
     DatasetRecord,
     LineRecord,
     MetadataStore,
@@ -52,8 +52,10 @@ from phase1_foundation.storage.metadata import (
 )
 
 # Import stress tests at module level to ensure they're available
-from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
-from phase2_analysis.stress_tests.locality import LocalityTest
+from phase2_analysis.stress_tests.information_preservation import (
+    InformationPreservationTest,  # noqa: E402
+)
+from phase2_analysis.stress_tests.locality import LocalityTest  # noqa: E402
 
 # ============================================================================
 # Fixtures

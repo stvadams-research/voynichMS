@@ -382,7 +382,7 @@ class MappingStabilityTest(StressTest):
                 return StressTestOutcome.STABLE, None
 
         elif explanation_class == "visual_grammar":
-            # Visual grammar should tolerate segmentation changes better than 
+            # Visual grammar should tolerate segmentation changes better than
             # text-based systems but collapses below 0.4.
             if seg < segmentation_collapse:
                 return StressTestOutcome.COLLAPSED, seg

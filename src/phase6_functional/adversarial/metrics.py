@@ -40,7 +40,7 @@ class AdversarialAnalyzer:
                     if state not in model:
                         model[state] = Counter()
                     model[state][nxt] += 1
-            
+
             # Test model
             correct = 0
             total = 0
@@ -61,7 +61,7 @@ class AdversarialAnalyzer:
         split_idx = int(len(lines) * 0.8)
         train_pool = lines[:split_idx]
         test_lines = lines[split_idx:]
-        
+
         gradient = []
         fractions = np.linspace(0.1, 1.0, steps)
         for f in fractions:
@@ -69,7 +69,7 @@ class AdversarialAnalyzer:
             train_subset = train_pool[:subset_size]
             acc = get_accuracy(train_subset, test_lines)
             gradient.append(float(acc))
-            
+
         return {
             "fractions": fractions.tolist(),
             "accuracies": gradient,
@@ -95,27 +95,27 @@ class AdversarialAnalyzer:
 
         chunk_size = 500
         global_rules = get_rules(lines)
-        
+
         misdirection_scores = []
         for i in range(0, len(lines), chunk_size):
             chunk = lines[i:i+chunk_size]
             local_rules = get_rules(chunk)
-            
+
             for state, nxts in local_rules.items():
                 if sum(nxts.values()) > 5: # Significant local rule
                     local_top = nxts.most_common(1)[0]
                     local_conf = local_top[1] / sum(nxts.values())
-                    
+
                     if local_conf > 0.8: # Strong local rule
                         # Check global
                         global_nxts = global_rules[state]
                         global_top = global_nxts.most_common(1)[0]
                         global_conf = global_top[1] / sum(global_nxts.values())
-                        
+
                         if global_top[0] != local_top[0]:
                             # Local rule is a decoy!
                             misdirection_scores.append(local_conf)
-                            
+
         return {
             "decoy_rule_count": len(misdirection_scores),
             "mean_decoy_strength": float(np.mean(misdirection_scores)) if misdirection_scores else 0.0,
@@ -130,7 +130,7 @@ class AdversarialAnalyzer:
         """
         c1 = defaultdict(Counter) # Next | Curr
         c2 = defaultdict(Counter) # Next | Curr, Prev, Pos
-        
+
         for line in lines:
             for i in range(len(line) - 1):
                 prev = line[i-1] if i > 0 else "<START>"
@@ -138,7 +138,7 @@ class AdversarialAnalyzer:
                 nxt = line[i+1]
                 c1[curr][nxt] += 1
                 c2[(prev, curr, i)][nxt] += 1
-                
+
         def get_avg_entropy(counter_dict):
             ents = []
             weights = []
@@ -152,7 +152,7 @@ class AdversarialAnalyzer:
 
         h1 = get_avg_entropy(c1)
         h2 = get_avg_entropy(c2)
-        
+
         return {
             "h_base": float(h1),
             "h_conditioned": float(h2),

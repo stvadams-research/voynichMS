@@ -20,7 +20,7 @@ class ScrambledControlGenerator(ControlGenerator):
         rng = random.Random(seed)
         params = params or {}
         id_factory = DeterministicIDFactory(seed=seed)
-        
+
         # Register control dataset
         self.store.add_control_dataset(
             id=control_id,
@@ -29,11 +29,11 @@ class ScrambledControlGenerator(ControlGenerator):
             params=params,
             seed=seed
         )
-        
+
         session = self.store.Session()
         try:
             pages = session.query(PageRecord).filter_by(dataset_id=source_dataset_id).all()
-            
+
             for page in pages:
                 # Register page for control dataset (same image path)
                 control_page_id = f"{control_id}_{page.id}"
@@ -45,10 +45,10 @@ class ScrambledControlGenerator(ControlGenerator):
                     width=page.width,
                     height=page.height
                 )
-                
+
                 # Fetch original lines and words
                 lines = session.query(LineRecord).filter_by(page_id=page.id).all()
-                
+
                 # Map old_line_id -> new_line_id
                 line_map = {}
                 for line in lines:
@@ -77,20 +77,20 @@ class ScrambledControlGenerator(ControlGenerator):
                 # NOW SCRAMBLE REGIONS
                 from phase1_foundation.storage.metadata import RegionRecord
                 regions = session.query(RegionRecord).filter_by(page_id=page.id).all()
-                
+
                 if regions:
                     bboxes = [r.bbox for r in regions]
                     rng.shuffle(bboxes) # Shuffle positions using local rng
-                    
+
                     for i, region in enumerate(regions):
                         new_region_id = f"{control_id}_{region.id}"
-                        
+
                         self.store.add_region(
                             id=new_region_id,
                             page_id=control_page_id,
                             scale=region.scale,
                             method=region.method,
-                            bbox=bboxes[i], 
+                            bbox=bboxes[i],
                             features=region.features,
                             confidence=region.confidence
                         )
@@ -98,5 +98,5 @@ class ScrambledControlGenerator(ControlGenerator):
             session.commit()
         finally:
             session.close()
-            
+
         return control_id

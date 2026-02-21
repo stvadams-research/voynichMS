@@ -23,14 +23,14 @@ from typing import Any
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
-from sqlalchemy import and_
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
+from sqlalchemy import and_  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     AnchorMethodRecord,
     AnchorRecord,
     MetadataStore,
@@ -39,7 +39,7 @@ from phase1_foundation.storage.metadata import (
     TranscriptionTokenRecord,
     WordAlignmentRecord,
 )
-from phase5_mechanism.anchor_coupling import (
+from phase5_mechanism.anchor_coupling import (  # noqa: E402
     DEFAULT_MULTIMODAL_POLICY,
     H1_4_LANE_ALIGNED,
     H1_4_LANE_BLOCKED,

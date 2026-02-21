@@ -29,7 +29,7 @@ class GrammarBasedGenerator:
         self.word_lengths = self.grammar["word_lengths"]
 
         self.rng = random.Random(seed)
-        
+
         # Pre-process for weighted sampling
         self.len_values, self.len_weights = self._prepare_weights(self.word_lengths)
 
@@ -45,22 +45,22 @@ class GrammarBasedGenerator:
         """
         word = []
         current = "<START>"
-        
+
         while len(word) < max_length:
             if current not in self.transitions:
                 break
-                
+
             next_probs = self.transitions[current]
             symbols, weights = self._prepare_weights(next_probs)
-            
+
             next_sym = self.rng.choices(symbols, weights=weights, k=1)[0]
-            
+
             if next_sym == "<END>":
                 break
-                
+
             word.append(next_sym)
             current = next_sym
-            
+
         return "".join(word)
 
     def generate_line(self, target_word_count: int) -> list[str]:

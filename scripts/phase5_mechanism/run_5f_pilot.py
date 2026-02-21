@@ -14,16 +14,16 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.core.queries import get_lines_from_store
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
-from phase5_mechanism.entry_selection.prefix_analysis import EntryPointAnalyzer
-from phase5_mechanism.entry_selection.simulators import EntryMechanismSimulator
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import get_lines_from_store  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase5_mechanism.entry_selection.prefix_analysis import EntryPointAnalyzer  # noqa: E402
+from phase5_mechanism.entry_selection.simulators import EntryMechanismSimulator  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -47,27 +47,27 @@ def run_pilot_5f(seed: int = 42, output_dir: str | None = None):
     with active_run(config={"command": "run_5f_pilot", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = EntryPointAnalyzer()
-        
+
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Analyzing Real Start-Words[/bold yellow]")
         real_lines = get_lines_from_store(store, "voynich_real")
         real_dist = analyzer.calculate_start_distribution(real_lines)
         real_coup = analyzer.calculate_adjacency_coupling(real_lines)
-        
+
         # 2. Run Simulators
         console.print("\n[bold yellow]Step 2: Executing Entry Simulators[/bold yellow]")
         sim = EntryMechanismSimulator(GRAMMAR_PATH, vocab_size=500, seed=seed)
-        
+
         # Family 1: Uniform
         syn_uni_lines = sim.generate_uniform_independent(num_lines=2000, line_len=8)
         syn_uni_dist = analyzer.calculate_start_distribution(syn_uni_lines)
         syn_uni_coup = analyzer.calculate_adjacency_coupling(syn_uni_lines)
-        
+
         # Family 2: Coupled
         syn_cpl_lines = sim.generate_locally_coupled(num_lines=2000, line_len=8, coupling=0.8)
         syn_cpl_dist = analyzer.calculate_start_distribution(syn_cpl_lines)
         syn_cpl_coup = analyzer.calculate_adjacency_coupling(syn_cpl_lines)
-        
+
         # 3. Report
         table = Table(title="Phase 5F Pilot: Entry Mechanism Benchmark")
         table.add_column("Entry Mechanism", style="cyan")
@@ -79,37 +79,37 @@ def run_pilot_5f(seed: int = 42, output_dir: str | None = None):
             return "[green]YES[/green]" if abs(val - target) < tol else "[red]NO[/red]"
 
         table.add_row(
-            "Voynich (Real)", 
-            f"{real_dist['start_entropy']:.4f}", 
+            "Voynich (Real)",
+            f"{real_dist['start_entropy']:.4f}",
             f"{real_coup['coupling_score']:.4f}",
             "TARGET"
         )
         table.add_row(
-            "Uniform Independent", 
-            f"{syn_uni_dist['start_entropy']:.4f}", 
+            "Uniform Independent",
+            f"{syn_uni_dist['start_entropy']:.4f}",
             f"{syn_uni_coup['coupling_score']:.4f}",
             check_match(syn_uni_coup['coupling_score'], real_coup['coupling_score'], 0.01)
         )
         table.add_row(
-            "Locally Coupled", 
-            f"{syn_cpl_dist['start_entropy']:.4f}", 
+            "Locally Coupled",
+            f"{syn_cpl_dist['start_entropy']:.4f}",
             f"{syn_cpl_coup['coupling_score']:.4f}",
             check_match(syn_cpl_coup['coupling_score'], real_coup['coupling_score'], 0.01)
         )
-        
+
         console.print(table)
-        
+
         # Save results
         results = {
             "real": {"dist": real_dist, "coup": real_coup},
             "uniform": {"dist": syn_uni_dist, "coup": syn_uni_coup},
             "coupled": {"dist": syn_cpl_dist, "coup": syn_cpl_coup}
         }
-        
+
         out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/entry_selection")
         out.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, out / "pilot_5f_results.json")
-            
+
         store.save_run(run)
 
 if __name__ == "__main__":

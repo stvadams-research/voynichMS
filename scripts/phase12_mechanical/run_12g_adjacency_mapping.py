@@ -11,8 +11,8 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase12_mechanical.jigsaw_solver import JigsawAdjacencyMapper
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase12_mechanical.jigsaw_solver import JigsawAdjacencyMapper  # noqa: E402
 
 INPUT_PATH = project_root / "results/data/phase12_mechanical/slip_detection_results.json"
 OUTPUT_PATH = project_root / "results/data/phase12_mechanical/physical_adjacency.json"
@@ -20,7 +20,7 @@ console = Console()
 
 def main():
     console.print("[bold blue]Phase 12G: Physical Adjacency Mapping (The Jigsaw Solver)[/bold blue]")
-    
+
     if not Path(INPUT_PATH).exists():
         console.print(f"[red]Error: {INPUT_PATH} not found.[/red]")
         return
@@ -28,13 +28,13 @@ def main():
     with open(INPUT_PATH) as f:
         data = json.load(f)
     slips = data.get("results", data).get("slips", [])
-    
+
     mapper = JigsawAdjacencyMapper()
     results = mapper.build_adjacency_graph(slips)
-    
+
     saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
     console.print(f"\n[green]Analysis complete. Physical adjacency map saved to:[/green] {saved['latest_path']}")
-    
+
     # Table 1: Most Connected Physical Anchors
     table_nodes = Table(title="Top Physical Anchors (Most Connected Words on Tool)")
     table_nodes.add_column("Word", style="cyan")
@@ -42,7 +42,7 @@ def main():
     for node, score in results["top_physical_anchors"][:15]:
         table_nodes.add_row(node, f"{score:.3f}")
     console.print(table_nodes)
-    
+
     # Table 2: Frequent Adjacencies
     table_edges = Table(title="Frequent Physical Adjacencies (Neighbors on Tool)")
     table_edges.add_column("Pair", style="cyan")

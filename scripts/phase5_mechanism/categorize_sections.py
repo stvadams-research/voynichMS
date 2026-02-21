@@ -23,7 +23,7 @@ def get_section(folio_id: str) -> str:
         if not num_str:
             return "unknown"
         num = int(num_str)
-        
+
         for name, (start, end) in SECTION_RANGES.items():
             if start <= num <= end:
                 return name

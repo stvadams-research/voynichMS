@@ -20,7 +20,7 @@ class TokenFeatureExtractor:
         """
         if not token:
             return {}
-            
+
         features = {
             "length": len(token),
             "prefix_1": token[0] if len(token) > 0 else "",

@@ -29,7 +29,7 @@ def main():
     console.print(
         "[bold cyan]Phase 15A: Trace Instrumentation (The Scribe's Decisions)[/bold cyan]"
     )
-    
+
     if not PALETTE_PATH.exists():
         console.print("[red]Error: Palette grid not found.[/red]")
         return
@@ -39,27 +39,27 @@ def main():
         data = json.load(f)["results"]
     lattice_map = data["lattice_map"]
     window_contents = data["window_contents"]
-    
+
     # 2. Setup Instrumented Emulator
     emulator = HighFidelityVolvelle(lattice_map, window_contents, log_choices=True)
-    
+
     # 3. Load Real Manuscript
     store = MetadataStore(DB_PATH)
     real_lines = load_canonical_lines(store)
     console.print(f"Tracing {len(real_lines)} lines...")
-    
+
     # 4. Perform Trace
     emulator.trace_lines(real_lines)
-    
+
     # 5. Save and Report
     log = emulator.choice_log
     console.print(f"\n[green]Success! Logged {len(log)} scribal decisions.[/green]")
-    
+
     results = {
         "num_decisions": len(log),
         "choices": log
     }
-    
+
     ProvenanceWriter.save_results(results, OUTPUT_PATH)
     console.print(f"Artifact saved to: [bold]{OUTPUT_PATH}[/bold]")
 

@@ -18,14 +18,14 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.metrics.library import RepetitionRate
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.metrics.library import RepetitionRate  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -47,27 +47,27 @@ def run_test_b(seed: int = 42, output_dir: str | None = None):
 
     with active_run(config={"command": "test_b_transliteration_invariance", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
-        
+
         sources = {
             "ZL (Primary)": "zandbergen_landini",
             "CD (Currier)": "currier_dimperio"
         }
-        
+
         results = {}
 
         for label, source_id in sources.items():
             console.print(f"\n[bold yellow]Analyzing Source: {label}[/bold yellow]")
-            
+
             # Since our DB population usually points Page -> TranscriptionLine -> Token,
             # we need to be careful. The RepetitionRate metric queries TranscriptionTokenRecord.
             # We need to ensure tokens for CD source are present.
-            
+
             # 1. Repetition Rate
             rep_metric = RepetitionRate(store)
             # RepetitionRate.calculate() uses all tokens for the dataset.
             # For this test, we need to filter by source_id.
             # I will manually run the calculation logic filtered by source.
-            
+
             session = store.Session()
             try:
                 from phase1_foundation.storage.metadata import (
@@ -80,31 +80,31 @@ def run_test_b(seed: int = 42, output_dir: str | None = None):
                     .filter(TranscriptionLineRecord.source_id == source_id)
                     .all()
                 )
-                
+
                 token_contents = [t[0] for t in tokens]
                 if not token_contents:
                     console.print(f"  [red]Warning: No tokens found for source {source_id}[/red]")
                     results[label] = {"repetition": 0, "entropy": 0}
                     continue
-                
+
                 from collections import Counter
                 counts = Counter(token_contents)
                 rep_rate = sum(c for c in counts.values() if c > 1) / len(token_contents)
-                
+
                 # 2. Entropy (using framework)
                 # GlyphPositionHypothesis uses GlyphAlignmentRecord which is harder to swap source-on-the-fly.
                 # We'll use a simplified entropy check here.
                 entropy = 0.78 # Target for ZL. We'll check if CD is also low.
-                
+
                 results[label] = {
                     "repetition": rep_rate,
                     "token_count": len(token_contents),
                     "unique_count": len(counts)
                 }
-                
+
                 console.print(f"  Tokens: {len(token_contents)}")
                 console.print(f"  Repetition Rate: {rep_rate:.4f}")
-                
+
             finally:
                 session.close()
 
@@ -123,12 +123,12 @@ def run_test_b(seed: int = 42, output_dir: str | None = None):
             table.add_row(label, f"{rep:.4f}", str(data["token_count"]), invariant)
 
         console.print(table)
-        
+
         # Save results
         out = Path(output_dir) if output_dir else Path("core_status/phase3_synthesis")
         out.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, out / "TEST_B_RESULTS.json")
-            
+
         store.save_run(run)
 
 if __name__ == "__main__":

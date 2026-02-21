@@ -37,35 +37,35 @@ class SlidingResidualMapper:
         """
         n = len(tokens)
         results = []
-        
+
         # Calculate global baseline for this run
         global_entropy = self._calculate_entropy(tokens)
-        
+
         print(f"Mapping corpus ({n} tokens) with window={self.window_size}...")
-        
+
         for start in range(0, n - self.window_size, self.step_size):
             end = start + self.window_size
             window_tokens = tokens[start:end]
             window_folios = list(set(folio_ids[start:end]))
-            
+
             # Entropy residual
             local_entropy = self._calculate_entropy(window_tokens)
             residual = local_entropy - global_entropy
-            
+
             results.append({
                 "token_index": start,
                 "folio_ids": window_folios,
                 "residual": float(residual)
             })
-            
+
         # Calculate z-scores of the residuals
         residuals = [r['residual'] for r in results]
         mean_r = np.mean(residuals)
         std_r = np.std(residuals)
-        
+
         for r in results:
             r['z_score'] = float((r['residual'] - mean_r) / std_r) if std_r > 0 else 0.0
-            
+
         # Detect Change Points (simple derivative threshold)
         change_points = []
         for i in range(1, len(results)):
@@ -76,7 +76,7 @@ class SlidingResidualMapper:
                     "folio_ids": results[i]['folio_ids'],
                     "magnitude": float(delta)
                 })
-                
+
         return {
             "window_size": self.window_size,
             "step_size": self.step_size,

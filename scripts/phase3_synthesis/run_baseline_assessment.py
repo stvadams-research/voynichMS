@@ -20,22 +20,24 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.id_factory import DeterministicIDFactory
-from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.core.id_factory import DeterministicIDFactory  # noqa: E402
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
 
 # Phase 2 metrics library
-from phase1_foundation.metrics.library import RepetitionRate
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import DatasetRecord, MetadataStore
-from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
-from phase2_analysis.stress_tests.locality import LocalityTest
-from phase3_synthesis.interface import GapDefinition, GapStrength
-from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
-from phase3_synthesis.text_generator import TextContinuationGenerator
+from phase1_foundation.metrics.library import RepetitionRate  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import DatasetRecord, MetadataStore  # noqa: E402
+from phase2_analysis.stress_tests.information_preservation import (
+    InformationPreservationTest,  # noqa: E402
+)
+from phase2_analysis.stress_tests.locality import LocalityTest  # noqa: E402
+from phase3_synthesis.interface import GapDefinition, GapStrength  # noqa: E402
+from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor  # noqa: E402
+from phase3_synthesis.text_generator import TextContinuationGenerator  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -64,46 +66,46 @@ def main(seed: int = 42, output_dir: str | None = None):
 
     # Force real computation
     # (In a real scenario, we might set an env var, but here we assume config defaults or env is set)
-    
+
     with active_run(config={"command": "baseline_assessment", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         id_factory = DeterministicIDFactory(seed=seed)
-        
+
         # 1. Setup Generator
         console.print("\n[bold yellow]Step 1: initializing Generator[/bold yellow]")
         extractor = PharmaceuticalProfileExtractor(store)
         profile = extractor.extract_section_profile()
-        
+
         # Define a test gap (Gap A)
         gap_a = GapDefinition(
-            gap_id="gap_a", 
-            strength=GapStrength.STRONG, 
-            preceding_page="f88v", 
+            gap_id="gap_a",
+            strength=GapStrength.STRONG,
+            preceding_page="f88v",
             following_page="f89r"
         )
-        
+
         generator = TextContinuationGenerator(profile)
-        
+
         # 2. Generate Pages
         console.print("\n[bold yellow]Step 2: Generating 5 Synthetic Pages[/bold yellow]")
         synthetic_pages = generator.generate_multiple(gap_id="gap_a", count=5)
         console.print(f"Generated {len(synthetic_pages)} pages.")
-        
+
         # 3. Register as Dataset 'synthesis_baseline'
         console.print("\n[bold yellow]Step 3: Registering Dataset[/bold yellow]")
         dataset_id = "synthesis_baseline"
-        
+
         # Clean up previous run if exists
         session = store.Session()
         try:
             # Delete existing pages for this dataset to avoid conflicts
             # (Simplified support_cleanup)
-            pass 
+            pass
         finally:
             session.close()
-            
+
         store.add_dataset(dataset_id, "generated")
-        
+
         # Ingest pages into DB
         session = store.Session()
         try:
@@ -114,10 +116,10 @@ def main(seed: int = 42, output_dir: str | None = None):
                     dataset_id=dataset_id,
                     image_path="placeholder.jpg",
                     checksum=f"hash_{i}",
-                    width=1000, 
+                    width=1000,
                     height=1500
                 )
-                
+
                 # Ingest text structure
                 for jar_idx, text_block in enumerate(page.text_blocks):
                     # Create a dummy line for this block
@@ -129,7 +131,7 @@ def main(seed: int = 42, output_dir: str | None = None):
                         bbox={"x":0, "y":0, "w":0, "h":0},
                         confidence=1.0
                     )
-                    
+
                     # Add words
                     for w_idx, token in enumerate(text_block):
                         word_id = id_factory.next_uuid(f"word:{line_id}:{w_idx}")
@@ -158,13 +160,13 @@ def main(seed: int = 42, output_dir: str | None = None):
                             token_index=w_idx,
                             content=token
                         )
-            
+
             session.commit()
         finally:
             session.close()
-            
+
         console.print(f"Registered {len(synthetic_pages)} pages to {dataset_id}")
-        
+
         # 4. Run Metrics
         console.print("\n[bold yellow]Step 4: Benchmarking[/bold yellow]")
 
@@ -241,12 +243,12 @@ def main(seed: int = 42, output_dir: str | None = None):
                 "control_datasets": controls,
             }
         }
-        
+
         # Save results with provenance
         out = Path(output_dir) if output_dir else Path("core_status/phase3_synthesis")
         out.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(findings, out / "BASELINE_GAP_ANALYSIS.json")
-            
+
         store.save_run(run)
 
 if __name__ == "__main__":

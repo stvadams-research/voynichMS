@@ -12,15 +12,15 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 sys.path.insert(0, str(project_root))
 
-from phase7_human.phase8_comparative import ComparativeAnalyzer
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from phase7_human.phase8_comparative import ComparativeAnalyzer  # noqa: E402
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.core.queries import get_lines_from_store
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import get_lines_from_store  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -42,7 +42,7 @@ def run_phase_7c(seed: int = 42, output_dir: str | None = None):
     with active_run(config={"command": "run_7c_comparative", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = ComparativeAnalyzer()
-        
+
         # 1. Prepare Data
         datasets = [
             "voynich_real",
@@ -50,7 +50,7 @@ def run_phase_7c(seed: int = 42, output_dir: str | None = None):
             "table_grille",
             "self_citation"
         ]
-        
+
         console.print("\n[bold yellow]Step 1: Extracting Structural Fingerprints[/bold yellow]")
         fingerprints = {}
         for ds_id in datasets:
@@ -60,7 +60,7 @@ def run_phase_7c(seed: int = 42, output_dir: str | None = None):
                 fingerprints[ds_id] = analyzer.calculate_fingerprint(lines)
             else:
                 console.print(f"  [red]Warning: No data for {ds_id}[/red]")
-        
+
         # 2. Distance Matrix
         console.print("\n[bold yellow]Step 2: Computing Distances from Voynich[/bold yellow]")
         v_finger = fingerprints.get("voynich_real")
@@ -69,7 +69,7 @@ def run_phase_7c(seed: int = 42, output_dir: str | None = None):
             for ds_id, finger in fingerprints.items():
                 if ds_id != "voynich_real":
                     distances[ds_id] = analyzer.compute_distance(v_finger, finger)
-        
+
         # 3. Display Results
         table = Table(title="Phase 7C: Structural Fingerprint Benchmark")
         table.add_column("Dataset", style="cyan")
@@ -89,20 +89,20 @@ def run_phase_7c(seed: int = 42, output_dir: str | None = None):
                 f"{finger['convergence']:.4f}",
                 dist_str
             )
-            
+
         console.print(table)
-        
+
         # 4. Save Artifacts
         out = Path(output_dir) if output_dir else Path("results/data/phase7_human")
         out.mkdir(parents=True, exist_ok=True)
-        
+
         results = {
             "fingerprints": fingerprints,
             "distances_from_voynich": distances
         }
-        
+
         ProvenanceWriter.save_results(results, out / "phase_7c_results.json")
-            
+
         # Generate Report
         report_path = Path("results/reports/phase7_human/PHASE_7C_RESULTS.md")
         with open(report_path, "w") as report_file:
@@ -113,17 +113,17 @@ def run_phase_7c(seed: int = 42, output_dir: str | None = None):
             for ds_id, finger in fingerprints.items():
                 dist_val = distances.get(ds_id, 0.0)
                 report_file.write(f"| {ds_id} | {finger['ttr']:.4f} | {finger['determinism']:.4f} | {finger['sparsity']:.4f} | {finger['convergence']:.4f} | {dist_val:.4f} |\n")
-            
+
             report_file.write("\n## Morphospace Analysis\n\n")
             if distances:
                 closest = min(distances, key=distances.get)
                 report_file.write(f"- **Nearest Artifact Class:** {closest} (Dist: {distances[closest]:.4f})\n")
-            
+
             report_file.write("\n## Final Determination\n\n")
             v_sparsity = v_finger['sparsity'] if v_finger else 0
             if v_sparsity > 0.8:
                 report_file.write("- **Unique Profile:** The Voynich Manuscript exhibits extreme sparsity and novelty convergence not fully matched by semantic or simple non-semantic baselines.\n")
-            
+
             if "table_grille" in distances and distances["table_grille"] < 0.2:
                 report_file.write("- **Mechanism Alignment:** The manuscript aligns closely with deterministic, non-semantic table-based systems.\n")
             else:

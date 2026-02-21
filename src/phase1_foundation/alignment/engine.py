@@ -33,17 +33,17 @@ class AlignmentEngine:
         try:
             # Get image lines
             img_lines = session.query(LineRecord).filter_by(page_id=page_id).order_by(LineRecord.line_index).all()
-            
+
             # Get transcript lines
             trans_lines = session.query(TranscriptionLineRecord).filter_by(page_id=page_id, source_id=source_id).order_by(TranscriptionLineRecord.line_index).all()
-            
+
             # Simple index matching
             # In real implementation, this would be much more complex (DTW, etc.)
             # For Level 2A, we just need to support the structure.
-            
+
             # Map by index
             trans_map = {l.line_index: l for l in trans_lines}
-            
+
             for img_line in img_lines:
                 trans_line = trans_map.get(img_line.line_index)
                 if trans_line:
@@ -52,7 +52,7 @@ class AlignmentEngine:
                     # Image line with no transcript line
                     # Could log anomaly or create null alignment
                     pass
-            
+
             session.commit()
         finally:
             session.close()
@@ -68,20 +68,20 @@ class AlignmentEngine:
         """
         words = session.query(WordRecord).filter_by(line_id=img_line.id).order_by(WordRecord.word_index).all()
         tokens = session.query(TranscriptionTokenRecord).filter_by(line_id=trans_line.id).order_by(TranscriptionTokenRecord.token_index).all()
-        
+
         # Simple 1:1 alignment for now, handling length mismatch
         max_len = max(len(words), len(tokens))
-        
+
         for i in range(max_len):
             word = words[i] if i < len(words) else None
             token = tokens[i] if i < len(tokens) else None
-            
+
             type_ = "1:1"
             if word and not token:
                 type_ = "image_only"
             elif token and not word:
                 type_ = "transcript_only"
-            
+
             alignment = WordAlignmentRecord(
                 word_id=word.id if word else None,
                 token_id=token.id if token else None,

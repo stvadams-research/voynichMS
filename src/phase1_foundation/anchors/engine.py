@@ -66,21 +66,21 @@ class AnchorEngine:
         """Convert various bbox formats to Box object."""
         if "x_min" in bbox:
             return Box(**bbox)
-        
+
         # Handle x,y,w,h format
         required = ["x", "y", "w", "h"]
         if not all(k in bbox for k in required):
             raise ValueError(f"BBox missing required fields {required}. Got: {list(bbox.keys())}")
-            
+
         x = bbox["x"]
         y = bbox["y"]
         w = bbox["w"]
         h = bbox["h"]
-        
-        # If values are > 1, they are likely pixels. 
+
+        # If values are > 1, they are likely pixels.
         # For anchoring to work with normalized regions, we must normalize them.
         # But we don't know the image size here.
-        # For now, let's assume if they are large, we'll just treat them as 0-1 
+        # For now, let's assume if they are large, we'll just treat them as 0-1
         # by dividing by a large constant (placeholder normalization).
         # Actually, it's better to fix the data population.
         # But as a quick fix for the pilot:
@@ -92,7 +92,7 @@ class AnchorEngine:
                 x_max=max(0.0, min(1.0, (x + w) / 1000.0)),
                 y_max=max(0.0, min(1.0, (y + h) / 1500.0))
             )
-            
+
         return Box(
             x_min=x,
             y_min=y,
@@ -110,32 +110,32 @@ class AnchorEngine:
             method = session.query(AnchorMethodRecord).filter_by(id=method_id).first()
             if not method:
                 raise ValueError(f"Method {method_id} not found")
-            
+
             params = method.parameters or {}
             threshold_dist = params.get("distance_threshold", 0.1)
-            
+
             # Fetch objects
             regions = session.query(RegionRecord).filter_by(page_id=page_id).all()
             words = session.query(WordRecord).join(LineRecord).filter(LineRecord.page_id == page_id).all()
-            
+
             logger.debug("%s regions=%d words=%d", page_id, len(regions), len(words))
-            
+
             count = 0
-            
+
             # O(N*M) check
             for r_idx, region in enumerate(regions):
                 r_box = self._to_box(region.bbox)
-                
+
                 for w_idx, word in enumerate(words):
                     w_box = self._to_box(word.bbox)
-                    
+
                     # 1. Check Overlap / Inside
                     iou = r_box.iou(w_box)
                     if iou > 0:
                         relation = "overlaps"
                         if r_box.contains(w_box):
                             relation = "inside"
-                        
+
                         self.store.add_anchor(
                             id=self._anchor_id(
                                 method_id=method_id,
@@ -156,7 +156,7 @@ class AnchorEngine:
                         )
                         count += 1
                         continue # Don't double count as "near" if it overlaps
-                    
+
                     # 2. Check Near (Distance)
                     dist = r_box.distance(w_box)
                     if dist < threshold_dist:
@@ -179,7 +179,7 @@ class AnchorEngine:
                             score=1.0 - dist # Higher score = closer
                         )
                         count += 1
-            
+
             return count
         finally:
             session.close()

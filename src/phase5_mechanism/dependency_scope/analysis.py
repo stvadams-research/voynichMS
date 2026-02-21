@@ -29,7 +29,7 @@ class DependencyScopeAnalyzer:
             ent = -sum(p * math.log2(p) for p in probs if p > 0)
             entropies.append(ent)
             weights.append(total)
-        
+
         if not weights:
             return 0.0
         return sum(e * w for e, w in zip(entropies, weights)) / sum(weights)
@@ -38,21 +38,21 @@ class DependencyScopeAnalyzer:
         """Compares successor entropy: H(S|Node) vs H(S|Node, Features)."""
         node_successors = defaultdict(Counter)
         node_feature_successors = defaultdict(Counter)
-        
+
         for line in lines:
             for i in range(len(line) - 1):
                 node = line[i]
                 successor = line[i+1]
                 feat = self.extractor.extract_features(node)
                 feat_key = (node, feat['length'], feat['suffix_1'])
-                
+
                 node_successors[node][successor] += 1
                 node_feature_successors[feat_key][successor] += 1
-                
+
         h_node = self._calculate_conditional_entropy(node_successors)
         h_feat = self._calculate_conditional_entropy(node_feature_successors)
         lift = h_node - h_feat
-        
+
         return {
             "h_node": float(h_node),
             "h_node_feat": float(h_feat),
@@ -64,20 +64,20 @@ class DependencyScopeAnalyzer:
         """Tests if identical words split into distinct classes based on position."""
         node_successors = defaultdict(Counter)
         pos_node_successors = defaultdict(Counter)
-        
+
         for line in lines:
             for i in range(len(line) - 1):
                 node = line[i]
                 successor = line[i+1]
                 pos_key = (node, i)
-                
+
                 node_successors[node][successor] += 1
                 pos_node_successors[pos_key][successor] += 1
-                
+
         h_node = self._calculate_conditional_entropy(node_successors)
         h_pos = self._calculate_conditional_entropy(pos_node_successors)
         lift = h_node - h_pos
-        
+
         return {
             "h_node": float(h_node),
             "h_node_pos": float(h_pos),

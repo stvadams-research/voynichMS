@@ -38,11 +38,11 @@ class StrokeTopologyAnalyzer:
         class_words = [self._to_classes(w) for w in words]
         prefixes = [tuple(w[:self.prefix_len]) for w in class_words if len(w) >= self.prefix_len]
         counts = Counter(prefixes)
-        
+
         total_prefixes = len(prefixes)
         num_collisions = sum(1 for c in counts.values() if c > 1)
         collision_rate = num_collisions / total_prefixes if total_prefixes > 0 else 0.0
-        
+
         return {
             "total_prefixes": total_prefixes,
             "unique_prefixes": len(counts),
@@ -55,18 +55,18 @@ class StrokeTopologyAnalyzer:
         all_classes = []
         for w in words:
             all_classes.extend(self._to_classes(w))
-            
+
         counts = Counter(all_classes)
         freqs = sorted(counts.values())
-        
+
         if not freqs:
             return {"gini_coefficient": 0.0}
-            
+
         n = len(freqs)
         index = np.arange(1, n + 1)
         # Gini Coefficient formula
         gini = (np.sum((2 * index - n - 1) * freqs)) / (n * np.sum(freqs))
-        
+
         return {
             "unique_classes_visited": len(counts),
             "gini_coefficient": float(gini),
@@ -82,10 +82,10 @@ class StrokeTopologyAnalyzer:
                 context = classes[i]
                 successor = classes[i+1]
                 context_successors[context][successor] += 1
-                
+
         out_degrees = [len(s) for s in context_successors.values()]
         avg_out_degree = sum(out_degrees) / len(out_degrees) if out_degrees else 0.0
-        
+
         return {
             "avg_successor_convergence": float(avg_out_degree),
             "max_successor_fanout": int(max(out_degrees)) if out_degrees else 0
@@ -96,11 +96,11 @@ class StrokeTopologyAnalyzer:
         overlap = self.analyze_overlap(words)
         coverage = self.analyze_coverage(words)
         convergence = self.analyze_convergence(words)
-        
+
         # Identification Logic (mirrors Phase 5G)
         # High convergence and high skew (Gini) favor Implicit Lattice over DAG
         is_lattice_like = convergence["avg_successor_convergence"] < 2.0 and coverage["gini_coefficient"] > 0.5
-        
+
         return {
             "overlap": overlap,
             "coverage": coverage,

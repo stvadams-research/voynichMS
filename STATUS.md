@@ -10,7 +10,7 @@ You have a deterministic 50-window lattice that maps 7,717 tokens (94.93% of the
 - **53.91%** with oracle per-line mask inference (upper bound for mask-based models)
 - **45.91%** with a single global mask offset (=17), the best predictive rule
 
-The earlier claim of "97.6% of the full corpus" was overstated. The model captures **roughly half** of sequential transitions under its best configuration, not nearly all of them. What makes this significant is not the raw percentage but the **statistical certainty**: holdout generalization at z = 16.2σ, cross-transcription independence at z > 86, and 202 verified mechanical slips at z = 9.47σ. No null model produces these signals.
+The model captures **roughly half** of sequential transitions under its best configuration, not nearly all of them. What makes this significant is not the raw percentage but the **statistical certainty**: holdout generalization at z = 16.2σ, cross-transcription independence at z > 86, and 202 verified mechanical slips at z = 9.47σ. No null model produces these signals.
 
 This is still constructive generation under constraint — but the constraint system explains the **structure** of the corpus, not the **majority of individual transitions**.
 

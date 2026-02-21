@@ -17,11 +17,11 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 2: Analysis & Admissibility ===")
-    
+
     # 1. Run Admissibility Mapping (Classes 1-4)
     for i in range(1, 5):
         run_command(f"python3 scripts/phase2_analysis/run_phase_2_{i}.py")
-    
+
     # 2. Execute Sensitivity Sweep (Robustness Check)
     run_command("python3 scripts/phase2_analysis/run_sensitivity_sweep.py --mode smoke")
 

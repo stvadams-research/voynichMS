@@ -20,7 +20,7 @@ def main():
     payload = data.get("results", {})
     stroke = payload.get("stroke_topology", {})
     corr = payload.get("hierarchical_correlation", {})
-    
+
     report = [
         "# Phase 11D: Stroke Topology Analysis",
         "",

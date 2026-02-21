@@ -32,7 +32,7 @@ class RunRecord(Base):
     command_line = Column(JSON, nullable=False)
     config = Column(JSON, nullable=False)
     status = Column(String, nullable=False)
-    
+
     # Relationships
     artifacts = relationship("ArtifactRecord", back_populates="run")
     anomalies = relationship("AnomalyRecord", back_populates="run")
@@ -44,7 +44,7 @@ class DatasetRecord(Base):
     path = Column(String, nullable=False)
     checksum = Column(String, nullable=True) # Checksum of the directory content
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     pages = relationship("PageRecord", back_populates="dataset")
 
 class PageRecord(Base):
@@ -63,7 +63,7 @@ class PageRecord(Base):
     checksum = Column(String, nullable=False) # SHA256 of the image file
     width = Column(Integer, nullable=True)
     height = Column(Integer, nullable=True)
-    
+
     dataset = relationship("DatasetRecord", back_populates="pages")
     objects = relationship("ObjectRecord", back_populates="page")
     lines = relationship("LineRecord", back_populates="page")
@@ -80,7 +80,7 @@ class ArtifactRecord(Base):
     type = Column(String, nullable=False) # e.g., "manifest", "image", "json"
     checksum = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     run = relationship("RunRecord", back_populates="artifacts")
 
 class AnomalyRecord(Base):
@@ -93,7 +93,7 @@ class AnomalyRecord(Base):
     message = Column(Text, nullable=False)
     details = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     run = relationship("RunRecord", back_populates="anomalies")
 
 class ObjectRecord(Base):
@@ -104,7 +104,7 @@ class ObjectRecord(Base):
     scale = Column(String, nullable=False) # from Scale enum
     geometry = Column(JSON, nullable=False) # serialized geometry
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     page = relationship("PageRecord", back_populates="objects")
 
 # --- Level 2A: Segmentation Tables ---
@@ -117,7 +117,7 @@ class LineRecord(Base):
     bbox = Column(JSON, nullable=False) # Serialized Box
     confidence = Column(Float, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
+
     page = relationship("PageRecord", back_populates="lines")
     words = relationship("WordRecord", back_populates="line")
 
@@ -236,8 +236,8 @@ class RegionRecord(Base):
 
     page = relationship("PageRecord", back_populates="regions")
     embeddings = relationship("RegionEmbeddingRecord", back_populates="region")
-    
-    # Adjacency list relationships could be complex in SQLAlchemy, 
+
+    # Adjacency list relationships could be complex in SQLAlchemy,
     # usually better to query Edge table directly.
 
 class RegionEdgeRecord(Base):
@@ -539,7 +539,7 @@ class MetadataStore:
                     callback_key,
                     lambda completed_run: self._persist_run_record(completed_run),
                 )
-    
+
     def add_dataset(self, dataset_id: str, path: str, checksum: str = None):
         session = self.Session()
         try:
@@ -878,7 +878,7 @@ class MetadataStore:
                 run_id=run_id
             )
             session.add(record)
-            
+
             # Update structure status
             structure = session.query(StructureRecord).filter_by(id=structure_id).first()
             if structure:
@@ -888,7 +888,7 @@ class MetadataStore:
                     structure.status = "rejected"
                 elif decision == "HOLD":
                     structure.status = "inconclusive"
-            
+
             session.commit()
         finally:
             session.close()
@@ -935,7 +935,7 @@ class MetadataStore:
                 result_summary=result_summary
             )
             session.add(record)
-            
+
             # Update hypothesis status based on latest run
             hypothesis = session.query(HypothesisRecord).filter_by(id=hypothesis_id).first()
             if hypothesis:
@@ -945,7 +945,7 @@ class MetadataStore:
                     hypothesis.status = "falsified"
                 elif outcome == "NOT_SUPPORTED":
                     hypothesis.status = "inconclusive"
-            
+
             session.commit()
         finally:
             session.close()

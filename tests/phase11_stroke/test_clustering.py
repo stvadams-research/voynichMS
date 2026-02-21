@@ -8,8 +8,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
 pytestmark = pytest.mark.unit
 
-from phase11_stroke.clustering import ClusteringAnalyzer
-from phase11_stroke.schema import StrokeSchema
+from phase11_stroke.clustering import ClusteringAnalyzer  # noqa: E402
+from phase11_stroke.schema import StrokeSchema  # noqa: E402
 
 
 def _build_extracted(line_tokens: list[list[str]], counts: dict[str, int]) -> dict:

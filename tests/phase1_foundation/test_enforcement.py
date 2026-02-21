@@ -15,9 +15,9 @@ def test_enforcement_enabled():
         tracker = ComputationTracker()
         tracker._initialized = False
         tracker.__init__()
-        
+
         assert tracker.require_computed is True
-        
+
         with pytest.raises(SimulationViolationError):
             tracker.record_simulated("test_component", "test_cat", "testing enforcement")
 
@@ -28,8 +28,8 @@ def test_enforcement_disabled():
         tracker = ComputationTracker()
         tracker._initialized = False
         tracker.__init__()
-        
+
         assert tracker.require_computed is False
-        
+
         # Should not raise
         tracker.record_simulated("test_component", "test_cat", "testing allowed")

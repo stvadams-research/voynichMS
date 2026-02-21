@@ -8,9 +8,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
 pytestmark = pytest.mark.unit
 
-from phase1_foundation.transcription.parsers import ParsedLine, ParsedToken
-from phase11_stroke.schema import StrokeSchema
-from phase11_stroke.transitions import TransitionAnalyzer
+from phase1_foundation.transcription.parsers import ParsedLine, ParsedToken  # noqa: E402
+from phase11_stroke.schema import StrokeSchema  # noqa: E402
+from phase11_stroke.transitions import TransitionAnalyzer  # noqa: E402
 
 
 def _line(idx: int, tokens: list[str]) -> ParsedLine:

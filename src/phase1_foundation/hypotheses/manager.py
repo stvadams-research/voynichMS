@@ -16,7 +16,7 @@ class HypothesisManager:
         # For simplicity, let's instantiate.
         temp_instance = hypothesis_cls(self.store)
         self._registry[temp_instance.id] = hypothesis_cls
-        
+
         # Ensure it's in the DB
         self.store.add_hypothesis(
             id=temp_instance.id,
@@ -28,12 +28,12 @@ class HypothesisManager:
     def run_hypothesis(self, hypothesis_id: str, real_dataset_id: str, control_dataset_ids: list[str], run_id: str) -> HypothesisResult:
         if hypothesis_id not in self._registry:
             raise ValueError(f"Hypothesis {hypothesis_id} not registered")
-            
+
         hypothesis_cls = self._registry[hypothesis_id]
         hypothesis = hypothesis_cls(self.store)
-        
+
         result = hypothesis.run(real_dataset_id, control_dataset_ids)
-        
+
         # Persist results
         self.store.add_hypothesis_run(
             hypothesis_id=hypothesis_id,
@@ -41,7 +41,7 @@ class HypothesisManager:
             outcome=result.outcome,
             result_summary=result.summary
         )
-        
+
         for metric_name, value in result.metrics.items():
             # We need to know which dataset the metric applies to.
             # The result.metrics dict might be flat or nested.
@@ -52,7 +52,7 @@ class HypothesisManager:
             # But `add_hypothesis_metric` requires dataset_id.
             # So the Hypothesis should return metrics keyed by dataset_id?
             # Let's handle parsing "dataset:metric" keys.
-            
+
             parts = metric_name.split(":", 1)
             if len(parts) == 2:
                 ds_id, m_name = parts
@@ -72,5 +72,5 @@ class HypothesisManager:
                     metric_name=metric_name,
                     value=value
                 )
-                
+
         return result

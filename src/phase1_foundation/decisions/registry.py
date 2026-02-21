@@ -29,7 +29,7 @@ class StructureRegistry:
         """
         if decision not in ["ACCEPT", "REJECT", "HOLD"]:
             raise ValueError("Decision must be ACCEPT, REJECT, or HOLD")
-            
+
         self.store.add_decision(
             structure_id=structure_id,
             decision=decision,

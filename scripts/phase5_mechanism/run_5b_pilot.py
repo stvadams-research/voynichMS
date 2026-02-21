@@ -14,18 +14,20 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.core.queries import get_tokens_and_boundaries
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
-from phase5_mechanism.constraint_geometry.latent_state import LatentStateAnalyzer
-from phase5_mechanism.constraint_geometry.locality_resets import LocalityResetAnalyzer
-from phase5_mechanism.generators.constraint_geometry.table_variants import GeometricTableGenerator
-from phase5_mechanism.generators.pool_generator import PoolGenerator
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import get_tokens_and_boundaries  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase5_mechanism.constraint_geometry.latent_state import LatentStateAnalyzer  # noqa: E402
+from phase5_mechanism.constraint_geometry.locality_resets import LocalityResetAnalyzer  # noqa: E402
+from phase5_mechanism.generators.constraint_geometry.table_variants import (
+    GeometricTableGenerator,  # noqa: E402
+)
+from phase5_mechanism.generators.pool_generator import PoolGenerator  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -60,23 +62,23 @@ def run_pilot_5b(seed: int = 42, output_dir: str | None = None):
         # Generator B: Table (10x10 Snake)
         table_gen = GeometricTableGenerator(GRAMMAR_PATH, rows=10, cols=10, seed=seed)
         table_tokens = table_gen.generate(10000, walk_type="snake")
-        
+
         # 2. Run Geometry Tests
         console.print("\n[bold yellow]Step 2: Running Geometry Tests[/bold yellow]")
         dim_analyzer = LatentStateAnalyzer(top_n=500)
         reset_analyzer = LocalityResetAnalyzer(min_freq=5)
-        
+
         # A. Latent Dimensionality
         real_dim = dim_analyzer.estimate_dimensionality(real_tokens[:10000])
         pool_dim = dim_analyzer.estimate_dimensionality(pool_tokens)
         table_dim = dim_analyzer.estimate_dimensionality(table_tokens)
-        
+
         # B. Reset Behavior (using 72 token 'dummy' boundaries for syn)
         syn_boundaries = list(range(71, 10000, 72))
         real_reset = reset_analyzer.analyze_resets(real_tokens[:10000], real_boundaries)
         pool_reset = reset_analyzer.analyze_resets(pool_tokens, syn_boundaries)
         table_reset = reset_analyzer.analyze_resets(table_tokens, syn_boundaries)
-        
+
         # 3. Report
         table = Table(title="Phase 5B Pilot: Constraint Topology Benchmark")
         table.add_column("Dataset", style="cyan")
@@ -85,37 +87,37 @@ def run_pilot_5b(seed: int = 42, output_dir: str | None = None):
         table.add_column("Interpretation", style="dim")
 
         table.add_row(
-            "Voynich (Real)", 
-            str(real_dim['effective_rank_90']), 
+            "Voynich (Real)",
+            str(real_dim['effective_rank_90']),
             f"{real_reset['reset_score']:.4f}",
             "Ground Truth"
         )
         table.add_row(
-            "Pool-Reuse (Syn)", 
-            str(pool_dim['effective_rank_90']), 
+            "Pool-Reuse (Syn)",
+            str(pool_dim['effective_rank_90']),
             f"{pool_reset['reset_score']:.4f}",
             "Stochastic / High-Dim"
         )
         table.add_row(
-            "Geometric Table (Syn)", 
-            str(table_dim['effective_rank_90']), 
+            "Geometric Table (Syn)",
+            str(table_dim['effective_rank_90']),
             f"{table_reset['reset_score']:.4f}",
             "Structural / Low-Dim"
         )
-        
+
         console.print(table)
-        
+
         # Save results
         results = {
             "real": {"dim": real_dim, "reset": real_reset},
             "pool": {"dim": pool_dim, "reset": pool_reset},
             "table": {"dim": table_dim, "reset": table_reset}
         }
-        
+
         out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/constraint_geometry")
         out.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, out / "pilot_5b_results.json")
-            
+
         store.save_run(run)
 
 if __name__ == "__main__":

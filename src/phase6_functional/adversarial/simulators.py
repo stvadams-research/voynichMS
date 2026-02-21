@@ -22,10 +22,10 @@ class AdversarialLatticeSimulator(LatticeTraversalSimulator):
     def _get_nexts_adversarial(self, prev: str, curr: str, pos: int, section_idx: int) -> list[str]:
         if section_idx not in self.section_rules:
             self.section_rules[section_idx] = {}
-        
+
         rules = self.section_rules[section_idx]
         state = (prev, curr, pos)
-        
+
         if state not in rules:
             # Generate a rule that might contradict other sections
             num_choices = self.random.choices([1, 2, 5], weights=[0.4, 0.4, 0.2])[0]

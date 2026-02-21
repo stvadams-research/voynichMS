@@ -8,7 +8,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
 pytestmark = pytest.mark.unit
 
-from phase11_stroke.schema import CHAR_INVENTORY, FEATURE_NAMES, STROKE_FEATURES, StrokeSchema
+from phase11_stroke.schema import (  # noqa: E402
+    CHAR_INVENTORY,
+    FEATURE_NAMES,
+    STROKE_FEATURES,
+    StrokeSchema,
+)
 
 
 def test_schema_has_complete_character_inventory() -> None:

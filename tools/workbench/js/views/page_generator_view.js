@@ -1,5 +1,7 @@
 (function () {
   const app = window.SlipApp;
+  const prefixAffixPattern = /^((?:<[^>]+>)+)/;
+  const suffixAffixPattern = /((?:<[^>]+>)+)$/;
 
   function buildActualText(folio, format) {
     if (!folio || !Array.isArray(folio.lines)) {
@@ -75,6 +77,180 @@
     };
   }
 
+  function extractAffix(content) {
+    const raw = String(content || "").trim();
+    if (!raw) {
+      return { prefix: "", suffix: "" };
+    }
+    const prefixMatch = raw.match(prefixAffixPattern);
+    const suffixMatch = raw.match(suffixAffixPattern);
+    return {
+      prefix: prefixMatch ? prefixMatch[1] : "",
+      suffix: suffixMatch ? suffixMatch[1] : "",
+    };
+  }
+
+  function splitSanitizedTokens(content) {
+    return String(content || "")
+      .split(/[.\s]+/)
+      .map(function sanitize(token) {
+        if (typeof app.sanitizeToken === "function") {
+          return app.sanitizeToken(token);
+        }
+        return String(token || "")
+          .replace(/[{}*$<>]/g, "")
+          .replace(/[,\.;]/g, "")
+          .trim();
+      })
+      .map(function normalize(token) {
+        return String(token || "").trim().toLowerCase();
+      })
+      .filter(function keep(token) {
+        return token.length > 0;
+      });
+  }
+
+  function parseMarker(location) {
+    const raw = String(location || "");
+    if (!raw.includes(",")) {
+      return "";
+    }
+    return raw.split(",", 2)[1].trim();
+  }
+
+  function parseLinesForAlignment(text) {
+    const rows = String(text || "").split(/\r?\n/);
+    const parsed = [];
+    rows.forEach(function eachRow(rawLine) {
+      const line = String(rawLine || "").trim();
+      if (!line) {
+        return;
+      }
+      if (typeof app.parseIVTFFLine === "function") {
+        const detail = app.parseIVTFFLine(line, parsed.length + 1);
+        if (!detail || detail.isBlank || detail.isComment || detail.error) {
+          return;
+        }
+        const content = String(detail.content || line).trim();
+        const affix = extractAffix(content);
+        parsed.push({
+          marker: parseMarker(detail.location),
+          tokens: splitSanitizedTokens(content),
+          prefix: affix.prefix,
+          suffix: affix.suffix,
+        });
+        return;
+      }
+      const affix = extractAffix(line);
+      parsed.push({
+        marker: "",
+        tokens: splitSanitizedTokens(line),
+        prefix: affix.prefix,
+        suffix: affix.suffix,
+      });
+    });
+    return parsed;
+  }
+
+  function levenshteinDistance(left, right) {
+    if (left.length === 0) {
+      return right.length;
+    }
+    if (right.length === 0) {
+      return left.length;
+    }
+    const prev = [];
+    for (let idx = 0; idx <= right.length; idx += 1) {
+      prev.push(idx);
+    }
+    for (let i = 1; i <= left.length; i += 1) {
+      const cur = [i];
+      for (let j = 1; j <= right.length; j += 1) {
+        const substitution = prev[j - 1] + (left[i - 1] === right[j - 1] ? 0 : 1);
+        const insertion = cur[j - 1] + 1;
+        const deletion = prev[j] + 1;
+        cur.push(Math.min(substitution, insertion, deletion));
+      }
+      for (let j = 0; j <= right.length; j += 1) {
+        prev[j] = cur[j];
+      }
+    }
+    return prev[right.length];
+  }
+
+  function scoreGeneratedAgainstActual(generatedText, actualText) {
+    const generated = parseLinesForAlignment(generatedText);
+    const actual = parseLinesForAlignment(actualText);
+    const maxLines = Math.max(generated.length, actual.length);
+
+    let exactMatches = 0;
+    let exactTotal = 0;
+    let editAccum = 0;
+    let affixMatches = 0;
+    let markerMatches = 0;
+    let markerTotal = 0;
+
+    for (let idx = 0; idx < maxLines; idx += 1) {
+      const g = generated[idx] || { tokens: [], marker: "", prefix: "", suffix: "" };
+      const a = actual[idx] || { tokens: [], marker: "", prefix: "", suffix: "" };
+      const denom = Math.max(g.tokens.length, a.tokens.length, 1);
+      editAccum += levenshteinDistance(g.tokens, a.tokens) / denom;
+      const overlap = Math.min(g.tokens.length, a.tokens.length);
+      for (let pos = 0; pos < overlap; pos += 1) {
+        if (g.tokens[pos] === a.tokens[pos]) {
+          exactMatches += 1;
+        }
+      }
+      exactTotal += denom;
+      if (a.tokens.length || a.prefix || a.suffix) {
+        if (g.prefix === a.prefix && g.suffix === a.suffix) {
+          affixMatches += 1;
+        }
+      }
+      if (a.marker) {
+        markerTotal += 1;
+        if (g.marker === a.marker) {
+          markerMatches += 1;
+        }
+      }
+    }
+
+    return {
+      generatedLines: generated.length,
+      actualLines: actual.length,
+      lineCountError: Math.abs(generated.length - actual.length),
+      exactTokenRate: exactTotal ? exactMatches / exactTotal : 0,
+      normalizedEditDistance: maxLines ? editAccum / maxLines : 1,
+      affixFidelity: maxLines ? affixMatches / maxLines : 0,
+      markerFidelity: markerTotal ? markerMatches / markerTotal : 0,
+    };
+  }
+
+  function renderAlignmentScore(result) {
+    const alignment = document.getElementById("page-alignment");
+    const actualOutput = document.getElementById("page-actual-output");
+    if (!alignment || !actualOutput) {
+      return;
+    }
+
+    if (!result || !result.ok) {
+      alignment.className = "report-box muted";
+      alignment.textContent = "No generated-vs-actual alignment score yet.";
+      return;
+    }
+
+    const score = scoreGeneratedAgainstActual(result.text, actualOutput.value);
+    alignment.className = "report-box";
+    alignment.innerHTML = [
+      "<div><strong>Generated vs Actual (Phase 19 Scorecard)</strong></div>",
+      `<div><strong>Line Count Error:</strong> ${score.lineCountError} (${score.generatedLines} vs ${score.actualLines})</div>`,
+      `<div><strong>Exact Token Rate:</strong> ${(score.exactTokenRate * 100).toFixed(2)}%</div>`,
+      `<div><strong>Normalized Edit Distance:</strong> ${score.normalizedEditDistance.toFixed(4)}</div>`,
+      `<div><strong>Affix Fidelity:</strong> ${(score.affixFidelity * 100).toFixed(2)}%</div>`,
+      `<div><strong>Marker Fidelity:</strong> ${(score.markerFidelity * 100).toFixed(2)}%</div>`,
+    ].join("");
+  }
+
   function renderActualPreview(folioId, format) {
     const actualOutput = document.getElementById("page-actual-output");
     const folio = app.state.data.folioMap[folioId] || null;
@@ -138,6 +314,7 @@
         document.getElementById("page-folio-id").value.trim(),
         document.getElementById("page-format").value
       );
+      renderAlignmentScore(result);
       return;
     }
 
@@ -177,6 +354,7 @@
 
     output.value = result.text;
     renderActualPreview(result.folioId, result.format);
+    renderAlignmentScore(result);
   }
 
   function generate() {
@@ -215,6 +393,7 @@
     if (!folioIds.length) {
       app.state.page.selectedFolio = null;
       renderActualPreview("", document.getElementById("page-format").value);
+      renderAlignmentScore(null);
       return;
     }
 
@@ -226,6 +405,7 @@
       app.state.page.selectedFolio = current;
     }
     renderActualPreview(input.value.trim(), document.getElementById("page-format").value);
+    renderAlignmentScore(app.state.page.lastResult);
   }
 
   app.renderPageView = function renderPageView() {
@@ -261,10 +441,12 @@
     folioInput.addEventListener("change", function onFolioChange() {
       app.state.page.selectedFolio = folioInput.value.trim();
       renderActualPreview(folioInput.value.trim(), formatInput.value);
+      renderAlignmentScore(app.state.page.lastResult);
     });
 
     formatInput.addEventListener("change", function onFormatChange() {
       renderActualPreview(folioInput.value.trim(), formatInput.value);
+      renderAlignmentScore(app.state.page.lastResult);
     });
 
     generateBtn.addEventListener("click", function onGenerate() {

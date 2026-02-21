@@ -61,12 +61,12 @@ class PerturbationCalculator:
             Dict with degradation metrics
         """
         result = self._calculate_real(perturbation_type, dataset_id, strength, model_sensitivities)
-        
+
         # Guard against NaN propagation: sanitize results
         if np.isnan(result.get("degradation", 0)):
             logger.warning("NaN degradation detected for %s, sanitizing to 1.0 (total failure)", perturbation_type)
             result["degradation"] = 1.0
-            
+
         return result
 
     def _calculate_real(
@@ -133,11 +133,11 @@ class PerturbationCalculator:
 
             word_bbox = word.bbox
             region_bbox = region.bbox
-            
+
             # Validate required coordinates
             required_word = ["x_min", "x_max", "y_min", "y_max"]
             required_region = ["x_min", "x_max", "y_min", "y_max"]
-            
+
             if not all(k in word_bbox for k in required_word) or not all(k in region_bbox for k in required_region):
                 logger.warning("Incomplete bbox coordinates for anchor %s", anchor.id)
                 surviving += 1
@@ -213,7 +213,7 @@ class PerturbationCalculator:
                     if not word_bbox:
                         logger.warning("Missing word bbox for word %s on page %s", word.id, page.id)
                         continue
-                    
+
                     if "x_min" not in word_bbox or "x_max" not in word_bbox:
                         logger.warning("Incomplete word bbox coordinates for word %s", word.id)
                         continue

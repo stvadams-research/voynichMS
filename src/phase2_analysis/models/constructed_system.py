@@ -143,7 +143,7 @@ class ProceduralGenerationModel(ExplicitModel):
         from phase1_foundation.config import get_model_params
         params = get_model_params()
         model_sensitivities = params.get("models", {}).get(self.model_id, {}).get("sensitivities", {})
-        
+
         # Fallback to defaults if config lookup fails
         if not model_sensitivities:
             model_sensitivities = {

@@ -35,7 +35,7 @@ class OptimizedLatticeSimulator(LatticeTraversalSimulator):
         # Prefer starting with cheap tokens
         curr = self.random.choice(self.preferred_tokens)
         line.append(curr)
-        
+
         for pos in range(1, line_len):
             possible_nexts = self._get_nexts(prev, curr, pos-1)
             nxt = self.random.choice(possible_nexts)

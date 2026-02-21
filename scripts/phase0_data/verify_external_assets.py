@@ -50,9 +50,9 @@ def verify_assets() -> bool:
     """Verify presence and non-empty status of all required assets."""
     print("VoynichMS External Asset Verification")
     print("=" * 40)
-    
+
     missing_required = []
-    
+
     # 1. Check IVTFF
     print("\n[IVTFF Transliterations]")
     if not IVTFF_DIR.exists():
@@ -85,7 +85,7 @@ def verify_assets() -> bool:
                     if p1.exists() and p2.exists():
                         print("  [OK]    latin_part1.txt + latin_part2.txt found (concatenation pending)")
                         continue
-                
+
                 print(f"  [FAIL]  {filename} (missing or empty)")
                 missing_required.append(f"Corpus: {filename}")
 

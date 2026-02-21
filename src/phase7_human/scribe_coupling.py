@@ -49,20 +49,20 @@ class ScribeAnalyzer:
         6.3 Scribal Hand Coupling Test
         """
         hand_metrics = defaultdict(list)
-        
+
         for folio_id, lines in pages.items():
             hand = self.get_hand(folio_id)
             if hand == "Unknown": continue
-            
+
             # Metric: Successor Entropy (Proxy for determinism)
             # For simplicity, we'll use TTR or mean word length here
             # as a proxy for execution 'texture'.
             tokens = [w for line in lines for w in line]
             if not tokens: continue
-            
+
             ttr = len(set(tokens)) / len(tokens) if len(tokens) > 0 else 0
             hand_metrics[hand].append(ttr)
-            
+
         results = {}
         for hand, vals in hand_metrics.items():
             results[hand] = {
@@ -70,5 +70,5 @@ class ScribeAnalyzer:
                 "std_ttr": float(np.std(vals)),
                 "sample_size_pages": len(vals)
             }
-            
+
         return results

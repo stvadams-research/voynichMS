@@ -383,7 +383,7 @@ class FullIndistinguishabilityTest:
             # Load data
             tester.load_real_pages()
             tester.load_synthetic_pages(pages)
-            
+
             # Derive seed for this gap
             gap_seed = seed + i * 1000 if seed is not None else None
             tester.generate_scrambled_controls(count=len(pages), seed=gap_seed)

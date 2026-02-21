@@ -4,7 +4,7 @@ from pydantic import ValidationError
 pytestmark = pytest.mark.unit
 
 from phase1_foundation.runs.context import RunContext
-from phase1_foundation.runs.manager import active_run, RunManager
+from phase1_foundation.runs.manager import RunManager, active_run
 
 
 def test_run_context_requires_run_id() -> None:

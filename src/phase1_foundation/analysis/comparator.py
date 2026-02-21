@@ -19,7 +19,7 @@ class Comparator:
         Compare metric results between real and control datasets.
         """
         comparison = {}
-        
+
         # Group by metric
         metrics = {}
         for r in metric_results:
@@ -30,7 +30,7 @@ class Comparator:
         for metric_name, values in metrics.items():
             real_val = values.get(real_id)
             control_val = values.get(control_id)
-            
+
             if real_val is not None and control_val is not None:
                 diff = real_val - control_val
                 # Simple logic for Level 3 demo
@@ -40,14 +40,14 @@ class Comparator:
                     classification = "SURVIVES"
                 elif abs(diff) > self.negligible_difference:
                     classification = "PARTIAL"
-                
+
                 comparison[metric_name] = {
                     "real": real_val,
                     "control": control_val,
                     "diff": diff,
                     "classification": classification
                 }
-                
+
                 # Persist
                 self.store.add_metric_comparison(
                     metric_name=metric_name,
@@ -56,5 +56,5 @@ class Comparator:
                     difference_score=diff,
                     classification=classification
                 )
-                
+
         return comparison

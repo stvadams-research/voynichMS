@@ -1,21 +1,23 @@
 import contextlib
+import json
+import logging
 import os
 import sys
 import threading
 import time
-import json
+from collections.abc import Generator
 from pathlib import Path
-from typing import Any, Dict, Generator, Optional
+from typing import Any
 
-from phase1_foundation.runs.context import RunContext
-from phase1_foundation.core.ids import RunID
-from phase1_foundation.core.id_factory import DeterministicIDFactory
 from phase1_foundation.config import get_tracker
-import logging
+from phase1_foundation.core.id_factory import DeterministicIDFactory
+from phase1_foundation.core.ids import RunID
+from phase1_foundation.runs.context import RunContext
+
 logger = logging.getLogger(__name__)
 
 
-def capture_environment() -> Dict[str, Any]:
+def capture_environment() -> dict[str, Any]:
     """
     Capture environment details for reproducibility tracking.
 
@@ -58,12 +60,12 @@ class RunManager:
     _thread_local = threading.local()
 
     @classmethod
-    def _get_current_run(cls) -> Optional[RunContext]:
+    def _get_current_run(cls) -> RunContext | None:
         """Get the current run for this thread."""
         return getattr(cls._thread_local, 'current_run', None)
 
     @classmethod
-    def _set_current_run(cls, run: Optional[RunContext]) -> None:
+    def _set_current_run(cls, run: RunContext | None) -> None:
         """Set the current run for this thread."""
         cls._thread_local.current_run = run
 
@@ -115,10 +117,10 @@ class RunManager:
         run_id = RunID(value=run_factory.next_uuid(f"run:{run_nonce}:{threading.get_ident()}"))
         run = RunContext(run_id=run_id, config=run_config)
         cls._set_current_run(run)
-        
+
         # Start computation tracking
         get_tracker().start_run(str(run_id))
-        
+
         return run
 
     @classmethod
@@ -132,7 +134,7 @@ class RunManager:
         current = cls._get_current_run()
         if current is None:
             return
-            
+
         # End computation tracking and save report
         report = get_tracker().end_run()
         if report:
@@ -140,7 +142,7 @@ class RunManager:
             run_dir.mkdir(parents=True, exist_ok=True)
             with open(run_dir / "coverage.json", "w") as f:
                 json.dump(report.to_dict(), f, indent=2)
-        
+
         current.complete(status)
         # Here we would save the run to storage if needed, but Context handles manifest writing
         cls._set_current_run(None)

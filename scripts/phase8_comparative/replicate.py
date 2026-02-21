@@ -17,7 +17,7 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 8: Comparative Analysis ===")
-    
+
     # 1. Run Proximity and Uncertainty Sweep
     run_command("python3 scripts/phase8_comparative/run_proximity_uncertainty.py --iterations 100")
 

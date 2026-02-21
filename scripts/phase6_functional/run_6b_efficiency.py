@@ -12,21 +12,21 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 sys.path.insert(0, str(project_root))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     MetadataStore,
     PageRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from phase6_functional.efficiency.metrics import EfficiencyAnalyzer
-from phase6_functional.efficiency.simulators import OptimizedLatticeSimulator
-from phase6_functional.formal_system.simulators import LatticeTraversalSimulator
+from phase6_functional.efficiency.metrics import EfficiencyAnalyzer  # noqa: E402
+from phase6_functional.efficiency.simulators import OptimizedLatticeSimulator  # noqa: E402
+from phase6_functional.formal_system.simulators import LatticeTraversalSimulator  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -43,11 +43,11 @@ def get_real_lines(store, dataset_id="voynich_real"):
             .order_by(PageRecord.id, TranscriptionLineRecord.line_index, TranscriptionTokenRecord.token_index)
             .all()
         )
-        
+
         lines = []
         current_line = []
         last_line_id = None
-        
+
         for content, line_id in tokens_recs:
             if last_line_id and line_id != last_line_id:
                 lines.append(current_line)
@@ -56,7 +56,7 @@ def get_real_lines(store, dataset_id="voynich_real"):
             last_line_id = line_id
         if current_line:
             lines.append(current_line)
-            
+
         return lines
     finally:
         session.close()
@@ -92,53 +92,53 @@ def run_phase_6b(seed: int = 42, output_dir: str | None = None):
         # H6B.1: Efficiency-Optimized (Small vocab, token reuse)
         optimized_sim = OptimizedLatticeSimulator(vocab_size=500, seed=seed)
         optimized_lines = optimized_sim.generate_corpus(num_lines=num_lines, line_len=8)
-        
+
         datasets = {
             "Voynich (Real)": real_lines,
             "Indifferent (H6B.2)": indifferent_lines,
             "Optimized (H6B.1)": optimized_lines
         }
-        
+
         # 2. Run Audit
         results = {}
         for label, lines in datasets.items():
             console.print(f"\n[bold blue]Auditing {label}...[/bold blue]")
             results[label] = analyzer.run_efficiency_audit(lines)
-            
+
         # 3. Display Results
         table = Table(title="Phase 6B: Efficiency Audit Results")
         table.add_column("Metric", style="cyan")
         table.add_column("Voynich (Real)", justify="right")
         table.add_column("Indifferent (H6B.2)", justify="right")
         table.add_column("Optimized (H6B.1)", justify="right")
-        
-        table.add_row("Reuse Supp. Index", 
+
+        table.add_row("Reuse Supp. Index",
                       f"{results['Voynich (Real)']['reuse_suppression']['reuse_suppression_index']:.4f}",
                       f"{results['Indifferent (H6B.2)']['reuse_suppression']['reuse_suppression_index']:.4f}",
                       f"{results['Optimized (H6B.1)']['reuse_suppression']['reuse_suppression_index']:.4f}")
-        
-        table.add_row("Path Efficiency", 
+
+        table.add_row("Path Efficiency",
                       f"{results['Voynich (Real)']['path_efficiency']['path_efficiency']:.4f}",
                       f"{results['Indifferent (H6B.2)']['path_efficiency']['path_efficiency']:.4f}",
                       f"{results['Optimized (H6B.1)']['path_efficiency']['path_efficiency']:.4f}")
-        
-        table.add_row("Redundancy Rate", 
+
+        table.add_row("Redundancy Rate",
                       f"{results['Voynich (Real)']['redundancy_cost']['redundancy_rate']:.4f}",
                       f"{results['Indifferent (H6B.2)']['redundancy_cost']['redundancy_rate']:.4f}",
                       f"{results['Optimized (H6B.1)']['redundancy_cost']['redundancy_rate']:.4f}")
-        
-        table.add_row("Compression Ratio", 
+
+        table.add_row("Compression Ratio",
                       f"{results['Voynich (Real)']['compressibility']['compression_ratio']:.4f}",
                       f"{results['Indifferent (H6B.2)']['compressibility']['compression_ratio']:.4f}",
                       f"{results['Optimized (H6B.1)']['compressibility']['compression_ratio']:.4f}")
-        
+
         console.print(table)
-        
+
         # 4. Save Artifacts
         out = Path(output_dir) if output_dir else Path("results/data/phase6_functional/phase_6b")
         out.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, out / "phase_6b_results.json")
-            
+
         # Generate Report
         report_path = Path("results/reports/phase6_functional/PHASE_6B_RESULTS.md")
         with open(report_path, "w") as f:
@@ -150,18 +150,18 @@ def run_phase_6b(seed: int = 42, output_dir: str | None = None):
             f.write(f"| Path Efficiency | {results['Voynich (Real)']['path_efficiency']['path_efficiency']:.4f} | {results['Indifferent (H6B.2)']['path_efficiency']['path_efficiency']:.4f} | {results['Optimized (H6B.1)']['path_efficiency']['path_efficiency']:.4f} |\n")
             f.write(f"| Redundancy Rate | {results['Voynich (Real)']['redundancy_cost']['redundancy_rate']:.4f} | {results['Indifferent (H6B.2)']['redundancy_cost']['redundancy_rate']:.4f} | {results['Optimized (H6B.1)']['redundancy_cost']['redundancy_rate']:.4f} |\n")
             f.write(f"| Comp. Ratio | {results['Voynich (Real)']['compressibility']['compression_ratio']:.4f} | {results['Indifferent (H6B.2)']['compressibility']['compression_ratio']:.4f} | {results['Optimized (H6B.1)']['compressibility']['compression_ratio']:.4f} |\n\n")
-            
+
             f.write("## Analysis\n\n")
             voynich_ratio = results['Voynich (Real)']['compressibility']['compression_ratio']
             opt_ratio = results['Optimized (H6B.1)']['compressibility']['compression_ratio']
-            
+
             if voynich_ratio > opt_ratio + 0.05:
                 f.write("- **Low Compressibility:** Voynich is significantly less compressible than an optimized system, supporting H6B.2.\n")
             elif voynich_ratio < opt_ratio:
                 f.write("- **High Compressibility:** Voynich shows optimization levels consistent with or exceeding the optimized baseline, supporting H6B.1.\n")
             else:
                 f.write("- **Moderate Efficiency:** Voynich shows baseline efficiency consistent with its formal structure.\n")
-                
+
             if results['Voynich (Real)']['reuse_suppression']['reuse_suppression_index'] > 0.9:
                 f.write("- **High Reuse Suppression:** The system actively avoids repeating states despite potential cost, suggesting efficiency is not a priority.\n")
 

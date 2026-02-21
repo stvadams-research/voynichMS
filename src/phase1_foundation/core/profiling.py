@@ -18,7 +18,7 @@ def timing_profile(func: F) -> F:
         result = func(*args, **kwargs)
         end_time = time.perf_counter()
         duration = end_time - start_time
-        
+
         # Log with extra fields for JSON logger
         logger.info(
             "Execution profile: %s took %.4f seconds",

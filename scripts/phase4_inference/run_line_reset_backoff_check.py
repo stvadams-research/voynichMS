@@ -18,28 +18,31 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.core.queries import get_lines_from_store, get_tokens_and_boundaries
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
-from phase4_inference.projection_diagnostics.discrimination import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import (  # noqa: E402
+    get_lines_from_store,
+    get_tokens_and_boundaries,
+)
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase4_inference.projection_diagnostics.discrimination import (  # noqa: E402
     DiscriminationCheckAnalyzer,
     DiscriminationCheckConfig,
 )
-from phase4_inference.projection_diagnostics.line_reset_backoff import (
+from phase4_inference.projection_diagnostics.line_reset_backoff import (  # noqa: E402
     LineResetBackoffConfig,
     LineResetBackoffGenerator,
 )
-from phase4_inference.projection_diagnostics.line_reset_markov import (
+from phase4_inference.projection_diagnostics.line_reset_markov import (  # noqa: E402
     LineResetMarkovConfig,
     LineResetMarkovGenerator,
 )
-from phase4_inference.projection_diagnostics.ncd import NCDAnalyzer, NCDConfig
-from phase4_inference.projection_diagnostics.order_constraints import (
+from phase4_inference.projection_diagnostics.ncd import NCDAnalyzer, NCDConfig  # noqa: E402
+from phase4_inference.projection_diagnostics.order_constraints import (  # noqa: E402
     OrderConstraintAnalyzer,
     OrderConstraintConfig,
 )

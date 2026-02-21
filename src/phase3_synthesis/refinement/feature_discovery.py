@@ -110,7 +110,7 @@ class FeatureComputer:
             controller = get_randomness_controller()
             with controller.seeded_context(f"feature_{feature_id}", seed):
                 return method(page, synthetic, is_scrambled)
-        
+
         return method(page, synthetic, is_scrambled)
 
     def _warn_fallback(self, feature_id: str, is_scrambled: bool) -> None:

@@ -11,9 +11,9 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from phase1_foundation.anchors.engine import AnchorEngine
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, PageRecord
+from phase1_foundation.anchors.engine import AnchorEngine  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore, PageRecord  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 
@@ -48,14 +48,14 @@ def main():
     ) as run:
         store = MetadataStore(DB_PATH)
         engine = AnchorEngine(store, seed=42)
-        
+
         # 1. Register method
         method_id = engine.register_method(
             name=args.method_name,
             description=args.description,
             parameters={"distance_threshold": args.threshold}
         )
-        
+
         # 2. Get all pages
         session = store.Session()
         try:
@@ -64,14 +64,14 @@ def main():
                 f"Generating anchors for {len(pages)} pages in {args.dataset_id} "
                 f"with method {args.method_name} ({method_id})..."
             )
-            
+
             total_anchors = 0
             for page in pages:
                 count = engine.compute_page_anchors(page.id, method_id, run.run_id)
                 total_anchors += count
                 if count > 0:
                     print(f"  {page.id}: {count} anchors")
-            
+
             print(f"\nDone. Total anchors: {total_anchors}")
             store.save_run(run)
         finally:

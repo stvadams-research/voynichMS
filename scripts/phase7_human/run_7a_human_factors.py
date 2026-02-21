@@ -15,19 +15,19 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 sys.path.insert(0, str(project_root))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     MetadataStore,
     PageRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from phase7_human.ergonomics import ErgonomicsAnalyzer
+from phase7_human.ergonomics import ErgonomicsAnalyzer  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -38,8 +38,8 @@ def get_grouped_data(store, dataset_id="voynich_real"):
         # Get lines grouped by page
         recs = (
             session.query(
-                PageRecord.id, 
-                TranscriptionLineRecord.line_index, 
+                PageRecord.id,
+                TranscriptionLineRecord.line_index,
                 TranscriptionLineRecord.content,
                 TranscriptionLineRecord.id.label("line_id")
             )
@@ -49,7 +49,7 @@ def get_grouped_data(store, dataset_id="voynich_real"):
             .order_by(PageRecord.id, TranscriptionLineRecord.line_index)
             .all()
         )
-        
+
         # Also get tokens for cost phase2_analysis
         token_recs = (
             session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
@@ -59,17 +59,17 @@ def get_grouped_data(store, dataset_id="voynich_real"):
             .filter(TranscriptionLineRecord.source_id == "zandbergen_landini")
             .all()
         )
-        
+
         tokens_by_line = defaultdict(list)
         for content, line_id in token_recs:
             tokens_by_line[line_id].append(content)
-            
+
         pages = defaultdict(list)
         raw_lines = []
         for page_id, line_idx, content, line_id in recs:
             pages[page_id].append(tokens_by_line[line_id])
             raw_lines.append(content)
-            
+
         return pages, raw_lines
     finally:
         session.close()
@@ -91,16 +91,16 @@ def run_phase_7a(seed: int = 42, output_dir: str | None = None):
     with active_run(config={"command": "run_7a_human_factors", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = ErgonomicsAnalyzer()
-        
+
         # 1. Prepare Data
         console.print("\n[bold cyan]Step 1: Preparing Data[/bold cyan]")
         pages, raw_lines = get_grouped_data(store)
         console.print(f"Loaded {len(pages)} pages and {len(raw_lines)} lines.")
-        
+
         # 2. Correction Analysis
         console.print("\n[bold cyan]Step 2: Analyzing Correction Density[/bold cyan]")
         corr_results = analyzer.calculate_correction_density(raw_lines)
-        
+
         # 3. Fatigue Analysis
         console.print("\n[bold cyan]Step 3: Analyzing Fatigue Gradients[/bold cyan]")
         page_fatigue = []
@@ -108,20 +108,20 @@ def run_phase_7a(seed: int = 42, output_dir: str | None = None):
             fatigue = analyzer.analyze_page_fatigue(lines)
             if fatigue:
                 page_fatigue.append(fatigue)
-                
+
         avg_line_corr = np.nanmean([f['line_length_correlation'] for f in page_fatigue])
         avg_word_corr = np.nanmean([f['word_length_correlation'] for f in page_fatigue])
-        
+
         # 4. Production Cost
         console.print("\n[bold cyan]Step 4: Estimating Production Cost[/bold cyan]")
         all_tokens = [t for p in pages.values() for l in p for t in l]
         cost_results = analyzer.estimate_production_cost(all_tokens)
-        
+
         # 5. Display Results
         table = Table(title="Phase 7A: Human Factors Results")
         table.add_column("Metric", style="cyan")
         table.add_column("Value", justify="right")
-        
+
         table.add_row("Correction Count", str(corr_results['correction_count']))
         table.add_row("Uncertainty Count", str(corr_results['uncertainty_count']))
         table.add_row("Corrections per 100 lines", f"{corr_results['corrections_per_100_lines']:.2f}")
@@ -129,13 +129,13 @@ def run_phase_7a(seed: int = 42, output_dir: str | None = None):
         table.add_row("Avg Word Length Corr (Fatigue)", f"{avg_word_corr:.4f}")
         table.add_row("Mean Strokes per Char", f"{cost_results['mean_strokes_per_char']:.2f}")
         table.add_row("Estimated Total Strokes", f"{cost_results['total_strokes']:,}")
-        
+
         console.print(table)
-        
+
         # 6. Save Artifacts
         out = Path(output_dir) if output_dir else Path("results/data/phase7_human")
         out.mkdir(parents=True, exist_ok=True)
-        
+
         results = {
             "corrections": corr_results,
             "fatigue": {
@@ -144,9 +144,9 @@ def run_phase_7a(seed: int = 42, output_dir: str | None = None):
             },
             "cost": cost_results
         }
-        
+
         ProvenanceWriter.save_results(results, out / "phase_7a_results.json")
-            
+
         # Generate Report
         report_path = Path("results/reports/phase7_human/PHASE_7A_RESULTS.md")
         with open(report_path, "w") as f:
@@ -155,12 +155,12 @@ def run_phase_7a(seed: int = 42, output_dir: str | None = None):
             f.write(f"- **Correction Count:** {corr_results['correction_count']}\n")
             f.write(f"- **Uncertainty Count:** {corr_results['uncertainty_count']}\n")
             f.write(f"- **Density:** {corr_results['corrections_per_100_lines']:.2f} corrections per 100 lines.\n\n")
-            
+
             f.write("## Fatigue and Drift Analysis\n\n")
             f.write(f"- **Line Length Correlation:** {avg_line_corr:.4f}\n")
             f.write(f"- **Word Length Correlation:** {avg_word_corr:.4f}\n")
             f.write("  - *Interpretation:* A negative correlation would suggest fatigue (shorter lines/words as the page progresses).\n\n")
-            
+
             f.write("## Production Effort Proxies\n\n")
             f.write(f"- **Mean Strokes per Character:** {cost_results['mean_strokes_per_char']:.2f}\n")
             f.write(f"- **Total Estimated Strokes:** {cost_results['total_strokes']:,}\n")

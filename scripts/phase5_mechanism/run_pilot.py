@@ -14,20 +14,20 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     MetadataStore,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from phase5_mechanism.generators.pool_generator import PoolGenerator
-from phase5_mechanism.tests.copying_signatures import CopyingSignatureTest
-from phase5_mechanism.tests.table_signatures import TableSignatureTest
+from phase5_mechanism.generators.pool_generator import PoolGenerator  # noqa: E402
+from phase5_mechanism.tests.copying_signatures import CopyingSignatureTest  # noqa: E402
+from phase5_mechanism.tests.table_signatures import TableSignatureTest  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -71,21 +71,21 @@ def run_pilot(seed: int = 42, output_dir: str | None = None):
 
         generator = PoolGenerator(GRAMMAR_PATH, pool_size=25, seed=seed)
         syn_tokens = generator.generate(target_tokens=10000) # Pilot scale
-        
+
         # 2. Run Signature Tests
         console.print("\n[bold yellow]Step 2: Running Signature Tests[/bold yellow]")
-        
+
         copy_tester = CopyingSignatureTest(window_size=50)
         table_tester = TableSignatureTest(min_freq=5)
-        
+
         # A. Copying Signatures (C5.COPY.1)
         real_copy = copy_tester.calculate_variant_clustering(real_tokens[:10000])
         syn_copy = copy_tester.calculate_variant_clustering(syn_tokens)
-        
+
         # B. Table Signatures (C5.TABLE.1)
         real_table = table_tester.calculate_successor_sharpness(real_tokens[:10000])
         syn_table = table_tester.calculate_successor_sharpness(syn_tokens)
-        
+
         # 3. Report
         table = Table(title="Phase 5 Pilot: Signature Comparison")
         table.add_column("Signature Metric", style="cyan")
@@ -97,27 +97,27 @@ def run_pilot(seed: int = 42, output_dir: str | None = None):
             return "[green]YES[/green]" if abs(v1 - v2) > tol else "[red]NO[/red]"
 
         table.add_row(
-            "Variant Clustering (C5.COPY.1)", 
-            f"{real_copy['clustering_score']:.4f}", 
+            "Variant Clustering (C5.COPY.1)",
+            f"{real_copy['clustering_score']:.4f}",
             f"{syn_copy['clustering_score']:.4f}",
             check_diff(real_copy['clustering_score'], syn_copy['clustering_score'], 0.05)
         )
-        
+
         table.add_row(
-            "Successor Entropy (C5.TABLE.1)", 
-            f"{real_table['mean_successor_entropy']:.4f}", 
+            "Successor Entropy (C5.TABLE.1)",
+            f"{real_table['mean_successor_entropy']:.4f}",
             f"{syn_table['mean_successor_entropy']:.4f}",
             check_diff(real_table['mean_successor_entropy'], syn_table['mean_successor_entropy'], 0.2)
         )
-        
+
         console.print(table)
-        
+
         # Save Pilot results
         results = {
             "copying": {"real": real_copy, "syn": syn_copy},
             "table": {"real": real_table, "syn": syn_table}
         }
-        
+
         out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism")
         out.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, out / "pilot_results.json")

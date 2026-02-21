@@ -35,17 +35,17 @@ class MorphologyAnalyzer:
 
         counts = Counter(tokens)
         unique_tokens = list(counts.keys())
-        
+
         # 1. Induce Suffixes
         suffixes = Counter()
         for token in unique_tokens:
             if len(token) > self.max_affix_len:
                 for l in range(self.min_affix_len, self.max_affix_len + 1):
                     suffixes[token[-l:]] += 1
-                    
+
         # Filter for top suffixes (top 5% or threshold)
         top_suffixes = [s for s, count in suffixes.most_common(20)]
-        
+
         # 2. Measure Stem Stability
         # If we remove a common suffix, does the remaining stem appear elsewhere?
         stems = Counter()
@@ -58,12 +58,12 @@ class MorphologyAnalyzer:
                         stems[stem] += 1
                         stem_with_affix_count += 1
                         break
-                        
-        # Morphological Consistency Score: 
+
+        # Morphological Consistency Score:
         # (Stem reuse count / Total tokens with affixes)
         reused_stems = sum(1 for s, count in stems.items() if count > 1)
         consistency = reused_stems / len(unique_tokens) if unique_tokens else 0.0
-        
+
         return {
             "num_unique_tokens": len(unique_tokens),
             "top_suffixes": suffixes.most_common(10),

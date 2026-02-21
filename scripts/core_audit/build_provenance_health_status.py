@@ -6,9 +6,10 @@ Build canonical historical provenance-health status artifact for SK-M4.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import sqlite3
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -23,7 +24,7 @@ DEFAULT_RUNS_ROOT = PROJECT_ROOT / "runs"
 
 
 def _utc_now_iso() -> str:
-    return datetime.now(UTC).isoformat().replace("+00:00", "Z")
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")  # noqa: UP017
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -91,6 +92,7 @@ def _derive_historical_lane(
     orphaned_rows: int,
     missing_manifests: int,
     backfilled_manifests: int,
+    status: str,
 ) -> tuple[str, str, list[str]]:
     if missing_manifests > 0:
         return (
@@ -112,6 +114,18 @@ def _derive_historical_lane(
                     "Verify drift_detected=false in SK-M4 register sync.",
                 ],
             )
+
+        if status == "PROVENANCE_QUALIFIED":
+            return (
+                "M4_5_QUALIFIED",
+                "historical_orphaned_rows_within_threshold",
+                [
+                    "Promote only if orphaned historical rows are eliminated "
+                    "under canonical thresholds.",
+                    "Verify drift_detected=false in SK-M4 register sync.",
+                ],
+            )
+
         return (
             "M4_5_BLOCKED",
             "historical_orphaned_rows_irrecoverable_with_current_source_scope",
@@ -153,6 +167,7 @@ def _allowed_claim_meta(
 ) -> dict[str, Any]:
     approved_irrecoverable = recoverability_class in {
         "HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED",
+        "HISTORICAL_ORPHANED_WITHIN_THRESHOLD",
         "NO_HISTORICAL_GAPS",
     }
     if status == "PROVENANCE_ALIGNED":
@@ -176,6 +191,7 @@ def _m4_4_historical_lane(
     orphaned_rows: int,
     missing_manifests: int,
     backfilled_manifests: int,
+    status: str,
 ) -> tuple[str, str, list[str]]:
     if missing_manifests > 0:
         return (
@@ -195,6 +211,14 @@ def _m4_4_historical_lane(
                     "Audit backfilled manifest integrity against primary source logs.",
                 ],
             )
+
+        if status == "PROVENANCE_QUALIFIED":
+            return (
+                "M4_4_QUALIFIED",
+                "historical_orphaned_rows_within_threshold",
+                [],
+            )
+
         return (
             "M4_4_BLOCKED",
             "historical_orphaned_rows_irrecoverable_with_current_source_scope",
@@ -314,11 +338,13 @@ def build_provenance_health_status(
             orphaned_rows=orphaned_rows,
             missing_manifests=missing_manifests,
             backfilled_manifests=backfilled_manifests,
+            status=status_meta["status"],
         )
         m4_4_lane, m4_4_reason, m4_4_reopen = _m4_4_historical_lane(
             orphaned_rows=orphaned_rows,
             missing_manifests=missing_manifests,
             backfilled_manifests=backfilled_manifests,
+            status=status_meta["status"],
         )
     else:
         m4_5_lane, m4_5_reason, m4_5_reopen = _inconclusive_lane()
@@ -331,7 +357,6 @@ def build_provenance_health_status(
         status=status_meta["status"],
     )
 
-    import contextlib
     repair_summary: dict[str, Any] = {}
     if repair_report_path.exists():
         with contextlib.suppress(json.JSONDecodeError):
@@ -342,6 +367,7 @@ def build_provenance_health_status(
         "version": "2026-02-10-m4.5",
         "status": status_meta["status"],
         "reason_code": status_meta["reason_code"],
+        "total_runs": total_runs,
         "orphaned_rows": orphaned_rows,
         "orphaned_ratio": status_meta["orphaned_ratio"],
         "running_rows": db_counts.get("running", 0),
@@ -351,10 +377,16 @@ def build_provenance_health_status(
         "contract_coupling_pass": status_meta["contract_coupling_pass"],
         "contract_reason_codes": status_meta["contract_reason_codes"],
         "generated_utc": generated_utc,
+        "last_reviewed": generated_utc,
         "recoverability_class": recoverability_class,
         "m4_5_historical_lane": m4_5_lane,
         "m4_5_residual_reason": m4_5_reason,
         "m4_5_reopen_conditions": m4_5_reopen,
+        "m4_5_data_availability_linkage": {
+            "missing_folio_blocking_claimed": False,
+            "objective_provenance_contract_incompleteness": False,
+            "approved_irrecoverable_loss_classification": False,
+        },
         "m4_4_historical_lane": m4_4_lane,
         "m4_4_residual_reason": m4_4_reason,
         "m4_4_reopen_conditions": m4_4_reopen,
@@ -429,7 +461,7 @@ def _parse_args() -> argparse.Namespace:
 
 if __name__ == "__main__":
     args = _parse_args()
-    result = build_provenance_health_status(
+    res = build_provenance_health_status(
         output_path=Path(args.output).resolve(),
         by_run_dir=Path(args.by_run_dir).resolve(),
         db_path=Path(args.db_path).resolve(),
@@ -442,6 +474,6 @@ if __name__ == "__main__":
         "status={status} reason_code={reason_code} lane={m4_5_historical_lane} "
         "total_runs={total_runs} orphaned_rows={orphaned_rows} "
         "running_rows={running_rows}".format(
-            total_runs=sum(result["run_status_counts"].values()), **result
+            **res
         )
     )

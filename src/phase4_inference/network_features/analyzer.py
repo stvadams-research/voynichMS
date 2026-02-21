@@ -43,7 +43,7 @@ class NetworkAnalyzer:
 
         # Limit scale for network metrics
         subset = tokens[:self.max_tokens]
-        
+
         # 1. Build Graph
         G = nx.DiGraph()
         for i in range(len(subset) - 1):
@@ -52,15 +52,15 @@ class NetworkAnalyzer:
                 G[u][v]['weight'] += 1
             else:
                 G.add_edge(u, v, weight=1)
-                
+
         # 2. Network Metrics
         # Average Degree
         avg_degree = sum(dict(G.degree()).values()) / G.number_of_nodes() if G.number_of_nodes() > 0 else 0
-        
+
         # Clustering Coefficient (Undirected version)
         G_undir = G.to_undirected()
         avg_clustering = nx.average_clustering(G_undir)
-        
+
         # Assortativity (Degree correlation)
         try:
             assortativity = nx.degree_assortativity_coefficient(G)
@@ -70,17 +70,17 @@ class NetworkAnalyzer:
                 exc_info=True,
             )
             assortativity = 0.0
-            
+
         # 3. Distribution Metrics
         global_counts = Counter(tokens)
         frequencies = sorted(global_counts.values(), reverse=True)
-        
+
         # Zipf Slope (Alpha) - simple linear regression on log-log
         # log(freq) = C - alpha * log(rank)
         ranks = np.arange(1, len(frequencies) + 1)
         log_ranks = np.log(ranks)
         log_freqs = np.log(frequencies)
-        
+
         # Limit to top 500 ranks for Zipf fit.
         # Standard practice: ranks beyond ~500 are dominated by hapax legomena
         # and distort the power-law fit. Voynich vocabulary plateaus at ~450.
@@ -91,7 +91,7 @@ class NetworkAnalyzer:
             zipf_alpha = -slope
         else:
             zipf_alpha = 0.0
-            
+
         return {
             "num_nodes": G.number_of_nodes(),
             "num_edges": G.number_of_edges(),

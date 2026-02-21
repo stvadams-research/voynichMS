@@ -17,13 +17,13 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 7: Human Factors ===")
-    
+
     # 1. Run Human Factors Analysis
     run_command("python3 scripts/phase7_human/run_7a_human_factors.py")
-    
+
     # 2. Run Codicological Audit
     run_command("python3 scripts/phase7_human/run_7b_codicology.py")
-    
+
     # 3. Comparative Scribe Analysis
     run_command("python3 scripts/phase7_human/run_7c_comparative.py")
 

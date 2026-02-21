@@ -20,19 +20,19 @@ class GeometryInferrer:
             return {}
 
         # 1. Vertical Delta Distribution
-        # In this first pass, we only looked at line i vs i-1. 
+        # In this first pass, we only looked at line i vs i-1.
         # A more advanced check would look at i-2, i+1, etc.
-        
+
         # 2. Position Correlation
         # Do slips happen more at the start of a line or end?
         positions = [s['token_index'] for s in slips]
         pos_counts = Counter(positions)
-        
+
         # 3. Word-Length Correlation
         # Are shorter words more likely to slip?
         lengths = [len(s['word']) for s in slips]
         len_counts = Counter(lengths)
-        
+
         return {
             "positional_distribution": dict(pos_counts),
             "length_distribution": dict(len_counts),

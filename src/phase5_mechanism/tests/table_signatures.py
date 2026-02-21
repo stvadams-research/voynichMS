@@ -29,7 +29,7 @@ class TableSignatureTest:
         successors = defaultdict(Counter)
         for i in range(len(tokens) - 1):
             successors[tokens[i]][tokens[i+1]] += 1
-            
+
         entropies = []
         for token, counts in successors.items():
             total = sum(counts.values())
@@ -40,12 +40,12 @@ class TableSignatureTest:
                     p = count / total
                     entropy -= p * math.log2(p)
                 entropies.append(entropy)
-                
+
         if not entropies:
             return {"mean_successor_entropy": 0.0, "status": "insufficient_data"}
-            
+
         mean_entropy = sum(entropies) / len(entropies)
-        
+
         return {
             "num_qualified_tokens": len(entropies),
             "mean_successor_entropy": float(mean_entropy),

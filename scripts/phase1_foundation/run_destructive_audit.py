@@ -26,29 +26,29 @@ from phase1_foundation.core.provenance import ProvenanceWriter
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.anchors.engine import AnchorEngine
-from phase1_foundation.config import DEFAULT_SEED
-from phase1_foundation.controls.scramblers import ScrambledControlGenerator
-from phase1_foundation.controls.synthetic import SyntheticNullGenerator
-from phase1_foundation.core.id_factory import DeterministicIDFactory
-from phase1_foundation.hypotheses.destructive import (
+from phase1_foundation.anchors.engine import AnchorEngine  # noqa: E402
+from phase1_foundation.config import DEFAULT_SEED  # noqa: E402
+from phase1_foundation.controls.scramblers import ScrambledControlGenerator  # noqa: E402
+from phase1_foundation.controls.synthetic import SyntheticNullGenerator  # noqa: E402
+from phase1_foundation.core.id_factory import DeterministicIDFactory  # noqa: E402
+from phase1_foundation.hypotheses.destructive import (  # noqa: E402
     DiagramTextAlignmentHypothesis,
     FixedGlyphIdentityHypothesis,
     WordBoundaryStabilityHypothesis,
 )
-from phase1_foundation.hypotheses.manager import HypothesisManager
-from phase1_foundation.regions.dummy import GridProposer
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.segmentation.dummy import (
+from phase1_foundation.hypotheses.manager import HypothesisManager  # noqa: E402
+from phase1_foundation.regions.dummy import GridProposer  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.segmentation.dummy import (  # noqa: E402
     DummyGlyphSegmenter,
     DummyLineSegmenter,
     DummyWordSegmenter,
 )
-from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"

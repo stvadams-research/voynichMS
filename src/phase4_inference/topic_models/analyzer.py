@@ -44,11 +44,11 @@ class TopicAnalyzer:
             start = i * section_size
             end = (i + 1) * section_size if i < self.num_sections - 1 else len(tokens)
             docs.append(" ".join(tokens[start:end]))
-            
+
         # 2. Vectorize
         vectorizer = CountVectorizer(max_features=2000)
         X = vectorizer.fit_transform(docs)
-        
+
         # 3. Fit LDA
         lda = LatentDirichletAllocation(
             n_components=self.num_topics,
@@ -56,15 +56,15 @@ class TopicAnalyzer:
             learning_method='online'
         )
         doc_topic_dist = lda.fit_transform(X)
-        
+
         # 4. Measure Alignment
         # Topic Dominance per section
         dominant_topic_per_section = np.argmax(doc_topic_dist, axis=1)
-        
+
         # Topic Coherence (Simplified: count of unique dominant topics across sections)
         # Higher count = better discrimination of sections by topics
         unique_dominant = len(set(dominant_topic_per_section))
-        
+
         # Kullback-Leibler Divergence from uniform topic distribution
         # Higher = topics are more concentrated in specific sections
         uniform = np.full(self.num_topics, 1.0 / self.num_topics)
@@ -75,9 +75,9 @@ class TopicAnalyzer:
             dist_safe /= dist_safe.sum()
             kl = np.sum(dist_safe * np.log2(dist_safe / uniform))
             kl_divs.append(kl)
-            
+
         avg_kl = float(np.mean(kl_divs))
-        
+
         return {
             "num_topics": self.num_topics,
             "num_sections": self.num_sections,

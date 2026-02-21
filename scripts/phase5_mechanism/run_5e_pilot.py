@@ -14,16 +14,16 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.core.queries import get_lines_from_store
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
-from phase5_mechanism.large_object.collision_testing import PathCollisionTester
-from phase5_mechanism.large_object.simulators import LargeGridSimulator
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import get_lines_from_store  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase5_mechanism.large_object.collision_testing import PathCollisionTester  # noqa: E402
+from phase5_mechanism.large_object.simulators import LargeGridSimulator  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -47,21 +47,21 @@ def run_pilot_5e(seed: int = 42, output_dir: str | None = None):
     with active_run(config={"command": "run_5e_pilot", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         tester = PathCollisionTester(context_len=2)
-        
+
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Preparing Data[/bold yellow]")
         real_lines = get_lines_from_store(store, "voynich_real")
-        
+
         # Generator: Large 50x50 Grid
         sim = LargeGridSimulator(GRAMMAR_PATH, rows=50, cols=50, seed=seed)
         sim_lines = sim.generate_corpus(num_lines=2000, line_len=8)
-        
+
         # 2. Run Collision Tests
         console.print("\n[bold yellow]Step 2: Measuring Path Stiffness[/bold yellow]")
-        
+
         real_coll = tester.calculate_successor_consistency(real_lines[:5000])
         sim_coll = tester.calculate_successor_consistency(sim_lines)
-        
+
         # 3. Report
         table = Table(title="Phase 5E Pilot: Path Collision Benchmark")
         table.add_column("Dataset", style="cyan")
@@ -70,30 +70,30 @@ def run_pilot_5e(seed: int = 42, output_dir: str | None = None):
         table.add_column("Interpretation", style="dim")
 
         table.add_row(
-            "Voynich (Real)", 
-            f"{real_coll['mean_consistency']:.4f}", 
+            "Voynich (Real)",
+            f"{real_coll['mean_consistency']:.4f}",
             str(real_coll['num_recurring_contexts']),
             "Ground Truth"
         )
         table.add_row(
-            "Large Grid (Syn)", 
-            f"{sim_coll['mean_consistency']:.4f}", 
+            "Large Grid (Syn)",
+            f"{sim_coll['mean_consistency']:.4f}",
             str(sim_coll['num_recurring_contexts']),
             "Rigid Traversal"
         )
-        
+
         console.print(table)
-        
+
         # Save results
         results = {
             "real": real_coll,
             "sim": sim_coll
         }
-        
+
         out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/large_object")
         out.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, out / "pilot_5e_results.json")
-            
+
         store.save_run(run)
 
 if __name__ == "__main__":

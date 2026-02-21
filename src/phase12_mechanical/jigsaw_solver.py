@@ -17,18 +17,18 @@ class JigsawAdjacencyMapper:
     def build_adjacency_graph(self, slips: list[dict[str, Any]]) -> dict[str, Any]:
         # Edge: (Word_Actual, Word_Slip)
         edges = Counter()
-        
+
         for s in slips:
             pair = tuple(sorted([s['word'], s['actual_context'][0]]))
             edges[pair] += 1
-            
+
         G = nx.Graph()
         for (u, v), weight in edges.items():
             G.add_edge(u, v, weight=weight)
-            
+
         centrality = nx.degree_centrality(G)
         top_nodes = sorted(centrality.items(), key=lambda x: x[1], reverse=True)[:20]
-        
+
         return {
             "total_physical_edges": len(edges),
             "total_physical_nodes": G.number_of_nodes(),
@@ -43,16 +43,16 @@ class ColumnarReconstructor:
     def reconstruct_columns(self, slips: list[dict[str, Any]]) -> dict[int, list[tuple[str, int]]]:
         # Position -> Word Counter
         columns = defaultdict(Counter)
-        
+
         for s in slips:
             pos = s['token_index']
             word = s['word']
             columns[pos][word] += 1
-            
+
         reconstructed = {}
         for pos, counts in columns.items():
             reconstructed[pos] = counts.most_common(10)
-            
+
         return reconstructed
 
 class BlueprintSynthesizer:
@@ -62,7 +62,7 @@ class BlueprintSynthesizer:
     def synthesize_blueprint(self, columns: dict[int, list[tuple[str, int]]], max_rows: int = 10) -> list[list[str]]:
         max_pos = max(columns.keys()) if columns else 0
         blueprint = []
-        
+
         for r in range(max_rows):
             row = []
             for p in range(1, max_pos + 1):
@@ -72,5 +72,5 @@ class BlueprintSynthesizer:
                 else:
                     row.append("-")
             blueprint.append(row)
-            
+
         return blueprint

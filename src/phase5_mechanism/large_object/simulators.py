@@ -36,7 +36,7 @@ class LargeGridSimulator:
         # Start at a random location
         r = self.rng.randint(0, self.rows - 1)
         c = self.rng.randint(0, self.cols - 1)
-        
+
         # Fixed walk (e.g., move right)
         line = []
         for i in range(length):

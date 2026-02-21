@@ -30,25 +30,25 @@ class PageBoundaryAnalyzer:
         Measures changes in line length and entropy as a function of distance from page bottom.
         """
         all_page_stats = []
-        
+
         for page_id, lines in pages.items():
             if not lines:
                 continue
-            
+
             num_lines = len(lines)
             for i, line in enumerate(lines):
                 # Distance from top (0.0) to bottom (1.0)
                 pos_ratio = i / (num_lines - 1) if num_lines > 1 else 0
-                
+
                 line_len = sum(len(w) for w in line)
                 avg_word_len = np.mean([len(w) for w in line]) if line else 0
-                
+
                 all_page_stats.append({
                     "pos_ratio": pos_ratio,
                     "line_len": line_len,
                     "avg_word_len": avg_word_len
                 })
-        
+
         if not all_page_stats:
             return {
                 "num_lines_sampled": 0,
@@ -64,14 +64,14 @@ class PageBoundaryAnalyzer:
         ratios = [s['pos_ratio'] for s in all_page_stats]
         lengths = [s['line_len'] for s in all_page_stats]
         word_lengths = [s['avg_word_len'] for s in all_page_stats]
-        
+
         len_corr = self._safe_correlation(ratios, lengths)
         word_len_corr = self._safe_correlation(ratios, word_lengths)
-        
+
         # Compare top 20% vs bottom 20%
         top_20 = [s['line_len'] for s in all_page_stats if s['pos_ratio'] < 0.2]
         bot_20 = [s['line_len'] for s in all_page_stats if s['pos_ratio'] > 0.8]
-        
+
         return {
             "num_lines_sampled": len(all_page_stats),
             "line_length_pos_correlation": float(len_corr),
@@ -93,7 +93,7 @@ class PageBoundaryAnalyzer:
             if len(lines) > 5:
                 lengths = [sum(len(w) for w in line) for line in lines]
                 page_vars.append(np.std(lengths) / np.mean(lengths) if np.mean(lengths) > 0 else 0)
-        
+
         return {
             "mean_coefficient_of_variation": float(np.mean(page_vars)) if page_vars else 0,
             "interpretation": "High CV suggests adaptation to irregular layout (in-situ).",

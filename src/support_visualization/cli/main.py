@@ -55,10 +55,10 @@ def plot_token_frequency(
     with active_run(config={"command": "viz phase1_foundation token-frequency", "dataset": dataset}) as run:
         store = get_metadata_store()
         viz = FoundationVisualizer(store, output_dir=output_dir)
-        
+
         console.print(f"Generating token frequency plot for {dataset}...")
         path = viz.plot_token_frequency(dataset, top_n=top_n)
-        
+
         if path:
             console.print(f"[bold green]Successfully generated:[/bold green] {path}")
             store.save_run(run)
@@ -77,10 +77,10 @@ def plot_repetition_rate(
     with active_run(config={"command": "viz phase1_foundation repetition-rate", "dataset": dataset}) as run:
         store = get_metadata_store()
         viz = FoundationVisualizer(store, output_dir=output_dir)
-        
+
         console.print(f"Generating repetition rate plot for {dataset}...")
         path = viz.plot_repetition_rate(dataset)
-        
+
         if path:
             console.print(f"[bold green]Successfully generated:[/bold green] {path}")
             store.save_run(run)
@@ -101,10 +101,10 @@ def plot_sensitivity_sweep(
     with active_run(config={"command": "viz phase2_analysis sensitivity-sweep", "path": str(path)}) as run:
         store = get_metadata_store()
         viz = AnalysisVisualizer(store, output_dir=output_dir)
-        
+
         console.print(f"Generating sensitivity sweep plots from {path}...")
         result_path = viz.plot_sensitivity_sweep(path)
-        
+
         if result_path:
             console.print("[bold green]Successfully generated plots.[/bold green]")
             store.save_run(run)
@@ -125,10 +125,10 @@ def plot_gap_analysis(
     with active_run(config={"command": "viz phase3_synthesis gap-phase2_analysis", "path": str(path)}) as run:
         store = get_metadata_store()
         viz = SynthesisVisualizer(store, output_dir=output_dir)
-        
+
         console.print(f"Generating gap phase2_analysis plots from {path}...")
         result_path = viz.plot_gap_analysis(path)
-        
+
         if result_path:
             console.print("[bold green]Successfully generated plots.[/bold green]")
             store.save_run(run)
@@ -149,10 +149,10 @@ def plot_lang_id(
     with active_run(config={"command": "viz phase4_inference lang-id", "path": str(path)}) as run:
         store = get_metadata_store()
         viz = InferenceVisualizer(store, output_dir=output_dir)
-        
+
         console.print(f"Generating lang-id comparison plots from {path}...")
         result_path = viz.plot_lang_id_comparison(path)
-        
+
         if result_path:
             console.print("[bold green]Successfully generated plots.[/bold green]")
             store.save_run(run)

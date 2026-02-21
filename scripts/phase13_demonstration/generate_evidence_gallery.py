@@ -21,11 +21,11 @@ def main():
     with open(INPUT_PATH) as f:
         data = json.load(f)
     slips = data.get("slips", [])
-    
+
     # Selection Logic: Pick slips that occur in sustained groups (long-term misalignment)
     # We'll just pick a diverse sample for now.
     sample = slips[:15]
-    
+
     report = [
         "# Evidence Gallery: Mechanical Slips",
         "",
@@ -34,17 +34,17 @@ def main():
         "| Line | Position | Slipped Word | Context (Previous Line) |",
         "| :--- | :--- | :--- | :--- |",
     ]
-    
+
     for s in sample:
         prev_context = s['previous_line'][s['token_pos']-1] if s['token_pos'] > 0 else "START"
         report.append(f"| {s['line_no']} | {s['token_pos']} | **{s['word']}** | {prev_context} |")
-        
+
     report.extend([
         "",
         "## Analysis",
         "These 914 events collectively falsify the hypothesis of genuine linguistic composition. In a linguistic system, a slip-of-the-pen results in a typo or a semantic error. In the Voynich system, a slip results in a **valid token from an adjacent vertical window**, a uniquely mechanical failure mode.",
     ])
-    
+
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text("\n".join(report), encoding="utf-8")
     print(f"Evidence gallery generated: {OUTPUT_PATH}")

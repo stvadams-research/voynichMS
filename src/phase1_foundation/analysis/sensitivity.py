@@ -11,10 +11,10 @@ class SensitivityAnalyzer:
         self.store = store
 
     def run_parameter_sweep(
-        self, 
-        structure_id: str, 
-        metric_func: Callable[[Any], float], 
-        param_name: str, 
+        self,
+        structure_id: str,
+        metric_func: Callable[[Any], float],
+        param_name: str,
         value_range: list[Any],
         run_id: str
     ) -> list[dict[str, Any]]:
@@ -43,5 +43,5 @@ class SensitivityAnalyzer:
                     e,
                     exc_info=True,
                 )
-                
+
         return results

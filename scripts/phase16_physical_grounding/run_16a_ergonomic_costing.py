@@ -30,7 +30,7 @@ def clean_token(t):
 
 def main():
     console.print("[bold magenta]Phase 16A: Ergonomic Costing (The Physical Hand)[/bold magenta]")
-    
+
     if not STROKE_PATH.exists() or not PALETTE_PATH.exists():
         console.print("[red]Error: Missing Phase 11 or Phase 14 data artifacts.[/red]")
         return
@@ -38,9 +38,9 @@ def main():
     # 1. Load Stroke Features
     with open(STROKE_PATH) as f:
         stroke_data = json.load(f)["results"]
-    
+
     token_features = stroke_data["token_type_features"]
-    
+
     # Map cleaned token -> mean stroke count
     # mean_profile index 5 is 'stroke_count'
     word_to_strokes = {}
@@ -54,11 +54,11 @@ def main():
     with open(PALETTE_PATH) as f:
         p_data = json.load(f)["results"]
     lattice_map = p_data["lattice_map"]
-    
+
     # 3. Assign Costs
     costs = {}
     missing_count = 0
-    
+
     for word in lattice_map:
         if word in word_to_strokes:
             # Base cost: strokes per glyph * word length
@@ -69,14 +69,14 @@ def main():
             # Index 0: gallows, Index 3: descender
             gallows = token_features.get(word, {}).get("mean_profile", [0]*6)[0]
             descenders = token_features.get(word, {}).get("mean_profile", [0]*6)[3]
-            
+
             # Total Effort = Strokes + (2.0 * gallows) + (1.5 * descenders)
             costs[word] = float(base_cost + (2.0 * gallows) + (1.5 * descenders))
         else:
             # Estimation for missing tokens: length * avg stroke count (1.5)
             costs[word] = float(len(word) * 1.5)
             missing_count += 1
-            
+
     # 4. Save and Report
     results = {
         "num_words": len(costs),
@@ -84,10 +84,10 @@ def main():
         "avg_cost": sum(costs.values()) / len(costs) if costs else 0,
         "word_costs": costs
     }
-    
+
     from phase1_foundation.core.provenance import ProvenanceWriter
     ProvenanceWriter.save_results(results, OUTPUT_PATH)
-    
+
     console.print(f"\n[green]Success! Physical costs assigned to {len(costs)} words.[/green]")
     console.print(f"Average Effort Score: [bold]{results['avg_cost']:.2f}[/bold]")
     console.print(f"Matched from Stroke Data: [bold]{results['num_matched']}[/bold]")

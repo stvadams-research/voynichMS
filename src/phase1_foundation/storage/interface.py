@@ -8,7 +8,7 @@ class StorageInterface(ABC):
     """
     Abstract base class for storage backends.
     """
-    
+
     @abstractmethod
     def save(self, path: str, data: bytes | str, overwrite: bool = False) -> Path:
         """

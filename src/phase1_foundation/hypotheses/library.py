@@ -176,7 +176,7 @@ class GlyphPositionHypothesis(Hypothesis):
             if not entropies:
                 logger.warning("No entropies available for dataset %s, returning NaN", dataset_id)
                 return float("nan")
-                
+
             return sum(entropies) / len(entropies)
 
         finally:

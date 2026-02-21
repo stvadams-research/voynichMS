@@ -40,13 +40,13 @@ class EntryMechanismSimulator:
         """Family 2: Next start is near previous start."""
         corpus = []
         start_idx = self.rng.randint(0, len(self.nodes) - 1)
-        
+
         for _ in range(num_lines):
             line = []
             for i in range(line_len):
                 line.append(self.nodes[(start_idx + i) % len(self.nodes)])
             corpus.append(line)
-            
+
             # Choose next start
             if self.rng.random() < coupling:
                 # Coupled: move only a small distance
@@ -54,5 +54,5 @@ class EntryMechanismSimulator:
             else:
                 # Decoupled: jump anywhere
                 start_idx = self.rng.randint(0, len(self.nodes) - 1)
-                
+
         return corpus

@@ -34,23 +34,23 @@ class LanguageIDAnalyzer:
         text = text.lower()
         chars = re.findall(r'[a-z]', text)
         if not chars: return 0.0
-        
+
         ngrams = ["".join(chars[i:i+3]) for i in range(len(chars)-2)]
         counts = Counter(ngrams)
         total = sum(counts.values())
         profile = {k: v/total for k, v in counts.items()}
-        
+
         target_profile = self.language_profiles[target_lang]
-        
+
         # Cosine similarity on n-gram vectors
         all_keys = set(profile.keys()) | set(target_profile.keys())
         v1 = np.array([profile.get(k, 0) for k in all_keys])
         v2 = np.array([target_profile.get(k, 0) for k in all_keys])
-        
+
         dot = np.dot(v1, v2)
         norm1 = np.linalg.norm(v1)
         norm2 = np.linalg.norm(v2)
-        
+
         return float(dot / (norm1 * norm2)) if norm1 > 0 and norm2 > 0 else 0.0
 
     def find_best_transform(self, text: str, target_lang: str, transforms: list[dict[str, str]]) -> tuple[float, dict[str, str]]:
@@ -60,7 +60,7 @@ class LanguageIDAnalyzer:
         """
         best_score = 0.0
         best_mapping = {}
-        
+
         for mapping in transforms:
             # Apply mapping
             transformed = "".join([mapping.get(c, c) for c in text.lower()])
@@ -68,5 +68,5 @@ class LanguageIDAnalyzer:
             if score > best_score:
                 best_score = score
                 best_mapping = mapping
-                
+
         return best_score, best_mapping

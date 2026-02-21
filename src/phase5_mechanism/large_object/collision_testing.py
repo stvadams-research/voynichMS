@@ -22,13 +22,13 @@ class PathCollisionTester:
         How often does context X lead to the same successor Y?
         """
         context_successors = defaultdict(Counter)
-        
+
         for line in all_lines:
             for i in range(len(line) - self.context_len):
                 context = tuple(line[i : i + self.context_len])
                 successor = line[i + self.context_len]
                 context_successors[context][successor] += 1
-                
+
         # Calculate consistency for contexts that appear multiple times
         consistencies = []
         for context, successors in context_successors.items():
@@ -37,12 +37,12 @@ class PathCollisionTester:
                 # Probability of the most common successor
                 max_freq = successors.most_common(1)[0][1]
                 consistencies.append(max_freq / total)
-                
+
         if not consistencies:
             return {"mean_consistency": 0.0, "sample_size": 0}
-            
+
         mean_cons = sum(consistencies) / len(consistencies)
-        
+
         return {
             "mean_consistency": float(mean_cons),
             "num_recurring_contexts": len(consistencies),

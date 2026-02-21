@@ -14,16 +14,19 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.core.queries import get_lines_from_store
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
-from phase5_mechanism.workflow.parameter_inference import WorkflowParameterInferrer
-from phase5_mechanism.workflow.simulators import LineScopedPoolSimulator, WeaklyCoupledPoolSimulator
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.queries import get_lines_from_store  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase5_mechanism.workflow.parameter_inference import WorkflowParameterInferrer  # noqa: E402
+from phase5_mechanism.workflow.simulators import (  # noqa: E402
+    LineScopedPoolSimulator,
+    WeaklyCoupledPoolSimulator,
+)
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -47,25 +50,25 @@ def run_pilot_5c(seed: int = 42, output_dir: str | None = None):
     with active_run(config={"command": "run_5c_pilot", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         inferrer = WorkflowParameterInferrer()
-        
+
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Inferring Parameters from Real Data[/bold yellow]")
         real_lines = get_lines_from_store(store, "voynich_real")
         real_dist = inferrer.aggregate_distributions(real_lines[:1000]) # Pilot scale
-        
+
         # 2. Run Simulators
         console.print("\n[bold yellow]Step 2: Executing Workflow Simulators[/bold yellow]")
-        
+
         # Family 1: Independent Pool
         sim1 = LineScopedPoolSimulator(GRAMMAR_PATH, mean_pool_size=12.0, seed=seed)
         sim1_lines = sim1.generate_corpus(num_lines=500, line_len=8)
         sim1_dist = inferrer.aggregate_distributions(sim1_lines)
-        
+
         # Family 2: Weakly Coupled Pool
         sim2 = WeaklyCoupledPoolSimulator(GRAMMAR_PATH, reservoir_size=50, drift_rate=0.1, seed=seed)
         sim2_lines = sim2.generate_corpus(num_lines=500, line_len=8)
         sim2_dist = inferrer.aggregate_distributions(sim2_lines)
-        
+
         # 3. Report
         table = Table(title="Phase 5C Pilot: Workflow Sufficiency Benchmark")
         table.add_column("Workflow Model", style="cyan")
@@ -77,37 +80,37 @@ def run_pilot_5c(seed: int = 42, output_dir: str | None = None):
             return "[green]YES[/green]" if abs(val - target) < tol else "[red]NO[/red]"
 
         table.add_row(
-            "Voynich (Real)", 
-            f"{real_dist['mean_ttr']:.4f}", 
+            "Voynich (Real)",
+            f"{real_dist['mean_ttr']:.4f}",
             f"{real_dist['mean_entropy']:.4f}",
             "TARGET"
         )
         table.add_row(
-            "Independent Pool (F1)", 
-            f"{sim1_dist['mean_ttr']:.4f}", 
+            "Independent Pool (F1)",
+            f"{sim1_dist['mean_ttr']:.4f}",
             f"{sim1_dist['mean_entropy']:.4f}",
             check_match(sim1_dist['mean_ttr'], real_dist['mean_ttr'], 0.05)
         )
         table.add_row(
-            "Coupled Pool (F2)", 
-            f"{sim2_dist['mean_ttr']:.4f}", 
+            "Coupled Pool (F2)",
+            f"{sim2_dist['mean_ttr']:.4f}",
             f"{sim2_dist['mean_entropy']:.4f}",
             check_match(sim2_dist['mean_ttr'], real_dist['mean_ttr'], 0.05)
         )
-        
+
         console.print(table)
-        
+
         # Save Pilot results
         results = {
             "real": real_dist,
             "sim1_independent": sim1_dist,
             "sim2_coupled": sim2_dist
         }
-        
+
         out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/workflow")
         out.mkdir(parents=True, exist_ok=True)
         ProvenanceWriter.save_results(results, out / "pilot_5c_results.json")
-            
+
         store.save_run(run)
 
 if __name__ == "__main__":

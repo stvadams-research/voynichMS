@@ -17,13 +17,13 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 13: Demonstration ===")
-    
+
     # 1. Evidence Gallery
     run_command("python3 scripts/phase13_demonstration/generate_evidence_gallery.py")
-    
+
     # 2. Fit Check
     run_command("python3 scripts/phase13_demonstration/run_final_fit_check.py")
-    
+
     # 3. Viz Export
     run_command("python3 scripts/phase13_demonstration/export_slip_viz.py")
 

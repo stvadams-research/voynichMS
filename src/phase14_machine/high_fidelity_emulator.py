@@ -19,9 +19,9 @@ class HighFidelityVolvelle:
         mask_state: The current rotation/shift of the mask disc (0 to num_windows-1).
         current_scribe: The profile of the scribe agent (Hand 1 or Hand 2).
     """
-    def __init__(self, 
-                 lattice_map: dict[str, int], 
-                 window_contents: dict[int, list[str]], 
+    def __init__(self,
+                 lattice_map: dict[str, int],
+                 window_contents: dict[int, list[str]],
                  seed: int | None = None,
                  log_choices: bool = False) -> None:
         """
@@ -34,14 +34,14 @@ class HighFidelityVolvelle:
             log_choices: If True, records the context of every generated token.
         """
         self.rng = random.Random(seed)
-        self.lattice_map = lattice_map 
+        self.lattice_map = lattice_map
         # Ensure window indices are integers for modulo math
         self.window_contents = {int(k): v for k, v in window_contents.items()}
         self.num_windows = len(self.window_contents)
         self.mask_state = 0
         self.log_choices = log_choices
         self.choice_log: list[dict[str, Any]] = []
-        
+
         # Scribe Agent Profiles (Based on Phase 7/14 calibration)
         self.scribe_profiles = {
             "Hand 1": {"drift": 15, "suffix_weights": {"dy": 12.0, "in": 4.0, "y": 8.0, "m": 3.0}},
@@ -74,33 +74,33 @@ class HighFidelityVolvelle:
         # The mask rotates the exposed windows relative to the base lattice
         modulated_idx = (window_idx + self.mask_state) % self.num_windows
         col = self.window_contents.get(modulated_idx, self.window_contents.get(0, []))
-        
+
         if not col:
             return "???"
-            
+
         candidates = []
         # Simulate the scribe scanning the window for 'attractive' candidates
         for _ in range(20):
             idx = self.rng.randint(0, len(col) - 1)
             word = col[idx]
-            
+
             # 1. Base Suffix Bias
             weight = 1.0
             for s, w in profile['suffix_weights'].items():
-                if word.endswith(s): 
+                if word.endswith(s):
                     weight += w
-            
+
             # 2. Repetition Echo
             if prev_word:
                 overlap = len(set(word) & set(prev_word))
                 weight += (overlap * 2.0)
-                
+
             candidates.append((word, weight, idx))
-            
+
         words = [c[0] for c in candidates]
         weights = [c[1] for c in candidates]
         chosen_word = self.rng.choices(words, weights=weights, k=1)[0]
-        
+
         if self.log_choices:
             # Find the original index of the chosen word in the window
             chosen_orig_idx = col.index(chosen_word)
@@ -114,7 +114,7 @@ class HighFidelityVolvelle:
                 "mask_state": self.mask_state,
                 "scribe": self.current_scribe
             })
-            
+
         return chosen_word
 
     def generate_line(self, length: int) -> list[str]:
@@ -130,13 +130,13 @@ class HighFidelityVolvelle:
         line = []
         current_window = self.rng.randint(0, self.num_windows - 1)
         prev_word = None
-        
+
         for p in range(length):
             word = self.generate_token(current_window, prev_word=prev_word, pos=p)
             line.append(word)
             current_window = self.lattice_map.get(word, (current_window + 1) % self.num_windows)
             prev_word = word
-            
+
         return line
 
     def generate_mirror_corpus(self, num_lines: int) -> list[list[str]]:
@@ -170,14 +170,14 @@ class HighFidelityVolvelle:
         """
         current_window = 0
         prev_word = None
-        
+
         for l_idx, line in enumerate(lines):
             for p_idx, word in enumerate(line):
                 # 1. Check if word is known
                 if word not in self.lattice_map:
                     # Snapping logic
                     continue
-                
+
                 # 2. Check Admissibility
                 found_win = None
                 for offset in [-1, 0, 1]:
@@ -186,7 +186,7 @@ class HighFidelityVolvelle:
                     if word in col:
                         found_win = check_win
                         break
-                
+
                 if found_win is not None:
                     # Log the choice
                     chosen_orig_idx = self.window_contents[found_win].index(word)

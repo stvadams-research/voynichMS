@@ -397,9 +397,8 @@ def _gate_status(
             reason_codes.append("SENSITIVITY_DATASET_POLICY_FAILED")
         if sensitivity_summary.get("warning_policy_pass") is not True:
             reason_codes.append("SENSITIVITY_WARNING_POLICY_FAILED")
-        if gate_name in ("pre_release_check", "verify_reproduction"):
-            if sensitivity_summary.get("release_evidence_ready") is not True:
-                reason_codes.append("SENSITIVITY_RELEASE_EVIDENCE_NOT_READY")
+        if gate_name in ("pre_release_check", "verify_reproduction") and sensitivity_summary.get("release_evidence_ready") is not True:
+            reason_codes.append("SENSITIVITY_RELEASE_EVIDENCE_NOT_READY")
     elif gate_name in ("pre_release_check", "verify_reproduction"):
         reason_codes.append("SENSITIVITY_RELEASE_SUMMARY_UNAVAILABLE")
 

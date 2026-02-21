@@ -13,17 +13,22 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-import numpy as np
-from rich.console import Console
-from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TimeElapsedColumn, TimeRemainingColumn
+import numpy as np  # noqa: E402
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.progress import (  # noqa: E402
+    Progress,
+    SpinnerColumn,
+    TimeElapsedColumn,
+    TimeRemainingColumn,
+)
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.core.randomness import get_randomness_controller
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.transcription.parsers import EVAParser
-from phase11_stroke.schema import StrokeSchema
-from phase11_stroke.transitions import TransitionAnalyzer
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.core.randomness import get_randomness_controller  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.transcription.parsers import EVAParser  # noqa: E402
+from phase11_stroke.schema import StrokeSchema  # noqa: E402
+from phase11_stroke.transitions import TransitionAnalyzer  # noqa: E402
 
 DEFAULT_TRANSCRIPTION_PATH = Path("data/raw/transliterations/ivtff2.0/ZL3b-n.txt")
 DEFAULT_OUTPUT_PATH = Path("results/data/phase11_stroke/test_b_transitions.json")

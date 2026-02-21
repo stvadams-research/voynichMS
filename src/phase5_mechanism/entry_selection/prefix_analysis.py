@@ -29,10 +29,10 @@ class EntryPointAnalyzer:
 
         counts = Counter(starts)
         total = len(starts)
-        
+
         # Entropy of start words
         entropy = -sum((c/total) * math.log2(c/total) for c in counts.values())
-        
+
         return {
             "num_lines": total,
             "unique_starts": len(counts),
@@ -50,16 +50,16 @@ class EntryPointAnalyzer:
 
         matches = 0
         total_pairs = 0
-        
+
         for i in range(len(lines) - 1):
             if lines[i] and lines[i+1]:
                 # Simple coupling: do they start with the same word?
                 if lines[i][0] == lines[i+1][0]:
                     matches += 1
                 total_pairs += 1
-                
+
         coupling_score = matches / total_pairs if total_pairs > 0 else 0.0
-        
+
         return {
             "num_pairs": total_pairs,
             "start_word_matches": matches,

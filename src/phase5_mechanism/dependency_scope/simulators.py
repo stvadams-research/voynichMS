@@ -52,7 +52,7 @@ class FeatureConditionedSimulator(DependencySimulator):
     """
     def __init__(self, grammar_path: Path, vocab_size: int = 1000, seed: int | None = None):
         super().__init__(grammar_path, vocab_size, seed=seed)
-        # No pre-assigned transitions. 
+        # No pre-assigned transitions.
         # Rule: Next word must have same first char as current word's last char.
         # This is an implicit rule.
         self.node_by_first_char = {}
@@ -69,7 +69,7 @@ class FeatureConditionedSimulator(DependencySimulator):
             word = self.nodes[idx]
             line.append(word)
             last_char = word[-1] if word else ""
-            
+
             # Follow the rule: find nodes starting with last_char
             candidates = self.node_by_first_char.get(last_char, [])
             if not candidates:

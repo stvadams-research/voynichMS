@@ -15,21 +15,21 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 sys.path.insert(0, str(project_root))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     MetadataStore,
     PageRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from phase7_human.page_boundary import PageBoundaryAnalyzer
-from phase7_human.quire_analysis import QuireAnalyzer
-from phase7_human.scribe_coupling import ScribeAnalyzer
+from phase7_human.page_boundary import PageBoundaryAnalyzer  # noqa: E402
+from phase7_human.quire_analysis import QuireAnalyzer  # noqa: E402
+from phase7_human.scribe_coupling import ScribeAnalyzer  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -160,7 +160,7 @@ def get_pages_data(store, dataset_id="voynich_real"):
     try:
         recs = (
             session.query(
-                PageRecord.id, 
+                PageRecord.id,
                 TranscriptionLineRecord.line_index,
                 TranscriptionLineRecord.id.label("line_id")
             )
@@ -170,7 +170,7 @@ def get_pages_data(store, dataset_id="voynich_real"):
             .order_by(PageRecord.id, TranscriptionLineRecord.line_index)
             .all()
         )
-        
+
         token_recs = (
             session.query(TranscriptionTokenRecord.content, TranscriptionTokenRecord.line_id)
             .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
@@ -179,15 +179,15 @@ def get_pages_data(store, dataset_id="voynich_real"):
             .filter(TranscriptionLineRecord.source_id == "zandbergen_landini")
             .all()
         )
-        
+
         tokens_by_line = defaultdict(list)
         for content, line_id in token_recs:
             tokens_by_line[line_id].append(content)
-            
+
         pages = defaultdict(list)
         for page_id, line_idx, line_id in recs:
             pages[page_id].append(tokens_by_line[line_id])
-            
+
         return pages
     finally:
         session.close()
@@ -208,23 +208,23 @@ def run_phase_7b(seed: int = 42, output_dir: str | None = None):
 
     with active_run(config={"command": "run_7b_codicology", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
-        
+
         # 1. Prepare Data
         console.print("\n[bold cyan]Step 1: Preparing Data[/bold cyan]")
         pages = get_pages_data(store)
         console.print(f"Loaded {len(pages)} pages.")
-        
+
         # 2. Page Boundary Adaptation
         console.print("\n[bold cyan]Step 2: Analyzing Page Boundaries[/bold cyan]")
         boundary_analyzer = PageBoundaryAnalyzer()
         boundary_res = boundary_analyzer.analyze_boundary_adaptation(pages)
         layout_res = boundary_analyzer.analyze_layout_obstruction(pages)
-        
+
         # 3. Quire Boundary Analysis
         console.print("\n[bold cyan]Step 3: Analyzing Quire Boundaries[/bold cyan]")
         quire_analyzer = QuireAnalyzer()
         quire_res = quire_analyzer.analyze_continuity(pages)
-        
+
         # 4. Scribal Hand Coupling
         console.print("\n[bold cyan]Step 4: Analyzing Scribal Hands[/bold cyan]")
         scribe_analyzer = ScribeAnalyzer()
@@ -234,27 +234,27 @@ def run_phase_7b(seed: int = 42, output_dir: str | None = None):
         console.print("\n[bold cyan]Step 5: Reading Illustration-Coupling Grade[/bold cyan]")
         multimodal_raw = _extract_results(_load_json(MULTIMODAL_STATUS_PATH))
         multimodal_res = summarize_illustration_coupling(multimodal_raw)
-        
+
         # 6. Display Results
         table = Table(title="Phase 7B: Codicological Constraints Results")
         table.add_column("Metric", style="cyan")
         table.add_column("Value", justify="right")
-        
+
         table.add_row("Line Len / Pos Correlation", f"{boundary_res['line_length_pos_correlation']:.4f}")
         table.add_row("Boundary Effect Detected", str(boundary_res['boundary_effect_detected']))
         table.add_row("Layout Coefficient of Var", f"{layout_res['mean_coefficient_of_variation']:.4f}")
         table.add_row("Between-Quire Variance", f"{quire_res['between_quire_variance']:.6f}")
         table.add_row("Illustration Coupling Grade", multimodal_res["status"])
-        
+
         for hand, stats in scribe_res.items():
             table.add_row(f"{hand} Mean TTR (Page)", f"{stats['mean_ttr']:.4f}")
-            
+
         console.print(table)
-        
+
         # 7. Save Artifacts
         out = Path(output_dir) if output_dir else Path("results/data/phase7_human")
         out.mkdir(parents=True, exist_ok=True)
-        
+
         results = {
             "page_boundary": boundary_res,
             "layout": layout_res,
@@ -262,9 +262,9 @@ def run_phase_7b(seed: int = 42, output_dir: str | None = None):
             "scribe": scribe_res,
             "illustration_coupling": multimodal_res,
         }
-        
+
         ProvenanceWriter.save_results(results, out / "phase_7b_results.json")
-            
+
         # Generate Report
         report_path = Path("results/reports/phase7_human/PHASE_7B_RESULTS.md")
         with open(report_path, "w") as f:
@@ -274,11 +274,11 @@ def run_phase_7b(seed: int = 42, output_dir: str | None = None):
             f.write(f"- **Boundary Effect Detected:** {boundary_res['boundary_effect_detected']}\n")
             f.write(f"- **Layout Coefficient of Variation:** {layout_res['mean_coefficient_of_variation']:.4f}\n")
             f.write("  - *Interpretation:* A correlation suggests in-situ adaptation (H7B.1).\n\n")
-            
+
             f.write("## Quire Continuity\n\n")
             f.write(f"- **Between-Quire Variance (Mean Word Len):** {quire_res['between_quire_variance']:.6f}\n")
             f.write(f"- **Number of Quires Analyzed:** {quire_res['num_quires']}\n\n")
-            
+
             f.write("## Scribal Hand Coupling\n\n")
             for hand, stats in scribe_res.items():
                 f.write(f"- **{hand}:** Mean TTR = {stats['mean_ttr']:.4f} (n={stats['sample_size_pages']} pages)\n")
@@ -294,7 +294,7 @@ def run_phase_7b(seed: int = 42, output_dir: str | None = None):
             )
             f.write(f"- **Interpretation:** {multimodal_res['statement']}\n")
             f.write(f"- **Allowed Claim:** {multimodal_res['allowed_claim']}\n")
-            
+
             f.write("\n## Final Determination\n\n")
             if boundary_res['boundary_effect_detected']:
                 f.write("- **H7B.1 Supported:** Measurable coupling between text geometry and page boundaries suggests in-situ generation.\n")

@@ -32,10 +32,10 @@ class GeometricTableGenerator:
     def generate(self, target_tokens: int, walk_type: str = "snake") -> list[str]:
         tokens = []
         r, c = 0, 0
-        
+
         while len(tokens) < target_tokens:
             tokens.append(self.table[r][c])
-            
+
             if walk_type == "snake":
                 # Snake walk
                 c += 1
@@ -50,5 +50,5 @@ class GeometricTableGenerator:
                 # Random walk on table
                 r = (r + self.rng.randint(-1, 1)) % self.rows
                 c = (c + self.rng.randint(-1, 1)) % self.cols
-                
+
         return tokens

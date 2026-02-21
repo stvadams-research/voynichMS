@@ -35,7 +35,7 @@ def calculate_entropy(data):
 
 def main():
     console.print("[bold magenta]Phase 14P: Selection Bias Analysis[/bold magenta]")
-    
+
     if not PALETTE_PATH.exists():
         console.print("[red]Error: Palette grid not found.[/red]")
         return
@@ -46,16 +46,16 @@ def main():
     lattice_map = data["lattice_map"]
     window_contents = {int(k): v for k, v in data["window_contents"].items()}
     num_wins = len(window_contents)
-    
+
     # 2. Load Real Data
     store = MetadataStore(DB_PATH)
     real_lines = load_canonical_lines(store)
-    
+
     # 3. Extract Choice Stream (Indices)
     choice_stream = []
     current_window = 0
     total_clamped = 0
-    
+
     for line in real_lines:
         for word in line:
             if word not in lattice_map:
@@ -64,7 +64,7 @@ def main():
 
             # Find which window word belongs to
             target_win = lattice_map[word]
-            
+
             # Check if it's in the neighborhood of current state (Admissible)
             found = False
             for offset in [-1, 0, 1]:
@@ -76,7 +76,7 @@ def main():
                     current_window = check_win # Update state
                     found = True
                     break
-            
+
             if not found:
                 # Inadmissible transition - snap to real window but don't record choice
                 current_window = target_win
@@ -86,7 +86,7 @@ def main():
 
     # 4. Analyze Entropy
     real_entropy = calculate_entropy(choice_stream)
-    
+
     # Theoretical maximum entropy (Uniform choice per window)
     # We sum the log2(size of the window) for every choice actually made
     baseline_entropy_sum = 0
@@ -108,9 +108,9 @@ def main():
                 current_window = target_win
             else:
                 current_window = lattice_map.get(word, (current_window + 1) % num_wins)
-                
+
     uniform_entropy = baseline_entropy_sum / len(choice_stream) if choice_stream else 0
-    
+
     # 5. Save and Report
     results = {
         "admissible_choices": len(choice_stream),
@@ -121,9 +121,9 @@ def main():
             if uniform_entropy > 0 else 0
         )
     }
-    
+
     ProvenanceWriter.save_results(results, OUTPUT_PATH)
-    
+
     console.print("\n[green]Success! Selection bias analysis complete.[/green]")
     console.print(f"  Real Choice Entropy: [bold]{real_entropy:.4f} bits/word[/bold]")
     console.print(f"  Uniform Random Baseline: [bold]{uniform_entropy:.4f} bits/word[/bold]")

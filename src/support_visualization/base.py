@@ -16,14 +16,14 @@ class BaseVisualizer(ABC):
     """
 
     def __init__(
-        self, 
-        store: MetadataStore, 
+        self,
+        store: MetadataStore,
         output_dir: Path | None = None,
         run_id: str | None = None
     ):
         self.store = store
         self._output_dir = output_dir or Path("results/reports/visuals")
-        
+
         # Determine RunID for provenance
         if run_id:
             self.run_id = run_id
@@ -52,23 +52,23 @@ class BaseVisualizer(ABC):
         return path
 
     def _save_figure(
-        self, 
-        fig: plt.Figure, 
-        filename: str, 
+        self,
+        fig: plt.Figure,
+        filename: str,
         metadata: dict[str, Any] | None = None
     ) -> Path:
         """
         Save a matplotlib figure to the appropriate location.
         """
         output_path = self._get_output_path(filename)
-        
+
         # Add project-standard metadata if possible
         # (Note: Standard PNG metadata support in matplotlib is limited,
         # but we can save sidecar files or just rely on the naming/directory structure)
-        
+
         fig.savefig(output_path, bbox_inches='tight', dpi=300)
         logger.info(f"Saved support_visualization to {output_path}")
-        
+
         if metadata:
             meta_path = output_path.with_suffix(".json")
             import json
@@ -78,5 +78,5 @@ class BaseVisualizer(ABC):
                     "filename": filename,
                     "metadata": metadata
                 }, f, indent=2)
-                
+
         return output_path

@@ -21,20 +21,22 @@ from typing import Any
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.config import DEFAULT_SEED
-from phase1_foundation.core.id_factory import DeterministicIDFactory
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.metrics.library import RepetitionRate
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, PageRecord
-from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
-from phase2_analysis.stress_tests.locality import LocalityTest
-from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
-from phase3_synthesis.text_generator import TextContinuationGenerator
+from phase1_foundation.config import DEFAULT_SEED  # noqa: E402
+from phase1_foundation.core.id_factory import DeterministicIDFactory  # noqa: E402
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.metrics.library import RepetitionRate  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore, PageRecord  # noqa: E402
+from phase2_analysis.stress_tests.information_preservation import (
+    InformationPreservationTest,  # noqa: E402
+)
+from phase2_analysis.stress_tests.locality import LocalityTest  # noqa: E402
+from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor  # noqa: E402
+from phase3_synthesis.text_generator import TextContinuationGenerator  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"

@@ -25,10 +25,10 @@ def load_config(config_path: Path, model: type[T] = VoynichConfig) -> tuple[T, s
 
     with open(config_path) as f:
         raw_content = f.read()
-    
+
     # Calculate hash of raw content
     config_hash = hashlib.sha256(raw_content.encode('utf-8')).hexdigest()
-    
+
     # Parse YAML
     try:
         config_dict = yaml.safe_load(raw_content)

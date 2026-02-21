@@ -19,12 +19,12 @@ class AnchorStabilityAnalyzer:
             # We assume anchors are linked to pages which are linked to datasets.
             # So we join Anchor -> Page -> Dataset
             from phase1_foundation.storage.metadata import PageRecord
-            
+
             def count_anchors(dataset_id):
                 results = session.query(AnchorRecord.relation_type, AnchorRecord.id).\
                     join(PageRecord, AnchorRecord.page_id == PageRecord.id).\
                     filter(PageRecord.dataset_id == dataset_id).all()
-                
+
                 counts = {}
                 for r_type, _ in results:
                     counts[r_type] = counts.get(r_type, 0) + 1
@@ -32,26 +32,26 @@ class AnchorStabilityAnalyzer:
 
             real_counts = count_anchors(real_dataset_id)
             control_counts = count_anchors(control_dataset_id)
-            
+
             comparison = {
                 "real": real_counts,
                 "control": control_counts,
                 "degradation": {}
             }
-            
+
             # Calculate degradation
             all_types = set(real_counts.keys()) | set(control_counts.keys())
             for t in all_types:
                 r = real_counts.get(t, 0)
                 c = control_counts.get(t, 0)
-                
+
                 if r > 0:
                     deg = (r - c) / r
                 else:
                     deg = 0.0 # No anchors to degrade
-                
+
                 comparison["degradation"][t] = deg
-                
+
                 # Persist metric
                 self.store.add_anchor_metric(
                     run_id=run_id,
@@ -60,7 +60,7 @@ class AnchorStabilityAnalyzer:
                     value=deg,
                     details={"real_count": r, "control_count": c}
                 )
-            
+
             return comparison
         finally:
             session.close()

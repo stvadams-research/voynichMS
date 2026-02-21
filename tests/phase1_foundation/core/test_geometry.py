@@ -37,7 +37,7 @@ def test_polygon_valid():
     ]
     poly = Polygon(points=points)
     assert len(poly.points) == 3
-    
+
     bbox = poly.bounding_box
     assert bbox.x_min == pytest.approx(0.1)
     assert bbox.x_max == pytest.approx(0.9)

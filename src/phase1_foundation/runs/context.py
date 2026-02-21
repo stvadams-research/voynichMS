@@ -1,13 +1,16 @@
+import json
+import logging
 import subprocess
 import sys
-import json
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Callable
+from collections.abc import Callable
+from datetime import UTC, datetime
 from pathlib import Path
-from pydantic import BaseModel, Field, ConfigDict
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field
 
 from phase1_foundation.core.ids import RunID
-import logging
+
 logger = logging.getLogger(__name__)
 
 def get_git_revision_hash() -> str:
@@ -31,24 +34,24 @@ class RunContext(BaseModel):
     # run_id is intentionally required: callers should construct RunContext
     # through RunManager.start_run(), which supplies deterministic seed linkage.
     run_id: RunID
-    timestamp_start: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    timestamp_end: Optional[datetime] = None
+    timestamp_start: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    timestamp_end: datetime | None = None
     git_commit: str = Field(default_factory=get_git_revision_hash)
     git_dirty: bool = Field(default_factory=lambda: bool(get_git_status()))
-    command_line: List[str] = Field(default_factory=lambda: sys.argv)
-    config: Dict[str, Any] = Field(default_factory=dict)
+    command_line: list[str] = Field(default_factory=lambda: sys.argv)
+    config: dict[str, Any] = Field(default_factory=dict)
     user: str = Field(default="unknown") # Could get from env or os
     status: str = "running"
-    
-    input_assets: List[Dict[str, str]] = Field(default_factory=list)
-    output_assets: List[Dict[str, str]] = Field(default_factory=list)
-    completion_callbacks: List[Callable[["RunContext"], None]] = Field(
+
+    input_assets: list[dict[str, str]] = Field(default_factory=list)
+    output_assets: list[dict[str, str]] = Field(default_factory=list)
+    completion_callbacks: list[Callable[["RunContext"], None]] = Field(
         default_factory=list, exclude=True, repr=False
     )
-    completion_callback_keys: List[str] = Field(
+    completion_callback_keys: list[str] = Field(
         default_factory=list, exclude=True, repr=False
     )
-    
+
     def add_input_asset(self, path: str, checksum: str):
         self.input_assets.append({"path": path, "checksum": checksum})
 
@@ -65,7 +68,7 @@ class RunContext(BaseModel):
         self.completion_callbacks.append(callback)
 
     def complete(self, status: str = "success") -> None:
-        self.timestamp_end = datetime.now(timezone.utc)
+        self.timestamp_end = datetime.now(UTC)
         self.status = status
         for callback in list(self.completion_callbacks):
             try:
@@ -79,7 +82,7 @@ class RunContext(BaseModel):
         # Ensure runs directory exists
         run_dir = Path("runs") / str(self.run_id)
         run_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # 1. run.json - Execution metadata
         run_meta = {
             "run_id": str(self.run_id),
@@ -101,7 +104,7 @@ class RunContext(BaseModel):
         # 3. inputs.json - Input provenance
         with open(run_dir / "inputs.json", "w") as f:
             json.dump({"inputs": self.input_assets}, f, indent=2)
-            
+
         # 4. outputs.json - Output provenance
         with open(run_dir / "outputs.json", "w") as f:
             json.dump({"outputs": self.output_assets}, f, indent=2)

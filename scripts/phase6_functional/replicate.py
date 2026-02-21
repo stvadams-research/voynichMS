@@ -17,13 +17,13 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 6: Functional Analysis ===")
-    
+
     # 1. Run Exhaustion Tests
     run_command("python3 scripts/phase6_functional/run_6a_exhaustion.py")
-    
+
     # 2. Run Efficiency Metrics
     run_command("python3 scripts/phase6_functional/run_6b_efficiency.py")
-    
+
     # 3. Run Adversarial Robustness
     run_command("python3 scripts/phase6_functional/run_6c_adversarial.py")
 

@@ -24,19 +24,19 @@ console = Console()
 
 def main():
     console.print("[bold yellow]Phase 14O: Exporting Machine Logic to CSV[/bold yellow]")
-    
+
     if not PALETTE_PATH.exists():
         return
 
     # 1. Load Model
     with open(PALETTE_PATH) as f:
         data = json.load(f)["results"]
-    
+
     lattice_map = data["lattice_map"]
     window_contents = data["window_contents"]
-    
+
     EXPORT_DIR.mkdir(parents=True, exist_ok=True)
-    
+
     # 2. Export Lattice Map (Word -> Window)
     lattice_csv = EXPORT_DIR / "lattice_map.csv"
     with open(lattice_csv, "w", newline="") as f:
@@ -44,7 +44,7 @@ def main():
         writer.writerow(["word", "target_window"])
         for word, win_id in sorted(lattice_map.items()):
             writer.writerow([word, win_id])
-            
+
     # 3. Export Window Contents (Window -> Word List)
     contents_csv = EXPORT_DIR / "window_contents.csv"
     with open(contents_csv, "w", newline="") as f:
@@ -53,7 +53,7 @@ def main():
         for win_id, words in sorted(window_contents.items(), key=lambda x: int(x[0])):
             for word in words:
                 writer.writerow([win_id, word])
-                
+
     # 4. Save Status
     results = {
         "lattice_map_exported": True,
@@ -61,7 +61,7 @@ def main():
         "export_dir": str(EXPORT_DIR)
     }
     ProvenanceWriter.save_results(results, OUTPUT_PATH)
-    
+
     console.print(f"\n[green]Success! Logic exported to:[/green] {EXPORT_DIR}")
 
 if __name__ == "__main__":

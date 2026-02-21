@@ -17,16 +17,16 @@ def run_phase(phase_num, phase_path):
     print(f"\n{'='*60}")
     print(f" STARTING PHASE {phase_num}: {phase_path}")
     print(f"{'='*60}")
-    
+
     script_path = Path(f"scripts/{phase_path}/replicate.py")
     if not script_path.exists():
         print(f"Error: Replication script not found for {phase_path}")
         return False
-        
+
     start_time = time.time()
     result = subprocess.run(f"python3 {script_path}", shell=True)
     elapsed = time.time() - start_time
-    
+
     if result.returncode == 0:
         print(f"\n[OK] Phase {phase_num} completed in {elapsed:.1f}s")
         return True
@@ -42,19 +42,19 @@ def main():
     print(f"\n{'='*60}")
     print(" VERIFYING EXTERNAL ASSETS (PHASE 0)")
     print(f"{'='*60}")
-    
+
     verify_script = Path("scripts/phase0_data/verify_external_assets.py")
     if not verify_script.exists():
         print(f"Error: Verification script not found: {verify_script}")
         sys.exit(1)
-        
+
     v_result = subprocess.run(f"python3 {verify_script}", shell=True)
     if v_result.returncode != 0:
         print("\n!!! Master Replication Aborted: Asset Verification Failed !!!")
         print("This may indicate missing external data or a script error.")
         print("Please run: python3 scripts/phase0_data/download_external_data.py")
         sys.exit(1)
-    
+
     phases = [
         (1, "phase1_foundation"),
         (2, "phase2_analysis"),
@@ -79,12 +79,12 @@ def main():
         if not run_phase(num, path):
             print("\n!!! Master Replication Aborted due to Phase Failure !!!")
             sys.exit(1)
-            
+
     # Final Full Publication Synthesis
     print(f"\n{'='*60}")
     print(" GENERATING FINAL COMPREHENSIVE RESEARCH SUMMARY")
     print(f"{'='*60}")
-    
+
     # Generate the full master doc (no --phase flag)
     pub_result = subprocess.run(
         "python3 scripts/support_preparation/generate_publication.py", shell=True

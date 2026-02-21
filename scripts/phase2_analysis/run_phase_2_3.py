@@ -21,25 +21,25 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from typing import Any
+from typing import Any  # noqa: E402
 
-import typer
-from rich.console import Console
-from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn
-from rich.table import Table
+import typer  # noqa: E402
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.progress import Progress, SpinnerColumn, TextColumn  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.storage.metadata import MetadataStore
-from phase2_analysis.models.constructed_system import (
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase2_analysis.models.constructed_system import (  # noqa: E402
     GlossalialSystemModel,
     MeaningfulConstructModel,
     ProceduralGenerationModel,
 )
-from phase2_analysis.models.disconfirmation import DisconfirmationEngine
-from phase2_analysis.models.evaluation import CrossModelEvaluator
-from phase2_analysis.models.interface import ModelStatus
-from phase2_analysis.models.registry import ModelRegistry
-from phase2_analysis.models.visual_grammar import (
+from phase2_analysis.models.disconfirmation import DisconfirmationEngine  # noqa: E402
+from phase2_analysis.models.evaluation import CrossModelEvaluator  # noqa: E402
+from phase2_analysis.models.interface import ModelStatus  # noqa: E402
+from phase2_analysis.models.registry import ModelRegistry  # noqa: E402
+from phase2_analysis.models.visual_grammar import (  # noqa: E402
     AdjacencyGrammarModel,
     ContainmentGrammarModel,
     DiagramAnnotationModel,

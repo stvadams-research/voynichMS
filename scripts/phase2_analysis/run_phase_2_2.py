@@ -27,16 +27,18 @@ from phase1_foundation.core.provenance import ProvenanceWriter
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import ExplanationClassRecord, MetadataStore
-from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
-from phase2_analysis.stress_tests.interface import StressTestOutcome
-from phase2_analysis.stress_tests.locality import LocalityTest
-from phase2_analysis.stress_tests.mapping_stability import MappingStabilityTest
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import ExplanationClassRecord, MetadataStore  # noqa: E402
+from phase2_analysis.stress_tests.information_preservation import (
+    InformationPreservationTest,  # noqa: E402
+)
+from phase2_analysis.stress_tests.interface import StressTestOutcome  # noqa: E402
+from phase2_analysis.stress_tests.locality import LocalityTest  # noqa: E402
+from phase2_analysis.stress_tests.mapping_stability import MappingStabilityTest  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"

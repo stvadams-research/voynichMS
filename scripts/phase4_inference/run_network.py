@@ -13,18 +13,18 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     MetadataStore,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from phase4_inference.network_features.analyzer import NetworkAnalyzer
+from phase4_inference.network_features.analyzer import NetworkAnalyzer  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -61,7 +61,7 @@ def run_experiment(seed: int = 42, output_dir: str | None = None):
     with active_run(config={"command": "run_network_phase4", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = NetworkAnalyzer(max_tokens=15000) # Balanced for scale/speed
-        
+
         datasets = {
             "Voynich (Real)": "voynich_real",
             "Latin (Semantic)": "latin_classic",
@@ -70,9 +70,9 @@ def run_experiment(seed: int = 42, output_dir: str | None = None):
             "Mechanical Reuse": "mechanical_reuse",
             "Shuffled (Global)": "shuffled_global"
         }
-        
+
         results = {}
-        
+
         table = Table(title="Network Features Benchmark")
         table.add_column("Dataset", style="cyan")
         table.add_column("Clustering", justify="right")
@@ -83,13 +83,13 @@ def run_experiment(seed: int = 42, output_dir: str | None = None):
         for label, dataset_id in datasets.items():
             console.print(f"Analyzing: {label}...")
             tokens = get_tokens(store, dataset_id)
-            
+
             if not tokens:
                 continue
-                
+
             res = analyzer.analyze(tokens)
             results[dataset_id] = res
-            
+
             table.add_row(
                 label,
                 f"{res['avg_clustering']:.4f}",
@@ -97,9 +97,9 @@ def run_experiment(seed: int = 42, output_dir: str | None = None):
                 f"{res['zipf_alpha']:.4f}",
                 f"{res['ttr']:.4f}"
             )
-            
+
         console.print(table)
-        
+
         # Save results
         out = Path(output_dir) if output_dir else Path("results/data/phase4_inference")
         out.mkdir(parents=True, exist_ok=True)

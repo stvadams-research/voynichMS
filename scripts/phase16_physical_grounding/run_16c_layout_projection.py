@@ -39,29 +39,29 @@ def dist(p1, p2):
 
 def main():
     console.print("[bold cyan]Phase 16C: Layout Projection (Geometric Optimization)[/bold cyan]")
-    
+
     if not PALETTE_PATH.exists() or not TRACE_PATH.exists():
         return
 
     # 1. Load Data
     with open(TRACE_PATH) as f:
         choices = json.load(f)["results"]["choices"]
-    
+
     # 2. Test Geometries
     grid_total_dist = 0
     circle_total_dist = 0
     num_transitions = 0
-    
+
     for i in range(1, len(choices)):
         w1 = choices[i-1]['window_id']
         w2 = choices[i]['window_id']
-        
+
         # Grid Distance (10x5)
         grid_total_dist += dist(get_grid_coords(w1), get_grid_coords(w2))
-        
+
         # Circular Distance
         circle_total_dist += dist(get_circle_coords(w1), get_circle_coords(w2))
-        
+
         num_transitions += 1
         if num_transitions > 10000:
             break  # Sample for speed
@@ -74,10 +74,10 @@ def main():
         w2 = rng.integers(0, 50)
         rand_grid_dist += dist(get_grid_coords(w1), get_grid_coords(w2))
     avg_rand_grid = rand_grid_dist / 1000
-    
+
     avg_grid = grid_total_dist / num_transitions
     avg_circle = circle_total_dist / num_transitions
-    
+
     # 4. Save and Report
     results = {
         "avg_grid_dist": avg_grid,
@@ -85,10 +85,10 @@ def main():
         "random_baseline_grid": avg_rand_grid,
         "grid_efficiency": (avg_rand_grid - avg_grid) / avg_rand_grid
     }
-    
+
     from phase1_foundation.core.provenance import ProvenanceWriter
     ProvenanceWriter.save_results(results, OUTPUT_PATH)
-    
+
     console.print("\n[green]Success! Geometric analysis complete.[/green]")
     console.print(f"Average Grid Travel: [bold]{avg_grid:.2f} units[/bold]")
     console.print(f"Average Circular Travel: [bold]{avg_circle:.2f} units[/bold]")

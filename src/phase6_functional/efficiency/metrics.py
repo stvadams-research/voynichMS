@@ -34,19 +34,19 @@ class EfficiencyAnalyzer:
             for i, token in enumerate(line):
                 prev = line[i-1] if i > 0 else "<START>"
                 states.append((prev, token, i))
-        
+
         counts = Counter(states)
         total_visits = len(states)
         unique_states = len(counts)
-        
+
         # Entropy of state distribution
         freqs = np.array(list(counts.values()))
         probs = freqs / total_visits
         entropy = -np.sum(probs * np.log2(probs))
         max_entropy = np.log2(unique_states) if unique_states > 0 else 0
-        
+
         suppression_index = entropy / max_entropy if max_entropy > 0 else 0
-        
+
         return {
             "total_visits": total_visits,
             "unique_states": unique_states,
@@ -61,9 +61,9 @@ class EfficiencyAnalyzer:
         """
         total_tokens = sum(len(line) for line in lines)
         unique_tokens = len(set(token for line in lines for token in line))
-        
+
         efficiency = unique_tokens / total_tokens if total_tokens > 0 else 0
-        
+
         return {
             "total_tokens": total_tokens,
             "unique_tokens": unique_tokens,
@@ -78,9 +78,9 @@ class EfficiencyAnalyzer:
         """
         unique_lines = set(tuple(line) for line in lines)
         total_lines = len(lines)
-        
+
         redundancy_rate = (total_lines - len(unique_lines)) / total_lines if total_lines > 0 else 0
-        
+
         return {
             "total_lines": total_lines,
             "unique_lines": len(unique_lines),
@@ -96,9 +96,9 @@ class EfficiencyAnalyzer:
         text = "\n".join([" ".join(line) for line in lines])
         raw_bytes = text.encode('utf-8')
         compressed_bytes = zlib.compress(raw_bytes)
-        
+
         ratio = len(compressed_bytes) / len(raw_bytes) if raw_bytes else 1.0
-        
+
         return {
             "raw_size": len(raw_bytes),
             "compressed_size": len(compressed_bytes),

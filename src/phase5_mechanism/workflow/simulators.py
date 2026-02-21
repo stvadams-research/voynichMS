@@ -27,10 +27,10 @@ class LineScopedPoolSimulator:
     def generate_line(self, target_len: int) -> list[str]:
         # 1. Sample pool size for this line
         pool_size = max(1, int(self.rng.gauss(self.mean_pool_size, 2.0)))
-        
+
         # 2. Populate pool
         pool = [self.generator.generate_word() for _ in range(pool_size)]
-        
+
         # 3. Fill line
         return [self.rng.choice(pool) for _ in range(target_len)]
 
@@ -54,14 +54,14 @@ class WeaklyCoupledPoolSimulator:
         # 1. Select pool from reservoir
         pool_size = 15 # Fixed for this simulator variant
         pool = self.rng.sample(self.reservoir, min(pool_size, len(self.reservoir)))
-        
+
         line = [self.rng.choice(pool) for _ in range(target_len)]
-        
+
         # 2. Drift the reservoir
         for i in range(len(self.reservoir)):
             if self.rng.random() < self.drift_rate:
                 self.reservoir[i] = self.generator.generate_word()
-                
+
         return line
 
     def generate_corpus(self, num_lines: int, line_len: int) -> list[list[str]]:

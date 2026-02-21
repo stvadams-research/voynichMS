@@ -36,28 +36,28 @@ from unittest.mock import patch
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from rich.console import Console
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.config import DEFAULT_SEED
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.config import DEFAULT_SEED  # noqa: E402
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     DatasetRecord,
     MetadataStore,
     PageRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from phase2_analysis.anomaly.stability_analysis import AnomalyStabilityAnalyzer
-from phase2_analysis.models.constructed_system import (
+from phase2_analysis.anomaly.stability_analysis import AnomalyStabilityAnalyzer  # noqa: E402
+from phase2_analysis.models.constructed_system import (  # noqa: E402
     GlossalialSystemModel,
     MeaningfulConstructModel,
     ProceduralGenerationModel,
 )
-from phase2_analysis.models.disconfirmation import DisconfirmationEngine
-from phase2_analysis.models.evaluation import CrossModelEvaluator
-from phase2_analysis.models.visual_grammar import (
+from phase2_analysis.models.disconfirmation import DisconfirmationEngine  # noqa: E402
+from phase2_analysis.models.evaluation import CrossModelEvaluator  # noqa: E402
+from phase2_analysis.models.visual_grammar import (  # noqa: E402
     AdjacencyGrammarModel,
     ContainmentGrammarModel,
     DiagramAnnotationModel,

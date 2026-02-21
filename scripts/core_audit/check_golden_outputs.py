@@ -64,7 +64,7 @@ def values_close(a, b, tol: float) -> bool:
     if isinstance(a, list) and isinstance(b, list):
         if len(a) != len(b):
             return False
-        return all(values_close(x, y, tol) for x, y in zip(a, b))
+        return all(values_close(x, y, tol) for x, y in zip(a, b, strict=True))
     if isinstance(a, (int, float)) and isinstance(b, (int, float)):
         if math.isnan(a) and math.isnan(b):
             return True

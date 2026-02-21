@@ -21,22 +21,22 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from typing import Any
+from typing import Any  # noqa: E402
 
-import typer
-from rich.console import Console
-from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn
-from rich.table import Table
+import typer  # noqa: E402
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.progress import Progress, SpinnerColumn, TextColumn  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase2_analysis.anomaly.capacity_bounding import CapacityBoundingAnalyzer
-from phase2_analysis.anomaly.constraint_analysis import ConstraintIntersectionAnalyzer
-from phase2_analysis.anomaly.interface import (
+from phase2_analysis.anomaly.capacity_bounding import CapacityBoundingAnalyzer  # noqa: E402
+from phase2_analysis.anomaly.constraint_analysis import ConstraintIntersectionAnalyzer  # noqa: E402
+from phase2_analysis.anomaly.interface import (  # noqa: E402
     AnomalyDefinition,
     Phase24Findings,
 )
-from phase2_analysis.anomaly.semantic_necessity import SemanticNecessityAnalyzer
-from phase2_analysis.anomaly.stability_analysis import AnomalyStabilityAnalyzer
+from phase2_analysis.anomaly.semantic_necessity import SemanticNecessityAnalyzer  # noqa: E402
+from phase2_analysis.anomaly.stability_analysis import AnomalyStabilityAnalyzer  # noqa: E402
 
 app = typer.Typer()
 console = Console()

@@ -41,7 +41,7 @@ class EVAParser(TranscriptionParser):
                 line = line.strip()
                 if not line or line.startswith('#'):
                     continue
-                
+
                 match = self._line_pattern.match(line)
                 if not match:
                     logger.debug("Skipped unparseable IVTFF line %d: %r", i + 1, line[:80])

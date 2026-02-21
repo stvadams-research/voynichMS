@@ -32,42 +32,42 @@ class WorkflowParameterInferrer:
         counts = Counter(line_tokens)
         num_tokens = len(line_tokens)
         num_unique = len(counts)
-        
+
         # 1. Local TTR
         ttr = num_unique / num_tokens if num_tokens > 0 else 0.0
-        
+
         # 2. Local Entropy (Successor)
         successor_entropy = 0.0
-        
+
         # 3. Feature Consistency (Task 2.2): Target Method K residuals
         # Measures how much token length and suffix are conserved or predictable across transitions
         len_consistency = 0.0
         suffix_consistency = 0.0
-        
+
         if num_tokens > 1:
             transitions = Counter()
             feats = [self.extractor.extract_features(t) for t in line_tokens]
-            
+
             l_matches = 0
             s_matches = 0
-            
+
             for i in range(num_tokens - 1):
                 transitions[(line_tokens[i], line_tokens[i+1])] += 1
-                
+
                 # Check for feature conservation (stochastic baseline)
                 if feats[i]['length'] == feats[i+1]['length']:
                     l_matches += 1
                 if feats[i]['suffix_1'] == feats[i+1]['suffix_1']:
                     s_matches += 1
-            
+
             total_trans = sum(transitions.values())
             for count in transitions.values():
                 p = count / total_trans
                 successor_entropy -= p * math.log2(p)
-                
+
             len_consistency = l_matches / total_trans
             suffix_consistency = s_matches / total_trans
-                
+
         return {
             "num_tokens": num_tokens,
             "num_unique": num_unique,
@@ -82,15 +82,15 @@ class WorkflowParameterInferrer:
         Infers distributions across all lines.
         """
         results = [self.infer_line_parameters(line) for line in all_lines if line]
-        
+
         if not results:
             return {}
-            
+
         ttrs = [r['ttr'] for r in results]
         entropies = [r['successor_entropy'] for r in results]
         len_cons = [r['len_consistency'] for r in results]
         suf_cons = [r['suffix_consistency'] for r in results]
-        
+
         return {
             "mean_ttr": float(np.mean(ttrs)),
             "std_ttr": float(np.std(ttrs)),

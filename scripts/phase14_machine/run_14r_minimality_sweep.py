@@ -28,33 +28,33 @@ console = Console()
 def main():
     msg = "[bold cyan]Phase 14R: Minimality Sweep (Complexity vs. Admissibility)[/bold cyan]"
     console.print(msg)
-    
+
     # 1. Load Data
     store = MetadataStore(DB_PATH)
     real_lines = load_canonical_lines(store)
     # real_tokens = [t for line in real_lines for t in line]
-    
+
     # 2. Solve Grid (Once, for 2000 tokens for speed)
     solver = GlobalPaletteSolver()
     solver.ingest_data([], real_lines, top_n=2000)
     solved_pos = solver.solve_grid(iterations=20)
-    
+
     vocab = set(solved_pos.keys())
     engine = EvaluationEngine(vocab)
-    
+
     # 3. Sweep K
     results = []
     for k in [2, 5, 10, 25, 50, 75, 100, 200, 500]:
         console.print(f"Testing Complexity K={k} windows...")
         lattice_data = solver.cluster_lattice(solved_pos, num_windows=k)
-        
+
         # Admissibility
         metrics = engine.calculate_admissibility(
-            real_lines, 
-            lattice_data["word_to_window"], 
+            real_lines,
+            lattice_data["word_to_window"],
             lattice_data["window_contents"]
         )
-        
+
         # MDL Calculation
         # L(model) = K * avg_win_size * bits + edges * bits
         # Simplified: L(model) approx proportional to len(vocab) * log2(K)
@@ -62,29 +62,29 @@ def main():
         # L(data | model) approx proportional to total_tokens * log2(len(vocab)/K)
         l_data = metrics['total_clamped_tokens'] * math.log2(len(vocab)/k)
         l_total = l_model + l_data
-        
+
         results.append({
             "num_windows": k,
             "admissibility": metrics["admissibility_rate"],
             "l_total_bits": l_total
         })
-        
+
     # 4. Save and Report
     ProvenanceWriter.save_results({"sweep": results}, OUTPUT_PATH)
-    
+
     table = Table(title="Complexity Sweep Results")
     table.add_column("Windows (K)", justify="right")
     table.add_column("Admissibility", justify="right", style="bold green")
     table.add_column("MDL Score", justify="right", style="cyan")
-    
+
     for r in results:
         table.add_row(
-            str(r['num_windows']), 
-            f"{r['admissibility']*100:.2f}%", 
+            str(r['num_windows']),
+            f"{r['admissibility']*100:.2f}%",
             f"{r['l_total_bits']:.0f}"
         )
     console.print(table)
-    
+
     # Identify the "Knee" (Point where MDL starts increasing or admissibility plateaus)
     best_mdl = min(results, key=lambda x: x['l_total_bits'])
     best_k = best_mdl['num_windows']

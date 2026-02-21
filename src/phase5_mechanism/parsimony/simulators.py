@@ -38,7 +38,7 @@ class PositionIndexedDAGSimulator(ParsimonySimulator):
         super().__init__(grammar_path, vocab_size, seed=seed)
         self.max_len = max_len
         self.transitions = {} # Key: (node_idx, pos), Value: next_node_idx
-        
+
         # Pre-assign deterministic transitions for every (node, pos)
         for i in range(vocab_size):
             for p in range(max_len):
@@ -60,7 +60,7 @@ class PositionIndexedDAGSimulator(ParsimonySimulator):
             if p < length - 1:
                 idx = self.transitions.get((idx, p), 0)
         return line
-        
+
     def get_state_count(self) -> int:
         return len(self.transitions)
 
@@ -73,7 +73,7 @@ class ImplicitLatticeSimulator(ParsimonySimulator):
         super().__init__(grammar_path, vocab_size, seed=seed)
         # Rule: Next word matches a feature condition derived from current word + position
         self.node_features = [self.extractor.extract_features(w) for w in self.nodes]
-        
+
         # Optimization: Map features to nodes for quick lookup
         self.feature_map = {} # Key: (length, suffix), Value: List[idx]
         for i, feat in enumerate(self.node_features):
@@ -85,24 +85,24 @@ class ImplicitLatticeSimulator(ParsimonySimulator):
     def generate_line(self, length: int) -> list[str]:
         # Initial line state
         idx = self.rng.randint(0, len(self.nodes) - 1)
-        
+
         # Context Mask (Task 2.1): persistent low-entropy rule modulator
         # Simulates a "key" or "mask" that biases the lattice walk for this line.
-        context_mask = self.rng.randint(0, 3) 
-        
+        context_mask = self.rng.randint(0, 3)
+
         line = []
         for p in range(length):
             line.append(self.nodes[idx])
-            
+
             if p < length - 1:
                 # Implicit Rule:
                 # Target length is modulated by position AND the persistent context_mask
                 feat = self.node_features[idx]
-                
+
                 # Base rule + context-masking influence
                 target_len = (feat['length'] + p + context_mask) % 5 + 3
                 target_suffix = feat['suffix_1']
-                
+
                 candidates = self.feature_map.get((target_len, target_suffix), [])
                 if candidates:
                     # Deterministic pick (e.g. smallest index > current index)

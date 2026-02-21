@@ -20,14 +20,14 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
 
-from phase1_foundation.controls.mechanical_reuse import MechanicalReuseGenerator
-from phase1_foundation.controls.self_citation import SelfCitationGenerator
-from phase1_foundation.controls.table_grille import TableGrilleGenerator
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.controls.mechanical_reuse import MechanicalReuseGenerator  # noqa: E402
+from phase1_foundation.controls.self_citation import SelfCitationGenerator  # noqa: E402
+from phase1_foundation.controls.table_grille import TableGrilleGenerator  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -48,21 +48,21 @@ def build_latin_corpus(store, target_count):
     if not LATIN_FILE.exists():
         console.print("[red]Error: latin_corpus.txt not found.[/red]")
         return
-        
+
     with open(LATIN_FILE) as f:
         text = f.read()
-        
+
     # Simple tokenization
     tokens = re.findall(r'\b\w+\b', text.lower())
     console.print(f"  Source tokens: {len(tokens)}")
-    
+
     # Match length
     if len(tokens) < target_count:
         # Repeat if too short
         full_tokens = (tokens * (target_count // len(tokens) + 1))[:target_count]
     else:
         full_tokens = tokens[:target_count]
-        
+
     # Ingest
     # Use MechanicalReuseGenerator's _ingest_tokens helper (or similar)
     # Actually, I'll just implement a helper here.
@@ -95,10 +95,10 @@ def build_shuffled_control(store, source_id, target_id, seed=42):
 def _ingest_tokens(store, dataset_id, tokens, type_label, seed=42):
     from phase1_foundation.core.id_factory import DeterministicIDFactory
     id_factory = DeterministicIDFactory(seed=seed)
-    
+
     _ensure_transcription_source(store, SOURCE_ID)
     store.add_dataset(dataset_id, type_label)
-    
+
     tokens_per_page = 1000
 
     for p_idx, start in enumerate(range(0, len(tokens), tokens_per_page)):
@@ -136,23 +136,23 @@ def main(seed: int = 42, output_dir: str | None = None):
     with active_run(config={"command": "build_phase_4_corpora", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         target_tokens = 230000
-        
+
         # 1. Semantic Baseline
         build_latin_corpus(store, target_tokens)
-        
+
         # 2. Non-Semantic Structured
         console.print("\n[bold yellow]Building Self-Citation Corpus[/bold yellow]")
         sc_gen = SelfCitationGenerator(store)
         sc_gen.generate("voynich_real", "self_citation", params={"target_tokens": target_tokens})
-        
+
         console.print("\n[bold yellow]Building Table-Grille Corpus[/bold yellow]")
         tg_gen = TableGrilleGenerator(store)
         tg_gen.generate("voynich_real", "table_grille", params={"target_tokens": target_tokens})
-        
+
         console.print("\n[bold yellow]Building Mechanical Reuse Corpus[/bold yellow]")
         mr_gen = MechanicalReuseGenerator(store)
         mr_gen.generate("voynich_real", "mechanical_reuse", params={"target_tokens": target_tokens})
-        
+
         # 3. Negative Controls
         build_shuffled_control(store, "voynich_real", "shuffled_global", seed=seed)
 

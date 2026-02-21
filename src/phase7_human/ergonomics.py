@@ -40,16 +40,16 @@ class ErgonomicsAnalyzer:
         """
         correction_pattern = re.compile(r"\[[^\]]+:[^\]]+\]")
         uncertainty_pattern = re.compile(r"\{[^\}]+\}")
-        
+
         total_chars = 0
         total_corrections = 0
         total_uncertainties = 0
-        
+
         for line in raw_lines:
             total_chars += len(line)
             total_corrections += len(correction_pattern.findall(line))
             total_uncertainties += len(uncertainty_pattern.findall(line))
-            
+
         return {
             "total_lines": len(raw_lines),
             "correction_count": total_corrections,
@@ -92,12 +92,12 @@ class ErgonomicsAnalyzer:
         """
         total_strokes = 0
         total_chars = 0
-        
+
         for token in tokens:
             for char in token:
                 total_chars += 1
                 total_strokes += self.stroke_map.get(char, 2)  # Fallback 2 for unknown symbols
-                
+
         return {
             "total_chars": total_chars,
             "total_strokes": total_strokes,
@@ -117,16 +117,16 @@ class ErgonomicsAnalyzer:
                 "first_line_avg_word_len": 0.0,
                 "last_line_avg_word_len": 0.0,
             }
-            
+
         line_lengths = [len(" ".join(line)) for line in page_lines]
         avg_word_lengths = [np.mean([len(w) for w in line]) if line else 0 for line in page_lines]
-        
+
         # Calculate correlations with line index
         indices = np.arange(len(page_lines))
-        
+
         len_corr = self._safe_correlation(indices, np.array(line_lengths, dtype=float))
         word_len_corr = self._safe_correlation(indices, np.array(avg_word_lengths, dtype=float))
-        
+
         return {
             "num_lines": len(page_lines),
             "line_length_correlation": float(len_corr),

@@ -15,18 +15,18 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     MetadataStore,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from phase4_inference.lang_id_transforms.analyzer import LanguageIDAnalyzer
+from phase4_inference.lang_id_transforms.analyzer import LanguageIDAnalyzer  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -64,7 +64,7 @@ def run_experiment(seed: int = 42, output_dir: str | None = None):
         store = MetadataStore(DB_PATH)
         analyzer = LanguageIDAnalyzer()
         rng = random.Random(seed)
-        
+
         # 1. Build Language Profiles
         console.print("Building language profiles...")
         for lang, path in [("latin", "data/external_corpora/latin_corpus.txt"), ("english", "data/external_corpora/english.txt"), ("german", "data/external_corpora/german.txt")]:
@@ -92,9 +92,9 @@ def run_experiment(seed: int = 42, output_dir: str | None = None):
             "Shuffled (Global)": "shuffled_global",
             "Mechanical Reuse": "mechanical_reuse"
         }
-        
+
         results = {}
-        
+
         table = Table(title="Language ID Confidence (Best Match)")
         table.add_column("Dataset", style="cyan")
         table.add_column("Target: Latin", justify="right")
@@ -103,25 +103,25 @@ def run_experiment(seed: int = 42, output_dir: str | None = None):
         for label, dataset_id in datasets.items():
             console.print(f"Analyzing: {label}...")
             text = get_text(store, dataset_id)
-            
+
             if not text: continue
-            
+
             latin_score, _ = analyzer.find_best_transform(text, "latin", transforms)
             english_score, _ = analyzer.find_best_transform(text, "english", transforms)
-            
+
             results[dataset_id] = {
                 "latin": latin_score,
                 "english": english_score
             }
-            
+
             table.add_row(
                 label,
                 f"{latin_score:.4f}",
                 f"{english_score:.4f}"
             )
-            
+
         console.print(table)
-        
+
         # Save results
         out = Path(output_dir) if output_dir else Path("results/data/phase4_inference")
         out.mkdir(parents=True, exist_ok=True)

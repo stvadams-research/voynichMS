@@ -31,16 +31,16 @@ class MatrixAlignmentAnalyzer:
         contexts_a = set(model_a.keys())
         contexts_b = set(model_b.keys())
         shared_contexts = contexts_a.intersection(contexts_b)
-        
+
         if not shared_contexts:
             return {"overlap_score": 0.0, "shared_count": 0}
-            
+
         exact_matches = 0
         for ctx in shared_contexts:
             # Check if the top successor is the same
             if model_a[ctx].most_common(1)[0][0] == model_b[ctx].most_common(1)[0][0]:
                 exact_matches += 1
-                
+
         return {
             "overlap_score": exact_matches / len(shared_contexts),
             "shared_contexts": len(shared_contexts),
@@ -55,13 +55,13 @@ class MatrixAlignmentAnalyzer:
         # We look at the 'Out-Degree' distributions
         out_a = sorted([sum(c.values()) for c in model_a.values()])
         out_b = sorted([sum(c.values()) for c in model_b.values()])
-        
+
         # Trim to same size for correlation
         size = min(len(out_a), len(out_b))
         if size < 10: return {"correlation": 0.0}
-        
+
         corr = np.corrcoef(out_a[:size], out_b[:size])[0, 1]
-        
+
         return {
             "structural_correlation": float(corr),
             "is_mechanically_equivalent": bool(corr > 0.9)

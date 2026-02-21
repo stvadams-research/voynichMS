@@ -20,18 +20,18 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from typing import Any
+from typing import Any  # noqa: E402
 
-import typer
-from rich.console import Console
-from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn
-from rich.table import Table
+import typer  # noqa: E402
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.progress import Progress, SpinnerColumn, TextColumn  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase3_synthesis.gap_continuation import MultiGapContinuation
-from phase3_synthesis.indistinguishability import FullIndistinguishabilityTest
-from phase3_synthesis.interface import Phase3Findings
-from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
+from phase3_synthesis.gap_continuation import MultiGapContinuation  # noqa: E402
+from phase3_synthesis.indistinguishability import FullIndistinguishabilityTest  # noqa: E402
+from phase3_synthesis.interface import Phase3Findings  # noqa: E402
+from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor  # noqa: E402
 
 app = typer.Typer()
 console = Console()

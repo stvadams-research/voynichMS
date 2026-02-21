@@ -16,18 +16,18 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 sys.path.insert(0, str(project_root))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     MetadataStore,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-from scripts.phase5_mechanism.categorize_sections import get_section
+from scripts.phase5_mechanism.categorize_sections import get_section  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -51,12 +51,12 @@ def get_tokens_by_section(store):
             .filter(PageRecord.dataset_id == "voynich_real")
             .all()
         )
-        
+
         section_tokens = defaultdict(list)
         for content, page_id in tokens_recs:
             sec = get_section(page_id)
             section_tokens[sec].append(content)
-            
+
         return section_tokens
     finally:
         session.close()
@@ -73,18 +73,18 @@ def run_lattice_overlap(seed: int = 42, output_dir: str | None = None):
 
     with active_run(config={"command": "run_5i_lattice_overlap", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
-        
+
         # 1. Fetch Data
         console.print("\n[bold yellow]Step 1: Fetching Tokens by Section[/bold yellow]")
         section_map = get_tokens_by_section(store)
-        
+
         # 2. Extract N-grams (Trigrams)
         console.print("\n[bold yellow]Step 2: Extracting Trigrams[/bold yellow]")
         section_ngrams = {}
         for sec, tokens in section_map.items():
             if sec == "unknown" or len(tokens) < 1000: continue
             section_ngrams[sec] = get_ngrams(tokens, n=3)
-            
+
         # 3. Compare
         table = Table(title="Lattice Fragment Overlap (Trigrams)")
         table.add_column("Section Pair", style="cyan")
@@ -97,20 +97,20 @@ def run_lattice_overlap(seed: int = 42, output_dir: str | None = None):
             for j in range(i + 1, len(sections)):
                 s1, s2 = sections[i], sections[j]
                 n1, n2 = section_ngrams[s1], section_ngrams[s2]
-                
+
                 common = n1.intersection(n2)
                 union = n1.union(n2)
                 jaccard = len(common) / len(union) if union else 0
-                
+
                 table.add_row(
                     f"{s1.capitalize()} / {s2.capitalize()}",
                     str(len(common)),
                     f"{jaccard:.4f}"
                 )
                 results.append({"pair": (s1, s2), "common": len(common), "jaccard": jaccard})
-                
+
         console.print(table)
-        
+
         # Save results
         out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism")
         out.mkdir(parents=True, exist_ok=True)
@@ -120,7 +120,7 @@ def run_lattice_overlap(seed: int = 42, output_dir: str | None = None):
             for r in results
         ]
         ProvenanceWriter.save_results(serializable_results, out / "lattice_overlap.json")
-            
+
         store.save_run(run)
 
 if __name__ == "__main__":

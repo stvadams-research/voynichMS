@@ -97,7 +97,7 @@ def main(verbose: bool = False):
 @app.command()
 def init(
     path: Path = typer.Option(
-        Path("."), 
+        Path("."),
         help="Path to initialize the project structure in."
     )
 ):
@@ -106,22 +106,22 @@ def init(
     """
     with active_run(config={"command": "init", "path": str(path)}) as run:
         console.print(f"[bold green]Initializing Voynich data structure in {path}[/bold green]")
-        
+
         dirs = [
             "data/raw",
             "data/derived",
             "runs"
         ]
-        
+
         for d in dirs:
             target = path / d
             target.mkdir(parents=True, exist_ok=True)
             console.print(f"Created: {target}")
-        
+
         # Initialize DB
         get_metadata_store()
         console.print(f"Initialized Database at {DB_PATH}")
-            
+
         console.print(f"[bold blue]Run ID:[/bold blue] {run.run_id}")
 
 @app.command()
@@ -133,13 +133,13 @@ def status():
         table = Table(title="Voynich Foundation Status")
         table.add_column("Key", style="cyan")
         table.add_column("Value", style="magenta")
-        
+
         table.add_row("Run ID", str(run.run_id))
         table.add_row("Git Commit", run.git_commit)
         table.add_row("Git Dirty", str(run.git_dirty))
         table.add_row("User", run.user)
         table.add_row("Timestamp", str(run.timestamp_start))
-        
+
         console.print(table)
 
 @data_app.command("register")
@@ -153,13 +153,13 @@ def register_dataset(
     with active_run(config={"command": "data register", "path": str(path), "name": name}) as run:
         store = get_metadata_store()
         manager = DatasetManager(store)
-        
+
         console.print(f"Scanning {path} for dataset '{name}'...")
         try:
             pages = manager.register_dataset(name, path)
             console.print(f"[bold green]Successfully registered {len(pages)} pages.[/bold green]")
             store.save_run(run)
-            
+
         except Exception as e:
             console.print(f"[bold red]Error:[/bold red] {e}")
             raise typer.Exit(code=1)
@@ -177,18 +177,18 @@ def ingest_transcription(
     with active_run(config={"command": "transcription ingest", "path": str(path), "source": source, "seed": seed}) as run:
         store = get_metadata_store()
         id_factory = DeterministicIDFactory(seed=seed)
-        
+
         # Register source
         store.add_transcription_source(id=source, name=source)
-        
+
         if format != "eva":
             console.print("[bold red]Error:[/bold red] Only 'eva' format is supported currently.")
             raise typer.Exit(code=1)
-            
+
         parser = EVAParser()
         count_lines = 0
         count_tokens = 0
-        
+
         try:
             for line in parser.parse(path):
                 # Ensure page exists or just log it?
@@ -213,7 +213,7 @@ def ingest_transcription(
                     content=line.content
                 )
                 count_lines += 1
-                
+
                 for token in line.tokens:
                     token_id = id_factory.next_uuid(f"trans_token:{source}:{page_id}")
                     store.add_transcription_token(
@@ -223,10 +223,10 @@ def ingest_transcription(
                         content=token.content
                     )
                     count_tokens += 1
-            
+
             store.save_run(run)
             console.print(f"[bold green]Ingested {count_lines} lines and {count_tokens} tokens from {source}.[/bold green]")
-            
+
         except Exception as e:
             console.print(f"[bold red]Error:[/bold red] {e}")
             raise typer.Exit(code=1)
@@ -239,12 +239,12 @@ def query_token(token: str):
     store = get_metadata_store()
     engine = QueryEngine(store)
     results = engine.get_words_for_token(token)
-    
+
     table = Table(title=f"Occurrences of Token '{token}'")
     table.add_column("Word ID", style="cyan")
     table.add_column("Page", style="magenta")
     table.add_column("BBox", style="green")
-    
+
     for r in results:
         table.add_row(r['word_id'], r['page_id'], str(r['bbox']))
     console.print(table)
@@ -257,12 +257,12 @@ def query_word(word_id: str):
     store = get_metadata_store()
     engine = QueryEngine(store)
     results = engine.get_glyphs_for_word(word_id)
-    
+
     table = Table(title=f"Glyphs in Word {word_id}")
     table.add_column("Glyph ID", style="cyan")
     table.add_column("Index", style="magenta")
     table.add_column("BBox", style="green")
-    
+
     for r in results:
         table.add_row(r['glyph_id'], str(r['index']), str(r['bbox']))
     console.print(table)
@@ -275,12 +275,12 @@ def query_region(region_id: str):
     store = get_metadata_store()
     engine = QueryEngine(store)
     related = engine.get_related_regions(region_id)
-    
+
     table = Table(title=f"Relationships for Region {region_id}")
     table.add_column("Related Region ID", style="cyan")
     table.add_column("Type", style="magenta")
     table.add_column("Weight", style="green")
-    
+
     for r in related:
         table.add_row(r['region_id'], r['type'], str(r['weight']))
     console.print(table)
@@ -296,18 +296,18 @@ def run_dummy_segmentation(
     with active_run(config={"command": "segmentation run-dummy", "page_id": page_id, "seed": seed}) as run:
         store = get_metadata_store()
         id_factory = DeterministicIDFactory(seed=seed)
-        
+
         # Check if page exists
         # In real app, verify page_id in DB.
-        
+
         line_seg = DummyLineSegmenter()
         word_seg = DummyWordSegmenter()
         glyph_seg = DummyGlyphSegmenter()
-        
+
         # Segment Lines
         lines = line_seg.segment_page(page_id, "dummy_path")
         console.print(f"Generated {len(lines)} dummy lines for {page_id}")
-        
+
         for line in lines:
             line_id = id_factory.next_uuid(f"line:{page_id}")
             store.add_line(
@@ -317,7 +317,7 @@ def run_dummy_segmentation(
                 bbox=line.bbox.model_dump(),
                 confidence=line.confidence
             )
-            
+
             # Segment Words
             words = word_seg.segment_line(line.bbox, "dummy_path")
             for word in words:
@@ -329,7 +329,7 @@ def run_dummy_segmentation(
                     bbox=word.bbox.model_dump(),
                     confidence=word.confidence
                 )
-                
+
                 # Segment Glyphs
                 glyphs = glyph_seg.segment_word(word.bbox, "dummy_path")
                 for glyph in glyphs:
@@ -341,7 +341,7 @@ def run_dummy_segmentation(
                         bbox=glyph.bbox.model_dump(),
                         confidence=glyph.confidence
                     )
-        
+
         store.save_run(run)
         console.print(f"[bold green]Dummy segmentation complete for {page_id}[/bold green]")
 
@@ -356,10 +356,10 @@ def run_alignment(
     with active_run(config={"command": "alignment run", "page_id": page_id, "source_id": source_id}) as run:
         store = get_metadata_store()
         engine = AlignmentEngine(store)
-        
+
         console.print(f"Aligning {page_id} with source {source_id}...")
         engine.align_page_lines(page_id, source_id)
-        
+
         store.save_run(run)
         console.print("[bold green]Alignment complete.[/bold green]")
 
@@ -374,11 +374,11 @@ def propose_dummy_regions(
     with active_run(config={"command": "regions propose-dummy", "page_id": page_id, "seed": seed}) as run:
         store = get_metadata_store()
         id_factory = DeterministicIDFactory(seed=seed)
-        
+
         # 1. Grid (Large/Mid)
         grid_proposer = GridProposer(rows=3, cols=3, scale="large")
         regions = grid_proposer.propose_regions(page_id, "dummy_path")
-        
+
         for r in regions:
             store.add_region(
                 id=id_factory.next_uuid(f"region:grid:{page_id}"),
@@ -388,11 +388,11 @@ def propose_dummy_regions(
                 bbox=r.bbox.model_dump(),
                 confidence=r.confidence
             )
-            
+
         # 2. Random Blobs (Primitive)
         blob_proposer = RandomBlobProposer(count=10, scale="primitive")
         regions = blob_proposer.propose_regions(page_id, "dummy_path")
-        
+
         for r in regions:
             store.add_region(
                 id=id_factory.next_uuid(f"region:blob:{page_id}"),
@@ -402,7 +402,7 @@ def propose_dummy_regions(
                 bbox=r.bbox.model_dump(),
                 confidence=r.confidence
             )
-            
+
         store.save_run(run)
         console.print(f"[bold green]Generated dummy regions for {page_id}.[/bold green]")
 
@@ -414,10 +414,10 @@ def build_region_graph(page_id: str):
     with active_run(config={"command": "regions build-graph", "page_id": page_id}) as run:
         store = get_metadata_store()
         builder = GraphBuilder(store)
-        
+
         console.print(f"Building region graph for {page_id}...")
         builder.build_graph(page_id)
-        
+
         store.save_run(run)
         console.print("[bold green]Graph build complete.[/bold green]")
 
@@ -435,10 +435,10 @@ def generate_scrambled(
     with active_run(config={"command": "controls generate-scrambled", "source": source, "name": name}) as run:
         store = get_metadata_store()
         generator = ScrambledControlGenerator(store)
-        
+
         console.print(f"Generating scrambled control dataset '{name}' from '{source}'...")
         generator.generate(source, name, seed=seed)
-        
+
         store.save_run(run)
         console.print(f"[bold green]Generated scrambled dataset: {name}[/bold green]")
 
@@ -455,10 +455,10 @@ def generate_synthetic(
     with active_run(config={"command": "controls generate-synthetic", "name": name}) as run:
         store = get_metadata_store()
         generator = SyntheticNullGenerator(store)
-        
+
         console.print(f"Generating synthetic null dataset '{name}'...")
         generator.generate(source, name, seed=seed, params={"num_pages": pages})
-        
+
         store.save_run(run)
         console.print(f"[bold green]Generated synthetic dataset: {name}[/bold green]")
 
@@ -472,18 +472,18 @@ def run_metric(
     """
     with active_run(config={"command": "metrics run", "dataset": dataset, "metric": metric}) as run:
         store = get_metadata_store()
-        
+
         # Validate dataset exists
         from phase1_foundation.storage.metadata import DatasetRecord
         session = store.Session()
         ds_exists = session.query(DatasetRecord).filter_by(id=dataset).first() is not None
         session.close()
-        
+
         if not ds_exists:
             console.print(f"[bold red]Error:[/bold red] Dataset '{dataset}' not found.")
             console.print("[yellow]Hint:[/yellow] Use 'voynich data list' to see available datasets.")
             raise typer.Exit(code=1)
-        
+
         metric_cls = None
         if metric == "RepetitionRate":
             metric_cls = RepetitionRate(store)
@@ -492,10 +492,10 @@ def run_metric(
         else:
             console.print(f"[bold red]Error:[/bold red] Unknown metric '{metric}'")
             raise typer.Exit(code=1)
-            
+
         console.print(f"Calculating {metric} for {dataset}...")
         results = metric_cls.calculate(dataset)
-        
+
         for r in results:
             store.add_metric_result(
                 run_id=run.run_id,
@@ -506,7 +506,7 @@ def run_metric(
                 details=r.details
             )
             console.print(f"Result: {r.value:.4f} ({r.scope})")
-            
+
         store.save_run(run)
 
 @analysis_app.command("compare")
@@ -520,11 +520,11 @@ def compare_datasets(
     """
     with active_run(config={"command": "phase2_analysis compare", "real": real, "control": control}) as run:
         store = get_metadata_store()
-        
+
         # Fetch results from DB (simulated here by re-running or assuming they exist)
         # For CLI simplicity, we'll re-calculate or fetch.
         # Let's assume we re-calculate for the demo flow to ensure values exist.
-        
+
         metric_cls = None
         if metric == "RepetitionRate":
             metric_cls = RepetitionRate(store)
@@ -533,22 +533,22 @@ def compare_datasets(
         else:
             console.print(f"[bold red]Error:[/bold red] Unknown metric '{metric}'")
             raise typer.Exit(code=1)
-            
+
         real_results = metric_cls.calculate(real)
         control_results = metric_cls.calculate(control)
-        
+
         all_results = real_results + control_results
-        
+
         comparator = Comparator(store)
         comparison = comparator.compare_datasets(real, control, all_results)
-        
+
         table = Table(title=f"Comparison: {real} vs {control}")
         table.add_column("Metric", style="cyan")
         table.add_column("Real Value", style="green")
         table.add_column("Control Value", style="yellow")
         table.add_column("Diff", style="white")
         table.add_column("Classification", style="bold magenta")
-        
+
         for m, data in comparison.items():
             table.add_row(
                 m,
@@ -557,7 +557,7 @@ def compare_datasets(
                 f"{data['diff']:.4f}",
                 data['classification']
             )
-            
+
         console.print(table)
         store.save_run(run)
 
@@ -576,20 +576,20 @@ def generate_anchors(
     with active_run(config={"command": "anchors generate", "dataset": dataset, "method": method, "seed": seed}) as run:
         store = get_metadata_store()
         engine = AnchorEngine(store, seed=seed)
-        
+
         # Register method
         method_id = engine.register_method(name=method, parameters={"distance_threshold": dist_threshold})
-        
+
         session = store.Session()
         try:
             pages = session.query(PageRecord).filter_by(dataset_id=dataset).all()
             total_anchors = 0
-            
+
             for page in pages:
                 count = engine.compute_page_anchors(page.id, method_id, run.run_id)
                 total_anchors += count
                 console.print(f"Page {page.id}: Generated {count} anchors")
-            
+
             console.print(f"[bold green]Total anchors generated: {total_anchors}[/bold green]")
             store.save_run(run)
         finally:
@@ -605,14 +605,14 @@ def query_anchors(
     store = get_metadata_store()
     engine = QueryEngine(store)
     anchors = engine.get_anchors_for_region(region)
-    
+
     table = Table(title=f"Anchors for Region {region}")
     table.add_column("Anchor ID", style="cyan")
     table.add_column("Source Type", style="magenta")
     table.add_column("Source ID", style="blue")
     table.add_column("Relation", style="yellow")
     table.add_column("Score", style="green")
-    
+
     for a in anchors:
         table.add_row(
             a['anchor_id'],
@@ -634,33 +634,33 @@ def analyze_anchors(
     with active_run(config={"command": "anchors analyze", "real": real, "control": control}) as run:
         store = get_metadata_store()
         analyzer = AnchorStabilityAnalyzer(store)
-        
+
         comparison = analyzer.compare_anchor_counts(real, control, run.run_id)
-        
+
         table = Table(title=f"Anchor Stability: {real} vs {control}")
         table.add_column("Relation Type", style="cyan")
         table.add_column("Real Count", style="green")
         table.add_column("Control Count", style="yellow")
         table.add_column("Degradation", style="red")
-        
+
         degradation = comparison["degradation"]
         real_counts = comparison["real"]
         control_counts = comparison["control"]
-        
+
         all_types = set(real_counts.keys()) | set(control_counts.keys())
-        
+
         for t in all_types:
             r = real_counts.get(t, 0)
             c = control_counts.get(t, 0)
             deg = degradation.get(t, 0.0)
-            
+
             table.add_row(
                 t,
                 str(r),
                 str(c),
                 f"{deg:.2%}"
             )
-            
+
         console.print(table)
         store.save_run(run)
 
@@ -679,7 +679,7 @@ def register_structure(
     with active_run(config={"command": "decisions register", "id": id}) as run:
         store = get_metadata_store()
         registry = StructureRegistry(store)
-        
+
         registry.register_structure(id, name, description, origin)
         console.print(f"[bold green]Registered structure: {name} ({id})[/bold green]")
         store.save_run(run)
@@ -696,7 +696,7 @@ def record_decision(
     with active_run(config={"command": "decisions decide", "id": id, "outcome": outcome}) as run:
         store = get_metadata_store()
         registry = StructureRegistry(store)
-        
+
         registry.record_decision(id, outcome, reason, run.run_id)
         console.print(f"[bold green]Recorded decision for {id}: {outcome}[/bold green]")
         store.save_run(run)
@@ -710,21 +710,21 @@ def list_decisions():
     session = store.Session()
     try:
         structures = session.query(StructureRecord).all()
-        
+
         table = Table(title="Structure Ledger")
         table.add_column("ID", style="cyan")
         table.add_column("Name", style="magenta")
         table.add_column("Origin", style="blue")
         table.add_column("Status", style="bold yellow")
         table.add_column("Last Decision", style="white")
-        
+
         for s in structures:
             last_decision = ""
             if s.decisions:
                 last_decision = s.decisions[-1].decision
-            
+
             table.add_row(s.id, s.name, s.origin_level, s.status, last_decision)
-            
+
         console.print(table)
     finally:
         session.close()
@@ -743,28 +743,28 @@ def run_sensitivity(
     with active_run(config={"command": "sensitivity run", "structure": structure}) as run:
         store = get_metadata_store()
         analyzer = SensitivityAnalyzer(store)
-        
+
         # Generate range
         import numpy as np
         value_range = np.arange(start, end, step).tolist()
-        
+
         # Mock metric function for demo purposes
         # In real usage, this would map structure ID to a specific metric calculation
         def mock_metric(val):
             # Simulate a metric that degrades as parameter increases (e.g. strictness)
             import math
             return 1.0 / (1.0 + math.exp(val - 0.5))
-            
+
         console.print(f"Running sensitivity sweep for {structure} on {param}...")
         results = analyzer.run_parameter_sweep(structure, mock_metric, param, value_range, run.run_id)
-        
+
         table = Table(title=f"Sensitivity Analysis: {structure}")
         table.add_column("Parameter", style="cyan")
         table.add_column("Metric Score", style="green")
-        
+
         for r in results:
             table.add_row(str(r['param']), f"{r['score']:.4f}")
-            
+
         console.print(table)
         store.save_run(run)
 
@@ -799,22 +799,22 @@ def run_hypothesis(
     with active_run(config={"command": "hypotheses run", "id": id, "real": real}) as run:
         store = get_metadata_store()
         manager = HypothesisManager(store)
-        
+
         # Register known hypotheses (manual step in code for now, dynamic loading later)
         manager.register_hypothesis(GlyphPositionHypothesis)
-        
+
         console.print(f"Running hypothesis {id}...")
         result = manager.run_hypothesis(id, real, control_list, run.run_id)
-        
+
         console.print(f"[bold]Outcome:[/bold] {result.outcome}")
-        
+
         table = Table(title="Hypothesis Metrics")
         table.add_column("Metric", style="cyan")
         table.add_column("Value", style="green")
-        
+
         for k, v in result.metrics.items():
             table.add_row(k, f"{v:.4f}")
-            
+
         console.print(table)
         store.save_run(run)
 
@@ -827,12 +827,12 @@ def list_hypotheses():
     session = store.Session()
     try:
         hypotheses = session.query(HypothesisRecord).all()
-        
+
         table = Table(title="Hypothesis Ledger")
         table.add_column("ID", style="cyan")
         table.add_column("Status", style="bold yellow")
         table.add_column("Description", style="white")
-        
+
         for h in hypotheses:
             table.add_row(h.id, h.status, h.description)
 

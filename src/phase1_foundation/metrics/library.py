@@ -207,7 +207,7 @@ class ClusterTightness(Metric):
 
             # Stack into matrix
             vectors = np.array(vectors)
-            
+
             if vectors.ndim != 2:
                 raise ValueError(f"Expected 2D embedding array, got {vectors.ndim}D")
 

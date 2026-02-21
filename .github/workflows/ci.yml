@@ -38,9 +38,8 @@ jobs:
       - name: Lint with ruff
         run: |
           pip install ruff
-          ruff check src/ tests/ scripts/ --select E,F,W --ignore E501,E402,W503 || true
-        # Non-blocking lint — warns but does not fail the build.
-        # Remove "|| true" once all existing lint issues are resolved.
+          ruff check .
+        # Blocking lint: fails the build if rules in .ruff.toml are violated.
 
       - name: Run unit tests
         run: |

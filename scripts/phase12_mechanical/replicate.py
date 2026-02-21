@@ -17,17 +17,17 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 12: Mechanical Reconstruction ===")
-    
+
     # 1. Detection
     run_command("python3 scripts/phase12_mechanical/run_12a_slip_detection.py")
-    
+
     # 2. Inference
     run_command("python3 scripts/phase12_mechanical/run_12b_cluster_analysis.py")
     run_command("python3 scripts/phase12_mechanical/run_12c_geometry_inference.py")
-    
+
     # 3. Validation
     run_command("python3 scripts/phase12_mechanical/run_12e_prototype_validation.py")
-    
+
     # 4. Synthesis
     run_command("python3 scripts/phase12_mechanical/run_12i_blueprint_synthesis.py")
 

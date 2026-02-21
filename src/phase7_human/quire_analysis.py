@@ -48,15 +48,15 @@ class QuireAnalyzer:
         for folio_id, lines in pages.items():
             q = self.get_quire(folio_id)
             if q == 0: continue
-            
+
             # Simple metric: mean word length in quire
             word_lens = [len(w) for line in lines for w in line]
             if word_lens:
                 quire_stats[q].append(np.mean(word_lens))
-        
+
         # Calculate variance between quires vs within quires
         between_quire_means = [np.mean(vals) for vals in quire_stats.values() if vals]
-        
+
         return {
             "num_quires": len(between_quire_means),
             "between_quire_variance": float(np.var(between_quire_means)) if between_quire_means else 0,

@@ -16,7 +16,7 @@ def apply_voynich_theme():
     Apply a consistent visual style across all project plots.
     """
     plt.style.use('seaborn-v0_8-paper')
-    
+
     params = {
         'axes.facecolor': VOYNICH_COLORS['parchment'],
         'figure.facecolor': 'white',
@@ -38,7 +38,7 @@ def apply_voynich_theme():
         'grid.color': VOYNICH_COLORS['faded_ink'],
         'figure.autolayout': True
     }
-    
+
     plt.rcParams.update(params)
 
 def get_color_palette():

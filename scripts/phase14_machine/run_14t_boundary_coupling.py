@@ -50,12 +50,12 @@ def get_lines_with_folios(store):
             )
             .all()
         )
-        
+
         folio_data = defaultdict(list)
         current_line = []
         last_line_id = None
         last_folio_id = None
-        
+
         for content, folio_id, line_id in rows:
             if last_line_id is not None and line_id != last_line_id:
                 folio_data[last_folio_id].append(current_line)
@@ -63,10 +63,10 @@ def get_lines_with_folios(store):
             current_line.append(content)
             last_line_id = line_id
             last_folio_id = folio_id
-            
+
         if current_line:
             folio_data[last_folio_id].append(current_line)
-            
+
         return folio_data
     finally:
         session.close()
@@ -85,17 +85,17 @@ def build_folio_vector(lines, top_50, word_to_idx):
 
 def main():
     console.print("[bold magenta]Phase 14T: Boundary Coupling Audit[/bold magenta]")
-    
+
     # 1. Load Data
     store = MetadataStore(DB_PATH)
     folio_data = get_lines_with_folios(store)
     folios = sorted(folio_data.keys())
-    
+
     # 2. Setup Vectors
     all_tokens = [t for f in folio_data.values() for line in f for t in line]
     top_50 = [w for w, c in Counter(all_tokens).most_common(50)]
     word_to_idx = {w: i for i, w in enumerate(top_50)}
-    
+
     folio_vectors = []
     valid_folios = []
     for f in folios:
@@ -103,20 +103,20 @@ def main():
         if np.sum(vec) > 0:
             folio_vectors.append(vec)
             valid_folios.append(f)
-            
+
     folio_vectors = np.array(folio_vectors)
-    
+
     # 3. Cluster into 3 Mask States
     console.print(f"Clustering {len(valid_folios)} folios into 3 mechanical states...")
     kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
     labels = kmeans.fit_predict(folio_vectors)
-    
+
     # 4. Analyze Persistence vs. Coupling
     shifts = 0
     for i in range(1, len(labels)):
         if labels[i] != labels[i-1]:
             shifts += 1
-            
+
     # 5. Save and Report
     dur = len(labels) / (shifts + 1)
     results = {
@@ -126,12 +126,12 @@ def main():
         "avg_state_duration": dur,
         "labels": {valid_folios[i]: int(labels[i]) for i in range(len(labels))}
     }
-    
+
     ProvenanceWriter.save_results(results, OUTPUT_PATH)
-    
+
     console.print(f"\nAverage State Duration: [bold]{dur:.2f} folios[/bold]")
     console.print(f"Total State Shifts: [bold cyan]{shifts}[/bold cyan]")
-    
+
     if dur > 5:
         msg_ok = "\n[bold green]PASS:[/bold green] States locally coupled to production regions."
         console.print(msg_ok)

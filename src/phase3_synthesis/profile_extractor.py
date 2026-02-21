@@ -42,11 +42,11 @@ class NeutralTokenGenerator:
         require_seed_if_strict(seed, "NeutralTokenGenerator")
         self.rng = random.Random(seed)
         self.chars = "abcdefghijklmnopqrstuvwxyz"
-        
+
     def generate_token(self, length_range: tuple[int, int] = (3, 8)) -> str:
         length = self.rng.randint(*length_range)
         return "".join(self.rng.choice(self.chars) for _ in range(length))
-        
+
     def generate_tokens(self, count: int) -> list[str]:
         return [self.generate_token() for _ in range(count)]
 
@@ -296,10 +296,10 @@ class PharmaceuticalProfileExtractor:
                     # For entropy, we need symbols. If not populated, this metric will be skewed.
                     # We'll try to join with GlyphAlignmentRecord if possible, but for now let's assume
                     # we can get symbol via a separate query or if it's not joined.
-                    
+
                     # Optimization: In real run, we should join. For now, let's just use a placeholder
                     # or try to get alignment.
-                    
+
                     from phase1_foundation.storage.metadata import GlyphAlignmentRecord
                     alignment = session.query(GlyphAlignmentRecord).filter_by(glyph_id=glyph.id).first()
                     symbol = alignment.symbol if alignment else f"g_{glyph.id}"

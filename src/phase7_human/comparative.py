@@ -47,7 +47,7 @@ class ComparativeAnalyzer:
                 curr = line[i]
                 nxt = line[i+1]
                 context_map[(prev, curr, i)][nxt] += 1
-        
+
         entropies = []
         weights = []
         for nxts in context_map.values():
@@ -56,7 +56,7 @@ class ComparativeAnalyzer:
             ent = -np.sum(probs * np.log2(probs))
             entropies.append(ent)
             weights.append(total)
-            
+
         avg_entropy = np.average(entropies, weights=weights) if entropies else 0
         determinism = 1.0 / (1.0 + avg_entropy) # Higher = more deterministic
 
@@ -77,7 +77,7 @@ class ComparativeAnalyzer:
                 for j in range(len(line)):
                     p = line[j-1] if j > 0 else "<START>"
                     chunk_states.append((p, line[j], j))
-            
+
             if not chunk_states: continue
             new_count = 0
             for s in chunk_states:
@@ -85,7 +85,7 @@ class ComparativeAnalyzer:
                     new_count += 1
                     seen_states.add(s)
             novelty_rates.append(new_count / len(chunk_states))
-        
+
         # Convergence = (initial - final) / initial
         if len(novelty_rates) > 1:
             convergence = (novelty_rates[0] - novelty_rates[-1]) / novelty_rates[0]

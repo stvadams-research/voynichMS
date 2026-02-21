@@ -131,6 +131,17 @@ Agents must ensure `results/reports/` and `governance/` are kept up to date.
 
 ---
 
+## 12. Engineering Rigor (CI Compliance)
+
+Agents must ensure all code is compliant with the repository's engineering standards BEFORE declaring a task complete.
+
+- **Mandatory Linting:** All Python code must pass `ruff check .`.
+- **Mandative Provenance:** All new runner scripts (`run_*.py`) MUST include a `ProvenanceWriter.save_results()` call to satisfy the SK-M4 contract.
+- **Mandatory Preflight:** Agents must execute `./scripts/core_audit/preflight_check.sh` and verify it passes before finishing a turn.
+- **Robustness:** Scripts must handle missing environment artifacts (like the database) gracefully to prevent CI crashes.
+
+---
+
 ## Final Statement
 
 This project values:

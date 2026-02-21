@@ -17,13 +17,13 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 1: Foundation ===")
-    
+
     # 1. Initialize and Verify Database
     run_command("python3 scripts/phase1_foundation/acceptance_test.py")
-    
+
     # 2. Populate standard datasets
     run_command("python3 scripts/phase1_foundation/populate_database.py")
-    
+
     # 3. Verify Ledger Determinism
     run_command("python3 scripts/phase1_foundation/run_destructive_audit.py")
 

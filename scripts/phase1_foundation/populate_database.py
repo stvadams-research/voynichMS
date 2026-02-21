@@ -23,14 +23,14 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.id_factory import DeterministicIDFactory
-from phase1_foundation.core.ids import FolioID, PageID
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.id_factory import DeterministicIDFactory  # noqa: E402
+from phase1_foundation.core.ids import FolioID, PageID  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     LineRecord,
     MetadataStore,
     PageRecord,
@@ -39,7 +39,7 @@ from phase1_foundation.storage.metadata import (
     WordAlignmentRecord,
     WordRecord,
 )
-from phase1_foundation.transcription.parsers import EVAParser
+from phase1_foundation.transcription.parsers import EVAParser  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"

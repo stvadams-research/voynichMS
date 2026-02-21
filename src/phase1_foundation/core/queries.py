@@ -31,10 +31,10 @@ def get_lines_from_store(store: MetadataStore, dataset_id: str, source_id: str =
             .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
             .filter(PageRecord.dataset_id == dataset_id)
         )
-        
+
         if source_id:
             query = query.filter(TranscriptionLineRecord.source_id == source_id)
-            
+
         rows = query.order_by(
                 PageRecord.id,
                 TranscriptionLineRecord.line_index,
@@ -109,7 +109,7 @@ class QueryEngine:
                 join(WordAlignmentRecord, WordRecord.id == WordAlignmentRecord.word_id).\
                 join(TranscriptionTokenRecord, TranscriptionTokenRecord.id == WordAlignmentRecord.token_id).\
                 filter(TranscriptionTokenRecord.content == token_content).all()
-            
+
             return [{"word_id": w.id, "bbox": w.bbox, "token": t.content, "page_id": w.line.page_id} for w, t in results]
         finally:
             session.close()
@@ -130,10 +130,10 @@ class QueryEngine:
             query = session.query(RegionEdgeRecord, RegionRecord).\
                 join(RegionRecord, RegionEdgeRecord.target_region_id == RegionRecord.id).\
                 filter(RegionEdgeRecord.source_region_id == region_id)
-            
+
             if relation_type:
                 query = query.filter(RegionEdgeRecord.type == relation_type)
-            
+
             results = query.all()
             return [{"region_id": r.id, "type": e.type, "weight": e.weight, "bbox": r.bbox} for e, r in results]
         finally:
@@ -264,7 +264,7 @@ class QueryEngine:
             anchors = session.query(AnchorRecord).\
                 filter(AnchorRecord.relation_type == relation_type).\
                 filter(AnchorRecord.score >= min_score).all()
-            
+
             results = []
             for a in anchors:
                 results.append({

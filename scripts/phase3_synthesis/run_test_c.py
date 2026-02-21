@@ -19,13 +19,13 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
 
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase1_foundation.storage.metadata import (  # noqa: E402
     GlyphAlignmentRecord,
     GlyphCandidateRecord,
     MetadataStore,
@@ -52,16 +52,16 @@ def run_test_c(seed: int = 42, output_dir: str | None = None):
     with active_run(config={"command": "test_c_glyph_sensitivity", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         session = store.Session()
-        
+
         try:
             # 1. Fetch glyph sequence data
             console.print("\n[bold yellow]Step 1: Fetching Glyph Data[/bold yellow]")
-            
+
             # Fetch all glyph alignments
             all_alignments = session.query(GlyphAlignmentRecord.symbol, GlyphCandidateRecord.word_id, GlyphCandidateRecord.glyph_index).\
                 join(GlyphCandidateRecord, GlyphAlignmentRecord.glyph_id == GlyphCandidateRecord.id).\
                 all()
-            
+
             if not all_alignments:
                 console.print("[bold red]Error: No glyph data found. Run Step 3.2.2 first.[/bold red]")
                 return
@@ -70,7 +70,7 @@ def run_test_c(seed: int = 42, output_dir: str | None = None):
             words_glyphs = defaultdict(list)
             for sym, word_id, idx in all_alignments:
                 words_glyphs[word_id].append((idx, sym))
-            
+
             # Sort words and symbols
             word_sequences = []
             for word_id in sorted(words_glyphs.keys()):
@@ -90,7 +90,7 @@ def run_test_c(seed: int = 42, output_dir: str | None = None):
 
             for mode in modes:
                 console.print(f"\n[bold yellow]Mode: {mode}[/bold yellow]")
-                
+
                 # Transform sequences
                 transformed_words = []
                 for seq in word_sequences:
@@ -99,24 +99,24 @@ def run_test_c(seed: int = 42, output_dir: str | None = None):
                     else:
                         word_str = "".join(seq)
                     transformed_words.append(word_str)
-                
+
                 # Calculate Repetition
                 counts = Counter(transformed_words)
                 rep_rate = sum(c for c in counts.values() if c > 1) / len(transformed_words)
-                
+
                 # Calculate Positional Entropy (Simplified Global)
                 # We'll measure the entropy of start-glyphs
                 start_glyphs = [w[0] for w in transformed_words if w]
                 start_counts = Counter(start_glyphs)
                 total_starts = len(start_glyphs)
                 entropy = -sum((c/total_starts) * math.log2(c/total_starts) for c in start_counts.values())
-                
+
                 results[mode] = {
                     "repetition": rep_rate,
                     "entropy": entropy,
                     "vocab_size": len(counts)
                 }
-                
+
                 console.print(f"  Vocabulary Size: {len(counts)}")
                 console.print(f"  Repetition Rate: {rep_rate:.4f}")
                 console.print(f"  Start Glyph Entropy: {entropy:.4f}")
@@ -133,23 +133,23 @@ def run_test_c(seed: int = 42, output_dir: str | None = None):
                 # Stable if repetition remains > 0.70 and entropy < 4.0
                 stable = "[green]YES[/green]" if data["repetition"] > 0.70 else "[red]NO[/red]"
                 table.add_row(
-                    mode, 
-                    str(data["vocab_size"]), 
-                    f"{data['repetition']:.4f}", 
+                    mode,
+                    str(data["vocab_size"]),
+                    f"{data['repetition']:.4f}",
                     f"{data['entropy']:.4f}",
                     stable
                 )
 
             console.print(table)
-            
+
             # Save results
             out = Path(output_dir) if output_dir else Path("core_status/phase3_synthesis")
             out.mkdir(parents=True, exist_ok=True)
             ProvenanceWriter.save_results(results, out / "TEST_C_RESULTS.json")
-                
+
         finally:
             session.close()
-            
+
         store.save_run(run)
 
 if __name__ == "__main__":

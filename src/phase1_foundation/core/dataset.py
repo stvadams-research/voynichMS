@@ -48,7 +48,7 @@ class DatasetManager:
         """
         if not isinstance(path, (str, Path)):
             raise TypeError(f"path must be str or Path, got {type(path)}")
-            
+
         path = Path(path).resolve()
         if not path.exists():
             raise FileNotFoundError(f"Dataset path not found: {path}")
@@ -58,14 +58,14 @@ class DatasetManager:
         self.store.add_dataset(dataset_id=name, path=str(path))
 
         registered_pages = []
-        
+
         # Scan for images
         extensions = {".jpg", ".jpeg", ".png", ".tif", ".tiff"}
         for root, _, files in os.walk(path):
             for file in files:
                 if Path(file).suffix.lower() in extensions:
                     file_path = Path(root) / file
-                    
+
                     folio_id = self.infer_folio_id(file)
                     if not folio_id:
                         logger.warning("Skipping %s: Could not infer FolioID", file)
@@ -73,8 +73,8 @@ class DatasetManager:
 
                     page_id = str(PageID(folio=folio_id))
                     checksum = self.calculate_checksum(file_path)
-                    
-                    # We could get width/height here using Pillow if needed, 
+
+                    # We could get width/height here using Pillow if needed,
                     # but for Level 1 speed we might skip or do it if requested.
                     # Let's do it if Pillow is available, as it's in dependencies.
                     width, height = None, None

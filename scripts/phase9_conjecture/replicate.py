@@ -17,10 +17,10 @@ def run_command(cmd):
 
 def main():
     print("=== Replicating Phase 9: Conjecture & Implications ===")
-    
+
     # Phase 9 is primarily narrative synthesis based on the results of 1-8.
     # We trigger the generation of the final speculative chapter.
-    
+
     # 1. Generate Word Report
     print("\n>> Generating Phase 9 Word Report...")
     run_command("python3 scripts/support_preparation/generate_publication.py --phase 9")

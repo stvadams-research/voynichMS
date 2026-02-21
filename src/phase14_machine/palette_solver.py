@@ -25,9 +25,9 @@ class GlobalPaletteSolver:
         """Initializes an empty adjacency graph."""
         self.G = nx.Graph()
 
-    def ingest_data(self, 
-                    slips: list[dict[str, Any]], 
-                    lines: list[list[str]], 
+    def ingest_data(self,
+                    slips: list[dict[str, Any]],
+                    lines: list[list[str]],
                     top_n: int | None = 8000) -> None:
         """
         Builds the global physical adjacency graph with frequency filtering.
@@ -39,7 +39,7 @@ class GlobalPaletteSolver:
         """
         # Standardize: Always cap at 8,000 to avoid long-tail noise
         target_n = top_n if top_n else 8000
-        
+
         all_tokens = [t for l in lines for t in l]
         counts = Counter(all_tokens)
         keep_tokens = set([w for w, c in counts.most_common(target_n)])
@@ -53,7 +53,7 @@ class GlobalPaletteSolver:
             word_b = s['actual_context'][0]
             if word_a in keep_tokens and word_b in keep_tokens:
                 self.G.add_edge(word_a, word_b, weight=10.0, type='slip')
-            
+
         # 2. Signal from Transitions (Weight = 1.0)
         # Transitions are signals of horizontal/state adjacency
         for line in lines:
@@ -75,30 +75,30 @@ class GlobalPaletteSolver:
         num_nodes = self.G.number_of_nodes()
         if num_nodes == 0:
             return {}
-            
+
         print(f"Solving physical grid for {num_nodes} tokens...")
-        
+
         # We run iterations in batches to provide status heartbeats
         batch_size = 5
         current_pos = None
-        
+
         for i in range(0, iterations, batch_size):
             actual_iter = min(batch_size, iterations - i)
             # Use fixed seed for first batch, then use previous positions for stability
             current_pos = nx.spring_layout(
-                self.G, 
-                weight='weight', 
-                iterations=actual_iter, 
+                self.G,
+                weight='weight',
+                iterations=actual_iter,
                 pos=current_pos,
                 seed=42 if i == 0 else None
             )
             print(f"  [HEARTBEAT] Completed {i + actual_iter}/{iterations} iterations...")
-        
+
         print("Layout optimization complete.")
         return {word: (float(coord[0]), float(coord[1])) for word, coord in current_pos.items()}
 
-    def cluster_lattice(self, 
-                        solved_pos: dict[str, tuple[float, float]], 
+    def cluster_lattice(self,
+                        solved_pos: dict[str, tuple[float, float]],
                         num_windows: int = 50) -> dict[str, Any]:
         """
         Groups words into discrete functional windows based on their 2D coordinates.
@@ -112,24 +112,24 @@ class GlobalPaletteSolver:
         """
         if not solved_pos:
             return {"word_to_window": {}, "window_contents": {}}
-            
+
         from sklearn.cluster import KMeans
         words = list(solved_pos.keys())
         coords = np.array([solved_pos[w] for w in words])
-        
+
         # KMeans finds the most natural 'windows' in the physical space
         print(f"Clustering {len(words)} tokens into {num_windows} physical windows...")
         kmeans = KMeans(n_clusters=num_windows, random_state=42, n_init=10)
         labels = kmeans.fit_predict(coords)
-        
+
         word_to_window = {words[i]: int(labels[i]) for i in range(len(words))}
-        
+
         # Build the 'Window Contents' map
         # window_id -> list of words in that window
         window_contents = defaultdict(list)
         for w, wid in word_to_window.items():
             window_contents[wid].append(w)
-            
+
         return {
             "word_to_window": word_to_window,
             "window_contents": dict(window_contents)

@@ -21,13 +21,16 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root / 'src'))
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
-from rich.tree import Tree
+from rich.console import Console  # noqa: E402
+from rich.panel import Panel  # noqa: E402
+from rich.table import Table  # noqa: E402
+from rich.tree import Tree  # noqa: E402
 
-from phase1_foundation.storage.metadata import ExplanationClassRecord, MetadataStore
-from phase2_analysis.admissibility.manager import AdmissibilityManager, AdmissibilityStatus
+from phase1_foundation.storage.metadata import ExplanationClassRecord, MetadataStore  # noqa: E402
+from phase2_analysis.admissibility.manager import (  # noqa: E402
+    AdmissibilityManager,
+    AdmissibilityStatus,
+)
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
