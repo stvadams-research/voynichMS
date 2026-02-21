@@ -13,10 +13,30 @@ from typing import Any
 class EvaluationEngine:
     """
     Standardizes measurement logic for Voynich structural models.
-    
+
     Attributes:
         vocab: The set of tokens that define the model's lexicon scope (lexicon clamp).
     """
+
+    SUFFIX_PRIORITY = ["dy", "in", "y", "or", "ol", "al", "ar", "r",
+                       "am", "an", "s", "m", "d", "l", "o", "ey"]
+
+    @staticmethod
+    def resolve_oov_window(word: str, suffix_window_map: dict[str, int]) -> int | None:
+        """Predict window for an OOV word via suffix class.
+
+        Args:
+            word: The out-of-vocabulary token.
+            suffix_window_map: Mapping from suffix string to predicted window ID.
+
+        Returns:
+            Predicted window ID, or None if no suffix matches.
+        """
+        for sfx in EvaluationEngine.SUFFIX_PRIORITY:
+            if word.endswith(sfx) and len(word) > len(sfx) and sfx in suffix_window_map:
+                return suffix_window_map[sfx]
+        return None
+
     def __init__(self, vocab: set[str]):
         """
         Initializes the evaluation engine with a fixed vocabulary.
@@ -45,7 +65,8 @@ class EvaluationEngine:
                                lines: list[list[str]],
                                lattice_map: dict[str, int],
                                window_contents: dict[int, list[str]],
-                               fuzzy_suffix: bool = False) -> dict[str, Any]:
+                               fuzzy_suffix: bool = False,
+                               suffix_window_map: dict[str, int] | None = None) -> dict[str, Any]:
         """
         Measures how often real transitions follow the physical lattice constraints.
         Reports both strict (offset=0 only) and drift (±1) admissibility rates,
@@ -57,14 +78,22 @@ class EvaluationEngine:
             window_contents: Mapping from window ID to the list of words in that window.
             fuzzy_suffix: If True, allows admissibility if any word in the target window
                          shares the same suffix as the actual word (simulates scribe bias).
+            suffix_window_map: Optional mapping from suffix → predicted window ID for
+                OOV recovery (Phase 14O). When provided, OOV words are assigned windows
+                via suffix class instead of being skipped.
 
         Returns:
             A dictionary containing strict and drift admissibility rates,
             chance baselines, and total clamped tokens processed.
+            When suffix_window_map is provided, also includes oov_total,
+            oov_recovered, and consolidated_admissibility.
         """
         strict_admissible = 0
         drift_admissible = 0
         total_transitions = 0
+        oov_total = 0
+        oov_recovered = 0
+        oov_admissible = 0
         current_window = 0
 
         num_wins = len(window_contents)
@@ -84,6 +113,23 @@ class EvaluationEngine:
         for line in lines:
             for word in line:
                 if word not in self.vocab:
+                    # OOV recovery via suffix map
+                    if suffix_window_map is not None:
+                        oov_total += 1
+                        predicted_win = self.resolve_oov_window(word, suffix_window_map)
+                        if predicted_win is not None:
+                            oov_recovered += 1
+                            # Check if the predicted window is admissible (±1 drift)
+                            for offset in [-1, 0, 1]:
+                                check_win = (current_window + offset) % num_wins
+                                if check_win == predicted_win:
+                                    oov_admissible += 1
+                                    current_window = predicted_win
+                                    break
+                            else:
+                                # Not admissible — snap to predicted window
+                                current_window = predicted_win
+                        # If no suffix match, skip as before
                     continue
 
                 total_transitions += 1
@@ -132,7 +178,7 @@ class EvaluationEngine:
         n = total_transitions
         strict_rate = strict_admissible / n if n > 0 else 0
         drift_rate = drift_admissible / n if n > 0 else 0
-        return {
+        result = {
             "strict_admissibility": strict_rate,
             "drift_admissibility": drift_rate,
             "admissibility_rate": drift_rate,
@@ -140,6 +186,19 @@ class EvaluationEngine:
             "drift_chance_baseline": drift_chance,
             "total_clamped_tokens": n,
         }
+
+        if suffix_window_map is not None:
+            total_consolidated = n + oov_recovered
+            consolidated_admissible = drift_admissible + oov_admissible
+            result["oov_total"] = oov_total
+            result["oov_recovered"] = oov_recovered
+            result["oov_admissible"] = oov_admissible
+            result["consolidated_admissibility"] = (
+                consolidated_admissible / total_consolidated
+                if total_consolidated > 0 else 0
+            )
+
+        return result
 
     def calculate_markov_residual_entropy(self, tokens: list[str]) -> float:
         """

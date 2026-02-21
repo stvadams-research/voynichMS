@@ -273,6 +273,27 @@ raw float (e.g., 88.11% = 0.8811).
 | 115 | Position gradient range | 11.6pp | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint3_synthesis.reducibility.positional_range_pp` | Pos 1: 36.3% → Pos 10+: 48.0% |
 | 116 | Burst clustering chi² p-value | 0.004 | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint1_positional.burst_analysis.clustering_test.p_value` | Mildly clustered, mean run 1.63 |
 
+## Phase 14M — Frequency-Stratified Lattice Refinement
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 117 | CV mean: frequency-weighted admissibility | 49.9% | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.cross_validation.mean_freq_rate` | 7-fold leave-one-section-out |
+| 118 | CV mean: uniform admissibility | 36.2% | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.cross_validation.mean_uniform_rate` | Fresh build baseline |
+| 119 | CV delta (freq vs uniform) | +13.7pp | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.cross_validation.mean_delta_pp` | All 7 folds positive |
+| 120 | Canonical lattice corrected admissibility | 64.4% | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.sprint1_frequency_lattice.overall.canonical.corrected_rate` | Dominates both fresh builds |
+| 121 | Medium-tier FW-Uni delta | +18.3pp | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.sprint1_frequency_lattice.per_tier.medium` | Largest tier improvement |
+| 122 | OOV suffix recovery rate | 72.2% | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.sprint3_oov_recovery.suffix.recovery_rate` | 1,418/1,964 transitions |
+| 123 | OOV recovery contribution | +4.81pp | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.diminishing_returns.oov_recovery_pp` | Added to consolidated rate |
+| 124 | Integrated OOV recovery rate | 95.2% | `run_14zg_oov_integration.py` | `results/data/phase14_machine/suffix_window_map.json` | `results.corrected_comparison.with_oov.oov_recovered` / `oov_total` | 1,870/1,964 transitions |
+| 125 | Integrated consolidated admissibility (uncorrected) | 45.47% | `run_14zg_oov_integration.py` | `results/data/phase14_machine/suffix_window_map.json` | `results.with_oov_recovery.consolidated_admissibility` | +2.03pp over baseline |
+| 126 | Integrated consolidated admissibility (corrected) | 65.75% | `run_14zg_oov_integration.py` | `results/data/phase14_machine/suffix_window_map.json` | `results.corrected_comparison.with_oov.corrected_admissibility` | +1.37pp over corrected baseline |
+| 127 | Moran's I spatial autocorrelation | 0.915 | `run_14zf_physical_integration.py` | `results/data/phase14_machine/physical_integration.json` | `results.sprint1_offset_topology.morans_i` | p < 0.0001 (10K permutations) |
+| 128 | FFT dominant power fraction (k=1) | 85.4% | `run_14zf_physical_integration.py` | `results/data/phase14_machine/physical_integration.json` | `results.sprint1_offset_topology.fft.dominant_power_fraction` | Single sinusoidal cycle |
+| 129 | Window 18 slip concentration | 92.6% | `run_14zf_physical_integration.py` | `results/data/phase14_machine/physical_integration.json` | `results.sprint2_slip_correlation.per_window_summary` | 187/202 slips in zero-correction anchor |
+| 130 | Slip rate vs correction magnitude | rho=−0.360, p=0.010 | `run_14zf_physical_integration.py` | `results/data/phase14_machine/physical_integration.json` | `results.sprint2_slip_correlation.correlation_magnitude` | Anti-correlation: slips at anchor, not drift |
+| 131 | BIC: volvelle best-fit model | 168.6 | `run_14zf_physical_integration.py` | `results/data/phase14_machine/physical_integration.json` | `results.sprint3_device_inference.models.volvelle.bic` | ΔBIC=2.3 over tabula, 31.9 over grille |
+| 132 | Temporal slip clustering CV | 1.81 | `run_14zf_physical_integration.py` | `results/data/phase14_machine/physical_integration.json` | `results.sprint2_slip_correlation.temporal_clustering.cv` | Clustered in folio batches |
+
 ---
 
 ## Traceability Notes
@@ -303,7 +324,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 114 | #1, #6-70, #62a-e, #71-116 |
+| **Fully verifiable** (JSON key path exists) | 130 | #1, #6-70, #62a-e, #71-132 |
 | **Console-only** (requires script re-run) | 2 | #2, #3 |
 | **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
 | **Static config** (manually synchronized) | 1 | #1 (also in config) |
@@ -316,6 +337,9 @@ Claims #89-97 added for Phase 14I (2026-02-21).
 Claims #98-103 added for Phase 14J (2026-02-21).
 Claims #104-108 added for Phase 14K (2026-02-21).
 Claims #109-116 added for Phase 14L (2026-02-21).
+Claims #117-123 added for Phase 14M (2026-02-21).
+Claims #124-126 added for Phase 14O (2026-02-21).
+Claims #127-132 added for Phase 14N (2026-02-21).
 
 ### Recommended Fixes (future sprint)
 

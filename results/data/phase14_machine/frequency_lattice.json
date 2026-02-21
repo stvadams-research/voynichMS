@@ -1,0 +1,333 @@
+{
+  "provenance": {
+    "run_id": "74746237-a288-f8ab-9fbc-df16007713f0",
+    "git_commit": "efec5733d1f94b9555a2f7cead20a63ac1dd1091",
+    "timestamp": "2026-02-21T21:24:00.568934+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771709040568846000,
+    "command": "run_14ze_frequency_lattice"
+  },
+  "results": {
+    "sprint1_frequency_lattice": {
+      "overall": {
+        "canonical": {
+          "base_rate": 0.4591,
+          "corrected_rate": 0.6437,
+          "total": 27496
+        },
+        "uniform": {
+          "base_rate": 0.2742,
+          "corrected_rate": 0.3996,
+          "total": 27496
+        },
+        "frequency_weighted": {
+          "base_rate": 0.2405,
+          "corrected_rate": 0.4083,
+          "total": 27496
+        }
+      },
+      "per_tier": {
+        "common": {
+          "canonical": {
+            "total": 8754,
+            "adm": 8567,
+            "rate": 0.9786
+          },
+          "uniform": {
+            "total": 8754,
+            "adm": 5692,
+            "rate": 0.6502
+          },
+          "frequency_weighted": {
+            "total": 8754,
+            "adm": 4024,
+            "rate": 0.4597
+          }
+        },
+        "medium": {
+          "canonical": {
+            "total": 9278,
+            "adm": 7122,
+            "rate": 0.7676
+          },
+          "uniform": {
+            "total": 9278,
+            "adm": 3890,
+            "rate": 0.4193
+          },
+          "frequency_weighted": {
+            "total": 9278,
+            "adm": 5588,
+            "rate": 0.6023
+          }
+        },
+        "rare": {
+          "canonical": {
+            "total": 5144,
+            "adm": 1760,
+            "rate": 0.3421
+          },
+          "uniform": {
+            "total": 5144,
+            "adm": 1170,
+            "rate": 0.2274
+          },
+          "frequency_weighted": {
+            "total": 5144,
+            "adm": 1447,
+            "rate": 0.2813
+          }
+        },
+        "hapax": {
+          "canonical": {
+            "total": 4320,
+            "adm": 251,
+            "rate": 0.0581
+          },
+          "uniform": {
+            "total": 4320,
+            "adm": 235,
+            "rate": 0.0544
+          },
+          "frequency_weighted": {
+            "total": 4320,
+            "adm": 168,
+            "rate": 0.0389
+          }
+        }
+      },
+      "displacement": {
+        "overall_changed": 7095,
+        "overall_total": 7717,
+        "overall_pct": 91.9,
+        "by_tier": {
+          "rare": {
+            "total": 1955,
+            "changed": 1776,
+            "pct": 90.8
+          },
+          "hapax": {
+            "total": 5282,
+            "changed": 4863,
+            "pct": 92.1
+          },
+          "medium": {
+            "total": 430,
+            "changed": 411,
+            "pct": 95.6
+          },
+          "common": {
+            "total": 50,
+            "changed": 45,
+            "pct": 90.0
+          }
+        }
+      },
+      "sprint2_gate": {
+        "medium_displaced_pct": 95.6,
+        "threshold": 10.0,
+        "passed": true
+      }
+    },
+    "cross_validation": {
+      "uniform": [
+        {
+          "held_out": "Herbal A",
+          "test_lines": 1413,
+          "total_transitions": 4102,
+          "base_adm": 917,
+          "base_rate": 0.2235,
+          "corrected_adm": 1011,
+          "corrected_rate": 0.2465
+        },
+        {
+          "held_out": "Herbal B",
+          "test_lines": 182,
+          "total_transitions": 555,
+          "base_adm": 115,
+          "base_rate": 0.2072,
+          "corrected_adm": 162,
+          "corrected_rate": 0.2919
+        },
+        {
+          "held_out": "Astro",
+          "test_lines": 734,
+          "total_transitions": 1034,
+          "base_adm": 277,
+          "base_rate": 0.2679,
+          "corrected_adm": 336,
+          "corrected_rate": 0.325
+        },
+        {
+          "held_out": "Biological",
+          "test_lines": 917,
+          "total_transitions": 4070,
+          "base_adm": 1468,
+          "base_rate": 0.3607,
+          "corrected_adm": 2044,
+          "corrected_rate": 0.5022
+        },
+        {
+          "held_out": "Cosmo",
+          "test_lines": 188,
+          "total_transitions": 1057,
+          "base_adm": 432,
+          "base_rate": 0.4087,
+          "corrected_adm": 525,
+          "corrected_rate": 0.4967
+        },
+        {
+          "held_out": "Pharma",
+          "test_lines": 626,
+          "total_transitions": 1728,
+          "base_adm": 504,
+          "base_rate": 0.2917,
+          "corrected_adm": 746,
+          "corrected_rate": 0.4317
+        },
+        {
+          "held_out": "Stars",
+          "test_lines": 1085,
+          "total_transitions": 5742,
+          "base_adm": 998,
+          "base_rate": 0.1738,
+          "corrected_adm": 1396,
+          "corrected_rate": 0.2431
+        }
+      ],
+      "frequency_weighted": [
+        {
+          "held_out": "Herbal A",
+          "test_lines": 1413,
+          "total_transitions": 4102,
+          "base_adm": 1339,
+          "base_rate": 0.3264,
+          "corrected_adm": 2100,
+          "corrected_rate": 0.5119
+        },
+        {
+          "held_out": "Herbal B",
+          "test_lines": 182,
+          "total_transitions": 555,
+          "base_adm": 133,
+          "base_rate": 0.2396,
+          "corrected_adm": 203,
+          "corrected_rate": 0.3658
+        },
+        {
+          "held_out": "Astro",
+          "test_lines": 734,
+          "total_transitions": 1034,
+          "base_adm": 260,
+          "base_rate": 0.2515,
+          "corrected_adm": 378,
+          "corrected_rate": 0.3656
+        },
+        {
+          "held_out": "Biological",
+          "test_lines": 917,
+          "total_transitions": 4070,
+          "base_adm": 1680,
+          "base_rate": 0.4128,
+          "corrected_adm": 2418,
+          "corrected_rate": 0.5941
+        },
+        {
+          "held_out": "Cosmo",
+          "test_lines": 188,
+          "total_transitions": 1057,
+          "base_adm": 395,
+          "base_rate": 0.3737,
+          "corrected_adm": 574,
+          "corrected_rate": 0.543
+        },
+        {
+          "held_out": "Pharma",
+          "test_lines": 626,
+          "total_transitions": 1728,
+          "base_adm": 527,
+          "base_rate": 0.305,
+          "corrected_adm": 800,
+          "corrected_rate": 0.463
+        },
+        {
+          "held_out": "Stars",
+          "test_lines": 1085,
+          "total_transitions": 5742,
+          "base_adm": 2568,
+          "base_rate": 0.4472,
+          "corrected_adm": 3732,
+          "corrected_rate": 0.6499
+        }
+      ],
+      "mean_uniform_rate": 0.3624,
+      "mean_freq_rate": 0.499,
+      "mean_delta_pp": 13.66
+    },
+    "sprint2_tier_corrections": {
+      "hapax": {
+        "total": 4320,
+        "adm": 583,
+        "rate": 0.135,
+        "num_corrections": 50
+      },
+      "rare": {
+        "total": 5144,
+        "adm": 1491,
+        "rate": 0.2899,
+        "num_corrections": 50
+      },
+      "medium": {
+        "total": 9278,
+        "adm": 5598,
+        "rate": 0.6034,
+        "num_corrections": 50
+      },
+      "common": {
+        "total": 8754,
+        "adm": 4024,
+        "rate": 0.4597,
+        "num_corrections": 49
+      }
+    },
+    "sprint2_weighted_mode": {
+      "weighted_adm": 11073,
+      "weighted_rate": 40.27,
+      "plain_rate": 40.83,
+      "delta_pp": -0.56,
+      "differing_windows": 14,
+      "total_windows": 50
+    },
+    "sprint3_oov_recovery": {
+      "suffix": {
+        "oov_total": 1964,
+        "recovered": 1418,
+        "recovery_rate": 0.722
+      },
+      "nearest_neighbor": {
+        "oov_total": 1964,
+        "recovered": 608,
+        "recovery_rate": 0.3096
+      },
+      "best_method": "suffix"
+    },
+    "sprint3_consolidated": {
+      "best_lattice": "frequency-weighted",
+      "best_corrections": "global_mode",
+      "in_palette_rate": 40.83,
+      "in_palette_adm": 11227,
+      "in_palette_total": 27496,
+      "oov_method": "suffix",
+      "oov_recovered": 1418,
+      "consolidated_rate": 42.92,
+      "consolidated_adm": 12645,
+      "consolidated_total": 29460
+    },
+    "diminishing_returns": {
+      "if_all_medium_fixed_rate": 54.25,
+      "actual_delta_pp": -23.54,
+      "oov_recovery_pp": 4.81
+    }
+  }
+}

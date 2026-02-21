@@ -7,6 +7,8 @@ A full-scale mechanical emulator using a Lattice-Modulated Window system.
 import random
 from typing import Any
 
+from phase14_machine.evaluation_engine import EvaluationEngine
+
 
 class HighFidelityVolvelle:
     """
@@ -24,7 +26,8 @@ class HighFidelityVolvelle:
                  window_contents: dict[int, list[str]],
                  seed: int | None = None,
                  log_choices: bool = False,
-                 offset_corrections: dict[int, int] | None = None) -> None:
+                 offset_corrections: dict[int, int] | None = None,
+                 suffix_window_map: dict[str, int] | None = None) -> None:
         """
         Initializes the emulator with a solved lattice and window set.
 
@@ -37,6 +40,9 @@ class HighFidelityVolvelle:
                 from Phase 14I. Maps window_id → signed offset. When provided,
                 the emulator shifts the next-window lookup by the correction
                 after each token generation, modeling systematic per-window drift.
+            suffix_window_map: Optional suffix → window mapping for OOV recovery
+                (Phase 14O). When provided, OOV words use suffix-predicted windows
+                instead of linear +1 fallback.
         """
         self.rng = random.Random(seed)
         self.lattice_map = lattice_map
@@ -47,6 +53,7 @@ class HighFidelityVolvelle:
         self.log_choices = log_choices
         self.choice_log: list[dict[str, Any]] = []
         self.offset_corrections = offset_corrections or {}
+        self.suffix_window_map = suffix_window_map
 
         # Scribe Agent Profiles (Based on Phase 7/14 calibration)
         self.scribe_profiles = {
@@ -140,7 +147,11 @@ class HighFidelityVolvelle:
         for p in range(length):
             word = self.generate_token(current_window, prev_word=prev_word, pos=p)
             line.append(word)
-            next_window = self.lattice_map.get(word, (current_window + 1) % self.num_windows)
+            next_window = self.lattice_map.get(word)
+            if next_window is None and self.suffix_window_map:
+                next_window = EvaluationEngine.resolve_oov_window(word, self.suffix_window_map)
+            if next_window is None:
+                next_window = (current_window + 1) % self.num_windows
             # Apply per-window offset correction (Phase 14I drift model)
             if self.offset_corrections:
                 correction = self.offset_corrections.get(next_window, 0)
@@ -186,7 +197,27 @@ class HighFidelityVolvelle:
             for p_idx, word in enumerate(line):
                 # 1. Check if word is known
                 if word not in self.lattice_map:
-                    # Snapping logic
+                    # OOV recovery via suffix map
+                    if self.suffix_window_map:
+                        predicted_win = EvaluationEngine.resolve_oov_window(
+                            word, self.suffix_window_map
+                        )
+                        if predicted_win is not None:
+                            if self.log_choices:
+                                self.choice_log.append({
+                                    "type": "real_trace",
+                                    "line_no": l_idx,
+                                    "token_pos": p_idx,
+                                    "window_id": predicted_win,
+                                    "candidates_count": 0,
+                                    "chosen_word": word,
+                                    "chosen_index": -1,
+                                    "prev_word": prev_word,
+                                    "oov_recovered": True,
+                                })
+                            current_window = predicted_win
+                            prev_word = word
+                            continue
                     continue
 
                 # 2. Check Admissibility
@@ -209,9 +240,16 @@ class HighFidelityVolvelle:
                         "candidates_count": len(self.window_contents[found_win]),
                         "chosen_word": word,
                         "chosen_index": chosen_orig_idx,
-                        "prev_word": prev_word
+                        "prev_word": prev_word,
                     })
 
                 # Advance machine to next predicted window
-                current_window = self.lattice_map.get(word, (current_window + 1) % self.num_windows)
+                next_window = self.lattice_map.get(word)
+                if next_window is None and self.suffix_window_map:
+                    next_window = EvaluationEngine.resolve_oov_window(
+                        word, self.suffix_window_map
+                    )
+                if next_window is None:
+                    next_window = (current_window + 1) % self.num_windows
+                current_window = next_window
                 prev_word = word

@@ -538,3 +538,224 @@ Windows with larger offset corrections have higher failure rates. This confirms 
 3. **Diminishing returns warning**: The dominant failure mode (rare word placement) is not fixable by adding more lattice parameters — it requires more data, not a richer model.
 
 **Artifact:** `results/data/phase14_machine/residual_characterization.json`
+
+## 26. Frequency-Stratified Lattice Refinement (Phase 14M)
+
+Phase 14L diagnosed the residual as frequency-driven. This section tests whether frequency-aware modeling can close the gap.
+
+### Frequency-Weighted Palette Solver
+
+The canonical `GlobalPaletteSolver` uses uniform edge weights (1.0 per transition). The frequency-weighted variant uses `log₂(1 + bigram_count)`, emphasizing common bigrams in the force-directed layout.
+
+**Overall corrected admissibility (full corpus, not cross-validated):**
+
+| Variant | Base % | Corrected % |
+|:---|---:|---:|
+| Canonical (iteratively refined) | 45.9% | **64.4%** |
+| Uniform (fresh build) | 27.4% | 40.0% |
+| Frequency-weighted (fresh build) | 24.1% | 40.8% |
+
+The canonical lattice dominates both fresh builds by ~24pp. Its advantage comes from multi-phase iterative optimization (Phases 14A–14I), not edge weighting.
+
+### Cross-Validated Comparison (Fair Test)
+
+When comparing fresh builds under 7-fold leave-one-section-out CV:
+
+| Section (held out) | Uniform % | Freq-Wt % | Delta |
+|:---|---:|---:|---:|
+| Herbal A | 24.6 | 51.2 | +26.5pp |
+| Herbal B | 29.2 | 36.6 | +7.4pp |
+| Astro | 32.5 | 36.6 | +4.1pp |
+| Biological | 50.2 | 59.4 | +9.2pp |
+| Cosmo | 49.7 | 54.3 | +4.6pp |
+| Pharma | 43.2 | 46.3 | +3.1pp |
+| Stars | 24.3 | 65.0 | +40.7pp |
+| **Mean** | **36.2** | **49.9** | **+13.7pp** |
+
+Frequency weighting is significantly better for fresh builds (+13.7pp mean, all 7 folds positive).
+
+### Per-Tier Analysis
+
+| Tier | Canonical | Uniform | Freq-Wt | FW-Uni Delta |
+|:---|---:|---:|---:|---:|
+| Common (>100) | **97.9%** | 65.0% | 46.0% | -19.1pp |
+| Medium (10-100) | **76.8%** | 41.9% | 60.2% | **+18.3pp** |
+| Rare (<10) | **34.2%** | 22.7% | 28.1% | +5.4pp |
+| Hapax (=1) | 5.8% | 5.4% | 3.9% | -1.6pp |
+
+Frequency weighting trades common-word performance for massive medium-tier gains. The canonical lattice dominates all tiers, confirming it already captures frequency information implicitly.
+
+### Tier-Specific Corrections
+
+Tier-specific offset corrections (learning separate corrections per frequency tier) produce negligible improvement: +0.1pp for medium, +0.9pp for rare. Weighted mode estimation is slightly worse (-0.6pp) than plain mode. **Conclusion:** offset correction learning is already frequency-optimal.
+
+### OOV Recovery
+
+| Method | Recovered | Total OOV | Rate |
+|:---|---:|---:|---:|
+| Suffix-based window prediction | 1,418 | 1,964 | **72.2%** |
+| Nearest-neighbor (edit dist ≤ 2) | 608 | 1,964 | 31.0% |
+
+Suffix-based recovery adds **+4.81pp** to the consolidated admissibility rate. This is the one actionable finding: OOV tokens can be partially recovered by inheriting window assignments from suffix-matched in-palette words.
+
+### Conclusions
+
+1. **Frequency weighting is powerful for cold-start builds** (+13.7pp CV) but cannot match the iteratively refined canonical lattice.
+2. **The canonical lattice already implicitly captures frequency** through its optimization history — explicit frequency weighting doesn't improve it.
+3. **Tier-specific corrections are not productive** — the global mode is already frequency-optimal.
+4. **OOV suffix recovery is genuinely useful** (72.2% recovery, +4.81pp) and could be integrated into the production pipeline.
+5. **Diminishing returns confirmed:** further lattice refinement cannot overcome the sparse-data limit for rare/hapax words.
+
+**Artifact:** `results/data/phase14_machine/frequency_lattice.json`
+
+---
+
+## Section 27: OOV Suffix Recovery Production Integration (Phase 14O)
+
+**Date:** 2026-02-21
+**Script:** `scripts/phase14_machine/run_14zg_oov_integration.py`
+**Artifact:** `results/data/phase14_machine/suffix_window_map.json`
+
+### Motivation
+
+Phase 14M identified suffix-based OOV recovery as the one actionable finding (+4.81pp standalone, 72.2% recovery). This section documents the production integration of that finding into `EvaluationEngine` and `HighFidelityVolvelle`.
+
+### Suffix → Window Map
+
+15 suffixes mapped (of 16 candidates; "ey" below minimum observation threshold):
+
+| Suffix | Window | Suffix | Window | Suffix | Window |
+|:---|---:|:---|---:|:---|---:|
+| dy | 18 | in | 18 | y | 18 |
+| or | 18 | ol | 18 | al | 18 |
+| ar | 18 | r | 18 | am | 18 |
+| an | 22 | s | 18 | m | 20 |
+| d | 17 | l | 18 | o | 18 |
+
+The concentration on window 18 reflects the spectral reordering's placement of high-frequency suffixes.
+
+### Integration Results
+
+**EvaluationEngine admissibility (uncorrected):**
+
+| Configuration | Drift Admissibility | Delta |
+|:---|---:|---:|
+| Baseline (no OOV) | 43.44% | — |
+| Consolidated (with OOV) | 45.47% | +2.03pp |
+
+**Corrected admissibility (with offset corrections):**
+
+| Configuration | Corrected Admissibility | Delta |
+|:---|---:|---:|
+| Without OOV recovery | 64.37% | — |
+| With OOV recovery | 65.75% | +1.37pp |
+
+**OOV recovery rates:**
+- 95.2% of OOV transitions resolved (1,870/1,964)
+- 1,202 OOV transitions admissible under EvaluationEngine window tracking
+
+### Standalone vs Integrated Measurement Gap
+
+The standalone Phase 14M measurement reported +4.81pp. The integrated measurement shows +1.37pp (corrected) / +2.03pp (uncorrected). This gap arises because:
+- Phase 14M scored bigram transitions independently (no state tracking)
+- `EvaluationEngine.calculate_admissibility()` tracks `current_window` across lines
+- Window state errors compound: recovering an OOV word helps that transition but doesn't fix prior state divergence
+
+### Emulator Integration
+
+`HighFidelityVolvelle` now accepts `suffix_window_map` parameter:
+- `generate_line()`: OOV words use suffix-predicted window instead of linear +1 fallback
+- `trace_lines()`: OOV words are traced with `oov_recovered: True` flag
+- Entropy is identical (10.74 bits/token) since the emulator generates only in-palette words
+
+### Backward Compatibility
+
+All changes are backward-compatible:
+- `suffix_window_map=None` (default) preserves exact original behavior
+- Existing return dict keys unchanged; new keys only added when suffix map is provided
+- All 8 unit tests pass (3 original + 5 new OOV tests)
+
+---
+
+## Section 28: Physical Integration Analysis (Phase 14N)
+
+**Date:** 2026-02-21
+**Script:** `scripts/phase14_machine/run_14zf_physical_integration.py`
+**Artifact:** `results/data/phase14_machine/physical_integration.json`
+
+### Motivation
+
+Three independent physical signals — offset corrections (Phase 14I), mechanical slips (Phase 12), and geometric layout (Phase 16) — had never been jointly analyzed. This section tests whether they are mutually consistent with a single physical device.
+
+### Sprint 1: Offset Correction Topology
+
+**Spatial autocorrelation (Moran's I):**
+- I = 0.915, p < 0.0001 (10K permutations)
+- Corrections are strongly spatially autocorrelated: nearby windows have highly similar drift values. This is not random per-window calibration.
+
+**FFT periodicity:**
+- Dominant k=1 (period = 50 windows), capturing 85.4% of total power
+- A single sinusoidal cycle explains the vast majority of variance — the signature of a circular rotating device
+
+**Phase structure:**
+- 9 contiguous sign zones, 7 zero-correction anchors at windows [0, 18, 44, 45, 47, 48, 49]
+- Primary anchor: window 18 (highest-frequency vocabulary cluster)
+- Dominant positive zone: windows 1-14 (length 14)
+- Dominant negative zone: windows 19-43 (length 25)
+
+**Magnitude profile:**
+- Peaked at deciles 6-7 (windows 30-39, mean |correction| = 14-17)
+- Minimal at edges (deciles 0, 9)
+- Shape: peaked_center — consistent with cumulative drift from an anchor point, maximal at the farthest rotation distance
+
+### Sprint 2: Slip-Offset Correlation
+
+**Window concentration:**
+- 187/202 slips (92.6%) concentrate in window 18 — the zero-correction anchor window
+- Remaining slips in adjacent windows 17 (11), 19 (2), 20 (2)
+
+**Slip rate vs |correction|:**
+- Spearman rho = −0.360, p = 0.010
+- Slips are *anti-correlated* with correction magnitude: the anchor (zero-correction) windows are most slip-prone, not the high-drift windows
+- Physical interpretation: slips occur at the scribe's starting/reset point, not at positions of maximum mechanical drift
+
+**Correction sign effect:**
+- Mann-Whitney U = 214.5, p = 0.955 (null result)
+- Drift direction (positive vs negative) does not affect slip rate
+
+**Position clustering:**
+- Slips at line positions 1-2 overwhelmingly occur in zero-correction windows (45/47 at pos 1, 43/43 at pos 2)
+- The scribe is most error-prone at session start, at the anchor position
+
+**Temporal clustering:**
+- CV = 1.81 (strongly clustered, >1.2 threshold)
+- Slips cluster in consecutive folios, suggesting device wear or misalignment episodes
+- Top folios: f83r (8 slips), f81v (7), f84v (7) — all in the Biological section
+
+### Sprint 3: Device Geometry Inference
+
+Three candidate device models were fit to the observed correction profile:
+
+| Model | Geometry | Parameters | RSS | BIC |
+|:---|:---|---:|---:|---:|
+| **Volvelle** | Rotating disc | 2 (amplitude, phase) | 1,245 | **168.6** |
+| Tabula | 10×5 grid | 15 (10 row + 5 col effects) | 472 | 170.9 |
+| Grille | Linear strip | 2 (slope, intercept) | 2,359 | 200.5 |
+
+**BIC ranking:** Volvelle wins by ΔBIC = 2.3 over tabula, 31.9 over grille. The sinusoidal model (2 parameters) fits almost as well as the 15-parameter grid — parsimony strongly favors the rotating disc interpretation.
+
+### Physical Profile (Synthesis)
+
+The three independent signals triangulate to a consistent physical device:
+
+1. **Device type:** Circular rotating disc (volvelle) — supported by single-cycle FFT dominance (85.4%), BIC selection, and strong spatial autocorrelation (I=0.915)
+2. **Anchor point:** Window 18 — zero correction, highest vocabulary frequency, concentrates 92.6% of slips
+3. **Drift mechanism:** Cumulative rotational drift, maximal at windows 30-39 (farthest from anchor), minimal near anchor
+4. **Slip mechanism:** Slips occur at the anchor/reset point during session initialization, not at high-drift positions — the scribe's errors are operational (starting), not mechanical (drifting)
+5. **Wear pattern:** Temporal clustering (CV=1.81) in folio batches, concentrated in the Biological section, suggesting episodic device misalignment
+
+### What This Does Not Prove
+
+- **Physical existence:** The analysis identifies signals consistent with a volvelle but cannot prove one existed. The same signals could arise from a mental procedure that mimics circular traversal.
+- **Uniqueness:** The volvelle wins BIC by only 2.3 over tabula — not a decisive margin. The data are consistent with either geometry.
+- **Causality:** The anti-correlation of slips with drift magnitude is suggestive but could have alternative explanations (e.g., window 18's size makes it mechanically different).

@@ -1,0 +1,72 @@
+{
+  "provenance": {
+    "run_id": "da3ecae5-0b82-b212-fbab-1fb785b5aa41",
+    "git_commit": "efec5733d1f94b9555a2f7cead20a63ac1dd1091",
+    "timestamp": "2026-02-21T21:44:34.857956+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771710274857674000,
+    "command": "run_14zg_oov_integration"
+  },
+  "results": {
+    "suffix_window_map": {
+      "ol": 18,
+      "dy": 18,
+      "y": 18,
+      "d": 17,
+      "r": 18,
+      "o": 18,
+      "in": 18,
+      "ar": 18,
+      "al": 18,
+      "l": 18,
+      "or": 18,
+      "s": 18,
+      "m": 20,
+      "am": 18,
+      "an": 22
+    },
+    "num_suffixes_mapped": 15,
+    "baseline": {
+      "drift_admissibility": 0.4343723365396323,
+      "total_clamped_tokens": 32852
+    },
+    "with_oov_recovery": {
+      "drift_admissibility": 0.4407950809691952,
+      "oov_total": 1753,
+      "oov_recovered": 1642,
+      "oov_admissible": 1202,
+      "consolidated_admissibility": 0.4546587812373166
+    },
+    "corrected_comparison": {
+      "without_oov": {
+        "corrected_admissibility": 0.6437299970904858,
+        "total": 27496
+      },
+      "with_oov": {
+        "corrected_admissibility": 0.6574610093305183,
+        "total": 29366,
+        "oov_recovered": 1870,
+        "oov_total": 1964,
+        "oov_admissible": 1607
+      },
+      "delta_pp": 1.37
+    },
+    "emulator": {
+      "entropy_base": 10.7354,
+      "entropy_with_suffix": 10.7354,
+      "entropy_ratio": 1.0
+    },
+    "trace": {
+      "lines_traced": 100,
+      "total_entries": 307,
+      "oov_recovered_entries": 19
+    },
+    "gates": {
+      "regression_pass": true,
+      "improvement_pass": false,
+      "emulator_pass": true,
+      "all_pass": false
+    }
+  }
+}

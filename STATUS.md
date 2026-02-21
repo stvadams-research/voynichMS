@@ -1,4 +1,4 @@
-# Where We Stand — Updated Claim Statement (2026-02-21 night)
+# Where We Stand — Project Status
 
 ## 1. The text is constructively generable — with context-dependent drift confirmed
 
@@ -92,16 +92,18 @@ What you cannot say:
 - Absolute absence of meaning — 7.53 bits/word is enough for a sparse code
 - That the remaining ~38% unexplained transitions don't carry information
 
-## 6. A physical machine is not required — unchanged
+## 6. A physical machine is not required — but a volvelle is the best-fit candidate
 
-The "lattice" is an abstract constraint system. It could be implemented as:
-- Overlays or rotating tables
-- A sliding grille or tabula recta
-- Rule tables (paper-based lookup)
-- Purely cognitive procedural discipline
-- Any combination
+The "lattice" is an abstract constraint system. It could be implemented as overlays, rotating tables, sliding grilles, rule tables, or purely cognitive procedural discipline.
 
-The physical grounding analysis found **81.50% grid layout efficiency** (transitions favor adjacent windows) but **null ergonomic correlation** (rho = -0.0003, p = 0.99). The layout is geometrically optimized for sequential access, but scribes did not select easier tokens preferentially. This is consistent with a physical tool but does not require one.
+Three independent physical signals — offset correction topology, mechanical slips, and geometric layout — triangulate to a **circular rotating device (volvelle)**:
+
+- **Spatial structure:** Offset corrections are strongly autocorrelated (Moran's I = 0.915, p < 0.0001). A single sinusoidal cycle captures 85.4% of variance — the signature of a circular rotation, not a grid or strip.
+- **Anchor point:** 92.6% of mechanical slips concentrate in window 18 (the zero-correction anchor), anti-correlated with drift magnitude (rho = −0.36, p = 0.01). Slips occur at the reset point, not at high-drift positions — consistent with a session-start alignment operation.
+- **Model selection:** Volvelle (2 parameters) wins BIC over tabula (15 parameters) and grille (2 parameters). The margin over tabula is modest (ΔBIC = 2.3), but parsimony strongly favors the simpler model.
+- **Layout efficiency:** 81.5% grid efficiency with null ergonomic correlation (rho ≈ 0). The layout is optimized for sequential access, but scribes did not select easier tokens preferentially.
+
+The volvelle is the best-supported candidate, but the analysis cannot prove physical existence. The margin over a rectangular tabula is narrow enough that a grid-based device remains plausible.
 
 ## 7. Multiple scribes do not break the model — strengthened
 
@@ -133,36 +135,39 @@ Three new lines of evidence:
 - **Absolute absence of meaning:** 7.53 bits/word is enough for sparse encoding. The model bounds capacity but cannot prove emptiness.
 - **Whether the residual matters:** ~38% of transitions are unexplained under the best model. If the residual is structured, it could contain information the model doesn't capture.
 
-## 10. Where you stand
+## 10. Where the project stands
 
-You are past descriptive statistics and firmly in constructive modeling territory. Phase 14I substantially advanced the model and closed all open questions.
+The project has moved through four distinct stages: descriptive statistics, structural identification, constructive modeling, and now mechanical reconstruction. All six analytical questions that were open at the start of Phase 14 are closed. The core model is stable and cross-validated.
 
-**Phase 14L result (2026-02-21) — Residual Characterization:**
-- The ~40% residual is **dominated by vocabulary frequency**: common words fail at 6.9%, rare at 84.5%, hapax at 97.8%. Low-frequency words account for 67.3% of all failures.
-- Section range is 17.0pp (Biological 32.4% → Astro 49.4%). Position gradient is gentle (11.6pp). Correction magnitude correlates with failure rate (rho=0.43, p=0.002).
-- **Diagnosis:** The residual is a sparse-data artifact, not a missing constraint family. The lattice works extremely well for frequent vocabulary (>93% success). Further improvement requires vocabulary expansion or frequency-aware modeling, not new constraint types.
+### Key learnings
 
-**Phase 14K result (2026-02-21) — Emulator Calibration:**
-- Integrated per-window offset corrections into `HighFidelityVolvelle`. Corrected emulator produces text with **47.6% admissibility** (vs real 45.9%), up from 4.7% uncorrected — a 10× improvement in structural fidelity.
-- KL divergence from real reduced by 0.65 bits (1.83 → 1.18). Entropy mirror fit slightly worse (89.8% vs 90.4%) — corrections improve structure, not distribution.
-- Canonical offsets saved for downstream use.
+1. **The text is the output of a constrained sequential process.** A 50-window lattice with per-window drift correction explains ~65% of token transitions under cross-validation (z = 66.8σ). The remaining ~35% is diagnosed: 67% of failures come from rare/hapax words (a sparse-data limit, not a missing mechanism). Common words succeed at >93%.
 
-**Phase 14J result (2026-02-21) — Second-Order Context: NEGATIVE**
-- Second-order conditioning P(offset | prev_window, curr_window) captures only 0.25 bits beyond first-order curr_window conditioning (1.40 vs 1.15 bits info gain).
-- Theoretical ceiling: +0.50pp over first-order (64.01% vs 63.51%). Below the 2pp gate threshold.
-- **Conclusion:** The lattice transition structure is essentially first-order Markov at the window level. The operator's current position determines the next transition; history adds negligible predictive value. Cross-validation was skipped (gated out).
+2. **The process is first-order Markov at the window level.** Second-order context adds only +0.50pp (below the 2pp significance gate). The operator's current position determines the next transition; history adds negligible value.
 
-**Phase 14I accomplishments (2026-02-21):**
-- **Per-window offset correction: +16.17pp cross-validated** (Sprint 2): A 50-parameter correction (one mode offset per window) improves admissibility from ~46% to ~62% under 7-fold holdout. Mean z=66.8σ, negative overfitting gap. This is the strongest single improvement since spectral reordering and proves the lattice has systematic per-window drift.
-- **Info gain decomposition** (Sprint 1): The 1.31 bits of bigram info gain decomposes as 1.27 bits from window identity + 1.03 bits from word identity beyond window. The practical model uses only window-level correction (50 params) since word-level is limited by sparse data.
-- **All open questions closed** (Sprint 3): Overgeneration bounded through 5-grams (~20× at all orders). Branching factor formalized (9.57 effective bits/position). MDL gap reversed — lattice wins by 2.12 BPT under corrected encoding.
+3. **The lattice is transcription-independent and section-invariant.** The structure transfers across 3 independent EVA transcriptions (z > 86), generalizes across all 7 manuscript sections (7/7 holdout splits significant), and is shared by both scribal hands.
 
-**Phase 14H accomplishments (2026-02-21):**
-- Failure taxonomy fully diagnosed, holdout validation 7/7 robust, MDL optimality quantified.
+4. **Physical signals point to a circular rotating device.** Offset correction topology (Moran's I = 0.915), FFT periodicity (k=1, 85.4% power), slip concentration at the zero-drift anchor (window 18, 92.6%), and BIC model selection all converge on a volvelle. The margin over a rectangular tabula is narrow (ΔBIC = 2.3).
 
-**What has NOT changed:**
-- ~40% of token transitions remain unexplained under the corrected model — but this is now **fully diagnosed** as a frequency effect (Phase 14L).
-- The offset correction is a mechanical improvement (systematic drift), not a semantic discovery.
-- The overgeneration rate (~20×) means the model is still a wide gate sequentially.
+5. **The model is compression-efficient.** Under corrected encoding, the lattice wins MDL by 2.12 bits per token over the corpus rate baseline. It is both structurally explanatory and information-theoretically justified.
 
-**The honest framing:** You have a layered constraint system that captures statistically significant, cross-transcription-independent, section-invariant sequential structure in the Voynich Manuscript. With per-window offset correction, it explains roughly two-thirds of token transitions under cross-validation. The remaining third is now diagnosed: it is dominated by rare/hapax vocabulary (67.3% of failures) — a fundamental sparse-data limit, not a missing mechanism. All six previously-open analytical questions are closed. The model is both structurally explanatory and compression-efficient (wins MDL under corrected encoding). The foundation and residual diagnosis are complete; the next frontier is vocabulary expansion, frequency-aware modeling, or physical archaeology of the production mechanism.
+6. **Diminishing returns have arrived for lattice refinement.** Frequency-stratified weighting, tier-specific corrections, and suffix-based OOV recovery all improve fresh builds but cannot match the canonical lattice's multi-phase optimization advantage. The productive frontier lies outside lattice tuning.
+
+### Concerns
+
+- **The ~35% residual is real.** It is diagnosed (sparse-data frequency effect) but not solved. Any claim of "full reconstruction" must acknowledge that one-third of sequential transitions are unexplained.
+- **Overgeneration remains ~20× at all n-gram orders.** The model is a wide gate — it admits far more sequences than the manuscript contains. The constraint system is necessary but not sufficient to specify the text.
+- **The volvelle hypothesis is suggestive, not proven.** The margin over a tabula is modest, and statistical model selection cannot establish physical existence.
+- **Author intent is outside the model's scope.** The constraint system is equally consistent with hoax, cipher, intellectual exercise, or sincere production ritual. Nothing in the analysis distinguishes these.
+- **7.53 bits/word of choice freedom** bounds but does not eliminate semantic content. A sparse code or low-bandwidth cipher could fit within the lattice constraints.
+
+### Opportunities
+
+- **Physical archaeology.** The volvelle hypothesis generates testable predictions about device dimensions, anchor placement, and wear patterns that could guide historical investigation.
+- **Frequency-aware modeling.** The residual is dominated by rare words. A model that treats frequency tiers differently (or expands vocabulary coverage) could close a meaningful portion of the gap.
+- **Steganographic analysis.** The 7.53 bits/word of within-lattice freedom is sufficient for a sparse encoding. Structured analysis of the "choice bits" could test whether they carry information beyond structural noise.
+- **Cross-manuscript comparison.** The lattice methodology could be applied to other suspected constructed texts (e.g., Codex Seraphinianus) to test whether the structural signature generalizes.
+
+### Detailed execution logs
+
+Phase-by-phase results, acceptance gates, and sprint-level progress are recorded in the execution plans under [planning/phase14_machine/](planning/phase14_machine/). The canonical evaluation report is at [CANONICAL_EVALUATION.md](results/reports/phase14_machine/CANONICAL_EVALUATION.md). The full claim-artifact mapping (130 verifiable claims) is at [claim_artifact_map.md](governance/claim_artifact_map.md).
