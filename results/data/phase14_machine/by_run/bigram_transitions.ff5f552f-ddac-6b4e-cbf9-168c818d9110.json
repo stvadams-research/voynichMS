@@ -1,0 +1,619 @@
+{
+  "provenance": {
+    "run_id": "ff5f552f-ddac-6b4e-cbf9-168c818d9110",
+    "git_commit": "30ae35a42f4fd40c11edc67b7133a80922b9d2eb",
+    "timestamp": "2026-02-21T20:06:28.134755+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771704388133419000,
+    "command": "run_14z7_bigram_transitions"
+  },
+  "results": {
+    "offset_distribution": {
+      "total_transitions": 27496,
+      "unique_offsets": 50,
+      "admissible_count": 12624,
+      "admissible_rate": 0.4591,
+      "distribution": [
+        {
+          "offset": 0,
+          "count": 8593,
+          "rate": 0.3125
+        },
+        {
+          "offset": -1,
+          "count": 1993,
+          "rate": 0.0725
+        },
+        {
+          "offset": 1,
+          "count": 2038,
+          "rate": 0.0741
+        },
+        {
+          "offset": -2,
+          "count": 1449,
+          "rate": 0.0527
+        },
+        {
+          "offset": 2,
+          "count": 1467,
+          "rate": 0.0534
+        },
+        {
+          "offset": 3,
+          "count": 546,
+          "rate": 0.0199
+        },
+        {
+          "offset": -3,
+          "count": 495,
+          "rate": 0.018
+        },
+        {
+          "offset": -4,
+          "count": 1044,
+          "rate": 0.038
+        },
+        {
+          "offset": 4,
+          "count": 1068,
+          "rate": 0.0388
+        },
+        {
+          "offset": -5,
+          "count": 592,
+          "rate": 0.0215
+        },
+        {
+          "offset": 5,
+          "count": 542,
+          "rate": 0.0197
+        },
+        {
+          "offset": -6,
+          "count": 445,
+          "rate": 0.0162
+        },
+        {
+          "offset": 6,
+          "count": 445,
+          "rate": 0.0162
+        },
+        {
+          "offset": -7,
+          "count": 913,
+          "rate": 0.0332
+        },
+        {
+          "offset": 7,
+          "count": 864,
+          "rate": 0.0314
+        },
+        {
+          "offset": -8,
+          "count": 409,
+          "rate": 0.0149
+        },
+        {
+          "offset": 8,
+          "count": 405,
+          "rate": 0.0147
+        },
+        {
+          "offset": 9,
+          "count": 480,
+          "rate": 0.0175
+        },
+        {
+          "offset": -9,
+          "count": 491,
+          "rate": 0.0179
+        },
+        {
+          "offset": -10,
+          "count": 404,
+          "rate": 0.0147
+        },
+        {
+          "offset": 10,
+          "count": 343,
+          "rate": 0.0125
+        },
+        {
+          "offset": 11,
+          "count": 337,
+          "rate": 0.0123
+        },
+        {
+          "offset": -11,
+          "count": 280,
+          "rate": 0.0102
+        },
+        {
+          "offset": -12,
+          "count": 161,
+          "rate": 0.0059
+        },
+        {
+          "offset": 12,
+          "count": 197,
+          "rate": 0.0072
+        },
+        {
+          "offset": -13,
+          "count": 181,
+          "rate": 0.0066
+        },
+        {
+          "offset": 13,
+          "count": 198,
+          "rate": 0.0072
+        },
+        {
+          "offset": -14,
+          "count": 119,
+          "rate": 0.0043
+        },
+        {
+          "offset": 14,
+          "count": 109,
+          "rate": 0.004
+        },
+        {
+          "offset": 15,
+          "count": 80,
+          "rate": 0.0029
+        },
+        {
+          "offset": -15,
+          "count": 61,
+          "rate": 0.0022
+        },
+        {
+          "offset": 16,
+          "count": 116,
+          "rate": 0.0042
+        },
+        {
+          "offset": -16,
+          "count": 108,
+          "rate": 0.0039
+        },
+        {
+          "offset": 17,
+          "count": 94,
+          "rate": 0.0034
+        },
+        {
+          "offset": -17,
+          "count": 93,
+          "rate": 0.0034
+        },
+        {
+          "offset": 18,
+          "count": 45,
+          "rate": 0.0016
+        },
+        {
+          "offset": -18,
+          "count": 45,
+          "rate": 0.0016
+        },
+        {
+          "offset": -19,
+          "count": 25,
+          "rate": 0.0009
+        },
+        {
+          "offset": 19,
+          "count": 24,
+          "rate": 0.0009
+        },
+        {
+          "offset": 20,
+          "count": 47,
+          "rate": 0.0017
+        },
+        {
+          "offset": -20,
+          "count": 51,
+          "rate": 0.0019
+        },
+        {
+          "offset": -21,
+          "count": 20,
+          "rate": 0.0007
+        },
+        {
+          "offset": 21,
+          "count": 32,
+          "rate": 0.0012
+        },
+        {
+          "offset": 22,
+          "count": 5,
+          "rate": 0.0002
+        },
+        {
+          "offset": -22,
+          "count": 1,
+          "rate": 0.0
+        },
+        {
+          "offset": -23,
+          "count": 14,
+          "rate": 0.0005
+        },
+        {
+          "offset": 23,
+          "count": 9,
+          "rate": 0.0003
+        },
+        {
+          "offset": 24,
+          "count": 4,
+          "rate": 0.0001
+        },
+        {
+          "offset": -24,
+          "count": 7,
+          "rate": 0.0003
+        },
+        {
+          "offset": 25,
+          "count": 7,
+          "rate": 0.0003
+        }
+      ]
+    },
+    "transition_matrix": {
+      "h_next_window_unconditional": 3.0991381858879885,
+      "h_next_window_given_current": 2.81661219970709,
+      "info_gain_window_level": 0.2825259861808984
+    },
+    "info_gain_comparison": {
+      "h_offset_unconditional": 4.0903,
+      "h_offset_given_prev_window": 2.8166,
+      "h_offset_given_prev_word_filtered": 2.3311,
+      "h_offset_given_prev_word_all": 1.7903,
+      "ig_window_level": 1.2737,
+      "ig_word_level_filtered": 1.7592,
+      "ig_word_level_all": 2.3001,
+      "ig_word_beyond_window": 1.0263,
+      "eligible_prev_words": 772,
+      "eligible_observations": 19799,
+      "total_transitions": 27496,
+      "unique_prev_words": 6536
+    },
+    "prev_word_profiles": {
+      "num_profiled": 772,
+      "mode_zero_count": 298,
+      "mode_nonzero_count": 474,
+      "mean_entropy": 1.9269,
+      "mean_admissible_rate": 0.4435
+    },
+    "prev_window_profiles": {
+      "num_windows_profiled": 50,
+      "mode_zero_count": 7,
+      "mode_nonzero_count": 43,
+      "per_window": {
+        "0": {
+          "count": 11,
+          "mode_offset": 0,
+          "entropy": 1.8231,
+          "admissible_rate": 0.7273
+        },
+        "1": {
+          "count": 35,
+          "mode_offset": 4,
+          "entropy": 3.2384,
+          "admissible_rate": 0.1143
+        },
+        "2": {
+          "count": 13,
+          "mode_offset": 2,
+          "entropy": 2.3459,
+          "admissible_rate": 0.1538
+        },
+        "3": {
+          "count": 32,
+          "mode_offset": 3,
+          "entropy": 2.8349,
+          "admissible_rate": 0.0625
+        },
+        "4": {
+          "count": 37,
+          "mode_offset": 5,
+          "entropy": 3.3757,
+          "admissible_rate": 0.1622
+        },
+        "5": {
+          "count": 140,
+          "mode_offset": 13,
+          "entropy": 3.0689,
+          "admissible_rate": 0.1
+        },
+        "6": {
+          "count": 111,
+          "mode_offset": 12,
+          "entropy": 3.1304,
+          "admissible_rate": 0.0631
+        },
+        "7": {
+          "count": 132,
+          "mode_offset": 11,
+          "entropy": 2.9798,
+          "admissible_rate": 0.1288
+        },
+        "8": {
+          "count": 235,
+          "mode_offset": 10,
+          "entropy": 2.9154,
+          "admissible_rate": 0.1234
+        },
+        "9": {
+          "count": 336,
+          "mode_offset": 9,
+          "entropy": 2.9219,
+          "admissible_rate": 0.0714
+        },
+        "10": {
+          "count": 123,
+          "mode_offset": 8,
+          "entropy": 3.3167,
+          "admissible_rate": 0.1707
+        },
+        "11": {
+          "count": 980,
+          "mode_offset": 7,
+          "entropy": 2.9348,
+          "admissible_rate": 0.05
+        },
+        "12": {
+          "count": 41,
+          "mode_offset": 9,
+          "entropy": 3.3802,
+          "admissible_rate": 0.0976
+        },
+        "13": {
+          "count": 129,
+          "mode_offset": 5,
+          "entropy": 3.2342,
+          "admissible_rate": 0.1163
+        },
+        "14": {
+          "count": 310,
+          "mode_offset": 4,
+          "entropy": 2.4109,
+          "admissible_rate": 0.0516
+        },
+        "15": {
+          "count": 36,
+          "mode_offset": -8,
+          "entropy": 3.2387,
+          "admissible_rate": 0.1944
+        },
+        "16": {
+          "count": 265,
+          "mode_offset": 2,
+          "entropy": 2.76,
+          "admissible_rate": 0.1623
+        },
+        "17": {
+          "count": 2135,
+          "mode_offset": 1,
+          "entropy": 2.721,
+          "admissible_rate": 0.6539
+        },
+        "18": {
+          "count": 14169,
+          "mode_offset": 0,
+          "entropy": 2.7857,
+          "admissible_rate": 0.6752
+        },
+        "19": {
+          "count": 1276,
+          "mode_offset": -1,
+          "entropy": 2.8096,
+          "admissible_rate": 0.6434
+        },
+        "20": {
+          "count": 1919,
+          "mode_offset": -2,
+          "entropy": 2.8942,
+          "admissible_rate": 0.1219
+        },
+        "21": {
+          "count": 151,
+          "mode_offset": -3,
+          "entropy": 3.0776,
+          "admissible_rate": 0.1722
+        },
+        "22": {
+          "count": 1464,
+          "mode_offset": -4,
+          "entropy": 2.9243,
+          "admissible_rate": 0.0786
+        },
+        "23": {
+          "count": 391,
+          "mode_offset": -5,
+          "entropy": 2.5564,
+          "admissible_rate": 0.0588
+        },
+        "24": {
+          "count": 293,
+          "mode_offset": -6,
+          "entropy": 2.6163,
+          "admissible_rate": 0.0137
+        },
+        "25": {
+          "count": 390,
+          "mode_offset": -7,
+          "entropy": 2.6903,
+          "admissible_rate": 0.0436
+        },
+        "26": {
+          "count": 252,
+          "mode_offset": -8,
+          "entropy": 2.5951,
+          "admissible_rate": 0.0595
+        },
+        "27": {
+          "count": 304,
+          "mode_offset": -9,
+          "entropy": 2.6139,
+          "admissible_rate": 0.0428
+        },
+        "28": {
+          "count": 259,
+          "mode_offset": -10,
+          "entropy": 2.7477,
+          "admissible_rate": 0.0232
+        },
+        "29": {
+          "count": 216,
+          "mode_offset": -11,
+          "entropy": 2.7335,
+          "admissible_rate": 0.0139
+        },
+        "30": {
+          "count": 125,
+          "mode_offset": -12,
+          "entropy": 3.1038,
+          "admissible_rate": 0.064
+        },
+        "31": {
+          "count": 122,
+          "mode_offset": -13,
+          "entropy": 3.2267,
+          "admissible_rate": 0.0574
+        },
+        "32": {
+          "count": 152,
+          "mode_offset": -14,
+          "entropy": 2.9349,
+          "admissible_rate": 0.0855
+        },
+        "33": {
+          "count": 105,
+          "mode_offset": -15,
+          "entropy": 3.3818,
+          "admissible_rate": 0.0571
+        },
+        "34": {
+          "count": 116,
+          "mode_offset": -16,
+          "entropy": 3.2848,
+          "admissible_rate": 0.0862
+        },
+        "35": {
+          "count": 142,
+          "mode_offset": -17,
+          "entropy": 2.7431,
+          "admissible_rate": 0.0704
+        },
+        "36": {
+          "count": 105,
+          "mode_offset": -18,
+          "entropy": 3.1423,
+          "admissible_rate": 0.0095
+        },
+        "37": {
+          "count": 72,
+          "mode_offset": -14,
+          "entropy": 3.5621,
+          "admissible_rate": 0.0694
+        },
+        "38": {
+          "count": 96,
+          "mode_offset": -20,
+          "entropy": 3.4323,
+          "admissible_rate": 0.0521
+        },
+        "39": {
+          "count": 40,
+          "mode_offset": -17,
+          "entropy": 3.3297,
+          "admissible_rate": 0.025
+        },
+        "40": {
+          "count": 43,
+          "mode_offset": -20,
+          "entropy": 3.22,
+          "admissible_rate": 0.1395
+        },
+        "41": {
+          "count": 50,
+          "mode_offset": -16,
+          "entropy": 3.466,
+          "admissible_rate": 0.08
+        },
+        "42": {
+          "count": 35,
+          "mode_offset": -7,
+          "entropy": 3.2683,
+          "admissible_rate": 0.0857
+        },
+        "43": {
+          "count": 18,
+          "mode_offset": -3,
+          "entropy": 2.1699,
+          "admissible_rate": 0.1111
+        },
+        "44": {
+          "count": 18,
+          "mode_offset": 0,
+          "entropy": 2.135,
+          "admissible_rate": 0.3333
+        },
+        "45": {
+          "count": 18,
+          "mode_offset": 0,
+          "entropy": 2.2165,
+          "admissible_rate": 0.4444
+        },
+        "46": {
+          "count": 14,
+          "mode_offset": -8,
+          "entropy": 2.6106,
+          "admissible_rate": 0.3571
+        },
+        "47": {
+          "count": 15,
+          "mode_offset": 0,
+          "entropy": 2.0226,
+          "admissible_rate": 0.4
+        },
+        "48": {
+          "count": 11,
+          "mode_offset": 0,
+          "entropy": 2.0049,
+          "admissible_rate": 0.3636
+        },
+        "49": {
+          "count": 14,
+          "mode_offset": 0,
+          "entropy": 1.9852,
+          "admissible_rate": 0.4286
+        }
+      }
+    },
+    "theoretical_ceilings": {
+      "total_transitions": 27496,
+      "baseline_admissible": 12624,
+      "baseline_rate": 0.4591,
+      "word_level_admissible": 14413,
+      "word_level_rate": 0.5242,
+      "word_level_delta_pp": 6.51,
+      "word_level_fallback_count": 21564,
+      "word_level_fallback_rate": 0.7843,
+      "window_level_admissible": 17700,
+      "window_level_rate": 0.6437,
+      "window_level_delta_pp": 18.46,
+      "word_mode_table_size": 772,
+      "window_mode_table_size": 50
+    }
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "provenance": {
+    "run_id": "510c63f4-5aed-2c32-4e3b-05e3f04eaa6c",
+    "git_commit": "30ae35a42f4fd40c11edc67b7133a80922b9d2eb",
+    "timestamp": "2026-02-21T20:11:27.242068+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771704687241387000,
+    "command": "run_14z9_open_questions"
+  },
+  "results": {
+    "q1_overgeneration": {
+      "2-gram": {
+        "n": 2,
+        "real_count": 24088,
+        "syn_count": 579933,
+        "overlap_count": 107,
+        "unattested_count": 579826,
+        "unattested_rate": 0.9998,
+        "overgeneration_ratio": 24.08,
+        "overlap_rate": 0.0044
+      },
+      "3-gram": {
+        "n": 3,
+        "real_count": 22806,
+        "syn_count": 499819,
+        "overlap_count": 0,
+        "unattested_count": 499819,
+        "unattested_rate": 1.0,
+        "overgeneration_ratio": 21.92,
+        "overlap_rate": 0.0
+      },
+      "4-gram": {
+        "n": 4,
+        "real_count": 18808,
+        "syn_count": 400187,
+        "overlap_count": 0,
+        "unattested_count": 400187,
+        "unattested_rate": 1.0,
+        "overgeneration_ratio": 21.28,
+        "overlap_rate": 0.0
+      },
+      "5-gram": {
+        "n": 5,
+        "real_count": 15126,
+        "syn_count": 300196,
+        "overlap_count": 0,
+        "unattested_count": 300196,
+        "unattested_rate": 1.0,
+        "overgeneration_ratio": 19.85,
+        "overlap_rate": 0.0
+      }
+    },
+    "q2_branching_factor": {
+      "per_position": {
+        "0": {
+          "count": 4512,
+          "mean_bf": 96.0,
+          "median_bf": 96.0,
+          "std_bf": 0.0,
+          "min_bf": 96,
+          "max_bf": 96,
+          "effective_bits": 6.58
+        },
+        "1": {
+          "count": 4154,
+          "mean_bf": 747.5,
+          "median_bf": 824.0,
+          "std_bf": 288.9,
+          "min_bf": 65,
+          "max_bf": 1020,
+          "effective_bits": 9.55
+        },
+        "2": {
+          "count": 3952,
+          "mean_bf": 880.5,
+          "median_bf": 1005.0,
+          "std_bf": 204.2,
+          "min_bf": 65,
+          "max_bf": 1020,
+          "effective_bits": 9.78
+        },
+        "3": {
+          "count": 3719,
+          "mean_bf": 888.8,
+          "median_bf": 1005.0,
+          "std_bf": 183.7,
+          "min_bf": 70,
+          "max_bf": 1020,
+          "effective_bits": 9.8
+        },
+        "4": {
+          "count": 3411,
+          "mean_bf": 892.1,
+          "median_bf": 1005.0,
+          "std_bf": 177.4,
+          "min_bf": 93,
+          "max_bf": 1020,
+          "effective_bits": 9.8
+        },
+        "5": {
+          "count": 3002,
+          "mean_bf": 893.5,
+          "median_bf": 1005.0,
+          "std_bf": 174.5,
+          "min_bf": 95,
+          "max_bf": 1020,
+          "effective_bits": 9.8
+        },
+        "6": {
+          "count": 2610,
+          "mean_bf": 889.3,
+          "median_bf": 1005.0,
+          "std_bf": 176.1,
+          "min_bf": 93,
+          "max_bf": 1020,
+          "effective_bits": 9.8
+        },
+        "7": {
+          "count": 2218,
+          "mean_bf": 894.9,
+          "median_bf": 1005.0,
+          "std_bf": 174.0,
+          "min_bf": 70,
+          "max_bf": 1020,
+          "effective_bits": 9.81
+        },
+        "8": {
+          "count": 1711,
+          "mean_bf": 899.9,
+          "median_bf": 1005.0,
+          "std_bf": 173.7,
+          "min_bf": 65,
+          "max_bf": 1020,
+          "effective_bits": 9.81
+        },
+        "9": {
+          "count": 3563,
+          "mean_bf": 878.1,
+          "median_bf": 1005.0,
+          "std_bf": 191.6,
+          "min_bf": 70,
+          "max_bf": 1020,
+          "effective_bits": 9.78
+        }
+      },
+      "overall_mean_bf": 761.7,
+      "overall_effective_bits": 9.57,
+      "total_observations": 32852
+    },
+    "q3_mdl_decomposition": {
+      "lattice": {
+        "l_model": 38029.0,
+        "l_data": 317965.0,
+        "l_total": 355994.0,
+        "bpt": 10.836
+      },
+      "copy_reset": {
+        "l_model": 77180,
+        "l_data": 348377.0,
+        "l_total": 425557.0,
+        "bpt": 12.954,
+        "p_copy": 0.0299
+      },
+      "gap": {
+        "model_gap_bits": -39151.0,
+        "data_gap_bits": -30411.0,
+        "total_gap_bits": -69563.0,
+        "gap_bpt": -2.117,
+        "model_fraction": 0.563,
+        "data_fraction": 0.437
+      },
+      "n_tokens": 32852,
+      "n_vocab": 7717
+    }
+  }
+}

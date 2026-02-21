@@ -225,6 +225,56 @@ raw float (e.g., 88.11% = 0.8811).
 
 ---
 
+## Phase 14I — Bigram-Conditioned Lattice & Open Questions
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 89 | Window-level info gain | 1.27 bits | `run_14z7_bigram_transitions.py` | `results/data/phase14_machine/bigram_transitions.json` | `results.info_gain_comparison.ig_window_level` | H(offset) from 4.09 → 2.82 |
+| 90 | Word identity beyond window | 1.03 bits | `run_14z7_bigram_transitions.py` | `results/data/phase14_machine/bigram_transitions.json` | `results.info_gain_comparison.ig_word_beyond_window` | Significant word-level signal |
+| 91 | Window-level ceiling admissibility | 64.37% | `run_14z7_bigram_transitions.py` | `results/data/phase14_machine/bigram_transitions.json` | `results.theoretical_ceilings.window_level_rate` | +18.46pp over baseline, 50 params |
+| 92 | Cross-validated window correction: mean delta | +16.17pp | `run_14z8_bigram_conditioned.py` | `results/data/phase14_machine/bigram_conditioned.json` | `results.aggregate.primary_mean_delta_pp` | 7/7 splits positive |
+| 93 | Cross-validated window correction: mean z | 66.8σ | `run_14z8_bigram_conditioned.py` | `results/data/phase14_machine/bigram_conditioned.json` | `results.aggregate.primary_mean_z_score` | Highly significant in all splits |
+| 94 | 5-gram overgeneration ratio | 19.9× | `run_14z9_open_questions.py` | `results/data/phase14_machine/open_questions.json` | `results.q1_overgeneration.5-gram.overgeneration_ratio` | Decreases modestly from 24.1× (2-gram) |
+| 95 | Per-position branching factor | 9.57 bits | `run_14z9_open_questions.py` | `results/data/phase14_machine/open_questions.json` | `results.q2_branching_factor.overall_effective_bits` | 761.7 candidates/position |
+| 96 | Corrected MDL: lattice BPT | 10.84 | `run_14z9_open_questions.py` | `results/data/phase14_machine/open_questions.json` | `results.q3_mdl_decomposition.lattice.bpt` | Wins vs CR (12.95) under corrected encoding |
+| 97 | Corrected MDL: lattice wins gap | -2.12 BPT | `run_14z9_open_questions.py` | `results/data/phase14_machine/open_questions.json` | `results.q3_mdl_decomposition.gap.gap_bpt` | Previously CR won due to double-counted L(model) |
+
+## Phase 14J — Second-Order Context Analysis
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 98 | Second-order info gain (pair) | 1.3999 bits | `run_14za_second_order_transitions.py` | `results/data/phase14_machine/second_order_transitions.json` | `results.info_gain.ig_pair` | vs 1.1455 bits first-order |
+| 99 | Pair beyond curr_window info gain | 0.2544 bits | `run_14za_second_order_transitions.py` | `results/data/phase14_machine/second_order_transitions.json` | `results.info_gain.ig_pair_beyond_curr_window` | Marginal improvement |
+| 100 | Best second-order ceiling | 64.01% | `run_14za_second_order_transitions.py` | `results/data/phase14_machine/second_order_transitions.json` | `results.ceilings.second_order_by_min_obs.3.rate` | +0.50pp over first-order |
+| 101 | Observed pairs (of 2500) | 733 | `run_14za_second_order_transitions.py` | `results/data/phase14_machine/second_order_transitions.json` | `results.sparsity.observed_pairs` | 29.3% coverage |
+| 102 | Divergent pairs from first-order | 21.4% | `run_14za_second_order_transitions.py` | `results/data/phase14_machine/second_order_transitions.json` | `results.pair_mode_divergence.divergent_frac` | 70/327 pairs at ≥5 obs |
+| 103 | Gate decision: ceiling improvement | +0.50pp | `run_14za_second_order_transitions.py` | `results/data/phase14_machine/second_order_transitions.json` | `results.gate_decision.ceiling_improvement_pp` | Below 2pp threshold; Sprint 2 skipped |
+
+## Phase 14K — Emulator Calibration
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 104 | Corrected emulator admissibility | 47.6% | `run_14zc_emulator_calibration.py` | `results/data/phase14_machine/emulator_calibration.json` | `results.offset_profiles.synthetic_b.admissible_rate` | vs 4.7% uncorrected, 45.9% real |
+| 105 | Uncorrected emulator admissibility | 4.7% | `run_14zc_emulator_calibration.py` | `results/data/phase14_machine/emulator_calibration.json` | `results.offset_profiles.synthetic_a.admissible_rate` | Structurally unrealistic |
+| 106 | KL divergence (corrected) | 1.18 bits | `run_14zc_emulator_calibration.py` | `results/data/phase14_machine/emulator_calibration.json` | `results.kl_divergence.synthetic_b` | vs 1.83 bits uncorrected |
+| 107 | Mirror entropy fit (corrected) | 89.8% | `run_14zc_emulator_calibration.py` | `results/data/phase14_machine/emulator_calibration.json` | `results.entropy.mirror_fit_b` | Slight regression from 90.4% uncorrected |
+| 108 | Canonical corrections: non-zero windows | 43/50 | `run_14zc_emulator_calibration.py` | `results/data/phase14_machine/canonical_offsets.json` | `results.nonzero_count` | Trained on full corpus |
+
+## Phase 14L — Residual Characterization
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 109 | Overall failure rate (corrected model) | 39.9% | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint1_positional.burst_analysis.failure_rate` | 11,760 / 29,460 transitions |
+| 110 | Common word failure rate | 6.9% | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint2_lexical.word_class.by_frequency_tier.common.failure_rate` | Words with >100 occurrences |
+| 111 | Hapax failure rate | 97.8% | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint2_lexical.word_class.by_frequency_tier.hapax.failure_rate` | Single-occurrence words |
+| 112 | Low-frequency share of all failures | 67.3% | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint3_synthesis.reducibility.low_frequency_fraction` | Rare + hapax combined |
+| 113 | Section failure range | 17.0pp | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint3_synthesis.reducibility.section_range_pp` | Biological 32.4% → Astro 49.4% |
+| 114 | Correction magnitude vs failure rate | rho=0.43 | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint2_lexical.window_occupancy.correction_vs_failure.rho` | p=0.002 |
+| 115 | Position gradient range | 11.6pp | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint3_synthesis.reducibility.positional_range_pp` | Pos 1: 36.3% → Pos 10+: 48.0% |
+| 116 | Burst clustering chi² p-value | 0.004 | `run_14zd_residual_characterization.py` | `results/data/phase14_machine/residual_characterization.json` | `results.sprint1_positional.burst_analysis.clustering_test.p_value` | Mildly clustered, mean run 1.63 |
+
+---
+
 ## Traceability Notes
 
 1. **Static config values:** Repetition rate (0.9003) and mapping stability (0.02)
@@ -253,7 +303,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 86 | #1, #6-70, #62a-e, #71-88 |
+| **Fully verifiable** (JSON key path exists) | 114 | #1, #6-70, #62a-e, #71-116 |
 | **Console-only** (requires script re-run) | 2 | #2, #3 |
 | **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
 | **Static config** (manually synchronized) | 1 | #1 (also in config) |
@@ -262,6 +312,10 @@ All claims re-verified on 2026-02-21. File paths and JSON key paths corrected
 for claims #1, #45-49, #52, #62c during Cleanup 5 (path/key reconciliation).
 All Phase 12-17 claims use consistent ZL-only canonical data pipeline.
 Claims #80-88 added for Phase 14H (2026-02-21).
+Claims #89-97 added for Phase 14I (2026-02-21).
+Claims #98-103 added for Phase 14J (2026-02-21).
+Claims #104-108 added for Phase 14K (2026-02-21).
+Claims #109-116 added for Phase 14L (2026-02-21).
 
 ### Recommended Fixes (future sprint)
 

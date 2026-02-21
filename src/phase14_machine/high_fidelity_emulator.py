@@ -23,15 +23,20 @@ class HighFidelityVolvelle:
                  lattice_map: dict[str, int],
                  window_contents: dict[int, list[str]],
                  seed: int | None = None,
-                 log_choices: bool = False) -> None:
+                 log_choices: bool = False,
+                 offset_corrections: dict[int, int] | None = None) -> None:
         """
         Initializes the emulator with a solved lattice and window set.
-        
+
         Args:
             lattice_map: Mapping from token to next window index.
             window_contents: Mapping from window index to token list.
             seed: Optional seed for reproducibility.
             log_choices: If True, records the context of every generated token.
+            offset_corrections: Optional per-window mode offset corrections
+                from Phase 14I. Maps window_id → signed offset. When provided,
+                the emulator shifts the next-window lookup by the correction
+                after each token generation, modeling systematic per-window drift.
         """
         self.rng = random.Random(seed)
         self.lattice_map = lattice_map
@@ -41,6 +46,7 @@ class HighFidelityVolvelle:
         self.mask_state = 0
         self.log_choices = log_choices
         self.choice_log: list[dict[str, Any]] = []
+        self.offset_corrections = offset_corrections or {}
 
         # Scribe Agent Profiles (Based on Phase 7/14 calibration)
         self.scribe_profiles = {
@@ -134,7 +140,12 @@ class HighFidelityVolvelle:
         for p in range(length):
             word = self.generate_token(current_window, prev_word=prev_word, pos=p)
             line.append(word)
-            current_window = self.lattice_map.get(word, (current_window + 1) % self.num_windows)
+            next_window = self.lattice_map.get(word, (current_window + 1) % self.num_windows)
+            # Apply per-window offset correction (Phase 14I drift model)
+            if self.offset_corrections:
+                correction = self.offset_corrections.get(next_window, 0)
+                next_window = (next_window + correction) % self.num_windows
+            current_window = next_window
             prev_word = word
 
         return line

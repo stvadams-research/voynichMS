@@ -1,0 +1,375 @@
+{
+  "provenance": {
+    "run_id": "686d814d-d900-7ef4-98b4-280620d1080e",
+    "git_commit": "30ae35a42f4fd40c11edc67b7133a80922b9d2eb",
+    "timestamp": "2026-02-21T20:35:57.994678+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771706157993994000,
+    "command": "run_14za_second_order_transitions"
+  },
+  "results": {
+    "sparsity": {
+      "total_possible_pairs": 2500,
+      "observed_pairs": 733,
+      "observed_frac": 0.2932,
+      "total_transitions": 22943,
+      "mean_obs_per_pair": 31.3,
+      "median_obs_per_pair": 4.0,
+      "max_obs": 6843,
+      "min_obs": 1,
+      "coverage_by_threshold": {
+        "1": {
+          "pairs": 733,
+          "pairs_frac": 0.2932,
+          "observations": 22943,
+          "obs_frac": 1.0
+        },
+        "3": {
+          "pairs": 476,
+          "pairs_frac": 0.1904,
+          "observations": 22587,
+          "obs_frac": 0.9845
+        },
+        "5": {
+          "pairs": 327,
+          "pairs_frac": 0.1308,
+          "observations": 22067,
+          "obs_frac": 0.9618
+        },
+        "10": {
+          "pairs": 189,
+          "pairs_frac": 0.0756,
+          "observations": 21178,
+          "obs_frac": 0.9231
+        },
+        "20": {
+          "pairs": 111,
+          "pairs_frac": 0.0444,
+          "observations": 20071,
+          "obs_frac": 0.8748
+        },
+        "50": {
+          "pairs": 55,
+          "pairs_frac": 0.022,
+          "observations": 18404,
+          "obs_frac": 0.8022
+        }
+      }
+    },
+    "info_gain": {
+      "total_transitions": 22943,
+      "h_offset_unconditional": 4.0099,
+      "h_offset_given_curr_window": 2.8644,
+      "h_offset_given_prev_window": 3.8815,
+      "h_offset_given_pair": 2.6099,
+      "h_offset_given_curr_word": 1.8256,
+      "ig_curr_window": 1.1455,
+      "ig_prev_window": 0.1283,
+      "ig_pair": 1.3999,
+      "ig_curr_word": 2.1843,
+      "ig_pair_beyond_curr_window": 0.2544,
+      "ig_pair_beyond_prev_window": 1.2716,
+      "num_curr_windows": 50,
+      "num_prev_windows": 50,
+      "num_pairs": 733,
+      "num_curr_words": 5395
+    },
+    "pair_mode_divergence": {
+      "total_pairs_analyzed": 327,
+      "divergent_pairs": 70,
+      "divergent_frac": 0.2141,
+      "mean_divergence_magnitude": 8.54,
+      "top_divergent": [
+        {
+          "pair": "18,13",
+          "count": 29,
+          "pair_mode": 1,
+          "first_order_mode": 5,
+          "delta": -4
+        },
+        {
+          "pair": "18,30",
+          "count": 28,
+          "pair_mode": -10,
+          "first_order_mode": -13,
+          "delta": 3
+        },
+        {
+          "pair": "18,10",
+          "count": 27,
+          "pair_mode": -1,
+          "first_order_mode": 7,
+          "delta": -8
+        },
+        {
+          "pair": "18,31",
+          "count": 23,
+          "pair_mode": -3,
+          "first_order_mode": -13,
+          "delta": 10
+        },
+        {
+          "pair": "18,32",
+          "count": 22,
+          "pair_mode": -1,
+          "first_order_mode": -14,
+          "delta": 13
+        },
+        {
+          "pair": "18,7",
+          "count": 22,
+          "pair_mode": -4,
+          "first_order_mode": 11,
+          "delta": -15
+        },
+        {
+          "pair": "17,8",
+          "count": 18,
+          "pair_mode": -1,
+          "first_order_mode": 10,
+          "delta": -11
+        },
+        {
+          "pair": "18,35",
+          "count": 18,
+          "pair_mode": 7,
+          "first_order_mode": -17,
+          "delta": 24
+        },
+        {
+          "pair": "18,21",
+          "count": 18,
+          "pair_mode": -9,
+          "first_order_mode": -3,
+          "delta": -6
+        },
+        {
+          "pair": "20,31",
+          "count": 17,
+          "pair_mode": -11,
+          "first_order_mode": -13,
+          "delta": 2
+        },
+        {
+          "pair": "20,32",
+          "count": 16,
+          "pair_mode": -10,
+          "first_order_mode": -14,
+          "delta": 4
+        },
+        {
+          "pair": "22,36",
+          "count": 15,
+          "pair_mode": -4,
+          "first_order_mode": -18,
+          "delta": 14
+        },
+        {
+          "pair": "18,33",
+          "count": 14,
+          "pair_mode": -3,
+          "first_order_mode": -15,
+          "delta": 12
+        },
+        {
+          "pair": "18,36",
+          "count": 13,
+          "pair_mode": 9,
+          "first_order_mode": -18,
+          "delta": 27
+        },
+        {
+          "pair": "18,6",
+          "count": 13,
+          "pair_mode": -3,
+          "first_order_mode": 12,
+          "delta": -15
+        },
+        {
+          "pair": "11,6",
+          "count": 13,
+          "pair_mode": 2,
+          "first_order_mode": 12,
+          "delta": -10
+        },
+        {
+          "pair": "20,29",
+          "count": 12,
+          "pair_mode": -7,
+          "first_order_mode": -11,
+          "delta": 4
+        },
+        {
+          "pair": "20,33",
+          "count": 12,
+          "pair_mode": -13,
+          "first_order_mode": -15,
+          "delta": 2
+        },
+        {
+          "pair": "22,35",
+          "count": 12,
+          "pair_mode": 7,
+          "first_order_mode": -17,
+          "delta": 24
+        },
+        {
+          "pair": "18,38",
+          "count": 11,
+          "pair_mode": 7,
+          "first_order_mode": -3,
+          "delta": 10
+        },
+        {
+          "pair": "23,21",
+          "count": 11,
+          "pair_mode": 2,
+          "first_order_mode": -3,
+          "delta": 5
+        },
+        {
+          "pair": "19,34",
+          "count": 11,
+          "pair_mode": -19,
+          "first_order_mode": -16,
+          "delta": -3
+        },
+        {
+          "pair": "18,5",
+          "count": 10,
+          "pair_mode": -4,
+          "first_order_mode": 13,
+          "delta": -17
+        },
+        {
+          "pair": "20,27",
+          "count": 9,
+          "pair_mode": -8,
+          "first_order_mode": -9,
+          "delta": 1
+        },
+        {
+          "pair": "9,10",
+          "count": 9,
+          "pair_mode": 8,
+          "first_order_mode": 7,
+          "delta": 1
+        },
+        {
+          "pair": "17,5",
+          "count": 9,
+          "pair_mode": 1,
+          "first_order_mode": 13,
+          "delta": -12
+        },
+        {
+          "pair": "3,6",
+          "count": 9,
+          "pair_mode": 5,
+          "first_order_mode": 12,
+          "delta": -7
+        },
+        {
+          "pair": "19,23",
+          "count": 8,
+          "pair_mode": -3,
+          "first_order_mode": -5,
+          "delta": 2
+        },
+        {
+          "pair": "22,32",
+          "count": 8,
+          "pair_mode": 9,
+          "first_order_mode": -14,
+          "delta": 23
+        },
+        {
+          "pair": "20,9",
+          "count": 8,
+          "pair_mode": 8,
+          "first_order_mode": 9,
+          "delta": -1
+        }
+      ]
+    },
+    "ceilings": {
+      "total_transitions": 22943,
+      "baseline": {
+        "admissible": 10796,
+        "rate": 0.4706
+      },
+      "first_order_curr_window": {
+        "admissible": 14570,
+        "rate": 0.6351,
+        "delta_pp": 16.45,
+        "parameters": 50
+      },
+      "first_order_prev_window": {
+        "admissible": 10849,
+        "rate": 0.4729,
+        "delta_pp": 0.23,
+        "parameters": 50
+      },
+      "second_order_by_min_obs": {
+        "3": {
+          "admissible": 14686,
+          "rate": 0.6401,
+          "delta_pp": 16.96,
+          "improvement_over_first_order_pp": 0.51,
+          "num_pair_corrections": 476,
+          "pair_used": 22587,
+          "fallback_used": 356,
+          "fallback_rate": 0.0155
+        },
+        "5": {
+          "admissible": 14637,
+          "rate": 0.638,
+          "delta_pp": 16.74,
+          "improvement_over_first_order_pp": 0.29,
+          "num_pair_corrections": 327,
+          "pair_used": 22067,
+          "fallback_used": 876,
+          "fallback_rate": 0.0382
+        },
+        "10": {
+          "admissible": 14611,
+          "rate": 0.6368,
+          "delta_pp": 16.63,
+          "improvement_over_first_order_pp": 0.18,
+          "num_pair_corrections": 189,
+          "pair_used": 21178,
+          "fallback_used": 1765,
+          "fallback_rate": 0.0769
+        },
+        "20": {
+          "admissible": 14591,
+          "rate": 0.636,
+          "delta_pp": 16.54,
+          "improvement_over_first_order_pp": 0.09,
+          "num_pair_corrections": 111,
+          "pair_used": 20071,
+          "fallback_used": 2872,
+          "fallback_rate": 0.1252
+        },
+        "50": {
+          "admissible": 14570,
+          "rate": 0.6351,
+          "delta_pp": 16.45,
+          "improvement_over_first_order_pp": 0.0,
+          "num_pair_corrections": 55,
+          "pair_used": 18404,
+          "fallback_used": 4539,
+          "fallback_rate": 0.1978
+        }
+      }
+    },
+    "gate_decision": {
+      "best_first_order_rate": 0.6351,
+      "best_second_order_rate": 0.6401,
+      "ceiling_improvement_pp": 0.5,
+      "gate_pass": false,
+      "threshold_pp": 2.0
+    }
+  }
+}

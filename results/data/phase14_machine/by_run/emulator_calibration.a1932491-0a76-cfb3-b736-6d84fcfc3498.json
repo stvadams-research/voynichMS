@@ -1,0 +1,150 @@
+{
+  "provenance": {
+    "run_id": "a1932491-0a76-cfb3-b736-6d84fcfc3498",
+    "git_commit": "30ae35a42f4fd40c11edc67b7133a80922b9d2eb",
+    "timestamp": "2026-02-21T20:42:44.670661+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771706564670614000,
+    "command": "run_14zc_emulator_calibration"
+  },
+  "results": {
+    "entropy": {
+      "real": {
+        "total_tokens": 34605,
+        "vocab_size": 9456,
+        "h_unigram": 10.883,
+        "h_bigram": 14.529,
+        "h_conditional": 3.9562
+      },
+      "synthetic_a": {
+        "total_tokens": 35266,
+        "vocab_size": 6778,
+        "h_unigram": 12.0372,
+        "h_bigram": 14.88,
+        "h_conditional": 2.8808
+      },
+      "synthetic_b": {
+        "total_tokens": 35033,
+        "vocab_size": 6711,
+        "h_unigram": 12.1245,
+        "h_bigram": 14.8357,
+        "h_conditional": 2.7465
+      },
+      "mirror_fit_a": 90.41,
+      "mirror_fit_b": 89.76
+    },
+    "ngrams": {
+      "synthetic_a": {
+        "2-gram": {
+          "real_unique": 26052,
+          "syn_unique": 30185,
+          "overlap": 6,
+          "overlap_frac_of_real": 0.0002,
+          "syn_unattested": 30179,
+          "unattested_frac": 0.9998,
+          "overgeneration_ratio": 1.16
+        },
+        "3-gram": {
+          "real_unique": 25040,
+          "syn_unique": 25265,
+          "overlap": 0,
+          "overlap_frac_of_real": 0.0,
+          "syn_unattested": 25265,
+          "unattested_frac": 1.0,
+          "overgeneration_ratio": 1.01
+        },
+        "4-gram": {
+          "real_unique": 21034,
+          "syn_unique": 20266,
+          "overlap": 0,
+          "overlap_frac_of_real": 0.0,
+          "syn_unattested": 20266,
+          "unattested_frac": 1.0,
+          "overgeneration_ratio": 0.96
+        },
+        "5-gram": {
+          "real_unique": 17167,
+          "syn_unique": 15266,
+          "overlap": 0,
+          "overlap_frac_of_real": 0.0,
+          "syn_unattested": 15266,
+          "unattested_frac": 1.0,
+          "overgeneration_ratio": 0.89
+        }
+      },
+      "synthetic_b": {
+        "2-gram": {
+          "real_unique": 26052,
+          "syn_unique": 29465,
+          "overlap": 17,
+          "overlap_frac_of_real": 0.0007,
+          "syn_unattested": 29448,
+          "unattested_frac": 0.9994,
+          "overgeneration_ratio": 1.13
+        },
+        "3-gram": {
+          "real_unique": 25040,
+          "syn_unique": 25029,
+          "overlap": 0,
+          "overlap_frac_of_real": 0.0,
+          "syn_unattested": 25029,
+          "unattested_frac": 1.0,
+          "overgeneration_ratio": 1.0
+        },
+        "4-gram": {
+          "real_unique": 21034,
+          "syn_unique": 20033,
+          "overlap": 0,
+          "overlap_frac_of_real": 0.0,
+          "syn_unattested": 20033,
+          "unattested_frac": 1.0,
+          "overgeneration_ratio": 0.95
+        },
+        "5-gram": {
+          "real_unique": 17167,
+          "syn_unique": 15033,
+          "overlap": 0,
+          "overlap_frac_of_real": 0.0,
+          "syn_unattested": 15033,
+          "unattested_frac": 1.0,
+          "overgeneration_ratio": 0.88
+        }
+      }
+    },
+    "offset_profiles": {
+      "real": {
+        "admissible_rate": 0.4591,
+        "extended_rate": 0.603,
+        "total_transitions": 27496
+      },
+      "synthetic_a": {
+        "admissible_rate": 0.0474,
+        "extended_rate": 0.1546,
+        "total_transitions": 30266
+      },
+      "synthetic_b": {
+        "admissible_rate": 0.4756,
+        "extended_rate": 0.511,
+        "total_transitions": 30033
+      }
+    },
+    "kl_divergence": {
+      "synthetic_a": 1.8315,
+      "synthetic_b": 1.177,
+      "improvement_bits": 0.6545
+    },
+    "corrections_used": {
+      "num_corrections": 50,
+      "nonzero": 43
+    },
+    "generation_params": {
+      "seed": 42,
+      "num_lines": 5000
+    },
+    "summary": {
+      "metrics_improved": 2,
+      "metrics_total": 4
+    }
+  }
+}

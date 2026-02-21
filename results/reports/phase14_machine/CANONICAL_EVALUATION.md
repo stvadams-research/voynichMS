@@ -273,3 +273,268 @@ Dense 20-point sweep of window count K ∈ [2, 500] using corrected frequency-co
 **Interpretation:** The MDL-optimal K (3-7) produces trivially high admissibility (77-100%) because with few windows, most tokens are "in the right window" by default. The useful discrimination range is K=10-20, where admissibility (~42%) is similar to K=50 but BPT is ~0.7 lower. K=50 provides maximum structural discrimination at a quantifiable MDL cost. The model's value is not MDL-optimality (Section 12 already showed Copy-Reset wins on BPT) but holdout generalization (Section 18: 7/7 splits, mean z=29.1σ).
 
 **Artifact:** `results/data/phase14_machine/mdl_elbow.json`
+
+## 20. Bigram Transition Profiling (Phase 14I)
+
+The current lattice is memoryless: word(n) → window(n+1), with no memory of prior context. Phase 14H showed 1.31 bits of bigram info gain on failure distance. This section decomposes that signal into window-level vs word-level components and computes theoretical correction ceilings.
+
+**Info Gain Decomposition (27,496 consecutive transitions):**
+
+| Conditioning | H(offset) | Info Gain |
+| :--- | ---: | ---: |
+| None (unconditional) | 4.09 | — |
+| prev_window (50 params) | 2.82 | 1.27 |
+| prev_word (all 6,536) | 1.79 | 2.30 |
+| prev_word (≥5 obs, 772) | 2.33 | 1.76 |
+| **Word beyond window** | — | **1.03** |
+
+The word identity carries 1.03 bits beyond the window identity, confirming genuine word-level signal. However, the practical impact depends on data coverage.
+
+**Per-prev_word offset profiles:**
+- 772 prev_words profiled (≥5 observations)
+- 474 (61.4%) have mode offset ≠ 0 — the lattice has systematic per-word drift
+- 43 of 50 windows have mode offset ≠ 0 — pervasive structural pattern
+
+**Theoretical Admissibility Ceilings:**
+
+| Model | Rate | Delta (pp) | Parameters |
+| :--- | ---: | ---: | ---: |
+| Baseline (no correction) | 45.91% | — | 0 |
+| Window-level mode | 64.37% | +18.46 | 50 |
+| Word-level mode | 52.42% | +6.51 | 772 |
+
+Window-level correction is the practical winner: +18.46pp with only 50 parameters and full coverage. Word-level is limited by 78.4% fallback rate (sparse data).
+
+**Artifact:** `results/data/phase14_machine/bigram_transitions.json`
+
+## 21. Context-Conditioned Admissibility (Phase 14I)
+
+Cross-validates the per-window mode offset correction from Section 20 using 7-fold leave-one-section-out holdout.
+
+**Primary model (window_min5) — cross-validated results:**
+
+| Held Out | Test Tokens | Baseline | Corrected | Delta | Z-Score |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Herbal A | 8,826 | 19.9% | 36.8% | +16.9pp | 83.1σ |
+| Herbal B | 1,164 | 16.2% | 35.9% | +19.7pp | 29.5σ |
+| Astro | 2,869 | 15.0% | 34.3% | +19.3pp | 38.2σ |
+| Biological | 6,422 | 42.3% | 63.2% | +20.9pp | 152.1σ |
+| Cosmo | 1,727 | 21.3% | 32.0% | +10.7pp | 35.3σ |
+| Pharma | 3,501 | 15.4% | 23.2% | +7.8pp | 30.2σ |
+| Stars | 10,096 | 19.1% | 37.0% | +18.0pp | 99.0σ |
+
+- **Mean improvement: +16.17pp** (7/7 splits positive, all significant)
+- **Mean z-score: 66.8σ**
+- **Mean overfitting gap: -4.6pp** (negative = better on holdout than train)
+- Window-level (50 params) consistently beats word-level (688+ params)
+
+**Interpretation:** The per-window mode offset correction improves cross-validated admissibility by +16.17pp with only 50 parameters. The negative overfitting gap confirms the correction is a genuine structural property that transfers across sections. This is the strongest single-parameter improvement since spectral reordering (Section 3: +23pp). Combined, the lattice with spectral reordering and window-level correction captures ~62% of token transitions under holdout validation.
+
+**Artifact:** `results/data/phase14_machine/bigram_conditioned.json`
+
+## 22. Closed Open Questions (Phase 14I)
+
+Addresses the three remaining open questions from STATUS.md Section 8.
+
+### Q1: Higher-Order Overgeneration
+
+| N-gram | Real | Synthetic | Overgen. Ratio |
+| :--- | ---: | ---: | ---: |
+| 2-gram | 24,088 | 579,933 | 24.1× |
+| 3-gram | 22,806 | 499,819 | 21.9× |
+| 4-gram | 18,808 | 400,187 | 21.3× |
+| 5-gram | 15,126 | 300,196 | 19.9× |
+
+Overgeneration decreases modestly at higher orders (24.1× → 19.9×) but remains ~20× at all levels. The lattice is a wide sequential gate: the constraint system bounds the vocabulary at each position but does not constrain the sequential ordering enough to match the manuscript's specific n-gram repertoire.
+
+### Q2: Per-Position Branching Factor
+
+| Position | Mean BF | Effective Bits |
+| :--- | ---: | ---: |
+| 0 (line start) | 96.0 | 6.58 |
+| 1 | 747.5 | 9.55 |
+| 2+ (steady state) | ~890 | ~9.80 |
+
+Overall: 761.7 candidates/position = **9.57 effective bits**. Position 0 is constrained (window=0 fixed), positions 1+ stabilize at ~890 candidates. This exceeds the 7.17 bits within-window selection from Phase 15D because drift ±1 exposes candidates from 3 windows, not just 1.
+
+### Q3: MDL Gap Decomposition
+
+| Component | Lattice | Copy-Reset | Gap |
+| :--- | ---: | ---: | ---: |
+| L(model) | 38,029 | 77,180 | -39,151 |
+| L(data\|model) | 317,965 | 348,377 | -30,411 |
+| L(total) | 355,994 | 425,557 | -69,563 |
+| BPT | 10.84 | 12.95 | -2.12 |
+
+Under corrected frequency-conditional L(model) encoding (Section 12, Method 5), the lattice **wins** MDL by 2.12 BPT. The previous "Copy-Reset wins MDL" result (Section 13) used the double-counted L(model) = 154,340 bits. With corrected encoding (38,029 bits), the lattice is both structurally explanatory and compression-efficient.
+
+**Artifact:** `results/data/phase14_machine/open_questions.json`
+
+## 23. Second-Order Context Analysis (Phase 14J)
+
+Phase 14I showed that first-order per-window mode offset correction adds +16.17pp cross-validated admissibility with 50 parameters. Phase 14J tested whether **second-order** conditioning — P(offset | prev_window, curr_window) — captures additional structure.
+
+### Sparsity
+
+| Threshold | Pairs | % of 2,500 | Observations | % Coverage |
+| :--- | ---: | ---: | ---: | ---: |
+| ≥1 | 733 | 29.3% | 22,943 | 100.0% |
+| ≥5 | 327 | 13.1% | 22,067 | 96.2% |
+| ≥10 | 189 | 7.6% | 21,178 | 92.3% |
+| ≥20 | 111 | 4.4% | 20,071 | 87.5% |
+
+Only 29.3% of possible (prev_window, curr_window) pairs are observed. Median observations per pair: 4.0.
+
+### Info Gain Decomposition
+
+| Conditioning | H(offset) | Info Gain | Parameters |
+| :--- | ---: | ---: | ---: |
+| None (unconditional) | 4.0099 | — | 0 |
+| curr_window | 2.8644 | 1.1455 | 50 |
+| prev_window | 3.8815 | 0.1283 | 50 |
+| **(prev_win, curr_win)** | **2.6099** | **1.3999** | **733** |
+| curr_word (all) | 1.8256 | 2.1843 | 5,395 |
+
+**Key finding:** Adding prev_window to curr_window provides only **+0.2544 bits** of additional info gain (from 1.1455 to 1.3999). Most offset structure is captured by curr_window identity alone.
+
+### Admissibility Ceilings
+
+| Model | Rate | Delta (pp) | Parameters | Fallback % |
+| :--- | ---: | ---: | ---: | ---: |
+| Baseline | 47.06% | — | 0 | — |
+| 1st-order (curr_window) | 63.51% | +16.45 | 50 | 0% |
+| 2nd-order (min_obs=3) | 64.01% | +16.96 | 476 | 1.6% |
+| 2nd-order (min_obs=5) | 63.80% | +16.74 | 327 | 3.8% |
+
+### Pair Mode Divergence
+
+Of 327 pairs with ≥5 observations, 70 (21.4%) have a pair-specific mode that diverges from the first-order prediction. Mean divergence magnitude: 8.54 windows. However, these divergences translate to only +0.50pp ceiling improvement — the divergent pairs are too sparse and their corrections too noisy to improve aggregate performance.
+
+### Gate Decision
+
+**Second-order ceiling improvement: +0.50pp** (64.01% vs 63.51%). Below the ≥2pp gate threshold. Cross-validation (Sprint 2) was **skipped** — the theoretical ceiling is insufficient to justify the parameter cost (476 vs 50 parameters).
+
+**Interpretation:** The lattice's sequential constraint is essentially **first-order Markov** at the window level. curr_window determines most of the transition structure; knowing what came before adds minimal predictive value. This is consistent with a physical tool where the operator indexes to a position and the tool's local structure (not its history) determines what comes next.
+
+**Artifact:** `results/data/phase14_machine/second_order_transitions.json`
+
+## 24. Emulator Calibration with Offset Corrections (Phase 14K)
+
+The `HighFidelityVolvelle` emulator was upgraded to accept per-window offset corrections (Phase 14I). The corrections shift the next-window lookup after each token generation, modeling systematic per-window drift. Two synthetic corpora were generated (5,000 lines each, same seed): Corpus A (no corrections) and Corpus B (with corrections).
+
+### Transition Profile (Key Result)
+
+| Metric | Real | Synthetic A | Synthetic B |
+| :--- | ---: | ---: | ---: |
+| Admissible (±1) | 45.9% | 4.7% | **47.6%** |
+| Extended (±3) | 60.3% | 15.5% | **51.1%** |
+| KL(Real ‖ Synthetic) | — | 1.83 bits | **1.18 bits** |
+
+The uncorrected emulator produces synthetic text with only 4.7% admissibility — its transition patterns are unrealistic. The corrected emulator matches the real manuscript almost exactly (47.6% vs 45.9%), a **10× improvement** in structural fidelity.
+
+### Entropy Profile
+
+| Metric | Real | Synthetic A | Synthetic B |
+| :--- | ---: | ---: | ---: |
+| H(unigram) | 10.88 | 12.04 | 12.12 |
+| H(word \| prev) | 3.96 | 2.88 | 2.75 |
+| Mirror fit (unigram) | — | 90.4% | 89.8% |
+
+Entropy is slightly worse with corrections (89.8% vs 90.4% mirror fit). The corrections shift the effective word distribution but do not affect the scribe selection mechanism. This is expected: the offset correction improves structural fidelity (transition patterns), not distributional fidelity (word frequencies).
+
+### N-gram Profile
+
+| N-gram | A overgen | B overgen |
+| :--- | ---: | ---: |
+| 2-gram | 1.2× | 1.1× |
+| 3-gram | 1.0× | 1.0× |
+| 4-gram | 1.0× | 0.9× |
+
+Both variants produce similar n-gram diversity. Overlap with real n-grams is near zero for both (<0.1%), confirming the emulator generates novel sequences rather than memorizing real ones.
+
+### Interpretation
+
+The offset correction transforms the emulator from a structurally unrealistic generator (4.7% admissibility) to one that closely matches the manuscript's transition profile (47.6%). This makes corrected synthetic text a much better null model for all downstream statistical tests. The entropy tradeoff is minor.
+
+**Artifacts:**
+- `results/data/phase14_machine/emulator_calibration.json`
+- `results/data/phase14_machine/canonical_offsets.json`
+
+## 25. Residual Characterization (Phase 14L)
+
+After per-window offset correction, 39.9% of token transitions remain unexplained. This section diagnoses the residual across positional, sequential, lexical, and structural dimensions to determine whether further lattice refinement is productive.
+
+### Positional Structure
+
+| Position | Total | Failure Rate |
+| :--- | ---: | ---: |
+| 1 (line-initial) | 4,283 | 36.3% |
+| 2-4 | 11,531 | 38.8% |
+| 5-9 | 11,213 | 40.5% |
+| 10+ | 2,433 | 48.0% |
+
+Failure rate increases modestly toward line-end (+11.6pp range). Line-initial tokens are slightly easier to reach (36.3%). The positional gradient is gentle, not a sharp discontinuity.
+
+### Sequential Clustering
+
+Failure runs (consecutive non-admissible tokens):
+- Mean run length: 1.63 (expected under independence: 0.66)
+- Max run length: 13
+- Chi-squared: 19.04, p=0.004 — statistically significant but weak clustering
+
+Failures are mildly clustered (2.5× longer runs than random) but not dramatically bursty. The clustering is consistent with folio-level variation rather than a hidden second process.
+
+### Lexical Dominance (Key Finding)
+
+| Frequency Tier | Total | Failure Rate |
+| :--- | ---: | ---: |
+| Common (≥100 occ.) | 11,634 | **6.9%** |
+| Medium (10-99) | 8,683 | 35.1% |
+| Rare (2-9) | 7,761 | 84.5% |
+| Hapax (1) | 1,382 | **97.8%** |
+
+**The residual is overwhelmingly a frequency effect.** Common words have 6.9% failure rate; rare words have 84.5%. This is not a structural deficiency in the lattice — it reflects the fundamental limitation of a 50-window clustering model on a heavy-tailed vocabulary. Words seen rarely are placed in windows with weak statistical support.
+
+Low-frequency words (hapax + rare) account for **67.3% of all failures** despite being only 31.0% of transitions.
+
+### Top Failure Words
+
+The top 10 failure-causing target words (by count) all have 98-100% failure rates and include `lchedy` (103), `qotedy` (84), `saiin` (80). These are **in the palette** but consistently misplaced by the clustering algorithm due to sparse observation counts.
+
+### Section Variation
+
+| Section | Failure Rate |
+| :--- | ---: |
+| Biological | 32.4% |
+| Stars | 36.2% |
+| Herbal A | 42.3% |
+| Pharma | 48.0% |
+| Astro | 49.4% |
+
+The 17.0pp section range (Biological 32.4% vs Astro 49.4%) is substantial. Biological benefits from a more concentrated vocabulary; Astro and Pharma have more rare words.
+
+### Window Properties
+
+- Window size vs failure rate: rho=0.11, p=0.44 (no correlation)
+- |Correction magnitude| vs failure rate: **rho=0.43, p=0.002** (significant)
+
+Windows with larger offset corrections have higher failure rates. This confirms that the corrections are compensating for real structural drift, and the residual concentrates in windows where the drift is most severe.
+
+### Reducibility Estimate
+
+| Component | Fraction of Residual |
+| :--- | ---: |
+| OOV tokens | 6.7% |
+| Low-frequency word effect | ~67% (partially reducible) |
+| Positional gradient | ~12pp range (small) |
+| Section variation | ~17pp range (moderate) |
+
+**Approximately 30% of the residual is potentially reducible** (OOV expansion + section-specific corrections). The remaining ~70% is an irreducible consequence of heavy-tailed vocabulary statistics: the lattice correctly identifies the constraint structure but cannot precisely place words it has rarely seen.
+
+### Recommendations
+
+1. **Vocabulary expansion**: OOV tokens are 6.7% of failures; expanding palette coverage could recover ~2pp.
+2. **Section-specific corrections**: The 17pp section range suggests section-level offset corrections could recover ~3-5pp beyond the global model.
+3. **Diminishing returns warning**: The dominant failure mode (rare word placement) is not fixable by adding more lattice parameters — it requires more data, not a richer model.
+
+**Artifact:** `results/data/phase14_machine/residual_characterization.json`

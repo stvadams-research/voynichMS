@@ -1,0 +1,1209 @@
+{
+  "provenance": {
+    "run_id": "3de027a1-aa78-9ede-506d-06d8c29e26d0",
+    "git_commit": "30ae35a42f4fd40c11edc67b7133a80922b9d2eb",
+    "timestamp": "2026-02-21T20:49:43.725114+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771706983725058000,
+    "command": "run_14zd_residual_characterization"
+  },
+  "results": {
+    "sprint1_positional": {
+      "position_within_line": {
+        "1": {
+          "total": 4283,
+          "failures": 1556,
+          "failure_rate": 0.3633
+        },
+        "2": {
+          "total": 4105,
+          "failures": 1580,
+          "failure_rate": 0.3849
+        },
+        "3": {
+          "total": 3871,
+          "failures": 1475,
+          "failure_rate": 0.381
+        },
+        "4": {
+          "total": 3555,
+          "failures": 1418,
+          "failure_rate": 0.3989
+        },
+        "5": {
+          "total": 3148,
+          "failures": 1304,
+          "failure_rate": 0.4142
+        },
+        "6": {
+          "total": 2731,
+          "failures": 1094,
+          "failure_rate": 0.4006
+        },
+        "7": {
+          "total": 2308,
+          "failures": 921,
+          "failure_rate": 0.399
+        },
+        "8": {
+          "total": 1784,
+          "failures": 721,
+          "failure_rate": 0.4041
+        },
+        "9": {
+          "total": 1242,
+          "failures": 524,
+          "failure_rate": 0.4219
+        },
+        "10": {
+          "total": 2433,
+          "failures": 1167,
+          "failure_rate": 0.4797
+        }
+      },
+      "burst_analysis": {
+        "total_transitions": 29460,
+        "total_failures": 11760,
+        "failure_rate": 0.3992,
+        "num_runs": 7234,
+        "mean_run_length": 1.63,
+        "expected_mean_run_length": 0.66,
+        "median_run_length": 1,
+        "max_run_length": 13,
+        "run_distribution": {
+          "1": 4490,
+          "2": 1704,
+          "3": 621,
+          "4": 242,
+          "5": 103,
+          "6": 48,
+          "7": 13,
+          "8": 5,
+          "9": 1,
+          "11": 1,
+          "12": 1,
+          "13": 5
+        },
+        "clustering_test": {
+          "chi2": 19.04,
+          "p_value": 0.004093,
+          "df": 6
+        }
+      },
+      "folio_failure_rates": {
+        "num_folios": 222,
+        "mean_rate": 0.436,
+        "std_rate": 0.117,
+        "top_10_worst": [
+          {
+            "folio_id": "f87v",
+            "section": "Pharma",
+            "total": 55,
+            "failures": 46,
+            "failure_rate": 0.8364
+          },
+          {
+            "folio_id": "f96v",
+            "section": "Pharma",
+            "total": 36,
+            "failures": 30,
+            "failure_rate": 0.8333
+          },
+          {
+            "folio_id": "f90v1",
+            "section": "Pharma",
+            "total": 59,
+            "failures": 45,
+            "failure_rate": 0.7627
+          },
+          {
+            "folio_id": "f27v",
+            "section": "Herbal A",
+            "total": 41,
+            "failures": 30,
+            "failure_rate": 0.7317
+          },
+          {
+            "folio_id": "f72v2",
+            "section": "Astro",
+            "total": 64,
+            "failures": 46,
+            "failure_rate": 0.7188
+          },
+          {
+            "folio_id": "f116v",
+            "section": "Stars",
+            "total": 7,
+            "failures": 5,
+            "failure_rate": 0.7143
+          },
+          {
+            "folio_id": "f68r1",
+            "section": "Astro",
+            "total": 27,
+            "failures": 19,
+            "failure_rate": 0.7037
+          },
+          {
+            "folio_id": "f72v1",
+            "section": "Astro",
+            "total": 60,
+            "failures": 41,
+            "failure_rate": 0.6833
+          },
+          {
+            "folio_id": "f7r",
+            "section": "Herbal A",
+            "total": 44,
+            "failures": 30,
+            "failure_rate": 0.6818
+          },
+          {
+            "folio_id": "f8r",
+            "section": "Herbal A",
+            "total": 106,
+            "failures": 72,
+            "failure_rate": 0.6792
+          }
+        ],
+        "top_10_best": [
+          {
+            "folio_id": "f65r",
+            "section": "Herbal B",
+            "total": 1,
+            "failures": 0,
+            "failure_rate": 0.0
+          },
+          {
+            "folio_id": "f15v",
+            "section": "Herbal A",
+            "total": 55,
+            "failures": 11,
+            "failure_rate": 0.2
+          },
+          {
+            "folio_id": "f33r",
+            "section": "Herbal A",
+            "total": 64,
+            "failures": 16,
+            "failure_rate": 0.25
+          },
+          {
+            "folio_id": "f77v",
+            "section": "Biological",
+            "total": 271,
+            "failures": 68,
+            "failure_rate": 0.2509
+          },
+          {
+            "folio_id": "f78v",
+            "section": "Biological",
+            "total": 238,
+            "failures": 62,
+            "failure_rate": 0.2605
+          },
+          {
+            "folio_id": "f11r",
+            "section": "Herbal A",
+            "total": 46,
+            "failures": 12,
+            "failure_rate": 0.2609
+          },
+          {
+            "folio_id": "f102v1",
+            "section": "Pharma",
+            "total": 97,
+            "failures": 26,
+            "failure_rate": 0.268
+          },
+          {
+            "folio_id": "f76r",
+            "section": "Biological",
+            "total": 469,
+            "failures": 126,
+            "failure_rate": 0.2687
+          },
+          {
+            "folio_id": "f47r",
+            "section": "Herbal A",
+            "total": 59,
+            "failures": 16,
+            "failure_rate": 0.2712
+          },
+          {
+            "folio_id": "f79r",
+            "section": "Biological",
+            "total": 310,
+            "failures": 86,
+            "failure_rate": 0.2774
+          }
+        ]
+      },
+      "line_length": {
+        "by_length": {
+          "2": {
+            "total": 178,
+            "failures": 109,
+            "failure_rate": 0.6124
+          },
+          "3": {
+            "total": 468,
+            "failures": 232,
+            "failure_rate": 0.4957
+          },
+          "4": {
+            "total": 948,
+            "failures": 454,
+            "failure_rate": 0.4789
+          },
+          "5": {
+            "total": 1628,
+            "failures": 716,
+            "failure_rate": 0.4398
+          },
+          "6": {
+            "total": 2085,
+            "failures": 883,
+            "failure_rate": 0.4235
+          },
+          "7": {
+            "total": 2538,
+            "failures": 1120,
+            "failure_rate": 0.4413
+          },
+          "8": {
+            "total": 3668,
+            "failures": 1563,
+            "failure_rate": 0.4261
+          },
+          "9": {
+            "total": 4336,
+            "failures": 1725,
+            "failure_rate": 0.3978
+          },
+          "10": {
+            "total": 4608,
+            "failures": 1628,
+            "failure_rate": 0.3533
+          },
+          "11": {
+            "total": 3820,
+            "failures": 1327,
+            "failure_rate": 0.3474
+          },
+          "12": {
+            "total": 2024,
+            "failures": 643,
+            "failure_rate": 0.3177
+          },
+          "13": {
+            "total": 804,
+            "failures": 276,
+            "failure_rate": 0.3433
+          },
+          "14": {
+            "total": 195,
+            "failures": 54,
+            "failure_rate": 0.2769
+          },
+          "15": {
+            "total": 112,
+            "failures": 46,
+            "failure_rate": 0.4107
+          },
+          "16": {
+            "total": 60,
+            "failures": 22,
+            "failure_rate": 0.3667
+          },
+          "17": {
+            "total": 16,
+            "failures": 4,
+            "failure_rate": 0.25
+          },
+          "18": {
+            "total": 34,
+            "failures": 10,
+            "failure_rate": 0.2941
+          },
+          "19": {
+            "total": 72,
+            "failures": 42,
+            "failure_rate": 0.5833
+          },
+          "20": {
+            "total": 95,
+            "failures": 42,
+            "failure_rate": 0.4421
+          },
+          "21": {
+            "total": 100,
+            "failures": 39,
+            "failure_rate": 0.39
+          },
+          "22": {
+            "total": 63,
+            "failures": 31,
+            "failure_rate": 0.4921
+          },
+          "23": {
+            "total": 132,
+            "failures": 49,
+            "failure_rate": 0.3712
+          },
+          "24": {
+            "total": 46,
+            "failures": 18,
+            "failure_rate": 0.3913
+          },
+          "26": {
+            "total": 50,
+            "failures": 22,
+            "failure_rate": 0.44
+          },
+          "28": {
+            "total": 27,
+            "failures": 17,
+            "failure_rate": 0.6296
+          },
+          "29": {
+            "total": 84,
+            "failures": 45,
+            "failure_rate": 0.5357
+          },
+          "30": {
+            "total": 145,
+            "failures": 68,
+            "failure_rate": 0.469
+          },
+          "31": {
+            "total": 150,
+            "failures": 77,
+            "failure_rate": 0.5133
+          },
+          "32": {
+            "total": 124,
+            "failures": 70,
+            "failure_rate": 0.5645
+          },
+          "33": {
+            "total": 32,
+            "failures": 17,
+            "failure_rate": 0.5312
+          },
+          "34": {
+            "total": 66,
+            "failures": 36,
+            "failure_rate": 0.5455
+          },
+          "35": {
+            "total": 102,
+            "failures": 46,
+            "failure_rate": 0.451
+          },
+          "36": {
+            "total": 105,
+            "failures": 53,
+            "failure_rate": 0.5048
+          },
+          "37": {
+            "total": 108,
+            "failures": 63,
+            "failure_rate": 0.5833
+          },
+          "38": {
+            "total": 111,
+            "failures": 52,
+            "failure_rate": 0.4685
+          },
+          "39": {
+            "total": 38,
+            "failures": 11,
+            "failure_rate": 0.2895
+          },
+          "41": {
+            "total": 40,
+            "failures": 22,
+            "failure_rate": 0.55
+          },
+          "42": {
+            "total": 41,
+            "failures": 15,
+            "failure_rate": 0.3659
+          },
+          "45": {
+            "total": 44,
+            "failures": 18,
+            "failure_rate": 0.4091
+          },
+          "47": {
+            "total": 46,
+            "failures": 25,
+            "failure_rate": 0.5435
+          },
+          "52": {
+            "total": 51,
+            "failures": 18,
+            "failure_rate": 0.3529
+          },
+          "67": {
+            "total": 66,
+            "failures": 52,
+            "failure_rate": 0.7879
+          }
+        },
+        "correlation": {
+          "rho": 0.242,
+          "p_value": 0.1274
+        }
+      }
+    },
+    "sprint2_lexical": {
+      "word_failure": {
+        "unique_targets": 7750,
+        "unique_predecessors": 7608,
+        "top50_overlap": 4,
+        "top_targets_by_count": [
+          {
+            "word": "lchedy",
+            "total": 103,
+            "failures": 103,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "qotedy",
+            "total": 84,
+            "failures": 84,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "saiin",
+            "total": 80,
+            "failures": 80,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "r",
+            "total": 80,
+            "failures": 80,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "y",
+            "total": 71,
+            "failures": 71,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "am",
+            "total": 53,
+            "failures": 52,
+            "failure_rate": 0.9811,
+            "in_palette": true
+          },
+          {
+            "word": "lkaiin",
+            "total": 42,
+            "failures": 42,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "chear",
+            "total": 39,
+            "failures": 39,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "sar",
+            "total": 38,
+            "failures": 38,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "cthey",
+            "total": 37,
+            "failures": 37,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "qokchedy",
+            "total": 37,
+            "failures": 37,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "lshedy",
+            "total": 36,
+            "failures": 36,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "dor",
+            "total": 34,
+            "failures": 34,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "ykaiin",
+            "total": 32,
+            "failures": 32,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "olkeey",
+            "total": 32,
+            "failures": 31,
+            "failure_rate": 0.9688,
+            "in_palette": true
+          },
+          {
+            "word": "lkar",
+            "total": 30,
+            "failures": 30,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "okam",
+            "total": 29,
+            "failures": 29,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "lkain",
+            "total": 29,
+            "failures": 29,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "olkedy",
+            "total": 28,
+            "failures": 28,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "opchey",
+            "total": 28,
+            "failures": 28,
+            "failure_rate": 1.0,
+            "in_palette": true
+          }
+        ],
+        "top_targets_by_rate": [
+          {
+            "word": "chear",
+            "total": 39,
+            "failures": 39,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "saiin",
+            "total": 80,
+            "failures": 80,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "cthey",
+            "total": 37,
+            "failures": 37,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "r",
+            "total": 80,
+            "failures": 80,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "olchey",
+            "total": 22,
+            "failures": 22,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "dor",
+            "total": 34,
+            "failures": 34,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "oldy",
+            "total": 20,
+            "failures": 20,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "sar",
+            "total": 38,
+            "failures": 38,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "lkar",
+            "total": 30,
+            "failures": 30,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "qotedy",
+            "total": 84,
+            "failures": 84,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "lkaiin",
+            "total": 42,
+            "failures": 42,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "okam",
+            "total": 29,
+            "failures": 29,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "y",
+            "total": 71,
+            "failures": 71,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "lchedy",
+            "total": 103,
+            "failures": 103,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "lshedy",
+            "total": 36,
+            "failures": 36,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "olkedy",
+            "total": 28,
+            "failures": 28,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "opchey",
+            "total": 28,
+            "failures": 28,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "lkain",
+            "total": 29,
+            "failures": 29,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "chl",
+            "total": 22,
+            "failures": 22,
+            "failure_rate": 1.0,
+            "in_palette": true
+          },
+          {
+            "word": "otchdy",
+            "total": 22,
+            "failures": 22,
+            "failure_rate": 1.0,
+            "in_palette": true
+          }
+        ],
+        "top_predecessors_by_count": [
+          {
+            "word": "daiin",
+            "total": 612,
+            "failures": 234,
+            "failure_rate": 0.3824,
+            "in_palette": true
+          },
+          {
+            "word": "chedy",
+            "total": 409,
+            "failures": 128,
+            "failure_rate": 0.313,
+            "in_palette": true
+          },
+          {
+            "word": "aiin",
+            "total": 286,
+            "failures": 104,
+            "failure_rate": 0.3636,
+            "in_palette": true
+          },
+          {
+            "word": "chey",
+            "total": 267,
+            "failures": 103,
+            "failure_rate": 0.3858,
+            "in_palette": true
+          },
+          {
+            "word": "chol",
+            "total": 298,
+            "failures": 102,
+            "failure_rate": 0.3423,
+            "in_palette": true
+          },
+          {
+            "word": "shedy",
+            "total": 360,
+            "failures": 101,
+            "failure_rate": 0.2806,
+            "in_palette": true
+          },
+          {
+            "word": "qokeey",
+            "total": 291,
+            "failures": 97,
+            "failure_rate": 0.3333,
+            "in_palette": true
+          },
+          {
+            "word": "or",
+            "total": 235,
+            "failures": 94,
+            "failure_rate": 0.4,
+            "in_palette": true
+          },
+          {
+            "word": "qokeedy",
+            "total": 295,
+            "failures": 93,
+            "failure_rate": 0.3153,
+            "in_palette": true
+          },
+          {
+            "word": "ol",
+            "total": 333,
+            "failures": 91,
+            "failure_rate": 0.2733,
+            "in_palette": true
+          },
+          {
+            "word": "ar",
+            "total": 235,
+            "failures": 84,
+            "failure_rate": 0.3574,
+            "in_palette": true
+          },
+          {
+            "word": "shey",
+            "total": 212,
+            "failures": 77,
+            "failure_rate": 0.3632,
+            "in_palette": true
+          },
+          {
+            "word": "qokain",
+            "total": 265,
+            "failures": 77,
+            "failure_rate": 0.2906,
+            "in_palette": true
+          },
+          {
+            "word": "dar",
+            "total": 216,
+            "failures": 73,
+            "failure_rate": 0.338,
+            "in_palette": true
+          },
+          {
+            "word": "qokedy",
+            "total": 254,
+            "failures": 69,
+            "failure_rate": 0.2717,
+            "in_palette": true
+          },
+          {
+            "word": "chor",
+            "total": 171,
+            "failures": 68,
+            "failure_rate": 0.3977,
+            "in_palette": true
+          },
+          {
+            "word": "al",
+            "total": 141,
+            "failures": 66,
+            "failure_rate": 0.4681,
+            "in_palette": true
+          },
+          {
+            "word": "okaiin",
+            "total": 190,
+            "failures": 65,
+            "failure_rate": 0.3421,
+            "in_palette": true
+          },
+          {
+            "word": "qokaiin",
+            "total": 251,
+            "failures": 63,
+            "failure_rate": 0.251,
+            "in_palette": true
+          },
+          {
+            "word": "okeey",
+            "total": 161,
+            "failures": 55,
+            "failure_rate": 0.3416,
+            "in_palette": true
+          }
+        ]
+      },
+      "word_class": {
+        "by_frequency_tier": {
+          "common": {
+            "total": 11634,
+            "failures": 798,
+            "failure_rate": 0.0686
+          },
+          "medium": {
+            "total": 8683,
+            "failures": 3050,
+            "failure_rate": 0.3513
+          },
+          "rare": {
+            "total": 7761,
+            "failures": 6561,
+            "failure_rate": 0.8454
+          },
+          "hapax": {
+            "total": 1382,
+            "failures": 1351,
+            "failure_rate": 0.9776
+          }
+        },
+        "by_suffix": {
+          "y": {
+            "total": 7034,
+            "failures": 2831,
+            "failure_rate": 0.4025
+          },
+          "dy": {
+            "total": 5714,
+            "failures": 2112,
+            "failure_rate": 0.3696
+          },
+          "in": {
+            "total": 4700,
+            "failures": 1430,
+            "failure_rate": 0.3043
+          },
+          "r": {
+            "total": 2617,
+            "failures": 1101,
+            "failure_rate": 0.4207
+          },
+          "ol": {
+            "total": 2480,
+            "failures": 673,
+            "failure_rate": 0.2714
+          },
+          "al": {
+            "total": 1611,
+            "failures": 514,
+            "failure_rate": 0.3191
+          },
+          "or": {
+            "total": 1452,
+            "failures": 540,
+            "failure_rate": 0.3719
+          },
+          "s": {
+            "total": 899,
+            "failures": 530,
+            "failure_rate": 0.5895
+          },
+          "am": {
+            "total": 683,
+            "failures": 443,
+            "failure_rate": 0.6486
+          },
+          "o": {
+            "total": 667,
+            "failures": 342,
+            "failure_rate": 0.5127
+          },
+          "d": {
+            "total": 445,
+            "failures": 335,
+            "failure_rate": 0.7528
+          },
+          "l": {
+            "total": 233,
+            "failures": 146,
+            "failure_rate": 0.6266
+          },
+          "m": {
+            "total": 221,
+            "failures": 201,
+            "failure_rate": 0.9095
+          },
+          "a": {
+            "total": 102,
+            "failures": 85,
+            "failure_rate": 0.8333
+          },
+          "g": {
+            "total": 101,
+            "failures": 98,
+            "failure_rate": 0.9703
+          },
+          "e": {
+            "total": 89,
+            "failures": 45,
+            "failure_rate": 0.5056
+          },
+          "an": {
+            "total": 77,
+            "failures": 67,
+            "failure_rate": 0.8701
+          },
+          "k": {
+            "total": 55,
+            "failures": 29,
+            "failure_rate": 0.5273
+          },
+          "h": {
+            "total": 50,
+            "failures": 50,
+            "failure_rate": 1.0
+          },
+          "t": {
+            "total": 49,
+            "failures": 31,
+            "failure_rate": 0.6327
+          },
+          "p": {
+            "total": 24,
+            "failures": 15,
+            "failure_rate": 0.625
+          },
+          "?": {
+            "total": 23,
+            "failures": 19,
+            "failure_rate": 0.8261
+          },
+          "f": {
+            "total": 18,
+            "failures": 18,
+            "failure_rate": 1.0
+          },
+          "i": {
+            "total": 16,
+            "failures": 13,
+            "failure_rate": 0.8125
+          },
+          "x": {
+            "total": 12,
+            "failures": 12,
+            "failure_rate": 1.0
+          },
+          "n": {
+            "total": 11,
+            "failures": 11,
+            "failure_rate": 1.0
+          },
+          "v": {
+            "total": 10,
+            "failures": 10,
+            "failure_rate": 1.0
+          },
+          "0": {
+            "total": 8,
+            "failures": 8,
+            "failure_rate": 1.0
+          },
+          "b": {
+            "total": 7,
+            "failures": 7,
+            "failure_rate": 1.0
+          },
+          "u": {
+            "total": 6,
+            "failures": 6,
+            "failure_rate": 1.0
+          },
+          "2": {
+            "total": 6,
+            "failures": 1,
+            "failure_rate": 0.1667
+          },
+          "5": {
+            "total": 5,
+            "failures": 5,
+            "failure_rate": 1.0
+          },
+          "1": {
+            "total": 5,
+            "failures": 5,
+            "failure_rate": 1.0
+          },
+          "3": {
+            "total": 5,
+            "failures": 2,
+            "failure_rate": 0.4
+          },
+          "'": {
+            "total": 5,
+            "failures": 5,
+            "failure_rate": 1.0
+          },
+          "c": {
+            "total": 4,
+            "failures": 4,
+            "failure_rate": 1.0
+          },
+          "4": {
+            "total": 3,
+            "failures": 3,
+            "failure_rate": 1.0
+          },
+          "j": {
+            "total": 3,
+            "failures": 3,
+            "failure_rate": 1.0
+          },
+          "8": {
+            "total": 2,
+            "failures": 2,
+            "failure_rate": 1.0
+          },
+          "7": {
+            "total": 2,
+            "failures": 2,
+            "failure_rate": 1.0
+          },
+          "6": {
+            "total": 1,
+            "failures": 1,
+            "failure_rate": 1.0
+          },
+          "9": {
+            "total": 1,
+            "failures": 1,
+            "failure_rate": 1.0
+          },
+          "I": {
+            "total": 1,
+            "failures": 1,
+            "failure_rate": 1.0
+          },
+          "A": {
+            "total": 1,
+            "failures": 1,
+            "failure_rate": 1.0
+          },
+          "q": {
+            "total": 1,
+            "failures": 1,
+            "failure_rate": 1.0
+          },
+          "z": {
+            "total": 1,
+            "failures": 1,
+            "failure_rate": 1.0
+          }
+        },
+        "by_length": {
+          "long": {
+            "total": 13106,
+            "failures": 7387,
+            "failure_rate": 0.5636
+          },
+          "medium": {
+            "total": 12129,
+            "failures": 3279,
+            "failure_rate": 0.2703
+          },
+          "short": {
+            "total": 4225,
+            "failures": 1094,
+            "failure_rate": 0.2589
+          }
+        }
+      },
+      "window_occupancy": {
+        "size_vs_failure": {
+          "rho": 0.112,
+          "p_value": 0.4388
+        },
+        "correction_vs_failure": {
+          "rho": 0.4297,
+          "p_value": 0.0018
+        }
+      }
+    },
+    "sprint3_synthesis": {
+      "total_transitions": 29460,
+      "total_failures": 11760,
+      "overall_failure_rate": 0.3992,
+      "oov_transitions": 1964,
+      "section_failure_rates": {
+        "Pharma": 0.4797,
+        "Stars": 0.3624,
+        "Herbal A": 0.4226,
+        "Herbal B": 0.4542,
+        "Astro": 0.4937,
+        "Biological": 0.3237,
+        "Cosmo": 0.4548
+      },
+      "reducibility": {
+        "oov_tokens": 1964,
+        "oov_fraction": 0.0667,
+        "low_frequency_failures": 7912,
+        "low_frequency_fraction": 0.6728,
+        "positional_range_pp": 11.6,
+        "section_range_pp": 17.0,
+        "burst_clustered": false,
+        "estimated_noise_fraction": 0.2685
+      },
+      "recommendations": [
+        "Expand vocabulary: OOV tokens account for 6.7% of failures. Increasing palette coverage could reduce residual.",
+        "Section variation is large (17.0pp range). Section-specific corrections may reduce the residual.",
+        "Low-frequency words contribute 67.3% of failures. The residual is partly a sparse-data artifact."
+      ]
+    }
+  }
+}
