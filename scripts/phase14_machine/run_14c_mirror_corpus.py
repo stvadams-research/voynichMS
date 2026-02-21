@@ -37,12 +37,12 @@ def main():
     # 1. Load Solved Palette
     with open(PALETTE_PATH, "r") as f:
         p_data = json.load(f)
-    palette = p_data.get("results", p_data).get("columns", {})
-    # Convert keys back to int
-    palette = {int(k): v for k, v in palette.items()}
+    results = p_data.get("results", p_data)
+    lattice_map = results.get("lattice_map", {})
+    window_contents = results.get("window_contents", {})
     
     # 2. Setup High-Fidelity Emulator
-    emulator = HighFidelityVolvelle(palette, seed=42)
+    emulator = HighFidelityVolvelle(lattice_map, window_contents, seed=42)
     
     # 3. Generate Mirror Corpus
     console.print("Generating 100,000 synthetic lines from high-fidelity engine...")

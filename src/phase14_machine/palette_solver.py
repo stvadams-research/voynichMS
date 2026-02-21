@@ -68,19 +68,25 @@ class GlobalPaletteSolver:
         print("Layout optimization complete.")
         return {word: tuple(coord) for word, coord in current_pos.items()}
 
-    def cluster_columns(self, solved_pos: Dict[str, Tuple[float, float]], num_columns: int = 15) -> Dict[int, List[str]]:
+    def cluster_lattice(self, solved_pos: Dict[str, Tuple[float, float]], num_windows: int = 50) -> Dict[str, int]:
         """
-        Groups words into discrete vertical stacks (windows).
+        Groups words into discrete functional windows based on their 
+        coordinates in the solved physical space.
         """
-        # Sort words by X-coordinate
-        words = sorted(solved_pos.keys(), key=lambda w: solved_pos[w][0])
+        from sklearn.cluster import KMeans
+        words = list(solved_pos.keys())
+        coords = np.array([solved_pos[w] for w in words])
         
-        # Divide into even chunks (columns)
-        chunk_size = len(words) // num_columns
-        columns = {}
-        for i in range(num_columns):
-            start = i * chunk_size
-            end = (i + 1) * chunk_size if i < num_columns - 1 else len(words)
-            columns[i+1] = words[start:end]
+        print(f"Clustering {len(words)} tokens into {num_windows} physical windows...")
+        kmeans = KMeans(n_clusters=num_windows, random_state=42, n_init=10)
+        labels = kmeans.fit_predict(coords)
+        
+        word_to_window = {words[i]: int(labels[i]) for i in range(len(words))}
+        
+        # Build the 'Window Transition' map
+        # window_id -> list of words in that window
+        window_contents = defaultdict(list)
+        for w, wid in word_to_window.items():
+            window_contents[wid].append(w)
             
-        return columns
+        return {"word_to_window": word_to_window, "window_contents": dict(window_contents)}

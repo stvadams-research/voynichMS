@@ -47,13 +47,14 @@ def main():
     solver.ingest_data(slips, lines, top_n=top_n)
     
     pos_coords = solver.solve_grid(iterations=50 if args.full else 30)
-    columns = solver.cluster_columns(pos_coords, num_columns=15)
+    lattice_data = solver.cluster_lattice(pos_coords, num_windows=50)
     
     # 3. Save High-Fidelity Blueprint
     results = {
         "num_tokens_mapped": len(pos_coords),
         "is_full_vocabulary": args.full,
-        "columns": columns,
+        "lattice_map": lattice_data["word_to_window"],
+        "window_contents": lattice_data["window_contents"],
         "raw_coordinates": {w: list(c) for w, c in pos_coords.items()}
     }
     
