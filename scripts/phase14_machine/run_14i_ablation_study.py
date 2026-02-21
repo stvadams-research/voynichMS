@@ -15,10 +15,10 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase14_machine.palette_solver import GlobalPaletteSolver
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.queries import get_lines_from_store
+from phase1_foundation.core.data_loading import load_canonical_lines
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.storage.metadata import MetadataStore
+from phase14_machine.palette_solver import GlobalPaletteSolver
 
 DB_PATH = "sqlite:///data/voynich.db"
 OUTPUT_PATH = project_root / "results/data/phase14_machine/ablation_results.json"
@@ -40,7 +40,7 @@ def main():
     
     # 1. Load Data
     store = MetadataStore(DB_PATH)
-    real_lines = get_lines_from_store(store, "voynich_real")
+    real_lines = load_canonical_lines(store)
     all_tokens = [t for l in real_lines for t in l]
     total_tokens = len(all_tokens)
     

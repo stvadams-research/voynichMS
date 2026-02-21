@@ -1,0 +1,11 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T15:56:32.457943+00:00"
+  },
+  "results": {
+    "original_admissibility": 0.7946852550834044,
+    "shuffled_admissibility": 0.7954158042128333,
+    "invariant": true
+  }
+}

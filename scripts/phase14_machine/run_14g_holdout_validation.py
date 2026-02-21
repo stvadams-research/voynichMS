@@ -19,6 +19,7 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
+from phase1_foundation.core.data_loading import sanitize_token  # noqa: E402
 from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
 from phase1_foundation.runs.manager import active_run  # noqa: E402
 from phase1_foundation.storage.metadata import (  # noqa: E402
@@ -39,6 +40,7 @@ def get_folio_num(folio_id):
     return int(match.group(1)) if match else 0
 
 def get_section_lines(store, start_f, end_f):
+    """Load canonical ZL lines filtered to a folio range."""
     session = store.Session()
     try:
         rows = (
@@ -56,6 +58,9 @@ def get_section_lines(store, start_f, end_f):
                 TranscriptionLineRecord.page_id == PageRecord.id,
             )
             .filter(PageRecord.dataset_id == "voynich_real")
+            .filter(
+                TranscriptionLineRecord.source_id == "zandbergen_landini"
+            )
             .order_by(
                 PageRecord.id,
                 TranscriptionLineRecord.line_index,
@@ -70,10 +75,14 @@ def get_section_lines(store, start_f, end_f):
         for content, folio_id, line_id in rows:
             f_num = get_folio_num(folio_id)
             if start_f <= f_num <= end_f:
+                clean = sanitize_token(content)
+                if not clean:
+                    continue
                 if last_line_id is not None and line_id != last_line_id:
-                    lines.append(current_line)
+                    if current_line:
+                        lines.append(current_line)
                     current_line = []
-                current_line.append(content)
+                current_line.append(clean)
                 last_line_id = line_id
         if current_line:
             lines.append(current_line)
@@ -113,7 +122,7 @@ def main():
     solver = GlobalPaletteSolver()
     # Note: holdout uses transitions only (no slips) for a conservative test.
     # The production model additionally uses slips at weight=10.0.
-    solver.ingest_data([], train_lines, top_n=2000)
+    solver.ingest_data([], train_lines, top_n=None)
     solved_pos = solver.solve_grid(iterations=20)
     lattice_data = solver.cluster_lattice(solved_pos, num_windows=50)
 

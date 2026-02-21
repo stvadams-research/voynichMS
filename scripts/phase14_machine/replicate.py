@@ -6,7 +6,7 @@ Purpose: Automates the full-scale machine reconstruction and formal verification
 
 import subprocess
 import sys
-from pathlib import Path
+
 
 def run_command(cmd):
     print(f"\n>> Executing: {cmd}")
@@ -22,7 +22,7 @@ def main():
     print("=== Replicating Phase 14: Voynich Engine ===")
     
     # 1. Reconstruction
-    run_command("python3 scripts/phase14_machine/run_14a_palette_solver.py")
+    run_command("python3 scripts/phase14_machine/run_14a_palette_solver.py --full")
     run_command("python3 scripts/phase14_machine/run_14b_state_discovery.py")
     
     # 2. Validation

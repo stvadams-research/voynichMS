@@ -13,7 +13,7 @@ sys.path.insert(0, str(project_root / "src"))
 from phase12_mechanical.volvelle_simulator import VolvelleSimulator
 from phase10_admissibility.mask_anatomy.mapper import SlidingResidualMapper
 from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.queries import get_lines_from_store
+from phase1_foundation.core.data_loading import load_canonical_lines
 from phase1_foundation.core.provenance import ProvenanceWriter
 
 DB_PATH = "sqlite:///data/voynich.db"
@@ -25,7 +25,7 @@ def main():
     
     # 1. Load Real Data Baseline
     store = MetadataStore(DB_PATH)
-    real_lines = get_lines_from_store(store, "voynich_real")
+    real_lines = load_canonical_lines(store)
     real_tokens = [t for l in real_lines for t in l]
     
     # 2. Setup Prototype

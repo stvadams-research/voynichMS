@@ -4,20 +4,21 @@
 Consolidates all Phase 14 measurements into a single, standardized report.
 """
 
-import sys
 import json
+import sys
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
+from phase1_foundation.core.data_loading import load_canonical_lines
+from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.storage.metadata import MetadataStore
 from phase14_machine.evaluation_engine import EvaluationEngine
 from phase14_machine.high_fidelity_emulator import HighFidelityVolvelle
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.queries import get_lines_from_store
-from phase1_foundation.core.provenance import ProvenanceWriter
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -33,7 +34,7 @@ def main():
 
     # 1. Load Real Data
     store = MetadataStore(DB_PATH)
-    real_lines = get_lines_from_store(store, "voynich_real")
+    real_lines = load_canonical_lines(store)
     all_real_tokens = [t for l in real_lines for t in l]
     
     # 2. Load Model Data

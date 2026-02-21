@@ -1,0 +1,31 @@
+{
+  "provenance": {
+    "run_id": "3cb3f2e6-b564-97fc-5bf9-082970855799",
+    "git_commit": "e5ed5b4c2a27a3f5ece5359486676b3272e93137",
+    "timestamp": "2026-02-21T16:01:46.427392+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771689706427091000,
+    "command": "run_14u_copyreset_holdout"
+  },
+  "results": {
+    "train_lines": 1595,
+    "test_lines": 917,
+    "copy_reset": {
+      "p_copy": 0.023942823108993448,
+      "copy_window": 5,
+      "train_vocab_size": 3830,
+      "holdout_admissibility": 0.03706010588601682,
+      "holdout_chance": 0.0013048014923154883,
+      "holdout_z_score": 79.37558278361612,
+      "holdout_bpt": 15.659709930422382,
+      "total_test_tokens": 6422
+    },
+    "lattice_holdout": {
+      "drift_admissibility": 0.10806602304578013,
+      "drift_z": 16.21936282305868,
+      "strict_admissibility": 0.07489878542510121,
+      "strict_z": 31.424606721902006
+    }
+  }
+}

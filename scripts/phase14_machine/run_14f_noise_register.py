@@ -14,9 +14,9 @@ from collections import Counter, defaultdict
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.queries import get_lines_from_store
+from phase1_foundation.core.data_loading import load_canonical_lines
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.storage.metadata import MetadataStore
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -48,7 +48,7 @@ def main():
     
     # 3. Load Real Corpus
     store = MetadataStore(DB_PATH)
-    real_lines = get_lines_from_store(store, "voynich_real")
+    real_lines = load_canonical_lines(store)
     
     # 4. Audit Failures
     register = []

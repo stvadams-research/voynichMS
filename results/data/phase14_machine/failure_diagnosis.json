@@ -1,0 +1,165 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T16:01:45.430283+00:00"
+  },
+  "results": {
+    "total_tokens": 34605,
+    "failure_types": {
+      "not_in_palette": 1753,
+      "wrong_window": 4812,
+      "admissible": 12519,
+      "extreme_jump": 15521
+    },
+    "failure_rates": {
+      "not_in_palette": 0.05065741944805664,
+      "wrong_window": 0.13905504984828782,
+      "admissible": 0.36176853055916774,
+      "extreme_jump": 0.4485190001444878
+    },
+    "section_stats": {
+      "Pharma": {
+        "total": 3501,
+        "admissible": 1235,
+        "not_in_palette": 665,
+        "wrong_window": 321,
+        "extreme_jump": 1280
+      },
+      "Stars": {
+        "total": 10096,
+        "admissible": 3757,
+        "not_in_palette": 0,
+        "wrong_window": 1567,
+        "extreme_jump": 4772
+      },
+      "Herbal A": {
+        "total": 8826,
+        "admissible": 2812,
+        "not_in_palette": 162,
+        "wrong_window": 1529,
+        "extreme_jump": 4323
+      },
+      "Herbal B": {
+        "total": 1164,
+        "admissible": 316,
+        "not_in_palette": 7,
+        "wrong_window": 225,
+        "extreme_jump": 616
+      },
+      "Astro": {
+        "total": 2869,
+        "admissible": 697,
+        "not_in_palette": 204,
+        "wrong_window": 557,
+        "extreme_jump": 1411
+      },
+      "Biological": {
+        "total": 6422,
+        "admissible": 3012,
+        "not_in_palette": 410,
+        "wrong_window": 509,
+        "extreme_jump": 2491
+      },
+      "Cosmo": {
+        "total": 1727,
+        "admissible": 690,
+        "not_in_palette": 305,
+        "wrong_window": 104,
+        "extreme_jump": 628
+      }
+    },
+    "section_admissibility": {
+      "Pharma": 0.3527563553270494,
+      "Stars": 0.3721275752773376,
+      "Herbal A": 0.3186041241785633,
+      "Herbal B": 0.27147766323024053,
+      "Astro": 0.24294179156500523,
+      "Biological": 0.4690127686079103,
+      "Cosmo": 0.3995367689635206
+    },
+    "top_missing_tokens": [
+      [
+        "@140",
+        3
+      ],
+      [
+        "otoky",
+        3
+      ],
+      [
+        "otly",
+        2
+      ],
+      [
+        "@192",
+        2
+      ],
+      [
+        "olkeedal",
+        2
+      ],
+      [
+        "otardy",
+        2
+      ],
+      [
+        "otolor",
+        2
+      ],
+      [
+        "otaraldy",
+        2
+      ],
+      [
+        "okalar",
+        2
+      ],
+      [
+        "oeeodaiin",
+        2
+      ],
+      [
+        "oldain",
+        2
+      ],
+      [
+        "otoram",
+        2
+      ],
+      [
+        "tolchd",
+        1
+      ],
+      [
+        "solsy",
+        1
+      ],
+      [
+        "soleesos",
+        1
+      ],
+      [
+        "ykchochdy",
+        1
+      ],
+      [
+        "dalsy",
+        1
+      ],
+      [
+        "dykchal",
+        1
+      ],
+      [
+        "airaly",
+        1
+      ],
+      [
+        "dokor",
+        1
+      ]
+    ],
+    "palette_size": 7717,
+    "num_windows": 50
+  }
+}

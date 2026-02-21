@@ -15,7 +15,7 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
 from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.queries import get_lines_from_store
+from phase1_foundation.core.data_loading import load_canonical_lines
 
 DB_PATH = "sqlite:///data/voynich.db"
 INPUT_PATH = project_root / "results/data/phase12_mechanical/slip_detection_results.json"
@@ -36,7 +36,7 @@ def main():
     
     # 2. Load Full Corpus for Context
     store = MetadataStore(DB_PATH)
-    lines = get_lines_from_store(store, "voynich_real")
+    lines = load_canonical_lines(store)
     
     # 3. Enrich Slips
     enriched_slips = []

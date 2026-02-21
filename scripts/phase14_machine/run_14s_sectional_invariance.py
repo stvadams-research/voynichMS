@@ -5,19 +5,20 @@ Tests if the mechanical lattice is text-intrinsic by comparing
 admissibility on the original corpus vs. a line-shuffled corpus.
 """
 
-import sys
 import json
 import random
+import sys
 from pathlib import Path
+
 from rich.console import Console
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase14_machine.evaluation_engine import EvaluationEngine
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.queries import get_lines_from_store
+from phase1_foundation.core.data_loading import load_canonical_lines
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.storage.metadata import MetadataStore
+from phase14_machine.evaluation_engine import EvaluationEngine
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -35,7 +36,7 @@ def main():
     
     # 2. Load Real Lines
     store = MetadataStore(DB_PATH)
-    lines_original = get_lines_from_store(store, "voynich_real")
+    lines_original = load_canonical_lines(store)
     
     # 3. Create Shuffled Lines
     lines_shuffled = list(lines_original)

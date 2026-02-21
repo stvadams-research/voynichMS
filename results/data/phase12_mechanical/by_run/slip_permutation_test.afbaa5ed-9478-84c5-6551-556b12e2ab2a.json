@@ -1,0 +1,24 @@
+{
+  "provenance": {
+    "run_id": "afbaa5ed-9478-84c5-6551-556b12e2ab2a",
+    "git_commit": "e5ed5b4c2a27a3f5ece5359486676b3272e93137",
+    "timestamp": "2026-02-21T16:01:48.411734+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771689708411678000,
+    "command": "run_12g_slip_permutation"
+  },
+  "results": {
+    "observed_slips": 202,
+    "num_permutations": 10000,
+    "null_mean": 106.8645,
+    "null_std": 10.041311654858642,
+    "null_ci_5": 90.0,
+    "null_ci_95": 124.0,
+    "null_min": 67,
+    "null_max": 150,
+    "empirical_p_value": 0.0,
+    "z_score": 9.474409645872033,
+    "total_lines": 5145
+  }
+}

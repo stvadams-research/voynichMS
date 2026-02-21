@@ -54,7 +54,7 @@ def get_lines_from_store(store: MetadataStore, dataset_id: str, source_id: str =
         session.close()
 
 
-def get_tokens_and_boundaries(store: MetadataStore, dataset_id: str) -> Tuple[List[str], List[int]]:
+def get_tokens_and_boundaries(store: MetadataStore, dataset_id: str, source_id: str = None) -> Tuple[List[str], List[int]]:
     """
     Extract flat token list and line-boundary indices.
 
@@ -67,7 +67,13 @@ def get_tokens_and_boundaries(store: MetadataStore, dataset_id: str) -> Tuple[Li
             .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)
             .join(PageRecord, TranscriptionLineRecord.page_id == PageRecord.id)
             .filter(PageRecord.dataset_id == dataset_id)
-            .order_by(
+        )
+
+        if source_id:
+            rows = rows.filter(TranscriptionLineRecord.source_id == source_id)
+
+        rows = (
+            rows.order_by(
                 PageRecord.id,
                 TranscriptionLineRecord.line_index,
                 TranscriptionTokenRecord.token_index,

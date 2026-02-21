@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 """Phase 14A: Global Palette Solver."""
 
-import sys
 import json
+import sys
 from pathlib import Path
+
 from rich.console import Console
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase14_machine.palette_solver import GlobalPaletteSolver
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.queries import get_lines_from_store
+from phase1_foundation.core.data_loading import load_canonical_lines
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.storage.metadata import MetadataStore
+from phase14_machine.palette_solver import GlobalPaletteSolver
 
 DB_PATH = "sqlite:///data/voynich.db"
 SLIPS_PATH = project_root / "results/data/phase12_mechanical/slip_detection_results.json"
@@ -20,6 +21,7 @@ OUTPUT_PATH = project_root / "results/data/phase14_machine/full_palette_grid.jso
 console = Console()
 
 import argparse
+
 
 def main():
     parser = argparse.ArgumentParser(description="Run Phase 14A: Global Palette Solver.")
@@ -38,23 +40,7 @@ def main():
     slips = slips_data.get("results", slips_data).get("slips", [])
     
     store = MetadataStore(DB_PATH)
-    # Filter strictly for the canonical ZL transcription
-    lines_raw = get_lines_from_store(store, "voynich_real", source_id="zandbergen_landini")
-    
-    # 1.1 Token Sanitization
-    import re
-    def sanitize(t):
-        t = re.sub(r'<!.*?>', '', t) # Remove inline metadata
-        t = re.sub(r'<.*?>', '', t)  # Remove brackets
-        t = re.sub(r'[\{\}\[\]\*\$]', '', t) # Remove transcription symbols
-        t = t.replace('.', '').replace(',', '') # Remove dots/commas
-        return t.strip()
-
-    lines = []
-    for line in lines_raw:
-        clean_line = [sanitize(t) for t in line if sanitize(t)]
-        if clean_line:
-            lines.append(clean_line)
+    lines = load_canonical_lines(store)
             
     console.print(f"Loaded [bold cyan]{len(lines)}[/bold cyan] canonical lines from Zandbergen-Landini.")
     

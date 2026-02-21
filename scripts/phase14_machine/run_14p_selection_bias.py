@@ -16,8 +16,8 @@ from rich.console import Console
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
+from phase1_foundation.core.data_loading import load_canonical_lines  # noqa: E402
 from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
-from phase1_foundation.core.queries import get_lines_from_store  # noqa: E402
 from phase1_foundation.runs.manager import active_run  # noqa: E402
 from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
@@ -49,7 +49,7 @@ def main():
     
     # 2. Load Real Data
     store = MetadataStore(DB_PATH)
-    real_lines = get_lines_from_store(store, "voynich_real")
+    real_lines = load_canonical_lines(store)
     
     # 3. Extract Choice Stream (Indices)
     choice_stream = []
