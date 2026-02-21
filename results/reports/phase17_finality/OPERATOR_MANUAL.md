@@ -15,6 +15,11 @@ The vocabulary is organized into a **10x5 physical grid** of windows. Each windo
 A wooden or parchment frame with cut-outs that slides over the Word Sheets. The frame has 12 distinct **Stop Settings**. 
 - Moving the frame to a specific Setting (0–11) shifts which windows are exposed relative to the internal lattice.
 
+### 1.3 Canonical Build Artifacts
+- Canonical plate blueprint: `results/visuals/phase17_finality/palette_plate.svg`
+- Canonical ring blueprints: `results/visuals/phase17_finality/volvelle_canonical_ring_1.svg` through `results/visuals/phase17_finality/volvelle_canonical_ring_5.svg`
+- Legacy Phase 12 ring SVGs in `results/visuals/phase12_mechanical/` are historical prototypes and are not canonical for final reconstruction.
+
 ## 2. Operation Protocol
 
 ### Step 1: Initial Setting

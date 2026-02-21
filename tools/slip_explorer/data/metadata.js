@@ -1,1 +1,0 @@
-window.SLIP_EXPLORER_METADATA = {"generated_at":"2026-02-21T16:32:25.325100+00:00","sources":{"slips":"results/data/phase13_demonstration/slip_viz_data.json","lattice":"results/data/phase14_machine/full_palette_grid.json"},"counts":{"slips":914,"lattice_vocab":7717,"windows":50}};

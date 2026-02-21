@@ -1,0 +1,124 @@
+{
+  "provenance": {
+    "run_id": "4cd0ac17-424a-be13-66fd-462e719dda15",
+    "git_commit": "020af3d83e657e28e4cc62e78f6b825080736c5c",
+    "timestamp": "2026-02-21T17:16:27.397243+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771694187397201000,
+    "command": "run_14z3_cross_transcription"
+  },
+  "results": {
+    "zl_baseline": {
+      "admissibility": 0.4343723365396323,
+      "extended_admissibility": 0.577316449531231,
+      "tokens": 34605,
+      "clamped_tokens": 32852
+    },
+    "sources": {
+      "GC": {
+        "source_id": "glen_claston",
+        "num_lines": 5140,
+        "num_tokens": 37214,
+        "vocab_size": 10275,
+        "type_overlap_rate": 0.006812652068126521,
+        "token_coverage": 0.07083355726339549,
+        "admissibility": 0.21927162367223066,
+        "extended_admissibility": 0.454855842185129,
+        "admissibility_ratio": 0.5048010778472405,
+        "extended_ratio": 0.7878795806952367,
+        "clamped_tokens": 2636,
+        "permutation_test": {
+          "null_mean": 0.2084711684370258,
+          "null_std": 0.03914866363434526,
+          "z_score": 0.2758831140721134,
+          "p_value": 0.29,
+          "n_permutations": 100
+        }
+      },
+      "VT": {
+        "source_id": "voynich_transcription",
+        "num_lines": 5129,
+        "num_tokens": 37376,
+        "vocab_size": 7980,
+        "type_overlap_rate": 0.6591478696741855,
+        "token_coverage": 0.922142551369863,
+        "admissibility": 0.49973887309232284,
+        "extended_admissibility": 0.6443451517437475,
+        "admissibility_ratio": 1.1504850356572522,
+        "extended_ratio": 1.1161039188593058,
+        "clamped_tokens": 34466,
+        "permutation_test": {
+          "null_mean": 0.08961324203562933,
+          "null_std": 0.004607428061094725,
+          "z_score": 89.01400643014004,
+          "p_value": 0.0,
+          "n_permutations": 100
+        }
+      },
+      "IT": {
+        "source_id": "interim",
+        "num_lines": 5137,
+        "num_tokens": 36564,
+        "vocab_size": 8429,
+        "type_overlap_rate": 0.6576106299679677,
+        "token_coverage": 0.9163658243080626,
+        "admissibility": 0.49316540321136515,
+        "extended_admissibility": 0.6369903897809348,
+        "admissibility_ratio": 1.1353517747932562,
+        "extended_ratio": 1.1033643512118143,
+        "clamped_tokens": 33506,
+        "permutation_test": {
+          "null_mean": 0.08938369247298991,
+          "null_std": 0.004576939679611952,
+          "z_score": 88.22089409153173,
+          "p_value": 0.0,
+          "n_permutations": 100
+        }
+      },
+      "RF": {
+        "source_id": "rene_friedman",
+        "num_lines": 5145,
+        "num_tokens": 36102,
+        "vocab_size": 8781,
+        "type_overlap_rate": 0.6925179364537069,
+        "token_coverage": 0.920226026258933,
+        "admissibility": 0.4751369574378424,
+        "extended_admissibility": 0.6196496297634098,
+        "admissibility_ratio": 1.093847184705536,
+        "extended_ratio": 1.073327514340796,
+        "clamped_tokens": 33222,
+        "permutation_test": {
+          "null_mean": 0.08882999217386071,
+          "null_std": 0.004455938577575148,
+          "z_score": 86.69485867873068,
+          "p_value": 0.0,
+          "n_permutations": 100
+        }
+      },
+      "FG": {
+        "source_id": "friedman_group",
+        "num_lines": 3999,
+        "num_tokens": 32842,
+        "vocab_size": 6644,
+        "type_overlap_rate": 0.00030102347983142685,
+        "token_coverage": 0.0005785274952804335,
+        "admissibility": 0.8947368421052632,
+        "extended_admissibility": 0.8947368421052632,
+        "admissibility_ratio": 2.0598384538782133,
+        "extended_ratio": 1.549820454331019,
+        "clamped_tokens": 19,
+        "permutation_test": {
+          "null_mean": 0.9015789473684209,
+          "null_std": 0.017700180758737073,
+          "z_score": -0.38655567174252703,
+          "p_value": 1.0,
+          "n_permutations": 100
+        }
+      }
+    },
+    "mean_admissibility_ratio": 1.1888647053762997,
+    "significant_sources": 3,
+    "total_sources_tested": 5
+  }
+}

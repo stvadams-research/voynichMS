@@ -1,11 +1,11 @@
 {
   "provenance": {
-    "run_id": "4b5e44c2-143c-3112-66b6-39d680f1864f",
+    "run_id": "a8df26b0-d979-d0ed-cee0-b84700a7fbb7",
     "git_commit": "020af3d83e657e28e4cc62e78f6b825080736c5c",
-    "timestamp": "2026-02-21T17:39:41.997113+00:00",
+    "timestamp": "2026-02-21T17:39:01.330747+00:00",
     "seed": 42,
     "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
-    "run_nonce": 1771695581996937000,
+    "run_nonce": 1771695541330623000,
     "command": "run_17a_generate_blueprints"
   },
   "results": {

@@ -1,11 +1,11 @@
 {
   "provenance": {
-    "run_id": "4b5e44c2-143c-3112-66b6-39d680f1864f",
+    "run_id": "4952e92e-17f2-826c-b91e-5dd8b8a8b1a6",
     "git_commit": "020af3d83e657e28e4cc62e78f6b825080736c5c",
-    "timestamp": "2026-02-21T17:39:41.997113+00:00",
+    "timestamp": "2026-02-21T17:26:07.732507+00:00",
     "seed": 42,
     "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
-    "run_nonce": 1771695581996937000,
+    "run_nonce": 1771694767732386000,
     "command": "run_17a_generate_blueprints"
   },
   "results": {
@@ -218,7 +218,6 @@
       "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/palette_layout.txt",
       "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/mask_settings.txt",
       "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/palette_plate.svg",
-      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/volvelle_canonical_assembly.svg",
       "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/volvelle_canonical_ring_1.svg",
       "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/volvelle_canonical_ring_2.svg",
       "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/volvelle_canonical_ring_3.svg",

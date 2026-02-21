@@ -8,9 +8,9 @@
 
 ## Source Snapshot
 
-- generated_utc: `2026-02-21T16:45:23.876565Z`
+- generated_utc: `2026-02-21T17:27:34.214589Z`
 - source_snapshot.provenance_health_path: `core_status/core_audit/provenance_health_status.json`
-- source_snapshot.provenance_health_generated_utc: `2026-02-21T16:45:23.843517Z`
+- source_snapshot.provenance_health_generated_utc: `2026-02-21T17:27:34.182108Z`
 - source_snapshot.repair_report_path: `core_status/core_audit/run_status_repair_report.json`
 - source_snapshot.repair_report_generated_utc: `2026-02-10T17:39:06.686478Z`
 - source_snapshot.gate_health_path: `core_status/core_audit/release_gate_health_status.json`
@@ -25,7 +25,7 @@
 - m4_5_residual_reason: `historical_orphaned_rows_irrecoverable_with_current_source_scope`
 - threshold_policy_pass: `True`
 - orphaned_rows: `63`
-- orphaned_ratio: `0.130977`
+- orphaned_ratio: `0.126253`
 - missing_manifests: `0`
 - backfilled_manifests: `63`
 - recoverability_class: `HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED`
@@ -49,7 +49,7 @@
 | Status | Artifact Count | Runtime DB Count | Delta (DB - Artifact) |
 |---|---:|---:|---:|
 | `orphaned` | 63 | 63 | 0 |
-| `success` | 418 | 418 | 0 |
+| `success` | 436 | 436 | 0 |
 
 ## Residual Statement (Pass 5 / SK-M4.5)
 

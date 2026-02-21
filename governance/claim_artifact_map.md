@@ -193,6 +193,22 @@ raw float (e.g., 88.11% = 0.8811).
 
 ---
 
+## Phase 14G — Strengthening Program (Compression, Prediction, Validation)
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 71 | L(model) compression vs showdown | 75% | `run_14z_lattice_compression.py` | `results/data/phase14_machine/lattice_compression.json` | `results.compression_vs_showdown` | 154K → 38K bits (frequency-conditional) |
+| 72 | Revised Lattice BPT (freq-cond) | 12.37 | `run_14z_lattice_compression.py` | `results/data/phase14_machine/lattice_compression.json` | `results.bpt_revised.frequency_conditional` | Gap to CR reduced from 4.83 to 1.47 |
+| 73 | Best mask prediction capture rate | 44.2% | `run_14z2_mask_prediction.py` | `results/data/phase14_machine/mask_prediction.json` | `results.best_capture_pct` | Global mode offset (single parameter) |
+| 74 | Mask-predicted admissibility | 45.91% | `run_14z2_mask_prediction.py` | `results/data/phase14_machine/mask_prediction.json` | `results.rules.global_mode.admissibility` | +6.3pp over baseline with 1 parameter |
+| 75 | Cross-transcription mean adm ratio | 1.189 | `run_14z3_cross_transcription.py` | `results/data/phase14_machine/cross_transcription.json` | `results.mean_admissibility_ratio` | >1.0 = lattice transfers across transcriptions |
+| 76 | Cross-transcription significant sources | 3/5 | `run_14z3_cross_transcription.py` | `results/data/phase14_machine/cross_transcription.json` | `results.significant_sources` | VT, IT, RF all z > 86 |
+| 77 | Top selection driver | Bigram Context | `run_15d_selection_drivers.py` | `results/data/phase15_selection/selection_drivers.json` | `results.top_driver` | 2.432 bits information gain |
+| 78 | Positional bias (mean position) | 0.247 | `run_15d_selection_drivers.py` | `results/data/phase15_selection/selection_drivers.json` | `results.hypotheses.positional_bias.mean_relative_position` | Strong top-of-window preference (0.5 = unbiased) |
+| 79 | Suffix affinity excess | 2.62x | `run_15d_selection_drivers.py` | `results/data/phase15_selection/selection_drivers.json` | `results.hypotheses.suffix_affinity.excess_ratio` | Chosen word shares suffix with prev 2.62x more than expected |
+
+---
+
 ## Traceability Notes
 
 1. **Static config values:** Repetition rate (0.9003) and mapping stability (0.02)
@@ -221,7 +237,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 68 | #1, #6-70, #62a-e |
+| **Fully verifiable** (JSON key path exists) | 77 | #1, #6-70, #62a-e, #71-79 |
 | **Console-only** (requires script re-run) | 2 | #2, #3 |
 | **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
 | **Static config** (manually synchronized) | 1 | #1 (also in config) |

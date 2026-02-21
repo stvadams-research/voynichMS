@@ -6,6 +6,8 @@
     data: {
       slips: [],
       grid: null,
+      folios: [],
+      folioMap: {},
       metadata: {},
       windowIds: [],
       windowSets: {},
@@ -20,6 +22,10 @@
     validator: {
       lastText: "",
       lastReport: null,
+    },
+    explorer: {
+      selectedFolio: null,
+      filterText: "",
     },
   };
 })();

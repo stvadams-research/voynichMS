@@ -7,13 +7,22 @@
   }
 
   app.loadData = function loadData() {
-    const slipsBlob = window.SLIP_EXPLORER_SLIPS || { slips: [] };
-    const latticeBlob = window.SLIP_EXPLORER_LATTICE || {};
+    const slipsBlob = window.WORKBENCH_SLIPS || { slips: [] };
+    const latticeBlob = window.WORKBENCH_LATTICE || {};
+    const folioBlob = window.WORKBENCH_FOLIOS || { folios: [] };
     const grid = latticeBlob.results || latticeBlob;
 
     app.state.data.slips = Array.isArray(slipsBlob.slips) ? slipsBlob.slips : [];
     app.state.data.grid = grid && grid.lattice_map && grid.window_contents ? grid : null;
-    app.state.data.metadata = window.SLIP_EXPLORER_METADATA || {};
+    app.state.data.folios = Array.isArray(folioBlob.folios) ? folioBlob.folios : [];
+    const folioMap = {};
+    app.state.data.folios.forEach(function eachFolio(entry) {
+      if (entry && entry.folio) {
+        folioMap[entry.folio] = entry;
+      }
+    });
+    app.state.data.folioMap = folioMap;
+    app.state.data.metadata = window.WORKBENCH_METADATA || {};
 
     if (app.state.data.grid) {
       const ids = Object.keys(app.state.data.grid.window_contents)
@@ -38,6 +47,7 @@
 
     const slipCount = app.state.data.slips.length;
     const vocab = app.state.data.grid ? Object.keys(app.state.data.grid.lattice_map).length : 0;
-    app.log(`Loaded data: slips=${slipCount}, lattice_vocab=${vocab}`);
+    const folioCount = app.state.data.folios.length;
+    app.log(`Loaded data: slips=${slipCount}, lattice_vocab=${vocab}, folios=${folioCount}`);
   };
 })();

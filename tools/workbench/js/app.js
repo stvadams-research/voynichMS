@@ -4,6 +4,8 @@
   app.onRouteChanged = function onRouteChanged(route) {
     if (route === "lattice") {
       app.renderLatticeView();
+    } else if (route === "explorer") {
+      app.renderExplorerView();
     }
   };
 
@@ -16,6 +18,7 @@
 
     app.initSlipsView();
     app.initLatticeView();
+    app.initExplorerView();
     app.initValidatorView();
     app.initFolioView();
     app.initPageView();

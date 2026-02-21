@@ -10,7 +10,7 @@
 - [x] **1.1: Web-Ready Data Export**
     - **Results:** Created `results/data/phase13_demonstration/slip_viz_data.json`.
 - [x] **1.2: Interactive Folio Viewer**
-    - **Results:** Built `tools/slip_explorer/index.html` with dual-mode (Slips & Sandbox).
+    - **Results:** Built `tools/workbench/index.html` with dual-mode (Slips & Sandbox).
 - [x] **1.3: Evidence Summary Generator**
     - **Results:** Created `results/reports/phase13_demonstration/EVIDENCE_GALLERY.md`.
 

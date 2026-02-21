@@ -1,0 +1,79 @@
+{
+  "provenance": {
+    "run_id": "1150d082-5533-4be3-efd0-852d23ec7ebc",
+    "git_commit": "020af3d83e657e28e4cc62e78f6b825080736c5c",
+    "timestamp": "2026-02-21T17:15:22.082650+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771694122082379000,
+    "command": "run_14z2_mask_prediction"
+  },
+  "results": {
+    "baseline_admissibility": 0.39574455132107633,
+    "oracle_admissibility": 0.539084378424449,
+    "oracle_gain_pp": 14.333982710337267,
+    "global_mode_offset": 17,
+    "section_mode_offsets": {
+      "Pharma": 17,
+      "Stars": 17,
+      "Herbal A": 17,
+      "Herbal B": 17,
+      "Astro": 0,
+      "Biological": 17,
+      "Cosmo": 17
+    },
+    "hand_mode_offsets": {
+      "Unknown": 17,
+      "Hand2": 17,
+      "Hand1": 17
+    },
+    "rules": {
+      "global_mode": {
+        "admissibility": 0.4591196882990381,
+        "gain_pp": 6.337513697796177,
+        "capture_pct": 44.21320874920366,
+        "admissible": 15083,
+        "total": 32852
+      },
+      "per_hand": {
+        "admissibility": 0.4591196882990381,
+        "gain_pp": 6.337513697796177,
+        "capture_pct": 44.21320874920366,
+        "admissible": 15083,
+        "total": 32852
+      },
+      "per_page": {
+        "admissibility": 0.4531535370753683,
+        "gain_pp": 5.740898575429199,
+        "capture_pct": 40.05096623486941,
+        "admissible": 14887,
+        "total": 32852
+      },
+      "per_quire": {
+        "admissibility": 0.4523925483988798,
+        "gain_pp": 5.664799707780349,
+        "capture_pct": 39.52006795497984,
+        "admissible": 14862,
+        "total": 32852
+      },
+      "per_section": {
+        "admissibility": 0.4528187020577134,
+        "gain_pp": 5.707415073663707,
+        "capture_pct": 39.81737099171802,
+        "admissible": 14876,
+        "total": 32852
+      },
+      "prev_line_carry": {
+        "admissibility": 0.4304151954218921,
+        "gain_pp": 3.4670644100815773,
+        "capture_pct": 24.187725631768952,
+        "admissible": 14140,
+        "total": 32852
+      }
+    },
+    "best_rule": "global_mode",
+    "best_capture_pct": 44.21320874920366,
+    "num_lines": 5145,
+    "num_tokens": 32852
+  }
+}

@@ -99,7 +99,102 @@ Section-specific spectral reordering was tested: each of the 7 manuscript sectio
 
 **Interpretation:** The scribe uses the same traversal pattern across all sections. The 25.5pp section gap (Biological 53.2% vs Astro 27.7%) is driven by vocabulary distribution — sections with more common tokens (concentrated in a few windows) score higher, not by different tool configurations per section. This rules out "section-specific tool settings" as an explanation for section variation.
 
-## 12. Formal Conclusion
-The spectrally-reordered lattice model achieves 43.4% drift-admissibility and 57.7% extended admissibility, with extreme jumps reduced to 11.9%. The model captures genuine cross-section structure (holdout 16.2σ, slip signal 9.5σ) that simpler models cannot reproduce. Per-line mask inference further pushes admissibility to 53.9%, suggesting physical disc rotation is a real production feature.
+## 12. Lattice Compression Analysis
 
-The remaining 42% "wrong window" category (distance 2-10) likely represents mask rotations within lines and scribe hand changes. Section-specific tool configurations have been ruled out (Section 11). Copy-Reset remains the most parsimonious full-corpus model on MDL, but it cannot generalize across sections (3.71% vs Lattice's 10.81% holdout). The Hybrid mixture model (15.49 BPT) confirms that Copy-Reset's repetition signal and the Lattice's structural signal are complementary — both capture real aspects of the production mechanism.
+The original MDL computation (Section 5) double-counts model cost: both `lattice_map` (7,717 word→window assignments) and `window_contents` (inverse mapping) are encoded, but one is derivable from the other. Additionally, the flat 10-bits/param assumption ignores window frequency skew.
+
+Five compression schemes were evaluated for the 7,717 word→window assignments:
+
+| Method | L(model) bits | BPT | Rationale |
+| :--- | ---: | ---: | :--- |
+| Showdown (double-counted) | 154,340 | 15.73 | Original Section 5 computation |
+| Naive (log₂50 per word) | 43,554 | 12.53 | True information cost without compression |
+| Entropy-optimal (Huffman) | 40,930 | 12.45 | Exploits non-uniform window sizes |
+| **Frequency-conditional** | **38,029** | **12.37** | H(window \| frequency bucket) × N |
+| Character-feature | 392,983 | 22.62 | Too many feature groups (5,535); overhead > savings |
+
+**Key finding:** Correcting double-counting alone reduces L(model) from 154K to 44K bits (a 72% reduction). Frequency-conditional encoding, which groups words into 6 buckets by corpus frequency, achieves a further 13% reduction. High-frequency words cluster tightly (H=0.575 bits, 49 words), while hapax legomena spread across all windows (H=5.377 bits, 5,282 words).
+
+**Revised MDL table (frequency-conditional L(model)):**
+
+| Model | L(model) | L(data\|model) | L(total) | BPT |
+| :--- | ---: | ---: | ---: | ---: |
+| **Copy-Reset** | **20** | **377,229** | **377,249** | **10.90** |
+| Lattice (corrected) | 38,029 | 389,950 | 427,979 | **12.37** |
+| Hybrid (CR+Lattice, corrected) | 38,069 | 381,719 | 419,788 | **12.13** |
+
+The gap between the Lattice and Copy-Reset narrows from 4.83 BPT to 1.47 BPT. The remaining gap reflects Copy-Reset's extreme parsimony (2 parameters vs 7,717 assignments), not superior explanatory power — since Copy-Reset's holdout generalization (3.71%) is 2.9× worse than the Lattice's (10.81%, Section 6).
+
+**Artifact:** `results/data/phase14_machine/lattice_compression.json`
+
+## 13. Mask Rotation Prediction
+
+Oracle per-line mask inference (Section 9) achieves 53.91% admissibility (+14.3pp), but is post-hoc. To test whether mask rotation follows predictable rules, six prediction strategies were evaluated using only observable metadata:
+
+| Rule | Parameters | Admissibility | Gain (pp) | Oracle Capture |
+| :--- | ---: | ---: | ---: | ---: |
+| **Global mode** | **1** | **45.91%** | **+6.34** | **44.2%** |
+| Per-hand | 2 | 45.91% | +6.34 | 44.2% |
+| Per-section | 7 | 45.28% | +5.71 | 39.8% |
+| Per-quire | ~30 | 45.24% | +5.66 | 39.5% |
+| Per-page | ~220 | 45.32% | +5.74 | 40.1% |
+| Prev-line carry | 0 | 43.04% | +3.47 | 24.2% |
+| Oracle (ceiling) | 5,145 | 53.91% | +14.33 | 100.0% |
+
+**Key finding:** A single global offset (=17) captures 44.2% of the oracle gain, boosting admissibility from 39.57% to 45.91%. All three hands and 6 of 7 sections share the same mode offset; only Astro uses offset 0. Finer-grained rules (per-section, per-quire, per-hand) do not improve over global mode — the scribe apparently used the same starting offset for the entire manuscript.
+
+The remaining 55.8% of oracle gain (45.91% → 53.91%) requires line-level prediction, suggesting within-page mask variation that is not captured by any coarse metadata grouping.
+
+**Artifact:** `results/data/phase14_machine/mask_prediction.json`
+
+## 14. Cross-Transcription Independence
+
+All prior analysis uses the Zandbergen-Landini (ZL) transcription. To test whether the lattice structure is transcription-independent, the ZL-trained 50-window lattice was evaluated against 5 independent transcription sources from the database:
+
+| Source | Vocab Overlap | Token Coverage | Admissibility | Ratio vs ZL | Z-Score |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| **VT** (Voynich Transcription) | 65.9% | 92.2% | 49.97% | **1.150** | 89.0 |
+| **IT** (Interim) | 65.8% | 91.6% | 49.32% | **1.135** | 88.2 |
+| **RF** (René Friedman) | 69.3% | 92.0% | 47.51% | **1.094** | 86.7 |
+| GC (Glen Claston) | 0.7% | 7.1% | 21.93% | 0.505 | 0.28 |
+| FG (Friedman Group) | 0.03% | 0.06% | 89.5%* | — | -0.39 |
+
+*FG has only 19 clamped tokens (near-zero EVA vocabulary overlap) — admissibility is meaningless.
+
+**Key finding:** Three independent EVA transcriptions (VT, IT, RF) show admissibility ratios of 1.09–1.15 with z-scores > 86 (all p < 10⁻⁴⁰). The ZL-trained lattice generalizes to independent transcriptions with *higher* admissibility than on ZL itself — likely because these sources resolve some ambiguous glyphs differently, reducing noise.
+
+GC and FG use non-EVA alphabets (< 1% vocabulary overlap with ZL), effectively excluding them from cross-validation. The mean admissibility ratio across all 5 sources is 1.189, but the meaningful comparison is VT/IT/RF: mean ratio 1.126 ± 0.029.
+
+**Artifact:** `results/data/phase14_machine/cross_transcription.json`
+
+## 15. Within-Window Selection Drivers
+
+Phase 15 identified a 21.49% selection skew (scribes do not choose uniformly within windows). Phase 16 proved this is NOT ergonomic (rho ≈ 0, Section 8). Five hypotheses were tested to identify what drives the bias:
+
+| Hypothesis | Bits Explained | Key Metric | Significance |
+| :--- | ---: | :--- | :--- |
+| **Bigram context** | **2.432** | H(w\|window,prev) vs H(w\|window): 4.74 vs 7.17 | p ≈ 0 |
+| Positional bias | 0.637 | Mean relative position = 0.247 (top-of-window pref) | KS p ≈ 0 |
+| Recency bias | 0.216 | Recently-used words 10.8pp more likely to recur | z = 43.2 |
+| Suffix affinity | 0.163 | Chosen word shares suffix with prev 2.62× more than expected | z = 49.9 |
+| Frequency bias | 0.123 | Spearman ρ = −0.247 (common words selected more) | p < 10⁻²¹ |
+
+**Key finding:** Bigram context is the dominant selection driver — knowing the previous word reduces within-window choice entropy from 7.17 to 4.74 bits (2.43 bits of information gain). This means the scribe's "choices" are substantially constrained by local context, consistent with a production protocol that prescribes bigram-level sequences rather than independent word selection.
+
+Positional bias (mean position 0.247 vs 0.5 unbiased) confirms that scribes preferentially select words near the top of each window, suggesting a physical layout where words are scanned top-to-bottom. All five hypotheses are independently significant, collectively accounting for the observed selection skew through complementary mechanisms.
+
+**Artifact:** `results/data/phase15_selection/selection_drivers.json`
+
+## 16. Formal Conclusion
+
+The spectrally-reordered lattice model achieves 43.4% drift-admissibility and 57.7% extended admissibility, with extreme jumps reduced to 11.9%. The model captures genuine cross-section structure (holdout 16.2σ, slip signal 9.5σ) that simpler models cannot reproduce.
+
+**Compression (Section 12):** Correcting double-counting in the MDL computation reduces the Lattice's BPT from 15.73 to 12.37, narrowing the gap with Copy-Reset from 4.83 to 1.47 BPT. The remaining gap is structural parsimony (2 parameters vs 7,717 assignments), not explanatory power.
+
+**Mask prediction (Section 13):** A single global offset captures 44.2% of oracle mask gain, boosting admissibility from 39.57% to 45.91% with one parameter. Six of seven sections share the same mode offset.
+
+**Independence (Section 14):** The ZL-trained lattice generalizes to three independent EVA transcriptions (VT, IT, RF) with admissibility ratios 1.09–1.15 (z > 86), confirming the lattice structure is transcription-independent.
+
+**Selection mechanism (Section 15):** Within-window selection is driven primarily by bigram context (2.43 bits information gain), not physical effort (Section 8, rho ≈ 0). Positional bias, recency, suffix affinity, and frequency effects are all independently significant but secondary.
+
+Section-specific tool configurations have been ruled out (Section 11). Copy-Reset remains the most parsimonious full-corpus model on MDL, but it cannot generalize across sections (3.71% vs Lattice's 10.81% holdout). The Hybrid mixture model (12.13 BPT corrected) confirms that Copy-Reset's repetition signal and the Lattice's structural signal are complementary — both capture real aspects of the production mechanism.

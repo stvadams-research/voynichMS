@@ -1,0 +1,81 @@
+{
+  "provenance": {
+    "run_id": "9f8c1a78-4d26-a699-1d49-5f70691d221e",
+    "git_commit": "020af3d83e657e28e4cc62e78f6b825080736c5c",
+    "timestamp": "2026-02-21T17:14:07.754026+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771694047753977000,
+    "command": "run_14z_lattice_compression"
+  },
+  "results": {
+    "lattice_size": {
+      "num_words": 7717,
+      "num_windows": 50,
+      "window_contents_total": 7717,
+      "is_double_counted": true
+    },
+    "methods": {
+      "showdown_double_counted": {
+        "l_model_bits": 154340,
+        "description": "Current run_14h computation (double-counts)"
+      },
+      "naive": {
+        "l_model_bits": 43553.63821649155,
+        "description": "7717 \u00d7 log2(50)"
+      },
+      "entropy_optimal": {
+        "l_model_bits": 40930.013632948125,
+        "description": "H = 5.304 bits/word"
+      },
+      "character_feature": {
+        "l_model_bits": 392982.7582640143,
+        "description": "H(w|features) = 0.717, 5535 groups + overhead"
+      },
+      "frequency_conditional": {
+        "l_model_bits": 38028.58173068343,
+        "description": "H(w|freq) = 4.896, 6 buckets"
+      }
+    },
+    "best_method": "frequency_conditional",
+    "best_l_model": 38028.58173068343,
+    "compression_vs_showdown": 0.7536051462311557,
+    "compression_vs_naive": 0.12685637094988,
+    "window_entropy_H": 5.303876329266311,
+    "h_conditional_features": 0.7169571418963768,
+    "h_conditional_frequency": 4.8955010665651715,
+    "num_feature_groups": 5535,
+    "avg_modal_prefix_fraction": 0.14517745595170933,
+    "stem_clustering": "weak",
+    "bucket_stats": {
+      "hapax": {
+        "count": 5282,
+        "H_window": 5.377
+      },
+      "high": {
+        "count": 49,
+        "H_window": 0.575
+      },
+      "low": {
+        "count": 540,
+        "H_window": 2.983
+      },
+      "medium": {
+        "count": 183,
+        "H_window": 1.628
+      },
+      "rare": {
+        "count": 1663,
+        "H_window": 4.473
+      }
+    },
+    "bpt_revised": {
+      "showdown_double_counted": 15.728658330028559,
+      "naive": 12.527202997460764,
+      "entropy_optimal": 12.451386653477424,
+      "character_feature": 22.624851315551293,
+      "frequency_conditional": 12.367542356345083
+    },
+    "total_tokens": 34605
+  }
+}

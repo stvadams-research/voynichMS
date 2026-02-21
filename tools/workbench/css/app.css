@@ -42,6 +42,11 @@ body {
   color: var(--muted);
 }
 
+.compact-note {
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
 .app-nav {
   display: flex;
   gap: 8px;
@@ -264,6 +269,115 @@ textarea {
 
 .output-box {
   font-family: "Courier New", monospace;
+}
+
+.explorer-lines {
+  max-height: 62vh;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fbfdff;
+}
+
+.explorer-line {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.88rem;
+}
+
+.explorer-line:last-child {
+  border-bottom: none;
+}
+
+.explorer-location {
+  color: #0b5f7d;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.scan-panel {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px;
+  background: #fbfdff;
+  margin-bottom: 10px;
+}
+
+.scan-link {
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  margin-bottom: 6px;
+}
+
+.scan-link.disabled-link {
+  pointer-events: none;
+}
+
+#explorer-scan-thumb {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  background: #e8edf5;
+  display: block;
+}
+
+.scan-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(4, 12, 23, 0.84);
+}
+
+.scan-modal.active {
+  display: flex;
+}
+
+.scan-modal-dialog {
+  width: min(96vw, 1400px);
+  max-height: 95vh;
+  border: 1px solid #2f415b;
+  border-radius: 12px;
+  background: #0d1728;
+  padding: 40px 10px 10px;
+  position: relative;
+}
+
+.scan-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-width: 34px;
+  min-height: 34px;
+  border-radius: 8px;
+  border: 1px solid #5c6e86;
+  background: #15243a;
+  color: #e6edf7;
+}
+
+#explorer-scan-modal-img {
+  width: 100%;
+  max-height: calc(95vh - 90px);
+  object-fit: contain;
+  display: block;
+  border-radius: 8px;
+  background: #09101c;
+}
+
+.scan-modal-meta {
+  color: #c9d8ea;
+  font-size: 0.86rem;
+  padding: 8px 2px 2px;
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 .ok {

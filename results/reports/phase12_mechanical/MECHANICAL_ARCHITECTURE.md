@@ -29,6 +29,16 @@ We have reconstructed the first 10 "windows" of the production tool.
 
 *Full blueprint available in results/data/phase12_mechanical/physical_blueprint.json*
 
+> **Historical artifact note (2026-02-21):**
+> `results/visuals/phase12_mechanical/volvelle_ring_1.svg`,
+> `results/visuals/phase12_mechanical/volvelle_ring_2.svg`, and
+> `results/visuals/phase12_mechanical/volvelle_ring_3.svg` are legacy prototype
+> visuals derived from the earlier Phase 12 capped blueprint and are not the
+> canonical final build artifacts. Use the Phase 17 canonical blueprints in
+> `results/visuals/phase17_finality/palette_plate.svg` and
+> `results/visuals/phase17_finality/volvelle_canonical_ring_1.svg` through
+> `results/visuals/phase17_finality/volvelle_canonical_ring_5.svg`.
+
 ## 4. Final Determination
 
 The Voynich Manuscript is the output of a **Context-Modulated Physical Combinatorial Machine**. 

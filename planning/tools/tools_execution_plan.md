@@ -1,8 +1,8 @@
 # Tooling Execution Plan: Slip Explorer -> Multi-Tool Workbench
 
 **Created:** 2026-02-21  
-**Scope:** `tools/slip_explorer/`  
-**Target artifact:** `tools/slip_explorer/index.html` opens directly via `file://` (drag into browser), with navigation across existing and new tools.
+**Scope:** `tools/workbench/`  
+**Target artifact:** `tools/workbench/index.html` opens directly via `file://` (drag into browser), with navigation across existing and new tools.
 
 ---
 
@@ -21,7 +21,7 @@ Evolve the current single-page Slip/Lattice demo into a small offline tool suite
 
 ## 2. Current State Snapshot
 
-1. `tools/slip_explorer/index.html` is monolithic (~38k lines, ~710 KB) and embeds large JSON objects (`EMBEDDED_SLIPS`, `EMBEDDED_GRID`) inline.
+1. `tools/workbench/index.html` is monolithic (~38k lines, ~710 KB) and embeds large JSON objects (`EMBEDDED_SLIPS`, `EMBEDDED_GRID`) inline.
 2. Current UI has two tabs only: `SLIPS` and `LATTICE`.
 3. The model/generation logic already exists in Python (`src/phase14_machine/high_fidelity_emulator.py`) but not in browser JS.
 4. Existing parser utilities:
@@ -41,7 +41,7 @@ Evolve the current single-page Slip/Lattice demo into a small offline tool suite
 1. No runtime server dependency.
 2. Avoid runtime `fetch()` to local JSON (unreliable under `file://`).
 3. Use local `<script src>` files with prebuilt JS data blobs.
-4. Keep all files in `tools/slip_explorer/` and subdirectories for permission simplicity.
+4. Keep all files in `tools/workbench/` and subdirectories for permission simplicity.
 
 ## 3.2 Modularize without breaking local file loading
 
@@ -64,7 +64,7 @@ Evolve the current single-page Slip/Lattice demo into a small offline tool suite
 ## 4. Proposed File Layout
 
 ```
-tools/slip_explorer/
+tools/workbench/
   index.html
   css/
     app.css
@@ -95,14 +95,14 @@ tools/slip_explorer/
 Build/export helper (new):
 
 ```
-scripts/tools/build_slip_explorer_bundle.py
+scripts/tools/build_workbench_bundle.py
 ```
 
 This script will read:
 - `results/data/phase13_demonstration/slip_viz_data.json`
 - `results/data/phase14_machine/full_palette_grid.json`
 
-and emit `tools/slip_explorer/data/*.js`.
+and emit `tools/workbench/data/*.js`.
 
 ---
 
@@ -111,7 +111,7 @@ and emit `tools/slip_explorer/data/*.js`.
 ## Phase 0 - Baseline + Guardrails
 
 1. Snapshot current behavior:
-   - Open current `tools/slip_explorer/index.html` and record Slip + Lattice behavior.
+   - Open current `tools/workbench/index.html` and record Slip + Lattice behavior.
 2. Add rollback safety:
    - Keep current `index.html` as `index_legacy.html` during migration.
 3. Define canonical sample fixtures:
@@ -137,11 +137,11 @@ Deliverable:
 
 ## Phase 2 - Data Packaging Pipeline
 
-1. Implement `scripts/tools/build_slip_explorer_bundle.py`.
+1. Implement `scripts/tools/build_workbench_bundle.py`.
 2. Generate:
-   - `tools/slip_explorer/data/slips_data.js`
-   - `tools/slip_explorer/data/lattice_data.js`
-   - `tools/slip_explorer/data/metadata.js`
+   - `tools/workbench/data/slips_data.js`
+   - `tools/workbench/data/lattice_data.js`
+   - `tools/workbench/data/metadata.js`
 3. Remove giant inline JSON from `index.html`.
 4. Add quick sanity checks in build script:
    - expected key presence (`slips`, `lattice_map`, `window_contents`)
@@ -231,7 +231,7 @@ Deliverable this cycle:
 
 ## 7. Acceptance Criteria (Definition of Done)
 
-1. `tools/slip_explorer/index.html` opens directly from Finder/File Explorer into browser, no server required.
+1. `tools/workbench/index.html` opens directly from Finder/File Explorer into browser, no server required.
 2. User can navigate between:
    - Slips
    - Lattice

@@ -10,13 +10,15 @@
   <header class="app-header">
     <div>
       <h1>Voynich Tool Workbench</h1>
-      <p>Standalone offline toolkit for slips, lattice, IVTFF validation, and synthetic generation.</p>
+      <p>Standalone offline toolkit for slips, lattice, folio exploration, IVTFF validation, and synthetic generation.</p>
+      <p class="muted compact-note">Canonical source across tools: ZL3b-n.txt / <code>source_id="zandbergen_landini"</code>.</p>
     </div>
   </header>
 
   <nav class="app-nav" id="app-nav">
     <button class="nav-btn active" data-route="slips">Slips</button>
     <button class="nav-btn" data-route="lattice">Lattice</button>
+    <button class="nav-btn" data-route="explorer">Folio Explorer</button>
     <button class="nav-btn" data-route="validator">IVTFF Validator</button>
     <button class="nav-btn" data-route="folio">Folio Generator</button>
     <button class="nav-btn" data-route="page" title="Planned capability">Page Generator (Planned)</button>
@@ -27,6 +29,7 @@
       <div class="two-col">
         <div class="panel">
           <h2>Mechanical Slips</h2>
+          <p class="muted compact-note">Why it matters: highlights likely line-to-line eye-slip events as direct mechanical evidence.</p>
           <p class="muted" id="slips-status">Loading embedded slip dataset...</p>
           <div class="scroll-list" id="slips-list"></div>
         </div>
@@ -52,6 +55,7 @@
       <div class="two-col">
         <div class="panel">
           <h2>Lattice Windows</h2>
+          <p class="muted compact-note">Why it matters: interact with the inferred state machine and observe deterministic transitions.</p>
           <p class="muted" id="lattice-status">Loading lattice model...</p>
           <div class="actions compact">
             <button id="lattice-reset">Reset</button>
@@ -68,9 +72,40 @@
       </div>
     </section>
 
+    <section class="view" id="view-explorer">
+      <div class="two-col">
+        <div class="panel">
+          <h2>Folio Explorer</h2>
+          <p class="muted compact-note">Why it matters: browse canonical ZL3b folios and push them directly into validation.</p>
+          <p class="muted" id="explorer-status">Loading ZL3b folio index...</p>
+          <div class="actions">
+            <label>Find Folio
+              <input id="explorer-filter" type="text" placeholder="e.g., f42r">
+            </label>
+          </div>
+          <div class="scroll-list" id="explorer-folio-list"></div>
+        </div>
+        <div class="panel">
+          <h2 id="explorer-folio-title">Select a folio</h2>
+          <div class="scan-panel">
+            <a id="explorer-scan-link" href="#" class="scan-link disabled-link">
+              <img id="explorer-scan-thumb" alt="Folio thumbnail">
+            </a>
+            <div id="explorer-scan-meta" class="muted">No scan mapped for selected folio.</div>
+          </div>
+          <div class="actions">
+            <button id="explorer-send-content">Send Content To Validator</button>
+            <button id="explorer-send-full">Send Full IVTFF Lines To Validator</button>
+          </div>
+          <div id="explorer-line-list" class="explorer-lines"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="view" id="view-validator">
       <div class="panel">
         <h2>IVTFF Validator</h2>
+        <p class="muted compact-note">Why it matters: fast structural checks against the canonical lowercase pipeline.</p>
         <p class="muted">Canonical profile: <code>ZL3b-n.txt -> EVAParser -> source_id=&quot;zandbergen_landini&quot; -> load_canonical_lines() + sanitize_token()</code></p>
         <div class="actions">
           <label>Mode
@@ -106,6 +141,7 @@
     <section class="view" id="view-folio">
       <div class="panel">
         <h2>Synthetic Folio Generator</h2>
+        <p class="muted compact-note">Why it matters: generate lattice-constrained synthetic lines and immediately test them.</p>
         <div class="control-grid">
           <label>Seed <input id="folio-seed" type="number" value="42"></label>
           <label>Line Count <input id="folio-lines" type="number" min="1" max="200" value="9"></label>
@@ -155,8 +191,17 @@
     <div id="debug-console"></div>
   </aside>
 
+  <div id="explorer-scan-modal" class="scan-modal" hidden>
+    <div class="scan-modal-dialog" role="dialog" aria-modal="true" aria-label="Folio scan viewer">
+      <button id="explorer-scan-close" type="button" class="scan-modal-close" aria-label="Close scan viewer">X</button>
+      <img id="explorer-scan-modal-img" alt="Folio scan">
+      <div id="explorer-scan-modal-meta" class="scan-modal-meta"></div>
+    </div>
+  </div>
+
   <script src="data/slips_data.js"></script>
   <script src="data/lattice_data.js"></script>
+  <script src="data/folio_data.js"></script>
   <script src="data/metadata.js"></script>
 
   <script src="js/state.js"></script>
@@ -172,6 +217,7 @@
 
   <script src="js/views/slips_view.js"></script>
   <script src="js/views/lattice_view.js"></script>
+  <script src="js/views/folio_explorer_view.js"></script>
   <script src="js/views/validator_view.js"></script>
   <script src="js/views/folio_generator_view.js"></script>
   <script src="js/views/page_generator_view.js"></script>

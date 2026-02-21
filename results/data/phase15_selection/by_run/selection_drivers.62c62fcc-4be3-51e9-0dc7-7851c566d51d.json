@@ -1,0 +1,85 @@
+{
+  "provenance": {
+    "run_id": "62c62fcc-4be3-51e9-0dc7-7851c566d51d",
+    "git_commit": "020af3d83e657e28e4cc62e78f6b825080736c5c",
+    "timestamp": "2026-02-21T17:18:14.101586+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771694294101531000,
+    "command": "run_15d_selection_drivers"
+  },
+  "results": {
+    "num_choices": 12519,
+    "hypotheses": {
+      "positional_bias": {
+        "mean_relative_position": 0.24670771515496384,
+        "median_relative_position": 0.1670886075949367,
+        "ks_statistic": 0.3861253931998047,
+        "ks_p_value": 0.0,
+        "is_significant": 1,
+        "bits_explained": 0.636523416170649,
+        "n": 12519,
+        "direction": "top"
+      },
+      "bigram_context": {
+        "h_given_window": 7.167895068308429,
+        "h_given_window_prev": 4.73632005827665,
+        "information_gain_bits": 2.4315750100317786,
+        "eligible_pairs": 412,
+        "eligible_observations": 10159,
+        "is_significant": true,
+        "bits_explained": 2.4315750100317786
+      },
+      "suffix_affinity": {
+        "observed_match_rate": 0.18992758393680054,
+        "expected_match_rate": 0.07258054101871785,
+        "excess_ratio": 2.6167838000521377,
+        "z_score": 49.85948954852091,
+        "p_value": 0.0,
+        "is_significant": 1,
+        "valid_observations": 12152,
+        "bits_explained": 0.162853608111864
+      },
+      "frequency_bias": {
+        "spearman_rho": -0.24676194045697564,
+        "p_value": 6.290231486365883e-22,
+        "is_significant": 1,
+        "n_word_window_pairs": 1477,
+        "bits_explained": 0.12338097022848782
+      },
+      "recency_bias": {
+        "observed_recent_rate": 0.35737678728332933,
+        "null_mean": 0.24924115344676095,
+        "null_std": 0.002503104135262928,
+        "recency_advantage": 0.10813563383656838,
+        "z_score": 43.20061331575793,
+        "is_significant": 1,
+        "recent_window": 50,
+        "bits_explained": 0.21627126767313676
+      }
+    },
+    "ranked_drivers": [
+      {
+        "hypothesis": "bigram_context",
+        "bits_explained": 2.4315750100317786
+      },
+      {
+        "hypothesis": "positional_bias",
+        "bits_explained": 0.636523416170649
+      },
+      {
+        "hypothesis": "recency_bias",
+        "bits_explained": 0.21627126767313676
+      },
+      {
+        "hypothesis": "suffix_affinity",
+        "bits_explained": 0.162853608111864
+      },
+      {
+        "hypothesis": "frequency_bias",
+        "bits_explained": 0.12338097022848782
+      }
+    ],
+    "top_driver": "bigram_context"
+  }
+}
