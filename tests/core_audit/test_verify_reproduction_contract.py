@@ -1,5 +1,9 @@
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 
 def test_verify_reproduction_uses_isolated_db_and_temp_outputs() -> None:
     script = Path("scripts/verify_reproduction.sh").read_text(encoding="utf-8")

@@ -3,6 +3,7 @@
 Phase 7A: Human Factors and Production Ergonomics Runner
 """
 
+import argparse
 import sys
 import json
 from pathlib import Path
@@ -68,14 +69,21 @@ def get_grouped_data(store, dataset_id="voynich_real"):
     finally:
         session.close()
 
-def run_phase_7a():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 7A: Human Factors and Production Ergonomics")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_phase_7a(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold yellow]Phase 7A: Human Factors and Production Ergonomics[/bold yellow]\n"
         "Testing production constraints, fatigue, and effort proxies.",
         border_style="yellow"
     ))
 
-    with active_run(config={"command": "run_7a_human_factors", "seed": 42}) as run:
+    with active_run(config={"command": "run_7a_human_factors", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = ErgonomicsAnalyzer()
         
@@ -120,8 +128,8 @@ def run_phase_7a():
         console.print(table)
         
         # 6. Save Artifacts
-        output_dir = Path("results/data/phase7_human")
-        output_dir.mkdir(parents=True, exist_ok=True)
+        out = Path(output_dir) if output_dir else Path("results/data/phase7_human")
+        out.mkdir(parents=True, exist_ok=True)
         
         results = {
             "corrections": corr_results,
@@ -132,7 +140,7 @@ def run_phase_7a():
             "cost": cost_results
         }
         
-        ProvenanceWriter.save_results(results, output_dir / "phase_7a_results.json")
+        ProvenanceWriter.save_results(results, out / "phase_7a_results.json")
             
         # Generate Report
         report_path = Path("results/reports/phase7_human/PHASE_7A_RESULTS.md")
@@ -160,7 +168,8 @@ def run_phase_7a():
                 f.write("- **Visible Fatigue:** Measurable drift detected, suggesting a more standard or episodic production mode.\n")
 
         store.save_run(run)
-        console.print(f"\n[bold green]Run complete. Results saved to {output_dir}[/bold green]")
+        console.print(f"\n[bold green]Run complete. Results saved to {out}[/bold green]")
 
 if __name__ == "__main__":
-    run_phase_7a()
+    args = _parse_args()
+    run_phase_7a(seed=args.seed, output_dir=args.output_dir)

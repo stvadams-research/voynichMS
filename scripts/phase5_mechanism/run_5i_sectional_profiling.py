@@ -5,6 +5,7 @@ Phase 5H: Sectional Profiling
 Maps Lattice Dimensionality and Successor Consistency across major sections.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -29,6 +30,14 @@ from scripts.phase5_mechanism.categorize_sections import get_section
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 5H: Sectional Profiling")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
 def get_tokens_by_section(store):
     session = store.Session()
     try:
@@ -50,14 +59,14 @@ def get_tokens_by_section(store):
     finally:
         session.close()
 
-def run_sectional_profiling():
+def run_sectional_profiling(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 5H: Sectional Profiling[/bold blue]\n"
         "Mapping phase5_mechanism stability across manuscript sections",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_5h_sectional_profiling", "seed": 42}) as run:
+    with active_run(config={"command": "run_5h_sectional_profiling", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         dim_analyzer = LatentStateAnalyzer(top_n=500)
         coll_tester = PathCollisionTester(context_len=2)
@@ -101,11 +110,12 @@ def run_sectional_profiling():
         console.print(table)
         
         # Save results
-        output_dir = Path("results/data/phase5_mechanism")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "sectional_profiles.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "sectional_profiles.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_sectional_profiling()
+    args = _parse_args()
+    run_sectional_profiling(seed=args.seed, output_dir=args.output_dir)

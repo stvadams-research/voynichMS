@@ -3,6 +3,7 @@
 Phase 6C: Adversarial vs Indifferent Structure Test Runner
 """
 
+import argparse
 import sys
 import json
 from pathlib import Path
@@ -56,29 +57,36 @@ def get_real_lines(store, dataset_id="voynich_real"):
     finally:
         session.close()
 
-def run_phase_6c():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 6C: Adversarial vs Indifferent Structure Test")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_phase_6c(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold red]Phase 6C: Adversarial vs Indifferent Structure Test[/bold red]\n"
         "Testing for evidence of active resistance to phase4_inference and learnability.",
         border_style="red"
     ))
 
-    with active_run(config={"command": "run_6c_adversarial", "seed": 42}) as run:
+    with active_run(config={"command": "run_6c_adversarial", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = AdversarialAnalyzer()
-        
+
         # 1. Prepare Data
         console.print("\n[bold yellow]Step 1: Preparing Data[/bold yellow]")
         real_lines = get_real_lines(store)
         num_lines = len(real_lines)
         console.print(f"Loaded {num_lines} real lines.")
-        
+
         # H6C.1: Indifferent (Formal system from 6A)
-        indifferent_sim = LatticeTraversalSimulator(vocab_size=5000, seed=42)
+        indifferent_sim = LatticeTraversalSimulator(vocab_size=5000, seed=seed)
         indifferent_lines = indifferent_sim.generate_corpus(num_lines=num_lines, line_len=8)
-        
+
         # H6C.2: Adversarial (Section-variant rules, decoys)
-        adversarial_sim = AdversarialLatticeSimulator(vocab_size=5000, seed=42)
+        adversarial_sim = AdversarialLatticeSimulator(vocab_size=5000, seed=seed)
         adversarial_lines = adversarial_sim.generate_corpus_adversarial(num_lines=num_lines, line_len=8, sections=10)
         
         datasets = {
@@ -128,9 +136,9 @@ def run_phase_6c():
         console.print(table)
         
         # 4. Save Artifacts
-        output_dir = Path("results/data/phase6_functional/phase_6c")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "phase_6c_results.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase6_functional/phase_6c")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "phase_6c_results.json")
             
         # Generate Report
         report_path = Path("results/reports/phase6_functional/PHASE_6C_RESULTS.md")
@@ -155,7 +163,8 @@ def run_phase_6c():
                 f.write("- **Normal Conditioning:** Adding context reduces entropy, consistent with indifferent formal structure.\n")
 
         store.save_run(run)
-        console.print(f"\n[bold green]Run complete. Results saved to {output_dir}[/bold green]")
+        console.print(f"\n[bold green]Run complete. Results saved to {out}[/bold green]")
 
 if __name__ == "__main__":
-    run_phase_6c()
+    args = _parse_args()
+    run_phase_6c(seed=args.seed, output_dir=args.output_dir)

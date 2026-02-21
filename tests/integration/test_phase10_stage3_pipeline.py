@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 from phase10_admissibility.stage3_pipeline import (
     evaluate_stage3_priority_gate,
     summarize_stage3,

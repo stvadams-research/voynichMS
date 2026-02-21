@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from sqlalchemy import create_engine, Column, String, DateTime, JSON, Boolean, Integer, ForeignKey, Text, Float, LargeBinary
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime
@@ -474,6 +475,25 @@ class MetadataStore:
         self.engine = create_engine(db_url)
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)
+
+    @contextmanager
+    def session_scope(self):
+        """Provide a transactional scope around a series of operations.
+
+        Usage::
+
+            with store.session_scope() as session:
+                session.merge(record)
+        """
+        session = self.Session()
+        try:
+            yield session
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        finally:
+            session.close()
 
     def _persist_run_record(self, run_context) -> None:
         session = self.Session()

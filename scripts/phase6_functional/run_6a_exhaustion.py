@@ -3,6 +3,7 @@
 Phase 6A: Formal-System Exhaustion and Completeness Runner
 """
 
+import argparse
 import sys
 import os
 import json
@@ -57,25 +58,32 @@ def get_real_lines(store, dataset_id="voynich_real"):
     finally:
         session.close()
 
-def run_phase_6a():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 6A: Formal-System Exhaustion and Completeness")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_phase_6a(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold green]Phase 6A: Formal-System Exhaustion and Completeness[/bold green]\n"
         "Testing structural signatures of formal execution.",
         border_style="green"
     ))
 
-    with active_run(config={"command": "run_6a_exhaustion", "seed": 42}) as run:
+    with active_run(config={"command": "run_6a_exhaustion", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = FormalSystemAnalyzer()
-        
+
         # 1. Prepare Data
         console.print("\n[bold yellow]Step 1: Preparing Data[/bold yellow]")
         real_lines = get_real_lines(store)
         console.print(f"Loaded {len(real_lines)} real lines.")
-        
+
         # Synthetic Formal System (Lattice Traversal)
         # We use a larger vocab and longer lines to match Voynich better
-        sim = LatticeTraversalSimulator(vocab_size=5000, seed=42)
+        sim = LatticeTraversalSimulator(vocab_size=5000, seed=seed)
         syn_lines = sim.generate_corpus(num_lines=len(real_lines), line_len=8)
         console.print(f"Generated {len(syn_lines)} synthetic lines.")
         
@@ -128,13 +136,13 @@ def run_phase_6a():
         console.print(table)
         
         # 4. Save Artifacts
-        output_dir = Path("results/data/phase6_functional/phase_6a")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "phase_6a_results.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase6_functional/phase_6a")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "phase_6a_results.json")
             
         # CSV Artifacts
         import csv
-        with open(output_dir / "coverage_tables.csv", "w", newline='') as f:
+        with open(out / "coverage_tables.csv", "w", newline='') as f:
             writer = csv.writer(f)
             writer.writerow(["Dataset", "Total Visits", "Unique States", "Coverage Ratio", "Hapax Ratio"])
             for label, res in results.items():
@@ -146,7 +154,7 @@ def run_phase_6a():
                     res['coverage']['hapax_ratio']
                 ])
                 
-        with open(output_dir / "error_typology.csv", "w", newline='') as f:
+        with open(out / "error_typology.csv", "w", newline='') as f:
             writer = csv.writer(f)
             writer.writerow(["Dataset", "Context", "Expected", "Actual"])
             for label, res in results.items():
@@ -178,7 +186,8 @@ def run_phase_6a():
                 f.write("- **High Variance:** The deviation rate suggests a more stochastic or noisy process.\n")
 
         store.save_run(run)
-        console.print(f"\n[bold green]Run complete. Results saved to {output_dir}[/bold green]")
+        console.print(f"\n[bold green]Run complete. Results saved to {out}[/bold green]")
 
 if __name__ == "__main__":
-    run_phase_6a()
+    args = _parse_args()
+    run_phase_6a(seed=args.seed, output_dir=args.output_dir)

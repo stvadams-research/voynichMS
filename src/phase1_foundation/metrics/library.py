@@ -125,8 +125,15 @@ class ClusterTightness(Metric):
     """
     Calculates tightness of visual clusters.
 
-    Real implementation computes from RegionEmbeddingRecord vectors
-    using the formula: 1 / (1 + mean_distance_from_centroid)
+    Formula: tightness = 1 / (1 + mean_dist_from_centroid)
+    Range: (0, 1] where 1 = perfectly tight (all points coincide).
+
+    Two computation paths (check result details["method"]):
+      - "embeddings": Euclidean distance in N-dim RegionEmbeddingRecord space.
+        centroid = mean(vectors); dist_i = ||v_i - centroid||_2
+      - "bboxes": Euclidean distance in 2D using region bbox centers.
+        cx = (x_min + x_max)/2, cy = (y_min + y_max)/2
+    Bbox fallback triggers when no embeddings exist for the dataset.
     """
 
     def calculate(self, dataset_id: str) -> List[MetricResult]:

@@ -5,6 +5,7 @@ Method B Runner: Network and Multi-Feature Analysis
 Benchmarks real vs. semantic vs. synthetic vs. shuffled text.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -40,14 +41,21 @@ def get_tokens(store, dataset_id):
     finally:
         session.close()
 
-def run_experiment():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Method B: Network Feature Analysis")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_experiment(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Method B: Network Feature Analysis[/bold blue]\n"
         "Testing for language-like network topology signatures",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_network_phase4", "seed": 42}) as run:
+    with active_run(config={"command": "run_network_phase4", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = NetworkAnalyzer(max_tokens=15000) # Balanced for scale/speed
         
@@ -90,11 +98,12 @@ def run_experiment():
         console.print(table)
         
         # Save results
-        output_dir = Path("results/data/phase4_inference")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "network_results.json")
-            
+        out = Path(output_dir) if output_dir else Path("results/data/phase4_inference")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "network_results.json")
+
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_experiment()
+    args = _parse_args()
+    run_experiment(seed=args.seed, output_dir=args.output_dir)

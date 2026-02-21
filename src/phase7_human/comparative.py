@@ -16,6 +16,11 @@ class ComparativeAnalyzer:
     Analyzes structural fingerprints of different corpora to situate Voynich.
     """
     def __init__(self):
+        """Initialize the ComparativeAnalyzer.
+
+        No configuration is required. Fingerprint metrics (TTR, determinism,
+        sparsity, convergence) are computed from corpus data at analysis time.
+        """
         pass
 
     def calculate_fingerprint(self, lines: List[List[str]]) -> Dict[str, Any]:

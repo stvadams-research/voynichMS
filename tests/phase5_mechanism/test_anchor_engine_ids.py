@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.anchors.engine import AnchorEngine
 
 

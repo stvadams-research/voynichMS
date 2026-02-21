@@ -1,6 +1,10 @@
 import importlib.util
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 
 def _load_sweep_module():
     module_path = Path("scripts/phase2_analysis/run_sensitivity_sweep.py")

@@ -15,6 +15,7 @@ Per Phase 2 Principles:
 - Controls Are First-Class Citizens: Phase 1 controls inform all decisions
 """
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -451,7 +452,14 @@ def step_5_report(manager: AdmissibilityManager):
     return report
 
 
-def run_phase_2_1():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 2.1: Admissibility Mapping")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_phase_2_1(seed: int = 42, output_dir: str | None = None):
     """Execute the full Phase 2.1 workflow."""
     console.print(Panel.fit(
         "[bold cyan]Phase 2.1: Admissibility Mapping[/bold cyan]\n"
@@ -459,7 +467,7 @@ def run_phase_2_1():
         border_style="cyan"
     ))
 
-    with active_run(config={"command": "phase_2_1_admissibility"}) as run:
+    with active_run(config={"command": "phase_2_1_admissibility", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         manager = AdmissibilityManager(store)
 
@@ -493,4 +501,6 @@ def run_phase_2_1():
 
 
 if __name__ == "__main__":
-    run_phase_2_1()
+    args = _parse_args()
+    run_phase_2_1(seed=args.seed, output_dir=args.output_dir)
+    sys.exit(0)

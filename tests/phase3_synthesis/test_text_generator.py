@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase3_synthesis.interface import PageProfile, SectionProfile
 from phase3_synthesis.text_generator import ConstrainedMarkovGenerator
 

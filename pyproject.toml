@@ -97,13 +97,20 @@ minversion = "8.0"
 addopts = "-q"
 pythonpath = ["src"]
 testpaths = [
-    "tests/phase1_foundation", 
-    "tests/phase2_analysis", 
+    "tests/phase1_foundation",
+    "tests/phase2_analysis",
     "tests/phase3_synthesis",
     "tests/phase5_mechanism",
     "tests/phase7_human",
     "tests/phase8_comparative",
+    "tests/phase11_stroke",
     "tests/core_audit",
     "tests/core_skeptic",
     "tests/integration"
+]
+markers = [
+    "unit: Pure unit tests with no external dependencies",
+    "integration: Tests requiring database or filesystem state",
+    "slow: Tests taking more than 10 seconds",
+    "requires_db: Tests that need a populated SQLite database",
 ]

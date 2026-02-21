@@ -18,6 +18,11 @@ class ErgonomicsAnalyzer:
     Analyzes phase7_human factors in manuscript production.
     """
     def __init__(self):
+        """Initialize the ErgonomicsAnalyzer with EVA stroke-count estimates.
+
+        Populates self.stroke_map with approximate stroke counts for common
+        EVA transliteration characters, used for production cost estimation.
+        """
         # Estimated stroke counts for common EVA characters
         self.stroke_map = {
             'i': 1, 'e': 1, 'o': 1, 'c': 1, 'r': 1, 's': 1, 'y': 2,

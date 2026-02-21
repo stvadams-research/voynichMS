@@ -3,6 +3,10 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 
 def _load_mapping_module():
     src_path = Path("src").resolve()

@@ -2,6 +2,10 @@ import json
 import logging
 from types import SimpleNamespace
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.core import logging as core_logging
 
 

@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase2_analysis.anomaly.semantic_necessity import NonSemanticSystem, SemanticNecessityAnalyzer
 from phase2_analysis.anomaly.interface import SemanticNecessity
 

@@ -5,6 +5,7 @@ Method C Runner: Topic Modeling Alignment
 Benchmarks real vs. semantic vs. synthetic vs. shuffled text.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -40,14 +41,21 @@ def get_tokens(store, dataset_id):
     finally:
         session.close()
 
-def run_experiment():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Method C: Topic Alignment Analysis")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_experiment(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Method C: Topic Alignment Analysis[/bold blue]\n"
         "Testing for alignment between latent topics and sections",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_topics_phase4", "seed": 42}) as run:
+    with active_run(config={"command": "run_topics_phase4", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = TopicAnalyzer(num_topics=10, num_sections=20)
         
@@ -86,11 +94,12 @@ def run_experiment():
         console.print(table)
         
         # Save results
-        output_dir = Path("results/data/phase4_inference")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "topic_results.json")
-            
+        out = Path(output_dir) if output_dir else Path("results/data/phase4_inference")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "topic_results.json")
+
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_experiment()
+    args = _parse_args()
+    run_experiment(seed=args.seed, output_dir=args.output_dir)

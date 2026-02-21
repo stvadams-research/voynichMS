@@ -15,6 +15,7 @@ Per Phase 2.2 Execution Plan:
 - Produces Mapping Stress Test Report for each class
 """
 
+import argparse
 import sys
 import json
 from pathlib import Path
@@ -312,7 +313,14 @@ def check_success_criteria(report: Dict[str, Any]) -> Dict[str, bool]:
     return criteria
 
 
-def run_phase_2_2():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 2.2: Constraint Tightening")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_phase_2_2(seed: int = 42, output_dir: str | None = None):
     """Execute the full Phase 2.2 workflow."""
     console.print(Panel.fit(
         "[bold cyan]Phase 2.2: Constraint Tightening[/bold cyan]\n"
@@ -320,7 +328,7 @@ def run_phase_2_2():
         border_style="cyan"
     ))
 
-    with active_run(config={"command": "phase_2_2_stress_tests"}) as run:
+    with active_run(config={"command": "phase_2_2_stress_tests", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
 
         # Get eligible classes
@@ -388,7 +396,10 @@ def run_phase_2_2():
             ))
 
         # Save report
-        report_path = Path("runs") / run.run_id / "phase_2_2_report.json"
+        if output_dir:
+            report_path = Path(output_dir) / "phase_2_2_report.json"
+        else:
+            report_path = Path("runs") / run.run_id / "phase_2_2_report.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Serialize results for JSON
@@ -406,4 +417,6 @@ def run_phase_2_2():
 
 
 if __name__ == "__main__":
-    run_phase_2_2()
+    args = _parse_args()
+    run_phase_2_2(seed=args.seed, output_dir=args.output_dir)
+    sys.exit(0)

@@ -2,6 +2,10 @@ import importlib.util
 import json
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 
 def _load_checker_module():
     module_path = Path("scripts/core_audit/check_provenance_runner_contract.py")

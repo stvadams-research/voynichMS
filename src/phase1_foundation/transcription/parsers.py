@@ -41,29 +41,22 @@ class EVAParser(TranscriptionParser):
                     continue
                 
                 match = self._line_pattern.match(line)
-                if match:
-                    folio = match.group(1)
-                    # We might want to parse the line number from the location string, 
-                    # but for now let's just use a sequential index or try to extract it.
-                    # Location: P.1;H -> Paragraph 1?
-                    # Let's just use the file line index as a fallback or try to extract digits.
-                    
-                    content = match.group(3)
-                    
-                    # Split into tokens
-                    # EVA tokens are separated by . or spaces, usually . in IVTFF
-                    # Some files use spaces. Let's assume . for now as per standard.
-                    # Also handle - at end of line?
-                    
-                    raw_tokens = [t for t in re.split(r'[.\s]+', content) if t]
-                    
-                    tokens = []
-                    for idx, t in enumerate(raw_tokens):
-                        tokens.append(ParsedToken(token_index=idx, content=t))
-                    
-                    yield ParsedLine(
-                        folio=folio,
-                        line_index=i + 1, # 1-based index from file
-                        content=content,
-                        tokens=tokens
-                    )
+                if not match:
+                    logger.debug("Skipped unparseable IVTFF line %d: %r", i + 1, line[:80])
+                    continue
+
+                folio = match.group(1)
+                content = match.group(3)
+
+                raw_tokens = [t for t in re.split(r'[.\s]+', content) if t]
+
+                tokens = []
+                for idx, t in enumerate(raw_tokens):
+                    tokens.append(ParsedToken(token_index=idx, content=t))
+
+                yield ParsedLine(
+                    folio=folio,
+                    line_index=i + 1,  # 1-based index from file
+                    content=content,
+                    tokens=tokens
+                )

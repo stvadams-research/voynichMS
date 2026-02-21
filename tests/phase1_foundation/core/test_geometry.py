@@ -1,5 +1,9 @@
 import pytest
+
 from phase1_foundation.core.geometry import Point, Box, Polygon
+
+pytestmark = pytest.mark.unit
+
 
 def test_point_valid():
     p = Point(x=0.5, y=0.5)

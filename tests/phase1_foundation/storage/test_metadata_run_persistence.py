@@ -1,5 +1,7 @@
 import pytest
 
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import MetadataStore, RunRecord
 

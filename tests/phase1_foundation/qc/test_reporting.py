@@ -1,6 +1,10 @@
 import json
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.core.ids import PageID, RunID
 from phase1_foundation.qc.reporting import generate_overlays, generate_run_summary
 

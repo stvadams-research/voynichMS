@@ -10,6 +10,7 @@ Directional Stability Checks:
 2. Glyph Positional Entropy Stability
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -32,14 +33,22 @@ from phase1_foundation.core.provenance import ProvenanceWriter
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
-def run_test_b():
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 3.3.3: Test B - Transliteration Invariance Check")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_test_b(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 3.3.3: Test B - Transliteration Invariance Check[/bold blue]\n"
         "Verifying findings across Zandbergen-Landini (ZL) and Currier (CD)",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "test_b_transliteration_invariance", "seed": 42}) as run:
+    with active_run(config={"command": "test_b_transliteration_invariance", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         
         sources = {
@@ -116,9 +125,13 @@ def run_test_b():
         console.print(table)
         
         # Save results
-        ProvenanceWriter.save_results(results, "core_status/phase3_synthesis/TEST_B_RESULTS.json")
+        out = Path(output_dir) if output_dir else Path("core_status/phase3_synthesis")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "TEST_B_RESULTS.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_test_b()
+    args = _parse_args()
+    run_test_b(seed=args.seed, output_dir=args.output_dir)
+    sys.exit(0)

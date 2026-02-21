@@ -6,6 +6,7 @@ Benchmarks Voynich (Real) against Independent and Coupled pool simulators
 using line-level parameter phase4_inference.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -29,14 +30,22 @@ console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
 
-def run_pilot_5c():
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 5C Pilot: Workflow Reconstruction")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_pilot_5c(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 5C: Workflow Reconstruction Pilot[/bold blue]\n"
         "Testing sufficiency of line-conditioned generators",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_5c_pilot", "seed": 42}) as run:
+    with active_run(config={"command": "run_5c_pilot", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         inferrer = WorkflowParameterInferrer()
         
@@ -49,12 +58,12 @@ def run_pilot_5c():
         console.print("\n[bold yellow]Step 2: Executing Workflow Simulators[/bold yellow]")
         
         # Family 1: Independent Pool
-        sim1 = LineScopedPoolSimulator(GRAMMAR_PATH, mean_pool_size=12.0, seed=42)
+        sim1 = LineScopedPoolSimulator(GRAMMAR_PATH, mean_pool_size=12.0, seed=seed)
         sim1_lines = sim1.generate_corpus(num_lines=500, line_len=8)
         sim1_dist = inferrer.aggregate_distributions(sim1_lines)
         
         # Family 2: Weakly Coupled Pool
-        sim2 = WeaklyCoupledPoolSimulator(GRAMMAR_PATH, reservoir_size=50, drift_rate=0.1, seed=42)
+        sim2 = WeaklyCoupledPoolSimulator(GRAMMAR_PATH, reservoir_size=50, drift_rate=0.1, seed=seed)
         sim2_lines = sim2.generate_corpus(num_lines=500, line_len=8)
         sim2_dist = inferrer.aggregate_distributions(sim2_lines)
         
@@ -96,11 +105,12 @@ def run_pilot_5c():
             "sim2_coupled": sim2_dist
         }
         
-        output_dir = Path("results/data/phase5_mechanism/workflow")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "pilot_5c_results.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/workflow")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "pilot_5c_results.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_pilot_5c()
+    args = _parse_args()
+    run_pilot_5c(seed=args.seed, output_dir=args.output_dir)

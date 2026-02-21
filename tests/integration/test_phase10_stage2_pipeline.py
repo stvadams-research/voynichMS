@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import numpy as np
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 from phase10_admissibility.stage2_pipeline import (
     _tokenize_text_to_lines,
     folio_sort_key,

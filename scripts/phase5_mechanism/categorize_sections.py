@@ -2,6 +2,7 @@
 Categorizes Voynich pages into major sections based on folio ranges.
 """
 
+import argparse
 from typing import Dict, List
 
 SECTION_RANGES = {
@@ -31,7 +32,15 @@ def get_section(folio_id: str) -> str:
     except (TypeError, ValueError):
         return "unknown"
 
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Categorize Voynich pages into sections")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
+    _args = _parse_args()
     # Test
     print(f"f1r: {get_section('f1r')}")
     print(f"f70v: {get_section('f70v')}")

@@ -2,6 +2,8 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.storage.interface import StorageInterface
 
 

@@ -2,6 +2,10 @@ import importlib.util
 import json
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 
 def _load_checker_module():
     module_path = Path("scripts/core_skeptic/check_multimodal_coupling.py")

@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase7_human.quire_analysis import QuireAnalyzer
 
 

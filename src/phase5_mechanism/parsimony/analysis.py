@@ -15,6 +15,9 @@ class ParsimonyAnalyzer:
     def analyze_node_explosion(self, lines: List[List[str]]) -> Dict[str, Any]:
         """
         Estimates the effective state space size of a Position-Indexed DAG.
+
+        explosion_factor = |unique (word, position) states| / |vocabulary|
+        Values >>1 indicate positional conditioning inflates the state space.
         """
         unique_words = set()
         unique_states = set() # (word, pos)
@@ -43,6 +46,16 @@ class ParsimonyAnalyzer:
     def analyze_residual_dependency(self, lines: List[List[str]]) -> Dict[str, Any]:
         """
         Checks if history (prefix) adds information beyond (Word, Position).
+
+        Compares two weighted conditional entropies:
+          H_base = H(successor | word, position)
+          H_hist = H(successor | word, position, predecessor)
+
+        Each is computed as a weighted average over contexts:
+          H = sum_ctx [ N(ctx) * (-sum_s p(s|ctx) * log2(p(s|ctx))) ] / sum_ctx N(ctx)
+
+        entropy_reduction = H_base - H_hist  (>0 means history helps)
+        rel_reduction     = reduction / H_base
         """
         # Contexts
         ctx_word_pos = defaultdict(Counter)

@@ -1,4 +1,4 @@
-# Phase 12: Reproducibility Hardening Execution Plan
+# Support: Replicate — Reproducibility Hardening Execution Plan
 
 **Created:** 2026-02-20
 **Updated:** 2026-02-20
@@ -549,7 +549,7 @@ The gaps should be addressed in priority order:
 
 ## Validation Criteria
 
-Phase 12 is complete when an external party can:
+This effort is complete when an external party can:
 
 1. Clone the repository
 2. Run `pip install -r requirements-lock.txt && pip install -e .`
@@ -630,8 +630,9 @@ codebases lack:
 - **Sensitivity sweep** with release-evidence gates
 - **Data sourcing guide** (DATA_SOURCES.md)
 
-The project is well above average for research reproducibility. Phase 12
-closes the remaining gaps to reach "external-party-clean" status.
+The project is well above average for research reproducibility. This
+reproducibility hardening effort closes the remaining gaps to reach
+"external-party-clean" status.
 
 ---
 

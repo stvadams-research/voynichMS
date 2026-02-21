@@ -1,7 +1,12 @@
 import os
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 from phase1_foundation.config import ComputationTracker, SimulationViolationError, ComputationMethod
+
+pytestmark = pytest.mark.unit
+
 
 def test_enforcement_enabled():
     """Test that REQUIRE_COMPUTED=1 raises error on simulation."""

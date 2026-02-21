@@ -2,6 +2,10 @@ import json
 import subprocess
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 
 def test_claim_entitlement_coherence_checker_passes_with_repo_policy() -> None:
     artifact = Path("core_status/core_audit/release_gate_health_status.json")

@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase2_analysis.models.disconfirmation import DisconfirmationEngine, PerturbationConfig
 from phase2_analysis.models.evaluation import CrossModelEvaluator
 from phase2_analysis.models.interface import (

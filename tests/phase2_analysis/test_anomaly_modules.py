@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase2_analysis.anomaly.capacity_bounding import CapacityBoundingAnalyzer
 from phase2_analysis.anomaly.constraint_analysis import ConstraintIntersectionAnalyzer
 from phase2_analysis.anomaly.stability_analysis import AnomalyStabilityAnalyzer

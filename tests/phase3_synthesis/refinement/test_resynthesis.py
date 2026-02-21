@@ -1,5 +1,9 @@
 import random
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase3_synthesis.interface import SyntheticPage
 from phase3_synthesis.refinement.interface import ConstraintStatus, StructuralConstraint
 from phase3_synthesis.refinement.resynthesis import RefinedGenerator

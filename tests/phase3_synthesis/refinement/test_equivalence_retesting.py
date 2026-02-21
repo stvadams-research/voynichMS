@@ -1,6 +1,10 @@
 import importlib.util
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase3_synthesis.interface import SectionProfile, SyntheticPage
 from phase3_synthesis.refinement.interface import EquivalenceOutcome, EquivalenceTest
 

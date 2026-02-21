@@ -6,6 +6,7 @@ Checks for shared path fragments (long n-grams) across major sections
 to determine if they traverse the same underlying object.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -27,6 +28,14 @@ from scripts.phase5_mechanism.categorize_sections import get_section
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
+
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 5I: Lattice Overlap Analysis")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
 
 def get_tokens_by_section(store):
     session = store.Session()
@@ -52,14 +61,14 @@ def get_tokens_by_section(store):
 def get_ngrams(tokens, n=3):
     return set(tuple(tokens[i:i+n]) for i in range(len(tokens)-n+1))
 
-def run_lattice_overlap():
+def run_lattice_overlap(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 5I: Lattice Overlap Analysis[/bold blue]\n"
         "Testing for shared path fragments across sections",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_5i_lattice_overlap", "seed": 42}) as run:
+    with active_run(config={"command": "run_5i_lattice_overlap", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         
         # 1. Fetch Data
@@ -100,16 +109,17 @@ def run_lattice_overlap():
         console.print(table)
         
         # Save results
-        output_dir = Path("results/data/phase5_mechanism")
-        output_dir.mkdir(parents=True, exist_ok=True)
+        out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism")
+        out.mkdir(parents=True, exist_ok=True)
         # JSON doesn't like tuple values, so normalize pair fields.
         serializable_results = [
             {"s1": r["pair"][0], "s2": r["pair"][1], "common": r["common"], "jaccard": r["jaccard"]}
             for r in results
         ]
-        ProvenanceWriter.save_results(serializable_results, output_dir / "lattice_overlap.json")
+        ProvenanceWriter.save_results(serializable_results, out / "lattice_overlap.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_lattice_overlap()
+    args = _parse_args()
+    run_lattice_overlap(seed=args.seed, output_dir=args.output_dir)

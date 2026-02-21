@@ -2,6 +2,9 @@
 """
 Phase 3.1: Residual Structural Constraint Extraction
 
+Not included in replicate.py; superseded by run_phase_3.py for replication.
+Run manually for detailed Track A-D analysis.
+
 Closes the synthetic-real gap by:
 - Track A: Discriminative Feature Discovery
 - Track B: Structural Hypothesis Formalization

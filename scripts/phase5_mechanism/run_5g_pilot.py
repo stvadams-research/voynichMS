@@ -6,6 +6,7 @@ Benchmarks Voynich (Real) against four topology simulators using
 overlap, coverage, and convergence signatures.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -31,14 +32,22 @@ console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
 
-def run_pilot_5g():
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 5G Pilot: Topology Collapse")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_pilot_5g(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 5G: Topology Collapse Pilot[/bold blue]\n"
         "Testing non-equivalence of large-object topologies",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_5g_pilot", "seed": 42}) as run:
+    with active_run(config={"command": "run_5g_pilot", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = TopologySignatureAnalyzer(prefix_len=2)
         
@@ -47,10 +56,10 @@ def run_pilot_5g():
         real_lines = get_lines_from_store(store, "voynich_real")
         
         sims = {
-            "Grid (60x60)": GridTopologySimulator(GRAMMAR_PATH, seed=42),
-            "Layered Table": LayeredTableSimulator(GRAMMAR_PATH, seed=42),
-            "DAG (Stratified)": DAGTopologySimulator(GRAMMAR_PATH, seed=42),
-            "Lattice (Implicit)": LatticeTopologySimulator(GRAMMAR_PATH, seed=42)
+            "Grid (60x60)": GridTopologySimulator(GRAMMAR_PATH, seed=seed),
+            "Layered Table": LayeredTableSimulator(GRAMMAR_PATH, seed=seed),
+            "DAG (Stratified)": DAGTopologySimulator(GRAMMAR_PATH, seed=seed),
+            "Lattice (Implicit)": LatticeTopologySimulator(GRAMMAR_PATH, seed=seed)
         }
         
         corpus_data = {"Voynich (Real)": real_lines[:5000]}
@@ -91,11 +100,12 @@ def run_pilot_5g():
         console.print(table)
         
         # Save results
-        output_dir = Path("results/data/phase5_mechanism/topology_collapse")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "pilot_5g_results.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/topology_collapse")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "pilot_5g_results.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_pilot_5g()
+    args = _parse_args()
+    run_pilot_5g(seed=args.seed, output_dir=args.output_dir)

@@ -2,6 +2,10 @@ import importlib.util
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 
 def _load_runner_module():
     module_path = Path("scripts/phase3_synthesis/run_indistinguishability_test.py")

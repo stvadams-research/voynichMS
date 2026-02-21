@@ -1,5 +1,9 @@
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 
 def test_anchor_coupling_script_emits_required_contract_fields() -> None:
     script = Path("scripts/phase5_mechanism/run_5i_anchor_coupling.py").read_text(

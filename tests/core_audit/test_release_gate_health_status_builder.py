@@ -1,6 +1,10 @@
 import importlib.util
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 
 def _load_builder_module():
     module_path = Path("scripts/core_audit/build_release_gate_health_status.py")

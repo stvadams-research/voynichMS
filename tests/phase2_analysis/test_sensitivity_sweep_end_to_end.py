@@ -1,7 +1,10 @@
 import importlib.util
 import json
 from pathlib import Path
+
 import pytest
+
+pytestmark = pytest.mark.unit
 
 
 def _load_sweep_module():

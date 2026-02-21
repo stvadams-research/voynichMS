@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 from phase10_admissibility.stage1_pipeline import (
     CorpusBundle,
     extract_rule,

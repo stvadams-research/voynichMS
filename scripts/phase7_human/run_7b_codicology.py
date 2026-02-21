@@ -3,6 +3,7 @@
 Phase 7B: Codicological and Material Constraints Runner
 """
 
+import argparse
 import sys
 import json
 from pathlib import Path
@@ -186,14 +187,21 @@ def get_pages_data(store, dataset_id="voynich_real"):
     finally:
         session.close()
 
-def run_phase_7b():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 7B: Codicological and Material Constraints")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_phase_7b(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 7B: Codicological and Material Constraints[/bold blue]\n"
         "Testing coupling between text generation and physical manuscript structure.",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_7b_codicology", "seed": 42}) as run:
+    with active_run(config={"command": "run_7b_codicology", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         
         # 1. Prepare Data
@@ -239,8 +247,8 @@ def run_phase_7b():
         console.print(table)
         
         # 7. Save Artifacts
-        output_dir = Path("results/data/phase7_human")
-        output_dir.mkdir(parents=True, exist_ok=True)
+        out = Path(output_dir) if output_dir else Path("results/data/phase7_human")
+        out.mkdir(parents=True, exist_ok=True)
         
         results = {
             "page_boundary": boundary_res,
@@ -250,7 +258,7 @@ def run_phase_7b():
             "illustration_coupling": multimodal_res,
         }
         
-        ProvenanceWriter.save_results(results, output_dir / "phase_7b_results.json")
+        ProvenanceWriter.save_results(results, out / "phase_7b_results.json")
             
         # Generate Report
         report_path = Path("results/reports/phase7_human/PHASE_7B_RESULTS.md")
@@ -293,7 +301,8 @@ def run_phase_7b():
             )
 
         store.save_run(run)
-        console.print(f"\n[bold green]Run complete. Results saved to {output_dir}[/bold green]")
+        console.print(f"\n[bold green]Run complete. Results saved to {out}[/bold green]")
 
 if __name__ == "__main__":
-    run_phase_7b()
+    args = _parse_args()
+    run_phase_7b(seed=args.seed, output_dir=args.output_dir)

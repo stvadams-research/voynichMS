@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase4_inference.projection_diagnostics.reference_number import (
     ReferenceNumberAnalyzer,
     ReferenceNumberConfig,

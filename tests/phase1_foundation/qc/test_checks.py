@@ -1,5 +1,9 @@
 import logging
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.qc.checks import check_folio_format, check_unique_ids
 
 

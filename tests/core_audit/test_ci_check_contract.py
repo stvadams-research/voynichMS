@@ -1,5 +1,9 @@
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 
 def test_ci_check_uses_stage_3_default_and_50_percent_floor() -> None:
     script = Path("scripts/ci_check.sh").read_text(encoding="utf-8")

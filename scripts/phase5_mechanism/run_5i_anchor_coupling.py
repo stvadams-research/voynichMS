@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Phase 5I anchor-coupling phase2_analysis with SK-H1 guardrails.
+Phase 5I anchor-coupling analysis with SK-H1 guardrails.
 
 Outputs:
 - results/phase5_mechanism/anchor_coupling_confirmatory.json (provenance-wrapped)

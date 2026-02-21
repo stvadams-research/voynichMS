@@ -80,7 +80,10 @@ class NetworkAnalyzer:
         log_ranks = np.log(ranks)
         log_freqs = np.log(frequencies)
         
-        # Limit to top 500 ranks for Zipf fit
+        # Limit to top 500 ranks for Zipf fit.
+        # Standard practice: ranks beyond ~500 are dominated by hapax legomena
+        # and distort the power-law fit. Voynich vocabulary plateaus at ~450.
+        # See governance/THRESHOLDS_RATIONALE.md for rationale.
         limit = min(500, len(frequencies))
         if limit > 5:
             slope, intercept = np.polyfit(log_ranks[:limit], log_freqs[:limit], 1)

@@ -3,6 +3,8 @@ from pathlib import Path
 import pytest
 from pydantic import BaseModel
 
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.configs.loader import load_config
 
 

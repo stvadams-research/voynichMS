@@ -102,6 +102,13 @@ M2_5_REOPEN_TRIGGERS_BY_LANE: Dict[str, list[str]] = {
 
 
 def load_matrix(csv_path: Path | str) -> Dict[str, np.ndarray]:
+    """Load a comparative feature matrix from a CSV file.
+
+    Reads a CSV where each row is an artifact. The 'Artifact' column supplies
+    the key and the remaining numeric columns form the feature vector.
+
+    Returns a dict mapping artifact names to numpy feature vectors.
+    """
     matrix: Dict[str, np.ndarray] = {}
     with open(csv_path, "r", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
@@ -146,6 +153,12 @@ def calculate_distances(
     dimensions: np.ndarray | None = None,
     weights: np.ndarray | None = None,
 ) -> Dict[str, float]:
+    """Compute weighted Euclidean distances from a target artifact to all others.
+
+    Optionally restricts computation to a subset of dimensions and applies
+    per-dimension weights. Returns a dict mapping each non-target artifact
+    name to its distance from the target.
+    """
     target_vector = matrix[target]
     distances: Dict[str, float] = {}
     for name, vector in matrix.items():
@@ -242,6 +255,16 @@ def compute_distance_uncertainty(
     run_profile: str = "custom",
     status_thresholds: Mapping[str, Any] | None = None,
 ) -> Dict[str, Any]:
+    """Quantify uncertainty of comparative distances via bootstrap perturbation.
+
+    Performs bootstrap resampling of feature dimensions with weight jitter and
+    leave-one-dimension-out jackknife analysis. Produces stability metrics
+    (nearest-neighbor stability, rank stability, top-2 gap robustness),
+    fragility diagnostics, and M2.4/M2.5 closure-lane classifications.
+
+    Returns a dict containing status, distance summaries, stability metrics,
+    fragility diagnostics, and closure-lane assignments.
+    """
     if target not in matrix:
         raise KeyError(f"Target artifact {target!r} not found in matrix")
     if iterations < 100:
@@ -586,6 +609,12 @@ def write_proximity_report(
     *,
     report_path: Path | str,
 ) -> None:
+    """Write a Markdown proximity report summarizing comparative distances.
+
+    Renders a table of point-estimate distances with 95% confidence intervals,
+    nearest-neighbor stability metrics, fragility diagnostics, and M2.4/M2.5
+    closure-lane assignments. The report is written to report_path.
+    """
     path = Path(report_path)
     path.parent.mkdir(parents=True, exist_ok=True)
     sorted_dist = sorted(distances.items(), key=lambda x: x[1])
@@ -683,6 +712,12 @@ def run_analysis(
     target: str = DEFAULT_TARGET,
     status_thresholds: Mapping[str, Any] | None = None,
 ) -> Dict[str, Any]:
+    """Run the full comparative mapping pipeline end-to-end.
+
+    Loads the feature matrix, computes distances and uncertainty, writes the
+    Markdown proximity report and JSON uncertainty artifact, and returns a
+    summary dict with status, closure lanes, and key stability metrics.
+    """
     csv_path = _resolve_existing_path(
         matrix_path or Path("results/reports/phase8_comparative/COMPARATIVE_MATRIX.csv"),
         "results/reports/phase8_comparative/COMPARATIVE_MATRIX.csv",

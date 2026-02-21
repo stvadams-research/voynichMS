@@ -6,6 +6,7 @@ Benchmarks Voynich (Real) against Independent and Locally-Coupled
 entry mechanisms using start-word distribution and adjacency phase2_analysis.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -29,14 +30,22 @@ console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
 
-def run_pilot_5f():
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 5F Pilot: Entry-Point Selection")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_pilot_5f(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 5F: Entry-Point Selection Pilot[/bold blue]\n"
         "Testing selection rules: Uniform vs. Locally Coupled",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_5f_pilot", "seed": 42}) as run:
+    with active_run(config={"command": "run_5f_pilot", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = EntryPointAnalyzer()
         
@@ -48,7 +57,7 @@ def run_pilot_5f():
         
         # 2. Run Simulators
         console.print("\n[bold yellow]Step 2: Executing Entry Simulators[/bold yellow]")
-        sim = EntryMechanismSimulator(GRAMMAR_PATH, vocab_size=500, seed=42)
+        sim = EntryMechanismSimulator(GRAMMAR_PATH, vocab_size=500, seed=seed)
         
         # Family 1: Uniform
         syn_uni_lines = sim.generate_uniform_independent(num_lines=2000, line_len=8)
@@ -98,11 +107,12 @@ def run_pilot_5f():
             "coupled": {"dist": syn_cpl_dist, "coup": syn_cpl_coup}
         }
         
-        output_dir = Path("results/data/phase5_mechanism/entry_selection")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "pilot_5f_results.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/entry_selection")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "pilot_5f_results.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_pilot_5f()
+    args = _parse_args()
+    run_pilot_5f(seed=args.seed, output_dir=args.output_dir)

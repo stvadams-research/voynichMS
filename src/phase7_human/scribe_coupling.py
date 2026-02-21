@@ -16,6 +16,11 @@ class ScribeAnalyzer:
     Analyzes coupling between scribal hands and phase5_mechanism signatures.
     """
     def __init__(self):
+        """Initialize the ScribeAnalyzer.
+
+        No configuration is required. Scribal hand mappings are derived
+        at query time from folio IDs using Currier/D'Imperio consensus boundaries.
+        """
         # Approximate Currier Hand Mapping
         # Hand 1: Herbal/Pharmaceutical (mostly)
         # Hand 2: Biological/Stars (mostly)
@@ -23,7 +28,9 @@ class ScribeAnalyzer:
 
     def get_hand(self, folio_id: str) -> str:
         """
-        Maps folio ID to a scribal hand (1 or 2).
+        Maps folio ID to a scribal hand (1 or 2) using approximate
+        Currier (1976) / D'Imperio (1978) paleographic consensus boundaries.
+        See governance/THRESHOLDS_RATIONALE.md for rationale.
         """
         try:
             num = int("".join([c for c in folio_id if c.isdigit()]))

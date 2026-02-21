@@ -1,6 +1,10 @@
 import logging
 from types import SimpleNamespace
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.qc import anomalies as anomaly_module
 from phase1_foundation.qc.anomalies import AnomalyLogger
 

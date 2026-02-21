@@ -1,5 +1,9 @@
 import numpy as np
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.core.queries import QueryEngine, get_lines_from_store, get_tokens_and_boundaries
 from phase1_foundation.storage.metadata import MetadataStore
 

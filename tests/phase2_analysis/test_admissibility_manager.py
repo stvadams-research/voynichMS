@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase2_analysis.admissibility.manager import (
     AdmissibilityManager,
     AdmissibilityStatus,

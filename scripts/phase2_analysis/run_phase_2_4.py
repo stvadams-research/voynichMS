@@ -238,6 +238,14 @@ def main(
         False, "--verbose", "-v",
         help="Show detailed output"
     ),
+    seed: int = typer.Option(
+        42, "--seed",
+        help="Random seed (default: 42)"
+    ),
+    output_dir: str = typer.Option(
+        None, "--output-dir",
+        help="Override output directory"
+    ),
 ):
     """Execute Phase 2.4: Anomaly Characterization and Constraint Closure."""
 

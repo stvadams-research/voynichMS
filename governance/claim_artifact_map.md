@@ -144,3 +144,32 @@ raw float (e.g., 88.11% = 0.8811).
    are printed to console by `run_phase_2_1.py` but not stored in a JSON
    artifact. These cannot be programmatically verified without re-running the
    script and parsing stdout.
+
+---
+
+## Verification Status Summary
+
+| Status | Count | Claims |
+|---|---|---|
+| **Fully verifiable** (JSON key path exists) | 42 | #1, #6-47 |
+| **Console-only** (requires script re-run) | 2 | #2, #3 |
+| **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
+| **Static config** (manually synchronized) | 1 | #1 (also in config) |
+
+### Recommended Fixes (future sprint)
+
+- **Claims #2-3:** Modify `run_phase_2_1.py` to write glyph collapse and word
+  boundary agreement values to a JSON output file alongside console output.
+- **Claims #4-5:** Modify `run_phase_2_2.py` to include mapping stability score
+  and information density z-score in a structured JSON output.
+
+---
+
+## Related Documents
+
+- [THRESHOLDS_RATIONALE.md](THRESHOLDS_RATIONALE.md) — Why each threshold has
+  its current value
+- [PAPER_CODE_CONCORDANCE.md](PAPER_CODE_CONCORDANCE.md) — Paper sections mapped
+  to code files and scripts
+- [PHASE_10_METHODS_SUMMARY.md](PHASE_10_METHODS_SUMMARY.md) — Phase 10 method
+  designs, defeat conditions, and outcomes

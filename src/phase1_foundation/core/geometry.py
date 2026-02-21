@@ -167,8 +167,8 @@ class Transform(BaseModel):
     def invert(self) -> 'Transform':
         a, b, c, d, tx, ty = self.matrix
         det = a * d - b * c
-        if det == 0:
-            raise ValueError("Transform is not invertible (determinant is 0)")
+        if abs(det) < 1e-12:
+            raise ValueError(f"Transform is not invertible (determinant {det:.2e} near zero)")
         
         inv_det = 1.0 / det
         

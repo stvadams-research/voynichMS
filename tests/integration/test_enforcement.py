@@ -12,8 +12,11 @@ import json
 import os
 import sys
 import tempfile
-import pytest
 from pathlib import Path
+
+import pytest
+
+pytestmark = pytest.mark.integration
 
 # CRITICAL: Ensure src is FIRST in path to avoid shadowing by tests/phase2_analysis
 # The tests/phase2_analysis directory is a test package that would otherwise shadow src/phase2_analysis

@@ -2,6 +2,8 @@ import math
 
 import pytest
 
+pytestmark = pytest.mark.unit
+
 from phase2_analysis.models.perturbation import PerturbationCalculator
 
 

@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 from phase10_admissibility.stage4_pipeline import (
     Stage4Config,
     interpret_priority_urgent,

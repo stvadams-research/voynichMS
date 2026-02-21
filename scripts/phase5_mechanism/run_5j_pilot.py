@@ -6,6 +6,7 @@ Benchmarks Voynich (Real) against Local Transition (H1) and
 Feature-Conditioned (H2) simulators.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -30,14 +31,22 @@ console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
 
-def run_pilot_5j():
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 5J Pilot: Dependency Scope and Constraint Locality")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_pilot_5j(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 5J: Dependency Scope Pilot[/bold blue]\n"
         "Testing: Local Transitions (H1) vs. Feature-Conditioned (H2)",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_5j_pilot", "seed": 42}) as run:
+    with active_run(config={"command": "run_5j_pilot", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = DependencyScopeAnalyzer()
         
@@ -45,10 +54,10 @@ def run_pilot_5j():
         console.print("\n[bold yellow]Step 1: Preparing Data[/bold yellow]")
         real_lines = get_lines_from_store(store, "voynich_real")
         
-        sim_h1 = LocalTransitionSimulator(GRAMMAR_PATH, vocab_size=1000, seed=42)
+        sim_h1 = LocalTransitionSimulator(GRAMMAR_PATH, vocab_size=1000, seed=seed)
         h1_lines = sim_h1.generate_corpus(num_lines=2000, line_len=8)
         
-        sim_h2 = FeatureConditionedSimulator(GRAMMAR_PATH, vocab_size=1000, seed=42)
+        sim_h2 = FeatureConditionedSimulator(GRAMMAR_PATH, vocab_size=1000, seed=seed)
         h2_lines = sim_h2.generate_corpus(num_lines=2000, line_len=8)
         
         datasets = {
@@ -88,11 +97,12 @@ def run_pilot_5j():
         console.print(table)
         
         # Save results
-        output_dir = Path("results/data/phase5_mechanism/dependency_scope")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "pilot_5j_results.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/dependency_scope")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "pilot_5j_results.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_pilot_5j()
+    args = _parse_args()
+    run_pilot_5j(seed=args.seed, output_dir=args.output_dir)

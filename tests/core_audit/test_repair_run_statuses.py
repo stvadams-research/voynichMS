@@ -2,8 +2,12 @@ import importlib.util
 import json
 from pathlib import Path
 
+import pytest
+
 from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import MetadataStore, RunRecord
+
+pytestmark = pytest.mark.integration
 
 
 def _load_script_module():

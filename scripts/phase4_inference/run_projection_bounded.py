@@ -7,6 +7,7 @@ Runs PCA + t-SNE + optional UMAP projections as descriptive diagnostics and
 scores separability against permutation baselines.
 """
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -31,7 +32,14 @@ console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
 
-def run_experiment() -> None:
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Bounded Projection Check")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_experiment(seed: int = 42, output_dir: str | None = None) -> None:
     console.print(
         Panel.fit(
             "[bold blue]Bounded Projection Check[/bold blue]\n"
@@ -40,7 +48,7 @@ def run_experiment() -> None:
         )
     )
 
-    with active_run(config={"command": "run_projection_bounded_phase4", "seed": 42}) as run:
+    with active_run(config={"command": "run_projection_bounded_phase4", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         config = ProjectionDiagnosticsConfig(
             window_size=72,
@@ -48,7 +56,7 @@ def run_experiment() -> None:
             max_features=2000,
             tsne_perplexity=30,
             permutations=100,
-            random_state=42,
+            random_state=seed,
         )
         analyzer = ProjectionDiagnosticsAnalyzer(config=config)
 
@@ -99,12 +107,13 @@ def run_experiment() -> None:
             )
         console.print(metric_table)
 
-        output_dir = Path("results/data/phase4_inference")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "projection_bounded_check.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase4_inference")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "projection_bounded_check.json")
 
         store.save_run(run)
 
 
 if __name__ == "__main__":
-    run_experiment()
+    args = _parse_args()
+    run_experiment(seed=args.seed, output_dir=args.output_dir)

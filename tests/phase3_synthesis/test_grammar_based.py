@@ -1,5 +1,9 @@
 import json
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
 
 

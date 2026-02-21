@@ -2,7 +2,11 @@ import numpy as np
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+
+pytestmark = pytest.mark.unit
 
 from phase11_stroke.schema import CHAR_INVENTORY, FEATURE_NAMES, STROKE_FEATURES, StrokeSchema
 

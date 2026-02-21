@@ -10,7 +10,7 @@ Key questions:
 - Do mappings survive omission/addition?
 """
 
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 import math
 from collections import Counter
 from datetime import datetime, timezone
@@ -34,6 +34,7 @@ from phase1_foundation.storage.metadata import (
 )
 
 
+from sqlalchemy.orm import Session as SASession
 from phase1_foundation.config import MAX_PAGES_PER_TEST, get_analysis_thresholds
 from phase1_foundation.runs.manager import RunManager
 import logging
@@ -54,7 +55,7 @@ class MappingStabilityTest(StressTest):
     - It degrades gracefully rather than catastrophically
     """
 
-    def __init__(self, store):
+    def __init__(self, store: MetadataStore) -> None:
         super().__init__(store)
         self.thresholds = get_analysis_thresholds().get("mapping_stability", {})
 
@@ -102,24 +103,10 @@ class MappingStabilityTest(StressTest):
             omission_stability = []
 
             for page in pages:
-                lines = session.query(LineRecord).filter_by(page_id=page.id).limit(MAX_LINES_PER_PAGE).all()
-
-                for line in lines:
-                    words = session.query(WordRecord).filter_by(line_id=line.id).limit(MAX_WORDS_PER_LINE).all()
-                    if len(words) < 2:
-                        continue
-
-                    # Test 1: Segmentation Perturbation
-                    seg_score = self._test_segmentation_stability(session, words, dataset_id)
-                    segmentation_stability.append(seg_score)
-
-                    # Test 2: Ordering Perturbation
-                    ord_score = self._test_ordering_stability(session, words, dataset_id)
-                    ordering_stability.append(ord_score)
-
-                    # Test 3: Omission Perturbation
-                    omit_score = self._test_omission_stability(session, words, dataset_id)
-                    omission_stability.append(omit_score)
+                self._evaluate_page_stability(
+                    session, page, dataset_id,
+                    segmentation_stability, ordering_stability, omission_stability,
+                )
 
             # Calculate aggregate scores
             avg_seg = sum(segmentation_stability) / len(segmentation_stability) if segmentation_stability else 0
@@ -183,7 +170,19 @@ class MappingStabilityTest(StressTest):
         finally:
             session.close()
 
-    def _test_segmentation_stability(self, session, words: List[WordRecord], dataset_id: str) -> float:
+    def _evaluate_page_stability(self, session: SASession, page: PageRecord, dataset_id: str,
+                                 seg_results: List[float], ord_results: List[float], omit_results: List[float]) -> None:
+        """Evaluate all stability metrics for a single page's lines."""
+        lines = session.query(LineRecord).filter_by(page_id=page.id).limit(MAX_LINES_PER_PAGE).all()
+        for line in lines:
+            words = session.query(WordRecord).filter_by(line_id=line.id).limit(MAX_WORDS_PER_LINE).all()
+            if len(words) < 2:
+                continue
+            seg_results.append(self._test_segmentation_stability(session, words, dataset_id))
+            ord_results.append(self._test_ordering_stability(session, words, dataset_id))
+            omit_results.append(self._test_omission_stability(session, words, dataset_id))
+
+    def _test_segmentation_stability(self, session: SASession, words: List[WordRecord], dataset_id: str) -> float:
         """
         Test stability under segmentation perturbation.
 
@@ -231,7 +230,7 @@ class MappingStabilityTest(StressTest):
         collapse_rate = affected_glyphs / total_glyphs
         return 1.0 - collapse_rate
 
-    def _test_ordering_stability(self, session, words: List[WordRecord], dataset_id: str) -> float:
+    def _test_ordering_stability(self, session: SASession, words: List[WordRecord], dataset_id: str) -> float:
         """
         Test stability under ordering perturbation.
 
@@ -278,7 +277,7 @@ class MappingStabilityTest(StressTest):
 
         return len(intersection) / len(union) if union else 1.0
 
-    def _test_omission_stability(self, session, words: List[WordRecord], dataset_id: str) -> float:
+    def _test_omission_stability(self, session: SASession, words: List[WordRecord], dataset_id: str) -> float:
         """
         Test stability under omission perturbation.
 
@@ -320,7 +319,7 @@ class MappingStabilityTest(StressTest):
 
         return preserved / total if total > 0 else 0.0
 
-    def _test_controls(self, session, control_ids: List[str], dataset_id: str) -> Optional[float]:
+    def _test_controls(self, session: SASession, control_ids: List[str], dataset_id: str) -> Optional[float]:
         """
         Test stability on control datasets.
 
@@ -356,7 +355,7 @@ class MappingStabilityTest(StressTest):
         return sum(control_stabilities) / len(control_stabilities)
 
     def _determine_outcome(self, explanation_class: str,
-                           seg: float, ord: float, omit: float) -> tuple:
+                           seg: float, ord: float, omit: float) -> Tuple[StressTestOutcome, Optional[float]]:
         """
         Determine outcome based on stability scores.
         

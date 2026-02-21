@@ -1,6 +1,6 @@
 # SK-M4 Provenance Register
 
-**Date:** 2026-02-10  
+**Date:** 2026-02-21  
 **Source finding:** `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_5.md` (`SK-M4` pass-5 residual)  
 **Plan:** `planning/core_skeptic/SKEPTIC_M4_5_EXECUTION_PLAN.md`
 
@@ -8,9 +8,9 @@
 
 ## Source Snapshot
 
-- generated_utc: `2026-02-10T23:13:37.031648Z`
+- generated_utc: `2026-02-21T00:06:42.348243Z`
 - source_snapshot.provenance_health_path: `core_status/core_audit/provenance_health_status.json`
-- source_snapshot.provenance_health_generated_utc: `2026-02-10T23:13:36.926442Z`
+- source_snapshot.provenance_health_generated_utc: `2026-02-21T00:06:42.311299Z`
 - source_snapshot.repair_report_path: `core_status/core_audit/run_status_repair_report.json`
 - source_snapshot.repair_report_generated_utc: `2026-02-10T17:39:06.686478Z`
 - source_snapshot.gate_health_path: `core_status/core_audit/release_gate_health_status.json`
@@ -25,7 +25,7 @@
 - m4_5_residual_reason: `historical_orphaned_rows_irrecoverable_with_current_source_scope`
 - threshold_policy_pass: `True`
 - orphaned_rows: `63`
-- orphaned_ratio: `0.237736`
+- orphaned_ratio: `0.159494`
 - missing_manifests: `0`
 - backfilled_manifests: `63`
 - recoverability_class: `HISTORICAL_ORPHANED_BACKFILLED_QUALIFIED`
@@ -49,7 +49,7 @@
 | Status | Artifact Count | Runtime DB Count | Delta (DB - Artifact) |
 |---|---:|---:|---:|
 | `orphaned` | 63 | 63 | 0 |
-| `success` | 202 | 202 | 0 |
+| `success` | 332 | 332 | 0 |
 
 ## Residual Statement (Pass 5 / SK-M4.5)
 

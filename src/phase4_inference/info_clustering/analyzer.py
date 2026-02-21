@@ -22,8 +22,14 @@ class MontemurroAnalyzer:
     def calculate_information(self, tokens: List[str]) -> Dict[str, Any]:
         """
         Calculate information per word about section identity.
-        
-        Formula: i(w) = sum_s p(s|w) * log2( p(s|w) / p(s) )
+
+        KL-divergence of each word's section distribution from the marginal:
+          i(w) = sum_s p(s|w) * log2( p(s|w) / p(s) )
+
+        where p(s) = N(s) / N_total (marginal section probability)
+        and   p(s|w) = N(w in s) / N(w) (conditional on word).
+        High i(w) means w is a topical keyword concentrated in specific sections.
+        Words with global count < 5 are excluded to suppress noise.
         """
         if not tokens:
             logger.warning("MontemurroAnalyzer.calculate_information received no tokens")

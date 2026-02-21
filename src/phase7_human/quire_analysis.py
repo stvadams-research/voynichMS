@@ -16,14 +16,20 @@ class QuireAnalyzer:
     Analyzes discontinuities across quire boundaries.
     """
     def __init__(self):
+        """Initialize the QuireAnalyzer.
+
+        No configuration is required. Quire assignments are derived at query
+        time from folio IDs using an 8-folio-per-quire approximation.
+        """
         # Simplified quire mapping (8 folios per quire approx)
         # In reality Voynich quires vary, but for a structural proxy this is a start.
         pass
 
     def get_quire(self, folio_id: str) -> int:
         """
-        Maps folio ID to a quire number.
-        Simplified 8-folio rule.
+        Maps folio ID to a quire number using an 8-folio-per-quire
+        approximation (quaternion). The most common Voynich quire size is 8
+        folios; actual sizes vary (6-10). See governance/THRESHOLDS_RATIONALE.md.
         """
         try:
             num = int("".join([c for c in folio_id if c.isdigit()]))

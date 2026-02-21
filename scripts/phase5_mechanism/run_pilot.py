@@ -6,6 +6,7 @@ Benchmarks Voynich (Real) against a matched Pool-Reuse generator
 using the first two signature tests.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -44,21 +45,28 @@ def get_tokens(store, dataset_id):
     finally:
         session.close()
 
-def run_pilot():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 5: Identifiability Pilot Benchmark")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_pilot(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 5: Identifiability Pilot Benchmark[/bold blue]\n"
         "Testing signature discrimination: Real vs. Pool-Reuse",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_pilot_benchmark", "seed": 42}) as run:
+    with active_run(config={"command": "run_pilot_benchmark", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
-        
+
         # 1. Setup Data
         console.print("\n[bold yellow]Step 1: Preparing Data[/bold yellow]")
         real_tokens = get_tokens(store, "voynich_real")
-        
-        generator = PoolGenerator(GRAMMAR_PATH, pool_size=25, seed=42)
+
+        generator = PoolGenerator(GRAMMAR_PATH, pool_size=25, seed=seed)
         syn_tokens = generator.generate(target_tokens=10000) # Pilot scale
         
         # 2. Run Signature Tests
@@ -107,11 +115,12 @@ def run_pilot():
             "table": {"real": real_table, "syn": syn_table}
         }
         
-        output_dir = Path("results/data/phase5_mechanism")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "pilot_results.json")
-            
+        out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "pilot_results.json")
+
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_pilot()
+    args = _parse_args()
+    run_pilot(seed=args.seed, output_dir=args.output_dir)

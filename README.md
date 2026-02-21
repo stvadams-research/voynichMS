@@ -67,31 +67,72 @@ Outputs are saved to `results/publication/`.
 
 ---
 
-## Data Sources
+## Quick Start
 
-The raw manuscript scans, transliteration files, and external corpora used by this project are too large to commit to the repository. See **[DATA_SOURCES.md](DATA_SOURCES.md)** for the complete list of external data, where to download it, and the expected directory layout. The pipeline will not run without this data in place.
+```bash
+# 1. Clone and set up environment
+git clone <repo-url> && cd voynichMS
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements-lock.txt
+
+# 2. Download external data (~50 MB transliterations + ~5 MB corpora)
+python3 scripts/phase0_data/download_external_data.py
+
+# 3. Populate the database (~5-15 min)
+python3 scripts/phase1_foundation/populate_database.py
+
+# 4. Run full replication (all 11 phases, ~3-6 hours)
+python3 scripts/support_preparation/replicate_all.py
+
+# 5. Verify determinism (optional, re-runs key phases twice and compares)
+bash scripts/core_audit/verify_reproduction.sh
+```
+
+Results appear in `results/data/` (JSON artifacts) and `results/reports/` (Markdown).
+See [replicateResults.md](replicateResults.md) for detailed reproduction instructions.
 
 ---
 
-## Reproducing Results
+## Data Sources
 
-For step-by-step external reproduction instructions, see **[replicateResults.md](replicateResults.md)**.
+The raw manuscript scans, transliteration files, and external corpora are too large
+to commit. The automated downloader (`scripts/phase0_data/download_external_data.py`)
+fetches transliterations and corpora. Yale manuscript scans (7+ GB) require manual
+download — see [DATA_SOURCES.md](DATA_SOURCES.md) for full instructions and expected
+directory layout.
 
-Single-command full replication (all 11 phases):
+---
 
-```bash
-python3 scripts/support_preparation/replicate_all.py
-```
+## Project Documentation
+
+| Document | Purpose |
+|---|---|
+| [ARCHITECTURE.md](ARCHITECTURE.md) | System overview, data flow, DB schema, core components |
+| [PHASE_DEPENDENCIES.md](PHASE_DEPENDENCIES.md) | Phase dependency graph, minimum subsets, execution times |
+| [replicateResults.md](replicateResults.md) | Step-by-step external reproduction instructions |
+| [DATA_SOURCES.md](DATA_SOURCES.md) | External data sources, download instructions, checksums |
+| [governance/glossary.md](governance/glossary.md) | 50+ domain terms (manuscript, analysis, infrastructure) |
+| [governance/methods_reference.md](governance/methods_reference.md) | Statistical methods and formal test designs |
+| [governance/runbook.md](governance/runbook.md) | Operational procedures for running the pipeline |
+| [governance/claim_artifact_map.md](governance/claim_artifact_map.md) | Maps 47 publication claims to JSON result paths |
+| [governance/THRESHOLDS_RATIONALE.md](governance/THRESHOLDS_RATIONALE.md) | Why each threshold/parameter has its value |
+| [governance/PAPER_CODE_CONCORDANCE.md](governance/PAPER_CODE_CONCORDANCE.md) | Paper sections mapped to code and scripts |
+| [governance/PHASE_10_METHODS_SUMMARY.md](governance/PHASE_10_METHODS_SUMMARY.md) | Phase 10 adversarial methods: designs, outcomes |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines and standards |
+| [RULES_FOR_AGENTS.md](RULES_FOR_AGENTS.md) | Constraints on AI and human contributors |
+
+---
 
 ## How to Work on This Project
 
-1.  **Read the Runbook:** `governance/runbook.md` explains how to reproduce the baseline.
-2.  **Visualization:** Use the visualization CLI to generate plots:
+1.  **Understand the architecture:** Read [ARCHITECTURE.md](ARCHITECTURE.md) for system design and [governance/glossary.md](governance/glossary.md) for domain terminology.
+2.  **Read the Runbook:** [governance/runbook.md](governance/runbook.md) explains how to reproduce the baseline.
+3.  **Visualization:** Use the visualization CLI to generate plots:
     ```bash
     python3 -m support_visualization.cli.main foundation token-frequency voynich_real
     ```
-3.  **Enforce Standards:** All contributions must pass the CI check (`scripts/ci_check.sh`) and adhere to the `REQUIRE_COMPUTED` standard.
-4.  **Check the Rules:** `RULES_FOR_AGENTS.md` defines the strict constraints on AI and human contributors.
+4.  **Enforce Standards:** All contributions must pass the CI check (`scripts/ci_check.sh`) and adhere to the `REQUIRE_COMPUTED` standard.
+5.  **Check the Rules:** [RULES_FOR_AGENTS.md](RULES_FOR_AGENTS.md) defines the strict constraints on AI and human contributors.
 
 ---
 

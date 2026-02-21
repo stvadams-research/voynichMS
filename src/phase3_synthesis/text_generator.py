@@ -175,24 +175,29 @@ class ConstrainedMarkovGenerator:
             if context in self.states:
                 next_token = self.states[context].sample()
             else:
-                # Fallback: sample with positional bias
-                token_pos = len(line)
-                if token_pos == 0:
-                    position = "start"
-                elif token_pos >= target_length - 1:
-                    position = "end"
-                else:
-                    position = "middle"
-
-                if self.rng.random() < 0.3:
-                    next_token = self.rng.choice(self.POSITION_BIAS[position])
-                else:
-                    next_token = self.rng.choice(self.VOCABULARY)
+                next_token = self._sample_fallback_token(len(line), target_length)
 
             line.append(next_token)
             context = tuple(line[-self.order:])
 
         return line[:target_length]
+
+    def _sample_fallback_token(self, token_pos: int, target_length: int) -> str:
+        """Sample a token when no Markov state matches the current context."""
+        if token_pos == 0:
+            position = "start"
+        elif token_pos >= target_length - 1:
+            position = "end"
+        else:
+            position = "middle"
+
+        # 0.3 = probability of position-biased token selection.
+        # Calibrated during Phase 3 development to produce positional
+        # entropy (~0.80) matching the real manuscript.
+        # See governance/THRESHOLDS_RATIONALE.md for rationale.
+        if self.rng.random() < 0.3:
+            return self.rng.choice(self.POSITION_BIAS[position])
+        return self.rng.choice(self.VOCABULARY)
 
     def generate_text_block(self, constraints: ContinuationConstraints,
                             num_lines: int, words_per_line: int) -> List[List[str]]:
@@ -244,7 +249,7 @@ class TextContinuationGenerator:
         # Initialize Grammar-Based generator (3.2.3)
         grammar_path = Path("data/derived/voynich_grammar.json")
         if not grammar_path.exists():
-            # Fallback to legacy simulated words logic if grammar not extracted yet
+            logger.info("Grammar file %s not found; using NeutralTokenGenerator fallback", grammar_path)
             self.grammar_generator = None
             from phase3_synthesis.profile_extractor import NeutralTokenGenerator
             self.token_gen = NeutralTokenGenerator(seed=seed)

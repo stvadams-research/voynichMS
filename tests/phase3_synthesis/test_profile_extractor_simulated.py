@@ -1,5 +1,7 @@
 import pytest
 
+pytestmark = pytest.mark.unit
+
 from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
 
 

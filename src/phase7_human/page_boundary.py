@@ -15,6 +15,11 @@ class PageBoundaryAnalyzer:
     Analyzes coupling between text and page geometry.
     """
     def __init__(self):
+        """Initialize the PageBoundaryAnalyzer.
+
+        No configuration is required. All analysis parameters are derived
+        from the page data passed to individual analysis methods.
+        """
         pass
 
     def analyze_boundary_adaptation(self, pages: Dict[str, List[List[str]]]) -> Dict[str, Any]:

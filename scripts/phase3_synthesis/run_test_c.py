@@ -9,6 +9,7 @@ Modes:
 2. Expanded Mode: Variants treated as distinct glyphs.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -31,14 +32,22 @@ from phase1_foundation.core.provenance import ProvenanceWriter
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
-def run_test_c():
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 3.3.4: Test C - Glyph Variant Sensitivity")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_test_c(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 3.3.4: Test C - Glyph Variant Sensitivity[/bold blue]\n"
         "Testing Collapsed vs Expanded glyph sets",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "test_c_glyph_sensitivity", "seed": 42}) as run:
+    with active_run(config={"command": "test_c_glyph_sensitivity", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         session = store.Session()
         
@@ -132,7 +141,9 @@ def run_test_c():
             console.print(table)
             
             # Save results
-            ProvenanceWriter.save_results(results, "core_status/phase3_synthesis/TEST_C_RESULTS.json")
+            out = Path(output_dir) if output_dir else Path("core_status/phase3_synthesis")
+            out.mkdir(parents=True, exist_ok=True)
+            ProvenanceWriter.save_results(results, out / "TEST_C_RESULTS.json")
                 
         finally:
             session.close()
@@ -140,4 +151,6 @@ def run_test_c():
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_test_c()
+    args = _parse_args()
+    run_test_c(seed=args.seed, output_dir=args.output_dir)
+    sys.exit(0)

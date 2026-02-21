@@ -12,6 +12,7 @@ Objectives:
 4. Compare with 'voynich_real' metrics.
 """
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -27,8 +28,6 @@ from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import MetadataStore, DatasetRecord
 from phase1_foundation.core.id_factory import DeterministicIDFactory
 from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.config import DEFAULT_SEED
-
 from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
 from phase3_synthesis.text_generator import TextContinuationGenerator
 from phase3_synthesis.interface import GapDefinition, GapStrength
@@ -42,6 +41,13 @@ console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 
 
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 3.2.1: Synthesis Baseline Assessment")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
 def _dataset_exists(store: MetadataStore, dataset_id: str) -> bool:
     session = store.Session()
     try:
@@ -49,7 +55,7 @@ def _dataset_exists(store: MetadataStore, dataset_id: str) -> bool:
     finally:
         session.close()
 
-def main():
+def main(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 3.2.1: Baseline Gap Analysis[/bold blue]\n"
         "Benchmarking current generator against real metrics",
@@ -59,9 +65,9 @@ def main():
     # Force real computation
     # (In a real scenario, we might set an env var, but here we assume config defaults or env is set)
     
-    with active_run(config={"command": "baseline_assessment", "seed": DEFAULT_SEED}) as run:
+    with active_run(config={"command": "baseline_assessment", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
-        id_factory = DeterministicIDFactory(seed=DEFAULT_SEED)
+        id_factory = DeterministicIDFactory(seed=seed)
         
         # 1. Setup Generator
         console.print("\n[bold yellow]Step 1: initializing Generator[/bold yellow]")
@@ -237,9 +243,13 @@ def main():
         }
         
         # Save results with provenance
-        ProvenanceWriter.save_results(findings, "core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.json")
+        out = Path(output_dir) if output_dir else Path("core_status/phase3_synthesis")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(findings, out / "BASELINE_GAP_ANALYSIS.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    main()
+    args = _parse_args()
+    main(seed=args.seed, output_dir=args.output_dir)
+    sys.exit(0)

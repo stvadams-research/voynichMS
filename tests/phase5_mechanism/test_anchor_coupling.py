@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase5_mechanism.anchor_coupling import (
     H1_4_LANE_ALIGNED,
     H1_5_LANE_ALIGNED,

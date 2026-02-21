@@ -2,6 +2,8 @@
 """
 Phase 2.1 Acceptance Demo
 
+Not included in replicate.py; run manually to verify admissibility mapping.
+
 This script verifies the admissibility mapping process against acceptance criteria:
 
 1. Query the final state of all explanation classes

@@ -1,5 +1,9 @@
 import pytest
+
 from phase1_foundation.core.ids import FolioID, PageID, RunID
+
+pytestmark = pytest.mark.unit
+
 
 def test_folio_id_valid():
     assert FolioID("f1r") == "f1r"

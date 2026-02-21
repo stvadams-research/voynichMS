@@ -1,6 +1,10 @@
 import importlib.util
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 
 def _load_fixture_module():
     module_path = Path("scripts/core_audit/generate_fixtures.py")

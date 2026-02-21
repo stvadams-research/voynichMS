@@ -1,6 +1,10 @@
 import json
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.core.provenance import ProvenanceWriter
 from phase1_foundation.runs.manager import active_run
 

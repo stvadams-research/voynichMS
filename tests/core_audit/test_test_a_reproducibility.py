@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.integration
+
 
 def test_run_test_a_reproducible_for_same_seed(tmp_path: Path) -> None:
     grammar_path = Path("data/derived/voynich_grammar.json")

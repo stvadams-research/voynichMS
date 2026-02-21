@@ -2,6 +2,8 @@ import math
 
 import pytest
 
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.metrics.library import ClusterTightness, RepetitionRate
 from phase1_foundation.storage.metadata import MetadataStore
 from phase3_synthesis.interface import SectionProfile

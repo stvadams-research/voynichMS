@@ -1,5 +1,9 @@
 import json
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase5_mechanism.generators.pool_generator import PoolGenerator
 
 

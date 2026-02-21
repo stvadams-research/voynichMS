@@ -1,6 +1,9 @@
 from pathlib import Path
 
+import pytest
 import typer
+
+pytestmark = pytest.mark.unit
 
 import phase1_foundation.cli.main as cli_main
 from phase1_foundation.storage.metadata import MetadataStore

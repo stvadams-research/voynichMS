@@ -3,6 +3,8 @@ import re
 
 import pytest
 
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.controls.mechanical_reuse import MechanicalReuseGenerator
 from phase1_foundation.controls.self_citation import SelfCitationGenerator
 from phase1_foundation.controls.synthetic import SyntheticNullGenerator

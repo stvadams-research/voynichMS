@@ -6,6 +6,8 @@ from pathlib import Path
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
 from phase1_foundation.core.randomness import get_randomness_controller, RandomnessViolationError
 
+pytestmark = pytest.mark.integration
+
 def test_grammar_generator_determinism(tmp_path):
     # Create a dummy grammar file
     grammar = {

@@ -1,3 +1,7 @@
+import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase3_synthesis.interface import PageProfile, SectionProfile, SyntheticPage
 from phase3_synthesis.refinement.feature_discovery import (
     DiscriminativeFeatureDiscovery,

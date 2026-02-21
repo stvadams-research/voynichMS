@@ -6,6 +6,7 @@ Benchmarks Voynich (Real) against a Large-Grid traversal simulator
 using path collision (successor consistency) phase2_analysis.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -29,14 +30,22 @@ console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
 
-def run_pilot_5e():
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 5E Pilot: Large-Object Traversal")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_pilot_5e(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 5E: Large-Object Traversal Pilot[/bold blue]\n"
         "Testing for path collision signatures (Successor Consistency)",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_5e_pilot", "seed": 42}) as run:
+    with active_run(config={"command": "run_5e_pilot", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         tester = PathCollisionTester(context_len=2)
         
@@ -45,7 +54,7 @@ def run_pilot_5e():
         real_lines = get_lines_from_store(store, "voynich_real")
         
         # Generator: Large 50x50 Grid
-        sim = LargeGridSimulator(GRAMMAR_PATH, rows=50, cols=50, seed=42)
+        sim = LargeGridSimulator(GRAMMAR_PATH, rows=50, cols=50, seed=seed)
         sim_lines = sim.generate_corpus(num_lines=2000, line_len=8)
         
         # 2. Run Collision Tests
@@ -82,11 +91,12 @@ def run_pilot_5e():
             "sim": sim_coll
         }
         
-        output_dir = Path("results/data/phase5_mechanism/large_object")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "pilot_5e_results.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/large_object")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "pilot_5e_results.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_pilot_5e()
+    args = _parse_args()
+    run_pilot_5e(seed=args.seed, output_dir=args.output_dir)

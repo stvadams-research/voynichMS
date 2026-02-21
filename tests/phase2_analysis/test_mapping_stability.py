@@ -7,6 +7,9 @@ by Python's truthiness evaluation.
 """
 
 import pytest
+
+pytestmark = pytest.mark.unit
+
 from phase1_foundation.storage.metadata import MetadataStore
 from phase2_analysis.stress_tests.mapping_stability import MappingStabilityTest
 from phase2_analysis.stress_tests.interface import StressTestOutcome

@@ -6,6 +6,7 @@ Benchmarks Voynich (Real) against Position-Indexed DAG (M1) and
 Implicit Lattice (M2) simulators.
 """
 
+import argparse
 import sys
 from pathlib import Path
 import json
@@ -30,14 +31,22 @@ console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
 GRAMMAR_PATH = Path("data/derived/voynich_grammar.json")
 
-def run_pilot_5k():
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 5K Pilot: Parsimony Collapse and Residual Dependency")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def run_pilot_5k(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 5K: Parsimony Collapse Pilot[/bold blue]\n"
         "Testing: Position-Indexed DAG (M1) vs. Implicit Lattice (M2)",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "run_5k_pilot", "seed": 42}) as run:
+    with active_run(config={"command": "run_5k_pilot", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         analyzer = ParsimonyAnalyzer()
         
@@ -50,10 +59,10 @@ def run_pilot_5k():
         vocab = set(w for l in real_lines for w in l)
         vocab_size = len(vocab)
         
-        sim_m1 = PositionIndexedDAGSimulator(GRAMMAR_PATH, vocab_size=vocab_size, seed=42)
+        sim_m1 = PositionIndexedDAGSimulator(GRAMMAR_PATH, vocab_size=vocab_size, seed=seed)
         m1_lines = sim_m1.generate_corpus(num_lines=5000, line_len=8)
         
-        sim_m2 = ImplicitLatticeSimulator(GRAMMAR_PATH, vocab_size=vocab_size, seed=42)
+        sim_m2 = ImplicitLatticeSimulator(GRAMMAR_PATH, vocab_size=vocab_size, seed=seed)
         m2_lines = sim_m2.generate_corpus(num_lines=5000, line_len=8)
         
         datasets = {
@@ -111,11 +120,12 @@ def run_pilot_5k():
         console.print(table_res)
         
         # Save results
-        output_dir = Path("results/data/phase5_mechanism/parsimony")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        ProvenanceWriter.save_results(results, output_dir / "pilot_5k_results.json")
+        out = Path(output_dir) if output_dir else Path("results/data/phase5_mechanism/parsimony")
+        out.mkdir(parents=True, exist_ok=True)
+        ProvenanceWriter.save_results(results, out / "pilot_5k_results.json")
             
         store.save_run(run)
 
 if __name__ == "__main__":
-    run_pilot_5k()
+    args = _parse_args()
+    run_pilot_5k(seed=args.seed, output_dir=args.output_dir)

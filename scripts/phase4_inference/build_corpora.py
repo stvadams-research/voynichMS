@@ -10,6 +10,7 @@ Generates and registers all required matched corpora:
 - shuffled_global (Negative control)
 """
 
+import argparse
 import sys
 from pathlib import Path
 import random
@@ -67,7 +68,7 @@ def build_latin_corpus(store, target_count):
     # Actually, I'll just implement a helper here.
     _ingest_tokens(store, "latin_classic", full_tokens, "semantic_latin")
 
-def build_shuffled_control(store, source_id, target_id):
+def build_shuffled_control(store, source_id, target_id, seed=42):
     console.print(f"\n[bold yellow]Building Shuffled Control: {target_id}[/bold yellow]")
     session = store.Session()
     try:
@@ -80,16 +81,16 @@ def build_shuffled_control(store, source_id, target_id):
             .all()
         )
         token_list = [t[0] for t in tokens]
-        rng = random.Random(42)
+        rng = random.Random(seed)
         rng.shuffle(token_list)
-        
-        _ingest_tokens(store, target_id, token_list, "negative_control_shuffled")
+
+        _ingest_tokens(store, target_id, token_list, "negative_control_shuffled", seed=seed)
     finally:
         session.close()
 
-def _ingest_tokens(store, dataset_id, tokens, type_label):
+def _ingest_tokens(store, dataset_id, tokens, type_label, seed=42):
     from phase1_foundation.core.id_factory import DeterministicIDFactory
-    id_factory = DeterministicIDFactory(seed=42)
+    id_factory = DeterministicIDFactory(seed=seed)
     
     _ensure_transcription_source(store, SOURCE_ID)
     store.add_dataset(dataset_id, type_label)
@@ -114,14 +115,21 @@ def _ingest_tokens(store, dataset_id, tokens, type_label):
 
     console.print(f"  [green]Registered {len(tokens)} tokens in {dataset_id}[/green]")
 
-def main():
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Phase 4 Corpus Builder")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    parser.add_argument("--output-dir", type=str, default=None, help="Override output directory")
+    return parser.parse_args()
+
+
+def main(seed: int = 42, output_dir: str | None = None):
     console.print(Panel.fit(
         "[bold blue]Phase 4 Corpus Builder[/bold blue]\n"
         "Assembling the Inference Admissibility Benchmark Suite",
         border_style="blue"
     ))
 
-    with active_run(config={"command": "build_phase_4_corpora", "seed": 42}) as run:
+    with active_run(config={"command": "build_phase_4_corpora", "seed": seed}) as run:
         store = MetadataStore(DB_PATH)
         target_tokens = 230000
         
@@ -142,11 +150,12 @@ def main():
         mr_gen.generate("voynich_real", "mechanical_reuse", params={"target_tokens": target_tokens})
         
         # 3. Negative Controls
-        build_shuffled_control(store, "voynich_real", "shuffled_global")
-        
+        build_shuffled_control(store, "voynich_real", "shuffled_global", seed=seed)
+
         # 4. Verify Manifest
         console.print("\n[bold green]Corpus Suite Assembly Complete.[/bold green]")
         store.save_run(run)
 
 if __name__ == "__main__":
-    main()
+    args = _parse_args()
+    main(seed=args.seed, output_dir=args.output_dir)

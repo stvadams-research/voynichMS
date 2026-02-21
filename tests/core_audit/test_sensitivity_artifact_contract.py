@@ -3,6 +3,10 @@ import json
 from pathlib import Path
 from typing import Any, Dict
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 
 def _load_checker_module():
     module_path = Path("scripts/core_audit/check_sensitivity_artifact_contract.py")

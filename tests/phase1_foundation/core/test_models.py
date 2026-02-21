@@ -1,4 +1,8 @@
+import pytest
+
 from phase1_foundation.core.models import Scale
+
+pytestmark = pytest.mark.unit
 
 
 def test_scale_values_are_stable():

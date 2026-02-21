@@ -1,5 +1,9 @@
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.integration
+
 
 def test_pre_release_check_script_enforces_sensitivity_release_readiness() -> None:
     script = Path("scripts/core_audit/pre_release_check.sh").read_text(encoding="utf-8")
