@@ -53,7 +53,7 @@ Scope: pass-4 SK-M4 historical provenance confidence closure hardening
 - Updated SK-M4.4 boundary markers in tracked docs:
   - `README.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
   - `governance/PROVENANCE.md`
   - `governance/HISTORICAL_PROVENANCE_POLICY.md`
 - Regenerated skeptic register with pass-4 source and lane markers:

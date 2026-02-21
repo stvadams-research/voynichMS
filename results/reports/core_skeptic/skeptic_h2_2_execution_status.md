@@ -47,7 +47,7 @@ Scope: Operational claim-entitlement hardening for pass-2 `SK-H2 / SK-M1` residu
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 
 ### WS-H2M1.2-E Checker/Test Hardening
 

@@ -34,7 +34,7 @@ Implemented outcomes:
 
 - `README.md`
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-- `results/reports/FINAL_PHASE_3_3_REPORT.md`
+- `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 - `governance/governance/REPRODUCIBILITY.md`
 - `scripts/ci_check.sh`
 - `planning/core_skeptic/SKEPTIC_H2_EXECUTION_PLAN.md`

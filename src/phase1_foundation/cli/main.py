@@ -21,11 +21,11 @@ from phase1_foundation.regions.graph import GraphBuilder
 from phase1_foundation.controls.scramblers import ScrambledControlGenerator
 from phase1_foundation.controls.synthetic import SyntheticNullGenerator
 from phase1_foundation.metrics.library import RepetitionRate, ClusterTightness
-from phase1_foundation.phase2_analysis.comparator import Comparator
+from phase1_foundation.analysis.comparator import Comparator
 from phase1_foundation.anchors.engine import AnchorEngine
-from phase1_foundation.phase2_analysis.stability import AnchorStabilityAnalyzer
+from phase1_foundation.analysis.stability import AnchorStabilityAnalyzer
 from phase1_foundation.decisions.registry import StructureRegistry
-from phase1_foundation.phase2_analysis.sensitivity import SensitivityAnalyzer
+from phase1_foundation.analysis.sensitivity import SensitivityAnalyzer
 from phase1_foundation.hypotheses.manager import HypothesisManager
 from phase1_foundation.hypotheses.library import GlyphPositionHypothesis
 import logging

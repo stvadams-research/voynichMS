@@ -44,7 +44,7 @@ Primary artifacts in scope:
 Secondary dependencies to align during execution:
 
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-- `results/reports/FINAL_PHASE_3_3_REPORT.md`
+- `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 - `README.md`
 - `governance/governance/REPRODUCIBILITY.md`
 
@@ -181,7 +181,7 @@ rg -n "\"manifest_backfilled\": true" runs/*/run.json
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | E1 | Define required provenance qualifier block for closure-facing docs. | policy + docs | Required wording and markers standardized. |
-| E2 | Calibrate closure/public summary language to include provenance-confidence caveat and source link. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md` | Tracked docs include explicit bounded provenance clause. |
+| E2 | Calibrate closure/public summary language to include provenance-confidence caveat and source link. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/phase3_synthesis/final_phase_3_3_report.md` | Tracked docs include explicit bounded provenance clause. |
 | E3 | Standardize residual uncertainty statement so unresolved historical gaps are explicit but scoped. | same + skeptic report templates | No ambiguity about historical confidence bounds. |
 
 ### Verification
@@ -190,7 +190,7 @@ rg -n "\"manifest_backfilled\": true" runs/*/run.json
 rg -n "provenance|historical uncertainty|orphaned|source of truth|provenance_health_status" \
   README.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md
+  results/reports/phase3_synthesis/final_phase_3_3_report.md
 ```
 
 ---

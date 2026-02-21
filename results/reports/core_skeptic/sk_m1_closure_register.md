@@ -12,7 +12,7 @@
 | M1-C1 | `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md` | Absolute exhaustion phrase ("No further amount ...") | `governance/REOPENING_CRITERIA.md` | CALIBRATED |
 | M1-C2 | `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Terminal closure phrase ("Phase B is formally closed.") | `governance/REOPENING_CRITERIA.md` | CALIBRATED |
 | M1-C3 | `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md` | End-marker implied terminal closure | `## 3. Criteria for Reopening`, `governance/REOPENING_CRITERIA.md` | CALIBRATED |
-| M1-C4 | `results/reports/FINAL_PHASE_3_3_REPORT.md` | Terminal-phase phrasing ("terminal", "logical conclusion") | `governance/REOPENING_CRITERIA.md` | CALIBRATED |
+| M1-C4 | `results/reports/phase3_synthesis/final_phase_3_3_report.md` | Terminal-phase phrasing ("terminal", "logical conclusion") | `governance/REOPENING_CRITERIA.md` | CALIBRATED |
 
 ## Operational Entitlement Dependencies (M1.2)
 

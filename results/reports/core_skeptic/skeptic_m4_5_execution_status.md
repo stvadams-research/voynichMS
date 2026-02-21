@@ -46,7 +46,7 @@ Scope: pass-5 SK-M4 provenance-confidence closure hardening
 - `governance/PROVENANCE.md`
 - `governance/HISTORICAL_PROVENANCE_POLICY.md`
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-- `results/reports/FINAL_PHASE_3_3_REPORT.md`
+- `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 - `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md`
 
 ### Tests

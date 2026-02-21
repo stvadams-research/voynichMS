@@ -27,7 +27,7 @@ From `SK-H2`:
 - Public-facing statements still include categorical language:
   - `README.md` ("Language Hypothesis Falsified")
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md` ("PROJECT TERMINATED (Exhaustive)", "scientifically unjustified")
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md` ("semantically empty procedural system")
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md` ("semantically empty procedural system")
 
 Core skeptic attack:
 
@@ -106,7 +106,7 @@ PY
 rg -n "Language Hypothesis Falsified|PROJECT TERMINATED|scientifically unjustified|semantically empty" \
   README.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md
+  results/reports/phase3_synthesis/final_phase_3_3_report.md
 ```
 
 ---
@@ -119,7 +119,7 @@ rg -n "Language Hypothesis Falsified|PROJECT TERMINATED|scientifically unjustifi
 |---|---|---|---|
 | C1 | Calibrate README "Key Findings" wording to avoid categorical falsification phrasing. | `README.md` | Claims are bounded and evidence-cited. |
 | C2 | Reframe closure statement from absolute terminal language to conditional framework-bounded closure. | `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md` | Reopening criteria and scope are first-class, not contradictory. |
-| C3 | Rephrase final Phase 3.3 summary sentence to avoid semantic absolutism while preserving structural conclusion. | `results/reports/FINAL_PHASE_3_3_REPORT.md` | Language becomes scope-qualified and consistent with non-claims. |
+| C3 | Rephrase final Phase 3.3 summary sentence to avoid semantic absolutism while preserving structural conclusion. | `results/reports/phase3_synthesis/final_phase_3_3_report.md` | Language becomes scope-qualified and consistent with non-claims. |
 | C4 | Ensure Phase 5 non-claims are referenced from calibrated public docs. | `README.md`, closure docs | Public docs explicitly point to non-claim section. |
 
 ### Verification
@@ -128,7 +128,7 @@ rg -n "Language Hypothesis Falsified|PROJECT TERMINATED|scientifically unjustifi
 rg -n "falsified|PROJECT TERMINATED|scientifically unjustified|semantically empty" \
   README.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md \
+  results/reports/phase3_synthesis/final_phase_3_3_report.md \
   results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md
 ```
 
@@ -141,7 +141,7 @@ rg -n "falsified|PROJECT TERMINATED|scientifically unjustified|semantically empt
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | D1 | Define required conclusion block template (claim, scope, evidence links, non-claim boundary). | `governance/CLAIM_BOUNDARY_POLICY.md` | Template is documented and reused. |
-| D2 | Apply template to top-level conclusion documents. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md` | Conclusion sections use uniform schema. |
+| D2 | Apply template to top-level conclusion documents. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/phase3_synthesis/final_phase_3_3_report.md` | Conclusion sections use uniform schema. |
 | D3 | Add "what this does not claim" section where missing in public summaries. | targeted docs | Boundary text present and consistent. |
 
 ### Verification
@@ -150,7 +150,7 @@ rg -n "falsified|PROJECT TERMINATED|scientifically unjustified|semantically empt
 rg -n "What this does not claim|Scope|Evidence|Boundary" \
   README.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md
+  results/reports/phase3_synthesis/final_phase_3_3_report.md
 ```
 
 ---

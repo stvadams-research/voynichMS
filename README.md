@@ -58,10 +58,8 @@ python3 scripts/support_preparation/replicate_all.py
 ```
 
 ### Manual Generation
-*   **Definitive Research Paper (30-40+ Pages)**: `.venv/bin/python3 scripts/support_preparation/generate_definitive_paper.py`
 *   **Full Publication (Word)**: `python3 scripts/support_preparation/generate_publication.py`
 *   **Individual Phase Report**: `python3 scripts/support_preparation/generate_publication.py --phase [1-9]`
-*   **Markdown Master**: `python3 scripts/support_preparation/assemble_draft.py`
 
 Outputs are saved to `results/publication/`.
 
@@ -85,7 +83,7 @@ python3 scripts/phase1_foundation/populate_database.py
 python3 scripts/support_preparation/replicate_all.py
 
 # 5. Verify determinism (optional, re-runs key phases twice and compares)
-bash scripts/core_audit/verify_reproduction.sh
+bash scripts/verify_reproduction.sh
 ```
 
 Results appear in `results/data/` (JSON artifacts) and `results/reports/` (Markdown).

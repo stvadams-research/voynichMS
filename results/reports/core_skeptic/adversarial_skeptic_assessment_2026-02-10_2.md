@@ -148,7 +148,7 @@ Primary reason: core gates now fail on sensitivity-policy and provenance-contrac
   - `README.md:33`
   - `README.md:47`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:46`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md:55`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md:55`
 - Conditional reopening language is explicit:
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md:17`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:38`
@@ -180,7 +180,7 @@ Residual issue:
   - `README.md:56`
   - `README.md:61`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:65`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md:74`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md:74`
   - `governance/PROVENANCE.md:120`
 - Canonical provenance-health artifact reports:
   - `PROVENANCE_QUALIFIED` with orphaned rows still present:

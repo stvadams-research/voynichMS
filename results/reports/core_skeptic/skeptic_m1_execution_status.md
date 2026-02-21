@@ -36,7 +36,7 @@ Implemented outcomes:
 - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
 - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-- `results/reports/FINAL_PHASE_3_3_REPORT.md`
+- `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 - `scripts/ci_check.sh`
 - `scripts/core_audit/pre_release_check.sh`
 - `tests/core_audit/test_ci_check_contract.py`

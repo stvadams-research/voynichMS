@@ -234,7 +234,7 @@ python3 scripts/core_skeptic/check_provenance_uncertainty.py --mode release
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| E1 | Add SK-M4.4 boundary markers to tracked docs and skeptic register surfaces. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`, `governance/PROVENANCE.md`, `governance/HISTORICAL_PROVENANCE_POLICY.md`, `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md` | No document exceeds lane-entitled confidence class. |
+| E1 | Add SK-M4.4 boundary markers to tracked docs and skeptic register surfaces. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/phase3_synthesis/final_phase_3_3_report.md`, `governance/PROVENANCE.md`, `governance/HISTORICAL_PROVENANCE_POLICY.md`, `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md` | No document exceeds lane-entitled confidence class. |
 | E2 | Add required bounded-language clauses for `M4_4_BOUNDED` and `M4_4_QUALIFIED`. | same | Qualified/bounded states are explicit and reproducible. |
 | E3 | Ban deterministic historical-certainty phrasing unless `M4_4_ALIGNED`. | policy marker rules + checker | Over-assertive language becomes test-detectable. |
 
@@ -244,7 +244,7 @@ python3 scripts/core_skeptic/check_provenance_uncertainty.py --mode release
 rg -n "M4_4_|PROVENANCE_QUALIFIED|PROVENANCE_ALIGNED|bounded|core_status/core_audit/provenance_health_status.json" \
   README.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md \
+  results/reports/phase3_synthesis/final_phase_3_3_report.md \
   governance/PROVENANCE.md \
   governance/HISTORICAL_PROVENANCE_POLICY.md \
   reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md

@@ -2,9 +2,9 @@
   "version": "2026-02-10-h3.5",
   "description": "SK-H3.5 control comparability policy for anti-circularity, terminal-qualified closure semantics, and bounded available-subset diagnostics.",
   "tracked_files": [
-    "governance/GENERATOR_MATCHING.md",
-    "governance/governance/METHODS_REFERENCE.md",
-    "governance/governance/REPRODUCIBILITY.md",
+    "governance/phase3_synthesis/generator_matching.md",
+    "governance/methods_reference.md",
+    "governance/reproducibility.md",
     "scripts/phase3_synthesis/run_indistinguishability_test.py",
     "scripts/phase3_synthesis/run_control_matching_audit.py",
     "scripts/core_skeptic/check_control_data_availability.py"
@@ -13,7 +13,7 @@
     {
       "id": "generator_matching_partition",
       "scopes": [
-        "governance/GENERATOR_MATCHING.md"
+        "governance/phase3_synthesis/generator_matching.md"
       ],
       "markers": [
         "matching_metrics",
@@ -24,7 +24,7 @@
     {
       "id": "methods_normalization_symmetry",
       "scopes": [
-        "governance/governance/METHODS_REFERENCE.md"
+        "governance/methods_reference.md"
       ],
       "markers": [
         "normalization symmetry",
@@ -35,7 +35,7 @@
     {
       "id": "repro_sk_h3_section",
       "scopes": [
-        "governance/governance/REPRODUCIBILITY.md"
+        "governance/reproducibility.md"
       ],
       "markers": [
         "SK-H3",
@@ -53,8 +53,8 @@
       "id": "doc_tuned_then_concluded",
       "pattern": "tuned to look like Voynich, then used to argue Voynich is non-semantic",
       "scopes": [
-        "governance/GENERATOR_MATCHING.md",
-        "governance/governance/METHODS_REFERENCE.md"
+        "governance/phase3_synthesis/generator_matching.md",
+        "governance/methods_reference.md"
       ],
       "case_insensitive": true
     }

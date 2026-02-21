@@ -62,7 +62,7 @@ Scope: pass-4 SK-H2 claim-entitlement closure hardening
 - Added explicit SK-C1 degraded-state dependency marker to tracked closure surfaces:
   - `README.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
 - Updated policy docs:

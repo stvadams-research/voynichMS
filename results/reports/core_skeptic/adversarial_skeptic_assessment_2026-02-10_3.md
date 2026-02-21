@@ -182,7 +182,7 @@ Boundary alignment evidence:
 - `README.md:55`
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:60`
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:68`
-- `results/reports/FINAL_PHASE_3_3_REPORT.md:69`
+- `results/reports/phase3_synthesis/final_phase_3_3_report.md:69`
 - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:40`
 - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:43`
 

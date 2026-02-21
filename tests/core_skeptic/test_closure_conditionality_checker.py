@@ -45,6 +45,7 @@ def test_closure_checker_flags_missing_marker(tmp_path) -> None:
     checker = _load_checker_module()
 
     (tmp_path / "docs").mkdir(parents=True)
+    (tmp_path / "governance").mkdir(parents=True, exist_ok=True)
     (tmp_path / "governance/REOPENING_CRITERIA.md").write_text("canonical criteria", encoding="utf-8")
 
     policy = {
@@ -67,7 +68,7 @@ def test_closure_checker_flags_missing_marker(tmp_path) -> None:
 def test_closure_checker_honors_allowlist(tmp_path) -> None:
     checker = _load_checker_module()
 
-    (tmp_path / "results/reports").mkdir(parents=True)
+    (tmp_path / "results/reports/phase4_inference").mkdir(parents=True)
     path = tmp_path / "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
     path.write_text("PROJECT CLOSED WITHIN CURRENT FRAMEWORK", encoding="utf-8")
 

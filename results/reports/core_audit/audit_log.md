@@ -40,7 +40,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
   - `governance/PROVENANCE.md`
   - `governance/HISTORICAL_PROVENANCE_POLICY.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
   - `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md`
 - Governance outputs:
   - `reports/core_skeptic/SK_M4_5_BASELINE_REGISTER.md`
@@ -726,7 +726,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
 - Key risks were concentrated in:
   - `README.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 
 ### Decisions
 
@@ -749,7 +749,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
 - Calibrated public language and added explicit non-claim boundaries:
   - `README.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 - Added traceability register and execution report:
   - `reports/core_skeptic/SK_H2_CLAIM_REGISTER.md`
   - `reports/core_skeptic/SKEPTIC_H2_EXECUTION_STATUS.md`
@@ -852,7 +852,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 - Integrated SK-M1 guardrails into:
   - `scripts/ci_check.sh`
   - `scripts/core_audit/pre_release_check.sh`
@@ -953,7 +953,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10.
 - Updated closure-facing provenance qualifiers in:
   - `README.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
   - `governance/PROVENANCE.md`
 - Integrated SK-M4 gate enforcement into:
   - `scripts/ci_check.sh`
@@ -1394,7 +1394,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
   - `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 - Updated policy docs and reproducibility guidance:
   - `governance/CLAIM_BOUNDARY_POLICY.md`
   - `governance/CLOSURE_CONDITIONALITY_POLICY.md`
@@ -1692,7 +1692,7 @@ Source finding: `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_
   - `governance/PROVENANCE.md`
   - `governance/HISTORICAL_PROVENANCE_POLICY.md`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md`
   - `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md`
 - Added SK-M4.4 governance artifacts:
   - `reports/core_skeptic/SK_M4_4_BASELINE_REGISTER.md`

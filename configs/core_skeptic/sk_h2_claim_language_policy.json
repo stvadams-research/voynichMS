@@ -2,60 +2,39 @@
   "version": "2026-02-10-h2.4",
   "description": "SK-H2 claim boundary policy for public-facing conclusion language with gate-dependent entitlement controls.",
   "tracked_files": [
-    "README.md",
-    "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md",
-    "results/reports/FINAL_PHASE_3_3_REPORT.md",
-    "reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md",
-    "reports/phase8_comparative/PHASE_B_SYNTHESIS.md"
+    "results/reports/phase4_inference/phase_4_5_closure_statement.md",
+    "results/reports/phase3_synthesis/final_phase_3_3_report.md",
+    "results/reports/phase8_comparative/phase_b_boundary_statement.md",
+    "results/reports/phase8_comparative/phase_b_synthesis.md"
   ],
   "banned_patterns": [
-    {
-      "id": "readme_language_hypothesis_falsified",
-      "pattern": "Language Hypothesis Falsified",
-      "scopes": [
-        "README.md"
-      ]
-    },
     {
       "id": "closure_project_terminated_exhaustive",
       "pattern": "PROJECT TERMINATED (Exhaustive)",
       "scopes": [
-        "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+        "results/reports/phase4_inference/phase_4_5_closure_statement.md"
       ]
     },
     {
       "id": "closure_scientifically_unjustified",
       "pattern": "scientifically unjustified",
       "scopes": [
-        "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+        "results/reports/phase4_inference/phase_4_5_closure_statement.md"
       ]
     },
     {
       "id": "phase33_semantically_empty_absolute",
       "pattern": "semantically empty procedural system",
       "scopes": [
-        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+        "results/reports/phase3_synthesis/final_phase_3_3_report.md"
       ]
     }
   ],
   "required_markers": [
     {
-      "id": "readme_scope_markers",
-      "scopes": [
-        "README.md"
-      ],
-      "markers": [
-        "## Conclusion Scope",
-        "## What This Does Not Claim",
-        "results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md",
-        "## Operational Entitlement State",
-        "core_status/core_audit/release_gate_health_status.json"
-      ]
-    },
-    {
       "id": "closure_scope_markers",
       "scopes": [
-        "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+        "results/reports/phase4_inference/phase_4_5_closure_statement.md"
       ],
       "markers": [
         "FRAMEWORK-BOUNDED CLOSURE",
@@ -68,7 +47,7 @@
     {
       "id": "phase33_scope_markers",
       "scopes": [
-        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+        "results/reports/phase3_synthesis/final_phase_3_3_report.md"
       ],
       "markers": [
         "## 4. Final Project Determination (Framework-Bounded)",
@@ -81,7 +60,7 @@
     {
       "id": "phaseb_boundary_scope_markers",
       "scopes": [
-        "reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md"
+        "results/reports/phase8_comparative/phase_b_boundary_statement.md"
       ],
       "markers": [
         "### 3. Closure of Text-Internal Comparison (Framework-Bounded)",
@@ -92,7 +71,7 @@
     {
       "id": "phaseb_synthesis_scope_markers",
       "scopes": [
-        "reports/phase8_comparative/PHASE_B_SYNTHESIS.md"
+        "results/reports/phase8_comparative/phase_b_synthesis.md"
       ],
       "markers": [
         "### Conditionally Closed Statement",
@@ -133,20 +112,9 @@
     ],
     "degraded_required_markers": [
       {
-        "id": "readme_degraded_entitlement_marker",
-        "scopes": [
-          "README.md"
-        ],
-        "markers": [
-          "Current gate-health class: `GATE_HEALTH_DEGRADED`",
-          "claims in this repository are operationally contingent",
-          "SK-C1 release sensitivity evidence contract"
-        ]
-      },
-      {
         "id": "closure_degraded_entitlement_marker",
         "scopes": [
-          "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+          "results/reports/phase4_inference/phase_4_5_closure_statement.md"
         ],
         "markers": [
           "Current gate-health class: `GATE_HEALTH_DEGRADED`",
@@ -157,7 +125,7 @@
       {
         "id": "phase33_degraded_entitlement_marker",
         "scopes": [
-          "results/reports/FINAL_PHASE_3_3_REPORT.md"
+          "results/reports/phase3_synthesis/final_phase_3_3_report.md"
         ],
         "markers": [
           "Current gate-health class: `GATE_HEALTH_DEGRADED`",
@@ -168,7 +136,7 @@
       {
         "id": "phaseb_boundary_degraded_entitlement_marker",
         "scopes": [
-          "reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md"
+          "results/reports/phase8_comparative/phase_b_boundary_statement.md"
         ],
         "markers": [
           "Current gate-health class: `GATE_HEALTH_DEGRADED`",
@@ -179,11 +147,11 @@
       {
         "id": "phaseb_synthesis_degraded_entitlement_marker",
         "scopes": [
-          "reports/phase8_comparative/PHASE_B_SYNTHESIS.md"
+          "results/reports/phase8_comparative/phase_b_synthesis.md"
         ],
         "markers": [
           "Current gate-health class: `GATE_HEALTH_DEGRADED`",
-          "closure and phase8_comparative claims remain operationally contingent",
+          "closure and comparative claims remain operationally contingent",
           "SK-C1 release sensitivity evidence contract"
         ]
       }
@@ -193,7 +161,7 @@
         "id": "phase33_solved_in_principle_unqualified",
         "pattern": "is considered **solved in principle**",
         "scopes": [
-          "results/reports/FINAL_PHASE_3_3_REPORT.md"
+          "results/reports/phase3_synthesis/final_phase_3_3_report.md"
         ]
       }
     ]

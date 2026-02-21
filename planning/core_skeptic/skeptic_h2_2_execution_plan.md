@@ -29,7 +29,7 @@ Desired endpoint:
 From `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_2.md`:
 
 - Improvements already present:
-  - Boundary and non-claim structure is explicit (`README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`).
+  - Boundary and non-claim structure is explicit (`README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/phase3_synthesis/final_phase_3_3_report.md`).
   - Conditional reopening language is explicit (`reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md`, `governance/REOPENING_CRITERIA.md`).
 - Residual:
   - Closure remains assertive enough for skeptic scope attack when operational gates fail.
@@ -95,7 +95,7 @@ rg -n "framework-bounded|conditionally|What This Does Not Claim|Criteria for Reo
   reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md \
   reports/phase8_comparative/PHASE_B_SYNTHESIS.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md
+  results/reports/phase3_synthesis/final_phase_3_3_report.md
 ```
 
 ---
@@ -154,7 +154,7 @@ PY
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| D1 | Add standardized "Operational Entitlement State" block to tracked closure/summary docs. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Each doc declares current entitlement class and source artifact. |
+| D1 | Add standardized "Operational Entitlement State" block to tracked closure/summary docs. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/phase3_synthesis/final_phase_3_3_report.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Each doc declares current entitlement class and source artifact. |
 | D2 | Calibrate assertive wording into gate-contingent wording where required by policy state. | same | No document overclaims relative to gate-health artifact. |
 | D3 | Align non-claim and reopening sections with operational dependency language. | same + `governance/REOPENING_CRITERIA.md` | Reopenability and operational prerequisites are coherently linked. |
 
@@ -166,7 +166,7 @@ rg -n "Operational Entitlement State|release_gate_health_status.json|conditional
   reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md \
   reports/phase8_comparative/PHASE_B_SYNTHESIS.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md
+  results/reports/phase3_synthesis/final_phase_3_3_report.md
 ```
 
 ---

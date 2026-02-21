@@ -94,5 +94,5 @@ def test_release_gate_health_default_sensitivity_run_status_path_is_canonical() 
 def test_release_gate_health_default_multimodal_status_path_is_canonical() -> None:
     builder = _load_builder_module()
     assert str(builder.DEFAULT_MULTIMODAL_STATUS_PATH).endswith(
-        "results/phase5_mechanism/anchor_coupling_confirmatory.json"
+        "results/data/phase5_mechanism/anchor_coupling_confirmatory.json"
     )

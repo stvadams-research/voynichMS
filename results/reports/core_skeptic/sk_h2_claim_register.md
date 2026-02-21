@@ -11,7 +11,7 @@
 |---|---|---|---|---|---|
 | H2-C1 | `README.md` | Categorical "falsified" headline wording | `results/reports/phase3_synthesis/FINAL_REPORT_PHASE_3.md`, `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md` | `CONCLUSIVE_WITHIN_SCOPE` | CALIBRATED |
 | H2-C2 | `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md` | Absolute closure phrase ("Exhaustive", "scientifically unjustified") | `results/reports/phase4_inference/PHASE_4_RESULTS.md`, reopening criteria in same doc | `QUALIFIED` | CALIBRATED |
-| H2-C3 | `results/reports/FINAL_PHASE_3_3_REPORT.md` | Semantic absolutism ("semantically empty procedural system") | `results/reports/phase3_synthesis/FINAL_REPORT_PHASE_3.md`, `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md` | `CONCLUSIVE_WITHIN_SCOPE` | CALIBRATED |
+| H2-C3 | `results/reports/phase3_synthesis/final_phase_3_3_report.md` | Semantic absolutism ("semantically empty procedural system") | `results/reports/phase3_synthesis/FINAL_REPORT_PHASE_3.md`, `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md` | `CONCLUSIVE_WITHIN_SCOPE` | CALIBRATED |
 
 ## Operational Entitlement Dependencies (H2.2)
 
@@ -32,7 +32,7 @@
 
 - `results/reports/phase5_mechanism/PHASE_5_FINAL_FINDINGS_SUMMARY.md` (explicit "What this does not claim" section)
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md` (reopening criteria + non-claim block)
-- `results/reports/FINAL_PHASE_3_3_REPORT.md` (framework-bounded final determination + non-claim block)
+- `results/reports/phase3_synthesis/final_phase_3_3_report.md` (framework-bounded final determination + non-claim block)
 
 ---
 

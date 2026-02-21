@@ -34,8 +34,8 @@ From `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_4.md`:
   - `README.md:55`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:66`
   - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:68`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md:75`
-  - `results/reports/FINAL_PHASE_3_3_REPORT.md:77`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md:75`
+  - `results/reports/phase3_synthesis/final_phase_3_3_report.md:77`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:38`
   - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:43`
 
@@ -168,7 +168,7 @@ PY
 rg -n "Operational Entitlement State|GATE_HEALTH_DEGRADED|qualified|reopen" \
   README.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md \
+  results/reports/phase3_synthesis/final_phase_3_3_report.md \
   reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md \
   reports/phase8_comparative/PHASE_B_SYNTHESIS.md
 ```
@@ -251,7 +251,7 @@ python3 scripts/core_skeptic/check_closure_conditionality.py --mode release
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
 | F1 | Define a canonical entitlement statement template with strict required markers per lane. | `governance/CLAIM_BOUNDARY_POLICY.md`, `governance/CLOSURE_CONDITIONALITY_POLICY.md` | Single template used across tracked public docs. |
-| F2 | Apply template to all tracked closure surfaces including comparative synthesis docs. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Marker and wording parity achieved across surfaces. |
+| F2 | Apply template to all tracked closure surfaces including comparative synthesis docs. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/phase3_synthesis/final_phase_3_3_report.md`, `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md`, `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Marker and wording parity achieved across surfaces. |
 | F3 | Enforce explicit dependency statement to SK-C1 when degraded lane is active. | same | Contingency source is explicit and consistent. |
 
 ### Verification
@@ -260,7 +260,7 @@ python3 scripts/core_skeptic/check_closure_conditionality.py --mode release
 rg -n "Operational Entitlement State|core_status/core_audit/release_gate_health_status.json|operationally contingent|qualified/reopenable" \
   README.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md \
+  results/reports/phase3_synthesis/final_phase_3_3_report.md \
   reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md \
   reports/phase8_comparative/PHASE_B_SYNTHESIS.md
 ```

@@ -19,7 +19,7 @@ def _load_checker_module():
 def test_control_comparability_checker_flags_missing_required_artifact(tmp_path) -> None:
     checker = _load_checker_module()
 
-    (tmp_path / "docs").mkdir()
+    (tmp_path / "governance").mkdir(parents=True)
     (tmp_path / "governance/GENERATOR_MATCHING.md").write_text(
         "matching_metrics holdout_evaluation_metrics target leakage", encoding="utf-8"
     )
@@ -111,7 +111,7 @@ def test_control_comparability_checker_flags_overlap_leakage_mismatch(tmp_path) 
 def test_control_comparability_checker_honors_allowlist(tmp_path) -> None:
     checker = _load_checker_module()
 
-    (tmp_path / "docs").mkdir()
+    (tmp_path / "governance").mkdir(parents=True)
     doc_path = tmp_path / "governance/GENERATOR_MATCHING.md"
     doc_path.write_text("forbidden phrase", encoding="utf-8")
 

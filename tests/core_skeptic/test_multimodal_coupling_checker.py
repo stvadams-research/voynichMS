@@ -40,7 +40,7 @@ def test_multimodal_checker_blocks_unqualified_resolution_in_non_conclusive_mode
     checker = _load_checker_module()
 
     (tmp_path / "results/phase5_mechanism").mkdir(parents=True)
-    (tmp_path / "results/reports").mkdir(parents=True)
+    (tmp_path / "results/reports/phase5_mechanism").mkdir(parents=True)
     (tmp_path / "reports/phase7_human").mkdir(parents=True)
 
     artifact = {
@@ -160,7 +160,7 @@ def test_multimodal_checker_flags_status_adequacy_coherence_violation(tmp_path) 
     checker = _load_checker_module()
 
     (tmp_path / "results/phase5_mechanism").mkdir(parents=True)
-    (tmp_path / "results/reports").mkdir(parents=True)
+    (tmp_path / "results/reports/phase5_mechanism").mkdir(parents=True)
     (tmp_path / "reports/phase7_human").mkdir(parents=True)
 
     artifact = {
@@ -254,7 +254,7 @@ def test_multimodal_checker_flags_h1_4_lane_mismatch(tmp_path) -> None:
     checker = _load_checker_module()
 
     (tmp_path / "results/phase5_mechanism").mkdir(parents=True)
-    (tmp_path / "results/reports").mkdir(parents=True)
+    (tmp_path / "results/reports/phase5_mechanism").mkdir(parents=True)
     (tmp_path / "reports/phase7_human").mkdir(parents=True)
 
     artifact = {
@@ -380,7 +380,7 @@ def test_multimodal_checker_flags_h1_5_lane_mismatch(tmp_path) -> None:
     checker = _load_checker_module()
 
     (tmp_path / "results/phase5_mechanism").mkdir(parents=True)
-    (tmp_path / "results/reports").mkdir(parents=True)
+    (tmp_path / "results/reports/phase5_mechanism").mkdir(parents=True)
     (tmp_path / "reports/phase7_human").mkdir(parents=True)
 
     artifact = {

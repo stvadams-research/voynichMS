@@ -25,7 +25,7 @@
 |---|---|---|---|---|---|
 | H2M1-A1 | `README.md` | Project-level conclusion summary | `ci_check`, `pre_release_check`, `verify_reproduction` | Overreach framing risk if summary reads stronger than current gate posture | OPEN |
 | H2M1-A2 | `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md` | Framework closure statement | `pre_release_check`, `verify_reproduction` | "Stopped too early" challenge if closure line is interpreted as unconditional | OPEN |
-| H2M1-A3 | `results/reports/FINAL_PHASE_3_3_REPORT.md` | Mechanism closure summary | `pre_release_check`, `verify_reproduction` | "Solved in principle" language can outrun current operational evidence integrity | OPEN |
+| H2M1-A3 | `results/reports/phase3_synthesis/final_phase_3_3_report.md` | Mechanism closure summary | `pre_release_check`, `verify_reproduction` | "Solved in principle" language can outrun current operational evidence integrity | OPEN |
 | H2M1-A4 | `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md` | Comparative closure boundary | `ci_check`, `verify_reproduction` | Boundary language can appear terminal under degraded gate health | OPEN |
 | H2M1-A5 | `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Comparative closure synthesis | `ci_check`, `verify_reproduction` | Conditional closure can still be read as high-confidence finality if not operationally tagged | OPEN |
 

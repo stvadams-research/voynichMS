@@ -1,12 +1,12 @@
 {
   "tracked_files": [
-    "results/reports/phase5_mechanism/PHASE_5H_RESULTS.md",
-    "results/reports/phase5_mechanism/PHASE_5I_RESULTS.md",
-    "reports/phase7_human/PHASE_7_FINDINGS_SUMMARY.md",
-    "reports/phase7_human/PHASE_7B_RESULTS.md"
+    "results/reports/phase5_mechanism/phase_5h_results.md",
+    "results/reports/phase5_mechanism/phase_5i_results.md",
+    "results/reports/phase7_human/phase_7_findings_summary.md",
+    "results/reports/phase7_human/phase_7b_results.md"
   ],
   "artifact_policy": {
-    "path": "results/phase5_mechanism/anchor_coupling_confirmatory.json",
+    "path": "results/data/phase5_mechanism/anchor_coupling_confirmatory.json",
     "required_in_modes": [
       "ci",
       "release"
@@ -224,16 +224,16 @@
     {
       "id": "phase5h_guardrail_marker",
       "scopes": [
-        "results/reports/phase5_mechanism/PHASE_5H_RESULTS.md"
+        "results/reports/phase5_mechanism/phase_5h_results.md"
       ],
       "markers": [
-        "Any claim about no image/layout coupling is deferred to confirmatory phase2_analysis artifacts."
+        "Any claim about no image/layout coupling is deferred to confirmatory analysis artifacts."
       ]
     },
     {
       "id": "phase5i_status_link_markers",
       "scopes": [
-        "results/reports/phase5_mechanism/PHASE_5I_RESULTS.md"
+        "results/reports/phase5_mechanism/phase_5i_results.md"
       ],
       "markers": [
         "results/phase5_mechanism/anchor_coupling_confirmatory.json` -> `results.status`",
@@ -244,7 +244,7 @@
     {
       "id": "phase7_summary_status_gating",
       "scopes": [
-        "reports/phase7_human/PHASE_7_FINDINGS_SUMMARY.md"
+        "results/reports/phase7_human/phase_7_findings_summary.md"
       ],
       "markers": [
         "status-gated by `results/phase5_mechanism/anchor_coupling_confirmatory.json`",
@@ -258,8 +258,8 @@
         "H1_4_QUALIFIED"
       ],
       "scopes": [
-        "results/reports/phase5_mechanism/PHASE_5I_RESULTS.md",
-        "reports/phase7_human/PHASE_7B_RESULTS.md"
+        "results/reports/phase5_mechanism/phase_5i_results.md",
+        "results/reports/phase7_human/phase_7b_results.md"
       ],
       "markers": [
         "H1_4_QUALIFIED",
@@ -272,8 +272,8 @@
         "H1_5_BOUNDED"
       ],
       "scopes": [
-        "results/reports/phase5_mechanism/PHASE_5I_RESULTS.md",
-        "reports/phase7_human/PHASE_7B_RESULTS.md"
+        "results/reports/phase5_mechanism/phase_5i_results.md",
+        "results/reports/phase7_human/phase_7b_results.md"
       ],
       "markers": [
         "H1_5_BOUNDED",
@@ -288,7 +288,7 @@
         "BLOCKED_DATA_GEOMETRY"
       ],
       "scopes": [
-        "reports/phase7_human/PHASE_7B_RESULTS.md"
+        "results/reports/phase7_human/phase_7b_results.md"
       ],
       "markers": [
         "no conclusive claim is allowed"
@@ -307,9 +307,9 @@
       "case_insensitive": true,
       "pattern": "conclusively\\s+resolves\\s+illustration\\s+coupling",
       "scopes": [
-        "results/reports/phase5_mechanism/PHASE_5H_RESULTS.md",
-        "results/reports/phase5_mechanism/PHASE_5I_RESULTS.md",
-        "reports/phase7_human/PHASE_7_FINDINGS_SUMMARY.md"
+        "results/reports/phase5_mechanism/phase_5h_results.md",
+        "results/reports/phase5_mechanism/phase_5i_results.md",
+        "results/reports/phase7_human/phase_7_findings_summary.md"
       ]
     }
   ]

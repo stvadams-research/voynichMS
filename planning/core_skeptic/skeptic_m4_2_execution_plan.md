@@ -168,7 +168,7 @@ python3 scripts/core_audit/build_provenance_health_status.py
 
 | ID | Task | Target Artifacts | Completion Signal |
 |---|---|---|---|
-| E1 | Re-validate provenance-confidence language in closure/public docs against canonical artifact class. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/FINAL_PHASE_3_3_REPORT.md`, `governance/PROVENANCE.md` | No document exceeds current provenance entitlement. |
+| E1 | Re-validate provenance-confidence language in closure/public docs against canonical artifact class. | `README.md`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`, `results/reports/phase3_synthesis/final_phase_3_3_report.md`, `governance/PROVENANCE.md` | No document exceeds current provenance entitlement. |
 | E2 | Add/refresh explicit pass-2 residual statement where needed (qualified, bounded, current). | same | Residual uncertainty is explicit and source-linked. |
 | E3 | Ensure skeptic-facing provenance register references are current and synchronized. | `reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md` | Skeptic evidence trail is no longer stale. |
 
@@ -178,7 +178,7 @@ python3 scripts/core_audit/build_provenance_health_status.py
 rg -n "PROVENANCE_QUALIFIED|provenance_health_status|historical provenance|qualified" \
   README.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md \
+  results/reports/phase3_synthesis/final_phase_3_3_report.md \
   governance/PROVENANCE.md \
   reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md
 ```

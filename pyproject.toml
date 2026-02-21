@@ -63,8 +63,10 @@ include = [
     "phase5_mechanism", 
     "phase6_functional", 
     "phase7_human", 
-    "phase8_comparative", 
-    "support_visualization", 
+    "phase8_comparative",
+    "phase10_admissibility",
+    "phase11_stroke",
+    "support_visualization",
     "core_audit"
 ]
 
@@ -100,9 +102,12 @@ testpaths = [
     "tests/phase1_foundation",
     "tests/phase2_analysis",
     "tests/phase3_synthesis",
+    "tests/phase4_inference",
     "tests/phase5_mechanism",
+    "tests/phase6_functional",
     "tests/phase7_human",
     "tests/phase8_comparative",
+    "tests/phase10_admissibility",
     "tests/phase11_stroke",
     "tests/core_audit",
     "tests/core_skeptic",

@@ -19,7 +19,7 @@ def _load_checker_module():
 
 def test_sk_m3_checker_flags_pending_pattern(tmp_path) -> None:
     checker = _load_checker_module()
-    (tmp_path / "results/reports").mkdir(parents=True)
+    (tmp_path / "results/reports/phase4_inference").mkdir(parents=True)
     (tmp_path / "results/reports/phase4_inference/PHASE_4_RESULTS.md").write_text(
         "| **B: Network Features**| PENDING | NOT STARTED |\n",
         encoding="utf-8",
@@ -46,7 +46,7 @@ def test_sk_m3_checker_flags_pending_pattern(tmp_path) -> None:
 
 def test_sk_m3_checker_flags_missing_release_artifact(tmp_path) -> None:
     checker = _load_checker_module()
-    (tmp_path / "results/reports").mkdir(parents=True)
+    (tmp_path / "results/reports/phase4_inference").mkdir(parents=True)
     (tmp_path / "results/reports/phase4_inference/PHASE_4_RESULTS.md").write_text(
         "Canonical status source:\nresults/reports/phase4_inference/PHASE_4_STATUS_INDEX.json",
         encoding="utf-8",
@@ -74,7 +74,7 @@ def test_sk_m3_checker_flags_missing_release_artifact(tmp_path) -> None:
 
 def test_sk_m3_checker_flags_method_policy_mismatch(tmp_path) -> None:
     checker = _load_checker_module()
-    (tmp_path / "results/reports").mkdir(parents=True)
+    (tmp_path / "results/reports/phase4_inference").mkdir(parents=True)
     artifact_path = tmp_path / "results/reports/phase4_inference/PHASE_4_STATUS_INDEX.json"
     artifact_path.write_text(
         json.dumps(

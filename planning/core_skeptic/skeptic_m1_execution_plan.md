@@ -104,7 +104,7 @@ rg -n "formally closed|No further amount|remains closed|terminal|exhaust" \
   reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md \
   reports/phase8_comparative/PHASE_B_SYNTHESIS.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md
+  results/reports/phase3_synthesis/final_phase_3_3_report.md
 ```
 
 ---
@@ -118,7 +118,7 @@ rg -n "formally closed|No further amount|remains closed|terminal|exhaust" \
 | C1 | Reframe Phase B boundary statement from absolute "no further amount..." to framework-bounded conditional closure. | `reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md` | Boundary section no longer reads terminal against reopening logic. |
 | C2 | Rephrase any "formally closed" comparative language to criteria-bound closure language. | `reports/phase8_comparative/PHASE_B_SYNTHESIS.md` | Comparative closure aligns with reopening conditions. |
 | C3 | Ensure Phase 4.5 closure summary language remains explicitly conditional and references reopening criteria consistently. | `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md` | No internal contradiction between closure and reopening sections. |
-| C4 | Align other top-level closure docs where wording can reintroduce SK-M1 attack surface. | `results/reports/FINAL_PHASE_3_3_REPORT.md`, related summaries | Closure language harmonized across public docs. |
+| C4 | Align other top-level closure docs where wording can reintroduce SK-M1 attack surface. | `results/reports/phase3_synthesis/final_phase_3_3_report.md`, related summaries | Closure language harmonized across public docs. |
 
 ### Verification
 
@@ -127,7 +127,7 @@ rg -n "No further amount|formally closed|PROJECT CLOSED|remains closed|Criteria 
   reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md \
   reports/phase8_comparative/PHASE_B_SYNTHESIS.md \
   results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md \
-  results/reports/FINAL_PHASE_3_3_REPORT.md
+  results/reports/phase3_synthesis/final_phase_3_3_report.md
 ```
 
 ---

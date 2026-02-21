@@ -214,8 +214,8 @@ Evidence:
 - `README.md:55` (qualified/reopenable claim posture)
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:66`
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:68`
-- `results/reports/FINAL_PHASE_3_3_REPORT.md:75`
-- `results/reports/FINAL_PHASE_3_3_REPORT.md:77`
+- `results/reports/phase3_synthesis/final_phase_3_3_report.md:75`
+- `results/reports/phase3_synthesis/final_phase_3_3_report.md:77`
 - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:38`
 - `reports/phase8_comparative/PHASE_B_SYNTHESIS.md:43`
 

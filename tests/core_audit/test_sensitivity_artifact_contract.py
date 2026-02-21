@@ -1,11 +1,17 @@
 import importlib.util
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict
 
 import pytest
 
 pytestmark = pytest.mark.integration
+
+
+def _now_utc() -> str:
+    """Current UTC timestamp for fixture freshness."""
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _load_checker_module():
@@ -21,7 +27,7 @@ def _base_summary() -> Dict[str, Any]:
     return {
         "schema_version": "2026-02-10",
         "policy_version": "2026-02-10",
-        "generated_utc": "2026-02-10T00:00:00Z",
+        "generated_utc": _now_utc(),
         "generated_by": "scripts/phase2_analysis/run_sensitivity_sweep.py",
         "dataset_id": "voynich_real",
         "dataset_pages": 240,
@@ -75,7 +81,7 @@ def _write_fixture(
                     "results": {
                         "status": preflight_status,
                         "reason_codes": preflight_reason_codes or [],
-                        "generated_utc": "2026-02-10T00:00:00Z",
+                        "generated_utc": _now_utc(),
                     }
                 },
                 indent=2,
@@ -230,7 +236,7 @@ def test_release_mode_missing_artifact_after_preflight_has_explicit_reason(tmp_p
                 "results": {
                     "status": "PREFLIGHT_OK",
                     "reason_codes": [],
-                    "generated_utc": "2026-02-10T00:00:00Z",
+                    "generated_utc": _now_utc(),
                 }
             },
             indent=2,

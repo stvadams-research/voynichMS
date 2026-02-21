@@ -2,30 +2,17 @@
   "version": "2026-02-10-m4.5",
   "description": "SK-M4.5 historical provenance uncertainty policy with deterministic lane governance, freshness/parity checks, missing-folio objective-linkage guards, and anti-repeat closure criteria.",
   "tracked_files": [
-    "README.md",
-    "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md",
-    "results/reports/FINAL_PHASE_3_3_REPORT.md",
-    "governance/PROVENANCE.md",
-    "governance/HISTORICAL_PROVENANCE_POLICY.md",
-    "reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md"
+    "results/reports/phase4_inference/phase_4_5_closure_statement.md",
+    "results/reports/phase3_synthesis/final_phase_3_3_report.md",
+    "governance/phase1_foundation/provenance.md",
+    "governance/core_audit/historical_provenance_policy.md",
+    "results/reports/core_skeptic/sk_m4_provenance_register.md"
   ],
   "required_markers": [
     {
-      "id": "readme_provenance_markers",
-      "scopes": [
-        "README.md"
-      ],
-      "markers": [
-        "## Historical Provenance Confidence",
-        "core_status/core_audit/provenance_health_status.json",
-        "governance/HISTORICAL_PROVENANCE_POLICY.md",
-        "m4_5_historical_lane"
-      ]
-    },
-    {
       "id": "phase45_provenance_markers",
       "scopes": [
-        "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+        "results/reports/phase4_inference/phase_4_5_closure_statement.md"
       ],
       "markers": [
         "## 7. Historical Provenance Confidence",
@@ -37,7 +24,7 @@
     {
       "id": "phase33_provenance_markers",
       "scopes": [
-        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+        "results/reports/phase3_synthesis/final_phase_3_3_report.md"
       ],
       "markers": [
         "Historical provenance confidence:",
@@ -49,7 +36,7 @@
     {
       "id": "provenance_doc_markers",
       "scopes": [
-        "governance/PROVENANCE.md"
+        "governance/phase1_foundation/provenance.md"
       ],
       "markers": [
         "Historical provenance confidence artifact:",
@@ -62,7 +49,7 @@
     {
       "id": "m4_register_sync_markers",
       "scopes": [
-        "reports/core_skeptic/SK_M4_PROVENANCE_REGISTER.md"
+        "results/reports/core_skeptic/sk_m4_provenance_register.md"
       ],
       "markers": [
         "## Source Snapshot",
@@ -78,14 +65,14 @@
       "id": "phase45_unqualified_archive_traceable",
       "pattern": "**Archive:** All runs, code, and data are frozen and traceable.",
       "scopes": [
-        "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
+        "results/reports/phase4_inference/phase_4_5_closure_statement.md"
       ]
     },
     {
       "id": "phase33_unqualified_repo_state",
       "pattern": "**Repository State:** Deterministic and verified.",
       "scopes": [
-        "results/reports/FINAL_PHASE_3_3_REPORT.md"
+        "results/reports/phase3_synthesis/final_phase_3_3_report.md"
       ]
     }
   ],

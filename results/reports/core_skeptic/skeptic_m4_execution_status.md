@@ -41,7 +41,7 @@ Implemented outcomes:
 - `tests/core_audit/test_pre_release_contract.py`
 - `README.md`
 - `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md`
-- `results/reports/FINAL_PHASE_3_3_REPORT.md`
+- `results/reports/phase3_synthesis/final_phase_3_3_report.md`
 - `governance/PROVENANCE.md`
 - `governance/governance/REPRODUCIBILITY.md`
 - `planning/core_skeptic/SKEPTIC_M4_EXECUTION_PLAN.md`

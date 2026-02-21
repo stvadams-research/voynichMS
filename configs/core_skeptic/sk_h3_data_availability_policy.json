@@ -102,7 +102,7 @@
     {
       "id": "control_policy_data_availability",
       "scopes": [
-        "governance/CONTROL_COMPARABILITY_POLICY.md"
+        "governance/phase3_synthesis/control_comparability_policy.md"
       ],
       "markers": [
         "CONTROL_COMPARABILITY_DATA_AVAILABILITY.json",
@@ -117,7 +117,7 @@
     {
       "id": "repro_data_availability_commands",
       "scopes": [
-        "governance/governance/REPRODUCIBILITY.md"
+        "governance/reproducibility.md"
       ],
       "markers": [
         "check_control_data_availability.py",
@@ -129,7 +129,7 @@
     {
       "id": "runbook_data_availability_commands",
       "scopes": [
-        "governance/RUNBOOK.md"
+        "governance/runbook.md"
       ],
       "markers": [
         "check_control_data_availability.py",

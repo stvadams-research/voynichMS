@@ -2,17 +2,17 @@
   "version": "2026-02-10-m2.5",
   "description": "SK-M2.5 phase8_comparative uncertainty policy for deterministic lane closure, bounded non-conclusive governance, and missing-folio non-blocking enforcement.",
   "tracked_files": [
-    "reports/phase8_comparative/PROXIMITY_ANALYSIS.md",
-    "reports/phase8_comparative/PHASE_B_SYNTHESIS.md",
-    "reports/phase8_comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md",
-    "reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md",
-    "governance/COMPARATIVE_UNCERTAINTY_POLICY.md"
+    "results/reports/phase8_comparative/proximity_analysis.md",
+    "results/reports/phase8_comparative/phase_b_synthesis.md",
+    "results/reports/phase8_comparative/phase8_final_findings_summary.md",
+    "results/reports/phase8_comparative/phase_b_boundary_statement.md",
+    "governance/phase8_comparative/comparative_uncertainty_policy.md"
   ],
   "required_markers": [
     {
       "id": "proximity_uncertainty_markers",
       "scopes": [
-        "reports/phase8_comparative/PROXIMITY_ANALYSIS.md"
+        "results/reports/phase8_comparative/proximity_analysis.md"
       ],
       "markers": [
         "95% CI",
@@ -36,7 +36,7 @@
     {
       "id": "phaseb_synthesis_uncertainty_markers",
       "scopes": [
-        "reports/phase8_comparative/PHASE_B_SYNTHESIS.md"
+        "results/reports/phase8_comparative/phase_b_synthesis.md"
       ],
       "markers": [
         "uncertainty-qualified",
@@ -49,7 +49,7 @@
     {
       "id": "phase8_uncertainty_markers",
       "scopes": [
-        "reports/phase8_comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md"
+        "results/reports/phase8_comparative/phase8_final_findings_summary.md"
       ],
       "markers": [
         "uncertainty-qualified",
@@ -61,7 +61,7 @@
     {
       "id": "boundary_uncertainty_markers",
       "scopes": [
-        "reports/phase8_comparative/PHASE_B_BOUNDARY_STATEMENT.md"
+        "results/reports/phase8_comparative/phase_b_boundary_statement.md"
       ],
       "markers": [
         "uncertainty-qualified",
@@ -72,7 +72,7 @@
     {
       "id": "docs_uncertainty_markers",
       "scopes": [
-        "governance/COMPARATIVE_UNCERTAINTY_POLICY.md"
+        "governance/phase8_comparative/comparative_uncertainty_policy.md"
       ],
       "markers": [
         "M2_5_ALIGNED",
@@ -89,28 +89,28 @@
       "id": "phaseb_lullian_point_estimate_only",
       "pattern": "nearest structural neighbor to the Voynich Manuscript is the **Lullian Wheel (Dist: 5.1)**",
       "scopes": [
-        "reports/phase8_comparative/PHASE_B_SYNTHESIS.md"
+        "results/reports/phase8_comparative/phase_b_synthesis.md"
       ]
     },
     {
       "id": "proximity_point_estimate_only_structural_isolation",
       "pattern": "Voynich distance to nearest neighbor is 5.0990.",
       "scopes": [
-        "reports/phase8_comparative/PROXIMITY_ANALYSIS.md"
+        "results/reports/phase8_comparative/proximity_analysis.md"
       ]
     },
     {
       "id": "phase8_deterministic_reassertion",
       "pattern": "Reasserted that no further comparison meaningfully reduces uncertainty.",
       "scopes": [
-        "reports/phase8_comparative/PHASE8_FINAL_FINDINGS_SUMMARY.md"
+        "results/reports/phase8_comparative/phase8_final_findings_summary.md"
       ]
     }
   ],
   "artifact_policy": {
     "tracked_artifacts": [
       {
-        "path": "results/phase7_human/phase_7c_uncertainty.json",
+        "path": "results/data/phase7_human/phase_7c_uncertainty.json",
         "required_in_modes": [
           "ci",
           "release"
@@ -300,7 +300,7 @@
   "registered_confidence_matrix": {
     "description": "SK-M2.5 pre-registered confidence-recovery lanes.",
     "target_artifact": "Voynich",
-    "matrix_path": "reports/phase8_comparative/COMPARATIVE_MATRIX.csv",
+    "matrix_path": "results/reports/phase8_comparative/COMPARATIVE_MATRIX.csv",
     "seeds": [
       42,
       314,

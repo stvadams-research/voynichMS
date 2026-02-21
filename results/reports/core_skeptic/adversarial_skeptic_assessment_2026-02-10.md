@@ -78,7 +78,7 @@ Primary reason: the strongest remaining challenges are methodological framing an
 - But public-facing language remains absolute:
   - "Language Hypothesis Falsified" in `README.md:26`.
   - "PROJECT TERMINATED (Exhaustive)" and "scientifically unjustified" closure language in `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:4`, `results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md:28`.
-  - "semantically empty procedural system" in `results/reports/FINAL_PHASE_3_3_REPORT.md:49`.
+  - "semantically empty procedural system" in `results/reports/phase3_synthesis/final_phase_3_3_report.md:49`.
 
 **Skeptic leverage:** "Your boundary statements are cautious, but your headline claims are categorical."
 

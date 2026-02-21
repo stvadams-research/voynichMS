@@ -19,7 +19,7 @@ def _load_checker_module():
 
 def test_sk_m4_checker_flags_banned_pattern(tmp_path) -> None:
     checker = _load_checker_module()
-    (tmp_path / "results/reports").mkdir(parents=True)
+    (tmp_path / "results/reports/phase4_inference").mkdir(parents=True)
     path = tmp_path / "results/reports/phase4_inference/PHASE_4_5_CLOSURE_STATEMENT.md"
     path.write_text("**Archive:** All runs, code, and data are frozen and traceable.", encoding="utf-8")
 

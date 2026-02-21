@@ -9,7 +9,7 @@ All notable changes to the Voynich Manuscript Structural Analysis project.
 - `session_scope()` context manager on `MetadataStore` for safe session handling
 - `--seed` and `--output-dir` argparse flags on Phase 2-7 entry-point scripts
 - `governance/DEVELOPER_GUIDE.md` covering metric, phase, and test authoring
-- `governance/GLOSSARY.md`, `governance/REPLICATION_GUIDE.md`
+- `governance/glossary.md`
 - Inline math documentation for Montemurro KL-divergence, Parsimony entropy, ClusterTightness
 - Debug logging for unparseable lines in `EVAParser`
 
