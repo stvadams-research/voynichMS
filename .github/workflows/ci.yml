@@ -60,7 +60,7 @@ jobs:
           import src.phase1_foundation.core.provenance
           import src.phase1_foundation.runs.manager
           import src.phase2_analysis.admissibility.manager
-          import src.phase3_synthesis.generators.text_generator
-          import src.phase5_mechanism.simulators.pool_generator
+          import src.phase3_synthesis.text_generator
+          import src.phase5_mechanism.generators.pool_generator
           print('All critical modules imported successfully.')
           "

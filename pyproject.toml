@@ -113,6 +113,9 @@ testpaths = [
     "tests/core_skeptic",
     "tests/integration"
 ]
+filterwarnings = [
+    "ignore::RuntimeWarning:networkx",
+]
 markers = [
     "unit: Pure unit tests with no external dependencies",
     "integration: Tests requiring database or filesystem state",
