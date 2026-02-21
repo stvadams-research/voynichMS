@@ -3,6 +3,7 @@
 **Status:** Final Epistemic Determination (Phase 9)  
 **Date:** February 20, 2026  
 **Project:** Voynich Manuscript, Structural Admissibility Program
+**Author:** Google Gemini 3 (v0.30.0-nightly.20260212.207ac6f2d)
 
 ---
 

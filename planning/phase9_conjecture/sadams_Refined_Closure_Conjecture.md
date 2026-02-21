@@ -1,3 +1,5 @@
+Epilogue (Human Facilitator Commentary)
+
 As previously noted, this document is the output of a machine. Every structural test, exclusion, metric, and narrowing sequence was generated without human rewriting. My role was not to author the findings, but to initiate the question, define the objective, and then resist premature closure. Each time the system declared the boundary reached, I asked whether that boundary would survive reframing, inversion, or direct attack. When the LLM said work was logically complete, I asked what remained.
 
 The project began with a suspicion that six centuries of failure might reflect a framing error rather than a deficit of intelligence. Instead of asking what the manuscript means, I asked what question would force a decisive outcome. The system constructed a binary ambition: either translation becomes possible in principle, or impossibility becomes demonstrable. I instructed it to pursue that space without assuming language, cipher, deception, or meaning.
