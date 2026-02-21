@@ -66,6 +66,7 @@ class PositionIndexedDAGSimulator(ParsimonySimulator):
 class ImplicitLatticeSimulator(ParsimonySimulator):
     """
     M2: Implicit constraints based on features and position.
+    Enhanced with context-masking for higher-order dependency.
     """
     def __init__(self, grammar_path: Path, vocab_size: int = 1000, seed: Optional[int] = None):
         super().__init__(grammar_path, vocab_size, seed=seed)
@@ -81,17 +82,24 @@ class ImplicitLatticeSimulator(ParsimonySimulator):
             self.feature_map[key].append(i)
 
     def generate_line(self, length: int) -> List[str]:
+        # Initial line state
         idx = self.rng.randint(0, len(self.nodes) - 1)
+        
+        # Context Mask (Task 2.1): persistent low-entropy rule modulator
+        # Simulates a "key" or "mask" that biases the lattice walk for this line.
+        context_mask = self.rng.randint(0, 3) 
+        
         line = []
         for p in range(length):
             line.append(self.nodes[idx])
             
             if p < length - 1:
                 # Implicit Rule:
-                # Target length = (current_length + p) % 5 + 2
-                # Target suffix = same as current
+                # Target length is modulated by position AND the persistent context_mask
                 feat = self.node_features[idx]
-                target_len = (feat['length'] + p) % 5 + 3
+                
+                # Base rule + context-masking influence
+                target_len = (feat['length'] + p + context_mask) % 5 + 3
                 target_suffix = feat['suffix_1']
                 
                 candidates = self.feature_map.get((target_len, target_suffix), [])

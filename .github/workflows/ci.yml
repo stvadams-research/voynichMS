@@ -34,7 +34,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-lock.txt
-          pip install -e .
 
       - name: Lint with ruff
         run: |
@@ -50,17 +49,18 @@ jobs:
             -q \
             --tb=short \
             -x
+        # pytest reads pythonpath = ["src"] from pyproject.toml.
         # Integration tests require the database and pipeline artifacts.
         # They are covered by the reproduce workflow instead.
 
       - name: Import smoke test
         run: |
-          python -c "
-          import src.phase1_foundation.core.queries
-          import src.phase1_foundation.core.provenance
-          import src.phase1_foundation.runs.manager
-          import src.phase2_analysis.admissibility.manager
-          import src.phase3_synthesis.text_generator
-          import src.phase5_mechanism.generators.pool_generator
+          PYTHONPATH=src python -c "
+          import phase1_foundation.core.queries
+          import phase1_foundation.core.provenance
+          import phase1_foundation.runs.manager
+          import phase2_analysis.admissibility.manager
+          import phase3_synthesis.text_generator
+          import phase5_mechanism.generators.pool_generator
           print('All critical modules imported successfully.')
           "

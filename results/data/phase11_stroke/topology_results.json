@@ -1,0 +1,58 @@
+{
+  "provenance": {
+    "run_id": "1c0c004b-eea3-5bb4-597a-78ce0c48ba24",
+    "git_commit": "855424899760d02d73e8c89edbc890797c14d101",
+    "timestamp": "2026-02-21T02:15:53.653994+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771640153653313000,
+    "command": "run_11d_topology"
+  },
+  "results": {
+    "stroke_topology": {
+      "overlap": {
+        "total_prefixes": 34458,
+        "unique_prefixes": 133,
+        "collision_rate": 0.0032213129026641128,
+        "max_collision_depth": 5664
+      },
+      "coverage": {
+        "unique_classes_visited": 15,
+        "gini_coefficient": 0.4608226521188007,
+        "mean_visitation": 12867.866666666667
+      },
+      "convergence": {
+        "avg_successor_convergence": 12.333333333333334,
+        "max_successor_fanout": 15
+      },
+      "is_lattice_like": false,
+      "scale": "sub-glyph"
+    },
+    "hierarchical_correlation": {
+      "metrics": {
+        "collision_rate": {
+          "word_scale": 0.13585891574134554,
+          "stroke_scale": 0.0032213129026641128,
+          "similarity": 0.023710721413359392
+        },
+        "gini_coefficient": {
+          "word_scale": 0.6097863733000886,
+          "stroke_scale": 0.4608226521188007,
+          "similarity": 0.7557116267208226
+        },
+        "avg_successor_convergence": {
+          "word_scale": 2.2330376408535124,
+          "stroke_scale": 12.333333333333334,
+          "similarity": 0.18105710601514957
+        }
+      },
+      "average_similarity": 0.32015981804977717,
+      "is_recursive_machine": false
+    },
+    "metadata": {
+      "word_count": 35095,
+      "transcription": "data/raw/transliterations/ivtff2.0/ZL3b-n.txt",
+      "timestamp": "2026-02-20T21:15:53.855155"
+    }
+  }
+}

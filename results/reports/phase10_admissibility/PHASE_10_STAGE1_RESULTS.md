@@ -1,19 +1,19 @@
 # Phase 10 Stage 1 Results (Methods H/J/K)
 
-Generated: 2026-02-18T05:37:54.026363+00:00
+Generated: 2026-02-21T02:08:55.537239+00:00
 Stage decision: **closure_weakened**
 
 ## Method Decisions
 
-- Method H (Writing System Typology): `closure_strengthened`
+- Method H (Writing System Typology): `n/a`
 - Method J (Steganographic Extraction): `closure_weakened`
-- Method K (Residual Gap Anatomy): `closure_weakened`
+- Method K (Residual Gap Anatomy): `n/a`
 
 ## Artifacts
 
-- Method H artifact: `results/data/phase10_admissibility/method_h_typology.json`
+- Method H artifact: `n/a`
 - Method J artifact: `results/data/phase10_admissibility/method_j_steganographic.json`
-- Method K artifact: `results/data/phase10_admissibility/method_k_residual_gap.json`
+- Method K artifact: `n/a`
 - Stage 1 summary artifact: `results/data/phase10_admissibility/stage1_summary.json`
 - Restart status tracker: `results/data/phase10_admissibility/stage1_execution_status.json`
 

@@ -34,6 +34,9 @@ def main():
         " --seed 42 --permutations 10000"
     )
 
+    # 4. Topology analysis (Fractal Lattice Test)
+    run_command("python3 scripts/phase11_stroke/run_11d_topology.py")
+
     print("\n[SUCCESS] Phase 11 Replication Complete.")
     print("  Results: results/data/phase11_stroke/")
 

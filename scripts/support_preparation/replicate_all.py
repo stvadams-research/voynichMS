@@ -34,24 +34,26 @@ def run_phase(phase_num, phase_path):
         return False
 
 def main():
-    phases = [
-        (1, "phase1_foundation"),
-        (2, "phase2_analysis"),
-        (3, "phase3_synthesis"),
-        (4, "phase4_inference"),
-        (5, "phase5_mechanism"),
-        (6, "phase6_functional"),
-        (7, "phase7_human"),
-        (8, "phase8_comparative"),
-        (9, "phase9_conjecture"),
-        (10, "phase10_admissibility"),
-        (11, "phase11_stroke"),
-    ]
-
     print("!!! Voynich Project: FULL MASTER REPLICATION (11 PHASES) !!!")
     print(f"Starting at: {time.ctime()}")
+
+    # 0. Asset Verification
+    print(f"\n{'='*60}")
+    print(" VERIFYING EXTERNAL ASSETS (PHASE 0)")
+    print(f"{'='*60}")
     
-    for num, path in phases:
+    verify_script = Path("scripts/phase0_data/verify_external_assets.py")
+    if not verify_script.exists():
+        print(f"Error: Verification script not found: {verify_script}")
+        sys.exit(1)
+        
+    v_result = subprocess.run(f"python3 {verify_script}", shell=True)
+    if v_result.returncode != 0:
+        print("\n!!! Master Replication Aborted: Missing External Assets !!!")
+        print("Please run: python3 scripts/phase0_data/download_external_data.py")
+        sys.exit(1)
+    
+    phases = [
         if not run_phase(num, path):
             print("\n!!! Master Replication Aborted due to Phase Failure !!!")
             sys.exit(1)

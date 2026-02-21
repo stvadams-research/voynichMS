@@ -52,6 +52,12 @@ def parse_args() -> argparse.Namespace:
         default="results/data/phase10_admissibility/stage1_execution_status.json",
     )
     parser.add_argument(
+        "--methods",
+        type=str,
+        default="H,J,K",
+        help="Comma-separated list of methods to run (e.g., 'J,K'). Default is all: 'H,J,K'.",
+    )
+    parser.add_argument(
         "--force",
         action="store_true",
         help="Re-run completed methods instead of resuming.",
@@ -171,10 +177,11 @@ def run_stage1(args: argparse.Namespace) -> None:
         "method_k_runs": config.method_k_runs,
     }
 
+    requested_methods = {m.strip().upper() for m in args.methods.split(",")}
     console.print(
         Panel.fit(
             "[bold blue]Phase 10 Stage 1 Runner[/bold blue]\n"
-            "Executing Method H, Method J, Method K with restart checkpoints",
+            f"Executing Methods: {sorted(requested_methods)} with restart checkpoints",
             border_style="blue",
         )
     )
@@ -215,163 +222,185 @@ def run_stage1(args: argparse.Namespace) -> None:
         method_artifacts: dict[str, str] = {}
 
         # Method H
-        h_status = status["steps"]["method_h"]["status"]
-        existing_h = _artifact_results(status["steps"]["method_h"]["artifact"])
-        if h_status == "completed" and existing_h is not None and not args.force:
-            method_results["H"] = existing_h
-            method_artifacts["H"] = status["steps"]["method_h"]["artifact"]
-            console.print("[cyan]Method H already complete; reusing prior artifact.[/cyan]")
-            _log("Method H reused from checkpoint")
-        else:
-            _set_step(status, "method_h", "running", started_at=now_utc_iso(), error=None)
-            _save_status(status_path, status)
-            _log("Method H started")
-            try:
-                comparison_ids = [
-                    ("latin_classic", "Latin (Semantic)"),
-                    ("self_citation", "Self-Citation"),
-                    ("table_grille", "Table-Grille"),
-                    ("mechanical_reuse", "Mechanical Reuse"),
-                    ("shuffled_global", "Shuffled (Global)"),
-                ]
-                comparison_bundles = []
-                skipped = []
-                for dataset_id, label in comparison_ids:
-                    ok, payload = _load_optional_bundle(store, dataset_id, label)
-                    if ok:
-                        comparison_bundles.append(payload)
-                    else:
-                        skipped.append(str(payload))
+        if "H" in requested_methods:
+            h_status = status["steps"]["method_h"]["status"]
+            existing_h = _artifact_results(status["steps"]["method_h"]["artifact"])
+            if h_status == "completed" and existing_h is not None and not args.force:
+                method_results["H"] = existing_h
+                method_artifacts["H"] = status["steps"]["method_h"]["artifact"]
+                console.print("[cyan]Method H already complete; reusing prior artifact.[/cyan]")
+                _log("Method H reused from checkpoint")
+            else:
+                _set_step(status, "method_h", "running", started_at=now_utc_iso(), error=None)
+                _save_status(status_path, status)
+                _log("Method H started")
+                try:
+                    comparison_ids = [
+                        ("latin_classic", "Latin (Semantic)"),
+                        ("self_citation", "Self-Citation"),
+                        ("table_grille", "Table-Grille"),
+                        ("mechanical_reuse", "Mechanical Reuse"),
+                        ("shuffled_global", "Shuffled (Global)"),
+                    ]
+                    comparison_bundles = []
+                    skipped = []
+                    for dataset_id, label in comparison_ids:
+                        ok, payload = _load_optional_bundle(store, dataset_id, label)
+                        if ok:
+                            comparison_bundles.append(payload)
+                        else:
+                            skipped.append(str(payload))
 
-                generators_h = build_reference_generators(voynich_bundle.lines, config.seed)
-                lines_per_page = max(
-                    1,
-                    int(round(len(voynich_bundle.lines) / max(len(voynich_bundle.pages), 1))),
-                )
-                for family, generator in generators_h.items():
-                    comparison_bundles.append(
-                        generate_bundle_from_generator(
-                            generator=generator,
-                            dataset_id=f"{family}_h",
-                            label=f"{family} (generated)",
-                            target_tokens=config.target_tokens,
-                            lines_per_page=lines_per_page,
-                        )
+                    generators_h = build_reference_generators(voynich_bundle.lines, config.seed)
+                    lines_per_page = max(
+                        1,
+                        int(round(len(voynich_bundle.lines) / max(len(voynich_bundle.pages), 1))),
                     )
+                    for family, generator in generators_h.items():
+                        comparison_bundles.append(
+                            generate_bundle_from_generator(
+                                generator=generator,
+                                dataset_id=f"{family}_h",
+                                label=f"{family} (generated)",
+                                target_tokens=config.target_tokens,
+                                lines_per_page=lines_per_page,
+                            )
+                        )
 
-                h_result = run_method_h(voynich_bundle, comparison_bundles)
-                h_result["skipped_comparison_datasets"] = skipped
-                save_h = ProvenanceWriter.save_results(
-                    h_result,
-                    Path("results/data/phase10_admissibility/method_h_typology.json"),
-                )
-                method_results["H"] = h_result
-                method_artifacts["H"] = save_h["latest_path"]
-                _set_step(
-                    status,
-                    "method_h",
-                    "completed",
-                    completed_at=now_utc_iso(),
-                    artifact=save_h["latest_path"],
-                    error=None,
-                )
-                _save_status(status_path, status)
-                _log(f"Method H complete: decision={h_result.get('decision')}")
-            except Exception as exc:
-                _set_step(status, "method_h", "failed", error=str(exc))
-                status["status"] = "failed"
-                _save_status(status_path, status)
-                _log(f"Method H failed: {exc}")
-                raise
+                    h_result = run_method_h(voynich_bundle, comparison_bundles)
+                    h_result["skipped_comparison_datasets"] = skipped
+                    save_h = ProvenanceWriter.save_results(
+                        h_result,
+                        Path("results/data/phase10_admissibility/method_h_typology.json"),
+                    )
+                    method_results["H"] = h_result
+                    method_artifacts["H"] = save_h["latest_path"]
+                    _set_step(
+                        status,
+                        "method_h",
+                        "completed",
+                        completed_at=now_utc_iso(),
+                        artifact=save_h["latest_path"],
+                        error=None,
+                    )
+                    _save_status(status_path, status)
+                    _log(f"Method H complete: decision={h_result.get('decision')}")
+                except Exception as exc:
+                    _set_step(status, "method_h", "failed", error=str(exc))
+                    status["status"] = "failed"
+                    _save_status(status_path, status)
+                    _log(f"Method H failed: {exc}")
+                    raise
+        else:
+            # Use prior result if available
+            existing_h = _artifact_results(status["steps"]["method_h"]["artifact"])
+            if existing_h:
+                method_results["H"] = existing_h
+                method_artifacts["H"] = status["steps"]["method_h"]["artifact"]
+                _log("Method H skipped (using prior artifact)")
 
         # Method J
-        j_status = status["steps"]["method_j"]["status"]
-        existing_j = _artifact_results(status["steps"]["method_j"]["artifact"])
-        if j_status == "completed" and existing_j is not None and not args.force:
-            method_results["J"] = existing_j
-            method_artifacts["J"] = status["steps"]["method_j"]["artifact"]
-            console.print("[cyan]Method J already complete; reusing prior artifact.[/cyan]")
-            _log("Method J reused from checkpoint")
+        if "J" in requested_methods:
+            j_status = status["steps"]["method_j"]["status"]
+            existing_j = _artifact_results(status["steps"]["method_j"]["artifact"])
+            if j_status == "completed" and existing_j is not None and not args.force:
+                method_results["J"] = existing_j
+                method_artifacts["J"] = status["steps"]["method_j"]["artifact"]
+                console.print("[cyan]Method J already complete; reusing prior artifact.[/cyan]")
+                _log("Method J reused from checkpoint")
+            else:
+                _set_step(status, "method_j", "running", started_at=now_utc_iso(), error=None)
+                _save_status(status_path, status)
+                _log("Method J started")
+                try:
+                    generators_j = build_reference_generators(voynich_bundle.lines, config.seed)
+                    j_result = run_method_j(
+                        voynich_bundle=voynich_bundle,
+                        generators=generators_j,
+                        target_tokens=config.target_tokens,
+                        null_runs=config.method_j_null_runs,
+                        seed=config.seed,
+                        progress=_log,
+                    )
+                    save_j = ProvenanceWriter.save_results(
+                        j_result,
+                        Path("results/data/phase10_admissibility/method_j_steganographic.json"),
+                    )
+                    method_results["J"] = j_result
+                    method_artifacts["J"] = save_j["latest_path"]
+                    _set_step(
+                        status,
+                        "method_j",
+                        "completed",
+                        completed_at=now_utc_iso(),
+                        artifact=save_j["latest_path"],
+                        error=None,
+                    )
+                    _save_status(status_path, status)
+                    _log(f"Method J complete: decision={j_result.get('decision')}")
+                except Exception as exc:
+                    _set_step(status, "method_j", "failed", error=str(exc))
+                    status["status"] = "failed"
+                    _save_status(status_path, status)
+                    _log(f"Method J failed: {exc}")
+                    raise
         else:
-            _set_step(status, "method_j", "running", started_at=now_utc_iso(), error=None)
-            _save_status(status_path, status)
-            _log("Method J started")
-            try:
-                generators_j = build_reference_generators(voynich_bundle.lines, config.seed)
-                j_result = run_method_j(
-                    voynich_bundle=voynich_bundle,
-                    generators=generators_j,
-                    target_tokens=config.target_tokens,
-                    null_runs=config.method_j_null_runs,
-                    seed=config.seed,
-                    progress=_log,
-                )
-                save_j = ProvenanceWriter.save_results(
-                    j_result,
-                    Path("results/data/phase10_admissibility/method_j_steganographic.json"),
-                )
-                method_results["J"] = j_result
-                method_artifacts["J"] = save_j["latest_path"]
-                _set_step(
-                    status,
-                    "method_j",
-                    "completed",
-                    completed_at=now_utc_iso(),
-                    artifact=save_j["latest_path"],
-                    error=None,
-                )
-                _save_status(status_path, status)
-                _log(f"Method J complete: decision={j_result.get('decision')}")
-            except Exception as exc:
-                _set_step(status, "method_j", "failed", error=str(exc))
-                status["status"] = "failed"
-                _save_status(status_path, status)
-                _log(f"Method J failed: {exc}")
-                raise
+            existing_j = _artifact_results(status["steps"]["method_j"]["artifact"])
+            if existing_j:
+                method_results["J"] = existing_j
+                method_artifacts["J"] = status["steps"]["method_j"]["artifact"]
+                _log("Method J skipped (using prior artifact)")
 
         # Method K
-        k_status = status["steps"]["method_k"]["status"]
-        existing_k = _artifact_results(status["steps"]["method_k"]["artifact"])
-        if k_status == "completed" and existing_k is not None and not args.force:
-            method_results["K"] = existing_k
-            method_artifacts["K"] = status["steps"]["method_k"]["artifact"]
-            console.print("[cyan]Method K already complete; reusing prior artifact.[/cyan]")
-            _log("Method K reused from checkpoint")
+        if "K" in requested_methods:
+            k_status = status["steps"]["method_k"]["status"]
+            existing_k = _artifact_results(status["steps"]["method_k"]["artifact"])
+            if k_status == "completed" and existing_k is not None and not args.force:
+                method_results["K"] = existing_k
+                method_artifacts["K"] = status["steps"]["method_k"]["artifact"]
+                console.print("[cyan]Method K already complete; reusing prior artifact.[/cyan]")
+                _log("Method K reused from checkpoint")
+            else:
+                _set_step(status, "method_k", "running", started_at=now_utc_iso(), error=None)
+                _save_status(status_path, status)
+                _log("Method K started")
+                try:
+                    k_result = run_method_k(
+                        voynich_bundle=voynich_bundle,
+                        latin_bundle=latin_bundle,
+                        target_tokens=config.target_tokens,
+                        num_runs=config.method_k_runs,
+                        seed=config.seed,
+                        progress=_log,
+                    )
+                    save_k = ProvenanceWriter.save_results(
+                        k_result,
+                        Path("results/data/phase10_admissibility/method_k_residual_gap.json"),
+                    )
+                    method_results["K"] = k_result
+                    method_artifacts["K"] = save_k["latest_path"]
+                    _set_step(
+                        status,
+                        "method_k",
+                        "completed",
+                        completed_at=now_utc_iso(),
+                        artifact=save_k["latest_path"],
+                        error=None,
+                    )
+                    _save_status(status_path, status)
+                    _log(f"Method K complete: decision={k_result.get('decision')}")
+                except Exception as exc:
+                    _set_step(status, "method_k", "failed", error=str(exc))
+                    status["status"] = "failed"
+                    _save_status(status_path, status)
+                    _log(f"Method K failed: {exc}")
+                    raise
         else:
-            _set_step(status, "method_k", "running", started_at=now_utc_iso(), error=None)
-            _save_status(status_path, status)
-            _log("Method K started")
-            try:
-                k_result = run_method_k(
-                    voynich_bundle=voynich_bundle,
-                    latin_bundle=latin_bundle,
-                    target_tokens=config.target_tokens,
-                    num_runs=config.method_k_runs,
-                    seed=config.seed,
-                    progress=_log,
-                )
-                save_k = ProvenanceWriter.save_results(
-                    k_result,
-                    Path("results/data/phase10_admissibility/method_k_residual_gap.json"),
-                )
-                method_results["K"] = k_result
-                method_artifacts["K"] = save_k["latest_path"]
-                _set_step(
-                    status,
-                    "method_k",
-                    "completed",
-                    completed_at=now_utc_iso(),
-                    artifact=save_k["latest_path"],
-                    error=None,
-                )
-                _save_status(status_path, status)
-                _log(f"Method K complete: decision={k_result.get('decision')}")
-            except Exception as exc:
-                _set_step(status, "method_k", "failed", error=str(exc))
-                status["status"] = "failed"
-                _save_status(status_path, status)
-                _log(f"Method K failed: {exc}")
-                raise
+            existing_k = _artifact_results(status["steps"]["method_k"]["artifact"])
+            if existing_k:
+                method_results["K"] = existing_k
+                method_artifacts["K"] = status["steps"]["method_k"]["artifact"]
+                _log("Method K skipped (using prior artifact)")
 
         # Stage summary
         _set_step(status, "stage1_summary", "running", started_at=now_utc_iso(), error=None)
@@ -413,9 +442,9 @@ def run_stage1(args: argparse.Namespace) -> None:
         summary_table = Table(title="Phase 10 Stage 1 Decisions")
         summary_table.add_column("Method", style="cyan")
         summary_table.add_column("Decision", style="bold")
-        summary_table.add_row("H", method_results["H"].get("decision", "n/a"))
-        summary_table.add_row("J", method_results["J"].get("decision", "n/a"))
-        summary_table.add_row("K", method_results["K"].get("decision", "n/a"))
+        summary_table.add_row("H", method_results.get("H", {}).get("decision", "skipped"))
+        summary_table.add_row("J", method_results.get("J", {}).get("decision", "skipped"))
+        summary_table.add_row("K", method_results.get("K", {}).get("decision", "skipped"))
         summary_table.add_row("Stage 1", summary.get("stage_decision", "n/a"))
         console.print(summary_table)
         console.print(f"[green]Status tracker:[/green] {status_path}")
