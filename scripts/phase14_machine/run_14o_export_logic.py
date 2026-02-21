@@ -12,7 +12,12 @@ from pathlib import Path
 from rich.console import Console
 
 project_root = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(project_root / "src"))
+
+from phase1_foundation.core.provenance import ProvenanceWriter
+
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
+OUTPUT_PATH = project_root / "results/data/phase14_machine/logic_export_status.json"
 EXPORT_DIR = project_root / "results/data/phase14_machine/export"
 console = Console()
 
@@ -48,6 +53,14 @@ def main():
             for word in words:
                 writer.writerow([win_id, word])
                 
+    # 4. Save Status
+    results = {
+        "lattice_map_exported": True,
+        "window_contents_exported": True,
+        "export_dir": str(EXPORT_DIR)
+    }
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    
     console.print(f"\n[green]Success! Logic exported to:[/green] {EXPORT_DIR}")
 
 if __name__ == "__main__":

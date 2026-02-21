@@ -16,9 +16,11 @@ sys.path.insert(0, str(project_root / "src"))
 
 from phase1_foundation.storage.metadata import MetadataStore
 from phase1_foundation.core.queries import get_lines_from_store
+from phase1_foundation.core.provenance import ProvenanceWriter
 from phase12_mechanical.volvelle_simulator import VolvelleSimulator
 
 DB_PATH = "sqlite:///data/voynich.db"
+OUTPUT_PATH = Path("results/data/phase13_demonstration/final_fit_check.json")
 
 def calculate_entropy(tokens):
     if not tokens: return 0
@@ -49,6 +51,15 @@ def main():
     print(f"\nReal Voynich Entropy: {real_entropy:.4f}")
     print(f"Mechanical Engine Entropy: {syn_entropy:.4f}")
     print(f"Total Structural Accounted For: {fit*100:.2f}%")
+    
+    # Save Results
+    results = {
+        "real_entropy": real_entropy,
+        "syn_entropy": syn_entropy,
+        "fit_score": fit,
+        "is_sufficient": fit > 0.9
+    }
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
     
     if fit > 0.9:
         print("\nCONCLUSION: The physical model is SUFFICIENT to explain the manuscript's structure.")

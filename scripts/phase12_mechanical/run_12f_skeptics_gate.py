@@ -11,9 +11,11 @@ sys.path.insert(0, str(project_root / "src"))
 
 from phase1_foundation.storage.metadata import MetadataStore
 from phase1_foundation.core.queries import get_lines_from_store
+from phase1_foundation.core.provenance import ProvenanceWriter
 from phase12_mechanical.slip_detection import MechanicalSlipDetector
 
 DB_PATH = "sqlite:///data/voynich.db"
+OUTPUT_PATH = Path("results/data/phase12_mechanical/skeptics_gate.json")
 console = Console()
 
 def main():
@@ -42,6 +44,15 @@ def main():
     
     ratio = count_real / count_shuffled if count_shuffled > 0 else count_real
     console.print(f"Signal-to-Noise Ratio: [bold cyan]{ratio:.2f}x[/bold cyan]")
+    
+    # Save Results
+    results = {
+        "count_real": count_real,
+        "count_shuffled": count_shuffled,
+        "ratio": ratio,
+        "verified": ratio > 2.0
+    }
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
     
     if ratio > 2.0:
         console.print("\n[bold green]VERIFIED:[/bold green] The slips are a real signal linked to vertical line proximity.")
