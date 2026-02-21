@@ -1,0 +1,12 @@
+{
+  "provenance": {
+    "run_id": "none",
+    "timestamp": "2026-02-21T04:23:22.768263+00:00"
+  },
+  "results": {
+    "real_entropy": 12.258255993226053,
+    "syn_entropy": 8.658427207540509,
+    "fit_score": 0.7063343441616149,
+    "num_syn_tokens": 699562
+  }
+}
