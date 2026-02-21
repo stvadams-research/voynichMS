@@ -1,0 +1,215 @@
+{
+  "provenance": {
+    "run_id": "b1dd592c-91e5-8bca-5a83-fb6e7c298ff0",
+    "git_commit": "e840985f4dd05224b18d867be125f0403bb7a9f7",
+    "timestamp": "2026-02-21T19:42:11.256219+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771702931256166000,
+    "command": "run_14z5_multisplit_holdout"
+  },
+  "results": {
+    "splits": {
+      "Herbal A": {
+        "train_tokens": 25779,
+        "test_tokens": 8826,
+        "train_lines": 3732,
+        "test_lines": 1413,
+        "lattice": {
+          "strict_rate": 0.12440516655336506,
+          "drift_rate": 0.1338092000906413,
+          "strict_chance": 0.02,
+          "drift_chance": 0.06,
+          "strict_z": 70.06093298256519,
+          "drift_z": 29.197986823103346,
+          "total_tokens": 8826
+        },
+        "copy_reset": {
+          "admissibility_rate": 0.020847496034443688,
+          "chance_baseline": 0.0006854949015594469,
+          "z_score": 72.37063549284349,
+          "total_tokens": 8826,
+          "p_copy": 0.03002676101056833,
+          "train_vocab_size": 7292
+        },
+        "lattice_wins": true,
+        "small_sample_warning": false
+      },
+      "Herbal B": {
+        "train_tokens": 33441,
+        "test_tokens": 1164,
+        "train_lines": 4963,
+        "test_lines": 182,
+        "lattice": {
+          "strict_rate": 0.10738831615120274,
+          "drift_rate": 0.11941580756013746,
+          "strict_chance": 0.02,
+          "drift_chance": 0.06,
+          "strict_z": 21.296185725958235,
+          "drift_z": 8.535696063282476,
+          "total_tokens": 1164
+        },
+        "copy_reset": {
+          "admissibility_rate": 0.014604810996563574,
+          "chance_baseline": 0.0005453752051695071,
+          "z_score": 20.545425838977266,
+          "total_tokens": 1164,
+          "p_copy": 0.0291101903223541,
+          "train_vocab_size": 9166
+        },
+        "lattice_wins": true,
+        "small_sample_warning": true
+      },
+      "Astro": {
+        "train_tokens": 31736,
+        "test_tokens": 2869,
+        "train_lines": 4411,
+        "test_lines": 734,
+        "lattice": {
+          "strict_rate": 0.08609271523178808,
+          "drift_rate": 0.09620076681770652,
+          "strict_chance": 0.02,
+          "drift_chance": 0.06,
+          "strict_z": 25.286622927834237,
+          "drift_z": 8.164761293526343,
+          "total_tokens": 2869
+        },
+        "copy_reset": {
+          "admissibility_rate": 0.01533635413035901,
+          "chance_baseline": 0.0005860977449951843,
+          "z_score": 32.644282301978514,
+          "total_tokens": 2869,
+          "p_copy": 0.029350411710887467,
+          "train_vocab_size": 8529
+        },
+        "lattice_wins": true,
+        "small_sample_warning": false
+      },
+      "Biological": {
+        "train_tokens": 28183,
+        "test_tokens": 6422,
+        "train_lines": 4228,
+        "test_lines": 917,
+        "lattice": {
+          "strict_rate": 0.3212394892556836,
+          "drift_rate": 0.330426658361881,
+          "strict_chance": 0.02,
+          "drift_chance": 0.06,
+          "strict_z": 172.43245739710326,
+          "drift_z": 91.25256909274829,
+          "total_tokens": 6422
+        },
+        "copy_reset": {
+          "admissibility_rate": 0.03706010588601682,
+          "chance_baseline": 0.0005837711457847838,
+          "z_score": 121.0185184553411,
+          "total_tokens": 6422,
+          "p_copy": 0.02538092256313922,
+          "train_vocab_size": 8563
+        },
+        "lattice_wins": true,
+        "small_sample_warning": false
+      },
+      "Cosmo": {
+        "train_tokens": 32878,
+        "test_tokens": 1727,
+        "train_lines": 4957,
+        "test_lines": 188,
+        "lattice": {
+          "strict_rate": 0.1349160393746381,
+          "drift_rate": 0.1679212507237985,
+          "strict_chance": 0.02,
+          "drift_chance": 0.06,
+          "strict_z": 34.11134018622759,
+          "drift_z": 18.884852043380757,
+          "total_tokens": 1727
+        },
+        "copy_reset": {
+          "admissibility_rate": 0.023161551823972205,
+          "chance_baseline": 0.0005463883598023633,
+          "z_score": 40.217387888672974,
+          "total_tokens": 1727,
+          "p_copy": 0.02886716091830522,
+          "train_vocab_size": 9149
+        },
+        "lattice_wins": true,
+        "small_sample_warning": true
+      },
+      "Pharma": {
+        "train_tokens": 31104,
+        "test_tokens": 3501,
+        "train_lines": 4519,
+        "test_lines": 626,
+        "lattice": {
+          "strict_rate": 0.08626106826620965,
+          "drift_rate": 0.10854041702370751,
+          "strict_chance": 0.019999999999999997,
+          "drift_chance": 0.05999999999999999,
+          "strict_z": 28.004411657184786,
+          "drift_z": 12.093722705731919,
+          "total_tokens": 3501
+        },
+        "copy_reset": {
+          "admissibility_rate": 0.025135675521279634,
+          "chance_baseline": 0.0005833624855714481,
+          "z_score": 60.165278561635866,
+          "total_tokens": 3501,
+          "p_copy": 0.028512318976866655,
+          "train_vocab_size": 8569
+        },
+        "lattice_wins": true,
+        "small_sample_warning": false
+      },
+      "Stars": {
+        "train_tokens": 24509,
+        "test_tokens": 10096,
+        "train_lines": 4060,
+        "test_lines": 1085,
+        "lattice": {
+          "strict_rate": 0.12836767036450078,
+          "drift_rate": 0.1434231378763867,
+          "strict_chance": 0.02,
+          "drift_chance": 0.06,
+          "strict_z": 77.77613767376613,
+          "drift_z": 35.29568706826244,
+          "total_tokens": 10096
+        },
+        "copy_reset": {
+          "admissibility_rate": 0.023276545166402537,
+          "chance_baseline": 0.0006725853939991699,
+          "z_score": 87.60554181417926,
+          "total_tokens": 10096,
+          "p_copy": 0.029879211697393517,
+          "train_vocab_size": 7432
+        },
+        "lattice_wins": true,
+        "small_sample_warning": false
+      }
+    },
+    "aggregate": {
+      "mean_lattice_drift_z": 29.0607535842908,
+      "mean_cr_z": 62.081010050518366,
+      "lattice_significant_count": 7,
+      "lattice_win_count": 7,
+      "total_splits": 7,
+      "lattice_z_scores": [
+        29.197986823103346,
+        8.535696063282476,
+        8.164761293526343,
+        91.25256909274829,
+        18.884852043380757,
+        12.093722705731919,
+        35.29568706826244
+      ],
+      "cr_z_scores": [
+        72.37063549284349,
+        20.545425838977266,
+        32.644282301978514,
+        121.0185184553411,
+        40.217387888672974,
+        60.165278561635866,
+        87.60554181417926
+      ]
+    }
+  }
+}

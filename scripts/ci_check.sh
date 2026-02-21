@@ -12,7 +12,7 @@ echo "1. Checking environment..."
 
 # 2. Linting
 echo "2. Linting..."
-# ruff check src tests # Commented out until ruff is configured/installed properly in this env, but intended for future.
+ruff check .
 
 # 2a. Release Gate-Health Artifact
 echo "2a. Building release gate-health artifact..."

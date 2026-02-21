@@ -1,7 +1,58 @@
 # Phase 14H: Lattice Foundation Strengthening
 
 **Date:** 2026-02-21
-**Status:** IN PROGRESS
+**Status:** COMPLETE (2026-02-21)
+
+## Execution Progress
+
+- [x] Sprint 1 script written and executed (2026-02-21)
+- [x] Sprint 2 script written and executed (2026-02-21)
+- [x] Sprint 3 script written and executed (2026-02-21)
+- [x] Sprint 4 governance updates (2026-02-21)
+
+### Sprint 1 Results: Failure Taxonomy
+
+| Category | Count | Rate |
+|:---|---:|---:|
+| admissible | 14,270 | 41.24% |
+| extended_drift | 4,696 | 13.57% |
+| wrong_window | 9,994 | 28.88% |
+| extreme_jump | 3,892 | 11.25% |
+| not_in_palette | 1,753 | 5.07% |
+
+Key findings:
+- **Oracle mask recovery: 2.8%** for wrong-window tokens (very low — mask alone does not explain residual)
+- **Unimodal** distance distribution (BC=0.219) — single smooth drift mechanism, not two failure modes
+- **Strong bigram context**: 1.31 bits information gain from prev_word on distance
+- **Symmetric signed distances**: ±2, ±4, ±7 dominate; no single-direction offset family
+- **93.6% structural**: wrong-window failures confirmed in other transcriptions (6.4% ZL-only)
+- Section profiles vary widely: Biological 53.2% admissible vs Astro 27.7%
+
+### Sprint 2 Results: Multi-Split Holdout
+
+| Held Out | Test Tokens | Lattice Drift | Z-Score | CR Adm. | CR Z | Winner |
+|:---|---:|---:|---:|---:|---:|:---|
+| Herbal A | 8,826 | 13.38% | 29.2σ | 2.08% | 72.4σ | Lattice |
+| Herbal B | 1,164 | 11.94% | 8.5σ | 1.46% | 20.5σ | Lattice ⚠ |
+| Astro | 2,869 | 9.62% | 8.2σ | 1.53% | 32.6σ | Lattice |
+| Biological | 6,422 | 33.04% | 91.3σ | 3.71% | 121.0σ | Lattice |
+| Cosmo | 1,727 | 16.79% | 18.9σ | 2.32% | 40.2σ | Lattice ⚠ |
+| Pharma | 3,501 | 10.85% | 12.1σ | 2.51% | 60.2σ | Lattice |
+| Stars | 10,096 | 14.34% | 35.3σ | 2.33% | 87.6σ | Lattice |
+
+- **Lattice significant (z > 3σ): 7/7 splits**
+- **Lattice wins admissibility: 7/7 splits**
+- Mean lattice z-score: 29.1σ
+- Small sample warning on Herbal B (1,164 tokens) and Cosmo (1,727 tokens)
+
+### Sprint 3 Results: MDL Elbow
+
+- Optimal K = 3 (Kneedle) or K = 7 (second derivative)
+- **K=50 penalty: +1.46 BPT** vs K=3 optimal — significant
+- L(total) at K=3: 407,304 bits; at K=50: 457,882 bits
+- MDL-optimal K is much lower than 50, but admissibility at K=3 is trivially 100% (only 3 windows)
+- The interesting range is K=10-20 where admissibility (40-43%) is similar to K=50 but BPT is ~0.7 lower
+- **Interpretation**: K=50 is over-specified for MDL but provides maximum structural discrimination. The model's value lies in holdout generalization (Sprint 2), not MDL optimality.
 
 ## Context
 

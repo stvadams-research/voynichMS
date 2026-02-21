@@ -209,6 +209,22 @@ raw float (e.g., 88.11% = 0.8811).
 
 ---
 
+## Phase 14H — Lattice Foundation Strengthening
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 80 | Wrong-window oracle recovery rate | 2.8% | `run_14z4_failure_taxonomy.py` | `results/data/phase14_machine/failure_taxonomy.json` | `results.mask_recoverability.wrong_window.recovery_rate` | Mask does not explain wrong-window residual |
+| 81 | Failure distance bimodality coefficient | 0.219 | `run_14z4_failure_taxonomy.py` | `results/data/phase14_machine/failure_taxonomy.json` | `results.distance_distribution.bimodality_test.bc` | Unimodal (threshold 0.555) |
+| 82 | Bigram context info gain on distance | 1.31 bits | `run_14z4_failure_taxonomy.py` | `results/data/phase14_machine/failure_taxonomy.json` | `results.bigram_predictability.information_gain_bits` | H(dist)=3.68 → H(dist|prev)=2.37 |
+| 83 | Cross-transcription structural rate | 93.6% | `run_14z4_failure_taxonomy.py` | `results/data/phase14_machine/failure_taxonomy.json` | `results.cross_transcription_noise.structural_failures` | 9,357/9,994 wrong-window tokens confirmed in VT/IT/RF |
+| 84 | Multi-split holdout: lattice significant | 7/7 | `run_14z5_multisplit_holdout.py` | `results/data/phase14_machine/multisplit_holdout.json` | `results.aggregate.lattice_significant_count` | All z > 8σ |
+| 85 | Multi-split holdout: mean lattice z | 29.1σ | `run_14z5_multisplit_holdout.py` | `results/data/phase14_machine/multisplit_holdout.json` | `results.aggregate.mean_lattice_drift_z` | Leave-one-section-out |
+| 86 | Multi-split holdout: lattice wins | 7/7 | `run_14z5_multisplit_holdout.py` | `results/data/phase14_machine/multisplit_holdout.json` | `results.aggregate.lattice_win_count` | vs Copy-Reset admissibility |
+| 87 | MDL optimal K (kneedle) | 7 | `run_14z6_mdl_elbow.py` | `results/data/phase14_machine/mdl_elbow.json` | `results.knee_point.kneedle_k` | Second derivative: K=3 |
+| 88 | K=50 MDL penalty vs optimal | +1.46 BPT | `run_14z6_mdl_elbow.py` | `results/data/phase14_machine/mdl_elbow.json` | `results.penalty_at_k50.penalty_bpt` | Above 0.5 BPT threshold |
+
+---
+
 ## Traceability Notes
 
 1. **Static config values:** Repetition rate (0.9003) and mapping stability (0.02)
@@ -237,7 +253,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 77 | #1, #6-70, #62a-e, #71-79 |
+| **Fully verifiable** (JSON key path exists) | 86 | #1, #6-70, #62a-e, #71-88 |
 | **Console-only** (requires script re-run) | 2 | #2, #3 |
 | **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
 | **Static config** (manually synchronized) | 1 | #1 (also in config) |
@@ -245,6 +261,7 @@ raw float (e.g., 88.11% = 0.8811).
 All claims re-verified on 2026-02-21. File paths and JSON key paths corrected
 for claims #1, #45-49, #52, #62c during Cleanup 5 (path/key reconciliation).
 All Phase 12-17 claims use consistent ZL-only canonical data pipeline.
+Claims #80-88 added for Phase 14H (2026-02-21).
 
 ### Recommended Fixes (future sprint)
 

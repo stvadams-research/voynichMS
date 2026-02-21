@@ -280,7 +280,7 @@ def hartigan_dip_proxy(distances):
         "bc": float(bc),
         "skewness": float(skew),
         "kurtosis": float(kurt),
-        "is_bimodal": bc > 0.555,
+        "is_bimodal": bool(bc > 0.555),
         "n": len(distances),
     }
 
@@ -457,7 +457,7 @@ def main():
     ej_total = len(extreme_jump_records)
 
     console.print(
-        f"\n[bold]Mask Recoverability:[/bold]"
+        "\n[bold]Mask Recoverability:[/bold]"
     )
     console.print(
         f"  Wrong-window tokens recoverable under oracle: "
@@ -484,7 +484,7 @@ def main():
     dist_histogram = Counter(ww_distances)
     bimodality = hartigan_dip_proxy(ww_distances)
 
-    console.print(f"\n[bold]Distance Distribution (wrong_window, dist 2-10):[/bold]")
+    console.print("\n[bold]Distance Distribution (wrong_window, dist 2-10):[/bold]")
     console.print(f"  Bimodality coefficient: {bimodality['bc']:.3f}")
     console.print(
         f"  {'BIMODAL' if bimodality['is_bimodal'] else 'UNIMODAL'} "
@@ -504,7 +504,7 @@ def main():
 
     # ── 8. Bigram-predictable drift ──
     # H(actual_distance | prev_word) vs H(actual_distance) for wrong-window
-    console.print(f"\n[bold]Bigram-Predictable Drift:[/bold]")
+    console.print("\n[bold]Bigram-Predictable Drift:[/bold]")
 
     # Filter to tokens with prev_word and actual_distance
     bigram_records = [
@@ -549,7 +549,7 @@ def main():
     console.print(f"  Information gain: {info_gain:.3f} bits")
 
     # ── 9. Consistent offset families ──
-    console.print(f"\n[bold]Consistent Offset Families:[/bold]")
+    console.print("\n[bold]Consistent Offset Families:[/bold]")
     signed_dists = [
         r["signed_distance"] for r in token_records
         if r["signed_distance"] is not None
@@ -569,7 +569,7 @@ def main():
     console.print(table2)
 
     # ── 10. Cross-transcription noise check ──
-    console.print(f"\n[bold]Cross-Transcription Noise Check:[/bold]")
+    console.print("\n[bold]Cross-Transcription Noise Check:[/bold]")
     # For wrong-window tokens, check if same position fails in other sources
     # Load other transcriptions
     cross_results = {}
@@ -623,7 +623,7 @@ def main():
         )
 
     # ── 11. Section-correlated failure patterns ──
-    console.print(f"\n[bold]Section-Correlated Failure Patterns:[/bold]")
+    console.print("\n[bold]Section-Correlated Failure Patterns:[/bold]")
     section_records = defaultdict(list)
     for r in token_records:
         section_records[r["section"]].append(r)

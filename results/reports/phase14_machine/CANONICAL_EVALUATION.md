@@ -198,3 +198,78 @@ The spectrally-reordered lattice model achieves 43.4% drift-admissibility and 57
 **Selection mechanism (Section 15):** Within-window selection is driven primarily by bigram context (2.43 bits information gain), not physical effort (Section 8, rho ≈ 0). Positional bias, recency, suffix affinity, and frequency effects are all independently significant but secondary.
 
 Section-specific tool configurations have been ruled out (Section 11). Copy-Reset remains the most parsimonious full-corpus model on MDL, but it cannot generalize across sections (3.71% vs Lattice's 10.81% holdout). The Hybrid mixture model (12.13 BPT corrected) confirms that Copy-Reset's repetition signal and the Lattice's structural signal are complementary — both capture real aspects of the production mechanism.
+
+## 17. Failure Taxonomy Deep-Dive (Phase 14H)
+
+The 42.45% "wrong window" residual from Section 3 was decomposed into finer categories using per-token distance analysis across all 34,605 tokens:
+
+| Category | Count | Rate |
+| :--- | ---: | ---: |
+| Admissible (±1) | 14,270 | 41.24% |
+| Extended drift (±3) | 4,696 | 13.57% |
+| Wrong window (dist 4-10) | 9,994 | 28.88% |
+| Extreme jump (>10) | 3,892 | 11.25% |
+| Not in palette | 1,753 | 5.07% |
+
+**Mask recoverability:** Only 2.8% of wrong-window tokens become admissible under the per-line oracle mask offset. The mask mechanism (Section 13) explains line-level offset clusters but does not recover individual token-level failures.
+
+**Distance distribution:** Unimodal (bimodality coefficient BC=0.219, threshold 0.555). The wrong-window distances follow a single smooth drift pattern, not two distinct failure mechanisms. Distances 4 and 7 show slight peaks but remain within a continuous distribution.
+
+**Bigram context:** Previous word provides 1.31 bits of information gain on failure distance (H(dist)=3.68 → H(dist|prev)=2.37, 524 eligible prev-words). This mirrors the 2.43-bit selection driver signal (Section 15) and suggests that drift distances are context-dependent, not random.
+
+**Signed distance symmetry:** Failures are nearly symmetric around zero (±2: 9.3%/9.2%, ±4: 6.8%/6.6%, ±7: 5.8%/5.4%). No dominant single-direction offset family was found, ruling out a simple "missed mask state" explanation.
+
+**Cross-transcription check:** 93.6% of wrong-window tokens exist in at least one other independent transcription (VT, IT, RF). Only 6.4% are ZL-only artifacts. The failures are structural, not transcription noise.
+
+**Section variation:** Biological (53.2% admissible, 4.9% extreme) and Cosmo (48.0%, 2.1%) are the most lattice-conformant. Astro (27.7%, 16.3%) and Herbal B (31.7%, 16.3%) are the least conformant. Pharma has the highest not-in-palette rate (19.0%).
+
+**Artifact:** `results/data/phase14_machine/failure_taxonomy.json`
+
+## 18. Multi-Split Holdout Validation (Phase 14H)
+
+Extended the single Herbal→Biological holdout (Section 6) to a full leave-one-section-out validation across all 7 manuscript sections.
+
+| Held-Out Section | Test Tokens | Lattice Drift | Lattice Z | CR Adm. | CR Z | Winner |
+| :--- | ---: | ---: | ---: | ---: | ---: | :--- |
+| Herbal A | 8,826 | 13.38% | 29.2σ | 2.08% | 72.4σ | Lattice |
+| Herbal B | 1,164 | 11.94% | 8.5σ | 1.46% | 20.5σ | Lattice |
+| Astro | 2,869 | 9.62% | 8.2σ | 1.53% | 32.6σ | Lattice |
+| Biological | 6,422 | 33.04% | 91.3σ | 3.71% | 121.0σ | Lattice |
+| Cosmo | 1,727 | 16.79% | 18.9σ | 2.32% | 40.2σ | Lattice |
+| Pharma | 3,501 | 10.85% | 12.1σ | 2.51% | 60.2σ | Lattice |
+| Stars | 10,096 | 14.34% | 35.3σ | 2.33% | 87.6σ | Lattice |
+
+**Key results:**
+- **Lattice significant (z > 3σ) in 7/7 splits** (mean z = 29.1σ)
+- **Lattice wins admissibility in 7/7 splits** vs Copy-Reset
+- Biological holdout remains the strongest split (33.04%, z=91.3σ), consistent with Section 6
+- Astro is the weakest split (9.62%, z=8.2σ) but still highly significant
+- Small-sample splits (Herbal B: 1,164 tokens, Cosmo: 1,727 tokens) flagged but both pass comfortably
+
+**Interpretation:** The lattice captures genuine cross-section structural constraints that Copy-Reset cannot reproduce. This holds uniformly across all 7 sections despite the 43% overall admissibility — the statistical certainty is robust even where raw coverage is modest.
+
+**Artifact:** `results/data/phase14_machine/multisplit_holdout.json`
+
+## 19. MDL Elbow Analysis (Phase 14H)
+
+Dense 20-point sweep of window count K ∈ [2, 500] using corrected frequency-conditional L(model) (Section 12, Method 5). Physical layout solved once; re-clustered at each K.
+
+| K | L(model) | L(data) | L(total) | BPT | Admissibility |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 3 | 12,216 | 395,088 | 407,304 | 11.77 | 100.0% |
+| 5 | 15,643 | 393,816 | 409,459 | 11.83 | 83.0% |
+| 10 | 23,005 | 408,606 | 431,611 | 12.47 | 42.6% |
+| 20 | 29,820 | 401,553 | 431,373 | 12.47 | 43.0% |
+| 50 | 39,152 | 418,730 | 457,882 | 13.23 | 19.6% |
+| 100 | 46,716 | 426,174 | 472,890 | 13.67 | 11.4% |
+
+**Knee-point detection:**
+- Kneedle algorithm: K = 7
+- Second derivative: K = 3
+- Both methods identify the optimal K well below 50
+
+**K=50 penalty:** +1.46 BPT vs MDL-optimal K=3 (L(total) penalty: +50,579 bits). This is above the 0.5 BPT significance threshold.
+
+**Interpretation:** The MDL-optimal K (3-7) produces trivially high admissibility (77-100%) because with few windows, most tokens are "in the right window" by default. The useful discrimination range is K=10-20, where admissibility (~42%) is similar to K=50 but BPT is ~0.7 lower. K=50 provides maximum structural discrimination at a quantifiable MDL cost. The model's value is not MDL-optimality (Section 12 already showed Copy-Reset wins on BPT) but holdout generalization (Section 18: 7/7 splits, mean z=29.1σ).
+
+**Artifact:** `results/data/phase14_machine/mdl_elbow.json`

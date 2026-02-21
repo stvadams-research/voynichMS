@@ -1,0 +1,254 @@
+{
+  "provenance": {
+    "run_id": "a6a1ab80-2a19-134d-6844-a88c5d36e05b",
+    "git_commit": "e840985f4dd05224b18d867be125f0403bb7a9f7",
+    "timestamp": "2026-02-21T19:45:21.780564+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771703121780495000,
+    "command": "run_14z6_mdl_elbow"
+  },
+  "results": {
+    "sweep": [
+      {
+        "K": 2,
+        "num_windows": 2,
+        "l_model": 7715.783941162142,
+        "l_data": 414071.96374787897,
+        "l_total": 421787.74768904113,
+        "bpt": 12.188635968473953,
+        "admissibility": 1.0,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 3,
+        "num_windows": 3,
+        "l_model": 12215.586044889062,
+        "l_data": 395087.9884393769,
+        "l_total": 407303.57448426593,
+        "bpt": 11.77007873094252,
+        "admissibility": 1.0,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 5,
+        "num_windows": 5,
+        "l_model": 15643.360048155677,
+        "l_data": 393815.9178318049,
+        "l_total": 409459.27787996054,
+        "bpt": 11.832373295187416,
+        "admissibility": 0.8296602946548155,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 7,
+        "num_windows": 7,
+        "l_model": 19001.124656068176,
+        "l_data": 394508.1680601676,
+        "l_total": 413509.29271623574,
+        "bpt": 11.9494088344527,
+        "admissibility": 0.774077681724096,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 10,
+        "num_windows": 10,
+        "l_model": 23004.802961028596,
+        "l_data": 408606.16606187,
+        "l_total": 431610.9690228986,
+        "bpt": 12.472503078251657,
+        "admissibility": 0.4255753074394253,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 15,
+        "num_windows": 15,
+        "l_model": 26950.772559246605,
+        "l_data": 404637.614063312,
+        "l_total": 431588.38662255864,
+        "bpt": 12.471850502024523,
+        "admissibility": 0.40110191160355535,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 20,
+        "num_windows": 20,
+        "l_model": 29820.033156704863,
+        "l_data": 401553.00386021915,
+        "l_total": 431373.037016924,
+        "bpt": 12.465627424271753,
+        "admissibility": 0.43023255813953487,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 25,
+        "num_windows": 25,
+        "l_model": 31980.698947435332,
+        "l_data": 409684.1081195876,
+        "l_total": 441664.8070670229,
+        "bpt": 12.76303444782612,
+        "admissibility": 0.2996164617070498,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 30,
+        "num_windows": 30,
+        "l_model": 33678.75141834823,
+        "l_data": 401504.1547920074,
+        "l_total": 435182.90621035564,
+        "bpt": 12.575723340856975,
+        "admissibility": 0.3603737976378911,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 35,
+        "num_windows": 35,
+        "l_model": 35349.493277760615,
+        "l_data": 405170.89719346236,
+        "l_total": 440520.390471223,
+        "bpt": 12.729963602693916,
+        "admissibility": 0.34935468160233774,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 40,
+        "num_windows": 40,
+        "l_model": 36931.06404550427,
+        "l_data": 415284.69364226103,
+        "l_total": 452215.7576877653,
+        "bpt": 13.067931156993652,
+        "admissibility": 0.23118835991720443,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 45,
+        "num_windows": 45,
+        "l_model": 38047.31783652289,
+        "l_data": 419279.0307016044,
+        "l_total": 457326.34853812726,
+        "bpt": 13.215614753305223,
+        "admissibility": 0.19606112261049555,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 50,
+        "num_windows": 50,
+        "l_model": 39152.0827244937,
+        "l_data": 418730.16809592256,
+        "l_total": 457882.25082041626,
+        "bpt": 13.23167897183691,
+        "admissibility": 0.19575672713990017,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 60,
+        "num_windows": 60,
+        "l_model": 40991.466950712354,
+        "l_data": 417490.1876205552,
+        "l_total": 458481.6545712676,
+        "bpt": 13.249000276586262,
+        "admissibility": 0.1983136490929015,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 75,
+        "num_windows": 75,
+        "l_model": 43538.28063819366,
+        "l_data": 422796.9405045861,
+        "l_total": 466335.22114277974,
+        "bpt": 13.475949173321188,
+        "admissibility": 0.15009740655059053,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 100,
+        "num_windows": 100,
+        "l_model": 46716.22991957318,
+        "l_data": 426173.7146228806,
+        "l_total": 472889.9445424538,
+        "bpt": 13.665364673961966,
+        "admissibility": 0.11448313649092902,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 150,
+        "num_windows": 150,
+        "l_model": 51135.90318707547,
+        "l_data": 429030.1440694175,
+        "l_total": 480166.04725649295,
+        "bpt": 13.875626275292385,
+        "admissibility": 0.09268842079629855,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 200,
+        "num_windows": 200,
+        "l_model": 54419.902159657715,
+        "l_data": 431452.48208553164,
+        "l_total": 485872.3842451894,
+        "bpt": 14.04052548028289,
+        "admissibility": 0.07631194447826617,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 350,
+        "num_windows": 350,
+        "l_model": 61248.26789136061,
+        "l_data": 436667.10957197536,
+        "l_total": 497915.377463336,
+        "bpt": 14.388538577180638,
+        "admissibility": 0.045568001948131015,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      },
+      {
+        "K": 500,
+        "num_windows": 500,
+        "l_model": 65783.85605648853,
+        "l_data": 438223.87426174036,
+        "l_total": 504007.7303182289,
+        "bpt": 14.564592698113824,
+        "admissibility": 0.034457567271399,
+        "clamped_tokens": 32852,
+        "lattice_size": 7717
+      }
+    ],
+    "knee_point": {
+      "kneedle_k": 7,
+      "kneedle_idx": 3,
+      "second_derivative_k": 3,
+      "second_derivative_idx": 1,
+      "selected_optimal_k": 3,
+      "methods_agree": false
+    },
+    "penalty_at_k50": {
+      "optimal_k": 3,
+      "k50_l_total": 457882.25082041626,
+      "optimal_l_total": 407303.57448426593,
+      "penalty_bits": 50578.676336150325,
+      "penalty_bpt": 1.4616002408943896,
+      "admissibility_tradeoff": -0.8042432728600999,
+      "k50_justified": false
+    },
+    "total_tokens": 34605,
+    "layout_size": 7717
+  }
+}
