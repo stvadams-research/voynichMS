@@ -1,6 +1,7 @@
 """Tests for the canonical data loading utility."""
 
 import pytest
+
 from phase1_foundation.core.data_loading import (
     DEFAULT_SOURCE_ID,
     load_canonical_lines,

@@ -9,13 +9,11 @@ import sys
 from pathlib import Path
 
 from rich.console import Console
-from rich.table import Table
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
 from phase1_foundation.core.data_loading import load_canonical_lines
-from phase1_foundation.core.provenance import ProvenanceWriter
 from phase1_foundation.storage.metadata import MetadataStore
 from phase14_machine.evaluation_engine import EvaluationEngine
 from phase14_machine.high_fidelity_emulator import HighFidelityVolvelle
@@ -38,7 +36,7 @@ def main():
     all_real_tokens = [t for l in real_lines for t in l]
     
     # 2. Load Model Data
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         p_data = json.load(f)
     model_data = p_data.get("results", p_data)
     lattice_map = model_data.get("lattice_map", {})

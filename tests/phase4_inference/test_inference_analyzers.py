@@ -5,9 +5,7 @@ Tests the 5 main analyzers and projection_diagnostics sub-modules.
 """
 from __future__ import annotations
 
-import math
 import pytest
-import numpy as np
 
 pytestmark = pytest.mark.unit
 
@@ -274,7 +272,8 @@ class TestLineResetMarkovGenerator:
     @pytest.fixture(autouse=True)
     def _setup(self):
         from phase4_inference.projection_diagnostics.line_reset_markov import (
-            LineResetMarkovGenerator, LineResetMarkovConfig,
+            LineResetMarkovConfig,
+            LineResetMarkovGenerator,
         )
         self.GeneratorClass = LineResetMarkovGenerator
         self.ConfigClass = LineResetMarkovConfig
@@ -350,7 +349,8 @@ class TestLineResetBackoffGenerator:
     @pytest.fixture(autouse=True)
     def _setup(self):
         from phase4_inference.projection_diagnostics.line_reset_backoff import (
-            LineResetBackoffGenerator, LineResetBackoffConfig,
+            LineResetBackoffConfig,
+            LineResetBackoffGenerator,
         )
         self.GeneratorClass = LineResetBackoffGenerator
         self.ConfigClass = LineResetBackoffConfig
@@ -388,7 +388,8 @@ class TestLineResetPersistenceGenerator:
     @pytest.fixture(autouse=True)
     def _setup(self):
         from phase4_inference.projection_diagnostics.line_reset_persistence import (
-            LineResetPersistenceGenerator, LineResetPersistenceConfig,
+            LineResetPersistenceConfig,
+            LineResetPersistenceGenerator,
         )
         self.GeneratorClass = LineResetPersistenceGenerator
         self.ConfigClass = LineResetPersistenceConfig
@@ -415,7 +416,8 @@ class TestKolmogorovProxyAnalyzer:
     @pytest.fixture(autouse=True)
     def _setup(self):
         from phase4_inference.projection_diagnostics.kolmogorov_proxy import (
-            KolmogorovProxyAnalyzer, KolmogorovProxyConfig,
+            KolmogorovProxyAnalyzer,
+            KolmogorovProxyConfig,
         )
         self.analyzer = KolmogorovProxyAnalyzer(
             config=KolmogorovProxyConfig(
@@ -512,7 +514,8 @@ class TestOrderConstraintAnalyzer:
     @pytest.fixture(autouse=True)
     def _setup(self):
         from phase4_inference.projection_diagnostics.order_constraints import (
-            OrderConstraintAnalyzer, OrderConstraintConfig,
+            OrderConstraintAnalyzer,
+            OrderConstraintConfig,
         )
         self.analyzer = OrderConstraintAnalyzer(
             config=OrderConstraintConfig(
@@ -550,7 +553,8 @@ class TestMusicStreamControlBuilder:
     @pytest.fixture(autouse=True)
     def _setup(self):
         from phase4_inference.projection_diagnostics.music_stream_controls import (
-            MusicStreamControlBuilder, MusicStreamConfig,
+            MusicStreamConfig,
+            MusicStreamControlBuilder,
         )
         self.builder = MusicStreamControlBuilder(
             config=MusicStreamConfig(target_tokens=500, random_state=42)
@@ -573,7 +577,8 @@ class TestMusicStreamControlBuilder:
 
     def test_reproducibility(self):
         from phase4_inference.projection_diagnostics.music_stream_controls import (
-            MusicStreamControlBuilder, MusicStreamConfig,
+            MusicStreamConfig,
+            MusicStreamControlBuilder,
         )
         b1 = MusicStreamControlBuilder(config=MusicStreamConfig(target_tokens=100, random_state=42))
         b2 = MusicStreamControlBuilder(config=MusicStreamConfig(target_tokens=100, random_state=42))

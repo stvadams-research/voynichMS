@@ -4,9 +4,11 @@ Model Registry for Phase 2.3
 Maintains a registry of all explicit models being evaluated.
 """
 
-from typing import Dict, List, Any, Type
-from phase2_analysis.models.interface import ExplicitModel, ModelStatus
 import logging
+from typing import Any
+
+from phase2_analysis.models.interface import ExplicitModel, ModelStatus
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,10 +25,10 @@ class ModelRegistry:
 
     def __init__(self, store):
         self.store = store
-        self._models: Dict[str, ExplicitModel] = {}
-        self._by_class: Dict[str, List[str]] = {}
+        self._models: dict[str, ExplicitModel] = {}
+        self._by_class: dict[str, list[str]] = {}
 
-    def register(self, model_class: Type[ExplicitModel]) -> ExplicitModel:
+    def register(self, model_class: type[ExplicitModel]) -> ExplicitModel:
         """
         Register a model class and return an instance.
 
@@ -58,21 +60,21 @@ class ModelRegistry:
             raise KeyError(f"Model {model_id} not found")
         return self._models[model_id]
 
-    def get_by_class(self, explanation_class: str) -> List[ExplicitModel]:
+    def get_by_class(self, explanation_class: str) -> list[ExplicitModel]:
         """Get all models for an explanation class."""
         model_ids = self._by_class.get(explanation_class, [])
         return [self._models[mid] for mid in model_ids]
 
-    def get_all(self) -> List[ExplicitModel]:
+    def get_all(self) -> list[ExplicitModel]:
         """Get all registered models."""
         return list(self._models.values())
 
-    def get_surviving(self) -> List[ExplicitModel]:
+    def get_surviving(self) -> list[ExplicitModel]:
         """Get models that have not been falsified."""
         return [m for m in self._models.values()
                 if m.status not in [ModelStatus.FALSIFIED, ModelStatus.DISCONTINUED]]
 
-    def get_falsified(self) -> List[ExplicitModel]:
+    def get_falsified(self) -> list[ExplicitModel]:
         """Get models that have been falsified."""
         return [m for m in self._models.values()
                 if m.status == ModelStatus.FALSIFIED]
@@ -83,7 +85,7 @@ class ModelRegistry:
         model.status = ModelStatus.DISCONTINUED
         # Log reason (could be stored in model or separate log)
 
-    def generate_report(self) -> Dict[str, Any]:
+    def generate_report(self) -> dict[str, Any]:
         """Generate a comprehensive registry report."""
         all_models = self.get_all()
 

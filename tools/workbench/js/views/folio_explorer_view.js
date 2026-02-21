@@ -93,6 +93,10 @@
     scanModalBound = true;
   }
 
+  app.openScanModal = openScanModal;
+  app.closeScanModal = closeScanModal;
+  app.bindScanModalHandlers = bindScanModalHandlers;
+
   function renderScan(folio) {
     const link = document.getElementById("explorer-scan-link");
     const img = document.getElementById("explorer-scan-thumb");

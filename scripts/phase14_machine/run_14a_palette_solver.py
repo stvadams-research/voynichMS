@@ -35,7 +35,7 @@ def main():
         return
 
     # 1. Load Data
-    with open(SLIPS_PATH, "r") as f:
+    with open(SLIPS_PATH) as f:
         slips_data = json.load(f)
     slips = slips_data.get("results", slips_data).get("slips", [])
     

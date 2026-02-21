@@ -7,24 +7,15 @@ These models treat the manuscript as a deliberately constructed symbol system
 that is neither natural language nor cipher, but designed to appear linguistic.
 """
 
-from typing import List, Dict, Any
 import logging
+
 from phase2_analysis.models.interface import (
+    DisconfirmationResult,
     ExplicitModel,
     ModelPrediction,
-    DisconfirmationResult,
     PredictionType,
-    ModelStatus,
 )
 from phase2_analysis.models.perturbation import PerturbationCalculator
-from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    PageRecord,
-    WordRecord,
-    LineRecord,
-    RegionRecord,
-    AnchorRecord,
-)
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +51,7 @@ class ProceduralGenerationModel(ExplicitModel):
         )
 
     @property
-    def rules(self) -> List[str]:
+    def rules(self) -> list[str]:
         return [
             "R1: Text follows detectable generation patterns",
             "R2: Patterns are more regular than natural language",
@@ -70,7 +61,7 @@ class ProceduralGenerationModel(ExplicitModel):
         ]
 
     @property
-    def failure_conditions(self) -> List[str]:
+    def failure_conditions(self) -> list[str]:
         return [
             "F1: No generation pattern detectable (too random or too meaningful)",
             "F2: Information density too high for procedural generation",
@@ -78,7 +69,7 @@ class ProceduralGenerationModel(ExplicitModel):
             "F4: Evidence of semantic content",
         ]
 
-    def get_predictions(self) -> List[ModelPrediction]:
+    def get_predictions(self) -> list[ModelPrediction]:
         return [
             ModelPrediction(
                 prediction_id="proc_p1",
@@ -215,7 +206,7 @@ class GlossalialSystemModel(ExplicitModel):
         )
 
     @property
-    def rules(self) -> List[str]:
+    def rules(self) -> list[str]:
         return [
             "R1: Surface patterns match language without semantics",
             "R2: Production follows implicit learned rules",
@@ -225,7 +216,7 @@ class GlossalialSystemModel(ExplicitModel):
         ]
 
     @property
-    def failure_conditions(self) -> List[str]:
+    def failure_conditions(self) -> list[str]:
         return [
             "F1: Patterns too mechanical (procedural) or too meaningful",
             "F2: Evidence of semantic structure",
@@ -233,7 +224,7 @@ class GlossalialSystemModel(ExplicitModel):
             "F4: Information density indicates hidden meaning",
         ]
 
-    def get_predictions(self) -> List[ModelPrediction]:
+    def get_predictions(self) -> list[ModelPrediction]:
         return [
             ModelPrediction(
                 prediction_id="gloss_p1",
@@ -353,7 +344,7 @@ class MeaningfulConstructModel(ExplicitModel):
         )
 
     @property
-    def rules(self) -> List[str]:
+    def rules(self) -> list[str]:
         return [
             "R1: System encodes information in non-linguistic way",
             "R2: Information density is high (not random, not empty)",
@@ -363,7 +354,7 @@ class MeaningfulConstructModel(ExplicitModel):
         ]
 
     @property
-    def failure_conditions(self) -> List[str]:
+    def failure_conditions(self) -> list[str]:
         return [
             "F1: Information density matches random generation",
             "F2: No recoverable structure beyond surface patterns",
@@ -371,7 +362,7 @@ class MeaningfulConstructModel(ExplicitModel):
             "F4: System is purely decorative (no information)",
         ]
 
-    def get_predictions(self) -> List[ModelPrediction]:
+    def get_predictions(self) -> list[ModelPrediction]:
         return [
             ModelPrediction(
                 prediction_id="mc_p1",

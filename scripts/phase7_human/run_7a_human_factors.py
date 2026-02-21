@@ -5,10 +5,10 @@ Phase 7A: Human Factors and Production Ergonomics Runner
 
 import argparse
 import sys
-import json
-from pathlib import Path
-import numpy as np
 from collections import defaultdict
+from pathlib import Path
+
+import numpy as np
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -19,9 +19,14 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import (
+    MetadataStore,
+    PageRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from phase7_human.ergonomics import ErgonomicsAnalyzer
 
 console = Console()

@@ -5,16 +5,18 @@ Clusters transition profiles to identify discrete 'Mask' states
 (Volvelle settings) across the manuscript.
 """
 
-from typing import List, Dict, Any, Tuple
-from collections import Counter, defaultdict
+from collections import Counter
+from typing import Any
+
 import numpy as np
 from sklearn.cluster import KMeans
+
 
 class StateSpaceSolver:
     """
     Identifies discrete mechanical states by clustering local transition matrices.
     """
-    def build_transition_vectors(self, lines: List[List[str]], window_size: int = 500) -> np.ndarray:
+    def build_transition_vectors(self, lines: list[list[str]], window_size: int = 500) -> np.ndarray:
         """
         Produces a feature vector for each window representing its transition profile.
         """
@@ -41,7 +43,7 @@ class StateSpaceSolver:
             
         return np.array(vectors)
 
-    def solve_states(self, vectors: np.ndarray, num_states: int = 3) -> Dict[str, Any]:
+    def solve_states(self, vectors: np.ndarray, num_states: int = 3) -> dict[str, Any]:
         """
         Clusters the transition vectors into discrete states.
         """

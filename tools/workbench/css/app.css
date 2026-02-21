@@ -316,7 +316,8 @@ textarea {
   pointer-events: none;
 }
 
-#explorer-scan-thumb {
+#explorer-scan-thumb,
+#page-scan-thumb {
   width: 100%;
   max-height: 220px;
   object-fit: contain;
@@ -402,6 +403,19 @@ body.modal-open {
   margin-bottom: 12px;
 }
 
+.page-output-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.page-diagnostics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
 .console-panel {
   border-top: 1px solid var(--line);
   padding: 10px 14px 14px;
@@ -433,5 +447,13 @@ body.modal-open {
   .scroll-list,
   .word-grid {
     max-height: 38vh;
+  }
+
+  .page-output-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-diagnostics-grid {
+    grid-template-columns: 1fr;
   }
 }

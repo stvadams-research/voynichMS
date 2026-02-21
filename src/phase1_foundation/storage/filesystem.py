@@ -1,9 +1,10 @@
+import logging
 import os
 import tempfile
 from pathlib import Path
-from typing import Union
+
 from phase1_foundation.storage.interface import StorageInterface
-import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -14,7 +15,7 @@ class FileSystemStorage(StorageInterface):
     Uses atomic writes (temp file + rename) to prevent partial/corrupted files
     on crash or interruption.
     """
-    def __init__(self, base_path: Union[str, Path]):
+    def __init__(self, base_path: str | Path):
         self.base_path = Path(base_path).resolve()
         if not self.base_path.exists():
             self.base_path.mkdir(parents=True, exist_ok=True)
@@ -25,7 +26,7 @@ class FileSystemStorage(StorageInterface):
             raise ValueError(f"Path traversal attempt: {path}")
         return full_path
 
-    def save(self, path: str, data: Union[bytes, str], overwrite: bool = False) -> Path:
+    def save(self, path: str, data: bytes | str, overwrite: bool = False) -> Path:
         """
         Save data to a file atomically.
 
@@ -78,7 +79,7 @@ class FileSystemStorage(StorageInterface):
 
         return target
 
-    def load(self, path: str, binary: bool = False) -> Union[bytes, str]:
+    def load(self, path: str, binary: bool = False) -> bytes | str:
         target = self._resolve(path)
         if not target.exists():
             raise FileNotFoundError(f"File not found: {path}")

@@ -5,14 +5,12 @@ Justifies the '13% vs 2%' claim using bootstrapping to establish
 a Null Hypothesis (Chance) distribution and 95% CIs.
 """
 
-import json
 import random
 import sys
 from pathlib import Path
 
 import numpy as np
 from rich.console import Console
-from rich.table import Table
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))

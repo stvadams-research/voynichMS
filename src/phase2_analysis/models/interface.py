@@ -4,11 +4,12 @@ Model Interface for Phase 2.3
 Defines the base class and structures for explicit, falsifiable models.
 """
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional
 from enum import Enum
-import logging
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 
@@ -42,7 +43,7 @@ class ModelPrediction:
     # Results (filled after testing)
     tested: bool = False
     passed: bool = False
-    actual_result: Optional[str] = None
+    actual_result: str | None = None
     confidence: float = 0.0
 
 
@@ -55,12 +56,12 @@ class DisconfirmationResult:
 
     # Outcome
     survived: bool
-    failure_mode: Optional[str] = None
+    failure_mode: str | None = None
     degradation_score: float = 0.0  # 0 = no degradation, 1 = complete failure
 
     # Details
-    metrics: Dict[str, float] = field(default_factory=dict)
-    evidence: List[str] = field(default_factory=list)
+    metrics: dict[str, float] = field(default_factory=dict)
+    evidence: list[str] = field(default_factory=list)
     notes: str = ""
 
 
@@ -78,7 +79,7 @@ class ExplicitModel(ABC):
     def __init__(self, store):
         self.store = store
         self.status = ModelStatus.UNTESTED
-        self.disconfirmation_log: List[DisconfirmationResult] = []
+        self.disconfirmation_log: list[DisconfirmationResult] = []
 
     @property
     @abstractmethod
@@ -106,18 +107,18 @@ class ExplicitModel(ABC):
 
     @property
     @abstractmethod
-    def rules(self) -> List[str]:
+    def rules(self) -> list[str]:
         """Explicit rules that define this model."""
         pass
 
     @property
     @abstractmethod
-    def failure_conditions(self) -> List[str]:
+    def failure_conditions(self) -> list[str]:
         """Conditions under which this model is falsified."""
         pass
 
     @abstractmethod
-    def get_predictions(self) -> List[ModelPrediction]:
+    def get_predictions(self) -> list[ModelPrediction]:
         """Return testable predictions this model makes."""
         pass
 
@@ -146,7 +147,7 @@ class ExplicitModel(ABC):
         self.update_status_from_predictions()
         return result
 
-    def test_all_predictions(self, dataset_id: str) -> List[ModelPrediction]:
+    def test_all_predictions(self, dataset_id: str) -> list[ModelPrediction]:
         """
         Test all predictions and update model status.
 
@@ -210,7 +211,7 @@ class ExplicitModel(ABC):
             # All predictions passed - mark as surviving
             self.status = ModelStatus.SURVIVING
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get a summary of the model and its test results."""
         predictions = self.get_predictions()
         tested_predictions = [p for p in predictions if p.tested]

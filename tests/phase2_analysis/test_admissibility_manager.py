@@ -2,13 +2,13 @@ import pytest
 
 pytestmark = pytest.mark.unit
 
+from phase1_foundation.storage.metadata import MetadataStore
 from phase2_analysis.admissibility.manager import (
     AdmissibilityManager,
     AdmissibilityStatus,
     ConstraintType,
     SupportLevel,
 )
-from phase1_foundation.storage.metadata import MetadataStore
 
 
 def _new_store(tmp_path):

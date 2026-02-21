@@ -1,6 +1,8 @@
+
 import matplotlib.pyplot as plt
-from typing import Tuple, Optional
+
 from support_visualization.core.themes import apply_voynich_theme
+
 
 class VisualizationEngine:
     """
@@ -9,10 +11,10 @@ class VisualizationEngine:
     
     @staticmethod
     def create_figure(
-        figsize: Tuple[int, int] = (10, 6), 
-        title: Optional[str] = None,
+        figsize: tuple[int, int] = (10, 6), 
+        title: str | None = None,
         theme: bool = True
-    ) -> Tuple[plt.Figure, plt.Axes]:
+    ) -> tuple[plt.Figure, plt.Axes]:
         """
         Initialize a figure and axes with the project theme.
         """

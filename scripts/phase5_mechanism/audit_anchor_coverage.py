@@ -12,7 +12,7 @@ import sys
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Set
+from typing import Any
 
 # Add src to path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -45,7 +45,7 @@ def _utc_now_iso() -> str:
     return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
 
-def _load_policy(path: Path) -> Dict[str, Any]:
+def _load_policy(path: Path) -> dict[str, Any]:
     policy = copy.deepcopy(DEFAULT_MULTIMODAL_POLICY)
     if not path.exists():
         return policy
@@ -168,7 +168,7 @@ def main() -> None:
                 .filter(AnchorRecord.source_type == "word")
                 .all()
             )
-            anchored_words: Set[str] = set()
+            anchored_words: set[str] = set()
             relation_type_counts: Counter[str] = Counter()
             for source_id_row, relation_type in anchor_rows:
                 anchored_words.add(str(source_id_row))
@@ -180,10 +180,10 @@ def main() -> None:
 
             anchored_token_count = 0
             unanchored_token_count = 0
-            anchored_line_ids: Set[str] = set()
-            unanchored_line_ids: Set[str] = set()
-            anchored_page_ids: Set[str] = set()
-            unanchored_page_ids: Set[str] = set()
+            anchored_line_ids: set[str] = set()
+            unanchored_line_ids: set[str] = set()
+            anchored_page_ids: set[str] = set()
+            unanchored_page_ids: set[str] = set()
 
             for token_id, line_id, page_id in token_rows:
                 word_id = token_to_word.get(str(token_id))

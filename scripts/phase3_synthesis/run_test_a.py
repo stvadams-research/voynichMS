@@ -13,26 +13,25 @@ Mechanism:
 """
 
 import argparse
+import random
 import sys
 from pathlib import Path
-import random
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
+from phase1_foundation.config import DEFAULT_SEED
+from phase1_foundation.core.id_factory import DeterministicIDFactory
+from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.metrics.library import RepetitionRate
 from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.id_factory import DeterministicIDFactory
-from phase1_foundation.config import DEFAULT_SEED
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
-from phase1_foundation.metrics.library import RepetitionRate
-
-from phase1_foundation.core.provenance import ProvenanceWriter
 
 console = Console()
 DEFAULT_DB_URL = "sqlite:///data/voynich.db"

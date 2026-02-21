@@ -2,17 +2,18 @@
 Parsimony and Residual Dependency Analysis.
 """
 
-from typing import List, Dict, Any, Tuple
-from collections import Counter, defaultdict
-import math
 import logging
+import math
+from collections import Counter, defaultdict
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 class ParsimonyAnalyzer:
     def __init__(self):
         pass
 
-    def analyze_node_explosion(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_node_explosion(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         Estimates the effective state space size of a Position-Indexed DAG.
 
@@ -43,7 +44,7 @@ class ParsimonyAnalyzer:
             "transition_count": len(transitions)
         }
 
-    def analyze_residual_dependency(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_residual_dependency(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         Checks if history (prefix) adds information beyond (Word, Position).
 

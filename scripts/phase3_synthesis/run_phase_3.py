@@ -20,24 +20,24 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
+from typing import Any
+
 import typer
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
-from typing import Dict, List, Any
+from rich.table import Table
 
-from phase3_synthesis.interface import Phase3Findings, GapStrength
-from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
-from phase3_synthesis.text_generator import TextContinuationGenerator
 from phase3_synthesis.gap_continuation import MultiGapContinuation
 from phase3_synthesis.indistinguishability import FullIndistinguishabilityTest
+from phase3_synthesis.interface import Phase3Findings
+from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
 
 app = typer.Typer()
 console = Console()
 
 
-def display_section_profile(profile_summary: Dict[str, Any]):
+def display_section_profile(profile_summary: dict[str, Any]):
     """Display the extracted section profile."""
     console.print(Panel(
         f"[bold]Section:[/bold] {profile_summary['section_id']}\n"
@@ -54,7 +54,7 @@ def display_section_profile(profile_summary: Dict[str, Any]):
     ))
 
 
-def display_gaps(gaps: List[Dict[str, Any]]):
+def display_gaps(gaps: list[dict[str, Any]]):
     """Display gap definitions."""
     table = Table(title="Codicologically Defensible Gaps", show_header=True)
     table.add_column("Gap ID", style="cyan")
@@ -81,7 +81,7 @@ def display_gaps(gaps: List[Dict[str, Any]]):
     console.print(table)
 
 
-def display_continuation_results(results: Dict[str, Any]):
+def display_continuation_results(results: dict[str, Any]):
     """Display continuation generation results."""
     table = Table(title="Continuation Results per Gap", show_header=True)
     table.add_column("Gap ID", style="cyan")
@@ -105,7 +105,7 @@ def display_continuation_results(results: Dict[str, Any]):
     console.print(table)
 
 
-def display_indistinguishability_results(results: Dict[str, Any]):
+def display_indistinguishability_results(results: dict[str, Any]):
     """Display indistinguishability test results."""
     console.print("\n[bold cyan]Indistinguishability Testing[/bold cyan]")
 
@@ -134,13 +134,13 @@ def display_indistinguishability_results(results: Dict[str, Any]):
 
     console.print(table)
 
-    console.print(f"\n[bold]Interpretation:[/bold]")
+    console.print("\n[bold]Interpretation:[/bold]")
     console.print("  Real vs Scrambled: Should be HIGH (>0.7) - real pages differ from noise")
     console.print("  Synthetic vs Scrambled: Should be HIGH (>0.7) - synthetic pages differ from noise")
     console.print("  Real vs Synthetic: Should be LOW (<0.3) - synthetic pages resemble real pages")
 
 
-def display_synthetic_samples(results: Dict[str, Any], max_samples: int = 2):
+def display_synthetic_samples(results: dict[str, Any], max_samples: int = 2):
     """Display sample synthetic pages."""
     console.print("\n[bold yellow]Sample Synthetic Pages[/bold yellow]")
     console.print("[dim](All outputs are explicitly labeled SYNTHETIC)[/dim]\n")

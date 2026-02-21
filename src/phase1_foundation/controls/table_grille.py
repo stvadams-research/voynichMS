@@ -4,11 +4,11 @@ Table and Grille Generator (Rugg style)
 Produces text using a grid of prefixes, infixes, and suffixes selected by a grille.
 """
 
+import logging
 import random
-from typing import Any, Dict, List
+from typing import Any
 
 from phase1_foundation.controls.interface import ControlGenerator
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ class TableGrilleGenerator(ControlGenerator):
     - parser: parser-equivalent canonicalization for symmetry.
     - pre_normalized_with_assertions: enforce already-normalized token stream.
     """
-    def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: Dict[str, Any] = None) -> str:
+    def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: dict[str, Any] = None) -> str:
         rng = random.Random(seed)
         params = params or {}
         normalization_mode = self._resolve_normalization_mode(params)
@@ -76,7 +76,7 @@ class TableGrilleGenerator(ControlGenerator):
 
         return control_id
 
-    def _ingest_tokens(self, dataset_id: str, tokens: List[str], seed: int, metadata: Dict[str, Any]):
+    def _ingest_tokens(self, dataset_id: str, tokens: list[str], seed: int, metadata: dict[str, Any]):
         """Helper to register synthetic tokens in the database."""
         from phase1_foundation.core.id_factory import DeterministicIDFactory
         id_factory = DeterministicIDFactory(seed=seed)

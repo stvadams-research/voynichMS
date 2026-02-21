@@ -6,7 +6,7 @@ Purpose: Generates the evidence gallery and exports data for interactive visuali
 
 import subprocess
 import sys
-from pathlib import Path
+
 
 def run_command(cmd):
     print(f"\n>> Executing: {cmd}")

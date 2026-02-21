@@ -7,24 +7,15 @@ These models treat the manuscript as a primarily visual system where
 text-like elements serve a diagrammatic rather than linguistic function.
 """
 
-from typing import List, Dict, Any
 import logging
+
 from phase2_analysis.models.interface import (
+    DisconfirmationResult,
     ExplicitModel,
     ModelPrediction,
-    DisconfirmationResult,
     PredictionType,
-    ModelStatus,
 )
 from phase2_analysis.models.perturbation import PerturbationCalculator
-from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    PageRecord,
-    WordRecord,
-    LineRecord,
-    RegionRecord,
-    AnchorRecord,
-)
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +53,7 @@ class AdjacencyGrammarModel(ExplicitModel):
         )
 
     @property
-    def rules(self) -> List[str]:
+    def rules(self) -> list[str]:
         return [
             "R1: Text blocks are spatially bound to visual regions",
             "R2: Adjacency defines semantic coupling (text-region pairs)",
@@ -72,7 +63,7 @@ class AdjacencyGrammarModel(ExplicitModel):
         ]
 
     @property
-    def failure_conditions(self) -> List[str]:
+    def failure_conditions(self) -> list[str]:
         return [
             "F1: Adjacent pairs show no more structure than non-adjacent",
             "F2: Text-region coupling is random (indistinguishable from scrambled)",
@@ -80,7 +71,7 @@ class AdjacencyGrammarModel(ExplicitModel):
             "F4: Global text patterns dominate local adjacency effects",
         ]
 
-    def get_predictions(self) -> List[ModelPrediction]:
+    def get_predictions(self) -> list[ModelPrediction]:
         return [
             ModelPrediction(
                 prediction_id="adj_p1",
@@ -213,7 +204,7 @@ class ContainmentGrammarModel(ExplicitModel):
         )
 
     @property
-    def rules(self) -> List[str]:
+    def rules(self) -> list[str]:
         return [
             "R1: Visual regions form containment hierarchy",
             "R2: Text inherits context from its containing region",
@@ -223,7 +214,7 @@ class ContainmentGrammarModel(ExplicitModel):
         ]
 
     @property
-    def failure_conditions(self) -> List[str]:
+    def failure_conditions(self) -> list[str]:
         return [
             "F1: No clear containment hierarchy detectable",
             "F2: Text statistics are independent of container",
@@ -231,7 +222,7 @@ class ContainmentGrammarModel(ExplicitModel):
             "F4: Containment relationships are random",
         ]
 
-    def get_predictions(self) -> List[ModelPrediction]:
+    def get_predictions(self) -> list[ModelPrediction]:
         return [
             ModelPrediction(
                 prediction_id="cont_p1",
@@ -342,7 +333,7 @@ class DiagramAnnotationModel(ExplicitModel):
         )
 
     @property
-    def rules(self) -> List[str]:
+    def rules(self) -> list[str]:
         return [
             "R1: Every text block annotates a specific visual element",
             "R2: Text without diagram context is meaningless",
@@ -352,7 +343,7 @@ class DiagramAnnotationModel(ExplicitModel):
         ]
 
     @property
-    def failure_conditions(self) -> List[str]:
+    def failure_conditions(self) -> list[str]:
         return [
             "F1: Text shows independent linguistic structure",
             "F2: Text can be meaningfully analyzed without diagrams",
@@ -360,7 +351,7 @@ class DiagramAnnotationModel(ExplicitModel):
             "F4: Text statistics match natural language more than label systems",
         ]
 
-    def get_predictions(self) -> List[ModelPrediction]:
+    def get_predictions(self) -> list[ModelPrediction]:
         return [
             ModelPrediction(
                 prediction_id="ann_p1",

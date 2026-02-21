@@ -5,11 +5,10 @@ Detects implicit slot boundaries by analyzing positional constraints
 and transition sharpness.
 """
 
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
-import numpy as np
-import math
 import logging
+import math
+from collections import Counter, defaultdict
+
 logger = logging.getLogger(__name__)
 
 class SlotBoundaryDetector:
@@ -19,7 +18,7 @@ class SlotBoundaryDetector:
     def __init__(self, max_pos: int = 10):
         self.max_pos = max_pos
 
-    def calculate_positional_entropy(self, all_lines: List[List[str]]) -> Dict[int, float]:
+    def calculate_positional_entropy(self, all_lines: list[list[str]]) -> dict[int, float]:
         """
         Calculates entropy of token distributions at each position in the line.
         """
@@ -42,7 +41,7 @@ class SlotBoundaryDetector:
             
         return entropies
 
-    def calculate_successor_sharpness(self, all_lines: List[List[str]]) -> List[float]:
+    def calculate_successor_sharpness(self, all_lines: list[list[str]]) -> list[float]:
         """
         Calculates successor entropy as a function of word position.
         """

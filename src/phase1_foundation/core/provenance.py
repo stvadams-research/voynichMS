@@ -1,10 +1,11 @@
 import json
-from datetime import datetime, timezone
+import logging
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from phase1_foundation.runs.manager import RunManager
-import logging
+
 logger = logging.getLogger(__name__)
 
 class ProvenanceWriter:
@@ -16,11 +17,11 @@ class ProvenanceWriter:
     """
 
     @staticmethod
-    def _get_provenance() -> Dict[str, Any]:
+    def _get_provenance() -> dict[str, Any]:
         """Capture provenance for the active run, if available."""
         try:
             run = RunManager.get_current_run()
-            provenance: Dict[str, Any] = {
+            provenance: dict[str, Any] = {
                 "run_id": str(run.run_id),
                 "git_commit": run.git_commit,
                 "timestamp": run.timestamp_start.isoformat(),
@@ -33,7 +34,7 @@ class ProvenanceWriter:
             # Fallback if no active run
             return {
                 "run_id": "none",
-                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "timestamp": datetime.now(UTC).isoformat(),
             }
 
     @staticmethod
@@ -44,7 +45,7 @@ class ProvenanceWriter:
         return history_dir / f"{output_path.stem}.{snapshot_id}{output_path.suffix}"
 
     @staticmethod
-    def save_results(results: Any, output_path: str | Path, write_latest: bool = True) -> Dict[str, str]:
+    def save_results(results: Any, output_path: str | Path, write_latest: bool = True) -> dict[str, str]:
         """Save results with provenance and immutable run-scoped history."""
         try:
             json.dumps(results)
@@ -62,7 +63,7 @@ class ProvenanceWriter:
 
         snapshot_id = str(provenance.get("run_id", "none"))
         if snapshot_id == "none":
-            snapshot_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+            snapshot_id = datetime.now(UTC).strftime("%Y%m%dT%H%M%S%fZ")
         snapshot_path = ProvenanceWriter._build_snapshot_path(output_path, snapshot_id)
 
         with open(snapshot_path, "w") as f:

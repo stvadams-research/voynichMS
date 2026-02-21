@@ -7,7 +7,6 @@ Tests all 6 modules: formal_system, efficiency, and adversarial
 from __future__ import annotations
 
 import pytest
-import numpy as np
 
 pytestmark = pytest.mark.unit
 

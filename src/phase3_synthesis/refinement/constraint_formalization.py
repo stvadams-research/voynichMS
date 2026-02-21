@@ -5,16 +5,15 @@ For each discriminative feature, determines whether it can be expressed
 as a non-semantic structural constraint.
 """
 
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
 import logging
+from dataclasses import dataclass
+from typing import Any
 
 from phase1_foundation.config import get_analysis_thresholds
 from phase3_synthesis.refinement.interface import (
+    ConstraintStatus,
     DiscriminativeFeature,
     StructuralConstraint,
-    ConstraintStatus,
-    FeatureCategory,
 )
 
 logger = logging.getLogger(__name__)
@@ -25,7 +24,7 @@ class FormalizationAttempt:
     """Record of an attempt to formalize a feature as a constraint."""
     feature_id: str
     success: bool
-    constraint: Optional[StructuralConstraint] = None
+    constraint: StructuralConstraint | None = None
     rejection_reason: str = ""
 
 
@@ -39,11 +38,11 @@ class ConstraintFormalization:
     - Robust under perturbation
     """
 
-    def __init__(self, features: List[DiscriminativeFeature]):
+    def __init__(self, features: list[DiscriminativeFeature]):
         self.features = features
-        self.proposed: List[StructuralConstraint] = []
-        self.validated: List[StructuralConstraint] = []
-        self.rejected: List[StructuralConstraint] = []
+        self.proposed: list[StructuralConstraint] = []
+        self.validated: list[StructuralConstraint] = []
+        self.rejected: list[StructuralConstraint] = []
         thresholds = get_analysis_thresholds().get("constraint_formalization", {})
         self.feature_importance_threshold = float(
             thresholds.get("feature_importance_threshold", 0.2)
@@ -107,7 +106,7 @@ class ConstraintFormalization:
             constraint=constraint
         )
 
-    def _create_constraint(self, feature: DiscriminativeFeature) -> Optional[StructuralConstraint]:
+    def _create_constraint(self, feature: DiscriminativeFeature) -> StructuralConstraint | None:
         """Create a constraint from a feature."""
         # Define constraint based on feature type
         if feature.feature_id == "text_inter_jar_similarity":
@@ -225,7 +224,7 @@ class ConstraintFormalization:
                 constraint_type="probabilistic",
                 measure=feature.description,
                 enforcement="Match target distribution during generation",
-                violation=f"Value outside 2 std of target",
+                violation="Value outside 2 std of target",
                 target_mean=feature.real_mean,
                 target_std=feature.real_std,
             )
@@ -265,7 +264,7 @@ class ConstraintFormalization:
 
         return True, ""
 
-    def formalize_all(self) -> Dict[str, Any]:
+    def formalize_all(self) -> dict[str, Any]:
         """Formalize all formalizable features."""
         attempts = []
 
@@ -296,6 +295,6 @@ class ConstraintFormalization:
             ],
         }
 
-    def get_enforceable_constraints(self) -> List[StructuralConstraint]:
+    def get_enforceable_constraints(self) -> list[StructuralConstraint]:
         """Get all validated, enforceable constraints."""
         return [c for c in self.validated if c.is_enforceable]

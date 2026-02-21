@@ -1,13 +1,15 @@
-from typing import Dict, Any
-from phase1_foundation.storage.metadata import MetadataStore, AnchorRecord, AnchorMetricRecord
 import logging
+from typing import Any
+
+from phase1_foundation.storage.metadata import AnchorRecord, MetadataStore
+
 logger = logging.getLogger(__name__)
 
 class AnchorStabilityAnalyzer:
     def __init__(self, store: MetadataStore):
         self.store = store
 
-    def compare_anchor_counts(self, real_dataset_id: str, control_dataset_id: str, run_id: str) -> Dict[str, Any]:
+    def compare_anchor_counts(self, real_dataset_id: str, control_dataset_id: str, run_id: str) -> dict[str, Any]:
         """
         Compare anchor counts between real and control datasets.
         """

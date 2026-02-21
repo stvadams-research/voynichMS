@@ -3,17 +3,17 @@
 Generates geometric regions for the entire voynich_real dataset.
 """
 
+import argparse
 import sys
 from pathlib import Path
-import argparse
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
+from phase1_foundation.regions.dummy import GridProposer
 from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import MetadataStore, PageRecord
-from phase1_foundation.regions.dummy import GridProposer
 
 DB_PATH = "sqlite:///data/voynich.db"
 

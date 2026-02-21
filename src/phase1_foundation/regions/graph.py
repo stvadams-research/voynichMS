@@ -1,7 +1,8 @@
-from typing import List
-from phase1_foundation.storage.metadata import MetadataStore, RegionRecord, RegionEdgeRecord
-from phase1_foundation.core.geometry import Box
 import logging
+
+from phase1_foundation.core.geometry import Box
+from phase1_foundation.storage.metadata import MetadataStore, RegionRecord
+
 logger = logging.getLogger(__name__)
 
 class GraphBuilder:

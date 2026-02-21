@@ -1,9 +1,9 @@
 import logging
-import sys
-from typing import Optional
+
 from rich.logging import RichHandler
 
-def setup_logging(level: str = "INFO", log_file: Optional[str] = None) -> None:
+
+def setup_logging(level: str = "INFO", log_file: str | None = None) -> None:
     """
     Configure logging for the Voynich Foundation project.
     

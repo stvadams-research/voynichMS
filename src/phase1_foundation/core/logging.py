@@ -1,11 +1,11 @@
-import logging
-import os
-import sys
 import json
-import time
+import logging
+import sys
 from pathlib import Path
-from typing import Optional, Any, Dict
+from typing import Any
+
 from phase1_foundation.runs.manager import RunManager
+
 
 class JsonFormatter(logging.Formatter):
     """
@@ -13,7 +13,7 @@ class JsonFormatter(logging.Formatter):
     Includes contextual metadata like run_id.
     """
     def format(self, record: logging.LogRecord) -> str:
-        log_record: Dict[str, Any] = {
+        log_record: dict[str, Any] = {
             "timestamp": self.formatTime(record, self.datefmt),
             "level": record.levelname,
             "logger": record.name,
@@ -40,7 +40,7 @@ class JsonFormatter(logging.Formatter):
             
         return json.dumps(log_record)
 
-def setup_logging(level: int = logging.INFO, log_file: Optional[str | Path] = None, json_format: bool = False):
+def setup_logging(level: int = logging.INFO, log_file: str | Path | None = None, json_format: bool = False):
     """
     Standardized logging configuration for the Voynich MS project.
     

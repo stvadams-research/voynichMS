@@ -1,5 +1,6 @@
-from enum import Enum, auto
 import logging
+from enum import Enum
+
 logger = logging.getLogger(__name__)
 
 class Scale(str, Enum):

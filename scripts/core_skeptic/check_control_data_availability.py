@@ -8,9 +8,10 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import datetime, timezone
+from collections.abc import Mapping, Sequence
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Mapping, Sequence
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs/core_skeptic/sk_h3_data_availability_policy.json"
@@ -20,13 +21,13 @@ COMPARABILITY_ARTIFACT = "core_status/phase3_synthesis/CONTROL_COMPARABILITY_STA
 DATA_AVAILABILITY_ARTIFACT = "core_status/phase3_synthesis/CONTROL_COMPARABILITY_DATA_AVAILABILITY.json"
 
 
-def _read_policy(path: Path) -> Dict[str, Any]:
+def _read_policy(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"Policy file not found: {path}")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _as_list(value: Any) -> List[str]:
+def _as_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [str(v) for v in value]
     return []
@@ -39,7 +40,7 @@ def _to_int(value: Any, default: int = 0) -> int:
         return default
 
 
-def _as_dict(value: Any) -> Dict[str, Any]:
+def _as_dict(value: Any) -> dict[str, Any]:
     if isinstance(value, dict):
         return dict(value)
     return {}
@@ -56,11 +57,11 @@ def _parse_iso_timestamp(value: Any) -> datetime | None:
     except ValueError:
         return None
     if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+        dt = dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 
-def _load_artifact_bundle(path: Path) -> Dict[str, Any]:
+def _load_artifact_bundle(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     provenance = {}
     if isinstance(payload, dict):
@@ -74,15 +75,15 @@ def _load_artifact_bundle(path: Path) -> Dict[str, Any]:
     return {"results": _as_dict(results), "provenance": provenance}
 
 
-def _is_allowlisted(allowlist: Sequence[Dict[str, Any]], marker_id: str, scope: str) -> bool:
+def _is_allowlisted(allowlist: Sequence[dict[str, Any]], marker_id: str, scope: str) -> bool:
     for entry in allowlist:
         if entry.get("marker_id") == marker_id and entry.get("scope") == scope:
             return True
     return False
 
 
-def _check_doc_markers(policy: Dict[str, Any], *, root: Path) -> List[str]:
-    errors: List[str] = []
+def _check_doc_markers(policy: dict[str, Any], *, root: Path) -> list[str]:
+    errors: list[str] = []
     allowlist = list(policy.get("allowlist", []))
 
     for req in list(policy.get("required_doc_markers", [])):
@@ -107,9 +108,9 @@ def _check_doc_markers(policy: Dict[str, Any], *, root: Path) -> List[str]:
     return errors
 
 
-def _parse_artifacts(policy: Dict[str, Any], *, root: Path, mode: str) -> tuple[List[str], Dict[str, Dict[str, Any]]]:
-    errors: List[str] = []
-    parsed: Dict[str, Dict[str, Any]] = {}
+def _parse_artifacts(policy: dict[str, Any], *, root: Path, mode: str) -> tuple[list[str], dict[str, dict[str, Any]]]:
+    errors: list[str] = []
+    parsed: dict[str, dict[str, Any]] = {}
 
     artifact_policy = dict(policy.get("artifact_policy", {}))
     specs = list(artifact_policy.get("tracked_artifacts", []))
@@ -163,11 +164,11 @@ def _parse_artifacts(policy: Dict[str, Any], *, root: Path, mode: str) -> tuple[
 
 def _cross_validate(
     *,
-    policy: Dict[str, Any],
+    policy: dict[str, Any],
     mode: str,
-    parsed: Mapping[str, Dict[str, Any]],
-) -> List[str]:
-    errors: List[str] = []
+    parsed: Mapping[str, dict[str, Any]],
+) -> list[str]:
+    errors: list[str] = []
 
     status_policy = dict(policy.get("status_policy", {}))
     feasibility_policy = _as_dict(policy.get("feasibility_policy"))
@@ -704,7 +705,7 @@ def _cross_validate(
     return errors
 
 
-def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
+def run_checks(policy: dict[str, Any], *, root: Path, mode: str) -> list[str]:
     errors = _check_doc_markers(policy, root=root)
     artifact_errors, parsed = _parse_artifacts(policy, root=root, mode=mode)
     errors.extend(artifact_errors)

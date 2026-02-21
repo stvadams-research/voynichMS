@@ -5,7 +5,6 @@ Sweeps the state-space complexity (number of windows) to identify the
 mathematical 'knee' where fit vs parsimony is optimized.
 """
 
-import json
 import math
 import sys
 from pathlib import Path
@@ -16,23 +15,24 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.data_loading import load_canonical_lines
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.storage.metadata import MetadataStore
-from phase14_machine.evaluation_engine import EvaluationEngine
-from phase14_machine.palette_solver import GlobalPaletteSolver
+from phase1_foundation.core.data_loading import load_canonical_lines  # noqa: E402
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+from phase14_machine.evaluation_engine import EvaluationEngine  # noqa: E402
+from phase14_machine.palette_solver import GlobalPaletteSolver  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 OUTPUT_PATH = project_root / "results/data/phase14_machine/minimality_sweep.json"
 console = Console()
 
 def main():
-    console.print("[bold cyan]Phase 14R: Minimality Sweep (Complexity vs. Admissibility)[/bold cyan]")
+    msg = "[bold cyan]Phase 14R: Minimality Sweep (Complexity vs. Admissibility)[/bold cyan]"
+    console.print(msg)
     
     # 1. Load Data
     store = MetadataStore(DB_PATH)
     real_lines = load_canonical_lines(store)
-    all_tokens = [t for l in real_lines for t in l]
+    # real_tokens = [t for line in real_lines for t in line]
     
     # 2. Solve Grid (Once, for 2000 tokens for speed)
     solver = GlobalPaletteSolver()
@@ -70,7 +70,7 @@ def main():
         })
         
     # 4. Save and Report
-    saved = ProvenanceWriter.save_results({"sweep": results}, OUTPUT_PATH)
+    ProvenanceWriter.save_results({"sweep": results}, OUTPUT_PATH)
     
     table = Table(title="Complexity Sweep Results")
     table.add_column("Windows (K)", justify="right")
@@ -87,7 +87,9 @@ def main():
     
     # Identify the "Knee" (Point where MDL starts increasing or admissibility plateaus)
     best_mdl = min(results, key=lambda x: x['l_total_bits'])
-    console.print(f"\n[bold green]Minimality Proven at K={best_mdl['num_windows']}[/bold green] (Optimal MDL)")
+    best_k = best_mdl['num_windows']
+    msg_fin = f"\n[bold green]Minimality Proven at K={best_k}[/bold green] (Optimal MDL)"
+    console.print(msg_fin)
 
 if __name__ == "__main__":
     main()

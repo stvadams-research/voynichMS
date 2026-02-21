@@ -4,10 +4,11 @@ Phase 2.4 Interface and Data Structures
 Defines the core structures for anomaly characterization and constraint closure.
 """
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Set, Tuple
-from enum import Enum
 import logging
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 
@@ -41,7 +42,7 @@ class AnomalyDefinition:
     The SemanticNecessityResult tracks this outcome.
     """
     information_density_z: float = 4.0
-    locality_radius: Tuple[int, int] = (2, 4)
+    locality_radius: tuple[int, int] = (2, 4)
     robustness_under_perturbation: bool = True
 
     description: str = (
@@ -49,7 +50,7 @@ class AnomalyDefinition:
         "(2-4 units) and robustness under perturbation."
     )
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> dict[str, Any]:
         return {
             "information_density_z": self.information_density_z,
             "locality_radius": self.locality_radius,
@@ -67,11 +68,11 @@ class ConstraintRecord:
     description: str
 
     # Which models this constraint excludes
-    excludes_models: List[str] = field(default_factory=list)
+    excludes_models: list[str] = field(default_factory=list)
 
     # Quantitative measure if available
-    threshold: Optional[float] = None
-    observed_value: Optional[float] = None
+    threshold: float | None = None
+    observed_value: float | None = None
 
     # Whether this constraint is active
     active: bool = True
@@ -90,8 +91,8 @@ class ConstraintIntersection:
 
     Used in Track D1 to find minimal impossibility sets.
     """
-    constraints: List[str]  # constraint IDs
-    excluded_models: Set[str]
+    constraints: list[str]  # constraint IDs
+    excluded_models: set[str]
     is_minimal: bool = False  # True if no subset has same exclusion power
 
     # Metrics
@@ -113,7 +114,7 @@ class StabilityEnvelope:
     baseline_value: float
 
     # Values under different representations
-    values_by_representation: Dict[str, float] = field(default_factory=dict)
+    values_by_representation: dict[str, float] = field(default_factory=dict)
 
     # Stability measures
     mean_value: float = 0.0
@@ -170,11 +171,11 @@ class CapacityBound:
     bound_value: float
 
     # Derivation
-    derived_from: List[str] = field(default_factory=list)
+    derived_from: list[str] = field(default_factory=list)
     derivation_method: str = ""
 
     # Comparison to known systems
-    comparable_systems: Dict[str, float] = field(default_factory=dict)
+    comparable_systems: dict[str, float] = field(default_factory=dict)
 
     # Assessment
     is_feasible: bool = True
@@ -188,13 +189,13 @@ class StructuralFeasibilityRegion:
 
     Combines all capacity bounds from Track D3.
     """
-    bounds: List[CapacityBound] = field(default_factory=list)
+    bounds: list[CapacityBound] = field(default_factory=list)
 
     # Excluded system classes
-    excluded_classes: List[str] = field(default_factory=list)
+    excluded_classes: list[str] = field(default_factory=list)
 
     # Required properties (non-semantic)
-    required_properties: List[str] = field(default_factory=list)
+    required_properties: list[str] = field(default_factory=list)
 
     # Feasibility assessment
     is_feasible: bool = True
@@ -238,13 +239,13 @@ class SemanticNecessityResult:
     assessment: SemanticNecessity
 
     # Non-semantic systems tested
-    systems_tested: List[str] = field(default_factory=list)
-    systems_failed: List[str] = field(default_factory=list)
-    systems_passed: List[str] = field(default_factory=list)
+    systems_tested: list[str] = field(default_factory=list)
+    systems_failed: list[str] = field(default_factory=list)
+    systems_passed: list[str] = field(default_factory=list)
 
     # Evidence
-    evidence_for_semantics: List[str] = field(default_factory=list)
-    evidence_against_semantics: List[str] = field(default_factory=list)
+    evidence_for_semantics: list[str] = field(default_factory=list)
+    evidence_against_semantics: list[str] = field(default_factory=list)
 
     # Confidence
     confidence: float = 0.0
@@ -254,7 +255,7 @@ class SemanticNecessityResult:
     justification: str = ""
 
     # Conditions under which semantics might be required
-    semantic_conditions: List[str] = field(default_factory=list)
+    semantic_conditions: list[str] = field(default_factory=list)
 
     def generate_decision(self):
         """Generate Phase 3 decision based on assessment."""
@@ -293,12 +294,12 @@ class Phase24Findings:
     anomaly: AnomalyDefinition = field(default_factory=AnomalyDefinition)
 
     # Track D1: Constraint intersection
-    constraints: List[ConstraintRecord] = field(default_factory=list)
-    intersections: List[ConstraintIntersection] = field(default_factory=list)
-    minimal_impossibility_sets: List[ConstraintIntersection] = field(default_factory=list)
+    constraints: list[ConstraintRecord] = field(default_factory=list)
+    intersections: list[ConstraintIntersection] = field(default_factory=list)
+    minimal_impossibility_sets: list[ConstraintIntersection] = field(default_factory=list)
 
     # Track D2: Stability phase2_analysis
-    stability_envelopes: List[StabilityEnvelope] = field(default_factory=list)
+    stability_envelopes: list[StabilityEnvelope] = field(default_factory=list)
     anomaly_confirmed: bool = False
 
     # Track D3: Structural capacity
@@ -317,7 +318,7 @@ class Phase24Findings:
     phase_3_decision: bool = False
     termination_reason: str = ""
 
-    def generate_summary(self) -> Dict[str, Any]:
+    def generate_summary(self) -> dict[str, Any]:
         """Generate a summary of all findings."""
         return {
             "anomaly": self.anomaly.as_dict(),

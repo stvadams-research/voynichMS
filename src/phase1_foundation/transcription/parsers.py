@@ -1,9 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Generator
-from pathlib import Path
-from pydantic import BaseModel
-import re
 import logging
+import re
+from abc import ABC, abstractmethod
+from collections.abc import Generator
+from pathlib import Path
+
+from pydantic import BaseModel
+
 logger = logging.getLogger(__name__)
 
 class ParsedToken(BaseModel):
@@ -14,7 +16,7 @@ class ParsedLine(BaseModel):
     folio: str
     line_index: int
     content: str
-    tokens: List[ParsedToken]
+    tokens: list[ParsedToken]
 
 class TranscriptionParser(ABC):
     @abstractmethod
@@ -34,7 +36,7 @@ class EVAParser(TranscriptionParser):
     _line_pattern = re.compile(r"^<([a-z0-9]+)\.([^>]+)>\s*(.+)$")
 
     def parse(self, path: Path) -> Generator[ParsedLine, None, None]:
-        with open(path, 'r') as f:
+        with open(path) as f:
             for i, line in enumerate(f):
                 line = line.strip()
                 if not line or line.startswith('#'):

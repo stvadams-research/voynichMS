@@ -4,15 +4,17 @@ Jigsaw Solver Tools
 Reconstructs physical tool geometry from mechanical slips.
 """
 
-from typing import List, Dict, Any, Tuple
 from collections import Counter, defaultdict
+from typing import Any
+
 import networkx as nx
+
 
 class JigsawAdjacencyMapper:
     """
     Builds a physical adjacency graph from mechanical slips.
     """
-    def build_adjacency_graph(self, slips: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def build_adjacency_graph(self, slips: list[dict[str, Any]]) -> dict[str, Any]:
         # Edge: (Word_Actual, Word_Slip)
         edges = Counter()
         
@@ -38,7 +40,7 @@ class ColumnarReconstructor:
     """
     Reconstructs the vertical stacks of words for each horizontal position (column).
     """
-    def reconstruct_columns(self, slips: List[Dict[str, Any]]) -> Dict[int, List[Tuple[str, int]]]:
+    def reconstruct_columns(self, slips: list[dict[str, Any]]) -> dict[int, list[tuple[str, int]]]:
         # Position -> Word Counter
         columns = defaultdict(Counter)
         
@@ -57,7 +59,7 @@ class BlueprintSynthesizer:
     """
     Synthesizes columnar data into a 2D blueprint of the physical tool.
     """
-    def synthesize_blueprint(self, columns: Dict[int, List[Tuple[str, int]]], max_rows: int = 10) -> List[List[str]]:
+    def synthesize_blueprint(self, columns: dict[int, list[tuple[str, int]]], max_rows: int = 10) -> list[list[str]]:
         max_pos = max(columns.keys()) if columns else 0
         blueprint = []
         

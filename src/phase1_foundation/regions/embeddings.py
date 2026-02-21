@@ -1,7 +1,8 @@
-from abc import ABC, abstractmethod
-import numpy as np
-from typing import List, Optional
 import logging
+from abc import ABC, abstractmethod
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class RegionEncoder(ABC):
@@ -13,7 +14,7 @@ class DummyEncoder(RegionEncoder):
     """
     Returns a random vector as a dummy embedding.
     """
-    def __init__(self, dim: int = 128, seed: Optional[int] = 42):
+    def __init__(self, dim: int = 128, seed: int | None = 42):
         self.dim = dim
         self.seed = seed
 

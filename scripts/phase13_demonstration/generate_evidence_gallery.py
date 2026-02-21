@@ -6,7 +6,6 @@ Identifies the most 'undeniable' mechanical slips (e.g. part of sustained
 misalignment events) and produces a markdown gallery.
 """
 
-import sys
 import json
 from pathlib import Path
 
@@ -19,7 +18,7 @@ def main():
         print(f"Error: {INPUT_PATH} not found.")
         return
 
-    with open(INPUT_PATH, "r") as f:
+    with open(INPUT_PATH) as f:
         data = json.load(f)
     slips = data.get("slips", [])
     

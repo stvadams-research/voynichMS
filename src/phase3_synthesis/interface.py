@@ -4,12 +4,13 @@ Phase 3 Interface and Data Structures
 Defines core structures for pharmaceutical section continuation phase3_synthesis.
 """
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple
-from enum import Enum
 import hashlib
-from datetime import datetime
 import logging
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 
@@ -30,7 +31,7 @@ class GeneratorType(Enum):
 class JarProfile:
     """Structural profile of a single jar on a page."""
     jar_id: str
-    bounding_box: Tuple[float, float, float, float]  # x, y, width, height
+    bounding_box: tuple[float, float, float, float]  # x, y, width, height
     text_block_count: int
     line_count: int
     word_count: int
@@ -46,7 +47,7 @@ class PageProfile:
     """Structural profile of a single pharmaceutical page."""
     page_id: str
     jar_count: int
-    jars: List[JarProfile] = field(default_factory=list)
+    jars: list[JarProfile] = field(default_factory=list)
 
     # Layout metrics
     total_text_blocks: int = 0
@@ -71,28 +72,28 @@ class SectionProfile:
     Defines hard constraints for phase3_synthesis.
     """
     section_id: str = "pharmaceutical"
-    page_range: Tuple[str, str] = ("f88r", "f96v")
+    page_range: tuple[str, str] = ("f88r", "f96v")
 
     # Page profiles
-    pages: List[PageProfile] = field(default_factory=list)
+    pages: list[PageProfile] = field(default_factory=list)
 
     # Aggregated statistics (envelopes)
-    jar_count_range: Tuple[int, int] = (0, 0)
-    text_blocks_per_jar_range: Tuple[int, int] = (0, 0)
-    lines_per_block_range: Tuple[int, int] = (0, 0)
-    words_per_line_range: Tuple[int, int] = (0, 0)
+    jar_count_range: tuple[int, int] = (0, 0)
+    text_blocks_per_jar_range: tuple[int, int] = (0, 0)
+    lines_per_block_range: tuple[int, int] = (0, 0)
+    words_per_line_range: tuple[int, int] = (0, 0)
 
     # Jar geometry envelopes
-    jar_width_range: Tuple[float, float] = (0.0, 0.0)
-    jar_height_range: Tuple[float, float] = (0.0, 0.0)
-    jar_spacing_range: Tuple[float, float] = (0.0, 0.0)
+    jar_width_range: tuple[float, float] = (0.0, 0.0)
+    jar_height_range: tuple[float, float] = (0.0, 0.0)
+    jar_spacing_range: tuple[float, float] = (0.0, 0.0)
 
     # Text metrics envelopes
-    word_length_range: Tuple[float, float] = (0.0, 0.0)
-    repetition_rate_range: Tuple[float, float] = (0.0, 0.0)
-    entropy_range: Tuple[float, float] = (0.0, 0.0)
-    locality_range: Tuple[float, float] = (0.0, 0.0)
-    info_density_range: Tuple[float, float] = (0.0, 0.0)
+    word_length_range: tuple[float, float] = (0.0, 0.0)
+    repetition_rate_range: tuple[float, float] = (0.0, 0.0)
+    entropy_range: tuple[float, float] = (0.0, 0.0)
+    locality_range: tuple[float, float] = (0.0, 0.0)
+    info_density_range: tuple[float, float] = (0.0, 0.0)
 
     def compute_envelopes(self):
         """Compute statistical envelopes from page profiles."""
@@ -131,14 +132,14 @@ class GapDefinition:
     following_page: str  # e.g., "f89r"
 
     # Evidence
-    evidence: List[str] = field(default_factory=list)
+    evidence: list[str] = field(default_factory=list)
 
     # Estimated loss
-    likely_pages_lost: Tuple[int, int] = (2, 4)  # range
+    likely_pages_lost: tuple[int, int] = (2, 4)  # range
 
     # Seam constraints (derived from adjacent pages)
-    left_seam_tokens: List[str] = field(default_factory=list)
-    right_seam_tokens: List[str] = field(default_factory=list)
+    left_seam_tokens: list[str] = field(default_factory=list)
+    right_seam_tokens: list[str] = field(default_factory=list)
     layout_density_left: float = 0.0
     layout_density_right: float = 0.0
 
@@ -154,10 +155,10 @@ class ContinuationConstraints:
     section_profile: SectionProfile = field(default_factory=SectionProfile)
 
     # Gap-specific constraints
-    gap: Optional[GapDefinition] = None
+    gap: GapDefinition | None = None
 
     # Text constraints (from Phase 2)
-    locality_window: Tuple[int, int] = (2, 4)
+    locality_window: tuple[int, int] = (2, 4)
     information_density_tolerance: float = 0.5  # ± from observed
     positional_entropy_tolerance: float = 0.2
     repetition_rate_tolerance: float = 0.05
@@ -168,7 +169,7 @@ class ContinuationConstraints:
     # Structural constraints
     max_novel_tokens: float = 0.10  # max 10% novel tokens
 
-    def check_text(self, text_metrics: Dict[str, float]) -> Tuple[bool, List[str]]:
+    def check_text(self, text_metrics: dict[str, float]) -> tuple[bool, list[str]]:
         """Check if generated text satisfies constraints."""
         violations = []
 
@@ -205,19 +206,19 @@ class SyntheticPage:
 
     # Provenance
     generator_type: GeneratorType = GeneratorType.WORD_LEVEL
-    generator_params: Dict[str, Any] = field(default_factory=dict)
+    generator_params: dict[str, Any] = field(default_factory=dict)
     random_seed: int = 0
 
     # Content (SYNTHETIC)
     jar_count: int = 0
-    text_blocks: List[List[str]] = field(default_factory=list)  # per-jar word lists
+    text_blocks: list[list[str]] = field(default_factory=list)  # per-jar word lists
 
     # Metrics
-    metrics: Dict[str, float] = field(default_factory=dict)
+    metrics: dict[str, float] = field(default_factory=dict)
 
     # Constraint satisfaction
     constraints_satisfied: bool = False
-    constraint_violations: List[str] = field(default_factory=list)
+    constraint_violations: list[str] = field(default_factory=list)
 
     # Hash for uniqueness verification
     content_hash: str = ""
@@ -240,16 +241,16 @@ class ContinuationResult:
     gap_id: str
 
     # Generated pages
-    pages: List[SyntheticPage] = field(default_factory=list)
+    pages: list[SyntheticPage] = field(default_factory=list)
 
     # Uniqueness verification
     unique_pages: int = 0
-    duplicate_hashes: List[str] = field(default_factory=list)
+    duplicate_hashes: list[str] = field(default_factory=list)
 
     # Constraint satisfaction
     pages_satisfying_constraints: int = 0
     pages_rejected: int = 0
-    rejection_reasons: Dict[str, int] = field(default_factory=dict)
+    rejection_reasons: dict[str, int] = field(default_factory=dict)
 
     # Non-uniqueness demonstration
     demonstrates_non_uniqueness: bool = False
@@ -289,7 +290,7 @@ class IndistinguishabilityResult:
     separation_failure_threshold: float = 0.3
 
     # Detailed metrics
-    metric_comparisons: Dict[str, Dict[str, float]] = field(default_factory=dict)
+    metric_comparisons: dict[str, dict[str, float]] = field(default_factory=dict)
 
     def evaluate_success(self):
         """Evaluate success criteria."""
@@ -314,13 +315,13 @@ class Phase3Findings:
     section_profile: SectionProfile = field(default_factory=SectionProfile)
 
     # Gap definitions
-    gaps: List[GapDefinition] = field(default_factory=list)
+    gaps: list[GapDefinition] = field(default_factory=list)
 
     # Continuation results
-    continuation_results: Dict[str, ContinuationResult] = field(default_factory=dict)
+    continuation_results: dict[str, ContinuationResult] = field(default_factory=dict)
 
     # Indistinguishability results
-    indistinguishability_results: Dict[str, IndistinguishabilityResult] = field(default_factory=dict)
+    indistinguishability_results: dict[str, IndistinguishabilityResult] = field(default_factory=dict)
 
     # Success criteria
     at_least_one_gap_filled: bool = False
@@ -352,7 +353,7 @@ class Phase3Findings:
             self.no_semantics_required
         )
 
-    def generate_summary(self) -> Dict[str, Any]:
+    def generate_summary(self) -> dict[str, Any]:
         """Generate summary of findings."""
         return {
             "section": self.section_profile.section_id,

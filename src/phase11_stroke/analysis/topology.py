@@ -5,10 +5,12 @@ Adapts Phase 5 mechanism discrimination (Lattice vs DAG) to the sub-glyph scale.
 Tests whether word-level production rules are recursively present at the character level.
 """
 
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
-import numpy as np
 import logging
+from collections import Counter, defaultdict
+from typing import Any
+
+import numpy as np
+
 from phase11_stroke.schema import StrokeSchema
 
 logger = logging.getLogger(__name__)
@@ -27,11 +29,11 @@ class StrokeTopologyAnalyzer:
         _, inverse = np.unique(feature_matrix, axis=0, return_inverse=True)
         self.char_to_class = {char: int(idx) for char, idx in zip(self.schema.char_inventory(), inverse)}
 
-    def _to_classes(self, word: str) -> List[int]:
+    def _to_classes(self, word: str) -> list[int]:
         """Converts a word to a sequence of stroke feature class IDs."""
         return [self.char_to_class[c] for c in word if c in self.char_to_class]
 
-    def analyze_overlap(self, words: List[str]) -> Dict[str, Any]:
+    def analyze_overlap(self, words: list[str]) -> dict[str, Any]:
         """Calculates prefix collision rates at the word-start level."""
         class_words = [self._to_classes(w) for w in words]
         prefixes = [tuple(w[:self.prefix_len]) for w in class_words if len(w) >= self.prefix_len]
@@ -48,7 +50,7 @@ class StrokeTopologyAnalyzer:
             "max_collision_depth": int(counts.most_common(1)[0][1]) if counts else 0
         }
 
-    def analyze_coverage(self, words: List[str]) -> Dict[str, Any]:
+    def analyze_coverage(self, words: list[str]) -> dict[str, Any]:
         """Measures uniformity of stroke-class visitation (Gini coefficient)."""
         all_classes = []
         for w in words:
@@ -71,7 +73,7 @@ class StrokeTopologyAnalyzer:
             "mean_visitation": float(np.mean(freqs)) if freqs else 0.0
         }
 
-    def analyze_convergence(self, words: List[str]) -> Dict[str, Any]:
+    def analyze_convergence(self, words: list[str]) -> dict[str, Any]:
         """Measures convergence of stroke transitions within words."""
         context_successors = defaultdict(Counter)
         for w in words:
@@ -89,7 +91,7 @@ class StrokeTopologyAnalyzer:
             "max_successor_fanout": int(max(out_degrees)) if out_degrees else 0
         }
 
-    def run_fractal_lattice_test(self, words: List[str]) -> Dict[str, Any]:
+    def run_fractal_lattice_test(self, words: list[str]) -> dict[str, Any]:
         """Performs the full suite of fractal lattice tests."""
         overlap = self.analyze_overlap(words)
         coverage = self.analyze_coverage(words)

@@ -16,9 +16,9 @@ from rich.table import Table
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.data_loading import load_canonical_lines
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.core.data_loading import load_canonical_lines  # noqa: E402
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
+from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
@@ -26,13 +26,14 @@ OUTPUT_PATH = project_root / "results/data/phase14_machine/residual_analysis.jso
 console = Console()
 
 def main():
-    console.print("[bold yellow]Phase 14Q: Residual Analysis (Spatial Mapping of Error)[/bold yellow]")
+    msg_title = "[bold yellow]Phase 14Q: Residual Analysis (Spatial Mapping of Error)[/bold yellow]"
+    console.print(msg_title)
     
     if not PALETTE_PATH.exists():
         return
 
     # 1. Load Model
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         data = json.load(f)["results"]
     lattice_map = data["lattice_map"]
     window_contents = {int(k): v for k, v in data["window_contents"].items()}
@@ -49,7 +50,8 @@ def main():
     
     for line in real_lines:
         for word in line:
-            if word not in lattice_map: continue
+            if word not in lattice_map:
+                continue
             total_clamped += 1
             
             # Distance search
@@ -61,7 +63,8 @@ def main():
                     if word in window_contents.get(check_win, []):
                         found_dist = dist
                         break
-                if found_dist is not None: break
+                if found_dist is not None:
+                    break
             
             if found_dist is None:
                 categories["Extreme Jump (>10)"] += 1
@@ -77,13 +80,15 @@ def main():
                 current_window = lattice_map.get(word, (current_window + 1) % num_wins)
 
     # 4. Save and Report
+    ext_rate = categories["Admissible (Dist 0-1)"] + categories["Extended Drift (Dist 2-3)"]
+    ext_admissibility = ext_rate / total_clamped
     results = {
         "total_clamped": total_clamped,
         "categories": dict(categories),
-        "extended_admissibility_rate": (categories["Admissible (Dist 0-1)"] + categories["Extended Drift (Dist 2-3)"]) / total_clamped
+        "extended_admissibility_rate": ext_admissibility
     }
     
-    saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
+    ProvenanceWriter.save_results(results, OUTPUT_PATH)
     
     table = Table(title="Transition Category Distribution")
     table.add_column("Category", style="cyan")
@@ -94,7 +99,11 @@ def main():
         table.add_row(cat, str(count), f"{(count/total_clamped)*100:.2f}%")
     console.print(table)
     
-    console.print(f"\n[bold green]Extended Admissibility (Drift <= 3):[/bold green] {results['extended_admissibility_rate']*100:.2f}%")
+    msg_out = (
+        f"\n[bold green]Extended Admissibility (Drift <= 3):[/bold green] "
+        f"{ext_admissibility*100:.2f}%"
+    )
+    console.print(msg_out)
 
 if __name__ == "__main__":
     main()

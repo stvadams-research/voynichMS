@@ -6,7 +6,7 @@ Purpose: Automates vertical slip detection and physical columnar grid inference.
 
 import subprocess
 import sys
-from pathlib import Path
+
 
 def run_command(cmd):
     print(f"\n>> Executing: {cmd}")

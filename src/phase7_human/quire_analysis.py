@@ -5,10 +5,12 @@ Tests whether text properties shift across quire boundaries.
 Phase 7B implementation.
 """
 
-import numpy as np
-from collections import defaultdict
-from typing import List, Dict, Any, Tuple
 import logging
+from collections import defaultdict
+from typing import Any
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class QuireAnalyzer:
@@ -38,7 +40,7 @@ class QuireAnalyzer:
             logger.warning("Failed to parse quire from folio_id=%r", folio_id, exc_info=True)
             return 0
 
-    def analyze_continuity(self, pages: Dict[str, List[List[str]]]) -> Dict[str, Any]:
+    def analyze_continuity(self, pages: dict[str, list[list[str]]]) -> dict[str, Any]:
         """
         6.2 Quire Boundary Discontinuity Test
         """

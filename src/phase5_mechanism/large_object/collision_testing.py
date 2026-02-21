@@ -4,9 +4,10 @@ Path Collision and Successor Consistency Testing
 Detects if identical local contexts force identical successors across different lines.
 """
 
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
 import logging
+from collections import Counter, defaultdict
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 class PathCollisionTester:
@@ -16,7 +17,7 @@ class PathCollisionTester:
     def __init__(self, context_len: int = 2):
         self.context_len = context_len
 
-    def calculate_successor_consistency(self, all_lines: List[List[str]]) -> Dict[str, Any]:
+    def calculate_successor_consistency(self, all_lines: list[list[str]]) -> dict[str, Any]:
         """
         How often does context X lead to the same successor Y?
         """

@@ -4,10 +4,9 @@ Formal System Simulators
 Implements simulators for Phase 6A evaluation.
 """
 
-import random
-from typing import List, Dict, Any, Tuple
-from pathlib import Path
 import logging
+import random
+
 logger = logging.getLogger(__name__)
 
 class LatticeTraversalSimulator:
@@ -24,7 +23,7 @@ class LatticeTraversalSimulator:
         self.rules = {}
         self.random = random.Random(seed)
 
-    def _get_nexts(self, prev: str, curr: str, pos: int) -> List[str]:
+    def _get_nexts(self, prev: str, curr: str, pos: int) -> list[str]:
         state = (prev, curr, pos)
         if state not in self.rules:
             # Generate a mostly deterministic rule (1-2 choices)
@@ -32,7 +31,7 @@ class LatticeTraversalSimulator:
             self.rules[state] = self.random.sample(self.vocab, num_choices)
         return self.rules[state]
 
-    def generate_line(self, line_len: int = 8) -> List[str]:
+    def generate_line(self, line_len: int = 8) -> list[str]:
         line = []
         prev = "<START>"
         # Start word chosen from a large pool
@@ -47,7 +46,7 @@ class LatticeTraversalSimulator:
             line.append(curr)
         return line
 
-    def generate_corpus(self, num_lines: int, line_len: int = 8) -> List[List[str]]:
+    def generate_corpus(self, num_lines: int, line_len: int = 8) -> list[list[str]]:
         return [self.generate_line(line_len) for _ in range(num_lines)]
 
 class ExhaustiveFormalSimulator(LatticeTraversalSimulator):

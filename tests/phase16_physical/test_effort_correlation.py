@@ -4,7 +4,6 @@ Validates that effort is correlated with selection FREQUENCY
 (not arbitrary list index), and that the metrics are computed correctly.
 """
 
-import pytest
 from collections import Counter, defaultdict
 
 

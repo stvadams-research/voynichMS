@@ -1,5 +1,6 @@
+import logging
 import random
-from typing import Any, Dict, List
+from typing import Any
 
 from phase1_foundation.controls.interface import ControlGenerator
 from phase1_foundation.core.id_factory import DeterministicIDFactory
@@ -8,7 +9,6 @@ from phase1_foundation.storage.metadata import (
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
 )
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ class SyntheticNullGenerator(ControlGenerator):
         source_dataset_id: str,
         control_id: str,
         seed: int = 42,
-        params: Dict[str, Any] = None,
+        params: dict[str, Any] = None,
     ) -> str:
         rng = random.Random(seed)
         params = params or {}
@@ -99,7 +99,7 @@ class SyntheticNullGenerator(ControlGenerator):
 
         return control_id
 
-    def _load_source_vocabulary(self, source_dataset_id: str) -> List[str]:
+    def _load_source_vocabulary(self, source_dataset_id: str) -> list[str]:
         """Load unique token vocabulary from the source dataset."""
         session = self.store.Session()
         try:
@@ -117,7 +117,7 @@ class SyntheticNullGenerator(ControlGenerator):
         finally:
             session.close()
 
-    def _fallback_vocabulary(self, rng: random.Random, size: int = 500) -> List[str]:
+    def _fallback_vocabulary(self, rng: random.Random, size: int = 500) -> list[str]:
         """Build deterministic pseudo-vocabulary when source tokens are unavailable."""
         alphabet = "abcdefghijklmnopqrstuvwxyz"
         vocab = set()

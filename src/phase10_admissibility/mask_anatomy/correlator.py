@@ -5,21 +5,23 @@ Tests if different illustration sections (Botanical, Zodiac, etc.)
 use distinct mask profiles.
 """
 
-from typing import List, Dict, Any
 from collections import defaultdict
+from typing import Any
+
 import numpy as np
 from scipy import stats
+
 
 class ThematicMaskCorrelator:
     """
     Correlates z-score residuals with thematic sections.
     """
-    def __init__(self, illustration_data: Dict[str, Any]):
+    def __init__(self, illustration_data: dict[str, Any]):
         self.folio_to_section = {}
         for fid, f_data in illustration_data.get("folios", {}).items():
             self.folio_to_section[fid] = f_data.get("section", "unknown")
 
-    def correlate(self, sliding_series: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def correlate(self, sliding_series: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Groups residuals by section and performs statistical significance tests.
         """

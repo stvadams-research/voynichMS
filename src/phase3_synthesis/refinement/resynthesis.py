@@ -5,22 +5,20 @@ Integrates newly formalized constraints into generators and regenerates
 synthetic pages for all gap scenarios.
 """
 
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
-import random
 import logging
+import random
+from dataclasses import dataclass
 
 from phase3_synthesis.interface import (
-    SectionProfile,
     GapDefinition,
+    SectionProfile,
     SyntheticPage,
-    GeneratorType,
+)
+from phase3_synthesis.refinement.interface import (
+    RefinementResult,
+    StructuralConstraint,
 )
 from phase3_synthesis.text_generator import TextContinuationGenerator
-from phase3_synthesis.refinement.interface import (
-    StructuralConstraint,
-    RefinementResult,
-)
 
 logger = logging.getLogger(__name__)
 
@@ -45,14 +43,14 @@ class RefinedGenerator(TextContinuationGenerator):
     def __init__(
         self,
         section_profile: SectionProfile,
-        constraints: List[StructuralConstraint],
-        seed: Optional[int] = None,
+        constraints: list[StructuralConstraint],
+        seed: int | None = None,
     ):
         super().__init__(section_profile, seed=seed)
         self.rng = random.Random(seed)
         self.refinement_constraints = constraints
 
-    def check_constraints(self, page: SyntheticPage) -> List[ConstraintCheck]:
+    def check_constraints(self, page: SyntheticPage) -> list[ConstraintCheck]:
         """Check all refinement constraints on a page."""
         checks = []
 
@@ -180,7 +178,7 @@ class RefinedGenerator(TextContinuationGenerator):
             return (constraint.target_mean or 0.5) + self.rng.uniform(-0.1, 0.1)
 
     def generate_page_refined(self, gap_id: str, seed: int = None,
-                              max_attempts: int = 20) -> Optional[SyntheticPage]:
+                              max_attempts: int = 20) -> SyntheticPage | None:
         """
         Generate a page that satisfies all refinement constraints.
 
@@ -211,9 +209,9 @@ class RefinedSynthesis:
     """
 
     def __init__(self, section_profile: SectionProfile,
-                 gaps: List[GapDefinition],
-                 constraints: List[StructuralConstraint],
-                 seed: Optional[int] = None):
+                 gaps: list[GapDefinition],
+                 constraints: list[StructuralConstraint],
+                 seed: int | None = None):
         from phase1_foundation.config import require_seed_if_strict
         require_seed_if_strict(seed, "Resynthesizer")
         self.section_profile = section_profile
@@ -221,7 +219,7 @@ class RefinedSynthesis:
         self.constraints = constraints
         self.rng = random.Random(seed)
         self.generator = RefinedGenerator(section_profile, constraints, seed=seed)
-        self.results: Dict[str, RefinementResult] = {}
+        self.results: dict[str, RefinementResult] = {}
 
     def synthesize_for_gap(self, gap: GapDefinition,
                            pages_to_generate: int = 15) -> RefinementResult:
@@ -257,7 +255,7 @@ class RefinedSynthesis:
 
         return result
 
-    def run_all(self, pages_per_gap: int = 15) -> Dict[str, RefinementResult]:
+    def run_all(self, pages_per_gap: int = 15) -> dict[str, RefinementResult]:
         """Run refined phase3_synthesis for all gaps."""
         for gap in self.gaps:
             result = self.synthesize_for_gap(gap, pages_to_generate=pages_per_gap)
@@ -265,7 +263,7 @@ class RefinedSynthesis:
 
         return self.results
 
-    def get_all_pages(self) -> Dict[str, List[SyntheticPage]]:
+    def get_all_pages(self) -> dict[str, list[SyntheticPage]]:
         """Get all generated pages grouped by gap."""
         # Re-generate to get actual pages
         all_pages = {}

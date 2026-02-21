@@ -1,34 +1,43 @@
-import typer
+import logging
 import os
-import json
 from pathlib import Path
+
+import typer
 from rich.console import Console
 from rich.table import Table
-import uuid
 
-from phase1_foundation.configs.logging import setup_logging
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.core.ids import RunID, PageID, FolioID
-from phase1_foundation.core.id_factory import DeterministicIDFactory
-from phase1_foundation.storage.metadata import MetadataStore, PageRecord, StructureRecord, DecisionRecord, HypothesisRecord
-from phase1_foundation.core.dataset import DatasetManager
-from phase1_foundation.transcription.parsers import EVAParser
-from phase1_foundation.core.queries import QueryEngine
-from phase1_foundation.segmentation.dummy import DummyLineSegmenter, DummyWordSegmenter, DummyGlyphSegmenter
 from phase1_foundation.alignment.engine import AlignmentEngine
-from phase1_foundation.regions.dummy import GridProposer, RandomBlobProposer
-from phase1_foundation.regions.graph import GraphBuilder
+from phase1_foundation.analysis.comparator import Comparator
+from phase1_foundation.analysis.sensitivity import SensitivityAnalyzer
+from phase1_foundation.analysis.stability import AnchorStabilityAnalyzer
+from phase1_foundation.anchors.engine import AnchorEngine
+from phase1_foundation.configs.logging import setup_logging
 from phase1_foundation.controls.scramblers import ScrambledControlGenerator
 from phase1_foundation.controls.synthetic import SyntheticNullGenerator
-from phase1_foundation.metrics.library import RepetitionRate, ClusterTightness
-from phase1_foundation.analysis.comparator import Comparator
-from phase1_foundation.anchors.engine import AnchorEngine
-from phase1_foundation.analysis.stability import AnchorStabilityAnalyzer
+from phase1_foundation.core.dataset import DatasetManager
+from phase1_foundation.core.id_factory import DeterministicIDFactory
+from phase1_foundation.core.ids import FolioID, PageID
+from phase1_foundation.core.queries import QueryEngine
 from phase1_foundation.decisions.registry import StructureRegistry
-from phase1_foundation.analysis.sensitivity import SensitivityAnalyzer
-from phase1_foundation.hypotheses.manager import HypothesisManager
 from phase1_foundation.hypotheses.library import GlyphPositionHypothesis
-import logging
+from phase1_foundation.hypotheses.manager import HypothesisManager
+from phase1_foundation.metrics.library import ClusterTightness, RepetitionRate
+from phase1_foundation.regions.dummy import GridProposer, RandomBlobProposer
+from phase1_foundation.regions.graph import GraphBuilder
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.segmentation.dummy import (
+    DummyGlyphSegmenter,
+    DummyLineSegmenter,
+    DummyWordSegmenter,
+)
+from phase1_foundation.storage.metadata import (
+    HypothesisRecord,
+    MetadataStore,
+    PageRecord,
+    StructureRecord,
+)
+from phase1_foundation.transcription.parsers import EVAParser
+
 logger = logging.getLogger(__name__)
 
 app = typer.Typer()
@@ -173,7 +182,7 @@ def ingest_transcription(
         store.add_transcription_source(id=source, name=source)
         
         if format != "eva":
-            console.print(f"[bold red]Error:[/bold red] Only 'eva' format is supported currently.")
+            console.print("[bold red]Error:[/bold red] Only 'eva' format is supported currently.")
             raise typer.Exit(code=1)
             
         parser = EVAParser()
@@ -352,7 +361,7 @@ def run_alignment(
         engine.align_page_lines(page_id, source_id)
         
         store.save_run(run)
-        console.print(f"[bold green]Alignment complete.[/bold green]")
+        console.print("[bold green]Alignment complete.[/bold green]")
 
 @regions_app.command("propose-dummy")
 def propose_dummy_regions(
@@ -410,7 +419,7 @@ def build_region_graph(page_id: str):
         builder.build_graph(page_id)
         
         store.save_run(run)
-        console.print(f"[bold green]Graph build complete.[/bold green]")
+        console.print("[bold green]Graph build complete.[/bold green]")
 
 # --- Level 3 Commands ---
 
@@ -960,7 +969,7 @@ def admissibility_report():
     """
     store = get_metadata_store()
 
-    from phase2_analysis.admissibility.manager import AdmissibilityManager, AdmissibilityStatus
+    from phase2_analysis.admissibility.manager import AdmissibilityManager
 
     manager = AdmissibilityManager(store)
     report = manager.generate_report()

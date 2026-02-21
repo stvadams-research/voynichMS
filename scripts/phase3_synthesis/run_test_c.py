@@ -10,24 +10,26 @@ Modes:
 """
 
 import argparse
-import sys
-from pathlib import Path
-import json
-from collections import defaultdict, Counter
 import math
+import sys
+from collections import Counter, defaultdict
+from pathlib import Path
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
-
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, GlyphAlignmentRecord, GlyphCandidateRecord
+from rich.table import Table
 
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import (
+    GlyphAlignmentRecord,
+    GlyphCandidateRecord,
+    MetadataStore,
+)
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"

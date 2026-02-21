@@ -1,9 +1,9 @@
-import hashlib
+import logging
 import re
 import uuid
-from typing import NewType, Optional
-from pydantic import BaseModel, Field, field_validator
-import logging
+
+from pydantic import BaseModel, field_validator
+
 logger = logging.getLogger(__name__)
 
 class FolioID(str):
@@ -52,7 +52,7 @@ class RunID(str):
     - Or provide an existing UUID string directly:
       ``RunID("existing-uuid-string")``
     """
-    def __new__(cls, value: Optional[str] = None, seed: Optional[int] = None):
+    def __new__(cls, value: str | None = None, seed: int | None = None):
         if value is None:
             if seed is not None:
                 # Deterministic generation from seed

@@ -5,15 +5,17 @@ Analyzes the pattern of mechanical slips to deduce if the tool was
 a Sliding Grille (linear shift) or a Volvelle (angular shift).
 """
 
-from typing import List, Dict, Any
-import numpy as np
 from collections import Counter
+from typing import Any
+
+import numpy as np
+
 
 class GeometryInferrer:
     """
     Deduces tool geometry from slip distributions.
     """
-    def analyze_slip_geometry(self, slips: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def analyze_slip_geometry(self, slips: list[dict[str, Any]]) -> dict[str, Any]:
         if not slips:
             return {}
 

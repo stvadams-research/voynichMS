@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
-from phase1_foundation.config import ComputationTracker, SimulationViolationError, ComputationMethod
+from phase1_foundation.config import ComputationTracker, SimulationViolationError
 
 pytestmark = pytest.mark.unit
 

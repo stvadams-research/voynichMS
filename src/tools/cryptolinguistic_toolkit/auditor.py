@@ -6,8 +6,9 @@ in historical manuscripts.
 """
 
 import random
-from typing import List, Dict, Any, Tuple
-from collections import defaultdict, Counter
+from collections import Counter, defaultdict
+from typing import Any
+
 
 class MechanicalSignalAuditor:
     """
@@ -16,7 +17,7 @@ class MechanicalSignalAuditor:
     def __init__(self, min_transition_count: int = 2):
         self.min_transition_count = min_transition_count
 
-    def audit_corpus(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def audit_corpus(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         Runs the full verification pipeline (Slips + Shuffle Control).
         """
@@ -42,7 +43,7 @@ class MechanicalSignalAuditor:
             "determination": "MECHANICAL" if snr > 3.0 else "LINGUISTIC/RANDOM"
         }
 
-    def _build_model(self, lines: List[List[str]]) -> Dict:
+    def _build_model(self, lines: list[list[str]]) -> dict:
         model = defaultdict(set)
         counts = Counter()
         for line in lines:
@@ -55,7 +56,7 @@ class MechanicalSignalAuditor:
                 model[ctx].add(next_w)
         return model
 
-    def _detect_slips(self, lines: List[List[str]], model: Dict) -> List:
+    def _detect_slips(self, lines: list[list[str]], model: dict) -> list:
         slips = []
         for i in range(1, len(lines)):
             curr, prev = lines[i], lines[i-1]

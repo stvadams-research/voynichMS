@@ -14,8 +14,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from phase8_comparative.mapping import run_analysis  # noqa: E402
 from phase1_foundation.runs.manager import active_run  # noqa: E402
+from phase8_comparative.mapping import run_analysis  # noqa: E402
 
 PROVENANCE_CONTRACT_MODE = "delegated"
 PROVENANCE_DELEGATED_TO = "src/phase8_comparative/mapping.py::run_analysis"

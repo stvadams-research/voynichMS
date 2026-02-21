@@ -1,19 +1,25 @@
 #!/usr/bin/env python3
 """Phase 12D: Matrix Alignment (Section Comparison)."""
 
-import sys
 import json
+import sys
+from collections import defaultdict
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
-from collections import defaultdict
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.storage.metadata import MetadataStore, PageRecord, TranscriptionLineRecord, TranscriptionTokenRecord
-from phase12_mechanical.matrix_alignment import MatrixAlignmentAnalyzer
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.storage.metadata import (
+    MetadataStore,
+    PageRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
+from phase12_mechanical.matrix_alignment import MatrixAlignmentAnalyzer
 
 DB_PATH = "sqlite:///data/voynich.db"
 ILLUS_PATH = project_root / "data" / "illustration_features.json"
@@ -63,7 +69,7 @@ def main():
         console.print("[red]Error: illustration_features.json not found.[/red]")
         return
 
-    with open(ILLUS_PATH, "r") as f:
+    with open(ILLUS_PATH) as f:
         illus_data = json.load(f)
     
     folio_to_section = {fid: fdata.get("section", "unknown") for fid, fdata in illus_data.get("folios", {}).items()}

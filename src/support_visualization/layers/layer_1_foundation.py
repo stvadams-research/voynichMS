@@ -1,16 +1,16 @@
-from typing import List, Optional
+import logging
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sqlalchemy import func
-import logging
 
+from phase1_foundation.storage.metadata import (
+    PageRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from support_visualization.base import BaseVisualizer
 from support_visualization.core.themes import apply_voynich_theme, get_color_palette
-from phase1_foundation.storage.metadata import (
-    PageRecord, 
-    TranscriptionLineRecord, 
-    TranscriptionTokenRecord
-)
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class FoundationVisualizer(BaseVisualizer):
     def phase_name(self) -> str:
         return "phase1_foundation"
 
-    def plot_token_frequency(self, dataset_id: str, top_n: int = 50) -> Optional[str]:
+    def plot_token_frequency(self, dataset_id: str, top_n: int = 50) -> str | None:
         """
         Generate a Zipfian distribution plot for tokens in a dataset.
         """
@@ -83,7 +83,7 @@ class FoundationVisualizer(BaseVisualizer):
         finally:
             session.close()
 
-    def plot_repetition_rate(self, dataset_id: str) -> Optional[str]:
+    def plot_repetition_rate(self, dataset_id: str) -> str | None:
         """
         Generate a histogram of repetition rates across pages in a dataset.
         """

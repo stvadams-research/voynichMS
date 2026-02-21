@@ -1,8 +1,10 @@
-from typing import List, Dict, Any
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.metrics.interface import MetricResult
-from phase1_foundation.config import get_analysis_thresholds
 import logging
+from typing import Any
+
+from phase1_foundation.config import get_analysis_thresholds
+from phase1_foundation.metrics.interface import MetricResult
+from phase1_foundation.storage.metadata import MetadataStore
+
 logger = logging.getLogger(__name__)
 
 class Comparator:
@@ -12,7 +14,7 @@ class Comparator:
         self.significant_difference = float(thresholds.get("significant_difference", 0.05))
         self.negligible_difference = float(thresholds.get("negligible_difference", 0.02))
 
-    def compare_datasets(self, real_id: str, control_id: str, metric_results: List[MetricResult]) -> Dict[str, Any]:
+    def compare_datasets(self, real_id: str, control_id: str, metric_results: list[MetricResult]) -> dict[str, Any]:
         """
         Compare metric results between real and control datasets.
         """

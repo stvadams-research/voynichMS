@@ -8,11 +8,13 @@ Implementation of metrics for Phase 6B:
 - Compression Opportunity
 """
 
-import numpy as np
-import zlib
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
 import logging
+import zlib
+from collections import Counter
+from typing import Any
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class EfficiencyAnalyzer:
@@ -22,7 +24,7 @@ class EfficiencyAnalyzer:
     def __init__(self):
         pass
 
-    def calculate_reuse_suppression(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def calculate_reuse_suppression(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         4.1 Reuse Suppression Index
         Measures whether the system actively suppresses reuse.
@@ -52,7 +54,7 @@ class EfficiencyAnalyzer:
             "reuse_suppression_index": float(suppression_index)
         }
 
-    def calculate_path_efficiency(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def calculate_path_efficiency(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         4.2 Path Length Efficiency
         Mean path length per unique node visited.
@@ -69,7 +71,7 @@ class EfficiencyAnalyzer:
             "path_efficiency": float(efficiency)
         }
 
-    def calculate_redundancy_cost(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def calculate_redundancy_cost(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         4.3 Redundancy Avoidance vs Cost
         Cost proxy = rule evaluations per unique output.
@@ -86,7 +88,7 @@ class EfficiencyAnalyzer:
             "cost_per_unique_line": float(total_lines / len(unique_lines)) if unique_lines else 0
         }
 
-    def calculate_compressibility(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def calculate_compressibility(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         4.4 Compression Opportunity Test
         Compression ratio under structure-preserving encodings.
@@ -103,7 +105,7 @@ class EfficiencyAnalyzer:
             "compression_ratio": float(ratio)
         }
 
-    def run_efficiency_audit(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def run_efficiency_audit(self, lines: list[list[str]]) -> dict[str, Any]:
         return {
             "reuse_suppression": self.calculate_reuse_suppression(lines),
             "path_efficiency": self.calculate_path_efficiency(lines),

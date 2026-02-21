@@ -6,9 +6,8 @@ Replaces random uuid4() calls to enable reproducibility.
 """
 
 import hashlib
-import uuid
-from typing import Optional
 import logging
+
 logger = logging.getLogger(__name__)
 from phase1_foundation.config import DEFAULT_SEED
 
@@ -90,10 +89,10 @@ class DeterministicIDFactory:
 
 
 # Global factory for convenience (can be reset for reproducibility)
-_global_factory: Optional[DeterministicIDFactory] = None
+_global_factory: DeterministicIDFactory | None = None
 
 
-def get_global_factory(seed: Optional[int] = None) -> DeterministicIDFactory:
+def get_global_factory(seed: int | None = None) -> DeterministicIDFactory:
     """
     Get the global ID factory, optionally reinitializing with a seed.
 
@@ -114,7 +113,7 @@ def get_global_factory(seed: Optional[int] = None) -> DeterministicIDFactory:
     return _global_factory
 
 
-def deterministic_id(prefix: str = "", seed: Optional[int] = None) -> str:
+def deterministic_id(prefix: str = "", seed: int | None = None) -> str:
     """
     Convenience function to generate a deterministic ID.
 
@@ -129,7 +128,7 @@ def deterministic_id(prefix: str = "", seed: Optional[int] = None) -> str:
     return factory.next_id(prefix)
 
 
-def deterministic_uuid(prefix: str = "", seed: Optional[int] = None) -> str:
+def deterministic_uuid(prefix: str = "", seed: int | None = None) -> str:
     """
     Convenience function to generate a deterministic UUID.
 

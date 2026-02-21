@@ -1,5 +1,5 @@
-import os
 from pathlib import Path
+
 
 def apply_logging():
     src_root = Path("src")
@@ -9,7 +9,7 @@ def apply_logging():
         if py_file.name == "__init__.py":
             continue
             
-        with open(py_file, "r") as f:
+        with open(py_file) as f:
             content = f.read()
             
         if "import logging" in content or "logger =" in content:

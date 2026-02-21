@@ -4,20 +4,20 @@ Indistinguishability Testing Framework
 Evaluates whether synthetic pages are distinguishable from real pharmaceutical pages.
 """
 
-from typing import Dict, List, Any, Tuple, Optional
-from dataclasses import dataclass, field
-import random
+import logging
 import math
 import os
+import random
+from dataclasses import dataclass
+from typing import Any
 
-from phase3_synthesis.interface import (
-    SectionProfile,
-    PageProfile,
-    SyntheticPage,
-    IndistinguishabilityResult,
-)
 from phase1_foundation.config import SCRAMBLED_CONTROL_PARAMS, get_analysis_thresholds
-import logging
+from phase3_synthesis.interface import (
+    IndistinguishabilityResult,
+    SectionProfile,
+    SyntheticPage,
+)
+
 logger = logging.getLogger(__name__)
 
 DEFAULT_MATCHING_METRICS = [
@@ -48,7 +48,7 @@ class MetricVector:
     information_density: float = 0.0
     layout_density: float = 0.0
 
-    def as_vector(self) -> List[float]:
+    def as_vector(self) -> list[float]:
         """Return metrics as a numeric vector."""
         return [
             float(self.jar_count),
@@ -62,7 +62,7 @@ class MetricVector:
         ]
 
 
-def euclidean_distance(v1: List[float], v2: List[float]) -> float:
+def euclidean_distance(v1: list[float], v2: list[float]) -> float:
     """Compute Euclidean distance between two vectors."""
     if len(v1) != len(v2):
         return float('inf')
@@ -70,7 +70,7 @@ def euclidean_distance(v1: List[float], v2: List[float]) -> float:
     return math.sqrt(sum((a - b) ** 2 for a, b in zip(v1, v2)))
 
 
-def normalize_vector(v: List[float], mins: List[float], maxs: List[float]) -> List[float]:
+def normalize_vector(v: list[float], mins: list[float], maxs: list[float]) -> list[float]:
     """Normalize vector to 0-1 range."""
     normalized = []
     for i, val in enumerate(v):
@@ -93,28 +93,28 @@ class IndistinguishabilityTester:
 
     def __init__(self, section_profile: SectionProfile):
         self.section_profile = section_profile
-        self.real_vectors: List[MetricVector] = []
-        self.synthetic_vectors: List[MetricVector] = []
-        self.scrambled_vectors: List[MetricVector] = []
-        self.matching_metrics: List[str] = list(DEFAULT_MATCHING_METRICS)
-        self.holdout_evaluation_metrics: List[str] = list(DEFAULT_HOLDOUT_EVALUATION_METRICS)
+        self.real_vectors: list[MetricVector] = []
+        self.synthetic_vectors: list[MetricVector] = []
+        self.scrambled_vectors: list[MetricVector] = []
+        self.matching_metrics: list[str] = list(DEFAULT_MATCHING_METRICS)
+        self.holdout_evaluation_metrics: list[str] = list(DEFAULT_HOLDOUT_EVALUATION_METRICS)
         thresholds = get_analysis_thresholds().get("indistinguishability", {})
         self.success_threshold = float(thresholds.get("separation_success", 0.7))
         self.failure_threshold = float(thresholds.get("separation_failure", 0.3))
         self.require_computed = os.environ.get("REQUIRE_COMPUTED", "0") == "1"
 
     def set_metric_partitions(
-        self, *, matching_metrics: List[str], holdout_evaluation_metrics: List[str]
+        self, *, matching_metrics: list[str], holdout_evaluation_metrics: list[str]
     ) -> None:
         """Set metric partitions used for anti-leakage reporting."""
         self.matching_metrics = list(matching_metrics)
         self.holdout_evaluation_metrics = list(holdout_evaluation_metrics)
 
-    def metric_overlap(self) -> List[str]:
+    def metric_overlap(self) -> list[str]:
         """Return metric overlap between matching and holdout sets."""
         return sorted(set(self.matching_metrics) & set(self.holdout_evaluation_metrics))
 
-    def _compute_positional_entropy(self, text_blocks: List[List[str]]) -> float:
+    def _compute_positional_entropy(self, text_blocks: list[list[str]]) -> float:
         """
         Compute positional entropy from generated token character positions.
         """
@@ -165,7 +165,7 @@ class IndistinguishabilityTester:
             )
             self.real_vectors.append(vector)
 
-    def load_synthetic_pages(self, pages: List[SyntheticPage]):
+    def load_synthetic_pages(self, pages: list[SyntheticPage]):
         """Load metric vectors for synthetic pages."""
         for page in pages:
             metrics = page.metrics
@@ -211,7 +211,7 @@ class IndistinguishabilityTester:
             )
             self.synthetic_vectors.append(vector)
 
-    def generate_scrambled_controls(self, count: int = 10, seed: Optional[int] = None):
+    def generate_scrambled_controls(self, count: int = 10, seed: int | None = None):
         """Generate scrambled control pages for comparison."""
         from phase1_foundation.core.randomness import get_randomness_controller
         controller = get_randomness_controller()
@@ -238,7 +238,7 @@ class IndistinguishabilityTester:
             )
             self.scrambled_vectors.append(vector)
 
-    def compute_centroid(self, vectors: List[MetricVector]) -> List[float]:
+    def compute_centroid(self, vectors: list[MetricVector]) -> list[float]:
         """Compute centroid of a set of metric vectors."""
         if not vectors:
             return [0.0] * 8
@@ -253,8 +253,8 @@ class IndistinguishabilityTester:
 
         return centroid
 
-    def compute_separation(self, group1: List[MetricVector],
-                           group2: List[MetricVector]) -> float:
+    def compute_separation(self, group1: list[MetricVector],
+                           group2: list[MetricVector]) -> float:
         """
         Compute separation between two groups of vectors.
 
@@ -292,9 +292,9 @@ class IndistinguishabilityTester:
 
         return min(1.0, max(0.0, separation))
 
-    def _compute_spread(self, vectors: List[MetricVector],
-                        centroid: List[float],
-                        mins: List[float], maxs: List[float]) -> float:
+    def _compute_spread(self, vectors: list[MetricVector],
+                        centroid: list[float],
+                        mins: list[float], maxs: list[float]) -> float:
         """Compute average distance from centroid."""
         if not vectors:
             return 0.0
@@ -338,7 +338,7 @@ class IndistinguishabilityTester:
 
         return result
 
-    def _compute_metric_comparisons(self) -> Dict[str, Dict[str, float]]:
+    def _compute_metric_comparisons(self) -> dict[str, dict[str, float]]:
         """Compute per-metric comparisons."""
         metrics = [
             "jar_count", "word_count", "mean_word_length", "repetition_rate",
@@ -367,9 +367,9 @@ class FullIndistinguishabilityTest:
 
     def __init__(self, section_profile: SectionProfile):
         self.section_profile = section_profile
-        self.results: Dict[str, IndistinguishabilityResult] = {}
+        self.results: dict[str, IndistinguishabilityResult] = {}
 
-    def run(self, gap_pages: Dict[str, List[SyntheticPage]], seed: Optional[int] = None) -> Dict[str, IndistinguishabilityResult]:
+    def run(self, gap_pages: dict[str, list[SyntheticPage]], seed: int | None = None) -> dict[str, IndistinguishabilityResult]:
         """
         Run tests for all gaps.
 
@@ -394,7 +394,7 @@ class FullIndistinguishabilityTest:
 
         return self.results
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get summary of all tests."""
         if not self.results:
             return {

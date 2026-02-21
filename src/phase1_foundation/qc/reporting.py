@@ -1,7 +1,9 @@
-from phase1_foundation.core.ids import RunID, PageID
 import json
-from pathlib import Path
 import logging
+from pathlib import Path
+
+from phase1_foundation.core.ids import PageID, RunID
+
 logger = logging.getLogger(__name__)
 
 def generate_run_summary(run_id: RunID):
@@ -21,13 +23,13 @@ def generate_run_summary(run_id: RunID):
     outputs = {"outputs": []}
 
     if run_meta_path.exists():
-        with open(run_meta_path, "r") as f:
+        with open(run_meta_path) as f:
             run_meta = json.load(f)
     if inputs_path.exists():
-        with open(inputs_path, "r") as f:
+        with open(inputs_path) as f:
             inputs = json.load(f)
     if outputs_path.exists():
-        with open(outputs_path, "r") as f:
+        with open(outputs_path) as f:
             outputs = json.load(f)
 
     summary_path = run_dir / "summary.md"

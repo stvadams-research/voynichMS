@@ -83,7 +83,7 @@ def verify_assets() -> bool:
                     p1 = CORPORA_DIR / "latin_part1.txt"
                     p2 = CORPORA_DIR / "latin_part2.txt"
                     if p1.exists() and p2.exists():
-                        print(f"  [OK]    latin_part1.txt + latin_part2.txt found (concatenation pending)")
+                        print("  [OK]    latin_part1.txt + latin_part2.txt found (concatenation pending)")
                         continue
                 
                 print(f"  [FAIL]  {filename} (missing or empty)")
@@ -97,7 +97,7 @@ def verify_assets() -> bool:
         # Check if jpg or tiff scans exist as alternative
         has_scans = any(SCANS_DIR.glob("**/*.jpg")) or any(SCANS_DIR.glob("**/*.tif"))
         if has_scans:
-            print(f"  [OK]    PDF missing but scan images detected.")
+            print("  [OK]    PDF missing but scan images detected.")
         else:
             print(f"  [FAIL]  {YALE_PDF.name} (missing or too small)")
             missing_required.append("Yale PDF or Scans")

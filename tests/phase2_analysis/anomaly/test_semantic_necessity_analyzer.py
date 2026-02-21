@@ -2,8 +2,8 @@ import pytest
 
 pytestmark = pytest.mark.unit
 
-from phase2_analysis.anomaly.semantic_necessity import NonSemanticSystem, SemanticNecessityAnalyzer
 from phase2_analysis.anomaly.interface import SemanticNecessity
+from phase2_analysis.anomaly.semantic_necessity import NonSemanticSystem, SemanticNecessityAnalyzer
 
 
 def test_construct_maximal_nonsemantic_systems_contains_expected_profiles():

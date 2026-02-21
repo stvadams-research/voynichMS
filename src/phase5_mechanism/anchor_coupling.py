@@ -5,7 +5,8 @@ Anchor-coupling phase2_analysis utilities for SK-H1 multimodal evidence hardenin
 from __future__ import annotations
 
 import random
-from typing import Any, Dict, List, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 from phase5_mechanism.large_object.collision_testing import PathCollisionTester
 
@@ -28,7 +29,7 @@ H1_5_LANE_BLOCKED = "H1_5_BLOCKED"
 H1_5_LANE_INCONCLUSIVE = "H1_5_INCONCLUSIVE"
 
 
-DEFAULT_MULTIMODAL_POLICY: Dict[str, Any] = {
+DEFAULT_MULTIMODAL_POLICY: dict[str, Any] = {
     "dataset_id": "voynich_real",
     "transcription_source_id": "zandbergen_landini",
     "anchor_method_name": "geometric_v1",
@@ -145,7 +146,7 @@ def compute_consistency_summary(
     lines: Sequence[Sequence[str]],
     *,
     context_len: int = 2,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     tester = PathCollisionTester(context_len=context_len)
     result = tester.calculate_successor_consistency([list(line) for line in lines])
     if "num_recurring_contexts" not in result:
@@ -162,11 +163,11 @@ def bootstrap_delta_ci(
     iterations: int,
     seed: int,
     context_len: int = 2,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     if not anchored_lines or not unanchored_lines or iterations <= 0:
         return {"delta_ci_low": 0.0, "delta_ci_high": 0.0, "samples": []}
     rng = random.Random(seed)
-    deltas: List[float] = []
+    deltas: list[float] = []
     for _ in range(iterations):
         sampled_anchor = [
             anchored_lines[rng.randrange(len(anchored_lines))]
@@ -232,15 +233,15 @@ def evaluate_adequacy(
     unanchored_page_count: int,
     anchored_recurring_contexts: int,
     unanchored_recurring_contexts: int,
-    policy: Dict[str, Any],
-) -> Dict[str, Any]:
+    policy: dict[str, Any],
+) -> dict[str, Any]:
     min_lines = int(policy.get("min_lines_per_cohort", 0))
     min_pages = int(policy.get("min_pages_per_cohort", 0))
     min_contexts = int(policy.get("min_recurring_contexts_per_cohort", 0))
     min_balance_ratio = float(policy.get("min_balance_ratio", 0.0))
 
-    reasons: List[str] = []
-    blocked_reasons: List[str] = []
+    reasons: list[str] = []
+    blocked_reasons: list[str] = []
 
     if available_anchor_line_count <= 0:
         blocked_reasons.append("no_anchored_lines")
@@ -313,8 +314,8 @@ def evaluate_inference(
     delta_ci_low: float,
     delta_ci_high: float,
     p_value: float,
-    policy: Dict[str, Any],
-) -> Dict[str, Any]:
+    policy: dict[str, Any],
+) -> dict[str, Any]:
     alpha = float(policy.get("alpha", 0.05))
     coupling_delta_abs_min = float(policy.get("coupling_delta_abs_min", 0.03))
     no_coupling_delta_abs_max = float(policy.get("no_coupling_delta_abs_max", 0.015))
@@ -376,9 +377,9 @@ def allowed_claim_for_status(status: str) -> str:
 
 def decide_status(
     *,
-    adequacy: Dict[str, Any],
-    phase4_inference: Dict[str, Any],
-) -> Dict[str, Any]:
+    adequacy: dict[str, Any],
+    phase4_inference: dict[str, Any],
+) -> dict[str, Any]:
     if adequacy.get("blocked"):
         status = STATUS_BLOCKED_DATA_GEOMETRY
         reason = "geometry_or_data_block"

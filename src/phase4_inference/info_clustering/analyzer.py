@@ -5,11 +5,11 @@ Calculates the information content of words relative to their
 distribution across sections.
 """
 
-import numpy as np
-from typing import List, Dict, Any, Tuple
-from collections import Counter, defaultdict
-import math
 import logging
+import math
+from collections import Counter, defaultdict
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 class MontemurroAnalyzer:
@@ -19,7 +19,7 @@ class MontemurroAnalyzer:
     def __init__(self, num_sections: int = 20):
         self.num_sections = num_sections
 
-    def calculate_information(self, tokens: List[str]) -> Dict[str, Any]:
+    def calculate_information(self, tokens: list[str]) -> dict[str, Any]:
         """
         Calculate information per word about section identity.
 
@@ -86,7 +86,7 @@ class MontemurroAnalyzer:
             "top_keywords": sorted_info[:50]
         }
 
-    def get_summary_metrics(self, info_results: Dict[str, Any]) -> Dict[str, float]:
+    def get_summary_metrics(self, info_results: dict[str, Any]) -> dict[str, float]:
         """Compute aggregate metrics like average information."""
         sorted_info = info_results.get("word_info", [])
         if not sorted_info:

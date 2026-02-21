@@ -5,9 +5,9 @@ Identifies 'Vertical Offsets' where a scribe may have accidentally
 used the constraints of an adjacent line.
 """
 
-from typing import List, Dict, Any, Set, Tuple
-from collections import defaultdict, Counter
 import logging
+from collections import Counter, defaultdict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -32,11 +32,11 @@ class MechanicalSlipDetector:
         """
         self.min_transition_count = min_transition_count
         # Context: (prev_word, position) -> Set of valid next words
-        self.legal_transitions: Dict[Tuple[str, int], Set[str]] = defaultdict(set)
+        self.legal_transitions: dict[tuple[str, int], set[str]] = defaultdict(set)
         # Counts for significance
-        self.transition_counts: Counter[Tuple[Tuple[str, int], str]] = Counter()
+        self.transition_counts: Counter[tuple[tuple[str, int], str]] = Counter()
 
-    def build_model(self, lines: List[List[str]]) -> None:
+    def build_model(self, lines: list[list[str]]) -> None:
         """
         Builds the global empirical lattice from all lines.
         
@@ -56,7 +56,7 @@ class MechanicalSlipDetector:
             if count >= self.min_transition_count:
                 self.legal_transitions[ctx].add(curr)
 
-    def detect_slips(self, lines: List[List[str]]) -> List[Dict[str, Any]]:
+    def detect_slips(self, lines: list[list[str]]) -> list[dict[str, Any]]:
         """
         Scans lines for vertical offsets (eye-slips).
         

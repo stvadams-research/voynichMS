@@ -1,8 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Dict, Any, Literal, Optional
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.core.profiling import timing_profile
 import logging
+from abc import ABC, abstractmethod
+from typing import Any, Literal
+
+from phase1_foundation.core.profiling import timing_profile
+from phase1_foundation.storage.metadata import MetadataStore
+
 logger = logging.getLogger(__name__)
 
 
@@ -34,7 +36,7 @@ class MetricResult:
         dataset_id: str,
         scope: str,
         value: float,
-        details: Optional[Dict[str, Any]] = None,
+        details: dict[str, Any] | None = None,
         calculation_method: CalculationMethod = "computed"
     ):
         self.metric_name = metric_name
@@ -48,7 +50,7 @@ class MetricResult:
         """Check if this is a real computation (not simulated)."""
         return self.calculation_method == "computed"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation."""
         return {
             "metric_name": self.metric_name,
@@ -70,7 +72,7 @@ class Metric(ABC):
             cls.calculate = timing_profile(cls.calculate)
 
     @abstractmethod
-    def calculate(self, dataset_id: str) -> List[MetricResult]:
+    def calculate(self, dataset_id: str) -> list[MetricResult]:
         """
         Calculate the metric for a given dataset.
 

@@ -6,7 +6,7 @@ Purpose: Establishes the digital ledger, ingests raw scans, and verifies data in
 
 import subprocess
 import sys
-from pathlib import Path
+
 
 def run_command(cmd):
     print(f"\n>> Executing: {cmd}")

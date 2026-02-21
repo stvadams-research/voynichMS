@@ -5,12 +5,12 @@ Measures how much of the generated sequence space is 'hallucinated' vs.
 attested in the real manuscript.
 """
 
-import sys
 import json
+import sys
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
-from collections import Counter
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
@@ -35,7 +35,7 @@ def main():
         return
 
     # 1. Load Data
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         p_data = json.load(f)
     results = p_data.get("results", p_data)
     

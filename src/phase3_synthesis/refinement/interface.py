@@ -5,10 +5,12 @@ Defines structures for discriminative feature discovery, constraint formalizatio
 and equivalence testing.
 """
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple, Callable
-from enum import Enum
 import logging
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 
@@ -47,7 +49,7 @@ class DiscriminativeFeature:
     description: str
 
     # Computation
-    compute_fn: Optional[Callable] = None
+    compute_fn: Callable | None = None
 
     # Discrimination power
     importance_score: float = 0.0
@@ -77,7 +79,7 @@ class FeatureImportance:
     importance: float
     rank: int
     stable_across_folds: bool = False
-    correlated_with: List[str] = field(default_factory=list)
+    correlated_with: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -95,10 +97,10 @@ class StructuralConstraint:
     violation: str  # How violation is detected
 
     # Bounds
-    lower_bound: Optional[float] = None
-    upper_bound: Optional[float] = None
-    target_mean: Optional[float] = None
-    target_std: Optional[float] = None
+    lower_bound: float | None = None
+    upper_bound: float | None = None
+    target_mean: float | None = None
+    target_std: float | None = None
 
     # Status
     status: ConstraintStatus = ConstraintStatus.PROPOSED
@@ -130,7 +132,7 @@ class RefinementResult:
     improvement_percent: float = 0.0
 
     # Constraint satisfaction
-    constraints_applied: List[str] = field(default_factory=list)
+    constraints_applied: list[str] = field(default_factory=list)
     constraints_satisfied: int = 0
     constraints_violated: int = 0
 
@@ -177,16 +179,16 @@ class EquivalenceTest:
 class Phase31Findings:
     """Complete findings from Phase 3.1."""
     # Track A: Discriminative features
-    features_discovered: List[DiscriminativeFeature] = field(default_factory=list)
-    feature_importances: List[FeatureImportance] = field(default_factory=list)
+    features_discovered: list[DiscriminativeFeature] = field(default_factory=list)
+    feature_importances: list[FeatureImportance] = field(default_factory=list)
 
     # Track B: Constraint formalization
-    constraints_proposed: List[StructuralConstraint] = field(default_factory=list)
-    constraints_validated: List[StructuralConstraint] = field(default_factory=list)
-    constraints_rejected: List[StructuralConstraint] = field(default_factory=list)
+    constraints_proposed: list[StructuralConstraint] = field(default_factory=list)
+    constraints_validated: list[StructuralConstraint] = field(default_factory=list)
+    constraints_rejected: list[StructuralConstraint] = field(default_factory=list)
 
     # Track C: Re-phase3_synthesis results
-    refinement_results: Dict[str, RefinementResult] = field(default_factory=dict)
+    refinement_results: dict[str, RefinementResult] = field(default_factory=dict)
 
     # Track D: Equivalence testing
     equivalence_test: EquivalenceTest = field(default_factory=EquivalenceTest)
@@ -217,7 +219,7 @@ class Phase31Findings:
             self.equivalence_test.outcome == EquivalenceOutcome.STRUCTURAL_EQUIVALENCE
         )
 
-    def generate_summary(self) -> Dict[str, Any]:
+    def generate_summary(self) -> dict[str, Any]:
         """Generate summary of findings."""
         return {
             "features_discovered": len(self.features_discovered),

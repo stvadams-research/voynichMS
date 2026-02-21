@@ -5,49 +5,49 @@ Extracts structural profiles from surviving jar pages (f88r-f96v).
 These profiles define hard constraints for phase3_synthesis.
 """
 
-from typing import Dict, List, Any, Tuple, Optional
-from dataclasses import dataclass
-from collections import Counter
+import logging
 import math
-import random
 import os
+import random
+from collections import Counter
+from typing import Any
 
 from phase3_synthesis.interface import (
-    SectionProfile,
-    PageProfile,
-    JarProfile,
     GapDefinition,
     GapStrength,
+    JarProfile,
+    PageProfile,
+    SectionProfile,
 )
-import logging
+
 logger = logging.getLogger(__name__)
 
 from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    PageRecord,
-    WordRecord,
-    LineRecord,
-    RegionRecord,
     AnchorRecord,
     GlyphCandidateRecord,
+    LineRecord,
+    MetadataStore,
+    PageRecord,
+    RegionRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
+    WordRecord,
 )
 
 
 class NeutralTokenGenerator:
     """Generates neutral, procedurally generated tokens to avoid bias."""
-    def __init__(self, seed: Optional[int] = None):
+    def __init__(self, seed: int | None = None):
         from phase1_foundation.config import require_seed_if_strict
         require_seed_if_strict(seed, "NeutralTokenGenerator")
         self.rng = random.Random(seed)
         self.chars = "abcdefghijklmnopqrstuvwxyz"
         
-    def generate_token(self, length_range: Tuple[int, int] = (3, 8)) -> str:
+    def generate_token(self, length_range: tuple[int, int] = (3, 8)) -> str:
         length = self.rng.randint(*length_range)
         return "".join(self.rng.choice(self.chars) for _ in range(length))
         
-    def generate_tokens(self, count: int) -> List[str]:
+    def generate_tokens(self, count: int) -> list[str]:
         return [self.generate_token() for _ in range(count)]
 
 class PharmaceuticalProfileExtractor:
@@ -94,7 +94,7 @@ class PharmaceuticalProfileExtractor:
         "f96v": {"jars": 3, "blocks": 6, "lines": 18, "words": 54},
     }
 
-    def __init__(self, store: Optional[MetadataStore] = None, seed: Optional[int] = None):
+    def __init__(self, store: MetadataStore | None = None, seed: int | None = None):
         from phase1_foundation.config import require_seed_if_strict
         require_seed_if_strict(seed, "PharmProfileExtractor")
         self.store = store
@@ -550,7 +550,7 @@ class PharmaceuticalProfileExtractor:
         densities = [p.information_density for p in pages]
         self.section_profile.info_density_range = (min(densities), max(densities))
 
-    def define_gaps(self) -> List[GapDefinition]:
+    def define_gaps(self) -> list[GapDefinition]:
         """
         Define codicologically defensible insertion windows.
 
@@ -618,7 +618,7 @@ class PharmaceuticalProfileExtractor:
 
         return gaps
 
-    def _extract_seam_tokens(self, page_id: str, position: str) -> List[str]:
+    def _extract_seam_tokens(self, page_id: str, position: str) -> list[str]:
         """
         Extract tokens near the seam (start or end of page).
 
@@ -668,12 +668,12 @@ class PharmaceuticalProfileExtractor:
         finally:
             session.close()
 
-    def _extract_simulated_seam_tokens(self) -> List[str]:
+    def _extract_simulated_seam_tokens(self) -> list[str]:
         """Procedurally generated tokens for seam context."""
         num_tokens = self.rng.randint(4, 6)
         return self.token_gen.generate_tokens(num_tokens)
 
-    def get_profile_summary(self) -> Dict[str, Any]:
+    def get_profile_summary(self) -> dict[str, Any]:
         """Get a summary of the section profile."""
         return {
             "section_id": self.section_profile.section_id,

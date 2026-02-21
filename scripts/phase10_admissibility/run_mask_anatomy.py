@@ -5,21 +5,26 @@ Mask Anatomy Runner
 Executes Change-Point Detection, Thematic Correlation, and Bottleneck Estimation.
 """
 
-import sys
 import json
+import sys
 from pathlib import Path
-from typing import List, Dict, Any, Tuple
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
 from rich.console import Console
 from rich.table import Table
-from phase1_foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
+
 from phase1_foundation.core.provenance import ProvenanceWriter
-from phase10_admissibility.mask_anatomy.mapper import SlidingResidualMapper
+from phase1_foundation.storage.metadata import (
+    MetadataStore,
+    PageRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from phase10_admissibility.mask_anatomy.correlator import ThematicMaskCorrelator
 from phase10_admissibility.mask_anatomy.estimator import MaskStateEstimator
+from phase10_admissibility.mask_anatomy.mapper import SlidingResidualMapper
 
 DB_PATH = "sqlite:///data/voynich.db"
 ILLUS_PATH = project_root / "data" / "illustration_features.json"
@@ -27,7 +32,7 @@ OUTPUT_PATH = project_root / "results/data/phase10_admissibility/mask_anatomy_re
 
 console = Console()
 
-def get_tokens_and_folios(store: MetadataStore, dataset_id: str) -> Tuple[List[str], List[str]]:
+def get_tokens_and_folios(store: MetadataStore, dataset_id: str) -> tuple[list[str], list[str]]:
     """Extract tokens and their folio IDs."""
     session = store.Session()
     try:

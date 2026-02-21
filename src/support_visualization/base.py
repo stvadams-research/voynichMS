@@ -1,11 +1,12 @@
+import logging
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Optional, Dict, Any
-import matplotlib.pyplot as plt
-import logging
+from typing import Any
 
-from phase1_foundation.storage.metadata import MetadataStore
+import matplotlib.pyplot as plt
+
 from phase1_foundation.runs.manager import RunManager
+from phase1_foundation.storage.metadata import MetadataStore
 
 logger = logging.getLogger(__name__)
 
@@ -17,8 +18,8 @@ class BaseVisualizer(ABC):
     def __init__(
         self, 
         store: MetadataStore, 
-        output_dir: Optional[Path] = None,
-        run_id: Optional[str] = None
+        output_dir: Path | None = None,
+        run_id: str | None = None
     ):
         self.store = store
         self._output_dir = output_dir or Path("results/reports/visuals")
@@ -54,7 +55,7 @@ class BaseVisualizer(ABC):
         self, 
         fig: plt.Figure, 
         filename: str, 
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: dict[str, Any] | None = None
     ) -> Path:
         """
         Save a matplotlib figure to the appropriate location.

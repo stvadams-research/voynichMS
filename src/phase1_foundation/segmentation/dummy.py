@@ -1,14 +1,19 @@
-from typing import List
-from phase1_foundation.segmentation.interface import (
-    LineSegmenter, WordSegmenter, GlyphSegmenter,
-    SegmentedLine, SegmentedWord, SegmentedGlyph
-)
-from phase1_foundation.core.geometry import Box
 import logging
+
+from phase1_foundation.core.geometry import Box
+from phase1_foundation.segmentation.interface import (
+    GlyphSegmenter,
+    LineSegmenter,
+    SegmentedGlyph,
+    SegmentedLine,
+    SegmentedWord,
+    WordSegmenter,
+)
+
 logger = logging.getLogger(__name__)
 
 class DummyLineSegmenter(LineSegmenter):
-    def segment_page(self, page_id: str, image_path: str) -> List[SegmentedLine]:
+    def segment_page(self, page_id: str, image_path: str) -> list[SegmentedLine]:
         # Create 5 dummy lines
         lines = []
         for i in range(5):
@@ -20,7 +25,7 @@ class DummyLineSegmenter(LineSegmenter):
         return lines
 
 class DummyWordSegmenter(WordSegmenter):
-    def segment_line(self, line_bbox: Box, image_path: str) -> List[SegmentedWord]:
+    def segment_line(self, line_bbox: Box, image_path: str) -> list[SegmentedWord]:
         # Create 3 dummy words per line
         words = []
         width = line_bbox.width / 3
@@ -38,7 +43,7 @@ class DummyWordSegmenter(WordSegmenter):
         return words
 
 class DummyGlyphSegmenter(GlyphSegmenter):
-    def segment_word(self, word_bbox: Box, image_path: str) -> List[SegmentedGlyph]:
+    def segment_word(self, word_bbox: Box, image_path: str) -> list[SegmentedGlyph]:
         # Create 2 dummy glyphs per word
         glyphs = []
         width = word_bbox.width / 2

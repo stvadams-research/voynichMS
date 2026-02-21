@@ -21,22 +21,22 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
+from typing import Any
+
 import typer
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
-from typing import Dict, List, Any
+from rich.table import Table
 
+from phase2_analysis.anomaly.capacity_bounding import CapacityBoundingAnalyzer
+from phase2_analysis.anomaly.constraint_analysis import ConstraintIntersectionAnalyzer
 from phase2_analysis.anomaly.interface import (
     AnomalyDefinition,
     Phase24Findings,
-    SemanticNecessity,
 )
-from phase2_analysis.anomaly.constraint_analysis import ConstraintIntersectionAnalyzer
-from phase2_analysis.anomaly.stability_analysis import AnomalyStabilityAnalyzer
-from phase2_analysis.anomaly.capacity_bounding import CapacityBoundingAnalyzer
 from phase2_analysis.anomaly.semantic_necessity import SemanticNecessityAnalyzer
+from phase2_analysis.anomaly.stability_analysis import AnomalyStabilityAnalyzer
 
 app = typer.Typer()
 console = Console()
@@ -54,9 +54,9 @@ def display_anomaly_definition(anomaly: AnomalyDefinition):
     ))
 
 
-def display_constraint_results(results: Dict[str, Any]):
+def display_constraint_results(results: dict[str, Any]):
     """Display Track D1 results."""
-    console.print(f"\n[bold cyan]Track D1: Constraint Intersection Analysis[/bold cyan]")
+    console.print("\n[bold cyan]Track D1: Constraint Intersection Analysis[/bold cyan]")
 
     table = Table(title="Constraints by Source", show_header=True)
     table.add_column("Source", style="cyan")
@@ -77,9 +77,9 @@ def display_constraint_results(results: Dict[str, Any]):
             console.print(f"  {cid}: {', '.join(models[:3])}{'...' if len(models) > 3 else ''}")
 
 
-def display_stability_results(results: Dict[str, Any]):
+def display_stability_results(results: dict[str, Any]):
     """Display Track D2 results."""
-    console.print(f"\n[bold cyan]Track D2: Anomaly Stability Analysis[/bold cyan]")
+    console.print("\n[bold cyan]Track D2: Anomaly Stability Analysis[/bold cyan]")
 
     table = Table(title="Stability Envelopes", show_header=True)
     table.add_column("Metric", style="cyan")
@@ -105,7 +105,7 @@ def display_stability_results(results: Dict[str, Any]):
     status = "[green]CONFIRMED[/green]" if results["anomaly_confirmed"] else "[yellow]UNCERTAIN[/yellow]"
     console.print(f"\nAnomaly Status: {status}")
 
-    console.print(f"\n[bold]Sensitivity Report:[/bold]")
+    console.print("\n[bold]Sensitivity Report:[/bold]")
     sr = results["sensitivity_report"]
     console.print(f"  Segmentation sensitivity: {sr['segmentation_sensitivity']}")
     console.print(f"  Unit sensitivity: {sr['unit_sensitivity']}")
@@ -113,9 +113,9 @@ def display_stability_results(results: Dict[str, Any]):
     console.print(f"  Overall: {sr['overall_sensitivity']}")
 
 
-def display_capacity_results(results: Dict[str, Any]):
+def display_capacity_results(results: dict[str, Any]):
     """Display Track D3 results."""
-    console.print(f"\n[bold cyan]Track D3: Structural Capacity Bounding[/bold cyan]")
+    console.print("\n[bold cyan]Track D3: Structural Capacity Bounding[/bold cyan]")
 
     table = Table(title="Capacity Bounds", show_header=True)
     table.add_column("Property", style="cyan")
@@ -133,7 +133,7 @@ def display_capacity_results(results: Dict[str, Any]):
 
     console.print(table)
 
-    console.print(f"\n[bold]System Class Evaluation:[/bold]")
+    console.print("\n[bold]System Class Evaluation:[/bold]")
     console.print(f"  Consistent classes: {', '.join(results['consistent_classes'])}")
     console.print(f"  Excluded classes: {len(results['excluded_classes'])}")
 
@@ -142,18 +142,18 @@ def display_capacity_results(results: Dict[str, Any]):
         for exc in results["excluded_classes"][:3]:
             console.print(f"    - {exc['name']}: {exc['reason'][:60]}...")
 
-    console.print(f"\n[bold]Feasibility Region:[/bold]")
+    console.print("\n[bold]Feasibility Region:[/bold]")
     fr = results["feasibility_region"]
     feasible = "[green]FEASIBLE[/green]" if fr["is_feasible"] else "[red]NOT FEASIBLE[/red]"
     console.print(f"  Status: {feasible}")
-    console.print(f"  Required Properties:")
+    console.print("  Required Properties:")
     for prop in fr["required_properties"][:4]:
         console.print(f"    - {prop}")
 
 
-def display_semantic_results(results: Dict[str, Any]):
+def display_semantic_results(results: dict[str, Any]):
     """Display Track D4 results."""
-    console.print(f"\n[bold cyan]Track D4: Semantic Necessity Test[/bold cyan]")
+    console.print("\n[bold cyan]Track D4: Semantic Necessity Test[/bold cyan]")
 
     table = Table(title="Non-Semantic System Tests", show_header=True)
     table.add_column("System", style="cyan")
@@ -201,16 +201,16 @@ def display_semantic_results(results: Dict[str, Any]):
     console.print(f"\n[bold]Assessment:[/bold] [{color}]{assessment.upper()}[/{color}]")
     console.print(f"Confidence: {results['confidence']:.0%}")
 
-    console.print(f"\n[bold]Evidence FOR Semantics:[/bold]")
+    console.print("\n[bold]Evidence FOR Semantics:[/bold]")
     for e in results["evidence_for_semantics"][:3]:
         console.print(f"  - {e}")
 
-    console.print(f"\n[bold]Evidence AGAINST Semantics:[/bold]")
+    console.print("\n[bold]Evidence AGAINST Semantics:[/bold]")
     for e in results["evidence_against_semantics"][:3]:
         console.print(f"  - {e}")
 
 
-def display_phase3_decision(results: Dict[str, Any]):
+def display_phase3_decision(results: dict[str, Any]):
     """Display the Phase 3 decision."""
     justified = results["phase_3_justified"]
 
@@ -360,30 +360,30 @@ def main(
 
     summary = findings.generate_summary()
 
-    console.print(f"\n[bold]Anomaly Characterization:[/bold]")
+    console.print("\n[bold]Anomaly Characterization:[/bold]")
     console.print(f"  Information Density: z = {summary['anomaly']['information_density_z']}")
     console.print(f"  Locality: {summary['anomaly']['locality_radius']} units")
     console.print(f"  Confirmed: {'YES' if summary['anomaly_confirmed'] else 'NO'}")
 
-    console.print(f"\n[bold]Constraint Analysis:[/bold]")
+    console.print("\n[bold]Constraint Analysis:[/bold]")
     console.print(f"  Constraints Analyzed: {summary['constraints_analyzed']}")
     console.print(f"  Minimal Impossibility Sets: {summary['minimal_impossibility_sets']}")
 
-    console.print(f"\n[bold]Feasibility Region:[/bold]")
+    console.print("\n[bold]Feasibility Region:[/bold]")
     console.print(f"  Is Feasible: {summary['feasibility_region']['is_feasible']}")
     console.print(f"  Excluded Classes: {len(summary['feasibility_region']['excluded_classes'])}")
 
-    console.print(f"\n[bold]Semantic Necessity:[/bold]")
+    console.print("\n[bold]Semantic Necessity:[/bold]")
     console.print(f"  Assessment: {summary['semantic_necessity']['assessment']}")
     console.print(f"  Confidence: {summary['semantic_necessity']['confidence']:.0%}")
     console.print(f"  Phase 3 Justified: {summary['semantic_necessity']['phase_3_justified']}")
 
     # Final determination
     if findings.phase_3_decision:
-        console.print(f"\n[bold green]DETERMINATION: Proceed to Phase 3[/bold green]")
+        console.print("\n[bold green]DETERMINATION: Proceed to Phase 3[/bold green]")
         findings.termination_reason = "Semantic necessity established"
     else:
-        console.print(f"\n[bold yellow]DETERMINATION: Phase 2 terminates with integrity[/bold yellow]")
+        console.print("\n[bold yellow]DETERMINATION: Phase 2 terminates with integrity[/bold yellow]")
         findings.termination_reason = "Structural explanation sufficient or inconclusive"
 
     console.print("\n[dim]Phase 2.4 Complete[/dim]")

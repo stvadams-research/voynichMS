@@ -1,8 +1,8 @@
-import typer
-from pathlib import Path
-from rich.console import Console
 import os
-from typing import Optional
+from pathlib import Path
+
+import typer
+from rich.console import Console
 
 from phase1_foundation.configs.logging import setup_logging
 from phase1_foundation.runs.manager import active_run
@@ -47,7 +47,7 @@ def main(verbose: bool = False):
 def plot_token_frequency(
     dataset: str = typer.Argument(..., help="Dataset ID (e.g., 'voynich_real')"),
     top_n: int = typer.Option(50, help="Number of top tokens to display"),
-    output_dir: Optional[Path] = typer.Option(None, help="Custom output directory")
+    output_dir: Path | None = typer.Option(None, help="Custom output directory")
 ):
     """
     Generate Token Frequency Distribution (Zipfian) plot.
@@ -69,7 +69,7 @@ def plot_token_frequency(
 @foundation_app.command("repetition-rate")
 def plot_repetition_rate(
     dataset: str = typer.Argument(..., help="Dataset ID (e.g., 'voynich_real')"),
-    output_dir: Optional[Path] = typer.Option(None, help="Custom output directory")
+    output_dir: Path | None = typer.Option(None, help="Custom output directory")
 ):
     """
     Generate Page-level Repetition Rate Distribution plot.
@@ -93,7 +93,7 @@ def plot_repetition_rate(
 @analysis_app.command("sensitivity-sweep")
 def plot_sensitivity_sweep(
     path: Path = typer.Argument(Path("core_status/core_audit/sensitivity_sweep.json"), help="Path to sensitivity sweep JSON"),
-    output_dir: Optional[Path] = typer.Option(None, help="Custom output directory")
+    output_dir: Path | None = typer.Option(None, help="Custom output directory")
 ):
     """
     Generate sensitivity sweep summary plots.
@@ -106,7 +106,7 @@ def plot_sensitivity_sweep(
         result_path = viz.plot_sensitivity_sweep(path)
         
         if result_path:
-            console.print(f"[bold green]Successfully generated plots.[/bold green]")
+            console.print("[bold green]Successfully generated plots.[/bold green]")
             store.save_run(run)
         else:
             console.print("[bold red]Failed to generate plots.[/bold red]")
@@ -117,7 +117,7 @@ def plot_sensitivity_sweep(
 @synthesis_app.command("gap-phase2_analysis")
 def plot_gap_analysis(
     path: Path = typer.Argument(Path("core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.json"), help="Path to gap phase2_analysis JSON"),
-    output_dir: Optional[Path] = typer.Option(None, help="Custom output directory")
+    output_dir: Path | None = typer.Option(None, help="Custom output directory")
 ):
     """
     Generate phase3_synthesis gap phase2_analysis plots (Real vs Synthetic metrics).
@@ -130,7 +130,7 @@ def plot_gap_analysis(
         result_path = viz.plot_gap_analysis(path)
         
         if result_path:
-            console.print(f"[bold green]Successfully generated plots.[/bold green]")
+            console.print("[bold green]Successfully generated plots.[/bold green]")
             store.save_run(run)
         else:
             console.print("[bold red]Failed to generate plots (check if file exists and has valid data).[/bold red]")
@@ -141,7 +141,7 @@ def plot_gap_analysis(
 @inference_app.command("lang-id")
 def plot_lang_id(
     path: Path = typer.Argument(Path("results/data/phase4_inference/lang_id_results.json"), help="Path to lang-id results JSON"),
-    output_dir: Optional[Path] = typer.Option(None, help="Custom output directory")
+    output_dir: Path | None = typer.Option(None, help="Custom output directory")
 ):
     """
     Generate Language ID false-positive evaluation plots.
@@ -154,7 +154,7 @@ def plot_lang_id(
         result_path = viz.plot_lang_id_comparison(path)
         
         if result_path:
-            console.print(f"[bold green]Successfully generated plots.[/bold green]")
+            console.print("[bold green]Successfully generated plots.[/bold green]")
             store.save_run(run)
         else:
             console.print("[bold red]Failed to generate plots.[/bold red]")

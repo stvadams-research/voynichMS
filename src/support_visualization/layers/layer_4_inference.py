@@ -1,9 +1,9 @@
 import json
+import logging
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+
 import matplotlib.pyplot as plt
 import numpy as np
-import logging
 
 from support_visualization.base import BaseVisualizer
 from support_visualization.core.themes import apply_voynich_theme, get_color_palette
@@ -20,7 +20,7 @@ class InferenceVisualizer(BaseVisualizer):
     def phase_name(self) -> str:
         return "phase4_inference"
 
-    def plot_lang_id_comparison(self, results_json_path: Path) -> Optional[str]:
+    def plot_lang_id_comparison(self, results_json_path: Path) -> str | None:
         """
         Visualize Language ID confidence scores across different datasets.
         Shows how non-semantic datasets can still produce high-confidence matches.
@@ -31,7 +31,7 @@ class InferenceVisualizer(BaseVisualizer):
             logger.error(f"Inference results JSON not found: {results_json_path}")
             return None
             
-        with open(results_json_path, "r") as f:
+        with open(results_json_path) as f:
             data = json.load(f)
             results = data.get("results", data)
             

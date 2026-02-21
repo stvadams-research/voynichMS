@@ -9,36 +9,35 @@ which test high-level method decisions.
 from __future__ import annotations
 
 import math
-import pytest
+
 import numpy as np
+import pytest
 
 pytestmark = pytest.mark.unit
 
 from phase10_admissibility.stage1_pipeline import (
     CorpusBundle,
     Stage1Config,
-    extract_rule,
-    token_entropy,
-    compression_ratio,
-    compression_bits_per_token,
-    type_token_ratio,
     bigram_mutual_information,
+    compression_bits_per_token,
+    compression_ratio,
     conditional_entropy_metrics,
-    zipf_alpha,
-    line_edge_entropies,
-    sequence_metrics,
+    extract_rule,
     extraction_metrics,
-    summarize_stage1,
+    line_edge_entropies,
     now_utc_iso,
+    sequence_metrics,
+    summarize_stage1,
+    token_entropy,
+    type_token_ratio,
+    zipf_alpha,
 )
-
 from phase10_admissibility.stage4_pipeline import (
     Stage4Config,
     collect_method_decisions,
     interpret_priority_urgent,
     synthesize_stage4,
 )
-
 
 # ---------------------------------------------------------------------------
 # Helpers

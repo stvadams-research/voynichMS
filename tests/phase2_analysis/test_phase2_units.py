@@ -9,7 +9,6 @@ Uses synthetic data and mocks rather than real database records.
 """
 
 import math
-from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -345,7 +344,6 @@ class TestSemanticNecessityAnalyzer:
         assert any("robustness" in c.lower() or "perturbation" in c.lower() for c in conditions)
 
     def test_derive_semantic_conditions_always_has_fallback(self):
-        from phase2_analysis.anomaly.semantic_necessity import NonSemanticSystem
         analyzer = self._make_analyzer()
         analyzer.systems = []
         conditions = analyzer.derive_semantic_conditions()
@@ -901,8 +899,8 @@ class TestVisualGrammarModels:
     # -- apply_perturbation (fallback path via empty DB) -----------------
 
     def test_adjacency_apply_perturbation_returns_result(self):
-        from phase2_analysis.models.visual_grammar import AdjacencyGrammarModel
         from phase2_analysis.models.interface import DisconfirmationResult
+        from phase2_analysis.models.visual_grammar import AdjacencyGrammarModel
         model = AdjacencyGrammarModel(self._store())
         result = model.apply_perturbation("segmentation", "empty_ds", 0.1)
         assert isinstance(result, DisconfirmationResult)
@@ -1046,8 +1044,8 @@ class TestInterfaceDataClasses:
 
     def test_feasibility_region_check_feasibility_contradictory(self):
         from phase2_analysis.anomaly.interface import (
-            StructuralFeasibilityRegion,
             CapacityBound,
+            StructuralFeasibilityRegion,
         )
         region = StructuralFeasibilityRegion()
         region.add_bound(CapacityBound(property_name="x", bound_type="lower", bound_value=10.0))
@@ -1057,8 +1055,8 @@ class TestInterfaceDataClasses:
 
     def test_feasibility_region_check_feasibility_consistent(self):
         from phase2_analysis.anomaly.interface import (
-            StructuralFeasibilityRegion,
             CapacityBound,
+            StructuralFeasibilityRegion,
         )
         region = StructuralFeasibilityRegion()
         region.add_bound(CapacityBound(property_name="x", bound_type="lower", bound_value=2.0))
@@ -1086,8 +1084,8 @@ class TestInterfaceDataClasses:
         assert ModelStatus.FALSIFIED.value == "falsified"
 
     def test_explicit_model_record_disconfirmation(self):
-        from phase2_analysis.models.visual_grammar import AdjacencyGrammarModel
         from phase2_analysis.models.interface import DisconfirmationResult, ModelStatus
+        from phase2_analysis.models.visual_grammar import AdjacencyGrammarModel
         model = AdjacencyGrammarModel(_DummyStore())
         # Record a surviving result
         result = DisconfirmationResult(
@@ -1102,8 +1100,8 @@ class TestInterfaceDataClasses:
         assert model.status != ModelStatus.FALSIFIED
 
     def test_explicit_model_record_disconfirmation_failure(self):
-        from phase2_analysis.models.visual_grammar import AdjacencyGrammarModel
         from phase2_analysis.models.interface import DisconfirmationResult, ModelStatus
+        from phase2_analysis.models.visual_grammar import AdjacencyGrammarModel
         model = AdjacencyGrammarModel(_DummyStore())
         result = DisconfirmationResult(
             model_id="vg_adjacency_grammar",

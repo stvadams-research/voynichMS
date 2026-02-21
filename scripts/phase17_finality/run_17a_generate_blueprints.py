@@ -201,10 +201,12 @@ def _write_concentric_assembly_svg(window_contents: dict[str, list[str]], out_pa
         label_r = inner_r + ((outer_r - inner_r) * 0.52)
 
         svg.append(
-            f'<circle cx="{cx}" cy="{cy}" r="{outer_r}" fill="none" stroke="black" stroke-width="1.5"/>'
+            f'<circle cx="{cx}" cy="{cy}" r="{outer_r}" '
+            'fill="none" stroke="black" stroke-width="1.5"/>'
         )
         svg.append(
-            f'<circle cx="{cx}" cy="{cy}" r="{inner_r}" fill="none" stroke="black" stroke-width="1"/>'
+            f'<circle cx="{cx}" cy="{cy}" r="{inner_r}" '
+            'fill="none" stroke="black" stroke-width="1"/>'
         )
 
         for i, token in enumerate(tokens):

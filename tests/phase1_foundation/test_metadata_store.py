@@ -7,26 +7,22 @@ merge/upsert behavior, relationship navigation, status cascades, and queries.
 import pytest
 
 from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    RunRecord,
-    DatasetRecord,
-    PageRecord,
-    LineRecord,
-    WordRecord,
-    GlyphCandidateRecord,
-    TranscriptionSourceRecord,
-    TranscriptionLineRecord,
-    TranscriptionTokenRecord,
-    ControlDatasetRecord,
-    MetricResultRecord,
     AnchorMethodRecord,
     AnchorRecord,
-    StructureRecord,
-    DecisionRecord,
+    ControlDatasetRecord,
+    DatasetRecord,
+    GlyphCandidateRecord,
     HypothesisRecord,
-    ExplanationClassRecord,
+    LineRecord,
+    MetadataStore,
+    MetricResultRecord,
+    PageRecord,
+    StructureRecord,
+    TranscriptionLineRecord,
+    TranscriptionSourceRecord,
+    TranscriptionTokenRecord,
+    WordRecord,
 )
-
 
 # ---------------------------------------------------------------------------
 # Schema creation

@@ -8,17 +8,18 @@ Models:
    Nodes = Word. Edges = Evaluated rule f(word, position).
 """
 
-import random
-from typing import List, Dict, Any, Tuple, Optional
-from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
-from phase1_foundation.config import require_seed_if_strict
-from pathlib import Path
-from phase5_mechanism.dependency_scope.features import TokenFeatureExtractor
 import logging
+import random
+from pathlib import Path
+
+from phase1_foundation.config import require_seed_if_strict
+from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+from phase5_mechanism.dependency_scope.features import TokenFeatureExtractor
+
 logger = logging.getLogger(__name__)
 
 class ParsimonySimulator:
-    def __init__(self, grammar_path: Path, vocab_size: int = 1000, seed: Optional[int] = None):
+    def __init__(self, grammar_path: Path, vocab_size: int = 1000, seed: int | None = None):
         require_seed_if_strict(seed, "ParsimonySimulator")
         # Intentional controller bypass: simulators keep local RNG state per run.
         self.rng = random.Random(seed)
@@ -26,14 +27,14 @@ class ParsimonySimulator:
         self.nodes = [self.generator.generate_word() for _ in range(vocab_size)]
         self.extractor = TokenFeatureExtractor()
 
-    def generate_corpus(self, num_lines: int, line_len: int) -> List[List[str]]:
+    def generate_corpus(self, num_lines: int, line_len: int) -> list[list[str]]:
         return [self.generate_line(line_len) for _ in range(num_lines)]
 
 class PositionIndexedDAGSimulator(ParsimonySimulator):
     """
     M1: Explodes state space to (Word, Position).
     """
-    def __init__(self, grammar_path: Path, vocab_size: int = 1000, max_len: int = 10, seed: Optional[int] = None):
+    def __init__(self, grammar_path: Path, vocab_size: int = 1000, max_len: int = 10, seed: int | None = None):
         super().__init__(grammar_path, vocab_size, seed=seed)
         self.max_len = max_len
         self.transitions = {} # Key: (node_idx, pos), Value: next_node_idx
@@ -49,7 +50,7 @@ class PositionIndexedDAGSimulator(ParsimonySimulator):
                 rng = random.Random(trans_seed)
                 self.transitions[(i, p)] = rng.randint(0, vocab_size - 1)
 
-    def generate_line(self, length: int) -> List[str]:
+    def generate_line(self, length: int) -> list[str]:
         # Start node depends on nothing (or random)
         idx = self.rng.randint(0, len(self.nodes) - 1)
         line = []
@@ -68,7 +69,7 @@ class ImplicitLatticeSimulator(ParsimonySimulator):
     M2: Implicit constraints based on features and position.
     Enhanced with context-masking for higher-order dependency.
     """
-    def __init__(self, grammar_path: Path, vocab_size: int = 1000, seed: Optional[int] = None):
+    def __init__(self, grammar_path: Path, vocab_size: int = 1000, seed: int | None = None):
         super().__init__(grammar_path, vocab_size, seed=seed)
         # Rule: Next word matches a feature condition derived from current word + position
         self.node_features = [self.extractor.extract_features(w) for w in self.nodes]
@@ -81,7 +82,7 @@ class ImplicitLatticeSimulator(ParsimonySimulator):
                 self.feature_map[key] = []
             self.feature_map[key].append(i)
 
-    def generate_line(self, length: int) -> List[str]:
+    def generate_line(self, length: int) -> list[str]:
         # Initial line state
         idx = self.rng.randint(0, len(self.nodes) - 1)
         

@@ -4,11 +4,13 @@ Method C: Topic Modeling Alignment
 Uses LDA to identify latent topics and measures their alignment with manuscript sections.
 """
 
+import logging
+from typing import Any
+
+import numpy as np
 from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.feature_extraction.text import CountVectorizer
-import numpy as np
-from typing import List, Dict, Any, Tuple
-import logging
+
 logger = logging.getLogger(__name__)
 
 class TopicAnalyzer:
@@ -19,7 +21,7 @@ class TopicAnalyzer:
         self.num_topics = num_topics
         self.num_sections = num_sections
 
-    def analyze(self, tokens: List[str]) -> Dict[str, Any]:
+    def analyze(self, tokens: list[str]) -> dict[str, Any]:
         """
         Run LDA and measure topic-section alignment.
         """
@@ -84,7 +86,7 @@ class TopicAnalyzer:
             "topic_words": self._get_topic_words(lda, vectorizer)
         }
 
-    def _get_topic_words(self, lda, vectorizer, top_n: int = 10) -> List[List[str]]:
+    def _get_topic_words(self, lda, vectorizer, top_n: int = 10) -> list[list[str]]:
         words = vectorizer.get_feature_names_out()
         topic_words = []
         for topic_idx, topic in enumerate(lda.components_):

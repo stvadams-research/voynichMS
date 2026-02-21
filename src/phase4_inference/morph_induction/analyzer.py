@@ -4,9 +4,10 @@ Method E: Unsupervised Morphology Induction
 Identifies stable prefixes and suffixes and measures their consistency.
 """
 
-from collections import Counter
-from typing import List, Dict, Any, Tuple
 import logging
+from collections import Counter
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 class MorphologyAnalyzer:
@@ -17,7 +18,7 @@ class MorphologyAnalyzer:
         self.min_affix_len = min_affix_len
         self.max_affix_len = max_affix_len
 
-    def analyze(self, tokens: List[str]) -> Dict[str, Any]:
+    def analyze(self, tokens: list[str]) -> dict[str, Any]:
         """
         Induce affixes and measure consistency.
         """

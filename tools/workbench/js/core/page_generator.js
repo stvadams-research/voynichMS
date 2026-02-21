@@ -101,6 +101,26 @@
     });
   }
 
+  function extractLineAffix(content) {
+    const raw = String(content || "").trim();
+    if (!raw) {
+      return { prefix: "", suffix: "" };
+    }
+    const prefixMatch = raw.match(/^((?:<[^>]+>)+)/);
+    const suffixMatch = raw.match(/((?:<[^>]+>)+)$/);
+    return {
+      prefix: prefixMatch ? prefixMatch[1] : "",
+      suffix: suffixMatch ? suffixMatch[1] : "",
+    };
+  }
+
+  function getFolioObservedAffixes(folio) {
+    const lines = Array.isArray(folio.lines) ? folio.lines : [];
+    return lines.map(function toAffix(line) {
+      return extractLineAffix(line.content);
+    });
+  }
+
   function getFolioScheduleEntry(pageSchedule, folioId) {
     if (!pageSchedule || !Array.isArray(pageSchedule.folios)) {
       return null;
@@ -272,6 +292,7 @@
     }
 
     const observedMarkers = getFolioObservedMarkers(folio);
+    const observedAffixes = getFolioObservedAffixes(folio);
     const sourceCounts = {};
     const ivtffLines = [];
     const contentLines = [];
@@ -326,7 +347,14 @@
         prevWord = chosenWord;
       }
 
-      const content = tokens.join(".");
+      const affix = observedAffixes[lineIdx] || { prefix: "", suffix: "" };
+      let content = tokens.join(".");
+      if (affix.prefix) {
+        content = `${affix.prefix}${content}`;
+      }
+      if (affix.suffix) {
+        content = `${content}${affix.suffix}`;
+      }
       contentLines.push(content);
       if (format === "ivtff") {
         ivtffLines.push(`<${folioId}.${lineIdx + 1},${marker}>      ${content}`);

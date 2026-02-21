@@ -1,9 +1,11 @@
-import yaml
-from pathlib import Path
-from typing import Dict, Any, Type, TypeVar, Tuple
-from pydantic import BaseModel
 import hashlib
 import logging
+from pathlib import Path
+from typing import TypeVar
+
+import yaml
+from pydantic import BaseModel
+
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T", bound=BaseModel)
@@ -13,7 +15,7 @@ class VoynichConfig(BaseModel):
     project_name: str = "voynich-phase1_foundation"
     version: str = "0.1.0"
 
-def load_config(config_path: Path, model: Type[T] = VoynichConfig) -> Tuple[T, str]:
+def load_config(config_path: Path, model: type[T] = VoynichConfig) -> tuple[T, str]:
     """
     Load a YAML configuration file and validate it against a Pydantic model.
     Returns the config object and the SHA256 hash of the raw config file.
@@ -21,7 +23,7 @@ def load_config(config_path: Path, model: Type[T] = VoynichConfig) -> Tuple[T, s
     if not config_path.exists():
         raise FileNotFoundError(f"Config file not found: {config_path}")
 
-    with open(config_path, "r") as f:
+    with open(config_path) as f:
         raw_content = f.read()
     
     # Calculate hash of raw content

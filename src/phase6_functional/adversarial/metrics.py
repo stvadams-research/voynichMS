@@ -7,10 +7,12 @@ Implementation of metrics for Phase 6C:
 - Observer Conditioning Sensitivity
 """
 
-import numpy as np
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
 import logging
+from collections import Counter, defaultdict
+from typing import Any
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class AdversarialAnalyzer:
@@ -20,7 +22,7 @@ class AdversarialAnalyzer:
     def __init__(self):
         pass
 
-    def analyze_learnability_gradient(self, lines: List[List[str]], steps: int = 10) -> Dict[str, Any]:
+    def analyze_learnability_gradient(self, lines: list[list[str]], steps: int = 10) -> dict[str, Any]:
         """
         6.1 Learnability Gradient Test
         Measure prediction accuracy as corpus fraction increases.
@@ -75,7 +77,7 @@ class AdversarialAnalyzer:
             "final_accuracy": gradient[-1] if gradient else 0
         }
 
-    def analyze_decoy_regularity(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_decoy_regularity(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         6.2 Decoy Regularity Test
         Detect local regularities that fail to generalize.
@@ -120,7 +122,7 @@ class AdversarialAnalyzer:
             "decoy_rate": float(len(misdirection_scores) / len(global_rules)) if global_rules else 0
         }
 
-    def analyze_conditioning_sensitivity(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_conditioning_sensitivity(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         6.3 Observer Conditioning Sensitivity
         Test whether adding context paradoxically increases ambiguity.
@@ -158,7 +160,7 @@ class AdversarialAnalyzer:
             "is_paradoxical": bool(h2 > h1 + 0.01) # Small epsilon for noise
         }
 
-    def run_adversarial_audit(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def run_adversarial_audit(self, lines: list[list[str]]) -> dict[str, Any]:
         return {
             "learnability": self.analyze_learnability_gradient(lines),
             "decoy_regularity": self.analyze_decoy_regularity(lines),

@@ -11,23 +11,20 @@ Per PRINCIPLES_AND_NONGOALS.md:
 - "If a signal survives controls, it is meaningful. If it does not, it is an artifact."
 """
 
-from typing import List, Dict, Any
-import math
-from collections import Counter
 import logging
+import math
 
-from phase1_foundation.hypotheses.interface import Hypothesis, HypothesisResult, HypothesisOutcome
+from phase1_foundation.hypotheses.interface import Hypothesis, HypothesisOutcome, HypothesisResult
 from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    WordRecord,
-    LineRecord,
+    AnchorRecord,
     GlyphCandidateRecord,
-    TranscriptionTokenRecord,
+    LineRecord,
+    PageRecord,
+    RegionRecord,
     TranscriptionLineRecord,
     TranscriptionSourceRecord,
-    RegionRecord,
-    AnchorRecord,
-    PageRecord,
+    TranscriptionTokenRecord,
+    WordRecord,
 )
 
 logger = logging.getLogger(__name__)
@@ -70,10 +67,10 @@ class FixedGlyphIdentityHypothesis(Hypothesis):
             "glyph identity is segmentation-dependent and the hypothesis is FALSIFIED."
         )
 
-    def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def run(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         return self._run_real(real_dataset_id, control_dataset_ids)
 
-    def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def _run_real(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         """
         Simulate boundary perturbation and count affected glyphs.
 
@@ -219,10 +216,10 @@ class WordBoundaryStabilityHypothesis(Hypothesis):
             "word boundaries are objective is FALSIFIED."
         )
 
-    def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def run(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         return self._run_real(real_dataset_id, control_dataset_ids)
 
-    def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def _run_real(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         """
         Compare word/token counts across transcription sources.
 
@@ -392,10 +389,10 @@ class DiagramTextAlignmentHypothesis(Hypothesis):
     # 0.1 represents a 10% expected variation in alignment scores due to chance.
     DEFAULT_CONTROL_STD = 0.1
 
-    def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def run(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         return self._run_real(real_dataset_id, control_dataset_ids)
 
-    def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def _run_real(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         """
         Count real anchors and compare to controls.
 
@@ -517,10 +514,10 @@ class AnchorDisruptionHypothesis(Hypothesis):
             "the anchoring is geometrically fragile and FALSIFIED."
         )
 
-    def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def run(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         return self._run_real(real_dataset_id, control_dataset_ids)
 
-    def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def _run_real(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         """
         Measure anchor survival after simulated region shift.
 

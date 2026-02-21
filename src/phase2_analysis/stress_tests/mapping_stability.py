@@ -10,34 +10,30 @@ Key questions:
 - Do mappings survive omission/addition?
 """
 
-from typing import List, Dict, Any, Optional, Tuple
-import math
+import logging
 from collections import Counter
-from datetime import datetime, timezone
-
-from phase2_analysis.stress_tests.interface import (
-    StressTest,
-    StressTestResult,
-    StressTestOutcome,
-)
-from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    PageRecord,
-    WordRecord,
-    LineRecord,
-    GlyphCandidateRecord,
-    GlyphAlignmentRecord,
-    TranscriptionTokenRecord,
-    TranscriptionLineRecord,
-    WordAlignmentRecord,
-    AnchorRecord,
-)
-
+from datetime import UTC, datetime
+from typing import Any
 
 from sqlalchemy.orm import Session as SASession
+
 from phase1_foundation.config import MAX_PAGES_PER_TEST, get_analysis_thresholds
 from phase1_foundation.runs.manager import RunManager
-import logging
+from phase1_foundation.storage.metadata import (
+    GlyphCandidateRecord,
+    LineRecord,
+    MetadataStore,
+    PageRecord,
+    TranscriptionTokenRecord,
+    WordAlignmentRecord,
+    WordRecord,
+)
+from phase2_analysis.stress_tests.interface import (
+    StressTest,
+    StressTestOutcome,
+    StressTestResult,
+)
+
 logger = logging.getLogger(__name__)
 
 # Local limits
@@ -79,11 +75,11 @@ class MappingStabilityTest(StressTest):
         )
 
     @property
-    def applicable_classes(self) -> List[str]:
+    def applicable_classes(self) -> list[str]:
         return ["constructed_system", "visual_grammar", "hybrid_system"]
 
     def run(self, explanation_class: str, dataset_id: str,
-            control_ids: List[str]) -> StressTestResult:
+            control_ids: list[str]) -> StressTestResult:
         """
         Execute mapping stability tests.
 
@@ -143,7 +139,7 @@ class MappingStabilityTest(StressTest):
                 explanation_class=explanation_class,
                 run_id=run_id,
                 dataset_id=dataset_id,
-                timestamp=datetime.now(timezone.utc).isoformat(),
+                timestamp=datetime.now(UTC).isoformat(),
                 parameters={
                     "num_controls": len(control_ids),
                     "max_pages_per_test": MAX_PAGES_PER_TEST,
@@ -171,7 +167,7 @@ class MappingStabilityTest(StressTest):
             session.close()
 
     def _evaluate_page_stability(self, session: SASession, page: PageRecord, dataset_id: str,
-                                 seg_results: List[float], ord_results: List[float], omit_results: List[float]) -> None:
+                                 seg_results: list[float], ord_results: list[float], omit_results: list[float]) -> None:
         """Evaluate all stability metrics for a single page's lines."""
         lines = session.query(LineRecord).filter_by(page_id=page.id).limit(MAX_LINES_PER_PAGE).all()
         for line in lines:
@@ -182,7 +178,7 @@ class MappingStabilityTest(StressTest):
             ord_results.append(self._test_ordering_stability(session, words, dataset_id))
             omit_results.append(self._test_omission_stability(session, words, dataset_id))
 
-    def _test_segmentation_stability(self, session: SASession, words: List[WordRecord], dataset_id: str) -> float:
+    def _test_segmentation_stability(self, session: SASession, words: list[WordRecord], dataset_id: str) -> float:
         """
         Test stability under segmentation perturbation.
 
@@ -230,7 +226,7 @@ class MappingStabilityTest(StressTest):
         collapse_rate = affected_glyphs / total_glyphs
         return 1.0 - collapse_rate
 
-    def _test_ordering_stability(self, session: SASession, words: List[WordRecord], dataset_id: str) -> float:
+    def _test_ordering_stability(self, session: SASession, words: list[WordRecord], dataset_id: str) -> float:
         """
         Test stability under ordering perturbation.
 
@@ -277,7 +273,7 @@ class MappingStabilityTest(StressTest):
 
         return len(intersection) / len(union) if union else 1.0
 
-    def _test_omission_stability(self, session: SASession, words: List[WordRecord], dataset_id: str) -> float:
+    def _test_omission_stability(self, session: SASession, words: list[WordRecord], dataset_id: str) -> float:
         """
         Test stability under omission perturbation.
 
@@ -319,7 +315,7 @@ class MappingStabilityTest(StressTest):
 
         return preserved / total if total > 0 else 0.0
 
-    def _test_controls(self, session: SASession, control_ids: List[str], dataset_id: str) -> Optional[float]:
+    def _test_controls(self, session: SASession, control_ids: list[str], dataset_id: str) -> float | None:
         """
         Test stability on control datasets.
 
@@ -355,7 +351,7 @@ class MappingStabilityTest(StressTest):
         return sum(control_stabilities) / len(control_stabilities)
 
     def _determine_outcome(self, explanation_class: str,
-                           seg: float, ord: float, omit: float) -> Tuple[StressTestOutcome, Optional[float]]:
+                           seg: float, ord: float, omit: float) -> tuple[StressTestOutcome, float | None]:
         """
         Determine outcome based on stability scores.
         
@@ -408,7 +404,7 @@ class MappingStabilityTest(StressTest):
 
     def _generate_implications(self, explanation_class: str,
                                seg: float, ord: float, omit: float,
-                               outcome: StressTestOutcome) -> List[str]:
+                               outcome: StressTestOutcome) -> list[str]:
         """
         Generate constraint implications from results.
         
@@ -443,7 +439,7 @@ class MappingStabilityTest(StressTest):
 
         return implications
 
-    def _identify_failure_cases(self, seg: float, ord: float, omit: float) -> List[Dict[str, Any]]:
+    def _identify_failure_cases(self, seg: float, ord: float, omit: float) -> list[dict[str, Any]]:
         """Identify specific failure cases."""
         failures = []
         confidence_threshold = self._threshold("standard_high_confidence", default=0.7)

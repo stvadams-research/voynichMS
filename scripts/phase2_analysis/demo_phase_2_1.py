@@ -22,11 +22,11 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 from rich.tree import Tree
 
-from phase1_foundation.storage.metadata import MetadataStore, ExplanationClassRecord
+from phase1_foundation.storage.metadata import ExplanationClassRecord, MetadataStore
 from phase2_analysis.admissibility.manager import AdmissibilityManager, AdmissibilityStatus
 
 console = Console()

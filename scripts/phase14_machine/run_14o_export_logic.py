@@ -5,16 +5,17 @@ Exports the Lattice Map and Window Contents to flat CSV files for
 independent (non-Python) implementation.
 """
 
-import sys
-import json
 import csv
+import json
+import sys
 from pathlib import Path
+
 from rich.console import Console
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
 
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
 OUTPUT_PATH = project_root / "results/data/phase14_machine/logic_export_status.json"
@@ -28,7 +29,7 @@ def main():
         return
 
     # 1. Load Model
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         data = json.load(f)["results"]
     
     lattice_map = data["lattice_map"]

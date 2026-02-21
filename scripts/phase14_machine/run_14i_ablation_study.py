@@ -5,10 +5,10 @@ Tests model performance (Admissibility / MDL) as a function of
 lattice complexity (number of windows).
 """
 
-import sys
-import json
 import math
+import sys
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
 

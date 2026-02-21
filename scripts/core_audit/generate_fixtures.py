@@ -2,14 +2,14 @@ import json
 import math
 import sys
 from pathlib import Path
-from sqlalchemy import create_engine
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root / 'src'))
 
+from phase1_foundation.metrics.library import ClusterTightness, RepetitionRate
 from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.metrics.library import RepetitionRate, ClusterTightness
+
 
 def sanitize_for_json(obj):
     if isinstance(obj, dict):

@@ -4,18 +4,20 @@ Shared perturbation computation utilities for explicit models.
 Provides real anchor-based degradation calculations.
 """
 
-from typing import Dict, Any
+import logging
+from typing import Any
+
 import numpy as np
+
 from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    PageRecord,
-    WordRecord,
-    LineRecord,
-    RegionRecord,
     AnchorRecord,
     GlyphCandidateRecord,
+    LineRecord,
+    MetadataStore,
+    PageRecord,
+    RegionRecord,
+    WordRecord,
 )
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -44,8 +46,8 @@ class PerturbationCalculator:
         perturbation_type: str,
         dataset_id: str,
         strength: float,
-        model_sensitivities: Dict[str, float]
-    ) -> Dict[str, Any]:
+        model_sensitivities: dict[str, float]
+    ) -> dict[str, Any]:
         """
         Calculate degradation for a given perturbation type.
 
@@ -72,8 +74,8 @@ class PerturbationCalculator:
         perturbation_type: str,
         dataset_id: str,
         strength: float,
-        model_sensitivities: Dict[str, float]
-    ) -> Dict[str, Any]:
+        model_sensitivities: dict[str, float]
+    ) -> dict[str, Any]:
         """Calculate real degradation from database records."""
         session = self.store.Session()
         try:
@@ -95,8 +97,8 @@ class PerturbationCalculator:
         session,
         dataset_id: str,
         strength: float,
-        model_sensitivities: Dict[str, float]
-    ) -> Dict[str, Any]:
+        model_sensitivities: dict[str, float]
+    ) -> dict[str, Any]:
         """
         Calculate anchor disruption by measuring anchor survival under region shift.
         """
@@ -184,8 +186,8 @@ class PerturbationCalculator:
         session,
         dataset_id: str,
         strength: float,
-        model_sensitivities: Dict[str, float]
-    ) -> Dict[str, Any]:
+        model_sensitivities: dict[str, float]
+    ) -> dict[str, Any]:
         """
         Calculate segmentation disruption by measuring glyph collapse rate.
         """
@@ -258,8 +260,8 @@ class PerturbationCalculator:
         session,
         dataset_id: str,
         strength: float,
-        model_sensitivities: Dict[str, float]
-    ) -> Dict[str, Any]:
+        model_sensitivities: dict[str, float]
+    ) -> dict[str, Any]:
         """
         Calculate ordering disruption based on positional constraints.
 
@@ -301,8 +303,8 @@ class PerturbationCalculator:
         session,
         dataset_id: str,
         strength: float,
-        model_sensitivities: Dict[str, float]
-    ) -> Dict[str, Any]:
+        model_sensitivities: dict[str, float]
+    ) -> dict[str, Any]:
         """
         Calculate omission disruption based on element removal.
         """
@@ -340,8 +342,8 @@ class PerturbationCalculator:
         self,
         perturbation_type: str,
         strength: float,
-        model_sensitivities: Dict[str, float]
-    ) -> Dict[str, Any]:
+        model_sensitivities: dict[str, float]
+    ) -> dict[str, Any]:
         """
         Return a deterministic sparse-data fallback when database records
         are missing for a perturbation calculation.
@@ -373,7 +375,7 @@ class PerturbationCalculator:
         self,
         perturbation_type: str,
         strength: float,
-        model_sensitivities: Dict[str, float],
+        model_sensitivities: dict[str, float],
     ) -> float:
         """
         Estimate degradation conservatively when records are insufficient.

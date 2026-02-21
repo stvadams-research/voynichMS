@@ -7,23 +7,25 @@ language matches for non-semantic data.
 """
 
 import argparse
+import random
 import sys
 from pathlib import Path
-import json
-import random
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
-from phase1_foundation.config import DEFAULT_SEED
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import (
+    MetadataStore,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from phase4_inference.lang_id_transforms.analyzer import LanguageIDAnalyzer
 
 console = Console()
@@ -67,7 +69,7 @@ def run_experiment(seed: int = 42, output_dir: str | None = None):
         console.print("Building language profiles...")
         for lang, path in [("latin", "data/external_corpora/latin_corpus.txt"), ("english", "data/external_corpora/english.txt"), ("german", "data/external_corpora/german.txt")]:
             if Path(path).exists():
-                with open(path, "r") as f:
+                with open(path) as f:
                     analyzer.build_profile(lang, f.read())
             else:
                 console.print(f"  [red]Warning: {path} not found.[/red]")

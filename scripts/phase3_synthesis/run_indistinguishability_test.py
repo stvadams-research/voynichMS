@@ -7,15 +7,15 @@ is statistically indistinguishable from the real manuscript.
 """
 
 import argparse
-from collections import Counter
 import json
 import math
 import os
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 from time import perf_counter
-from typing import Any, Dict, List
+from typing import Any
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -25,15 +25,14 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
-from phase2_analysis.stress_tests.locality import LocalityTest
 from phase1_foundation.config import DEFAULT_SEED
 from phase1_foundation.core.id_factory import DeterministicIDFactory
 from phase1_foundation.core.provenance import ProvenanceWriter
 from phase1_foundation.metrics.library import RepetitionRate
 from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.storage.metadata import PageRecord
+from phase1_foundation.storage.metadata import MetadataStore, PageRecord
+from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
+from phase2_analysis.stress_tests.locality import LocalityTest
 from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
 from phase3_synthesis.text_generator import TextContinuationGenerator
 
@@ -62,7 +61,7 @@ class RealProfilePreflightError(RuntimeError):
         self.preflight = preflight
 
 
-def _load_sk_h3_policy() -> Dict[str, Any]:
+def _load_sk_h3_policy() -> dict[str, Any]:
     if SK_H3_POLICY_PATH.exists():
         return json.loads(SK_H3_POLICY_PATH.read_text(encoding="utf-8"))
     return {
@@ -74,7 +73,7 @@ def _load_sk_h3_policy() -> Dict[str, Any]:
     }
 
 
-def _partition_policy(policy: Dict[str, Any]) -> Dict[str, Any]:
+def _partition_policy(policy: dict[str, Any]) -> dict[str, Any]:
     partition = dict(policy.get("metric_partition_policy", {}))
     matching_metrics = [str(v) for v in partition.get("matching_metrics", [])]
     holdout_metrics = [str(v) for v in partition.get("holdout_evaluation_metrics", [])]
@@ -98,13 +97,13 @@ def _status_allowed_claim(status: str) -> str:
 
 def _build_comparability_summary(
     *,
-    policy: Dict[str, Any],
+    policy: dict[str, Any],
     status: str,
     reason_code: str,
     matching_pass: bool,
     holdout_pass: bool,
-    pass_flags: Dict[str, bool] | None = None,
-) -> Dict[str, Any]:
+    pass_flags: dict[str, bool] | None = None,
+) -> dict[str, Any]:
     partition = _partition_policy(policy)
     normalization_policy = dict(policy.get("normalization_policy", {}))
     metric_overlap = list(partition["metric_overlap"])
@@ -124,7 +123,7 @@ def _build_comparability_summary(
     }
 
 
-def _write_control_comparability_status(summary: Dict[str, Any]) -> None:
+def _write_control_comparability_status(summary: dict[str, Any]) -> None:
     grade_map = {
         "COMPARABLE_CONFIRMED": "A",
         "COMPARABLE_QUALIFIED": "B",
@@ -198,13 +197,13 @@ def _require_stress_metric(
     return _require_scalar(metrics[key], metric_name, dataset_id)
 
 
-def _mean(values: List[float], *, fallback: float = 0.0) -> float:
+def _mean(values: list[float], *, fallback: float = 0.0) -> float:
     if not values:
         return fallback
     return sum(values) / len(values)
 
 
-def _compute_token_positional_entropy(text_blocks: List[List[str]]) -> float:
+def _compute_token_positional_entropy(text_blocks: list[list[str]]) -> float:
     counts = {"start": Counter(), "mid": Counter(), "end": Counter()}
     tokens = [token for block in text_blocks for token in block if token]
     if not tokens:
@@ -478,8 +477,8 @@ def run_turing_test(*, strict_computed: bool, preflight_only: bool = False) -> N
             fallback=0.0,
         )
 
-        syn_mean_word_length_values: List[float] = []
-        syn_positional_entropy_values: List[float] = []
+        syn_mean_word_length_values: list[float] = []
+        syn_positional_entropy_values: list[float] = []
         for page in synthetic_pages:
             if "mean_word_length" in page.metrics:
                 syn_mean_word_length_values.append(float(page.metrics["mean_word_length"]))

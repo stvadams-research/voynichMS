@@ -20,28 +20,27 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
+from typing import Any
+
 import typer
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
-from typing import Dict, List, Any
+from rich.table import Table
 
-from phase3_synthesis.interface import Phase3Findings
-from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
-from phase3_synthesis.text_generator import TextContinuationGenerator
 from phase3_synthesis.gap_continuation import MultiGapContinuation
-from phase3_synthesis.refinement.interface import Phase31Findings, EquivalenceOutcome
-from phase3_synthesis.refinement.feature_discovery import DiscriminativeFeatureDiscovery
+from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
 from phase3_synthesis.refinement.constraint_formalization import ConstraintFormalization
-from phase3_synthesis.refinement.resynthesis import RefinedSynthesis
 from phase3_synthesis.refinement.equivalence_testing import EquivalenceReTest, TerminationDecision
+from phase3_synthesis.refinement.feature_discovery import DiscriminativeFeatureDiscovery
+from phase3_synthesis.refinement.interface import EquivalenceOutcome, Phase31Findings
+from phase3_synthesis.refinement.resynthesis import RefinedSynthesis
 
 app = typer.Typer()
 console = Console()
 
 
-def display_feature_discovery(results: Dict[str, Any]):
+def display_feature_discovery(results: dict[str, Any]):
     """Display Track A results."""
     console.print("\n[bold cyan]Track A: Discriminative Feature Discovery[/bold cyan]")
 
@@ -67,7 +66,7 @@ def display_feature_discovery(results: Dict[str, Any]):
     console.print(f"Formalizable features: {len(results['formalizable_features'])}")
 
 
-def display_constraint_formalization(results: Dict[str, Any]):
+def display_constraint_formalization(results: dict[str, Any]):
     """Display Track B results."""
     console.print("\n[bold cyan]Track B: Structural Hypothesis Formalization[/bold cyan]")
 
@@ -94,7 +93,7 @@ def display_constraint_formalization(results: Dict[str, Any]):
             console.print(f"  - {c['id']}: {c['reason']}")
 
 
-def display_resynthesis_results(results: Dict[str, Any]):
+def display_resynthesis_results(results: dict[str, Any]):
     """Display Track C results."""
     console.print("\n[bold cyan]Track C: Constraint Integration and Re-Synthesis[/bold cyan]")
 
@@ -116,7 +115,7 @@ def display_resynthesis_results(results: Dict[str, Any]):
     console.print(table)
 
 
-def display_equivalence_results(test: Any, comparison: Dict[str, Any]):
+def display_equivalence_results(test: Any, comparison: dict[str, Any]):
     """Display Track D results."""
     console.print("\n[bold cyan]Track D: Equivalence Re-Testing[/bold cyan]")
 
@@ -371,16 +370,16 @@ def main(
     summary = findings.generate_summary()
 
     console.print(f"\n[bold]Features Discovered:[/bold] {summary['features_discovered']}")
-    console.print(f"[bold]Top Features:[/bold]")
+    console.print("[bold]Top Features:[/bold]")
     for f in summary["top_features"][:3]:
         console.print(f"  - {f['id']}: {f['importance']:.3f}")
 
-    console.print(f"\n[bold]Constraints:[/bold]")
+    console.print("\n[bold]Constraints:[/bold]")
     console.print(f"  Proposed: {summary['constraints_proposed']}")
     console.print(f"  Validated: {summary['constraints_validated']}")
     console.print(f"  Rejected: {summary['constraints_rejected']}")
 
-    console.print(f"\n[bold]Equivalence:[/bold]")
+    console.print("\n[bold]Equivalence:[/bold]")
     console.print(f"  Phase 3 Separation: {summary['phase3_separation']:.3f}")
     console.print(f"  Phase 3.1 Separation: {summary['phase31_separation']:.3f}")
     console.print(f"  Improvement: {summary['improvement']:+.3f}")

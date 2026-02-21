@@ -10,7 +10,7 @@ from __future__ import annotations
 import csv
 import json
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -301,7 +301,7 @@ def main() -> None:
         }
 
     metadata = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "sources": {
             "slips": str(SLIPS_PATH.relative_to(PROJECT_ROOT)),
             "lattice": str(LATTICE_PATH.relative_to(PROJECT_ROOT)),

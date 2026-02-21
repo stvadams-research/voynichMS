@@ -5,15 +5,17 @@ Quantifies the complexity of the physical tool required to explain
 the observed mask behavior.
 """
 
-from typing import List, Dict, Any
-import numpy as np
 import math
+from typing import Any
+
+import numpy as np
+
 
 class MaskStateEstimator:
     """
     Estimates the 'effective bits' of the persistent context mask.
     """
-    def estimate_bottleneck(self, sliding_series: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def estimate_bottleneck(self, sliding_series: list[dict[str, Any]]) -> dict[str, Any]:
         residuals = np.array([r['residual'] for r in sliding_series])
         
         # Variance of the residuals represents the 'error' of a single-state model

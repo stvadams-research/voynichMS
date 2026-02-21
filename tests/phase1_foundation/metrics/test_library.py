@@ -6,20 +6,20 @@ import struct
 import numpy as np
 import pytest
 
+from phase1_foundation.metrics.library import ClusterTightness, RepetitionRate
 from phase1_foundation.storage.metadata import (
+    DatasetRecord,
+    LineRecord,
     MetadataStore,
     PageRecord,
-    LineRecord,
-    WordRecord,
-    TranscriptionLineRecord,
-    TranscriptionTokenRecord,
-    TranscriptionSourceRecord,
-    WordAlignmentRecord,
-    RegionRecord,
     RegionEmbeddingRecord,
-    DatasetRecord,
+    RegionRecord,
+    TranscriptionLineRecord,
+    TranscriptionSourceRecord,
+    TranscriptionTokenRecord,
+    WordAlignmentRecord,
+    WordRecord,
 )
-from phase1_foundation.metrics.library import RepetitionRate, ClusterTightness
 
 pytestmark = pytest.mark.unit
 

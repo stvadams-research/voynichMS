@@ -11,13 +11,14 @@ Methodological note on circularity:
 - See governance/governance/METHODS_REFERENCE.md for the full cross-phase data-flow disclosure.
 """
 
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass, field
-import math
-
-from phase2_analysis.anomaly.interface import CapacityBound, StructuralFeasibilityRegion
-from phase1_foundation.config import get_anomaly_observed_values
 import logging
+import math
+from dataclasses import dataclass
+from typing import Any
+
+from phase1_foundation.config import get_anomaly_observed_values
+from phase2_analysis.anomaly.interface import CapacityBound, StructuralFeasibilityRegion
+
 logger = logging.getLogger(__name__)
 
 
@@ -51,11 +52,11 @@ class CapacityBoundingAnalyzer:
         self.observed_locality_max = int(observed.get("locality_max", 4))
         self.observed_repetition_rate = float(observed.get("repetition_rate", 0.20))
         self.observed_vocabulary_size = int(observed.get("vocabulary_size", 8000))
-        self.bounds: List[CapacityBound] = []
-        self.system_classes: List[SystemClass] = []
+        self.bounds: list[CapacityBound] = []
+        self.system_classes: list[SystemClass] = []
         self.feasibility_region: StructuralFeasibilityRegion = StructuralFeasibilityRegion()
 
-    def derive_bounds(self) -> List[CapacityBound]:
+    def derive_bounds(self) -> list[CapacityBound]:
         """
         Derive capacity bounds from observed constraints.
         """
@@ -160,7 +161,7 @@ class CapacityBoundingAnalyzer:
 
         return bounds
 
-    def define_system_classes(self) -> List[SystemClass]:
+    def define_system_classes(self) -> list[SystemClass]:
         """
         Define known system classes for comparison.
         """
@@ -241,7 +242,7 @@ class CapacityBoundingAnalyzer:
 
         return classes
 
-    def evaluate_system_classes(self) -> List[SystemClass]:
+    def evaluate_system_classes(self) -> list[SystemClass]:
         """
         Evaluate which system classes are consistent with observed bounds.
         """
@@ -286,7 +287,7 @@ class CapacityBoundingAnalyzer:
             )
             if depth_lower and sc.dependency_depth[1] < depth_lower.bound_value:
                 consistent = False
-                reasons.append(f"dependency depth too shallow")
+                reasons.append("dependency depth too shallow")
 
             sc.consistent = consistent
             sc.inconsistency_reason = "; ".join(reasons) if reasons else ""
@@ -323,7 +324,7 @@ class CapacityBoundingAnalyzer:
 
         return region
 
-    def analyze(self) -> Dict[str, Any]:
+    def analyze(self) -> dict[str, Any]:
         """Run full capacity bounding phase2_analysis."""
         # Derive bounds
         self.bounds = self.derive_bounds()
@@ -365,6 +366,6 @@ class CapacityBoundingAnalyzer:
             ],
         }
 
-    def get_candidate_systems(self) -> List[str]:
+    def get_candidate_systems(self) -> list[str]:
         """Get list of system classes that remain viable."""
         return [sc.name for sc in self.system_classes if sc.consistent]

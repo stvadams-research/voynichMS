@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from typing import Dict, List, Mapping, Sequence
+from collections.abc import Mapping, Sequence
 
 import numpy as np
 
@@ -174,13 +174,13 @@ class StrokeSchema:
             return normalized
         raise ValueError("normalize expects arrays whose final dimension is 6 or 12.")
 
-    def char_inventory(self) -> List[str]:
+    def char_inventory(self) -> list[str]:
         return list(CHAR_INVENTORY)
 
-    def feature_names(self) -> List[str]:
+    def feature_names(self) -> list[str]:
         return list(FEATURE_NAMES)
 
-    def feature_table(self) -> Dict[str, List[float]]:
+    def feature_table(self) -> dict[str, list[float]]:
         return {
             char: [float(value) for value in self._feature_table[char]]
             for char in CHAR_INVENTORY

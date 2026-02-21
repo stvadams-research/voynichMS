@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Phase 14C: Mirror Corpus Generation and Validation."""
 
-import sys
 import json
-from pathlib import Path
-from rich.console import Console
-from collections import Counter
 import math
+import sys
+from collections import Counter
+from pathlib import Path
+
+from rich.console import Console
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
@@ -35,7 +36,7 @@ def main():
         return
 
     # 1. Load Solved Palette
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         p_data = json.load(f)
     results = p_data.get("results", p_data)
     lattice_map = results.get("lattice_map", {})
@@ -67,7 +68,7 @@ def main():
     }
     
     saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
-    console.print(f"\n[green]Success! Mirror corpus validated.[/green]")
+    console.print("\n[green]Success! Mirror corpus validated.[/green]")
     console.print(f"Real Entropy: [bold]{real_ent:.4f}[/bold]")
     console.print(f"Synthetic Entropy: [bold]{syn_ent:.4f}[/bold]")
     console.print(f"Final Structural Fit: [bold green]{fit*100:.2f}%[/bold green]")

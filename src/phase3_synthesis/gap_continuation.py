@@ -4,28 +4,27 @@ Track 3B: Gap-Conditioned Continuation
 Generates continuations conditioned on specific insertion windows.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, field
+import logging
 import random
+from dataclasses import dataclass
+from typing import Any
 
 from phase3_synthesis.interface import (
+    ContinuationResult,
     GapDefinition,
     SectionProfile,
-    ContinuationConstraints,
-    ContinuationResult,
     SyntheticPage,
-    GapStrength,
 )
 from phase3_synthesis.text_generator import TextContinuationGenerator
-import logging
+
 logger = logging.getLogger(__name__)
 
 
 @dataclass
 class SeamConstraint:
     """Constraints for continuity at gap boundaries."""
-    left_tokens: List[str]
-    right_tokens: List[str]
+    left_tokens: list[str]
+    right_tokens: list[str]
     left_density: float
     right_density: float
 
@@ -33,7 +32,7 @@ class SeamConstraint:
     density_tolerance: float = 0.50  # ±50% of adjacent density (relaxed)
     token_overlap_min: int = 0  # Relaxed: overlap not strictly required
 
-    def check_continuity(self, page: SyntheticPage) -> Tuple[bool, List[str]]:
+    def check_continuity(self, page: SyntheticPage) -> tuple[bool, list[str]]:
         """Check if a page satisfies seam constraints."""
         violations = []
 
@@ -64,7 +63,7 @@ class GapConditionedContinuation:
     Multiple non-unique continuations are required.
     """
 
-    def __init__(self, section_profile: SectionProfile, seed: Optional[int] = None):
+    def __init__(self, section_profile: SectionProfile, seed: int | None = None):
         from phase1_foundation.config import require_seed_if_strict
         require_seed_if_strict(seed, "GapConditionedContinuation")
         self.section_profile = section_profile
@@ -127,7 +126,7 @@ class GapConditionedContinuation:
         return result
 
     def generate_fill_scenario(self, gap: GapDefinition,
-                               num_pages: int = 2) -> List[SyntheticPage]:
+                               num_pages: int = 2) -> list[SyntheticPage]:
         """
         Generate a complete fill scenario (e.g., one bifolio worth of pages).
 
@@ -157,7 +156,7 @@ class GapConditionedContinuation:
 
         return pages
 
-    def analyze_gap(self, gap: GapDefinition) -> Dict[str, Any]:
+    def analyze_gap(self, gap: GapDefinition) -> dict[str, Any]:
         """Analyze a gap and its constraints."""
         return {
             "gap_id": gap.gap_id,
@@ -181,15 +180,15 @@ class MultiGapContinuation:
     def __init__(
         self,
         section_profile: SectionProfile,
-        gaps: List[GapDefinition],
-        seed: Optional[int] = None,
+        gaps: list[GapDefinition],
+        seed: int | None = None,
     ):
         self.section_profile = section_profile
         self.gaps = gaps
         self.continuator = GapConditionedContinuation(section_profile, seed=seed)
-        self.results: Dict[str, ContinuationResult] = {}
+        self.results: dict[str, ContinuationResult] = {}
 
-    def run_all(self, pages_per_gap: int = 10) -> Dict[str, ContinuationResult]:
+    def run_all(self, pages_per_gap: int = 10) -> dict[str, ContinuationResult]:
         """Run continuation for all gaps."""
         for gap in self.gaps:
             result = self.continuator.generate_for_gap(
@@ -200,7 +199,7 @@ class MultiGapContinuation:
 
         return self.results
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get summary of all continuations."""
         summary = {
             "total_gaps": len(self.gaps),

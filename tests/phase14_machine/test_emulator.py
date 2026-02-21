@@ -1,6 +1,5 @@
 """Tests for HighFidelityVolvelle (Phase 14 emulator)."""
 
-import pytest
 from phase14_machine.high_fidelity_emulator import HighFidelityVolvelle
 
 

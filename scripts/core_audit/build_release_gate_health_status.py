@@ -10,9 +10,9 @@ import json
 import subprocess
 import sys
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_OUTPUT_PATH = PROJECT_ROOT / "core_status/core_audit/release_gate_health_status.json"
@@ -41,12 +41,12 @@ DEFAULT_PROVENANCE_SYNC_PATH = PROJECT_ROOT / "core_status/core_audit/provenance
 
 
 def _utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
 
 def _run_check(
-    *, check_id: str, command: List[str], python_bin: str, root: Path
-) -> Dict[str, Any]:
+    *, check_id: str, command: list[str], python_bin: str, root: Path
+) -> dict[str, Any]:
     expanded = [python_bin if arg == "__PYTHON__" else arg for arg in command]
     proc = subprocess.run(
         expanded,
@@ -68,7 +68,7 @@ def _run_check(
     }
 
 
-def _load_sensitivity_summary(path: Path) -> Dict[str, Any]:
+def _load_sensitivity_summary(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     try:
@@ -82,7 +82,7 @@ def _load_sensitivity_summary(path: Path) -> Dict[str, Any]:
     return summary if isinstance(summary, dict) else {}
 
 
-def _load_results_payload(path: Path) -> Dict[str, Any]:
+def _load_results_payload(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     try:
@@ -97,7 +97,7 @@ def _load_results_payload(path: Path) -> Dict[str, Any]:
     return {}
 
 
-def _load_artifact_bundle(path: Path) -> Dict[str, Any]:
+def _load_artifact_bundle(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {"results": {}, "provenance": {}}
     try:
@@ -115,13 +115,13 @@ def _load_artifact_bundle(path: Path) -> Dict[str, Any]:
     return {"results": results, "provenance": provenance}
 
 
-def _load_sensitivity_preflight(path: Path) -> Dict[str, Any]:
+def _load_sensitivity_preflight(path: Path) -> dict[str, Any]:
     payload = _load_results_payload(path)
     return payload if isinstance(payload, dict) else {}
 
 
-def _collect_sensitivity_subreasons(log_tail: str) -> List[str]:
-    subreasons: List[str] = []
+def _collect_sensitivity_subreasons(log_tail: str) -> list[str]:
+    subreasons: list[str] = []
     text = log_tail or ""
     if "[missing-artifact]" in text and "sensitivity_sweep_release.json" in text:
         subreasons.append("SENSITIVITY_RELEASE_ARTIFACT_MISSING")
@@ -144,8 +144,8 @@ def _collect_sensitivity_subreasons(log_tail: str) -> List[str]:
     return sorted(set(subreasons))
 
 
-def _collect_control_subreasons(log_tail: str) -> List[str]:
-    subreasons: List[str] = []
+def _collect_control_subreasons(log_tail: str) -> list[str]:
+    subreasons: list[str] = []
     text = log_tail or ""
     if "[freshness]" in text:
         subreasons.append("CONTROL_ARTIFACT_FRESHNESS_FAILED")
@@ -160,8 +160,8 @@ def _collect_control_subreasons(log_tail: str) -> List[str]:
     return sorted(set(subreasons))
 
 
-def _collect_multimodal_subreasons(log_tail: str) -> List[str]:
-    subreasons: List[str] = []
+def _collect_multimodal_subreasons(log_tail: str) -> list[str]:
+    subreasons: list[str] = []
     text = log_tail or ""
     if "[artifact-h1_4]" in text:
         subreasons.append("MULTIMODAL_H1_4_CONTRACT_FAILED")
@@ -185,12 +185,12 @@ def _parse_iso_timestamp(value: Any) -> datetime | None:
     except ValueError:
         return None
     if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+        dt = dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 
 def _derive_h3_closure_lane(
-    control_comparability: Dict[str, Any], control_data_availability: Dict[str, Any]
+    control_comparability: dict[str, Any], control_data_availability: dict[str, Any]
 ) -> str:
     status = str(control_comparability.get("status", ""))
     reason_code = str(control_comparability.get("reason_code", ""))
@@ -226,7 +226,7 @@ def _derive_h3_closure_lane(
 
 
 def _derive_h3_5_closure_lane(
-    control_comparability: Dict[str, Any], control_data_availability: Dict[str, Any]
+    control_comparability: dict[str, Any], control_data_availability: dict[str, Any]
 ) -> str:
     declared = str(control_comparability.get("h3_5_closure_lane", "")).strip()
     if declared:
@@ -265,7 +265,7 @@ def _derive_h3_5_closure_lane(
     return "H3_5_BLOCKED"
 
 
-def _derive_h1_4_closure_lane(multimodal_results: Dict[str, Any]) -> str:
+def _derive_h1_4_closure_lane(multimodal_results: dict[str, Any]) -> str:
     status = str(multimodal_results.get("status", ""))
     robustness = multimodal_results.get("robustness")
     robustness_class = ""
@@ -285,7 +285,7 @@ def _derive_h1_4_closure_lane(multimodal_results: Dict[str, Any]) -> str:
     return "H1_4_INCONCLUSIVE"
 
 
-def _derive_h1_5_closure_lane(multimodal_results: Dict[str, Any]) -> str:
+def _derive_h1_5_closure_lane(multimodal_results: dict[str, Any]) -> str:
     status = str(multimodal_results.get("status", ""))
     declared_lane = str(multimodal_results.get("h1_5_closure_lane", ""))
     if declared_lane:
@@ -324,7 +324,7 @@ def _derive_h2_4_closure_lane(gate_health_status: str) -> str:
     return "H2_4_INCONCLUSIVE"
 
 
-def _derive_m2_5_closure_lane(comparative_results: Dict[str, Any]) -> str:
+def _derive_m2_5_closure_lane(comparative_results: dict[str, Any]) -> str:
     declared_lane = str(comparative_results.get("m2_5_closure_lane", "")).strip()
     if declared_lane:
         return declared_lane
@@ -366,13 +366,13 @@ def _check_reason_code(check_id: str, passed: bool) -> str:
 
 def _gate_status(
     gate_name: str,
-    check_results: List[Dict[str, Any]],
-    sensitivity_summary: Dict[str, Any],
-    sensitivity_preflight: Dict[str, Any],
-    sensitivity_run_status: Dict[str, Any],
-) -> Dict[str, Any]:
+    check_results: list[dict[str, Any]],
+    sensitivity_summary: dict[str, Any],
+    sensitivity_preflight: dict[str, Any],
+    sensitivity_run_status: dict[str, Any],
+) -> dict[str, Any]:
     checks = {}
-    reason_codes: List[str] = []
+    reason_codes: list[str] = []
     for row in check_results:
         reason_code = _check_reason_code(row["check_id"], row["passed"])
         checks[row["check_id"]] = {
@@ -452,14 +452,14 @@ def build_release_gate_health_status(
     comparative_uncertainty_path: Path = DEFAULT_COMPARATIVE_UNCERTAINTY_PATH,
     provenance_health_path: Path = DEFAULT_PROVENANCE_HEALTH_PATH,
     provenance_sync_path: Path = DEFAULT_PROVENANCE_SYNC_PATH,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     run_id = str(uuid.uuid4())
     generated_utc = _utc_now_iso()
     sensitivity_summary = _load_sensitivity_summary(sensitivity_path)
     sensitivity_preflight = _load_sensitivity_preflight(sensitivity_preflight_path)
     sensitivity_run_status = _load_results_payload(sensitivity_run_status_path)
 
-    checks_by_gate: Dict[str, List[Tuple[str, List[str]]]] = {
+    checks_by_gate: dict[str, list[tuple[str, list[str]]]] = {
         "ci_check": [
             (
                 "control_comparability_ci",
@@ -612,7 +612,7 @@ def build_release_gate_health_status(
         ],
     }
 
-    gates: Dict[str, Any] = {}
+    gates: dict[str, Any] = {}
     for gate_name, specs in checks_by_gate.items():
         check_rows = [
             _run_check(
@@ -709,7 +709,7 @@ def build_release_gate_health_status(
         "m4_4_reopen_conditions"
     )
 
-    results: Dict[str, Any] = {
+    results: dict[str, Any] = {
         "version": "2026-02-10-h2.4",
         "generated_utc": generated_utc,
         "generated_at": generated_utc,
@@ -909,7 +909,7 @@ def build_release_gate_health_status(
             "scripts/core_skeptic/check_comparative_uncertainty.py",
         ],
     }
-    payload: Dict[str, Any] = {
+    payload: dict[str, Any] = {
         "provenance": {
             "run_id": run_id,
             "timestamp": generated_utc,

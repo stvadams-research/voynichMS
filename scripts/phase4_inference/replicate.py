@@ -7,6 +7,7 @@ Purpose: Evaluates whether common decipherment methods can distinguish noise fro
 import subprocess
 import sys
 
+
 def run_command(cmd):
     print(f"\n>> Executing: {cmd}")
     result = subprocess.run(cmd, shell=True)

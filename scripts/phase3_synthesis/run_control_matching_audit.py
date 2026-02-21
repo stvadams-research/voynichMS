@@ -12,8 +12,9 @@ import itertools
 import json
 import re
 import sys
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Dict, Iterable, List
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
@@ -41,7 +42,7 @@ TARGETS = {
 }
 
 
-SEARCH_SPACES: Dict[str, Dict[str, List[float]]] = {
+SEARCH_SPACES: dict[str, dict[str, list[float]]] = {
     "self_citation": {
         "pool_size": [200.0, 350.0, 500.0],
         "mutation_rate": [0.05, 0.10, 0.15],
@@ -57,11 +58,11 @@ SEARCH_SPACES: Dict[str, Dict[str, List[float]]] = {
 }
 
 
-def _load_policy(path: Path) -> Dict[str, Any]:
+def _load_policy(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _load_results_payload(path: Path) -> Dict[str, Any]:
+def _load_results_payload(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if isinstance(payload, dict) and isinstance(payload.get("results"), dict):
         return dict(payload["results"])
@@ -70,13 +71,13 @@ def _load_results_payload(path: Path) -> Dict[str, Any]:
     raise ValueError(f"Artifact payload at {path} must be a JSON object")
 
 
-def _as_list(value: Any) -> List[str]:
+def _as_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [str(v) for v in value]
     return []
 
 
-def _as_dict(value: Any) -> Dict[str, Any]:
+def _as_dict(value: Any) -> dict[str, Any]:
     if isinstance(value, dict):
         return dict(value)
     return {}
@@ -104,7 +105,7 @@ def _derive_h3_5_closure_lane(
     full_data_closure_eligible: bool,
     full_data_feasibility: str,
     missing_count: int,
-    policy: Dict[str, Any],
+    policy: dict[str, Any],
 ) -> str:
     aligned_lane = str(policy.get("aligned_lane", "H3_5_ALIGNED"))
     terminal_lane = str(
@@ -140,10 +141,10 @@ def _derive_h3_5_closure_lane(
 def _resolve_h3_5_contract(
     *,
     lane: str,
-    policy: Dict[str, Any],
+    policy: dict[str, Any],
     full_data_terminal_reason: str,
-    full_data_reopen_conditions: List[str],
-) -> Dict[str, Any]:
+    full_data_reopen_conditions: list[str],
+) -> dict[str, Any]:
     aligned_lane = str(policy.get("aligned_lane", "H3_5_ALIGNED"))
     terminal_lane = str(
         policy.get("terminal_qualified_lane", "H3_5_TERMINAL_QUALIFIED")
@@ -216,7 +217,7 @@ def _normalize_page_id(page_id: str) -> str:
     return page_id
 
 
-def _load_data_availability_policy(path: Path) -> Dict[str, Any]:
+def _load_data_availability_policy(path: Path) -> dict[str, Any]:
     if path.exists():
         return _load_policy(path)
     return {
@@ -245,8 +246,8 @@ def _load_data_availability_policy(path: Path) -> Dict[str, Any]:
     }
 
 
-def _build_data_availability_snapshot(*, dataset_id: str, policy: Dict[str, Any]) -> Dict[str, Any]:
-    turing_results: Dict[str, Any] = {}
+def _build_data_availability_snapshot(*, dataset_id: str, policy: dict[str, Any]) -> dict[str, Any]:
+    turing_results: dict[str, Any] = {}
     if TURING_STATUS_PATH.exists():
         turing_results = _load_results_payload(TURING_STATUS_PATH)
 
@@ -413,17 +414,17 @@ def _build_data_availability_snapshot(*, dataset_id: str, policy: Dict[str, Any]
     }
 
 
-def _write_data_availability_status(snapshot: Dict[str, Any]) -> None:
+def _write_data_availability_status(snapshot: dict[str, Any]) -> None:
     ProvenanceWriter.save_results(snapshot, str(DATA_AVAILABILITY_STATUS_PATH))
 
 
-def _candidate_product(space: Dict[str, List[float]]) -> Iterable[Dict[str, float]]:
+def _candidate_product(space: dict[str, list[float]]) -> Iterable[dict[str, float]]:
     keys = sorted(space.keys())
     for values in itertools.product(*(space[k] for k in keys)):
         yield {k: float(v) for k, v in zip(keys, values)}
 
 
-def _predict_metrics(control_class: str, params: Dict[str, float]) -> Dict[str, float]:
+def _predict_metrics(control_class: str, params: dict[str, float]) -> dict[str, float]:
     if control_class == "self_citation":
         pool_size = params["pool_size"]
         mutation = params["mutation_rate"]
@@ -458,13 +459,13 @@ def _predict_metrics(control_class: str, params: Dict[str, float]) -> Dict[str, 
 
 
 def _score_metrics(
-    predicted: Dict[str, float],
+    predicted: dict[str, float],
     *,
-    matching_metrics: List[str],
-    holdout_metrics: List[str],
-) -> Dict[str, Any]:
-    matching_errors: Dict[str, float] = {}
-    holdout_errors: Dict[str, float] = {}
+    matching_metrics: list[str],
+    holdout_metrics: list[str],
+) -> dict[str, Any]:
+    matching_errors: dict[str, float] = {}
+    holdout_errors: dict[str, float] = {}
 
     for metric in matching_metrics:
         target = TARGETS.get(metric)
@@ -491,14 +492,14 @@ def _score_metrics(
     }
 
 
-def _write_card(control_class: str, card: Dict[str, Any]) -> None:
+def _write_card(control_class: str, card: dict[str, Any]) -> None:
     CARDS_DIR.mkdir(parents=True, exist_ok=True)
     path = CARDS_DIR / f"{control_class}.json"
     with open(path, "w", encoding="utf-8") as f:
         json.dump(card, f, indent=2)
 
 
-def run_audit(*, policy_path: Path, preflight_only: bool, seed: int, dataset_id: str) -> Dict[str, Any]:
+def run_audit(*, policy_path: Path, preflight_only: bool, seed: int, dataset_id: str) -> dict[str, Any]:
     policy = _load_policy(policy_path)
     data_availability_policy = _load_data_availability_policy(DATA_AVAILABILITY_POLICY_PATH)
     data_availability = _build_data_availability_snapshot(
@@ -516,7 +517,7 @@ def run_audit(*, policy_path: Path, preflight_only: bool, seed: int, dataset_id:
     missing_pages = _as_list(data_availability.get("missing_pages"))
     missing_count = int(data_availability.get("missing_count", len(missing_pages)))
 
-    class_cards: List[Dict[str, Any]] = []
+    class_cards: list[dict[str, Any]] = []
     for control_class, space in SEARCH_SPACES.items():
         candidates = []
         for candidate in _candidate_product(space):
@@ -725,7 +726,7 @@ def run_audit(*, policy_path: Path, preflight_only: bool, seed: int, dataset_id:
             "Controls are comparable for bounded structural phase4_inference with explicit caveats."
         )
 
-    secondary_blockers: List[str] = []
+    secondary_blockers: list[str] = []
     if missing_count > 0 and leakage_detected:
         secondary_blockers.append("TARGET_LEAKAGE")
 

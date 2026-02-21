@@ -20,18 +20,18 @@ Usage:
   python generate_publication.py --list-missing   # show unresolved placeholders
 """
 
-import re
-import json
 import argparse
-from pathlib import Path
-from datetime import datetime
+import json
 import logging
+import re
+from datetime import datetime
+from pathlib import Path
 
 import yaml
 from docx import Document
-from docx.shared import Inches, Pt, RGBColor
-from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.style import WD_STYLE_TYPE
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.shared import Inches, Pt, RGBColor
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -497,7 +497,7 @@ class PublicationBuilder:
         """Write a provenance log alongside the output document."""
         log_path = output_path.with_suffix(".build_log.txt")
         with open(log_path, "w") as f:
-            f.write(f"Publication Build Log\n")
+            f.write("Publication Build Log\n")
             f.write(f"Generated: {datetime.now().isoformat()}\n")
             f.write(f"Profile: {self.profile_name}\n")
             f.write(f"Output: {output_path}\n")

@@ -1,12 +1,19 @@
-import logging
 import json
-from typing import List, Dict, Any, Optional
+import logging
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
-from phase1_foundation.storage.metadata import MetadataStore, RegionRecord, WordRecord, LineRecord, AnchorMethodRecord
-from phase1_foundation.core.geometry import Box, Point
+from phase1_foundation.core.geometry import Box
 from phase1_foundation.core.id_factory import DeterministicIDFactory
+from phase1_foundation.storage.metadata import (
+    AnchorMethodRecord,
+    LineRecord,
+    MetadataStore,
+    RegionRecord,
+    WordRecord,
+)
+
 
 class AnchorEngine:
     def __init__(self, store: MetadataStore, seed: int = 0):
@@ -15,7 +22,7 @@ class AnchorEngine:
         self.seed = seed
 
     @staticmethod
-    def _canonical_parameters(parameters: Dict[str, Any] | None) -> str:
+    def _canonical_parameters(parameters: dict[str, Any] | None) -> str:
         if not parameters:
             return "{}"
         try:
@@ -24,7 +31,7 @@ class AnchorEngine:
             # Fallback for any unexpected non-serializable value.
             return str(parameters)
 
-    def _method_id(self, name: str, parameters: Dict[str, Any] | None) -> str:
+    def _method_id(self, name: str, parameters: dict[str, Any] | None) -> str:
         key = f"method:{name}:{self._canonical_parameters(parameters)}"
         return self.id_factory.fork(key).next_uuid("method")
 
@@ -42,7 +49,7 @@ class AnchorEngine:
         )
         return self.id_factory.fork(key).next_uuid("anchor")
 
-    def register_method(self, name: str, description: str = None, parameters: Dict[str, Any] = None) -> str:
+    def register_method(self, name: str, description: str = None, parameters: dict[str, Any] = None) -> str:
         """
         Register a new anchor method. Returns the method ID.
         """
@@ -55,7 +62,7 @@ class AnchorEngine:
         )
         return method_id
 
-    def _to_box(self, bbox: Dict[str, Any]) -> Box:
+    def _to_box(self, bbox: dict[str, Any]) -> Box:
         """Convert various bbox formats to Box object."""
         if "x_min" in bbox:
             return Box(**bbox)

@@ -5,13 +5,13 @@ Ensures the anomaly is not an artifact of representation or metric choice.
 Recomputes information density under alternate conditions.
 """
 
-from typing import Dict, List, Any, Tuple, Optional
-from dataclasses import dataclass, field
-import math
-
-from phase2_analysis.anomaly.interface import StabilityEnvelope
-from phase1_foundation.config import get_analysis_thresholds, get_anomaly_observed_values
 import logging
+from dataclasses import dataclass
+from typing import Any
+
+from phase1_foundation.config import get_analysis_thresholds, get_anomaly_observed_values
+from phase2_analysis.anomaly.interface import StabilityEnvelope
+
 logger = logging.getLogger(__name__)
 
 
@@ -43,9 +43,9 @@ class AnomalyStabilityAnalyzer:
 
     def __init__(
         self,
-        baseline_info_density: Optional[float] = None,
-        baseline_locality: Optional[float] = None,
-        baseline_robustness: Optional[float] = None,
+        baseline_info_density: float | None = None,
+        baseline_locality: float | None = None,
+        baseline_robustness: float | None = None,
     ):
         observed = get_anomaly_observed_values()
         stability_cfg = observed.get("stability_analysis", {})
@@ -73,15 +73,15 @@ class AnomalyStabilityAnalyzer:
         self.control_locality_std = float(control_cfg.get("locality_std", 2.0))
         self.control_robustness_mean = float(control_cfg.get("robustness_mean", 0.30))
         self.control_robustness_std = float(control_cfg.get("robustness_std", 0.10))
-        self.variants: List[RepresentationVariant] = []
-        self.envelopes: List[StabilityEnvelope] = []
+        self.variants: list[RepresentationVariant] = []
+        self.envelopes: list[StabilityEnvelope] = []
         self.sensitivity_thresholds = (
             get_analysis_thresholds()
             .get("stability_analysis", {})
             .get("representation_sensitivity", {})
         )
 
-    def generate_variants(self) -> List[RepresentationVariant]:
+    def generate_variants(self) -> list[RepresentationVariant]:
         """
         Generate representation variants for stability testing.
 
@@ -184,7 +184,7 @@ class AnomalyStabilityAnalyzer:
 
         return envelope
 
-    def analyze(self) -> Dict[str, Any]:
+    def analyze(self) -> dict[str, Any]:
         """Run full stability phase2_analysis."""
         self.variants = self.generate_variants()
 
@@ -239,7 +239,7 @@ class AnomalyStabilityAnalyzer:
             "sensitivity_report": sensitivity_report,
         }
 
-    def _generate_sensitivity_report(self) -> Dict[str, Any]:
+    def _generate_sensitivity_report(self) -> dict[str, Any]:
         """Generate report on representation sensitivity."""
         report = {
             "segmentation_sensitivity": "low",
@@ -306,7 +306,7 @@ class AnomalyStabilityAnalyzer:
 
         return report
 
-    def get_confirmation_status(self) -> Tuple[bool, str]:
+    def get_confirmation_status(self) -> tuple[bool, str]:
         """
         Get final confirmation status for the anomaly.
 

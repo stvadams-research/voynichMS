@@ -3,8 +3,6 @@
 Validates the information-theoretic framework for steganographic capacity.
 """
 
-import math
-import pytest
 
 
 def test_bandwidth_formula():

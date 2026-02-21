@@ -5,11 +5,11 @@ Analyzes the statistical properties of the first word(s) of each line
 to infer entry-point selection rules.
 """
 
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
-import math
-import numpy as np
 import logging
+import math
+from collections import Counter
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 class EntryPointAnalyzer:
@@ -19,7 +19,7 @@ class EntryPointAnalyzer:
     def __init__(self):
         pass
 
-    def calculate_start_distribution(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def calculate_start_distribution(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         How uniform is the starting word selection?
         """
@@ -41,7 +41,7 @@ class EntryPointAnalyzer:
             "top_starts": dict(counts.most_common(10))
         }
 
-    def calculate_adjacency_coupling(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def calculate_adjacency_coupling(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         Do adjacent lines share similar starting points?
         """

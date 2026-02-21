@@ -9,24 +9,23 @@ and reset phase2_analysis.
 import argparse
 import sys
 from pathlib import Path
-import json
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
-from phase1_foundation.core.queries import get_tokens_and_boundaries
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.core.queries import get_tokens_and_boundaries
 from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import MetadataStore
-from phase5_mechanism.generators.pool_generator import PoolGenerator
-from phase5_mechanism.generators.constraint_geometry.table_variants import GeometricTableGenerator
 from phase5_mechanism.constraint_geometry.latent_state import LatentStateAnalyzer
 from phase5_mechanism.constraint_geometry.locality_resets import LocalityResetAnalyzer
+from phase5_mechanism.generators.constraint_geometry.table_variants import GeometricTableGenerator
+from phase5_mechanism.generators.pool_generator import PoolGenerator
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"

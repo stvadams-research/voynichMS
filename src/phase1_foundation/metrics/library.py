@@ -4,21 +4,20 @@ Foundation Metrics Library
 Real implementations that compute metrics from actual database records.
 """
 
-import math
 import logging
-from typing import List
+import math
 from collections import Counter
 
 from phase1_foundation.metrics.interface import Metric, MetricResult
 from phase1_foundation.storage.metadata import (
-    PageRecord,
     LineRecord,
-    WordRecord,
+    PageRecord,
+    RegionEmbeddingRecord,
+    RegionRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
     WordAlignmentRecord,
-    RegionRecord,
-    RegionEmbeddingRecord,
+    WordRecord,
 )
 
 logger = logging.getLogger(__name__)
@@ -32,7 +31,7 @@ class RepetitionRate(Metric):
     repeated tokens vs total tokens.
     """
 
-    def calculate(self, dataset_id: str) -> List[MetricResult]:
+    def calculate(self, dataset_id: str) -> list[MetricResult]:
         """
         Calculate repetition rate from actual token frequencies.
 
@@ -108,7 +107,7 @@ class RepetitionRate(Metric):
         finally:
             session.close()
 
-    def _get_tokens_via_alignments(self, session, page_ids: List[str]) -> List[str]:
+    def _get_tokens_via_alignments(self, session, page_ids: list[str]) -> list[str]:
         """Get token content via word alignments if direct transcription path fails."""
         tokens = (
             session.query(TranscriptionTokenRecord.content)
@@ -136,7 +135,7 @@ class ClusterTightness(Metric):
     Bbox fallback triggers when no embeddings exist for the dataset.
     """
 
-    def calculate(self, dataset_id: str) -> List[MetricResult]:
+    def calculate(self, dataset_id: str) -> list[MetricResult]:
         """
         Compute cluster tightness from region embedding vectors.
 
@@ -238,7 +237,7 @@ class ClusterTightness(Metric):
                 }
             )]
 
-        except Exception as e:
+        except Exception:
             # numpy not available or other error, use bbox fallback
             logger.warning(
                 "Error in embedding-based ClusterTightness for %s; falling back to bboxes",
@@ -249,7 +248,7 @@ class ClusterTightness(Metric):
         finally:
             session.close()
 
-    def _compute_from_bboxes(self, session, page_ids: List[str], dataset_id: str) -> List[MetricResult]:
+    def _compute_from_bboxes(self, session, page_ids: list[str], dataset_id: str) -> list[MetricResult]:
         """
         Compute cluster tightness from region bounding boxes.
 

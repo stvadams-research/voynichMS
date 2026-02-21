@@ -1,12 +1,12 @@
 import hashlib
+import logging
 import os
-from pathlib import Path
-from typing import List, Tuple, Optional
 import re
+from pathlib import Path
 
 from phase1_foundation.core.ids import FolioID, PageID
 from phase1_foundation.storage.metadata import MetadataStore
-import logging
+
 logger = logging.getLogger(__name__)
 
 class DatasetManager:
@@ -22,7 +22,7 @@ class DatasetManager:
                 sha256_hash.update(byte_block)
         return sha256_hash.hexdigest()
 
-    def infer_folio_id(self, filename: str) -> Optional[str]:
+    def infer_folio_id(self, filename: str) -> str | None:
         """
         Attempt to extract a FolioID from a filename.
         Expected patterns:
@@ -41,7 +41,7 @@ class DatasetManager:
                 return None
         return None
 
-    def register_dataset(self, name: str, path: Path | str) -> List[str]:
+    def register_dataset(self, name: str, path: Path | str) -> list[str]:
         """
         Register a dataset and its pages.
         Returns a list of registered PageIDs.

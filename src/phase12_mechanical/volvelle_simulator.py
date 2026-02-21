@@ -5,9 +5,8 @@ Simulates the production of text via a physical combinatorial device
 (rotating wheel / volvelle) rather than a statistical lattice.
 """
 
-from typing import List, Dict, Any, Optional
 import random
-import numpy as np
+
 
 class VolvelleSimulator:
     """
@@ -17,7 +16,7 @@ class VolvelleSimulator:
     - Palette: The words assigned to slots.
     - State: The rotation of the rings (The Mask).
     """
-    def __init__(self, vocab: List[str], seed: Optional[int] = None):
+    def __init__(self, vocab: list[str], seed: int | None = None):
         self.rng = random.Random(seed)
         self.vocab = vocab
         # Physical Layout: 4 rings, each with 8 sectors (32 slots total)
@@ -44,7 +43,7 @@ class VolvelleSimulator:
         idx = (position + self.mask_state) % len(ring)
         return ring[idx]
 
-    def generate_line(self, length: int) -> List[str]:
+    def generate_line(self, length: int) -> list[str]:
         line = []
         for p in range(length):
             # Select ring based on simple alternating logic
@@ -53,7 +52,7 @@ class VolvelleSimulator:
             line.append(token)
         return line
 
-    def generate_corpus(self, num_lines: int, line_length: int = 6) -> List[List[str]]:
+    def generate_corpus(self, num_lines: int, line_length: int = 6) -> list[list[str]]:
         corpus = []
         for i in range(num_lines):
             # Periodically shift the mask (simulating thematic sections)

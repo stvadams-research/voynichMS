@@ -4,23 +4,24 @@ Pilot Generator for Bounded Pool Reuse
 Matches Voynich structural summaries while enforcing pool constraints.
 """
 
-import random
-from typing import List, Dict, Any, Optional
-from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
-from phase1_foundation.config import require_seed_if_strict
-from pathlib import Path
 import logging
+import random
+from pathlib import Path
+
+from phase1_foundation.config import require_seed_if_strict
+from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+
 logger = logging.getLogger(__name__)
 
 class PoolGenerator:
-    def __init__(self, grammar_path: Path, pool_size: int = 20, seed: Optional[int] = None):
+    def __init__(self, grammar_path: Path, pool_size: int = 20, seed: int | None = None):
         require_seed_if_strict(seed, "PoolGenerator")
         self.rng = random.Random(seed)
         self.generator = GrammarBasedGenerator(grammar_path, seed=seed)
         self.pool_size = pool_size
         self.pool = []
 
-    def generate(self, target_tokens: int) -> List[str]:
+    def generate(self, target_tokens: int) -> list[str]:
         tokens = []
         # Initial pool
         self.pool = [self.generator.generate_word() for _ in range(self.pool_size)]

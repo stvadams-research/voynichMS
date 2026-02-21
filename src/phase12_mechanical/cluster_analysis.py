@@ -5,9 +5,9 @@ Analyzes if slips are clustered in specific paragraphs or folios,
 indicating sustained mechanical misalignment.
 """
 
-from typing import List, Dict, Any
 from collections import defaultdict
-import numpy as np
+from typing import Any
+
 
 class SlipClusterAnalyzer:
     """
@@ -16,7 +16,7 @@ class SlipClusterAnalyzer:
     def __init__(self, window_size: int = 10):
         self.window_size = window_size
 
-    def analyze_clusters(self, slips: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def analyze_clusters(self, slips: list[dict[str, Any]]) -> dict[str, Any]:
         if not slips:
             return {}
 

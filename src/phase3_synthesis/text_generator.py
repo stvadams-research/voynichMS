@@ -4,21 +4,21 @@ Track 3A: Text Continuation Synthesis
 Constrained text generators for pharmaceutical section continuation.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, field
-from collections import Counter, defaultdict
-import random
-import math
 import hashlib
+import math
+import random
+from collections import Counter, defaultdict
+from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
-from phase3_synthesis.interface import (
-    SectionProfile,
-    ContinuationConstraints,
-    SyntheticPage,
-    GeneratorType,
-)
 from phase1_foundation.config import POSITIONAL_BIAS_PROBABILITY, require_seed_if_strict
+from phase3_synthesis.interface import (
+    ContinuationConstraints,
+    GeneratorType,
+    SectionProfile,
+    SyntheticPage,
+)
 
 
 def _stable_seed_fragment(value: Any, modulus: int = 1_000_000) -> int:
@@ -30,10 +30,10 @@ def _stable_seed_fragment(value: Any, modulus: int = 1_000_000) -> int:
 @dataclass
 class MarkovState:
     """State in a Markov chain."""
-    context: Tuple[str, ...]
-    transitions: Dict[str, int] = field(default_factory=dict)
+    context: tuple[str, ...]
+    transitions: dict[str, int] = field(default_factory=dict)
     total: int = 0
-    seed: Optional[int] = None
+    seed: int | None = None
 
     def __post_init__(self) -> None:
         self.rng = random.Random(self.seed)
@@ -65,7 +65,7 @@ class ConstrainedMarkovGenerator:
     Enforces locality window 2-4.
     """
 
-    def __init__(self, order: int = 2, locality_window: Tuple[int, int] = (2, 4), seed: Optional[int] = None):
+    def __init__(self, order: int = 2, locality_window: tuple[int, int] = (2, 4), seed: int | None = None):
         require_seed_if_strict(seed, "ConstrainedMarkovGenerator")
         self.order = order
         self.locality_window = locality_window
@@ -83,8 +83,8 @@ class ConstrainedMarkovGenerator:
             "end": self.token_gen.generate_tokens(8),
         }
         
-        self.states: Dict[Tuple[str, ...], MarkovState] = {}
-        self.start_contexts: List[Tuple[str, ...]] = []
+        self.states: dict[tuple[str, ...], MarkovState] = {}
+        self.start_contexts: list[tuple[str, ...]] = []
 
     def train(self, section_profile: SectionProfile) -> None:
         """
@@ -103,7 +103,7 @@ class ConstrainedMarkovGenerator:
                     self._train_on_sequence(sequence)
 
     def _generate_training_line(self, token_count: int, line_idx: int,
-                                total_lines: int, seed: Optional[int] = None) -> List[str]:
+                                total_lines: int, seed: int | None = None) -> list[str]:
         """Generate a training line with positional constraints."""
         line_rng = random.Random(seed)
         line = []
@@ -127,7 +127,7 @@ class ConstrainedMarkovGenerator:
 
         return line
 
-    def _train_on_sequence(self, sequence: List[str]) -> None:
+    def _train_on_sequence(self, sequence: list[str]) -> None:
         """Train Markov chain on a sequence."""
         if len(sequence) < self.order + 1:
             return
@@ -153,8 +153,8 @@ class ConstrainedMarkovGenerator:
             self.states[context].add_transition(next_token)
 
     def generate_line(self, target_length: int,
-                      preceding_tokens: Optional[List[str]] = None,
-                      position_in_block: str = "middle") -> List[str]:
+                      preceding_tokens: list[str] | None = None,
+                      position_in_block: str = "middle") -> list[str]:
         """
         Generate a single line of text.
         """
@@ -200,7 +200,7 @@ class ConstrainedMarkovGenerator:
         return self.rng.choice(self.VOCABULARY)
 
     def generate_text_block(self, constraints: ContinuationConstraints,
-                            num_lines: int, words_per_line: int) -> List[List[str]]:
+                            num_lines: int, words_per_line: int) -> list[list[str]]:
         """Generate a complete text block for a jar."""
         block = []
         preceding = None
@@ -224,8 +224,10 @@ class ConstrainedMarkovGenerator:
         return block
 
 
-from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
 import logging
+
+from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+
 logger = logging.getLogger(__name__)
 
 
@@ -237,7 +239,7 @@ class TextContinuationGenerator:
     Now uses Step 3.2.3 Grammar-Based engine.
     """
 
-    def __init__(self, section_profile: SectionProfile, seed: Optional[int] = None):
+    def __init__(self, section_profile: SectionProfile, seed: int | None = None):
         require_seed_if_strict(seed, "TextContinuationGenerator")
         self.section_profile = section_profile
         self.seed = seed
@@ -256,7 +258,7 @@ class TextContinuationGenerator:
         else:
             self.grammar_generator = GrammarBasedGenerator(grammar_path, seed=seed)
 
-    def generate_page(self, gap_id: str, seed: Optional[int] = None) -> SyntheticPage:
+    def generate_page(self, gap_id: str, seed: int | None = None) -> SyntheticPage:
         """
         Generate a complete synthetic page.
         """
@@ -327,7 +329,7 @@ class TextContinuationGenerator:
 
         return page
 
-    def _compute_metrics(self, page: SyntheticPage, seed: Optional[int] = None) -> Dict[str, Any]:
+    def _compute_metrics(self, page: SyntheticPage, seed: int | None = None) -> dict[str, Any]:
         """Compute structural metrics directly from generated page content."""
         all_words = []
         for block in page.text_blocks:
@@ -344,10 +346,10 @@ class TextContinuationGenerator:
         repetition = 1 - (unique / len(all_words)) if len(all_words) > 0 else 0
 
         # Locality proxy: mean distance between repeated token occurrences.
-        token_positions: Dict[str, List[int]] = defaultdict(list)
+        token_positions: dict[str, list[int]] = defaultdict(list)
         for idx, token in enumerate(all_words):
             token_positions[token].append(idx)
-        spacings: List[int] = []
+        spacings: list[int] = []
         for positions in token_positions.values():
             if len(positions) > 1:
                 for i in range(1, len(positions)):
@@ -374,7 +376,7 @@ class TextContinuationGenerator:
                 for char in token[1:-1]:
                     pos_counts["mid"][char] += 1
 
-        positional_entropy_values: List[float] = []
+        positional_entropy_values: list[float] = []
         for counts_by_pos in pos_counts.values():
             if not counts_by_pos:
                 continue
@@ -403,7 +405,7 @@ class TextContinuationGenerator:
             "positional_entropy": positional_entropy,
         }
 
-    def generate_multiple(self, gap_id: str, count: int = 10) -> List[SyntheticPage]:
+    def generate_multiple(self, gap_id: str, count: int = 10) -> list[SyntheticPage]:
         """Generate multiple distinct pages for a gap."""
         pages = []
         hashes = set()

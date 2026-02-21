@@ -1,6 +1,9 @@
-from typing import Callable, List, Dict, Any
-from phase1_foundation.storage.metadata import MetadataStore
 import logging
+from collections.abc import Callable
+from typing import Any
+
+from phase1_foundation.storage.metadata import MetadataStore
+
 logger = logging.getLogger(__name__)
 
 class SensitivityAnalyzer:
@@ -12,9 +15,9 @@ class SensitivityAnalyzer:
         structure_id: str, 
         metric_func: Callable[[Any], float], 
         param_name: str, 
-        value_range: List[Any],
+        value_range: list[Any],
         run_id: str
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Run a sensitivity phase2_analysis by sweeping a parameter.
         metric_func: A function that takes a parameter value and returns a metric score.

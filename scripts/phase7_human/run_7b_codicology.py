@@ -4,11 +4,11 @@ Phase 7B: Codicological and Material Constraints Runner
 """
 
 import argparse
-import sys
 import json
-from pathlib import Path
+import sys
 from collections import defaultdict
-from typing import Any, Dict
+from pathlib import Path
+from typing import Any
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -19,9 +19,14 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import (
+    MetadataStore,
+    PageRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from phase7_human.page_boundary import PageBoundaryAnalyzer
 from phase7_human.quire_analysis import QuireAnalyzer
 from phase7_human.scribe_coupling import ScribeAnalyzer
@@ -31,19 +36,19 @@ DB_PATH = "sqlite:///data/voynich.db"
 MULTIMODAL_STATUS_PATH = Path("results/data/phase5_mechanism/anchor_coupling_confirmatory.json")
 
 
-def _load_json(path: Path) -> Dict[str, Any]:
+def _load_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _extract_results(payload: Dict[str, Any]) -> Dict[str, Any]:
+def _extract_results(payload: dict[str, Any]) -> dict[str, Any]:
     if isinstance(payload.get("results"), dict):
         return payload["results"]
     return payload
 
 
-def summarize_illustration_coupling(status_payload: Dict[str, Any] | None) -> Dict[str, Any]:
+def summarize_illustration_coupling(status_payload: dict[str, Any] | None) -> dict[str, Any]:
     if not status_payload:
         return {
             "status": "MISSING_ARTIFACT",

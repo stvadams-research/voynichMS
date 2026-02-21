@@ -4,15 +4,15 @@ Disconfirmation Engine for Phase 2.3
 Actively attempts to break models through systematic perturbation testing.
 """
 
-from typing import Dict, List, Any
-from dataclasses import dataclass
 import logging
-from phase2_analysis.models.interface import (
-    ExplicitModel,
-    DisconfirmationResult,
-    ModelStatus,
-)
+from dataclasses import dataclass
+from typing import Any
+
 from phase1_foundation.config import get_model_params
+from phase2_analysis.models.interface import (
+    DisconfirmationResult,
+    ExplicitModel,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ class PerturbationConfig:
     """Configuration for a perturbation test."""
     perturbation_type: str
     description: str
-    strength_levels: List[float]
+    strength_levels: list[float]
     failure_threshold: float  # Degradation above this = failure
 
 
@@ -64,18 +64,18 @@ class DisconfirmationEngine:
         ),
     ]
 
-    def __init__(self, store, perturbation_battery: List[PerturbationConfig] | None = None):
+    def __init__(self, store, perturbation_battery: list[PerturbationConfig] | None = None):
         self.store = store
         self.perturbation_battery = perturbation_battery or self._load_perturbation_battery()
 
-    def _load_perturbation_battery(self) -> List[PerturbationConfig]:
+    def _load_perturbation_battery(self) -> list[PerturbationConfig]:
         """Load perturbation battery from config when available."""
         params = get_model_params()
         configured = params.get("disconfirmation", {}).get("perturbation_battery", [])
         if not configured:
             return list(self.PERTURBATION_BATTERY)
 
-        battery: List[PerturbationConfig] = []
+        battery: list[PerturbationConfig] = []
         for item in configured:
             try:
                 battery.append(
@@ -91,7 +91,7 @@ class DisconfirmationEngine:
         return battery or list(self.PERTURBATION_BATTERY)
 
     def run_full_battery(self, model: ExplicitModel,
-                         dataset_id: str) -> List[DisconfirmationResult]:
+                         dataset_id: str) -> list[DisconfirmationResult]:
         """
         Run the full perturbation battery against a model.
 
@@ -139,7 +139,7 @@ class DisconfirmationEngine:
         return result
 
     def run_prediction_tests(self, model: ExplicitModel,
-                             dataset_id: str) -> Dict[str, Any]:
+                             dataset_id: str) -> dict[str, Any]:
         """
         Test all predictions a model makes.
 
@@ -170,7 +170,7 @@ class DisconfirmationEngine:
             "predictions": results,
         }
 
-    def generate_disconfirmation_log(self, model: ExplicitModel) -> Dict[str, Any]:
+    def generate_disconfirmation_log(self, model: ExplicitModel) -> dict[str, Any]:
         """Generate a disconfirmation log for a model."""
         log = model.disconfirmation_log
 

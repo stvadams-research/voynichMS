@@ -1,15 +1,16 @@
-from typing import Dict, Type, List
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.hypotheses.interface import Hypothesis, HypothesisResult
 import logging
+
+from phase1_foundation.hypotheses.interface import Hypothesis, HypothesisResult
+from phase1_foundation.storage.metadata import MetadataStore
+
 logger = logging.getLogger(__name__)
 
 class HypothesisManager:
     def __init__(self, store: MetadataStore):
         self.store = store
-        self._registry: Dict[str, Type[Hypothesis]] = {}
+        self._registry: dict[str, type[Hypothesis]] = {}
 
-    def register_hypothesis(self, hypothesis_cls: Type[Hypothesis]):
+    def register_hypothesis(self, hypothesis_cls: type[Hypothesis]):
         # Instantiate temporarily to get ID? Or make ID a class attribute?
         # Let's assume ID is a property, so we might need to instantiate or inspect.
         # For simplicity, let's instantiate.
@@ -24,7 +25,7 @@ class HypothesisManager:
             falsification_criteria=temp_instance.falsification_criteria
         )
 
-    def run_hypothesis(self, hypothesis_id: str, real_dataset_id: str, control_dataset_ids: List[str], run_id: str) -> HypothesisResult:
+    def run_hypothesis(self, hypothesis_id: str, real_dataset_id: str, control_dataset_ids: list[str], run_id: str) -> HypothesisResult:
         if hypothesis_id not in self._registry:
             raise ValueError(f"Hypothesis {hypothesis_id} not registered")
             

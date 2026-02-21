@@ -4,13 +4,14 @@ Method B: Network Features (Amancio et al. style)
 Computes Word Adjacency Network (WAN) metrics and statistical distributions.
 """
 
-import networkx as nx
-from networkx.exception import NetworkXException
-import numpy as np
-from typing import List, Dict, Any, Tuple
-from collections import Counter
-import math
 import logging
+from collections import Counter
+from typing import Any
+
+import networkx as nx
+import numpy as np
+from networkx.exception import NetworkXException
+
 logger = logging.getLogger(__name__)
 
 class NetworkAnalyzer:
@@ -21,7 +22,7 @@ class NetworkAnalyzer:
         # We limit the network size for performance during stress testing
         self.max_tokens = max_tokens
 
-    def analyze(self, tokens: List[str]) -> Dict[str, Any]:
+    def analyze(self, tokens: list[str]) -> dict[str, Any]:
         """
         Compute network and distribution features.
         """

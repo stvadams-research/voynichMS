@@ -11,10 +11,10 @@ Three tracks:
 - B3: Locality and Compositionality Tests
 """
 
-from phase2_analysis.stress_tests.interface import StressTest, StressTestResult
-from phase2_analysis.stress_tests.mapping_stability import MappingStabilityTest
 from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
+from phase2_analysis.stress_tests.interface import StressTest, StressTestResult
 from phase2_analysis.stress_tests.locality import LocalityTest
+from phase2_analysis.stress_tests.mapping_stability import MappingStabilityTest
 
 __all__ = [
     "StressTest",

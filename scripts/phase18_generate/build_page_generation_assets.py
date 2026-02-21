@@ -13,7 +13,7 @@ import re
 import statistics
 import sys
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -293,7 +293,7 @@ def build_folio_schedule(
 
     return {
         "schema_version": "phase18_folio_schedule_v1",
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "sources": {
             "mask_inference": str(MASK_INFERENCE_PATH.relative_to(project_root)),
             "mask_prediction": str(MASK_PREDICTION_PATH.relative_to(project_root)),
@@ -370,7 +370,7 @@ def build_page_priors(folio_lines: dict[str, list[dict]]) -> dict:
 
     return {
         "schema_version": "phase18_page_priors_v1",
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "sources": {
             "folio_transliteration": str(FOLIO_SOURCE_PATH.relative_to(project_root)),
         },

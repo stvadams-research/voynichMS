@@ -4,11 +4,13 @@ Line-Level Parameter Inference
 Infers distributions of parameters governing line generators from real data.
 """
 
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
-import numpy as np
-import math
 import logging
+import math
+from collections import Counter
+from typing import Any
+
+import numpy as np
+
 from phase5_mechanism.dependency_scope.features import TokenFeatureExtractor
 
 logger = logging.getLogger(__name__)
@@ -20,7 +22,7 @@ class WorkflowParameterInferrer:
     def __init__(self):
         self.extractor = TokenFeatureExtractor()
 
-    def infer_line_parameters(self, line_tokens: List[str]) -> Dict[str, Any]:
+    def infer_line_parameters(self, line_tokens: list[str]) -> dict[str, Any]:
         """
         Calculate metrics for a single line of text.
         """
@@ -75,7 +77,7 @@ class WorkflowParameterInferrer:
             "suffix_consistency": suffix_consistency
         }
 
-    def aggregate_distributions(self, all_lines: List[List[str]]) -> Dict[str, Any]:
+    def aggregate_distributions(self, all_lines: list[list[str]]) -> dict[str, Any]:
         """
         Infers distributions across all lines.
         """

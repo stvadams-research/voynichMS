@@ -10,32 +10,30 @@ Key questions:
 - Is there redundancy suggesting error correction or meaning?
 """
 
-from typing import List, Dict, Any
+import logging
 import math
 from collections import Counter
-from datetime import datetime, timezone
-
-from phase2_analysis.stress_tests.interface import (
-    StressTest,
-    StressTestResult,
-    StressTestOutcome,
-)
-from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    PageRecord,
-    WordRecord,
-    LineRecord,
-    GlyphCandidateRecord,
-    RegionRecord,
-    AnchorRecord,
-    TranscriptionTokenRecord,
-    TranscriptionLineRecord,
-)
-
+from datetime import UTC, datetime
+from typing import Any
 
 from phase1_foundation.config import MAX_PAGES_PER_TEST, MAX_TOKENS_ANALYZED
 from phase1_foundation.runs.manager import RunManager
-import logging
+from phase1_foundation.storage.metadata import (
+    AnchorRecord,
+    GlyphCandidateRecord,
+    LineRecord,
+    PageRecord,
+    RegionRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+    WordRecord,
+)
+from phase2_analysis.stress_tests.interface import (
+    StressTest,
+    StressTestOutcome,
+    StressTestResult,
+)
+
 logger = logging.getLogger(__name__)
 
 # Local limits
@@ -64,11 +62,11 @@ class InformationPreservationTest(StressTest):
         )
 
     @property
-    def applicable_classes(self) -> List[str]:
+    def applicable_classes(self) -> list[str]:
         return ["constructed_system", "visual_grammar", "hybrid_system"]
 
     def run(self, explanation_class: str, dataset_id: str,
-            control_ids: List[str]) -> StressTestResult:
+            control_ids: list[str]) -> StressTestResult:
         """
         Execute information preservation tests.
 
@@ -112,7 +110,7 @@ class InformationPreservationTest(StressTest):
                 explanation_class=explanation_class,
                 run_id=run_id,
                 dataset_id=dataset_id,
-                timestamp=datetime.now(timezone.utc).isoformat(),
+                timestamp=datetime.now(UTC).isoformat(),
                 parameters={
                     "num_controls": len(control_ids),
                     "max_pages_per_test": MAX_PAGES_PER_TEST,
@@ -141,7 +139,7 @@ class InformationPreservationTest(StressTest):
         finally:
             session.close()
 
-    def _calculate_information_metrics(self, session, dataset_id: str) -> Dict[str, float]:
+    def _calculate_information_metrics(self, session, dataset_id: str) -> dict[str, float]:
         """
         Calculate information-theoretic metrics for a dataset.
 
@@ -202,7 +200,7 @@ class InformationPreservationTest(StressTest):
             "total_anchors": sum(anchor_counts),
         }
 
-    def _compute_entropy_density(self, session, page_ids: List[str]) -> float:
+    def _compute_entropy_density(self, session, page_ids: list[str]) -> float:
         """
         Compute normalized entropy from actual token distribution.
 
@@ -255,7 +253,7 @@ class InformationPreservationTest(StressTest):
 
         return information_density
 
-    def _compute_redundancy_ratio(self, session, page_ids: List[str]) -> float:
+    def _compute_redundancy_ratio(self, session, page_ids: list[str]) -> float:
         """
         Compute redundancy ratio from token repetition patterns.
 
@@ -283,7 +281,7 @@ class InformationPreservationTest(StressTest):
 
         return redundancy
 
-    def _compute_cross_scale_correlation(self, session, page_ids: List[str]) -> float:
+    def _compute_cross_scale_correlation(self, session, page_ids: list[str]) -> float:
         """
         Compute correlation between text and region scales.
 
@@ -325,7 +323,7 @@ class InformationPreservationTest(StressTest):
 
         return sum(correlations) / len(correlations) if len(correlations) > 0 else 0.2
 
-    def _compare_to_controls(self, real: Dict, controls: Dict) -> Dict[str, Any]:
+    def _compare_to_controls(self, real: dict, controls: dict) -> dict[str, Any]:
         """Compare real data metrics to control metrics."""
         if not controls:
             return {
@@ -355,8 +353,8 @@ class InformationPreservationTest(StressTest):
             "tightens_constraints": z_score < 1.5,  # If not strongly significant
         }
 
-    def _analyze_for_class(self, explanation_class: str, metrics: Dict,
-                           comparison: Dict) -> Dict[str, Any]:
+    def _analyze_for_class(self, explanation_class: str, metrics: dict,
+                           comparison: dict) -> dict[str, Any]:
         """Class-specific phase2_analysis of information preservation."""
         phase2_analysis = {
             "failures": [],
@@ -415,22 +413,20 @@ class InformationPreservationTest(StressTest):
         return phase2_analysis
 
     def _determine_outcome(self, explanation_class: str,
-                           comparison: Dict, phase2_analysis: Dict) -> StressTestOutcome:
+                           comparison: dict, phase2_analysis: dict) -> StressTestOutcome:
         """Determine outcome based on phase2_analysis."""
         z_score = comparison.get("z_score", 0)
         preservation = comparison.get("preservation_score", 0.5)
 
         if z_score >= 2.0:
             return StressTestOutcome.STABLE
-        elif z_score >= 1.0:
-            return StressTestOutcome.FRAGILE
-        elif z_score >= 0.5:
+        elif z_score >= 1.0 or z_score >= 0.5:
             return StressTestOutcome.FRAGILE
         else:
             return StressTestOutcome.INDISTINGUISHABLE
 
     def _generate_summary(self, explanation_class: str,
-                          outcome: StressTestOutcome, comparison: Dict) -> str:
+                          outcome: StressTestOutcome, comparison: dict) -> str:
         """Generate phase7_human-readable summary."""
         z_score = comparison.get("z_score", 0)
         preservation = comparison.get("preservation_score", 0.5)

@@ -179,8 +179,7 @@
         <p id="page-availability" class="muted">Checking page-generator artifact availability...</p>
         <div class="control-grid">
           <label>Folio ID
-            <input id="page-folio-id" type="text" list="page-folio-list" placeholder="e.g., f42r">
-            <datalist id="page-folio-list"></datalist>
+            <select id="page-folio-id"></select>
           </label>
           <label>Schedule Mode
             <select id="page-schedule-mode">
@@ -216,9 +215,33 @@
           <button id="page-generate-validate">Generate -> Validate</button>
         </div>
         <div id="page-status" class="report-box muted">No page generated yet.</div>
-        <h3>Generation Diagnostics</h3>
-        <div id="page-diagnostics" class="report-box muted">No diagnostics available.</div>
-        <textarea id="page-output" rows="14" placeholder="Generated page output appears here..." readonly></textarea>
+        <div class="page-diagnostics-grid">
+          <div class="subpanel">
+            <h3>Generation Diagnostics</h3>
+            <div id="page-diagnostics" class="report-box muted">No diagnostics available.</div>
+          </div>
+          <div class="subpanel">
+            <h3>Folio Scan</h3>
+            <div class="scan-panel">
+              <a id="page-scan-link" href="#" class="scan-link disabled-link">
+                <img id="page-scan-thumb" alt="Folio thumbnail">
+              </a>
+              <div id="page-scan-meta" class="muted">No scan mapped for selected folio.</div>
+            </div>
+          </div>
+        </div>
+        <div class="page-output-grid">
+          <div class="subpanel">
+            <h3>Generated</h3>
+            <p class="muted compact-note">Synthetic output for the selected folio and generation settings.</p>
+            <textarea id="page-output" rows="14" placeholder="Generated page output appears here..." readonly></textarea>
+          </div>
+          <div class="subpanel">
+            <h3>Actual Folio</h3>
+            <p class="muted compact-note">Directly from the bundled folio dataset for the selected folio and format.</p>
+            <textarea id="page-actual-output" rows="14" placeholder="Actual folio content appears here..." readonly></textarea>
+          </div>
+        </div>
       </div>
     </section>
   </main>

@@ -9,28 +9,29 @@ import argparse
 import json
 import re
 import sys
-from datetime import datetime, timezone
+from collections.abc import Sequence
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Sequence
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs/core_skeptic/sk_h3_control_comparability_policy.json"
 
 
-def _read_policy(path: Path) -> Dict[str, Any]:
+def _read_policy(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"Policy file not found: {path}")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _is_allowlisted(allowlist: Sequence[Dict[str, Any]], pattern_id: str, scope: str) -> bool:
+def _is_allowlisted(allowlist: Sequence[dict[str, Any]], pattern_id: str, scope: str) -> bool:
     for entry in allowlist:
         if entry.get("pattern_id") == pattern_id and entry.get("scope") == scope:
             return True
     return False
 
 
-def _load_results_payload(path: Path) -> Dict[str, Any]:
+def _load_results_payload(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if isinstance(payload, dict) and isinstance(payload.get("results"), dict):
         return payload["results"]
@@ -39,13 +40,13 @@ def _load_results_payload(path: Path) -> Dict[str, Any]:
     raise ValueError(f"Artifact payload at {path} must be a JSON object")
 
 
-def _as_list(value: Any) -> List[str]:
+def _as_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [str(v) for v in value]
     return []
 
 
-def _as_dict(value: Any) -> Dict[str, Any]:
+def _as_dict(value: Any) -> dict[str, Any]:
     if isinstance(value, dict):
         return dict(value)
     return {}
@@ -62,8 +63,8 @@ def _parse_iso_timestamp(value: Any) -> datetime | None:
     except ValueError:
         return None
     if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+        dt = dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 
 def _to_int(value: Any, default: int) -> int:
@@ -80,7 +81,7 @@ def _to_float(value: Any, default: float) -> float:
         return default
 
 
-def _load_artifact_bundle(path: Path) -> Dict[str, Any]:
+def _load_artifact_bundle(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     provenance = {}
     if isinstance(payload, dict):
@@ -94,8 +95,8 @@ def _load_artifact_bundle(path: Path) -> Dict[str, Any]:
     return {"results": _as_dict(results), "provenance": provenance}
 
 
-def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
-    errors: List[str] = []
+def run_checks(policy: dict[str, Any], *, root: Path, mode: str) -> list[str]:
+    errors: list[str] = []
     allowlist = list(policy.get("allowlist", []))
 
     tracked_files = _as_list(policy.get("tracked_files"))
@@ -171,7 +172,7 @@ def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
     subset_thresholds = _as_dict(available_subset_policy.get("thresholds"))
 
     artifact_policy = dict(policy.get("artifact_policy", {}))
-    parsed_artifacts: Dict[str, Dict[str, Any]] = {}
+    parsed_artifacts: dict[str, dict[str, Any]] = {}
     artifact_specs = list(artifact_policy.get("tracked_artifacts", []))
     for spec in artifact_specs:
         rel_path = str(spec.get("path", ""))
@@ -196,7 +197,7 @@ def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
             if key not in results:
                 errors.append(f"[artifact-field] {rel_path}: missing top-level results key `{key}`")
 
-        comp_source: Dict[str, Any]
+        comp_source: dict[str, Any]
         if isinstance(results.get("comparability"), dict):
             comp_source = dict(results["comparability"])
         else:

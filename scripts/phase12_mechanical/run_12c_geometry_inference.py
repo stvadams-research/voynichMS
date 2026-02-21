@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """Phase 12C: Geometry Inference."""
 
-import sys
 import json
+import sys
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase12_mechanical.geometry_inference import GeometryInferrer
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase12_mechanical.geometry_inference import GeometryInferrer
 
 INPUT_PATH = project_root / "results/data/phase12_mechanical/slip_detection_results.json"
 OUTPUT_PATH = project_root / "results/data/phase12_mechanical/geometry_inference.json"
@@ -24,7 +25,7 @@ def main():
         console.print(f"[red]Error: {INPUT_PATH} not found. Run 12a first.[/red]")
         return
 
-    with open(INPUT_PATH, "r") as f:
+    with open(INPUT_PATH) as f:
         data = json.load(f)
     slips = data.get("results", data).get("slips", [])
     
@@ -32,7 +33,7 @@ def main():
     results = inferrer.analyze_slip_geometry(slips)
     
     saved = ProvenanceWriter.save_results(results, OUTPUT_PATH)
-    console.print(f"\n[green]Analysis complete. Geometry inference saved.[/green]")
+    console.print("\n[green]Analysis complete. Geometry inference saved.[/green]")
     
     # Summary Table: Positions
     table = Table(title="Slip Frequency by Token Position")

@@ -7,11 +7,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
-
-import sys
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
@@ -43,8 +42,8 @@ def _build_summary(
     missing_manifest_ids: list[str],
     report_path: str | None,
     dry_run: bool,
-) -> Dict[str, Any]:
-    summary: Dict[str, Any] = {
+) -> dict[str, Any]:
+    summary: dict[str, Any] = {
         "scanned": scanned,
         "updated": updated,
         "reconciled": reconciled,
@@ -86,7 +85,7 @@ def _jsonable(value: Any) -> Any:
     return value
 
 
-def _build_backfilled_manifest(record: RunRecord, *, fallback_status: str) -> Dict[str, Any]:
+def _build_backfilled_manifest(record: RunRecord, *, fallback_status: str) -> dict[str, Any]:
     end_ts = record.timestamp_end or record.timestamp_start
     status = record.status if record.status else fallback_status
     if status == "running":
@@ -113,7 +112,7 @@ def repair_run_statuses(
     report_path: str | None = None,
     backfill_missing_manifests: bool = False,
     dry_run: bool = False,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     store = MetadataStore(db_url)
     session = store.Session()
     scanned = 0

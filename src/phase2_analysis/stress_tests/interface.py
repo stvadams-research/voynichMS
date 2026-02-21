@@ -4,11 +4,12 @@ Stress Test Interface
 Defines the base class and result structure for all Phase 2.2 stress tests.
 """
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional
 from enum import Enum
-import logging
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 
@@ -29,27 +30,27 @@ class StressTestResult:
     outcome: StressTestOutcome
 
     # Provenance
-    run_id: Optional[str] = None
-    timestamp: Optional[str] = None
-    dataset_id: Optional[str] = None
-    parameters: Dict[str, Any] = field(default_factory=dict)
+    run_id: str | None = None
+    timestamp: str | None = None
+    dataset_id: str | None = None
+    parameters: dict[str, Any] = field(default_factory=dict)
 
     # Quantitative results
     stability_score: float = 0.0             # 0.0 (collapsed) to 1.0 (perfectly stable)
     control_differential: float = 0.0        # How much better than controls
-    collapse_threshold: Optional[float] = None  # Perturbation level at which collapse occurs
+    collapse_threshold: float | None = None  # Perturbation level at which collapse occurs
 
     # Detailed findings
-    metrics: Dict[str, float] = field(default_factory=dict)
-    failure_cases: List[Dict[str, Any]] = field(default_factory=list)
+    metrics: dict[str, float] = field(default_factory=dict)
+    failure_cases: list[dict[str, Any]] = field(default_factory=list)
 
     # Implications
     tightens_constraints: bool = False
     rules_out_class: bool = False
-    constraint_implications: List[str] = field(default_factory=list)
+    constraint_implications: list[str] = field(default_factory=list)
 
     # Evidence chain
-    evidence_refs: List[str] = field(default_factory=list)
+    evidence_refs: list[str] = field(default_factory=list)
     summary: str = ""
 
 
@@ -84,13 +85,13 @@ class StressTest(ABC):
 
     @property
     @abstractmethod
-    def applicable_classes(self) -> List[str]:
+    def applicable_classes(self) -> list[str]:
         """Explanation classes this test applies to."""
         pass
 
     @abstractmethod
     def run(self, explanation_class: str, dataset_id: str,
-            control_ids: List[str]) -> StressTestResult:
+            control_ids: list[str]) -> StressTestResult:
         """
         Execute the stress test.
 

@@ -2,8 +2,8 @@
 """Phase 11E: Stroke Topology Report Generator."""
 
 import json
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 RESULTS_PATH = Path("results/data/phase11_stroke/topology_results.json")
 REPORT_PATH = Path("results/reports/phase11_stroke/PHASE_11D_TOPOLOGY.md")

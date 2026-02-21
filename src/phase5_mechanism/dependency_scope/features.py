@@ -2,9 +2,9 @@
 Feature Extraction for Dependency Scope Analysis.
 """
 
-from typing import List, Dict, Any, Tuple
-import numpy as np
 import logging
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 class TokenFeatureExtractor:
@@ -14,7 +14,7 @@ class TokenFeatureExtractor:
     def __init__(self):
         pass
 
-    def extract_features(self, token: str) -> Dict[str, Any]:
+    def extract_features(self, token: str) -> dict[str, Any]:
         """
         Extracts a feature vector for a single token.
         """
@@ -34,13 +34,13 @@ class TokenFeatureExtractor:
         return features
 
     def _char_entropy(self, token: str) -> float:
-        from collections import Counter
         import math
+        from collections import Counter
         counts = Counter(token)
         probs = [c / len(token) for c in counts.values()]
         return -sum(p * math.log2(p) for p in probs)
 
-    def extract_positional_features(self, line: List[str], index: int) -> Dict[str, Any]:
+    def extract_positional_features(self, line: list[str], index: int) -> dict[str, Any]:
         """
         Features dependent on position in line.
         """

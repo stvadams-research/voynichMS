@@ -9,22 +9,21 @@ using successor entropy profiling.
 import argparse
 import sys
 from pathlib import Path
-import json
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
-from phase1_foundation.core.queries import get_lines_from_store
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.core.queries import get_lines_from_store
 from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import MetadataStore
-from phase5_mechanism.deterministic_grammar.simulators import DeterministicSlotSimulator
 from phase5_mechanism.deterministic_grammar.boundary_detection import SlotBoundaryDetector
+from phase5_mechanism.deterministic_grammar.simulators import DeterministicSlotSimulator
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"

@@ -1,6 +1,6 @@
 import pytest
 
-from phase1_foundation.core.geometry import Point, Box, Polygon
+from phase1_foundation.core.geometry import Box, Point, Polygon
 
 pytestmark = pytest.mark.unit
 

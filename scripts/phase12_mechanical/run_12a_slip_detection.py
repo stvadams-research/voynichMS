@@ -3,15 +3,16 @@
 
 import sys
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.storage.metadata import MetadataStore
 from phase1_foundation.core.data_loading import load_canonical_lines
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.storage.metadata import MetadataStore
 from phase12_mechanical.slip_detection import MechanicalSlipDetector
 
 DB_PATH = "sqlite:///data/voynich.db"

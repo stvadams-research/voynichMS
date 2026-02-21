@@ -4,10 +4,10 @@ Constraint Locality and Reset Analyzer
 Evaluates if transition rules persist globally or reset at boundaries.
 """
 
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
-import math
 import logging
+from collections import Counter, defaultdict
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 class LocalityResetAnalyzer:
@@ -17,7 +17,7 @@ class LocalityResetAnalyzer:
     def __init__(self, min_freq: int = 5):
         self.min_freq = min_freq
 
-    def analyze_resets(self, tokens: List[str], boundaries: List[int]) -> Dict[str, Any]:
+    def analyze_resets(self, tokens: list[str], boundaries: list[int]) -> dict[str, Any]:
         """
         Compare transitions across boundaries vs within boundaries.
         """

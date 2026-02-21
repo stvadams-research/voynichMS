@@ -2,10 +2,10 @@
 Adversarial Simulators for Phase 6C
 """
 
-import random
-from typing import List, Dict, Any, Tuple
-from phase6_functional.formal_system.simulators import LatticeTraversalSimulator
 import logging
+
+from phase6_functional.formal_system.simulators import LatticeTraversalSimulator
+
 logger = logging.getLogger(__name__)
 
 class AdversarialLatticeSimulator(LatticeTraversalSimulator):
@@ -19,7 +19,7 @@ class AdversarialLatticeSimulator(LatticeTraversalSimulator):
         super().__init__(vocab_size=vocab_size, seed=seed)
         self.section_rules = {} # section_idx -> rules
 
-    def _get_nexts_adversarial(self, prev: str, curr: str, pos: int, section_idx: int) -> List[str]:
+    def _get_nexts_adversarial(self, prev: str, curr: str, pos: int, section_idx: int) -> list[str]:
         if section_idx not in self.section_rules:
             self.section_rules[section_idx] = {}
         
@@ -32,7 +32,7 @@ class AdversarialLatticeSimulator(LatticeTraversalSimulator):
             rules[state] = self.random.sample(self.vocab, num_choices)
         return rules[state]
 
-    def generate_corpus_adversarial(self, num_lines: int, line_len: int = 8, sections: int = 5) -> List[List[str]]:
+    def generate_corpus_adversarial(self, num_lines: int, line_len: int = 8, sections: int = 5) -> list[list[str]]:
         corpus = []
         lines_per_section = num_lines // sections
         for s in range(sections):

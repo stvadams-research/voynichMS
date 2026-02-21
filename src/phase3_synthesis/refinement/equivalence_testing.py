@@ -5,18 +5,16 @@ Re-runs the full Phase 3 indistinguishability suite with refined synthetic pages
 and determines the outcome.
 """
 
-from typing import Dict, List, Any
-from dataclasses import dataclass
 import logging
+from typing import Any
 
-from phase3_synthesis.interface import SectionProfile, SyntheticPage
 from phase3_synthesis.indistinguishability import (
     IndistinguishabilityTester,
-    FullIndistinguishabilityTest,
 )
+from phase3_synthesis.interface import SectionProfile, SyntheticPage
 from phase3_synthesis.refinement.interface import (
-    EquivalenceTest,
     EquivalenceOutcome,
+    EquivalenceTest,
 )
 
 logger = logging.getLogger(__name__)
@@ -37,8 +35,8 @@ class EquivalenceReTest:
         self.equivalence_test = EquivalenceTest()
 
     def run_comparison(self,
-                       phase3_pages: Dict[str, List[SyntheticPage]],
-                       phase31_pages: Dict[str, List[SyntheticPage]]) -> EquivalenceTest:
+                       phase3_pages: dict[str, list[SyntheticPage]],
+                       phase31_pages: dict[str, list[SyntheticPage]]) -> EquivalenceTest:
         """
         Run full comparison suite.
 
@@ -82,8 +80,8 @@ class EquivalenceReTest:
         return self.equivalence_test
 
     def get_detailed_comparison(self,
-                                phase3_pages: Dict[str, List[SyntheticPage]],
-                                phase31_pages: Dict[str, List[SyntheticPage]]) -> Dict[str, Any]:
+                                phase3_pages: dict[str, list[SyntheticPage]],
+                                phase31_pages: dict[str, list[SyntheticPage]]) -> dict[str, Any]:
         """Get detailed per-gap comparison."""
         comparisons = {}
 

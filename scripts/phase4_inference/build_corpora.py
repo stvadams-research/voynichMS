@@ -11,10 +11,10 @@ Generates and registers all required matched corpora:
 """
 
 import argparse
-import sys
-from pathlib import Path
 import random
 import re
+import sys
+from pathlib import Path
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -23,11 +23,11 @@ sys.path.insert(0, str(project_root / 'src'))
 from rich.console import Console
 from rich.panel import Panel
 
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
+from phase1_foundation.controls.mechanical_reuse import MechanicalReuseGenerator
 from phase1_foundation.controls.self_citation import SelfCitationGenerator
 from phase1_foundation.controls.table_grille import TableGrilleGenerator
-from phase1_foundation.controls.mechanical_reuse import MechanicalReuseGenerator
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import MetadataStore
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -49,7 +49,7 @@ def build_latin_corpus(store, target_count):
         console.print("[red]Error: latin_corpus.txt not found.[/red]")
         return
         
-    with open(LATIN_FILE, "r") as f:
+    with open(LATIN_FILE) as f:
         text = f.read()
         
     # Simple tokenization
@@ -72,7 +72,11 @@ def build_shuffled_control(store, source_id, target_id, seed=42):
     console.print(f"\n[bold yellow]Building Shuffled Control: {target_id}[/bold yellow]")
     session = store.Session()
     try:
-        from phase1_foundation.storage.metadata import TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
+        from phase1_foundation.storage.metadata import (
+            PageRecord,
+            TranscriptionLineRecord,
+            TranscriptionTokenRecord,
+        )
         tokens = (
             session.query(TranscriptionTokenRecord.content)
             .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)

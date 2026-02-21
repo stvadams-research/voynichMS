@@ -6,16 +6,15 @@ Merges detected mechanical slips with their full line contexts
 for interactive visualization.
 """
 
-import sys
 import json
+import sys
 from pathlib import Path
-from typing import List, Dict, Any
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.storage.metadata import MetadataStore
 from phase1_foundation.core.data_loading import load_canonical_lines
+from phase1_foundation.storage.metadata import MetadataStore
 
 DB_PATH = "sqlite:///data/voynich.db"
 INPUT_PATH = project_root / "results/data/phase12_mechanical/slip_detection_results.json"
@@ -30,7 +29,7 @@ def main():
         return
 
     # 1. Load Slips
-    with open(INPUT_PATH, "r") as f:
+    with open(INPUT_PATH) as f:
         data = json.load(f)
     slips = data.get("results", data).get("slips", [])
     

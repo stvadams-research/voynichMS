@@ -9,27 +9,28 @@ import argparse
 import json
 import re
 import sys
-from datetime import datetime, timezone
+from collections.abc import Mapping, Sequence
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Mapping, Sequence
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs/core_skeptic/sk_m4_provenance_policy.json"
 
 
-def _read_policy(path: Path) -> Dict[str, Any]:
+def _read_policy(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"Policy file not found: {path}")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _as_list(value: Any) -> List[str]:
+def _as_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [str(v) for v in value]
     return []
 
 
-def _is_allowlisted(allowlist: Sequence[Dict[str, Any]], pattern_id: str, scope: str) -> bool:
+def _is_allowlisted(allowlist: Sequence[dict[str, Any]], pattern_id: str, scope: str) -> bool:
     for entry in allowlist:
         if entry.get("pattern_id") == pattern_id and entry.get("scope") == scope:
             return True
@@ -41,7 +42,7 @@ def _rule_applies_to_mode(rule: Mapping[str, Any], mode: str) -> bool:
     return not modes or mode in modes
 
 
-def _load_results_payload(path: Path) -> Dict[str, Any]:
+def _load_results_payload(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if isinstance(payload, dict) and isinstance(payload.get("results"), dict):
         return payload["results"]
@@ -59,17 +60,17 @@ def _parse_iso_timestamp(value: Any) -> datetime | None:
     except ValueError:
         return None
     if dt.tzinfo is None:
-        return dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+        return dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 
 def _run_threshold_checks(
     *,
-    policy: Dict[str, Any],
-    parsed_artifacts: Dict[str, Dict[str, Any]],
+    policy: dict[str, Any],
+    parsed_artifacts: dict[str, dict[str, Any]],
     mode: str,
-) -> List[str]:
-    errors: List[str] = []
+) -> list[str]:
+    errors: list[str] = []
     threshold_policy = dict(policy.get("threshold_policy", {}))
     if not threshold_policy:
         return errors
@@ -123,7 +124,7 @@ def _run_threshold_checks(
     if generated is None:
         errors.append(f"[artifact-field] {artifact_path}: generated_utc must be ISO8601")
     else:
-        age_hours = (datetime.now(timezone.utc) - generated).total_seconds() / 3600.0
+        age_hours = (datetime.now(UTC) - generated).total_seconds() / 3600.0
         if age_hours > max_artifact_age_hours:
             errors.append(
                 f"[stale-artifact] {artifact_path}: age_hours {age_hours:.2f} > {max_artifact_age_hours}"
@@ -144,7 +145,7 @@ def _run_threshold_checks(
                     f"[artifact-field] {sync_artifact_path}: generated_utc must be ISO8601"
                 )
             else:
-                sync_age_hours = (datetime.now(timezone.utc) - sync_generated).total_seconds() / 3600.0
+                sync_age_hours = (datetime.now(UTC) - sync_generated).total_seconds() / 3600.0
                 if sync_age_hours > max_sync_artifact_age_hours:
                     errors.append(
                         f"[stale-artifact] {sync_artifact_path}: age_hours {sync_age_hours:.2f} "
@@ -156,11 +157,11 @@ def _run_threshold_checks(
 
 def _run_contract_coupling_checks(
     *,
-    policy: Dict[str, Any],
-    parsed_artifacts: Dict[str, Dict[str, Any]],
+    policy: dict[str, Any],
+    parsed_artifacts: dict[str, dict[str, Any]],
     root: Path,
-) -> List[str]:
-    errors: List[str] = []
+) -> list[str]:
+    errors: list[str] = []
     coupling = dict(policy.get("contract_coupling_policy", {}))
     if not coupling:
         return errors
@@ -253,10 +254,10 @@ def _run_contract_coupling_checks(
 
 def _run_m4_5_lane_checks(
     *,
-    policy: Dict[str, Any],
-    parsed_artifacts: Dict[str, Dict[str, Any]],
-) -> List[str]:
-    errors: List[str] = []
+    policy: dict[str, Any],
+    parsed_artifacts: dict[str, dict[str, Any]],
+) -> list[str]:
+    errors: list[str] = []
     m4_policy = dict(policy.get("m4_5_policy", {}))
     key_prefix = "m4_5"
     lane_key = "m4_5_historical_lane"
@@ -458,8 +459,8 @@ def _run_m4_5_lane_checks(
     return errors
 
 
-def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
-    errors: List[str] = []
+def run_checks(policy: dict[str, Any], *, root: Path, mode: str) -> list[str]:
+    errors: list[str] = []
     allowlist = list(policy.get("allowlist", []))
 
     for scope in _as_list(policy.get("tracked_files")):
@@ -514,7 +515,7 @@ def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
                 if marker not in text:
                     errors.append(f"[missing-marker] {scope}: missing `{marker}` ({req_id})")
 
-    parsed_artifacts: Dict[str, Dict[str, Any]] = {}
+    parsed_artifacts: dict[str, dict[str, Any]] = {}
     artifact_policy = dict(policy.get("artifact_policy", {}))
     for spec in list(artifact_policy.get("tracked_artifacts", [])):
         rel_path = str(spec.get("path", "")).strip()

@@ -21,21 +21,21 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, DatasetRecord
 from phase1_foundation.core.id_factory import DeterministicIDFactory
 from phase1_foundation.core.provenance import ProvenanceWriter
-from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
-from phase3_synthesis.text_generator import TextContinuationGenerator
-from phase3_synthesis.interface import GapDefinition, GapStrength
 
 # Phase 2 metrics library
 from phase1_foundation.metrics.library import RepetitionRate
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import DatasetRecord, MetadataStore
 from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
 from phase2_analysis.stress_tests.locality import LocalityTest
+from phase3_synthesis.interface import GapDefinition, GapStrength
+from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
+from phase3_synthesis.text_generator import TextContinuationGenerator
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"

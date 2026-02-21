@@ -7,6 +7,7 @@ Purpose: Measures the proximity of the Voynich structure to known historical and
 import subprocess
 import sys
 
+
 def run_command(cmd):
     print(f"\n>> Executing: {cmd}")
     result = subprocess.run(cmd, shell=True)

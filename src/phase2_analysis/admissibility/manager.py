@@ -11,17 +11,15 @@ Per Phase 2 Principles:
 - Controls Are First-Class Citizens: All analyses must reference Phase 1 controls.
 """
 
-from typing import Dict, List, Optional, Any
+import logging
 from dataclasses import dataclass
 from enum import Enum
-import logging
+from typing import Any
+
 from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    ExplanationClassRecord,
     AdmissibilityConstraintRecord,
     AdmissibilityEvidenceRecord,
-    StructureRecord,
-    HypothesisRecord,
+    MetadataStore,
 )
 
 logger = logging.getLogger(__name__)
@@ -50,10 +48,10 @@ class EvaluationResult:
     """Result of evaluating an explanation class."""
     class_id: str
     status: AdmissibilityStatus
-    violations: List[Dict[str, Any]]      # Constraints that caused inadmissibility
-    unmet_requirements: List[Dict[str, Any]]  # Required constraints without supporting evidence
-    supporting_evidence: List[Dict[str, Any]]  # Evidence that supports admissibility
-    reversal_conditions: List[str]         # What would change the status
+    violations: list[dict[str, Any]]      # Constraints that caused inadmissibility
+    unmet_requirements: list[dict[str, Any]]  # Required constraints without supporting evidence
+    supporting_evidence: list[dict[str, Any]]  # Evidence that supports admissibility
+    reversal_conditions: list[str]         # What would change the status
 
 
 class AdmissibilityManager:
@@ -119,8 +117,8 @@ class AdmissibilityManager:
         constraint_id: int,
         support_level: SupportLevel,
         reasoning: str,
-        structure_id: Optional[str] = None,
-        hypothesis_id: Optional[str] = None
+        structure_id: str | None = None,
+        hypothesis_id: str | None = None
     ):
         """
         Map Phase 1 evidence to a constraint.
@@ -273,7 +271,7 @@ class AdmissibilityManager:
         finally:
             session.close()
 
-    def evaluate_all(self) -> Dict[str, EvaluationResult]:
+    def evaluate_all(self) -> dict[str, EvaluationResult]:
         """
         Evaluate all registered explanation classes.
 
@@ -283,7 +281,7 @@ class AdmissibilityManager:
         classes = self.store.get_all_explanation_classes()
         return {c.id: self.evaluate_status(c.id) for c in classes}
 
-    def generate_report(self) -> Dict[str, Any]:
+    def generate_report(self) -> dict[str, Any]:
         """
         Generate the Admissibility Matrix report.
 

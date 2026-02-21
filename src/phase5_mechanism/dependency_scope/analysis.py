@@ -2,11 +2,13 @@
 Dependency Scope Analysis Tools.
 """
 
-from typing import List, Dict, Any, Tuple
-from collections import Counter, defaultdict
-import math
-from phase5_mechanism.dependency_scope.features import TokenFeatureExtractor
 import logging
+import math
+from collections import Counter, defaultdict
+from typing import Any
+
+from phase5_mechanism.dependency_scope.features import TokenFeatureExtractor
+
 logger = logging.getLogger(__name__)
 
 class DependencyScopeAnalyzer:
@@ -15,7 +17,7 @@ class DependencyScopeAnalyzer:
     def __init__(self):
         self.extractor = TokenFeatureExtractor()
 
-    def _calculate_conditional_entropy(self, successors_map: Dict[Any, Counter]) -> float:
+    def _calculate_conditional_entropy(self, successors_map: dict[Any, Counter]) -> float:
         """Helper to calculate H(S|Context)."""
         entropies = []
         weights = []
@@ -32,7 +34,7 @@ class DependencyScopeAnalyzer:
             return 0.0
         return sum(e * w for e, w in zip(entropies, weights)) / sum(weights)
 
-    def analyze_predictive_lift(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_predictive_lift(self, lines: list[list[str]]) -> dict[str, Any]:
         """Compares successor entropy: H(S|Node) vs H(S|Node, Features)."""
         node_successors = defaultdict(Counter)
         node_feature_successors = defaultdict(Counter)
@@ -58,7 +60,7 @@ class DependencyScopeAnalyzer:
             "rel_lift": float(lift / h_node) if h_node > 0 else 0.0
         }
 
-    def analyze_equivalence_splitting(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_equivalence_splitting(self, lines: list[list[str]]) -> dict[str, Any]:
         """Tests if identical words split into distinct classes based on position."""
         node_successors = defaultdict(Counter)
         pos_node_successors = defaultdict(Counter)

@@ -9,13 +9,15 @@ This prevents accidental non-reproducibility in analytical code paths.
 """
 
 import functools
+import logging
 import random
 import threading
+from collections.abc import Callable
 from contextlib import contextmanager
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional, TypeVar
-import logging
+from typing import Any, Optional, TypeVar
+
 logger = logging.getLogger(__name__)
 
 
@@ -68,7 +70,7 @@ class RandomnessController:
             return
         self._initialized = True
         self._thread_local = threading.local()
-        self._seed_log: List[SeedRecord] = []
+        self._seed_log: list[SeedRecord] = []
         self._original_random = random.random
         self._original_randint = random.randint
         self._original_uniform = random.uniform
@@ -168,7 +170,7 @@ class RandomnessController:
         self._seed_log.append(record)
         return seed
 
-    def get_seed_log(self) -> List[SeedRecord]:
+    def get_seed_log(self) -> list[SeedRecord]:
         """Get all registered seeds."""
         return list(self._seed_log)
 

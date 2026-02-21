@@ -4,11 +4,13 @@ Cross-Model Evaluation for Phase 2.3
 Compares models across tracks and produces phase8_comparative evaluation matrices.
 """
 
-from typing import Dict, List, Any, Tuple
-from dataclasses import dataclass
-from phase2_analysis.models.interface import ExplicitModel, ModelStatus
-from phase1_foundation.config import get_model_params
 import logging
+from dataclasses import dataclass
+from typing import Any
+
+from phase1_foundation.config import get_model_params
+from phase2_analysis.models.interface import ExplicitModel, ModelStatus
+
 logger = logging.getLogger(__name__)
 
 
@@ -27,11 +29,11 @@ class ModelComparison:
 @dataclass
 class EvaluationMatrix:
     """Comparative evaluation matrix for all models."""
-    dimensions: List[str]
-    models: List[str]
-    scores: Dict[str, Dict[str, float]]  # model_id -> dimension -> score
-    rankings: Dict[str, List[str]]  # dimension -> ranked model IDs
-    overall_ranking: List[Tuple[str, float]]  # (model_id, overall_score)
+    dimensions: list[str]
+    models: list[str]
+    scores: dict[str, dict[str, float]]  # model_id -> dimension -> score
+    rankings: dict[str, list[str]]  # dimension -> ranked model IDs
+    overall_ranking: list[tuple[str, float]]  # (model_id, overall_score)
 
 
 class CrossModelEvaluator:
@@ -54,10 +56,10 @@ class CrossModelEvaluator:
         "falsifiability",
     ]
 
-    def __init__(self, models: List[ExplicitModel]):
+    def __init__(self, models: list[ExplicitModel]):
         self.models = {m.model_id: m for m in models}
 
-    def evaluate_model(self, model: ExplicitModel) -> Dict[str, float]:
+    def evaluate_model(self, model: ExplicitModel) -> dict[str, float]:
         """
         Evaluate a model across all dimensions.
 
@@ -140,7 +142,7 @@ class CrossModelEvaluator:
             overall_ranking=overall,
         )
 
-    def compare_models(self, model_a_id: str, model_b_id: str) -> List[ModelComparison]:
+    def compare_models(self, model_a_id: str, model_b_id: str) -> list[ModelComparison]:
         """Compare two specific models across all dimensions."""
         model_a = self.models[model_a_id]
         model_b = self.models[model_b_id]
@@ -171,14 +173,14 @@ class CrossModelEvaluator:
 
         return comparisons
 
-    def get_surviving_models(self) -> List[ExplicitModel]:
+    def get_surviving_models(self) -> list[ExplicitModel]:
         """Get models that have not been falsified."""
         return [
             m for m in self.models.values()
             if m.status not in [ModelStatus.FALSIFIED, ModelStatus.DISCONTINUED]
         ]
 
-    def generate_report(self) -> Dict[str, Any]:
+    def generate_report(self) -> dict[str, Any]:
         """Generate a comprehensive evaluation report."""
         matrix = self.generate_matrix()
 

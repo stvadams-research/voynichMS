@@ -1,15 +1,16 @@
-from typing import List
-from phase1_foundation.core.ids import FolioID
 import logging
+
+from phase1_foundation.core.ids import FolioID
+
 logger = logging.getLogger(__name__)
 
-def check_unique_ids(ids: List[str]) -> bool:
+def check_unique_ids(ids: list[str]) -> bool:
     """
     Verify that a list of IDs contains no duplicates.
     """
     return len(ids) == len(set(ids))
 
-def check_folio_format(ids: List[str]) -> List[str]:
+def check_folio_format(ids: list[str]) -> list[str]:
     """
     Return a list of invalid folio IDs.
     """

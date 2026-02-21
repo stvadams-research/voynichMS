@@ -9,20 +9,21 @@ import argparse
 import json
 import re
 import sys
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any, Dict, List, Mapping, Sequence
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs/core_skeptic/sk_h1_multimodal_status_policy.json"
 
 
-def _read_policy(path: Path) -> Dict[str, Any]:
+def _read_policy(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"Policy file not found: {path}")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _as_list(value: Any) -> List[str]:
+def _as_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [str(v) for v in value]
     return []
@@ -60,7 +61,7 @@ def _rule_applies_to_h1_5_lane(rule: Mapping[str, Any], h1_5_lane: str) -> bool:
     return not lanes or h1_5_lane in lanes
 
 
-def _load_results_payload(path: Path) -> Dict[str, Any]:
+def _load_results_payload(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if isinstance(payload.get("results"), dict):
         return payload["results"]
@@ -71,11 +72,11 @@ def _load_results_payload(path: Path) -> Dict[str, Any]:
 
 def _check_artifact_policy(
     *,
-    policy: Dict[str, Any],
+    policy: dict[str, Any],
     root: Path,
     mode: str,
-) -> tuple[List[str], Dict[str, Any]]:
-    errors: List[str] = []
+) -> tuple[list[str], dict[str, Any]]:
+    errors: list[str] = []
     artifact_spec = dict(policy.get("artifact_policy", {}))
     if not artifact_spec:
         errors.append("[policy] missing artifact_policy")
@@ -124,8 +125,8 @@ def _check_artifact_policy(
     return errors, results
 
 
-def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
-    errors: List[str] = []
+def run_checks(policy: dict[str, Any], *, root: Path, mode: str) -> list[str]:
+    errors: list[str] = []
 
     for scope in _as_list(policy.get("tracked_files")):
         if not (root / scope).exists():

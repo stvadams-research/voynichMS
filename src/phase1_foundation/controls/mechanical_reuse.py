@@ -4,13 +4,13 @@ Mechanical Reuse Generator (Phase 3.3 style)
 Produces text by selecting from a small pool of grammar-compliant tokens per page.
 """
 
+import logging
 import random
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from phase1_foundation.controls.interface import ControlGenerator
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ class MechanicalReuseGenerator(ControlGenerator):
     - parser: parser-equivalent canonicalization for symmetry.
     - pre_normalized_with_assertions: enforce already-normalized token stream.
     """
-    def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: Dict[str, Any] = None) -> str:
+    def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: dict[str, Any] = None) -> str:
         rng = random.Random(seed)
         params = params or {}
         normalization_mode = self._resolve_normalization_mode(params)
@@ -63,7 +63,7 @@ class MechanicalReuseGenerator(ControlGenerator):
 
         return control_id
 
-    def _ingest_tokens(self, dataset_id: str, tokens: List[str], seed: int, metadata: Dict[str, Any]):
+    def _ingest_tokens(self, dataset_id: str, tokens: list[str], seed: int, metadata: dict[str, Any]):
         """Helper to register synthetic tokens in the database."""
         from phase1_foundation.core.id_factory import DeterministicIDFactory
         id_factory = DeterministicIDFactory(seed=seed)

@@ -10,7 +10,7 @@ import importlib.util
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_GATE_HEALTH_PATH = PROJECT_ROOT / "core_status/core_audit/release_gate_health_status.json"
@@ -27,7 +27,7 @@ def _load_module(path: Path, module_name: str):
     return module
 
 
-def _load_json(path: Path) -> Dict[str, Any]:
+def _load_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(path)
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -36,25 +36,25 @@ def _load_json(path: Path) -> Dict[str, Any]:
     return data
 
 
-def _as_results(payload: Dict[str, Any]) -> Dict[str, Any]:
+def _as_results(payload: dict[str, Any]) -> dict[str, Any]:
     results = payload.get("results")
     if isinstance(results, dict):
         return results
     return payload
 
 
-def _as_dict(value: Any) -> Dict[str, Any]:
+def _as_dict(value: Any) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
 
-def _derive_expected_lane(status: str, h2_policy: Dict[str, Any]) -> str:
+def _derive_expected_lane(status: str, h2_policy: dict[str, Any]) -> str:
     h2_4_policy = _as_dict(h2_policy.get("h2_4_policy"))
     lane_by_status = _as_dict(h2_4_policy.get("lane_by_gate_status"))
     lane = lane_by_status.get(status)
     return str(lane).strip() if lane is not None else ""
 
 
-def _required_by_lane(policy: Dict[str, Any], lane: str, key: str) -> str:
+def _required_by_lane(policy: dict[str, Any], lane: str, key: str) -> str:
     h2_4_policy = _as_dict(policy.get("h2_4_policy"))
     mapping = _as_dict(h2_4_policy.get(key))
     value = mapping.get(lane)
@@ -68,8 +68,8 @@ def run_checks(
     h2_policy_path: Path,
     m1_policy_path: Path,
     mode: str,
-) -> List[str]:
-    errors: List[str] = []
+) -> list[str]:
+    errors: list[str] = []
     gate_payload = _load_json(gate_health_path)
     gate_results = _as_results(gate_payload)
     h2_policy = _load_json(h2_policy_path)

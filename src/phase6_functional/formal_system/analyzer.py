@@ -5,11 +5,12 @@ Evaluates whether a corpus exhibits signatures of a formal system execution.
 Phase 6A implementation.
 """
 
-import numpy as np
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
-from pathlib import Path
 import logging
+from collections import Counter, defaultdict
+from typing import Any
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class FormalSystemAnalyzer:
@@ -20,7 +21,7 @@ class FormalSystemAnalyzer:
     def __init__(self):
         pass
 
-    def _extract_states(self, lines: List[List[str]]) -> List[Tuple[Any, ...]]:
+    def _extract_states(self, lines: list[list[str]]) -> list[tuple[Any, ...]]:
         """
         Extract states as (prev, curr, pos) triplets.
         Note: We use this to define where we ARE in the system.
@@ -32,7 +33,7 @@ class FormalSystemAnalyzer:
                 states.append((prev, token, i))
         return states
 
-    def analyze_coverage(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_coverage(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         4.1 State-Space Coverage Analysis
         Determines whether the manuscript exhibits patterns consistent with 
@@ -60,7 +61,7 @@ class FormalSystemAnalyzer:
             "top_frequencies": freqs[:20]
         }
 
-    def analyze_redundancy(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_redundancy(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         4.2 Redundancy and Repetition Inefficiency
         Assess whether the manuscript tolerates inefficiency consistent with 
@@ -97,7 +98,7 @@ class FormalSystemAnalyzer:
             "total_sequences_n3": total_seqs
         }
 
-    def analyze_errors(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_errors(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         4.3 Error Typology and Correction Behavior
         Characterize deviations from the inferred ruleset.
@@ -142,7 +143,7 @@ class FormalSystemAnalyzer:
             "sample_deviations": deviations[:10]
         }
 
-    def analyze_exhaustion(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_exhaustion(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         4.4 Completeness and Exhaustion Signatures
         Test whether the manuscript trends toward completeness or exhaustion.
@@ -174,7 +175,7 @@ class FormalSystemAnalyzer:
             "is_converging": bool(novelty_curve[-1] < novelty_curve[0]) if len(novelty_curve) > 1 else False
         }
 
-    def run_full_analysis(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def run_full_analysis(self, lines: list[list[str]]) -> dict[str, Any]:
         return {
             "coverage": self.analyze_coverage(lines),
             "redundancy": self.analyze_redundancy(lines),

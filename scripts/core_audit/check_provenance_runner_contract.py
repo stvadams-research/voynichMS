@@ -7,13 +7,13 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs/core_audit/provenance_runner_contract.json"
 
 
-def _read_json(path: Path) -> Dict[str, Any]:
+def _read_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"Missing policy file: {path}")
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -22,22 +22,22 @@ def _read_json(path: Path) -> Dict[str, Any]:
     return payload
 
 
-def _as_list(value: Any) -> List[str]:
+def _as_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [str(v) for v in value]
     return []
 
 
-def _as_dict(value: Any) -> Dict[str, Any]:
+def _as_dict(value: Any) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
 
-def _resolve_run_scripts(root: Path, run_glob: str) -> List[Path]:
+def _resolve_run_scripts(root: Path, run_glob: str) -> list[Path]:
     return sorted(p for p in root.glob(run_glob) if p.is_file())
 
 
-def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
-    errors: List[str] = []
+def run_checks(policy: dict[str, Any], *, root: Path, mode: str) -> list[str]:
+    errors: list[str] = []
 
     run_glob = str(policy.get("run_glob", "scripts/**/run_*.py"))
     direct_required_symbol = str(policy.get("direct_required_symbol", "ProvenanceWriter"))

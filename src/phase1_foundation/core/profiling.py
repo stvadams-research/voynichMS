@@ -1,7 +1,8 @@
 import functools
-import time
 import logging
-from typing import Any, Callable, TypeVar
+import time
+from collections.abc import Callable
+from typing import Any, TypeVar
 
 logger = logging.getLogger(__name__)
 

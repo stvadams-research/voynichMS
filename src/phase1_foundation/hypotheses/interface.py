@@ -1,9 +1,11 @@
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Dict, Any, List
 from enum import Enum
+from typing import Any
+
 from phase1_foundation.storage.metadata import MetadataStore
-import logging
+
 logger = logging.getLogger(__name__)
 
 class HypothesisOutcome(Enum):
@@ -16,8 +18,8 @@ class HypothesisOutcome(Enum):
 @dataclass
 class HypothesisResult:
     outcome: HypothesisOutcome
-    metrics: Dict[str, float]
-    summary: Dict[str, Any]
+    metrics: dict[str, float]
+    summary: dict[str, Any]
 
 class Hypothesis(ABC):
     def __init__(self, store: MetadataStore):
@@ -44,7 +46,7 @@ class Hypothesis(ABC):
         pass
 
     @abstractmethod
-    def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def run(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         """
         Run the hypothesis against real and control datasets.
         """

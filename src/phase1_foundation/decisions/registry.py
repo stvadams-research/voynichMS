@@ -1,6 +1,8 @@
-from typing import Dict, Any, Optional
-from phase1_foundation.storage.metadata import MetadataStore, StructureRecord
 import logging
+from typing import Any
+
+from phase1_foundation.storage.metadata import MetadataStore, StructureRecord
+
 logger = logging.getLogger(__name__)
 
 class StructureRegistry:
@@ -20,7 +22,7 @@ class StructureRegistry:
         )
         return id
 
-    def record_decision(self, structure_id: str, decision: str, reasoning: str, run_id: str, evidence: Dict[str, Any] = None, controls_applied: Dict[str, Any] = None):
+    def record_decision(self, structure_id: str, decision: str, reasoning: str, run_id: str, evidence: dict[str, Any] = None, controls_applied: dict[str, Any] = None):
         """
         Record a decision for a structure.
         decision: ACCEPT, REJECT, HOLD
@@ -37,7 +39,7 @@ class StructureRegistry:
             controls_applied=controls_applied
         )
 
-    def get_structure_status(self, structure_id: str) -> Optional[str]:
+    def get_structure_status(self, structure_id: str) -> str | None:
         """
         Get current status of a structure.
         """

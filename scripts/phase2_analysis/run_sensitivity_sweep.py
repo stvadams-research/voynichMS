@@ -24,11 +24,12 @@ import logging
 import sys
 import tempfile
 import threading
+from collections.abc import Callable
 from contextlib import ExitStack, contextmanager
 from datetime import datetime
 from pathlib import Path
 from time import perf_counter
-from typing import Any, Callable, Dict, List
+from typing import Any
 from unittest.mock import patch
 
 # Add src to path
@@ -38,6 +39,16 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from rich.console import Console
 from rich.table import Table
 
+from phase1_foundation.config import DEFAULT_SEED
+from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import (
+    DatasetRecord,
+    MetadataStore,
+    PageRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from phase2_analysis.anomaly.stability_analysis import AnomalyStabilityAnalyzer
 from phase2_analysis.models.constructed_system import (
     GlossalialSystemModel,
@@ -50,16 +61,6 @@ from phase2_analysis.models.visual_grammar import (
     AdjacencyGrammarModel,
     ContainmentGrammarModel,
     DiagramAnnotationModel,
-)
-from phase1_foundation.config import DEFAULT_SEED
-from phase1_foundation.core.provenance import ProvenanceWriter
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import (
-    DatasetRecord,
-    MetadataStore,
-    PageRecord,
-    TranscriptionLineRecord,
-    TranscriptionTokenRecord,
 )
 
 console = Console()
@@ -98,7 +99,7 @@ ITERATIVE_SCENARIO_IDS = {
     "weights_focus_robustness",
 }
 
-DEFAULT_RELEASE_EVIDENCE_POLICY: Dict[str, Any] = {
+DEFAULT_RELEASE_EVIDENCE_POLICY: dict[str, Any] = {
     "policy_version": "2026-02-10",
     "dataset_policy": {
         "allowed_dataset_ids": ["voynich_real"],
@@ -123,7 +124,7 @@ class WarningCapture(logging.Handler):
 
     def __init__(self) -> None:
         super().__init__(level=logging.WARNING)
-        self.messages: List[str] = []
+        self.messages: list[str] = []
 
     def emit(self, record: logging.LogRecord) -> None:
         if record.levelno >= logging.WARNING:
@@ -145,7 +146,7 @@ def _capture_logger_warnings(logger_name: str):
 
 
 @contextmanager
-def _scenario_model_params(model_params: Dict[str, Any]):
+def _scenario_model_params(model_params: dict[str, Any]):
     """Patch model-parameter lookups so scenario config is fully in-memory."""
     with ExitStack() as stack:
         stack.enter_context(
@@ -160,19 +161,19 @@ def _scenario_model_params(model_params: Dict[str, Any]):
         yield
 
 
-def _normalize_weights(weights: Dict[str, float]) -> Dict[str, float]:
+def _normalize_weights(weights: dict[str, float]) -> dict[str, float]:
     total = sum(weights.values())
     if total <= 0:
         return weights
     return {k: float(v) / total for k, v in weights.items()}
 
 
-def _load_release_evidence_policy() -> Dict[str, Any]:
+def _load_release_evidence_policy() -> dict[str, Any]:
     """Load release evidence policy with strict schema fallback defaults."""
     if not POLICY_PATH.exists():
         return copy.deepcopy(DEFAULT_RELEASE_EVIDENCE_POLICY)
 
-    with open(POLICY_PATH, "r", encoding="utf-8") as f:
+    with open(POLICY_PATH, encoding="utf-8") as f:
         loaded = json.load(f)
 
     policy = copy.deepcopy(DEFAULT_RELEASE_EVIDENCE_POLICY)
@@ -215,7 +216,7 @@ def _atomic_write_json(path: Path, payload: Any, *, sort_keys: bool = False) -> 
     _atomic_write_text(path, encoded)
 
 
-def _safe_load_json(path: Path) -> Dict[str, Any]:
+def _safe_load_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     try:
@@ -225,7 +226,7 @@ def _safe_load_json(path: Path) -> Dict[str, Any]:
     return payload if isinstance(payload, dict) else {}
 
 
-def _save_results_atomic(results: Any, output_path: Path) -> Dict[str, str]:
+def _save_results_atomic(results: Any, output_path: Path) -> dict[str, str]:
     try:
         json.dumps(results)
     except TypeError as exc:
@@ -250,7 +251,7 @@ def _save_results_atomic(results: Any, output_path: Path) -> Dict[str, str]:
 
 def _build_progress_timing(
     *, run_start: float, completed_scenarios: int, scenario_total: int
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     elapsed = perf_counter() - run_start
     eta: float | None = None
     remaining = max(scenario_total - completed_scenarios, 0)
@@ -267,13 +268,13 @@ def _build_progress_timing(
 def _build_release_preflight_payload(
     *,
     mode: str,
-    dataset_profile: Dict[str, Any],
-    dataset_policy_eval: Dict[str, Any],
+    dataset_profile: dict[str, Any],
+    dataset_policy_eval: dict[str, Any],
     policy_version: str,
     max_scenarios: int | None,
     scenario_count_expected: int,
-) -> Dict[str, Any]:
-    reason_codes: List[str] = []
+) -> dict[str, Any]:
+    reason_codes: list[str] = []
     if mode != "release":
         reason_codes.append("MODE_NOT_RELEASE")
     if max_scenarios is not None:
@@ -317,7 +318,7 @@ def _build_release_preflight_dataset_error_payload(
     error_message: str,
     policy_version: str,
     max_scenarios: int | None,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "schema_version": SENSITIVITY_PREFLIGHT_SCHEMA_VERSION,
         "generated_utc": _utc_now_iso(),
@@ -348,9 +349,9 @@ def _build_checkpoint_signature(
     *,
     dataset_id: str,
     mode: str,
-    scenario_ids: List[str],
+    scenario_ids: list[str],
     policy_version: str,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "dataset_id": dataset_id,
         "mode": mode,
@@ -360,8 +361,8 @@ def _build_checkpoint_signature(
 
 
 def _new_checkpoint_state(
-    *, signature: Dict[str, Any], scenario_total: int
-) -> Dict[str, Any]:
+    *, signature: dict[str, Any], scenario_total: int
+) -> dict[str, Any]:
     return {
         "schema_version": SENSITIVITY_CHECKPOINT_SCHEMA_VERSION,
         "generated_utc": _utc_now_iso(),
@@ -376,9 +377,9 @@ def _new_checkpoint_state(
 
 
 def _checkpoint_rows_by_id(
-    checkpoint_state: Dict[str, Any], *, allowed_scenario_ids: List[str]
-) -> Dict[str, Dict[str, Any]]:
-    rows: Dict[str, Dict[str, Any]] = {}
+    checkpoint_state: dict[str, Any], *, allowed_scenario_ids: list[str]
+) -> dict[str, dict[str, Any]]:
+    rows: dict[str, dict[str, Any]] = {}
     allowed = set(allowed_scenario_ids)
     for entry in checkpoint_state.get("completed_scenarios", []):
         if not isinstance(entry, dict):
@@ -394,17 +395,17 @@ def _checkpoint_rows_by_id(
     return rows
 
 
-def _write_checkpoint_state(checkpoint_state: Dict[str, Any]) -> None:
+def _write_checkpoint_state(checkpoint_state: dict[str, Any]) -> None:
     checkpoint_state["generated_utc"] = _utc_now_iso()
     _atomic_write_json(CHECKPOINT_PATH, checkpoint_state, sort_keys=True)
 
 
 def _record_checkpoint_result(
-    checkpoint_state: Dict[str, Any],
+    checkpoint_state: dict[str, Any],
     *,
     scenario_id: str,
     scenario_index: int,
-    result_row: Dict[str, Any],
+    result_row: dict[str, Any],
 ) -> None:
     completed = checkpoint_state.setdefault("completed_scenarios", [])
     replaced = False
@@ -438,7 +439,7 @@ def _record_checkpoint_result(
     checkpoint_state["last_completed_index"] = scenario_index
 
 
-def _write_progress(payload: Dict[str, Any]) -> None:
+def _write_progress(payload: dict[str, Any]) -> None:
     envelope = {
         "schema_version": SENSITIVITY_PROGRESS_SCHEMA_VERSION,
         **payload,
@@ -453,7 +454,7 @@ def _write_release_run_status(
     run_started_utc: str,
     dataset_id: str,
     status: str,
-    reason_codes: List[str],
+    reason_codes: list[str],
     stage: str,
     max_scenarios: int | None,
     scenario_total: int | None,
@@ -462,13 +463,13 @@ def _write_release_run_status(
     preflight_status: str | None = None,
     elapsed_sec: float | None = None,
     eta_sec: float | None = None,
-    details: Dict[str, Any] | None = None,
+    details: dict[str, Any] | None = None,
 ) -> None:
     if mode != "release":
         return
 
     heartbeat_utc = _utc_now_iso()
-    payload: Dict[str, Any] = {
+    payload: dict[str, Any] = {
         "schema_version": SENSITIVITY_RELEASE_RUN_STATUS_SCHEMA_VERSION,
         "generated_utc": heartbeat_utc,
         "generated_by": SENSITIVITY_GENERATED_BY,
@@ -500,7 +501,7 @@ def _write_release_run_status(
     _atomic_write_json(RELEASE_RUN_STATUS_PATH, payload, sort_keys=True)
 
 
-def _summarize_warnings(messages: List[str]) -> Dict[str, Any]:
+def _summarize_warnings(messages: list[str]) -> dict[str, Any]:
     insufficient_data = sum("Insufficient data for" in m for m in messages)
     sparse_data = sum("Sparse data for" in m for m in messages)
     nan_sanitized = sum("NaN degradation detected" in m for m in messages)
@@ -519,7 +520,7 @@ def _summarize_warnings(messages: List[str]) -> Dict[str, Any]:
     }
 
 
-def _load_dataset_profile(store: MetadataStore, dataset_id: str) -> Dict[str, Any]:
+def _load_dataset_profile(store: MetadataStore, dataset_id: str) -> dict[str, Any]:
     session = store.Session()
     try:
         dataset_exists = (
@@ -565,13 +566,13 @@ def _load_dataset_profile(store: MetadataStore, dataset_id: str) -> Dict[str, An
 
 
 def _evaluate_dataset_policy(
-    dataset_profile: Dict[str, Any], dataset_policy: Dict[str, Any]
-) -> Dict[str, Any]:
+    dataset_profile: dict[str, Any], dataset_policy: dict[str, Any]
+) -> dict[str, Any]:
     allowed_dataset_ids = dataset_policy.get("allowed_dataset_ids", [])
     min_pages = int(dataset_policy.get("min_pages", 0))
     min_tokens = int(dataset_policy.get("min_tokens", 0))
 
-    reasons: List[str] = []
+    reasons: list[str] = []
     dataset_id = str(dataset_profile.get("dataset_id", ""))
     pages = int(dataset_profile.get("pages", 0))
     tokens = int(dataset_profile.get("tokens", 0))
@@ -599,11 +600,11 @@ def _evaluate_dataset_policy(
 def _run_model_evaluation_scenario(
     db_url: str,
     dataset_id: str,
-    model_params: Dict[str, Any],
-    warning_policy: Dict[str, Any],
+    model_params: dict[str, Any],
+    warning_policy: dict[str, Any],
     scenario_id: str = "",
-    progress_hook: Callable[[Dict[str, Any]], None] | None = None,
-) -> Dict[str, Any]:
+    progress_hook: Callable[[dict[str, Any]], None] | None = None,
+) -> dict[str, Any]:
     store = MetadataStore(db_url)
     models = [
         AdjacencyGrammarModel(store),
@@ -727,7 +728,7 @@ def _run_model_evaluation_scenario(
         "anomaly_stable": bool(anomaly_status["all_stable"]),
     }
 
-    quality_flags: List[str] = []
+    quality_flags: list[str] = []
     if warning_summary["insufficient_data_warnings"] > 0:
         quality_flags.append("insufficient_data")
     if warning_summary["sparse_data_warnings"] > 0:
@@ -778,7 +779,7 @@ def _run_model_evaluation_scenario(
     }
 
 
-def _apply_threshold(cfg: Dict[str, Any], threshold: float) -> Dict[str, Any]:
+def _apply_threshold(cfg: dict[str, Any], threshold: float) -> dict[str, Any]:
     out = copy.deepcopy(cfg)
     battery = out.get("disconfirmation", {}).get("perturbation_battery", [])
     for item in battery:
@@ -786,7 +787,7 @@ def _apply_threshold(cfg: Dict[str, Any], threshold: float) -> Dict[str, Any]:
     return out
 
 
-def _apply_sensitivity_scale(cfg: Dict[str, Any], factor: float) -> Dict[str, Any]:
+def _apply_sensitivity_scale(cfg: dict[str, Any], factor: float) -> dict[str, Any]:
     out = copy.deepcopy(cfg)
     models = out.get("models", {})
     for model_data in models.values():
@@ -796,7 +797,7 @@ def _apply_sensitivity_scale(cfg: Dict[str, Any], factor: float) -> Dict[str, An
     return out
 
 
-def _apply_weight_variant(cfg: Dict[str, Any], focus_dimension: str, factor: float) -> Dict[str, Any]:
+def _apply_weight_variant(cfg: dict[str, Any], focus_dimension: str, factor: float) -> dict[str, Any]:
     out = copy.deepcopy(cfg)
     weights = out.get("evaluation", {}).get("dimension_weights", {})
     adjusted = {}
@@ -807,8 +808,8 @@ def _apply_weight_variant(cfg: Dict[str, Any], focus_dimension: str, factor: flo
     return out
 
 
-def _build_scenarios(base_cfg: Dict[str, Any]) -> List[Dict[str, Any]]:
-    scenarios: List[Dict[str, Any]] = [
+def _build_scenarios(base_cfg: dict[str, Any]) -> list[dict[str, Any]]:
+    scenarios: list[dict[str, Any]] = [
         {"id": "baseline", "family": "baseline", "config": copy.deepcopy(base_cfg)}
     ]
 
@@ -845,8 +846,8 @@ def _build_scenarios(base_cfg: Dict[str, Any]) -> List[Dict[str, Any]]:
 
 
 def _build_iterative_scenarios(
-    all_scenarios: List[Dict[str, Any]],
-) -> List[Dict[str, Any]]:
+    all_scenarios: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
     selected = [
         scenario for scenario in all_scenarios
         if scenario.get("id") in ITERATIVE_SCENARIO_IDS
@@ -855,9 +856,9 @@ def _build_iterative_scenarios(
 
 
 def _decide_robustness(
-    results: List[Dict[str, Any]],
-    warning_policy: Dict[str, Any] | None = None,
-) -> Dict[str, Any]:
+    results: list[dict[str, Any]],
+    warning_policy: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     if warning_policy is None:
         warning_policy = copy.deepcopy(
             DEFAULT_RELEASE_EVIDENCE_POLICY["warning_policy"]
@@ -888,7 +889,7 @@ def _decide_robustness(
             "warning_policy_limits": warning_policy,
         }
 
-    def _warning_count(row: Dict[str, Any], key: str) -> int:
+    def _warning_count(row: dict[str, Any], key: str) -> int:
         return int(row.get("warnings", {}).get(key, 0) or 0)
 
     valid = [r for r in results if r["valid"]]
@@ -931,7 +932,7 @@ def _decide_robustness(
         baseline_top_model = baseline["top_model"]
         baseline_anomaly_confirmed = baseline["anomaly_confirmed"]
 
-    caveats: List[str] = []
+    caveats: list[str] = []
     if insufficient_data_scenarios > 0:
         caveats.append(
             f"{insufficient_data_scenarios}/{total} scenarios emitted insufficient-data warnings."
@@ -1010,7 +1011,7 @@ def _decide_robustness(
             f"{max_fallback_heavy_scenarios}."
         )
 
-    deduped_caveats: List[str] = []
+    deduped_caveats: list[str] = []
     for caveat in caveats:
         if caveat not in deduped_caveats:
             deduped_caveats.append(caveat)
@@ -1062,14 +1063,14 @@ def _decide_robustness(
 
 
 def _collect_release_readiness_failures(
-    summary: Dict[str, Any],
+    summary: dict[str, Any],
     *,
     mode: str,
     max_scenarios: int | None,
     scenario_count_expected: int,
     scenario_count_executed: int,
-) -> List[str]:
-    failures: List[str] = []
+) -> list[str]:
+    failures: list[str] = []
     if mode != "release":
         failures.append("execution_mode_not_release")
     if max_scenarios is not None:
@@ -1088,7 +1089,7 @@ def _collect_release_readiness_failures(
 
 
 def _is_release_evidence_ready(
-    summary: Dict[str, Any],
+    summary: dict[str, Any],
     *,
     mode: str,
     max_scenarios: int | None,
@@ -1107,13 +1108,13 @@ def _is_release_evidence_ready(
 
 
 def _write_markdown_report(
-    summary: Dict[str, Any],
-    dataset_profile: Dict[str, Any],
-    results: List[Dict[str, Any]],
+    summary: dict[str, Any],
+    dataset_profile: dict[str, Any],
+    results: list[dict[str, Any]],
     *,
     report_path: Path,
 ) -> None:
-    lines: List[str] = []
+    lines: list[str] = []
     lines.append("# Sensitivity Results")
     lines.append("")
     lines.append(f"- Sweep date: {summary['date']}")
@@ -1222,9 +1223,9 @@ def _write_markdown_report(
 
 
 def _write_quality_diagnostics(
-    summary: Dict[str, Any],
-    dataset_profile: Dict[str, Any],
-    results: List[Dict[str, Any]],
+    summary: dict[str, Any],
+    dataset_profile: dict[str, Any],
+    results: list[dict[str, Any]],
     *,
     diagnostics_path: Path,
 ) -> None:
@@ -1311,7 +1312,7 @@ def main(
             "resume_from_checkpoint": resume_from_checkpoint,
         }
     ) as run:
-        with open(MODEL_PARAMS_PATH, "r", encoding="utf-8") as f:
+        with open(MODEL_PARAMS_PATH, encoding="utf-8") as f:
             base_cfg = json.load(f)
         release_policy = _load_release_evidence_policy()
         dataset_policy = release_policy.get("dataset_policy", {})
@@ -1411,7 +1412,7 @@ def main(
             signature=checkpoint_signature,
             scenario_total=len(scenarios),
         )
-        resumed_rows: Dict[str, Dict[str, Any]] = {}
+        resumed_rows: dict[str, dict[str, Any]] = {}
         if resume_from_checkpoint:
             existing_checkpoint = _safe_load_json(CHECKPOINT_PATH)
             if existing_checkpoint.get("signature") == checkpoint_signature:
@@ -1434,7 +1435,7 @@ def main(
 
         _write_checkpoint_state(checkpoint_state)
 
-        results: List[Dict[str, Any]] = []
+        results: list[dict[str, Any]] = []
         resumed_count = 0
         _write_progress(
             {
@@ -1550,7 +1551,7 @@ def main(
                 eta_sec=dispatch_timing.get("eta_sec"),
             )
 
-            def _scenario_progress(event: Dict[str, Any]) -> None:
+            def _scenario_progress(event: dict[str, Any]) -> None:
                 timing = _build_progress_timing(
                     run_start=run_start,
                     completed_scenarios=len(results),

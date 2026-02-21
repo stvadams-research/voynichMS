@@ -5,10 +5,11 @@ Detects signatures of table-based production by measuring the
 abruptness of constraints on token successors.
 """
 
-from typing import List, Dict, Any, Tuple
-from collections import Counter, defaultdict
-import math
 import logging
+import math
+from collections import Counter, defaultdict
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 class TableSignatureTest:
@@ -18,7 +19,7 @@ class TableSignatureTest:
     def __init__(self, min_freq: int = 10):
         self.min_freq = min_freq
 
-    def calculate_successor_sharpness(self, tokens: List[str]) -> Dict[str, Any]:
+    def calculate_successor_sharpness(self, tokens: list[str]) -> dict[str, Any]:
         """
         Measure entropy of successor distributions compared to global frequency.
         """

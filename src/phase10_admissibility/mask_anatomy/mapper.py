@@ -4,11 +4,12 @@ Sliding Residual Mapper
 Maps 'Linguistic Tension' (z-scores) across the corpus to identify change points.
 """
 
-from typing import List, Dict, Any, Tuple
-import numpy as np
 import math
 from collections import Counter
-from rich.progress import Progress
+from typing import Any
+
+import numpy as np
+
 
 class SlidingResidualMapper:
     """
@@ -19,7 +20,7 @@ class SlidingResidualMapper:
         self.window_size = window_size
         self.step_size = step_size
 
-    def _calculate_entropy(self, tokens: List[str]) -> float:
+    def _calculate_entropy(self, tokens: list[str]) -> float:
         if not tokens:
             return 0.0
         counts = Counter(tokens)
@@ -30,7 +31,7 @@ class SlidingResidualMapper:
             entropy -= p * math.log2(p)
         return entropy
 
-    def map_corpus(self, tokens: List[str], folio_ids: List[str]) -> Dict[str, Any]:
+    def map_corpus(self, tokens: list[str], folio_ids: list[str]) -> dict[str, Any]:
         """
         Produces a map of z-scores over the token stream.
         """

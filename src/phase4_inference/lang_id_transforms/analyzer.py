@@ -5,11 +5,12 @@ Quantifies the risk of false positives when searching for language matches
 under multiple transformations.
 """
 
-from collections import Counter
-import numpy as np
-from typing import List, Dict, Any, Tuple
-import re
 import logging
+import re
+from collections import Counter
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class LanguageIDAnalyzer:
@@ -52,7 +53,7 @@ class LanguageIDAnalyzer:
         
         return float(dot / (norm1 * norm2)) if norm1 > 0 and norm2 > 0 else 0.0
 
-    def find_best_transform(self, text: str, target_lang: str, transforms: List[Dict[str, str]]) -> Tuple[float, Dict[str, str]]:
+    def find_best_transform(self, text: str, target_lang: str, transforms: list[dict[str, str]]) -> tuple[float, dict[str, str]]:
         """
         Search for the best character mapping to match a target language.
         Simulates the multiple comparisons risk in decipherment claims.

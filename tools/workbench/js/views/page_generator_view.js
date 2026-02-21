@@ -1,6 +1,114 @@
 (function () {
   const app = window.SlipApp;
 
+  function buildActualText(folio, format) {
+    if (!folio || !Array.isArray(folio.lines)) {
+      return "";
+    }
+    if (format === "ivtff") {
+      return folio.lines
+        .map(function eachLine(line) {
+          const location = String(line.location || "").trim();
+          const content = String(line.content || "").trim();
+          if (!location || !content) {
+            return "";
+          }
+          return `<${location}>      ${content}`;
+        })
+        .filter(function keep(line) {
+          return line.length > 0;
+        })
+        .join("\n");
+    }
+    return folio.lines
+      .map(function eachLine(line) {
+        return String(line.content || "").trim();
+      })
+      .filter(function keep(line) {
+        return line.length > 0;
+      })
+      .join("\n");
+  }
+
+  function renderPageScan(folio) {
+    const link = document.getElementById("page-scan-link");
+    const img = document.getElementById("page-scan-thumb");
+    const meta = document.getElementById("page-scan-meta");
+    if (!link || !img || !meta) {
+      return;
+    }
+
+    const thumb = folio && folio.scan_thumb ? folio.scan_thumb : "";
+    const full = folio && folio.scan_full ? folio.scan_full : "";
+    const scanLabel = folio && folio.scan_label ? folio.scan_label : "unmapped";
+
+    if (!thumb && !full) {
+      link.classList.add("disabled-link");
+      link.removeAttribute("href");
+      img.removeAttribute("src");
+      img.style.display = "none";
+      meta.textContent = "No mapped scan for this folio.";
+      return;
+    }
+
+    img.style.display = "block";
+    if (thumb) {
+      img.setAttribute("src", thumb);
+    } else if (full) {
+      img.setAttribute("src", full);
+    } else {
+      img.removeAttribute("src");
+    }
+
+    link.classList.remove("disabled-link");
+    link.setAttribute("href", "#");
+    meta.textContent = full
+      ? `Thumbnail from folios_1000. Click image to open popup with folios_2000 (${scanLabel}).`
+      : `Click image to open popup with folios_1000 (${scanLabel}).`;
+
+    img.onerror = function onThumbError() {
+      img.removeAttribute("src");
+      img.style.display = "none";
+      meta.textContent = `Scan path unavailable on disk (${scanLabel}).`;
+      link.classList.add("disabled-link");
+      link.removeAttribute("href");
+    };
+  }
+
+  function renderActualPreview(folioId, format) {
+    const actualOutput = document.getElementById("page-actual-output");
+    const folio = app.state.data.folioMap[folioId] || null;
+    if (actualOutput) {
+      actualOutput.value = buildActualText(folio, format);
+    }
+    renderPageScan(folio);
+  }
+
+  function bindPageScanLink() {
+    const link = document.getElementById("page-scan-link");
+    const folioInput = document.getElementById("page-folio-id");
+    if (!link || !folioInput) {
+      return;
+    }
+
+    if (typeof app.bindScanModalHandlers === "function") {
+      app.bindScanModalHandlers();
+    }
+
+    link.addEventListener("click", function onPageScanClick(event) {
+      event.preventDefault();
+      if (link.classList.contains("disabled-link")) {
+        return;
+      }
+      if (typeof app.openScanModal !== "function") {
+        app.log("Page scan popup unavailable: scan modal handler not initialized.");
+        return;
+      }
+      const folio = app.state.data.folioMap[folioInput.value.trim()] || null;
+      app.openScanModal(folio);
+    });
+  }
+
   function gatherOptions() {
     return {
       folioId: document.getElementById("page-folio-id").value.trim(),
@@ -26,6 +134,10 @@
       diagnostics.className = "report-box muted";
       diagnostics.textContent = "No diagnostics available.";
       output.value = "";
+      renderActualPreview(
+        document.getElementById("page-folio-id").value.trim(),
+        document.getElementById("page-format").value
+      );
       return;
     }
 
@@ -60,11 +172,11 @@
     diagnostics.innerHTML = [
       `<div><strong>Offset Source Counts:</strong> ${sourceRows.join(" | ") || "none"}</div>`,
       `<div><strong>Global Mode Offset:</strong> ${result.globalOffset}</div>`,
-      "<hr>",
       diagRows.join(""),
     ].join("");
 
     output.value = result.text;
+    renderActualPreview(result.folioId, result.format);
   }
 
   function generate() {
@@ -83,23 +195,37 @@
   }
 
   function populateFolioList() {
-    const list = document.getElementById("page-folio-list");
     const input = document.getElementById("page-folio-id");
-    if (!list || !input) {
+    if (!input) {
       return;
     }
-    list.innerHTML = "";
-    const folios = app.state.data.folios || [];
-    folios.forEach(function addFolio(entry) {
+    input.innerHTML = "";
+    const folioIds = Object.keys(app.state.data.folioMap || {})
+      .sort(function sortFolios(a, b) {
+        return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
+      });
+
+    folioIds.forEach(function addFolioId(folioId) {
       const option = document.createElement("option");
-      option.value = entry.folio;
-      list.appendChild(option);
+      option.value = folioId;
+      option.textContent = folioId;
+      input.appendChild(option);
     });
 
-    if (!input.value && folios.length) {
-      input.value = folios[0].folio;
-      app.state.page.selectedFolio = folios[0].folio;
+    if (!folioIds.length) {
+      app.state.page.selectedFolio = null;
+      renderActualPreview("", document.getElementById("page-format").value);
+      return;
     }
+
+    const current = String(input.value || "").trim();
+    if (!current || !app.state.data.folioMap[current]) {
+      input.value = folioIds[0];
+      app.state.page.selectedFolio = folioIds[0];
+    } else {
+      app.state.page.selectedFolio = current;
+    }
+    renderActualPreview(input.value.trim(), document.getElementById("page-format").value);
   }
 
   app.renderPageView = function renderPageView() {
@@ -126,12 +252,19 @@
     const generateBtn = document.getElementById("page-generate");
     const generateValidateBtn = document.getElementById("page-generate-validate");
     const folioInput = document.getElementById("page-folio-id");
+    const formatInput = document.getElementById("page-format");
 
     populateFolioList();
     app.renderPageView();
+    bindPageScanLink();
 
     folioInput.addEventListener("change", function onFolioChange() {
       app.state.page.selectedFolio = folioInput.value.trim();
+      renderActualPreview(folioInput.value.trim(), formatInput.value);
+    });
+
+    formatInput.addEventListener("change", function onFormatChange() {
+      renderActualPreview(folioInput.value.trim(), formatInput.value);
     });
 
     generateBtn.addEventListener("click", function onGenerate() {

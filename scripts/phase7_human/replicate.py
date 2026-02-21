@@ -7,6 +7,7 @@ Purpose: Analyzes the physical and ergonomic constraints of the manuscript's cre
 import subprocess
 import sys
 
+
 def run_command(cmd):
     print(f"\n>> Executing: {cmd}")
     result = subprocess.run(cmd, shell=True)

@@ -22,20 +22,24 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn
-from rich.table import Table
-from rich.panel import Panel
-import uuid
 
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+
+from phase1_foundation.core.id_factory import DeterministicIDFactory
+from phase1_foundation.core.ids import FolioID, PageID
+from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import (
-    MetadataStore, PageRecord, LineRecord, WordRecord,
-    TranscriptionLineRecord, TranscriptionTokenRecord, WordAlignmentRecord
+    LineRecord,
+    MetadataStore,
+    PageRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+    WordAlignmentRecord,
+    WordRecord,
 )
 from phase1_foundation.transcription.parsers import EVAParser
-from phase1_foundation.core.ids import PageID, FolioID
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.core.id_factory import DeterministicIDFactory
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -64,8 +68,9 @@ def step_1_register_pages(store: MetadataStore, folios: set) -> dict:
     """Register pages for all folios found in transcriptions."""
     console.print("\n[bold]Step 1: Registering Pages[/bold]")
 
-    from phase1_foundation.storage.metadata import DatasetRecord
     import hashlib
+
+    from phase1_foundation.storage.metadata import DatasetRecord
 
     session = store.Session()
     try:
@@ -340,7 +345,7 @@ def collect_folios() -> set:
     """Collect all unique folios from transcription files."""
     folios = set()
 
-    for filename in SOURCES.keys():
+    for filename in SOURCES:
         filepath = IVTFF_DIR / filename
         if filepath.exists():
             parser = EVAParser()
@@ -381,7 +386,7 @@ def main(seed: int = 42):
         console.print("[bold]Database Population Complete[/bold]")
         console.print("="*60)
 
-        console.print(f"\n[bold]Summary:[/bold]")
+        console.print("\n[bold]Summary:[/bold]")
         console.print(f"  Sources loaded: {trans_stats['sources']}")
         console.print(f"  Pages with segmentation: {seg_stats['pages']}")
         console.print(f"  Total tokens: {final_counts['transcription_tokens']}")

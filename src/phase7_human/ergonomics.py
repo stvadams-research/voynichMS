@@ -5,12 +5,14 @@ Evaluates production constraints, fatigue proxies, and correction behavior.
 Phase 7A implementation.
 """
 
-import numpy as np
-from collections import Counter
-from typing import List, Dict, Any
-import re
-import math
 import logging
+import math
+import re
+from collections import Counter
+from typing import Any
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class ErgonomicsAnalyzer:
@@ -31,7 +33,7 @@ class ErgonomicsAnalyzer:
             'p': 4, 'f': 4, 'v': 3, 'x': 2
         }
 
-    def calculate_correction_density(self, raw_lines: List[str]) -> Dict[str, Any]:
+    def calculate_correction_density(self, raw_lines: list[str]) -> dict[str, Any]:
         """
         Measures density of corrections/uncertainties using IVTFF notation.
         Patterns: [a:b] (correction), {ab} (expansion/uncertainty)
@@ -55,7 +57,7 @@ class ErgonomicsAnalyzer:
             "corrections_per_100_lines": (total_corrections / len(raw_lines)) * 100 if raw_lines else 0
         }
 
-    def calculate_fatigue_gradient(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def calculate_fatigue_gradient(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         Measures drift in metrics (length, entropy) as a function of line index.
         Expectation: Fatigue may lead to shorter words or lower entropy.
@@ -69,8 +71,8 @@ class ErgonomicsAnalyzer:
                 "mean_line_entropy": 0.0,
             }
 
-        line_lengths: List[float] = []
-        line_entropies: List[float] = []
+        line_lengths: list[float] = []
+        line_entropies: list[float] = []
         for line in lines:
             line_lengths.append(float(sum(len(token) for token in line)))
             line_entropies.append(self._token_entropy(line))
@@ -84,7 +86,7 @@ class ErgonomicsAnalyzer:
             "mean_line_entropy": float(np.mean(line_entropies)) if line_entropies else 0.0,
         }
 
-    def estimate_production_cost(self, tokens: List[str]) -> Dict[str, Any]:
+    def estimate_production_cost(self, tokens: list[str]) -> dict[str, Any]:
         """
         Estimates 'cost' of production based on stroke count proxies.
         """
@@ -103,7 +105,7 @@ class ErgonomicsAnalyzer:
             "mean_strokes_per_token": total_strokes / len(tokens) if tokens else 0
         }
 
-    def analyze_page_fatigue(self, page_lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_page_fatigue(self, page_lines: list[list[str]]) -> dict[str, Any]:
         """
         Analyzes drift within a single page.
         """
@@ -133,7 +135,7 @@ class ErgonomicsAnalyzer:
             "last_line_avg_word_len": float(avg_word_lengths[-1])
         }
 
-    def _token_entropy(self, line: List[str]) -> float:
+    def _token_entropy(self, line: list[str]) -> float:
         """Shannon entropy over token frequency for one line."""
         if not line:
             return 0.0

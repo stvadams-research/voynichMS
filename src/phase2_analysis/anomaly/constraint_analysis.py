@@ -11,18 +11,18 @@ Methodological note on circularity:
 - See governance/governance/METHODS_REFERENCE.md for full provenance and caveats.
 """
 
-from typing import Dict, List, Set, Any, Tuple
-from itertools import combinations
-from dataclasses import dataclass, field
 import logging
+from dataclasses import dataclass, field
+from itertools import combinations
+from typing import Any
 
+from phase1_foundation.config import get_anomaly_observed_values
 from phase2_analysis.anomaly.interface import (
-    ConstraintRecord,
     ConstraintIntersection,
+    ConstraintRecord,
     ConstraintSource,
     ConstraintType,
 )
-from phase1_foundation.config import get_anomaly_observed_values
 
 logger = logging.getLogger(__name__)
 
@@ -32,14 +32,14 @@ class ConstraintInteractionGraph:
     """
     Graph showing how constraints interact to exclude models.
     """
-    constraints: List[ConstraintRecord]
-    models: List[str]
+    constraints: list[ConstraintRecord]
+    models: list[str]
 
     # Edges: which constraints exclude which models
-    exclusions: Dict[str, Set[str]] = field(default_factory=dict)
+    exclusions: dict[str, set[str]] = field(default_factory=dict)
 
     # Redundancy: constraints that add no exclusion power
-    redundant_constraints: List[str] = field(default_factory=list)
+    redundant_constraints: list[str] = field(default_factory=list)
 
     def build(self):
         """Build the interaction graph."""
@@ -65,12 +65,12 @@ class ConstraintIntersectionAnalyzer:
     def __init__(self):
         observed_cfg = get_anomaly_observed_values()
         self.observed_values = observed_cfg.get("constraint_observed_values", {})
-        self.constraints: List[ConstraintRecord] = []
-        self.models: List[str] = []
-        self.all_intersections: List[ConstraintIntersection] = []
-        self.minimal_sets: List[ConstraintIntersection] = []
+        self.constraints: list[ConstraintRecord] = []
+        self.models: list[str] = []
+        self.all_intersections: list[ConstraintIntersection] = []
+        self.minimal_sets: list[ConstraintIntersection] = []
 
-    def load_constraints_from_phases(self) -> List[ConstraintRecord]:
+    def load_constraints_from_phases(self) -> list[ConstraintRecord]:
         """
         Load all constraints from Phases 1-3.
 
@@ -220,7 +220,7 @@ class ConstraintIntersectionAnalyzer:
 
         return constraints
 
-    def load_models(self) -> List[str]:
+    def load_models(self) -> list[str]:
         """Load all models that were tested."""
         return [
             # Phase 2.3 explicit models
@@ -243,7 +243,7 @@ class ConstraintIntersectionAnalyzer:
             "uniform_distribution",
         ]
 
-    def compute_intersection(self, constraint_ids: List[str]) -> ConstraintIntersection:
+    def compute_intersection(self, constraint_ids: list[str]) -> ConstraintIntersection:
         """Compute the intersection of a set of constraints."""
         excluded = set()
 
@@ -259,7 +259,7 @@ class ConstraintIntersectionAnalyzer:
             exclusion_power=len(excluded) / max(1, len(self.models)),
         )
 
-    def find_all_intersections(self) -> List[ConstraintIntersection]:
+    def find_all_intersections(self) -> list[ConstraintIntersection]:
         """Find all constraint intersections."""
         results = []
         constraint_ids = [c.constraint_id for c in self.constraints]
@@ -278,7 +278,7 @@ class ConstraintIntersectionAnalyzer:
 
         return results
 
-    def find_minimal_impossibility_sets(self) -> List[ConstraintIntersection]:
+    def find_minimal_impossibility_sets(self) -> list[ConstraintIntersection]:
         """
         Find minimal sets of constraints that exclude each model.
 
@@ -330,7 +330,7 @@ class ConstraintIntersectionAnalyzer:
 
         return minimal_sets
 
-    def analyze(self) -> Dict[str, Any]:
+    def analyze(self) -> dict[str, Any]:
         """Run full constraint intersection phase2_analysis."""
         self.constraints = self.load_constraints_from_phases()
         self.models = self.load_models()
@@ -366,21 +366,21 @@ class ConstraintIntersectionAnalyzer:
             "exclusion_summary": self._summarize_exclusions(),
         }
 
-    def _count_by_source(self) -> Dict[str, int]:
+    def _count_by_source(self) -> dict[str, int]:
         counts = {}
         for c in self.constraints:
             source = c.source.value
             counts[source] = counts.get(source, 0) + 1
         return counts
 
-    def _count_by_type(self) -> Dict[str, int]:
+    def _count_by_type(self) -> dict[str, int]:
         counts = {}
         for c in self.constraints:
             ctype = c.constraint_type.value
             counts[ctype] = counts.get(ctype, 0) + 1
         return counts
 
-    def _summarize_exclusions(self) -> Dict[str, List[str]]:
+    def _summarize_exclusions(self) -> dict[str, list[str]]:
         """Summarize which constraints exclude which models."""
         summary = {}
         for c in self.constraints:

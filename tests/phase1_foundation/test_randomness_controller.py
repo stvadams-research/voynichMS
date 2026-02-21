@@ -18,7 +18,6 @@ from phase1_foundation.core.randomness import (
     requires_seed,
 )
 
-
 # ---------------------------------------------------------------------------
 # Singleton
 # ---------------------------------------------------------------------------
@@ -58,30 +57,26 @@ class TestForbiddenMode:
     def test_forbidden_context_raises_on_randint(self, clean_randomness):
         ctrl = clean_randomness
         ctrl.patch_random_module()
-        with ctrl.forbidden_context("test"):
-            with pytest.raises(RandomnessViolationError):
-                random.randint(1, 10)
+        with ctrl.forbidden_context("test"), pytest.raises(RandomnessViolationError):
+            random.randint(1, 10)
 
     def test_forbidden_context_raises_on_uniform(self, clean_randomness):
         ctrl = clean_randomness
         ctrl.patch_random_module()
-        with ctrl.forbidden_context("test"):
-            with pytest.raises(RandomnessViolationError):
-                random.uniform(0.0, 1.0)
+        with ctrl.forbidden_context("test"), pytest.raises(RandomnessViolationError):
+            random.uniform(0.0, 1.0)
 
     def test_forbidden_context_raises_on_choice(self, clean_randomness):
         ctrl = clean_randomness
         ctrl.patch_random_module()
-        with ctrl.forbidden_context("test"):
-            with pytest.raises(RandomnessViolationError):
-                random.choice([1, 2, 3])
+        with ctrl.forbidden_context("test"), pytest.raises(RandomnessViolationError):
+            random.choice([1, 2, 3])
 
     def test_forbidden_context_raises_on_shuffle(self, clean_randomness):
         ctrl = clean_randomness
         ctrl.patch_random_module()
-        with ctrl.forbidden_context("test"):
-            with pytest.raises(RandomnessViolationError):
-                random.shuffle([1, 2, 3])
+        with ctrl.forbidden_context("test"), pytest.raises(RandomnessViolationError):
+            random.shuffle([1, 2, 3])
 
 
 # ---------------------------------------------------------------------------

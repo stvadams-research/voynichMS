@@ -10,20 +10,20 @@ Closes the synthetic-real gap by:
 Goal: Exhaust reasonable structural explanations before any interpretive escalation.
 """
 
+from phase3_synthesis.refinement.constraint_formalization import ConstraintFormalization
+from phase3_synthesis.refinement.equivalence_testing import EquivalenceReTest, TerminationDecision
+from phase3_synthesis.refinement.feature_discovery import DiscriminativeFeatureDiscovery
 from phase3_synthesis.refinement.interface import (
-    DiscriminativeFeature,
-    FeatureImportance,
-    StructuralConstraint,
     ConstraintStatus,
-    RefinementResult,
+    DiscriminativeFeature,
     EquivalenceOutcome,
     EquivalenceTest,
+    FeatureImportance,
     Phase31Findings,
+    RefinementResult,
+    StructuralConstraint,
 )
-from phase3_synthesis.refinement.feature_discovery import DiscriminativeFeatureDiscovery
-from phase3_synthesis.refinement.constraint_formalization import ConstraintFormalization
 from phase3_synthesis.refinement.resynthesis import RefinedGenerator, RefinedSynthesis
-from phase3_synthesis.refinement.equivalence_testing import EquivalenceReTest, TerminationDecision
 
 __all__ = [
     # Data structures

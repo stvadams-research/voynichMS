@@ -6,9 +6,7 @@ Markov baseline.
 """
 
 import json
-import math
 import sys
-from collections import Counter
 from pathlib import Path
 
 from rich.console import Console
@@ -36,7 +34,7 @@ def main():
     all_tokens = [t for l in real_lines for t in l]
     
     # 2. Load Lattice
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         p_data = json.load(f)
     model_data = p_data.get("results", p_data)
     lattice_map = model_data.get("lattice_map", {})

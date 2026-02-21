@@ -1,8 +1,9 @@
-from typing import List, Optional
-import random
-from phase1_foundation.regions.interface import RegionProposer, ProposedRegion
-from phase1_foundation.core.geometry import Box
 import logging
+import random
+
+from phase1_foundation.core.geometry import Box
+from phase1_foundation.regions.interface import ProposedRegion, RegionProposer
+
 logger = logging.getLogger(__name__)
 
 class GridProposer(RegionProposer):
@@ -16,7 +17,7 @@ class GridProposer(RegionProposer):
         self.scale = scale
         self.padding = padding
 
-    def propose_regions(self, page_id: str, image_path: str) -> List[ProposedRegion]:
+    def propose_regions(self, page_id: str, image_path: str) -> list[ProposedRegion]:
         regions = []
         w_step = 1.0 / self.cols
         h_step = 1.0 / self.rows
@@ -48,12 +49,12 @@ class RandomBlobProposer(RegionProposer):
     Proposes random small regions.
     Useful for primitive scale testing.
     """
-    def __init__(self, count: int = 20, scale: str = "primitive", seed: Optional[int] = 42):
+    def __init__(self, count: int = 20, scale: str = "primitive", seed: int | None = 42):
         self.count = count
         self.scale = scale
         self.seed = seed
 
-    def propose_regions(self, page_id: str, image_path: str) -> List[ProposedRegion]:
+    def propose_regions(self, page_id: str, image_path: str) -> list[ProposedRegion]:
         regions = []
         # Intentional controller bypass: this dummy proposer is used for synthetic
         # region stubs and keeps deterministic randomness fully local.

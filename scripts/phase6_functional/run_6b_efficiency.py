@@ -5,7 +5,6 @@ Phase 6B: Optimization Pressure and Efficiency Audit Runner
 
 import argparse
 import sys
-import json
 from pathlib import Path
 
 # Add src to path
@@ -17,12 +16,17 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord, PageRecord
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import (
+    MetadataStore,
+    PageRecord,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from phase6_functional.efficiency.metrics import EfficiencyAnalyzer
-from phase6_functional.formal_system.simulators import LatticeTraversalSimulator
 from phase6_functional.efficiency.simulators import OptimizedLatticeSimulator
+from phase6_functional.formal_system.simulators import LatticeTraversalSimulator
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"

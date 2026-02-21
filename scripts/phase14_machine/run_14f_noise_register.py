@@ -4,12 +4,13 @@
 Identifies and categorizes every token the model cannot explain.
 """
 
-import sys
 import json
+import sys
+from collections import Counter
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
-from collections import Counter, defaultdict
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
@@ -32,7 +33,7 @@ def main():
         return
 
     # 1. Load Model
-    with open(PALETTE_PATH, "r") as f:
+    with open(PALETTE_PATH) as f:
         p_data = json.load(f)
     results = p_data.get("results", p_data)
     lattice_map = results.get("lattice_map", {})
@@ -41,7 +42,7 @@ def main():
     # 2. Load Known Slips
     slips_by_pos = {}
     if SLIP_PATH.exists():
-        with open(SLIP_PATH, "r") as f:
+        with open(SLIP_PATH) as f:
             slip_data = json.load(f)
         for s in slip_data.get("results", {}).get("slips", []):
             slips_by_pos[(s['line_index'], s['token_index'])] = s['type']

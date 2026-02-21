@@ -9,26 +9,27 @@ import argparse
 import json
 import re
 import sys
+from collections.abc import Mapping, Sequence
 from pathlib import Path
-from typing import Any, Dict, List, Mapping, Sequence
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs/core_skeptic/sk_m3_report_coherence_policy.json"
 
 
-def _read_policy(path: Path) -> Dict[str, Any]:
+def _read_policy(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"Policy file not found: {path}")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _as_list(value: Any) -> List[str]:
+def _as_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [str(v) for v in value]
     return []
 
 
-def _is_allowlisted(allowlist: Sequence[Dict[str, Any]], pattern_id: str, scope: str) -> bool:
+def _is_allowlisted(allowlist: Sequence[dict[str, Any]], pattern_id: str, scope: str) -> bool:
     for entry in allowlist:
         if entry.get("pattern_id") == pattern_id and entry.get("scope") == scope:
             return True
@@ -40,7 +41,7 @@ def _rule_applies_to_mode(rule: Mapping[str, Any], mode: str) -> bool:
     return not modes or mode in modes
 
 
-def _load_results_payload(path: Path) -> Dict[str, Any]:
+def _load_results_payload(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if isinstance(payload, dict) and isinstance(payload.get("results"), dict):
         return payload["results"]
@@ -51,11 +52,11 @@ def _load_results_payload(path: Path) -> Dict[str, Any]:
 
 def _run_method_policy_checks(
     *,
-    policy: Dict[str, Any],
-    parsed_artifacts: Dict[str, Dict[str, Any]],
+    policy: dict[str, Any],
+    parsed_artifacts: dict[str, dict[str, Any]],
     root: Path,
-) -> List[str]:
-    errors: List[str] = []
+) -> list[str]:
+    errors: list[str] = []
     method_policy = dict(policy.get("method_policy", {}))
     if not method_policy:
         return errors
@@ -84,7 +85,7 @@ def _run_method_policy_checks(
         errors.append(f"[artifact-field] {artifact_path}: missing list field `methods`")
         return errors
 
-    method_by_id: Dict[str, Dict[str, Any]] = {}
+    method_by_id: dict[str, dict[str, Any]] = {}
     for row in methods:
         if isinstance(row, dict):
             method_id = str(row.get("id", "")).strip()
@@ -118,8 +119,8 @@ def _run_method_policy_checks(
     return errors
 
 
-def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
-    errors: List[str] = []
+def run_checks(policy: dict[str, Any], *, root: Path, mode: str) -> list[str]:
+    errors: list[str] = []
     allowlist = list(policy.get("allowlist", []))
 
     for scope in _as_list(policy.get("tracked_files")):
@@ -174,7 +175,7 @@ def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> List[str]:
                 if marker not in text:
                     errors.append(f"[missing-marker] {scope}: missing `{marker}` ({req_id})")
 
-    parsed_artifacts: Dict[str, Dict[str, Any]] = {}
+    parsed_artifacts: dict[str, dict[str, Any]] = {}
     artifact_policy = dict(policy.get("artifact_policy", {}))
     for spec in list(artifact_policy.get("tracked_artifacts", [])):
         rel_path = str(spec.get("path", "")).strip()

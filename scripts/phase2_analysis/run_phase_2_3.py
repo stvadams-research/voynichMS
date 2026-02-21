@@ -21,27 +21,28 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
+from typing import Any
+
 import typer
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
-from typing import Dict, List, Any
+from rich.table import Table
 
 from phase1_foundation.storage.metadata import MetadataStore
-from phase2_analysis.models.interface import ModelStatus
-from phase2_analysis.models.registry import ModelRegistry
+from phase2_analysis.models.constructed_system import (
+    GlossalialSystemModel,
+    MeaningfulConstructModel,
+    ProceduralGenerationModel,
+)
 from phase2_analysis.models.disconfirmation import DisconfirmationEngine
 from phase2_analysis.models.evaluation import CrossModelEvaluator
+from phase2_analysis.models.interface import ModelStatus
+from phase2_analysis.models.registry import ModelRegistry
 from phase2_analysis.models.visual_grammar import (
     AdjacencyGrammarModel,
     ContainmentGrammarModel,
     DiagramAnnotationModel,
-)
-from phase2_analysis.models.constructed_system import (
-    ProceduralGenerationModel,
-    GlossalialSystemModel,
-    MeaningfulConstructModel,
 )
 
 app = typer.Typer()
@@ -64,12 +65,12 @@ def display_model_info(model, include_details: bool = False):
 
     if include_details:
         console.print(f"\n  [dim]Description:[/dim] {model.description[:100]}...")
-        console.print(f"\n  [dim]Rules:[/dim]")
+        console.print("\n  [dim]Rules:[/dim]")
         for rule in model.rules:
             console.print(f"    - {rule}")
 
 
-def display_prediction_results(results: Dict[str, Any]):
+def display_prediction_results(results: dict[str, Any]):
     """Display prediction test results."""
     table = Table(title="Prediction Tests", show_header=True)
     table.add_column("Prediction", style="cyan")
@@ -86,7 +87,7 @@ def display_prediction_results(results: Dict[str, Any]):
     console.print(table)
 
 
-def display_disconfirmation_log(log: Dict[str, Any]):
+def display_disconfirmation_log(log: dict[str, Any]):
     """Display disconfirmation test log."""
     if log["total_tests"] == 0:
         console.print("[dim]No disconfirmation tests run[/dim]")
@@ -111,7 +112,7 @@ def display_disconfirmation_log(log: Dict[str, Any]):
             console.print(f"  - {f['test_id']}: {f['failure_mode']}")
 
 
-def display_evaluation_matrix(report: Dict[str, Any]):
+def display_evaluation_matrix(report: dict[str, Any]):
     """Display the cross-model evaluation matrix."""
     # Overall ranking
     console.print(Panel("[bold]Overall Model Ranking[/bold]", style="blue"))
@@ -154,7 +155,7 @@ def display_evaluation_matrix(report: Dict[str, Any]):
     console.print(dim_table)
 
 
-def display_class_summary(report: Dict[str, Any]):
+def display_class_summary(report: dict[str, Any]):
     """Display summary by explanation class."""
     console.print(Panel("[bold]Summary by Explanation Class[/bold]", style="green"))
 
@@ -321,19 +322,19 @@ def main(
     ))
 
     # Overall statistics
-    console.print(f"\n[bold]Overall Results:[/bold]")
+    console.print("\n[bold]Overall Results:[/bold]")
     console.print(f"  Total Models Tested: {eval_report['total_models']}")
     console.print(f"  Surviving Models: [green]{eval_report['surviving_models']}[/green]")
     console.print(f"  Falsified Models: [red]{eval_report['falsified_models']}[/red]")
 
     # Top models
-    console.print(f"\n[bold]Top Performing Models:[/bold]")
+    console.print("\n[bold]Top Performing Models:[/bold]")
     for i, (model_id, score) in enumerate(eval_report["overall_ranking"][:3], 1):
         model = registry.get(model_id)
         console.print(f"  {i}. {model.model_name} ({score:.3f})")
 
     # Key findings
-    console.print(f"\n[bold]Key Findings:[/bold]")
+    console.print("\n[bold]Key Findings:[/bold]")
 
     # Find best class
     best_class = max(
@@ -346,14 +347,14 @@ def main(
     # Check for falsified models
     falsified = registry.get_falsified()
     if falsified:
-        console.print(f"\n  - [red]Falsified models:[/red]")
+        console.print("\n  - [red]Falsified models:[/red]")
         for m in falsified:
             console.print(f"    - {m.model_name}")
     else:
-        console.print(f"\n  - [green]No models fully falsified[/green]")
+        console.print("\n  - [green]No models fully falsified[/green]")
 
     # Weaknesses
-    console.print(f"\n  - [yellow]Model Weaknesses:[/yellow]")
+    console.print("\n  - [yellow]Model Weaknesses:[/yellow]")
     for model in registry.get_all():
         if model.status == ModelStatus.FRAGILE:
             console.print(f"    - {model.model_name}: FRAGILE (degradation concerns)")

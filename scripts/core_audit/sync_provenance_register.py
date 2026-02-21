@@ -8,9 +8,9 @@ from __future__ import annotations
 import argparse
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_PROVENANCE_HEALTH_PATH = PROJECT_ROOT / "core_status/core_audit/provenance_health_status.json"
@@ -22,10 +22,10 @@ DEFAULT_SYNC_STATUS_PATH = PROJECT_ROOT / "core_status/core_audit/provenance_reg
 
 
 def _utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
 
-def _read_json(path: Path) -> Dict[str, Any]:
+def _read_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     try:
@@ -37,14 +37,14 @@ def _read_json(path: Path) -> Dict[str, Any]:
     return {}
 
 
-def _as_results(payload: Dict[str, Any]) -> Dict[str, Any]:
+def _as_results(payload: dict[str, Any]) -> dict[str, Any]:
     results = payload.get("results")
     if isinstance(results, dict):
         return results
     return payload
 
 
-def _db_status_counts(db_path: Path) -> Dict[str, int]:
+def _db_status_counts(db_path: Path) -> dict[str, int]:
     if not db_path.exists():
         return {}
     con = sqlite3.connect(db_path)
@@ -83,11 +83,11 @@ def _render_register_markdown(
     repair_report_path: Path,
     gate_health_path: Path,
     sync_status_path: Path,
-    provenance: Dict[str, Any],
-    gate: Dict[str, Any],
-    repair: Dict[str, Any],
-    db_counts: Dict[str, int],
-    drift_by_status: Dict[str, int],
+    provenance: dict[str, Any],
+    gate: dict[str, Any],
+    repair: dict[str, Any],
+    db_counts: dict[str, int],
+    drift_by_status: dict[str, int],
     drift_detected: bool,
     recoverability_class: str,
 ) -> str:
@@ -195,7 +195,7 @@ def sync_provenance_register(
     db_path: Path,
     register_path: Path,
     sync_status_path: Path,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     generated_utc = _utc_now_iso()
     provenance_payload = _read_json(provenance_health_path)
     provenance = _as_results(provenance_payload)
@@ -243,7 +243,7 @@ def sync_provenance_register(
     m4_5_lane = provenance.get("m4_5_historical_lane") or provenance.get("m4_4_historical_lane")
     m4_5_residual_reason = provenance.get("m4_5_residual_reason") or provenance.get("m4_4_residual_reason")
     m4_5_reopen_conditions = provenance.get("m4_5_reopen_conditions") or provenance.get("m4_4_reopen_conditions")
-    payload: Dict[str, Any] = {
+    payload: dict[str, Any] = {
         "version": "2026-02-10-m4.5",
         "generated_utc": generated_utc,
         "status": sync_status,

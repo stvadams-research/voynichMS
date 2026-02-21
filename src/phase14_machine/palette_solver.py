@@ -5,10 +5,12 @@ Reconstructs the full physical grid for the entire Voynich vocabulary
 using a graph-based constraint satisfaction approach.
 """
 
-from typing import List, Dict, Any, Tuple, Optional
 from collections import Counter, defaultdict
+from typing import Any
+
 import networkx as nx
 import numpy as np
+
 
 class GlobalPaletteSolver:
     """
@@ -24,9 +26,9 @@ class GlobalPaletteSolver:
         self.G = nx.Graph()
 
     def ingest_data(self, 
-                    slips: List[Dict[str, Any]], 
-                    lines: List[List[str]], 
-                    top_n: Optional[int] = 8000) -> None:
+                    slips: list[dict[str, Any]], 
+                    lines: list[list[str]], 
+                    top_n: int | None = 8000) -> None:
         """
         Builds the global physical adjacency graph with frequency filtering.
         
@@ -60,7 +62,7 @@ class GlobalPaletteSolver:
                 if u in keep_tokens and v in keep_tokens:
                     self.G.add_edge(u, v, weight=1.0, type='transition')
 
-    def solve_grid(self, iterations: int = 30) -> Dict[str, Tuple[float, float]]:
+    def solve_grid(self, iterations: int = 30) -> dict[str, tuple[float, float]]:
         """
         Infers 2D coordinates using an iterative force-directed layout.
         
@@ -96,8 +98,8 @@ class GlobalPaletteSolver:
         return {word: (float(coord[0]), float(coord[1])) for word, coord in current_pos.items()}
 
     def cluster_lattice(self, 
-                        solved_pos: Dict[str, Tuple[float, float]], 
-                        num_windows: int = 50) -> Dict[str, Any]:
+                        solved_pos: dict[str, tuple[float, float]], 
+                        num_windows: int = 50) -> dict[str, Any]:
         """
         Groups words into discrete functional windows based on their 2D coordinates.
         
@@ -135,10 +137,10 @@ class GlobalPaletteSolver:
 
     @staticmethod
     def reorder_windows(
-        word_to_window: Dict[str, int],
-        window_contents: Dict[int, List[str]],
-        lines: List[List[str]],
-    ) -> Dict[str, Any]:
+        word_to_window: dict[str, int],
+        window_contents: dict[int, list[str]],
+        lines: list[list[str]],
+    ) -> dict[str, Any]:
         """Reorder window IDs via spectral ordering on the transition graph.
 
         KMeans assigns arbitrary window IDs that don't reflect sequential
@@ -190,7 +192,7 @@ class GlobalPaletteSolver:
             if old_win in old_to_new
         }
 
-        new_wc: Dict[int, List[str]] = {}
+        new_wc: dict[int, list[str]] = {}
         for old_id, words in window_contents.items():
             new_id = old_to_new.get(old_id)
             if new_id is not None:

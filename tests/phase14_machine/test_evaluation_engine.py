@@ -1,5 +1,5 @@
-import pytest
 from phase14_machine.evaluation_engine import EvaluationEngine
+
 
 def test_calculate_coverage():
     vocab = {"word1", "word2", "word3"}

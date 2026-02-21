@@ -3,7 +3,6 @@ Categorizes Voynich pages into major sections based on folio ranges.
 """
 
 import argparse
-from typing import Dict, List
 
 SECTION_RANGES = {
     "herbal": (1, 66),

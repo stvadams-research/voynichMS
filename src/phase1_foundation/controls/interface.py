@@ -1,9 +1,9 @@
-from abc import ABC, abstractmethod
+import logging
 import re
-from typing import Any, Dict, List, Tuple
+from abc import ABC, abstractmethod
+from typing import Any
 
 from phase1_foundation.storage.metadata import MetadataStore
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -16,14 +16,14 @@ class ControlGenerator(ABC):
         self.store = store
 
     @abstractmethod
-    def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: Dict[str, Any] = None) -> str:
+    def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: dict[str, Any] = None) -> str:
         """
         Generate a control dataset.
         Returns the ID of the generated control dataset.
         """
         pass
 
-    def _resolve_normalization_mode(self, params: Dict[str, Any] | None) -> str:
+    def _resolve_normalization_mode(self, params: dict[str, Any] | None) -> str:
         params = params or {}
         mode = str(params.get("normalization_mode", "parser"))
         if mode not in self.VALID_NORMALIZATION_MODES:
@@ -50,8 +50,8 @@ class ControlGenerator(ABC):
         return token_str
 
     def _normalize_tokens_for_control(
-        self, tokens: List[str], *, mode: str
-    ) -> Tuple[List[str], Dict[str, Any]]:
+        self, tokens: list[str], *, mode: str
+    ) -> tuple[list[str], dict[str, Any]]:
         normalized = [self._normalize_token(token, mode) for token in tokens]
         provenance = {
             "normalization_mode": mode,

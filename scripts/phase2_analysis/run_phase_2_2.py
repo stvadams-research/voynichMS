@@ -17,10 +17,10 @@ Per Phase 2.2 Execution Plan:
 
 import argparse
 import sys
-import json
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any, List
+from pathlib import Path
+from typing import Any
+
 from phase1_foundation.core.provenance import ProvenanceWriter
 
 # Add src to path
@@ -28,16 +28,15 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
-from rich.tree import Tree
+from rich.table import Table
 
 from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, ExplanationClassRecord
-from phase2_analysis.stress_tests.interface import StressTestOutcome
-from phase2_analysis.stress_tests.mapping_stability import MappingStabilityTest
+from phase1_foundation.storage.metadata import ExplanationClassRecord, MetadataStore
 from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
+from phase2_analysis.stress_tests.interface import StressTestOutcome
 from phase2_analysis.stress_tests.locality import LocalityTest
+from phase2_analysis.stress_tests.mapping_stability import MappingStabilityTest
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -46,7 +45,7 @@ DB_PATH = "sqlite:///data/voynich.db"
 ELIGIBLE_CLASSES = ["constructed_system", "visual_grammar", "hybrid_system"]
 
 
-def get_admissible_classes(store: MetadataStore) -> List[str]:
+def get_admissible_classes(store: MetadataStore) -> list[str]:
     """Get explanation classes eligible for Phase 2.2 testing."""
     session = store.Session()
     try:
@@ -58,8 +57,8 @@ def get_admissible_classes(store: MetadataStore) -> List[str]:
         session.close()
 
 
-def run_track_b1(store: MetadataStore, classes: List[str],
-                 dataset_id: str, control_ids: List[str]) -> Dict[str, Any]:
+def run_track_b1(store: MetadataStore, classes: list[str],
+                 dataset_id: str, control_ids: list[str]) -> dict[str, Any]:
     """Execute Track B1: Mapping Stability Tests."""
     console.print("\n[bold cyan]Track B1: Mapping Stability Tests[/bold cyan]")
 
@@ -90,8 +89,8 @@ def run_track_b1(store: MetadataStore, classes: List[str],
     return results
 
 
-def run_track_b2(store: MetadataStore, classes: List[str],
-                 dataset_id: str, control_ids: List[str]) -> Dict[str, Any]:
+def run_track_b2(store: MetadataStore, classes: list[str],
+                 dataset_id: str, control_ids: list[str]) -> dict[str, Any]:
     """Execute Track B2: Information Preservation Tests."""
     console.print("\n[bold cyan]Track B2: Information Preservation Tests[/bold cyan]")
 
@@ -121,8 +120,8 @@ def run_track_b2(store: MetadataStore, classes: List[str],
     return results
 
 
-def run_track_b3(store: MetadataStore, classes: List[str],
-                 dataset_id: str, control_ids: List[str]) -> Dict[str, Any]:
+def run_track_b3(store: MetadataStore, classes: list[str],
+                 dataset_id: str, control_ids: list[str]) -> dict[str, Any]:
     """Execute Track B3: Locality and Compositionality Tests."""
     console.print("\n[bold cyan]Track B3: Locality & Compositionality Tests[/bold cyan]")
 
@@ -153,8 +152,8 @@ def run_track_b3(store: MetadataStore, classes: List[str],
     return results
 
 
-def generate_stress_test_report(b1_results: Dict, b2_results: Dict,
-                                b3_results: Dict) -> Dict[str, Any]:
+def generate_stress_test_report(b1_results: dict, b2_results: dict,
+                                b3_results: dict) -> dict[str, Any]:
     """Generate the Mapping Stress Test Report."""
     report = {
         "timestamp": datetime.now().isoformat(),
@@ -234,7 +233,7 @@ def generate_stress_test_report(b1_results: Dict, b2_results: Dict,
     return report
 
 
-def display_report(report: Dict[str, Any]):
+def display_report(report: dict[str, Any]):
     """Display the stress test report."""
     console.print("\n" + "="*60)
     console.print("[bold cyan]Phase 2.2 Stress Test Report[/bold cyan]")
@@ -282,7 +281,7 @@ def display_report(report: Dict[str, Any]):
             console.print(f"  - {op}")
 
 
-def check_success_criteria(report: Dict[str, Any]) -> Dict[str, bool]:
+def check_success_criteria(report: dict[str, Any]) -> dict[str, bool]:
     """Check Phase 2.2 success criteria."""
     criteria = {
         "class_ruled_inadmissible": False,

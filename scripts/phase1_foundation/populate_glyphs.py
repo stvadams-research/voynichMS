@@ -15,22 +15,21 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-import uuid
 from rich.console import Console
 from rich.progress import Progress
 
+from phase1_foundation.core.id_factory import DeterministicIDFactory
+from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import (
+    GlyphAlignmentRecord,
+    GlyphCandidateRecord,
+    LineRecord,
     MetadataStore,
     PageRecord,
-    LineRecord,
-    WordRecord,
-    GlyphCandidateRecord,
-    GlyphAlignmentRecord,
-    WordAlignmentRecord,
     TranscriptionTokenRecord,
+    WordAlignmentRecord,
+    WordRecord,
 )
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.core.id_factory import DeterministicIDFactory
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -168,7 +167,7 @@ def populate_glyphs(dataset_id: str = "voynich_real", seed: int = 42):
 
         session.commit()
 
-        console.print(f"\n[bold green]Glyph Population Complete[/bold green]")
+        console.print("\n[bold green]Glyph Population Complete[/bold green]")
         console.print(f"  Pages processed: {len(pages)}")
         console.print(f"  Words processed: {total_words}")
         console.print(f"  Words with tokens: {words_with_tokens}")

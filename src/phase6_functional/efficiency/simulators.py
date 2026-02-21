@@ -2,10 +2,10 @@
 Efficiency-Aware Simulators for Phase 6B
 """
 
-import random
-from typing import List, Dict, Any, Tuple
-from phase6_functional.formal_system.simulators import LatticeTraversalSimulator
 import logging
+
+from phase6_functional.formal_system.simulators import LatticeTraversalSimulator
+
 logger = logging.getLogger(__name__)
 
 class OptimizedLatticeSimulator(LatticeTraversalSimulator):
@@ -18,7 +18,7 @@ class OptimizedLatticeSimulator(LatticeTraversalSimulator):
         super().__init__(vocab_size=vocab_size, seed=seed)
         self.preferred_tokens = self.vocab[:50] # 10% of vocab are 'cheap' to use
 
-    def _get_nexts(self, prev: str, curr: str, pos: int) -> List[str]:
+    def _get_nexts(self, prev: str, curr: str, pos: int) -> list[str]:
         state = (prev, curr, pos)
         if state not in self.rules:
             # Prefer using 'cheap' tokens as successors
@@ -29,7 +29,7 @@ class OptimizedLatticeSimulator(LatticeTraversalSimulator):
             self.rules[state] = self.random.sample(candidates, num_choices)
         return self.rules[state]
 
-    def generate_line(self, line_len: int = 8) -> List[str]:
+    def generate_line(self, line_len: int = 8) -> list[str]:
         line = []
         prev = "<START>"
         # Prefer starting with cheap tokens

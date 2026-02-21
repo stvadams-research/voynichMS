@@ -1,9 +1,9 @@
 import json
+import logging
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+
 import matplotlib.pyplot as plt
 import pandas as pd
-import logging
 
 from support_visualization.base import BaseVisualizer
 from support_visualization.core.themes import apply_voynich_theme, get_color_palette
@@ -20,7 +20,7 @@ class AnalysisVisualizer(BaseVisualizer):
     def phase_name(self) -> str:
         return "phase2_analysis"
 
-    def plot_sensitivity_sweep(self, sweep_json_path: Path) -> Optional[str]:
+    def plot_sensitivity_sweep(self, sweep_json_path: Path) -> str | None:
         """
         Generate plots summarizing a sensitivity sweep.
         """
@@ -30,7 +30,7 @@ class AnalysisVisualizer(BaseVisualizer):
             logger.error(f"Sweep JSON not found: {sweep_json_path}")
             return None
             
-        with open(sweep_json_path, "r") as f:
+        with open(sweep_json_path) as f:
             data = json.load(f)
             
         results = data.get("results", {}).get("results", [])

@@ -4,18 +4,16 @@ Foundation Hypotheses Library
 Real implementations that compute hypothesis metrics from actual database records.
 """
 
-from typing import List, Dict
+import logging
 import math
 from collections import Counter
-import logging
 
 from phase1_foundation.hypotheses.interface import Hypothesis, HypothesisResult
 from phase1_foundation.storage.metadata import (
-    MetadataStore,
     GlyphCandidateRecord,
-    WordRecord,
     LineRecord,
     PageRecord,
+    WordRecord,
 )
 
 logger = logging.getLogger(__name__)
@@ -45,10 +43,10 @@ class GlyphPositionHypothesis(Hypothesis):
     def falsification_criteria(self) -> str:
         return "If positional entropy in Real data is >= Scrambled data, the constraints are artifacts."
 
-    def run(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def run(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         return self._run_real(real_dataset_id, control_dataset_ids)
 
-    def _run_real(self, real_dataset_id: str, control_dataset_ids: List[str]) -> HypothesisResult:
+    def _run_real(self, real_dataset_id: str, control_dataset_ids: list[str]) -> HypothesisResult:
         """
         Calculate positional entropy from actual glyph positions.
 
@@ -108,7 +106,7 @@ class GlyphPositionHypothesis(Hypothesis):
 
             # Collect glyph position data
             # Position categories: 'start', 'middle', 'end'
-            glyph_positions: Dict[str, Counter] = {}  # glyph_symbol -> Counter of positions
+            glyph_positions: dict[str, Counter] = {}  # glyph_symbol -> Counter of positions
 
             for page_id in page_ids:
                 lines = session.query(LineRecord).filter_by(page_id=page_id).all()

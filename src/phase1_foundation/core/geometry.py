@@ -1,7 +1,9 @@
-from typing import List, Tuple, Optional
-from pydantic import BaseModel, Field, field_validator, model_validator
-import math
 import logging
+import math
+from typing import Optional
+
+from pydantic import BaseModel, Field, field_validator, model_validator
+
 logger = logging.getLogger(__name__)
 
 class Point(BaseModel):
@@ -12,7 +14,7 @@ class Point(BaseModel):
     x: float = Field(..., ge=0.0, le=1.0)
     y: float = Field(..., ge=0.0, le=1.0)
 
-    def to_tuple(self) -> Tuple[float, float]:
+    def to_tuple(self) -> tuple[float, float]:
         return (self.x, self.y)
 
 class Box(BaseModel):
@@ -120,11 +122,11 @@ class Polygon(BaseModel):
     """
     A closed polygon defined by a list of normalized points.
     """
-    points: List[Point]
+    points: list[Point]
 
     @field_validator("points")
     @classmethod
-    def validate_points(cls, v: List[Point]) -> List[Point]:
+    def validate_points(cls, v: list[Point]) -> list[Point]:
         if len(v) < 3:
             raise ValueError("Polygon must have at least 3 points")
         return v
@@ -148,7 +150,7 @@ class Transform(BaseModel):
     | c  d  ty |
     | 0  0  1  |
     """
-    matrix: Tuple[float, float, float, float, float, float] = (1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+    matrix: tuple[float, float, float, float, float, float] = (1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
 
     def apply(self, point: Point) -> Point:
         a, b, c, d, tx, ty = self.matrix

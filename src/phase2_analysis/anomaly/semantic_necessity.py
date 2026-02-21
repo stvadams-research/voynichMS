@@ -8,9 +8,9 @@ IMPORTANT: This test should NOT pre-determine outcomes with hardcoded values.
 Non-semantic systems are tested against actual stress test results.
 """
 
-from typing import Dict, List, Any, Tuple, Optional, TYPE_CHECKING
-from dataclasses import dataclass, field
 import logging
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any, Optional
 
 from phase2_analysis.anomaly.interface import (
     SemanticNecessity,
@@ -36,14 +36,14 @@ class NonSemanticSystem:
 
     # Theoretical bounds - these are upper limits on what the system CAN achieve,
     # NOT predictions of what it WILL achieve. Actual performance is measured.
-    max_info_density: Optional[float] = None  # Upper bound on achievable density
-    min_locality: Optional[float] = None  # Lower bound on dependency radius
-    max_robustness: Optional[float] = None  # Upper bound on perturbation survival
+    max_info_density: float | None = None  # Upper bound on achievable density
+    min_locality: float | None = None  # Lower bound on dependency radius
+    max_robustness: float | None = None  # Upper bound on perturbation survival
 
     # Measured results (filled by actual testing)
-    measured_info_density: Optional[float] = None
-    measured_locality: Optional[float] = None
-    measured_robustness: Optional[float] = None
+    measured_info_density: float | None = None
+    measured_locality: float | None = None
+    measured_robustness: float | None = None
 
     # Test results
     passes_all_constraints: bool = False
@@ -70,18 +70,18 @@ class SemanticNecessityAnalyzer:
                    uses theoretical bounds only (less rigorous).
         """
         self.store = store
-        self.systems: List[NonSemanticSystem] = []
+        self.systems: list[NonSemanticSystem] = []
         self.result: SemanticNecessityResult = SemanticNecessityResult(
             assessment=SemanticNecessity.POSSIBLY_NECESSARY
         )
 
         # Thresholds are derived from Phase 2.2 measurements, not hardcoded
         # These will be populated by _load_measured_thresholds()
-        self._observed_info_density: Optional[float] = None
-        self._observed_locality_radius: Optional[Tuple[int, int]] = None
-        self._observed_robustness: Optional[float] = None
+        self._observed_info_density: float | None = None
+        self._observed_locality_radius: tuple[int, int] | None = None
+        self._observed_robustness: float | None = None
 
-    def _load_measured_thresholds(self, dataset_id: str) -> Dict[str, float]:
+    def _load_measured_thresholds(self, dataset_id: str) -> dict[str, float]:
         """
         Load actual measured thresholds from Phase 2.2 stress test results.
 
@@ -148,7 +148,7 @@ class SemanticNecessityAnalyzer:
 
         return thresholds
 
-    def construct_maximal_nonsemantic_systems(self) -> List[NonSemanticSystem]:
+    def construct_maximal_nonsemantic_systems(self) -> list[NonSemanticSystem]:
         """
         Construct maximally expressive non-semantic systems.
 
@@ -233,8 +233,8 @@ class SemanticNecessityAnalyzer:
         return systems
 
     def _run_stress_tests_for_system(
-        self, system: NonSemanticSystem, dataset_id: str, control_ids: List[str]
-    ) -> Dict[str, float]:
+        self, system: NonSemanticSystem, dataset_id: str, control_ids: list[str]
+    ) -> dict[str, float]:
         """
         Run actual stress tests to measure system performance.
 
@@ -249,7 +249,9 @@ class SemanticNecessityAnalyzer:
             }
 
         # Import stress tests
-        from phase2_analysis.stress_tests.information_preservation import InformationPreservationTest
+        from phase2_analysis.stress_tests.information_preservation import (
+            InformationPreservationTest,
+        )
         from phase2_analysis.stress_tests.locality import LocalityTest
         from phase2_analysis.stress_tests.mapping_stability import MappingStabilityTest
 
@@ -288,8 +290,8 @@ class SemanticNecessityAnalyzer:
         return results
 
     def test_system(
-        self, system: NonSemanticSystem, thresholds: Dict[str, float],
-        dataset_id: str = "", control_ids: Optional[List[str]] = None
+        self, system: NonSemanticSystem, thresholds: dict[str, float],
+        dataset_id: str = "", control_ids: list[str] | None = None
     ) -> bool:
         """
         Test if a non-semantic system can satisfy all constraints.
@@ -377,7 +379,7 @@ class SemanticNecessityAnalyzer:
         # Multiple non-semantic systems work
         return SemanticNecessity.NOT_NECESSARY
 
-    def compile_evidence(self) -> Tuple[List[str], List[str]]:
+    def compile_evidence(self) -> tuple[list[str], list[str]]:
         """
         Compile evidence for and against semantic necessity.
 
@@ -435,7 +437,7 @@ class SemanticNecessityAnalyzer:
 
         return evidence_for, evidence_against
 
-    def derive_semantic_conditions(self) -> List[str]:
+    def derive_semantic_conditions(self) -> list[str]:
         """
         Derive conditions under which semantics might be required.
         """
@@ -479,8 +481,8 @@ class SemanticNecessityAnalyzer:
         return conditions
 
     def analyze(
-        self, dataset_id: str = "", control_ids: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        self, dataset_id: str = "", control_ids: list[str] | None = None
+    ) -> dict[str, Any]:
         """
         Run full semantic necessity phase2_analysis.
 
@@ -567,7 +569,7 @@ class SemanticNecessityAnalyzer:
             ],
         }
 
-    def get_phase_3_decision(self) -> Tuple[bool, str]:
+    def get_phase_3_decision(self) -> tuple[bool, str]:
         """
         Get the final decision on whether Phase 3 is justified.
         """

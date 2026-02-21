@@ -7,6 +7,7 @@ Purpose: Tests structural admissibility and formal exclusion of linguistic model
 import subprocess
 import sys
 
+
 def run_command(cmd):
     print(f"\n>> Executing: {cmd}")
     result = subprocess.run(cmd, shell=True)

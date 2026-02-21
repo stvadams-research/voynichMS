@@ -9,15 +9,15 @@ import argparse
 import json
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs/core_audit/sensitivity_artifact_contract.json"
 
 
-def _read_json(path: Path) -> Dict[str, Any]:
+def _read_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"Missing file: {path}")
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -26,7 +26,7 @@ def _read_json(path: Path) -> Dict[str, Any]:
     return payload
 
 
-def _read_optional_json(path: Path) -> Dict[str, Any]:
+def _read_optional_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     try:
@@ -36,11 +36,11 @@ def _read_optional_json(path: Path) -> Dict[str, Any]:
     return payload if isinstance(payload, dict) else {}
 
 
-def _as_list(value: Any) -> List[Any]:
+def _as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
 
 
-def _resolve_mode_path(policy: Dict[str, Any], *, key: str, mode: str, default: str) -> str:
+def _resolve_mode_path(policy: dict[str, Any], *, key: str, mode: str, default: str) -> str:
     by_mode_key = f"{key}_by_mode"
     by_mode = policy.get(by_mode_key)
     if isinstance(by_mode, dict):
@@ -53,7 +53,7 @@ def _resolve_mode_path(policy: Dict[str, Any], *, key: str, mode: str, default: 
     return default
 
 
-def _extract_results_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
+def _extract_results_payload(payload: dict[str, Any]) -> dict[str, Any]:
     results = payload.get("results")
     if isinstance(results, dict):
         return results
@@ -71,8 +71,8 @@ def _parse_iso_timestamp(value: Any) -> datetime | None:
     except ValueError:
         return None
     if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+        dt = dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 
 def _as_nonnegative_int(value: Any) -> int | None:
@@ -91,7 +91,7 @@ def _age_seconds(*, now_utc: datetime, then_utc: datetime | None) -> float | Non
     return max((now_utc - then_utc).total_seconds(), 0.0)
 
 
-def _extract_generated_utc(payload: Dict[str, Any]) -> datetime | None:
+def _extract_generated_utc(payload: dict[str, Any]) -> datetime | None:
     results_payload = _extract_results_payload(payload)
     ts = _parse_iso_timestamp(results_payload.get("generated_utc"))
     if ts is not None:
@@ -102,8 +102,8 @@ def _extract_generated_utc(payload: Dict[str, Any]) -> datetime | None:
     return None
 
 
-def _extract_report_value_map(report_text: str) -> Dict[str, str]:
-    value_map: Dict[str, str] = {}
+def _extract_report_value_map(report_text: str) -> dict[str, str]:
+    value_map: dict[str, str] = {}
     pattern = re.compile(r"^-\s*(?P<label>[^:]+):\s*`(?P<value>.*)`\s*$")
     for line in report_text.splitlines():
         match = pattern.match(line.strip())
@@ -114,7 +114,7 @@ def _extract_report_value_map(report_text: str) -> Dict[str, str]:
     return value_map
 
 
-def _render_expected_value(summary: Dict[str, Any], spec: Dict[str, Any]) -> str:
+def _render_expected_value(summary: dict[str, Any], spec: dict[str, Any]) -> str:
     fmt = str(spec.get("format", "str"))
     key = str(spec.get("summary_key", "")).strip()
 
@@ -131,8 +131,8 @@ def _render_expected_value(summary: Dict[str, Any], spec: Dict[str, Any]) -> str
     return str(value)
 
 
-def _check_summary_fields(summary: Dict[str, Any], policy: Dict[str, Any]) -> List[str]:
-    errors: List[str] = []
+def _check_summary_fields(summary: dict[str, Any], policy: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
 
     for field in _as_list(policy.get("required_summary_fields")):
         if field not in summary:
@@ -149,8 +149,8 @@ def _check_summary_fields(summary: Dict[str, Any], policy: Dict[str, Any]) -> Li
     return errors
 
 
-def _check_release_readiness_invariants(summary: Dict[str, Any]) -> List[str]:
-    errors: List[str] = []
+def _check_release_readiness_invariants(summary: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
     release_ready = summary.get("release_evidence_ready")
     failures = summary.get("release_readiness_failures")
 
@@ -189,9 +189,9 @@ def _check_release_readiness_invariants(summary: Dict[str, Any]) -> List[str]:
 
 
 def _check_warning_caveat_invariants(
-    summary: Dict[str, Any], report_text: str, policy: Dict[str, Any]
-) -> List[str]:
-    errors: List[str] = []
+    summary: dict[str, Any], report_text: str, policy: dict[str, Any]
+) -> list[str]:
+    errors: list[str] = []
     caveat_policy = policy.get("caveat_policy", {}) if isinstance(policy.get("caveat_policy"), dict) else {}
 
     total_warnings = int(summary.get("total_warning_count", 0) or 0)
@@ -213,8 +213,8 @@ def _check_warning_caveat_invariants(
     return errors
 
 
-def _check_report_coherence(summary: Dict[str, Any], report_text: str, policy: Dict[str, Any]) -> List[str]:
-    errors: List[str] = []
+def _check_report_coherence(summary: dict[str, Any], report_text: str, policy: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
     value_map = _extract_report_value_map(report_text)
 
     for raw_spec in _as_list(policy.get("report_field_contract")):
@@ -244,8 +244,8 @@ def _check_report_coherence(summary: Dict[str, Any], report_text: str, policy: D
     return errors
 
 
-def _check_release_mode_requirements(summary: Dict[str, Any], policy: Dict[str, Any]) -> List[str]:
-    errors: List[str] = []
+def _check_release_mode_requirements(summary: dict[str, Any], policy: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
     req = policy.get("release_mode_requirements")
     if not isinstance(req, dict):
         return errors
@@ -282,14 +282,14 @@ def _check_release_mode_requirements(summary: Dict[str, Any], policy: Dict[str, 
 
 def _check_release_runtime_freshness(
     *,
-    summary: Dict[str, Any],
-    artifact_payload: Dict[str, Any],
-    preflight_payload: Dict[str, Any],
-    run_status_payload: Dict[str, Any],
-    runtime_policy: Dict[str, Any],
+    summary: dict[str, Any],
+    artifact_payload: dict[str, Any],
+    preflight_payload: dict[str, Any],
+    run_status_payload: dict[str, Any],
+    runtime_policy: dict[str, Any],
     now_utc: datetime,
-) -> List[str]:
-    errors: List[str] = []
+) -> list[str]:
+    errors: list[str] = []
     max_release_age = _as_nonnegative_int(runtime_policy.get("max_release_artifact_age_seconds"))
     max_preflight_age = _as_nonnegative_int(runtime_policy.get("max_preflight_age_seconds"))
     max_heartbeat_age = _as_nonnegative_int(runtime_policy.get("max_run_heartbeat_age_seconds"))
@@ -345,8 +345,8 @@ def _check_release_runtime_freshness(
     return errors
 
 
-def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> Tuple[List[str], Dict[str, Any]]:
-    errors: List[str] = []
+def run_checks(policy: dict[str, Any], *, root: Path, mode: str) -> tuple[list[str], dict[str, Any]]:
+    errors: list[str] = []
 
     artifact_rel = _resolve_mode_path(
         policy,
@@ -381,7 +381,7 @@ def run_checks(policy: Dict[str, Any], *, root: Path, mode: str) -> Tuple[List[s
     run_status_path = root / run_status_rel
     preflight_payload = _read_optional_json(preflight_path)
     run_status_payload = _read_optional_json(run_status_path)
-    now_utc = datetime.now(timezone.utc)
+    now_utc = datetime.now(UTC)
 
     if not artifact_path.exists():
         errors.append(f"[missing-artifact] {artifact_rel}")

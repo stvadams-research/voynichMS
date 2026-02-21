@@ -8,27 +8,27 @@ glyph transition and positional probabilities from the database.
 Outputs: data/derived/voynich_grammar.json
 """
 
-import sys
-from pathlib import Path
 import json
-from collections import defaultdict, Counter
+import sys
+from collections import Counter, defaultdict
+from pathlib import Path
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 from rich.console import Console
+from rich.panel import Panel
 from rich.progress import Progress
 from rich.table import Table
-from rich.panel import Panel
 
+from phase1_foundation.runs.manager import active_run
 from phase1_foundation.storage.metadata import (
+    GlyphAlignmentRecord,
+    GlyphCandidateRecord,
     MetadataStore,
     WordRecord,
-    GlyphCandidateRecord,
-    GlyphAlignmentRecord
 )
-from phase1_foundation.runs.manager import active_run
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -45,7 +45,7 @@ def extract_grammar(dataset_id: str = "voynich_real"):
     
     try:
         # Get all words for the dataset
-        from phase1_foundation.storage.metadata import PageRecord, LineRecord
+        from phase1_foundation.storage.metadata import LineRecord, PageRecord
         words = (
             session.query(WordRecord)
             .join(LineRecord, WordRecord.line_id == LineRecord.id)
@@ -131,7 +131,7 @@ def extract_grammar(dataset_id: str = "voynich_real"):
         with open(OUTPUT_PATH, "w") as f:
             json.dump(grammar, f, indent=2)
             
-        console.print(f"\n[bold green]Grammar extraction complete.[/bold green]")
+        console.print("\n[bold green]Grammar extraction complete.[/bold green]")
         console.print(f"Rules saved to: {OUTPUT_PATH}")
         
         # Display summary table for key glyphs

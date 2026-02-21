@@ -16,11 +16,10 @@ Per Phase 1 Destructive Audit Plan:
 - Explicitly record FALSIFIED or INADMISSIBLE outcomes
 """
 
-import os
 import sys
-import json
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
 from phase1_foundation.core.provenance import ProvenanceWriter
 
 # Add src to path
@@ -28,24 +27,28 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.hypotheses.manager import HypothesisManager
-from phase1_foundation.hypotheses.destructive import (
-    FixedGlyphIdentityHypothesis,
-    WordBoundaryStabilityHypothesis,
-    DiagramTextAlignmentHypothesis,
-)
+from phase1_foundation.anchors.engine import AnchorEngine
+from phase1_foundation.config import DEFAULT_SEED
 from phase1_foundation.controls.scramblers import ScrambledControlGenerator
 from phase1_foundation.controls.synthetic import SyntheticNullGenerator
-from phase1_foundation.segmentation.dummy import DummyLineSegmenter, DummyWordSegmenter, DummyGlyphSegmenter
-from phase1_foundation.regions.dummy import GridProposer, RandomBlobProposer
-from phase1_foundation.anchors.engine import AnchorEngine
 from phase1_foundation.core.id_factory import DeterministicIDFactory
-from phase1_foundation.config import DEFAULT_SEED
+from phase1_foundation.hypotheses.destructive import (
+    DiagramTextAlignmentHypothesis,
+    FixedGlyphIdentityHypothesis,
+    WordBoundaryStabilityHypothesis,
+)
+from phase1_foundation.hypotheses.manager import HypothesisManager
+from phase1_foundation.regions.dummy import GridProposer
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.segmentation.dummy import (
+    DummyGlyphSegmenter,
+    DummyLineSegmenter,
+    DummyWordSegmenter,
+)
+from phase1_foundation.storage.metadata import MetadataStore
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -55,7 +58,7 @@ def setup_test_infrastructure(store: MetadataStore, run_id: str, seed: int = DEF
     """Set up minimal test data if needed."""
     session = store.Session()
     try:
-        from phase1_foundation.storage.metadata import DatasetRecord, PageRecord
+        from phase1_foundation.storage.metadata import DatasetRecord
 
         # Check if test dataset exists
         test_ds = session.query(DatasetRecord).filter_by(id="audit_real").first()
@@ -354,15 +357,15 @@ def print_findings_for_document(findings: dict):
 
             # Add specific metrics if relevant
             if "collapse_at_5pct" in str(data.get("metrics", {})):
-                collapse = data["metrics"].get(f"audit_real:collapse_at_5pct", 0)
+                collapse = data["metrics"].get("audit_real:collapse_at_5pct", 0)
                 print(f"- **Detail**: Identity collapse rate at 5% perturbation: {collapse:.1%}")
 
             if "avg_agreement" in str(data.get("metrics", {})):
-                agreement = data["metrics"].get(f"audit_real:avg_agreement", 0)
+                agreement = data["metrics"].get("audit_real:avg_agreement", 0)
                 print(f"- **Detail**: Cross-source agreement rate: {agreement:.1%}")
 
             if "z_score" in str(data.get("metrics", {})):
-                z = data["metrics"].get(f"audit_real:z_score", 0)
+                z = data["metrics"].get("audit_real:z_score", 0)
                 print(f"- **Detail**: Significance z-score: {z:.2f} (threshold: 2.0)")
 
             print()

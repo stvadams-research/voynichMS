@@ -1,10 +1,10 @@
-import pytest
-import random
 import json
-import os
-from pathlib import Path
+import random
+
+import pytest
+
+from phase1_foundation.core.randomness import RandomnessViolationError, get_randomness_controller
 from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
-from phase1_foundation.core.randomness import get_randomness_controller, RandomnessViolationError
 
 pytestmark = pytest.mark.integration
 
@@ -44,9 +44,8 @@ def test_randomness_controller_forbidden():
     controller.patch_random_module()
     
     try:
-        with controller.forbidden_context("test"):
-            with pytest.raises(RandomnessViolationError):
-                random.random()
+        with controller.forbidden_context("test"), pytest.raises(RandomnessViolationError):
+            random.random()
     finally:
         controller.unpatch_random_module()
 
@@ -70,9 +69,8 @@ def test_unrestricted_context():
     controller.patch_random_module()
     
     try:
-        with controller.forbidden_context("test"):
-            with controller.unrestricted_context():
-                # Should not raise
-                random.random()
+        with controller.forbidden_context("test"), controller.unrestricted_context():
+            # Should not raise
+            random.random()
     finally:
         controller.unpatch_random_module()

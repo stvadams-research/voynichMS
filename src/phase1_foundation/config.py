@@ -9,14 +9,15 @@ When enabled, any simulation causes immediate pipeline failure.
 """
 
 import json
+import logging
 import os
 import threading
 from dataclasses import dataclass, field
 from datetime import datetime
-from pathlib import Path
-from typing import Dict, List, Any, Optional
 from enum import Enum
-import logging
+from pathlib import Path
+from typing import Any, Optional
+
 logger = logging.getLogger(__name__)
 
 
@@ -51,7 +52,7 @@ class ComputationRecord:
     method: ComputationMethod
     timestamp: datetime
     row_count: int = 0
-    parameters: Dict[str, Any] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
     details: str = ""
 
 
@@ -72,10 +73,10 @@ class CoverageReport:
     total_cached: int = 0
 
     # Detailed records
-    records: List[ComputationRecord] = field(default_factory=list)
+    records: list[ComputationRecord] = field(default_factory=list)
 
     # Fallback components (should be empty if REQUIRE_COMPUTED)
-    fallback_components: List[str] = field(default_factory=list)
+    fallback_components: list[str] = field(default_factory=list)
 
     def add_record(self, record: ComputationRecord):
         """Add a computation record."""
@@ -95,7 +96,7 @@ class CoverageReport:
         """Check if no simulations occurred."""
         return self.total_simulated == 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "run_id": self.run_id,
@@ -146,11 +147,11 @@ class ComputationTracker:
         self._thread_local = threading.local()
         self._require_computed = os.environ.get("REQUIRE_COMPUTED", "0") == "1"
 
-    def _get_report(self) -> Optional[CoverageReport]:
+    def _get_report(self) -> CoverageReport | None:
         """Get current thread's coverage report."""
         return getattr(self._thread_local, "report", None)
 
-    def _set_report(self, report: Optional[CoverageReport]):
+    def _set_report(self, report: CoverageReport | None):
         """Set current thread's coverage report."""
         self._thread_local.report = report
 
@@ -172,7 +173,7 @@ class ComputationTracker:
         )
         self._set_report(report)
 
-    def end_run(self) -> Optional[CoverageReport]:
+    def end_run(self) -> CoverageReport | None:
         """End the current run and return the coverage report."""
         report = self._get_report()
         self._set_report(None)
@@ -184,7 +185,7 @@ class ComputationTracker:
         category: str,
         method: ComputationMethod,
         row_count: int = 0,
-        parameters: Optional[Dict[str, Any]] = None,
+        parameters: dict[str, Any] | None = None,
         details: str = "",
     ):
         """
@@ -220,7 +221,7 @@ class ComputationTracker:
         component: str,
         category: str,
         row_count: int = 0,
-        parameters: Optional[Dict[str, Any]] = None,
+        parameters: dict[str, Any] | None = None,
     ):
         """Shorthand for recording a computed value."""
         self.record_computation(
@@ -249,7 +250,7 @@ class ComputationTracker:
             details=reason,
         )
 
-    def get_current_report(self) -> Optional[CoverageReport]:
+    def get_current_report(self) -> CoverageReport | None:
         """Get the current run's coverage report (for inspection)."""
         return self._get_report()
 
@@ -337,7 +338,7 @@ def use_real_computation(category: str) -> bool:
     return USE_REAL_COMPUTATIONS.get(category, False)
 
 
-def _load_json_config(config_path: Path, config_label: str) -> Dict[str, Any]:
+def _load_json_config(config_path: Path, config_label: str) -> dict[str, Any]:
     """
     Load JSON config with explicit missing-file policy.
 
@@ -357,7 +358,7 @@ def _load_json_config(config_path: Path, config_label: str) -> Dict[str, Any]:
         )
 
     try:
-        with open(config_path, "r") as f:
+        with open(config_path) as f:
             return json.load(f)
     except json.JSONDecodeError as exc:
         message = f"{config_label} config at {config_path} is invalid JSON"
@@ -367,7 +368,7 @@ def _load_json_config(config_path: Path, config_label: str) -> Dict[str, Any]:
         raise ValueError(message) from exc
 
 
-def get_model_params() -> Dict[str, Any]:
+def get_model_params() -> dict[str, Any]:
     """
     Load externalized model parameters from JSON config.
     """
@@ -375,7 +376,7 @@ def get_model_params() -> Dict[str, Any]:
     return _load_json_config(config_path, "Model params")
 
 
-def get_analysis_thresholds() -> Dict[str, Any]:
+def get_analysis_thresholds() -> dict[str, Any]:
     """
     Load centralized phase2_analysis thresholds from JSON config.
     """
@@ -383,7 +384,7 @@ def get_analysis_thresholds() -> Dict[str, Any]:
     return _load_json_config(config_path, "Analysis thresholds")
 
 
-def get_anomaly_observed_values() -> Dict[str, Any]:
+def get_anomaly_observed_values() -> dict[str, Any]:
     """
     Load observed anomaly/reference values used as phase-input constants.
     """

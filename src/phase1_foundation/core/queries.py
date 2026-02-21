@@ -1,24 +1,27 @@
+import logging
 import struct
-from typing import List, Dict, Any, Tuple
+from typing import Any
+
 import numpy as np
+
 from phase1_foundation.storage.metadata import (
+    AnchorRecord,
+    GlyphCandidateRecord,
     MetadataStore,
     PageRecord,
-    WordRecord,
+    RegionEdgeRecord,
+    RegionEmbeddingRecord,
+    RegionRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
     WordAlignmentRecord,
-    GlyphCandidateRecord,
-    RegionRecord,
-    RegionEdgeRecord,
-    AnchorRecord,
-    RegionEmbeddingRecord,
+    WordRecord,
 )
-import logging
+
 logger = logging.getLogger(__name__)
 
 
-def get_lines_from_store(store: MetadataStore, dataset_id: str, source_id: str = None) -> List[List[str]]:
+def get_lines_from_store(store: MetadataStore, dataset_id: str, source_id: str = None) -> list[list[str]]:
     """Extract tokenized lines from the database in page/line order."""
     session = store.Session()
     try:
@@ -38,8 +41,8 @@ def get_lines_from_store(store: MetadataStore, dataset_id: str, source_id: str =
                 TranscriptionTokenRecord.token_index,
             ).all()
 
-        lines: List[List[str]] = []
-        current_line: List[str] = []
+        lines: list[list[str]] = []
+        current_line: list[str] = []
         last_line_id = None
         for content, line_id in rows:
             if last_line_id is not None and line_id != last_line_id:
@@ -54,7 +57,7 @@ def get_lines_from_store(store: MetadataStore, dataset_id: str, source_id: str =
         session.close()
 
 
-def get_tokens_and_boundaries(store: MetadataStore, dataset_id: str, source_id: str = None) -> Tuple[List[str], List[int]]:
+def get_tokens_and_boundaries(store: MetadataStore, dataset_id: str, source_id: str = None) -> tuple[list[str], list[int]]:
     """
     Extract flat token list and line-boundary indices.
 
@@ -81,8 +84,8 @@ def get_tokens_and_boundaries(store: MetadataStore, dataset_id: str, source_id: 
             .all()
         )
 
-        tokens: List[str] = []
-        boundaries: List[int] = []
+        tokens: list[str] = []
+        boundaries: list[int] = []
         last_line_id = None
         for idx, (content, line_id) in enumerate(rows):
             tokens.append(content)
@@ -98,7 +101,7 @@ class QueryEngine:
     def __init__(self, store: MetadataStore):
         self.store = store
 
-    def get_words_for_token(self, token_content: str) -> List[Dict[str, Any]]:
+    def get_words_for_token(self, token_content: str) -> list[dict[str, Any]]:
         session = self.store.Session()
         try:
             # Join Word -> Alignment -> Token
@@ -111,7 +114,7 @@ class QueryEngine:
         finally:
             session.close()
 
-    def get_glyphs_for_word(self, word_id: str) -> List[Dict[str, Any]]:
+    def get_glyphs_for_word(self, word_id: str) -> list[dict[str, Any]]:
         session = self.store.Session()
         try:
             glyphs = session.query(GlyphCandidateRecord).filter_by(word_id=word_id).order_by(GlyphCandidateRecord.glyph_index).all()
@@ -121,7 +124,7 @@ class QueryEngine:
 
     # --- Level 2B Queries ---
 
-    def get_related_regions(self, region_id: str, relation_type: str = None) -> List[Dict[str, Any]]:
+    def get_related_regions(self, region_id: str, relation_type: str = None) -> list[dict[str, Any]]:
         session = self.store.Session()
         try:
             query = session.query(RegionEdgeRecord, RegionRecord).\
@@ -136,7 +139,7 @@ class QueryEngine:
         finally:
             session.close()
 
-    def find_similar_regions(self, region_id: str, limit: int = 10) -> List[Dict[str, Any]]:
+    def find_similar_regions(self, region_id: str, limit: int = 10) -> list[dict[str, Any]]:
         """
         Find regions similar to the given region using embedding cosine similarity.
 
@@ -212,7 +215,7 @@ class QueryEngine:
 
     # --- Level 4 Queries ---
 
-    def get_anchors_for_text(self, text_id: str) -> List[Dict[str, Any]]:
+    def get_anchors_for_text(self, text_id: str) -> list[dict[str, Any]]:
         """
         Get all regions anchored to a specific text object (word, line, etc.)
         """
@@ -232,7 +235,7 @@ class QueryEngine:
         finally:
             session.close()
 
-    def get_anchors_for_region(self, region_id: str) -> List[Dict[str, Any]]:
+    def get_anchors_for_region(self, region_id: str) -> list[dict[str, Any]]:
         """
         Get all text objects anchored to a specific region.
         """
@@ -252,7 +255,7 @@ class QueryEngine:
         finally:
             session.close()
 
-    def get_anchors_by_type(self, relation_type: str, min_score: float = 0.0) -> List[Dict[str, Any]]:
+    def get_anchors_by_type(self, relation_type: str, min_score: float = 0.0) -> list[dict[str, Any]]:
         """
         Get all anchors of a specific type with a minimum score.
         """

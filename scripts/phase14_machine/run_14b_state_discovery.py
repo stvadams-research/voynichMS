@@ -2,8 +2,8 @@
 """Phase 14B: State-Space Discovery."""
 
 import sys
-import json
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
 

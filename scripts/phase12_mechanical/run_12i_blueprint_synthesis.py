@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """Phase 12I: Blueprint Synthesis (Physical Tool Map)."""
 
-import sys
 import json
+import sys
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase12_mechanical.jigsaw_solver import BlueprintSynthesizer
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase12_mechanical.jigsaw_solver import BlueprintSynthesizer
 
 INPUT_PATH = project_root / "results/data/phase12_mechanical/columnar_reconstruction.json"
 OUTPUT_PATH = project_root / "results/data/phase12_mechanical/physical_blueprint.json"
@@ -24,7 +25,7 @@ def main():
         console.print(f"[red]Error: {INPUT_PATH} not found.[/red]")
         return
 
-    with open(INPUT_PATH, "r") as f:
+    with open(INPUT_PATH) as f:
         data = json.load(f)
     columns = data.get("results", data)
     

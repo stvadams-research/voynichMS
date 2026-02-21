@@ -6,20 +6,22 @@ Uses transition and positional probabilities from voynich_grammar.json.
 """
 
 import json
+import logging
 import random
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple, Any
+from typing import Any
+
 from phase1_foundation.config import require_seed_if_strict
-import logging
+
 logger = logging.getLogger(__name__)
 
 class GrammarBasedGenerator:
     """
     Generates words glyph-by-glyph using a probabilistic grammar.
     """
-    def __init__(self, grammar_path: Path, seed: Optional[int] = None):
+    def __init__(self, grammar_path: Path, seed: int | None = None):
         require_seed_if_strict(seed, "GrammarBasedGenerator")
-        with open(grammar_path, "r") as f:
+        with open(grammar_path) as f:
             self.grammar = json.load(f)
 
         self.transitions = self.grammar["transitions"]
@@ -31,7 +33,7 @@ class GrammarBasedGenerator:
         # Pre-process for weighted sampling
         self.len_values, self.len_weights = self._prepare_weights(self.word_lengths)
 
-    def _prepare_weights(self, prob_dict: Dict[str, float]) -> Tuple[List[Any], List[float]]:
+    def _prepare_weights(self, prob_dict: dict[str, float]) -> tuple[list[Any], list[float]]:
         items = list(prob_dict.items())
         values = [i[0] for i in items]
         weights = [i[1] for i in items]
@@ -61,13 +63,13 @@ class GrammarBasedGenerator:
             
         return "".join(word)
 
-    def generate_line(self, target_word_count: int) -> List[str]:
+    def generate_line(self, target_word_count: int) -> list[str]:
         """
         Generate a line of words.
         """
         return [self.generate_word() for _ in range(target_word_count)]
 
-    def generate_block(self, num_lines: int, words_per_line: int) -> List[List[str]]:
+    def generate_block(self, num_lines: int, words_per_line: int) -> list[list[str]]:
         """
         Generate a block of text.
         """

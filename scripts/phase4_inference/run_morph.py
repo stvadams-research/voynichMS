@@ -8,19 +8,22 @@ Benchmarks real vs. semantic vs. synthetic vs. shuffled text.
 import argparse
 import sys
 from pathlib import Path
-import json
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import (
+    MetadataStore,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from phase4_inference.morph_induction.analyzer import MorphologyAnalyzer
 
 console = Console()

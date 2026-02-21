@@ -1,17 +1,22 @@
-import random
-import uuid
-from typing import Dict, Any, List
-from phase1_foundation.controls.interface import ControlGenerator
-from phase1_foundation.storage.metadata import PageRecord, GlyphCandidateRecord, WordRecord, LineRecord
-from phase1_foundation.core.id_factory import DeterministicIDFactory
 import logging
+import random
+from typing import Any
+
+from phase1_foundation.controls.interface import ControlGenerator
+from phase1_foundation.core.id_factory import DeterministicIDFactory
+from phase1_foundation.storage.metadata import (
+    LineRecord,
+    PageRecord,
+    WordRecord,
+)
+
 logger = logging.getLogger(__name__)
 
 class ScrambledControlGenerator(ControlGenerator):
     """
     Generates a scrambled control dataset by shuffling glyphs/words.
     """
-    def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: Dict[str, Any] = None) -> str:
+    def generate(self, source_dataset_id: str, control_id: str, seed: int = 42, params: dict[str, Any] = None) -> str:
         rng = random.Random(seed)
         params = params or {}
         id_factory = DeterministicIDFactory(seed=seed)

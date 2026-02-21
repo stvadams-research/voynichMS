@@ -21,8 +21,8 @@ See DATA_SOURCES.md for full documentation of each data source.
 import argparse
 import hashlib
 import sys
-import urllib.request
 import urllib.error
+import urllib.request
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -115,11 +115,11 @@ def download_gutenberg() -> int:
 
     if part1.exists() and part2.exists():
         if latin_corpus.exists() and latin_corpus.stat().st_size > 0:
-            print(f"  [SKIP] latin_corpus.txt — already exists")
+            print("  [SKIP] latin_corpus.txt — already exists")
         else:
             content = part1.read_text(encoding="utf-8") + "\n" + part2.read_text(encoding="utf-8")
             latin_corpus.write_text(content, encoding="utf-8")
-            print(f"  [OK]   Concatenated latin_part1.txt + latin_part2.txt -> latin_corpus.txt")
+            print("  [OK]   Concatenated latin_part1.txt + latin_part2.txt -> latin_corpus.txt")
 
     if failures:
         print(f"\n  {failures} Gutenberg file(s) failed to download.")

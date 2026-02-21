@@ -4,16 +4,17 @@ Geometric Table Generator
 Produces text using tables of varying dimensions to test dimensionality signatures.
 """
 
-import random
-from typing import List, Dict, Any, Tuple, Optional
-from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
-from phase1_foundation.config import require_seed_if_strict
-from pathlib import Path
 import logging
+import random
+from pathlib import Path
+
+from phase1_foundation.config import require_seed_if_strict
+from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+
 logger = logging.getLogger(__name__)
 
 class GeometricTableGenerator:
-    def __init__(self, grammar_path: Path, rows: int = 10, cols: int = 10, seed: Optional[int] = None):
+    def __init__(self, grammar_path: Path, rows: int = 10, cols: int = 10, seed: int | None = None):
         require_seed_if_strict(seed, "GeometricTableGenerator")
         self.generator = GrammarBasedGenerator(grammar_path, seed=seed)
         self.rng = random.Random(seed)
@@ -21,14 +22,14 @@ class GeometricTableGenerator:
         self.cols = cols
         self.table = self._build_table()
 
-    def _build_table(self) -> List[List[str]]:
+    def _build_table(self) -> list[list[str]]:
         table = []
         for _ in range(self.rows):
             row = [self.generator.generate_word() for _ in range(self.cols)]
             table.append(row)
         return table
 
-    def generate(self, target_tokens: int, walk_type: str = "snake") -> List[str]:
+    def generate(self, target_tokens: int, walk_type: str = "snake") -> list[str]:
         tokens = []
         r, c = 0, 0
         

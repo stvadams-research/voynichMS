@@ -2,19 +2,19 @@
 """Phase 12E: Prototype Validation (Digital Volvelle vs Real)."""
 
 import sys
-import json
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase12_mechanical.volvelle_simulator import VolvelleSimulator
-from phase10_admissibility.mask_anatomy.mapper import SlidingResidualMapper
-from phase1_foundation.storage.metadata import MetadataStore
 from phase1_foundation.core.data_loading import load_canonical_lines
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.storage.metadata import MetadataStore
+from phase10_admissibility.mask_anatomy.mapper import SlidingResidualMapper
+from phase12_mechanical.volvelle_simulator import VolvelleSimulator
 
 DB_PATH = "sqlite:///data/voynich.db"
 OUTPUT_PATH = project_root / "results/data/phase12_mechanical/prototype_validation.json"

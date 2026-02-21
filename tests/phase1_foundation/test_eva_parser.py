@@ -4,11 +4,11 @@ Covers: valid IVTFF parsing, comment/blank handling, malformed lines,
 token splitting, generator behavior, and edge cases.
 """
 
-import pytest
 from pathlib import Path
 
-from phase1_foundation.transcription.parsers import EVAParser, ParsedLine, ParsedToken
+import pytest
 
+from phase1_foundation.transcription.parsers import EVAParser, ParsedLine, ParsedToken
 
 # ---------------------------------------------------------------------------
 # Helpers

@@ -6,12 +6,17 @@ Terminology:
 - Word: visual image segment (WordRecord).
 """
 
-from typing import List, Optional
 import logging
+
 from sqlalchemy.orm import Session
+
 from phase1_foundation.storage.metadata import (
-    MetadataStore, LineRecord, WordRecord, TranscriptionLineRecord,
-    TranscriptionTokenRecord, WordAlignmentRecord
+    LineRecord,
+    MetadataStore,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+    WordAlignmentRecord,
+    WordRecord,
 )
 
 logger = logging.getLogger(__name__)

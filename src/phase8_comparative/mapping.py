@@ -3,8 +3,9 @@ from __future__ import annotations
 import csv
 import logging
 from collections import Counter
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any, Dict, Iterable, Mapping
+from typing import Any
 
 import numpy as np
 
@@ -15,7 +16,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_RANDOM_SEED = 42
 DEFAULT_ITERATIONS = 2000
 DEFAULT_TARGET = "Voynich"
-DEFAULT_STATUS_THRESHOLDS: Dict[str, float] = {
+DEFAULT_STATUS_THRESHOLDS: dict[str, float] = {
     "min_nearest_neighbor_stability_for_confirmed": 0.75,
     "min_jackknife_stability_for_confirmed": 0.75,
     "min_rank_stability_for_confirmed": 0.65,
@@ -29,7 +30,7 @@ DEFAULT_STATUS_THRESHOLDS: Dict[str, float] = {
     "min_rank_entropy_for_high": 1.50,
 }
 
-M2_REASON_TO_RESIDUAL: Dict[str, str] = {
+M2_REASON_TO_RESIDUAL: dict[str, str] = {
     "ROBUST_NEAREST_NEIGHBOR": "none",
     "MODERATE_RANK_VOLATILITY": "directional_signal_requires_explicit_uncertainty_caveats",
     "TOP2_GAP_FRAGILE": "top2_gap_confidence_interval_remains_fragile",
@@ -41,7 +42,7 @@ M2_REASON_TO_RESIDUAL: Dict[str, str] = {
     "FIELD_INCOMPLETE": "uncertainty_contract_fields_incomplete",
 }
 
-M2_4_REOPEN_TRIGGERS_BY_LANE: Dict[str, list[str]] = {
+M2_4_REOPEN_TRIGGERS_BY_LANE: dict[str, list[str]] = {
     "M2_4_ALIGNED": [
         (
             "Reopen if any confirmed-threshold metric falls below policy floor in "
@@ -74,7 +75,7 @@ M2_4_REOPEN_TRIGGERS_BY_LANE: Dict[str, list[str]] = {
     ],
 }
 
-M2_5_REOPEN_TRIGGERS_BY_LANE: Dict[str, list[str]] = {
+M2_5_REOPEN_TRIGGERS_BY_LANE: dict[str, list[str]] = {
     "M2_5_ALIGNED": [
         "Reopen if confirmed-threshold support degrades in canonical reruns.",
         "Reopen if checker/policy/report parity fails.",
@@ -101,7 +102,7 @@ M2_5_REOPEN_TRIGGERS_BY_LANE: Dict[str, list[str]] = {
 }
 
 
-def load_matrix(csv_path: Path | str) -> Dict[str, np.ndarray]:
+def load_matrix(csv_path: Path | str) -> dict[str, np.ndarray]:
     """Load a comparative feature matrix from a CSV file.
 
     Reads a CSV where each row is an artifact. The 'Artifact' column supplies
@@ -109,8 +110,8 @@ def load_matrix(csv_path: Path | str) -> Dict[str, np.ndarray]:
 
     Returns a dict mapping artifact names to numpy feature vectors.
     """
-    matrix: Dict[str, np.ndarray] = {}
-    with open(csv_path, "r", encoding="utf-8") as handle:
+    matrix: dict[str, np.ndarray] = {}
+    with open(csv_path, encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         for row in reader:
             name = str(row.pop("Artifact"))
@@ -152,7 +153,7 @@ def calculate_distances(
     target: str = DEFAULT_TARGET,
     dimensions: np.ndarray | None = None,
     weights: np.ndarray | None = None,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """Compute weighted Euclidean distances from a target artifact to all others.
 
     Optionally restricts computation to a subset of dimensions and applies
@@ -160,7 +161,7 @@ def calculate_distances(
     name to its distance from the target.
     """
     target_vector = matrix[target]
-    distances: Dict[str, float] = {}
+    distances: dict[str, float] = {}
     for name, vector in matrix.items():
         if name == target:
             continue
@@ -173,7 +174,7 @@ def calculate_distances(
     return distances
 
 
-def _to_ci95(values: np.ndarray) -> Dict[str, float]:
+def _to_ci95(values: np.ndarray) -> dict[str, float]:
     lower, upper = np.percentile(values, [2.5, 97.5])
     return {
         "mean": float(np.mean(values)),
@@ -185,7 +186,7 @@ def _to_ci95(values: np.ndarray) -> Dict[str, float]:
 
 def _merge_status_thresholds(
     overrides: Mapping[str, Any] | None,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     thresholds = dict(DEFAULT_STATUS_THRESHOLDS)
     if not isinstance(overrides, Mapping):
         return thresholds
@@ -254,7 +255,7 @@ def compute_distance_uncertainty(
     iterations: int = DEFAULT_ITERATIONS,
     run_profile: str = "custom",
     status_thresholds: Mapping[str, Any] | None = None,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Quantify uncertainty of comparative distances via bootstrap perturbation.
 
     Performs bootstrap resampling of feature dimensions with weight jitter and
@@ -281,10 +282,10 @@ def compute_distance_uncertainty(
     point_top3_set = set(point_ranking_names[:3])
     thresholds = _merge_status_thresholds(status_thresholds)
 
-    distance_samples: Dict[str, list[float]] = {name: [] for name in candidates}
+    distance_samples: dict[str, list[float]] = {name: [] for name in candidates}
     nearest_counter: Counter[str] = Counter()
     top3_counter: Counter[str] = Counter()
-    rank_position_counts: Dict[str, Counter[int]] = {name: Counter() for name in candidates}
+    rank_position_counts: dict[str, Counter[int]] = {name: Counter() for name in candidates}
     top2_gap_samples: list[float] = []
     top2_set_match_count = 0
     top2_order_match_count = 0
@@ -360,7 +361,7 @@ def compute_distance_uncertainty(
         second_name, second_probability = "", 0.0
     probability_margin = float(base_nearest_probability - second_probability)
 
-    summary: Dict[str, Any] = {}
+    summary: dict[str, Any] = {}
     for artifact_name in candidates:
         samples = np.array(distance_samples[artifact_name], dtype=float)
         stats = _to_ci95(samples)
@@ -711,7 +712,7 @@ def run_analysis(
     run_profile: str = "custom",
     target: str = DEFAULT_TARGET,
     status_thresholds: Mapping[str, Any] | None = None,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Run the full comparative mapping pipeline end-to-end.
 
     Loads the feature matrix, computes distances and uncertainty, writes the

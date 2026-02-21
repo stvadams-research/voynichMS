@@ -10,8 +10,8 @@ Usage:
     python3 scripts/core_audit/extract_golden_outputs.py
 """
 
-import json
 import hashlib
+import json
 from pathlib import Path
 
 GOLDEN_DIR = Path("tests/fixtures/golden")

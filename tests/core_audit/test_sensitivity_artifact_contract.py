@@ -1,8 +1,8 @@
 import importlib.util
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 
@@ -11,7 +11,7 @@ pytestmark = pytest.mark.integration
 
 def _now_utc() -> str:
     """Current UTC timestamp for fixture freshness."""
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _load_checker_module():
@@ -23,7 +23,7 @@ def _load_checker_module():
     return module
 
 
-def _base_summary() -> Dict[str, Any]:
+def _base_summary() -> dict[str, Any]:
     return {
         "schema_version": "2026-02-10",
         "policy_version": "2026-02-10",
@@ -51,12 +51,12 @@ def _base_summary() -> Dict[str, Any]:
 def _write_fixture(
     tmp_path: Path,
     *,
-    summary: Dict[str, Any],
-    report_overrides: Dict[str, str] | None = None,
+    summary: dict[str, Any],
+    report_overrides: dict[str, str] | None = None,
     include_none_caveat: bool = False,
     preflight_status: str | None = None,
     preflight_reason_codes: list[str] | None = None,
-    run_status_payload: Dict[str, Any] | None = None,
+    run_status_payload: dict[str, Any] | None = None,
 ) -> None:
     artifact_path = tmp_path / "core_status/core_audit/sensitivity_sweep.json"
     release_artifact_path = tmp_path / "core_status/core_audit/sensitivity_sweep_release.json"
@@ -128,7 +128,7 @@ def _write_fixture(
         out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def _load_policy() -> Dict[str, Any]:
+def _load_policy() -> dict[str, Any]:
     return json.loads(
         Path("configs/core_audit/sensitivity_artifact_contract.json").read_text(encoding="utf-8")
     )

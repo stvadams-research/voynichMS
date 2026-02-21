@@ -4,10 +4,12 @@ Topology-Sensitive Signatures
 Analyzes path overlap, coverage uniformity, and successor convergence.
 """
 
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
-import numpy as np
 import logging
+from collections import Counter, defaultdict
+from typing import Any
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class TopologySignatureAnalyzer:
@@ -17,7 +19,7 @@ class TopologySignatureAnalyzer:
     def __init__(self, prefix_len: int = 2):
         self.prefix_len = prefix_len
 
-    def analyze_overlap(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_overlap(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         Calculates prefix collision rates.
         """
@@ -35,7 +37,7 @@ class TopologySignatureAnalyzer:
             "max_collision_depth": int(counts.most_common(1)[0][1]) if counts else 0
         }
 
-    def analyze_coverage(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_coverage(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         Measures uniformity of node visitation (Gini coefficient).
         """
@@ -57,7 +59,7 @@ class TopologySignatureAnalyzer:
             "mean_visitation": float(np.mean(freqs))
         }
 
-    def analyze_convergence(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def analyze_convergence(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         Measures how often distinct paths converge on the same successor.
         """

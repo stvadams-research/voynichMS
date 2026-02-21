@@ -1,15 +1,16 @@
-import os
-import sys
 import json
+import sys
 from pathlib import Path
+
 from sqlalchemy import create_engine, text
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root / 'src'))
 
-from phase1_foundation.cli.main import app
 from typer.testing import CliRunner
+
+from phase1_foundation.cli.main import app
 
 runner = CliRunner()
 
@@ -55,7 +56,7 @@ def test_acceptance():
     manifest_path = run_dir / "manifest.json"
     assert manifest_path.exists()
     
-    with open(manifest_path, "r") as f:
+    with open(manifest_path) as f:
         manifest = json.load(f)
         print(f"  [OK] Manifest loaded. Status: {manifest['status']}")
         

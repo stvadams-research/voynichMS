@@ -5,9 +5,11 @@ Tests whether text generation adapts to physical page boundaries and layout.
 Phase 7B implementation.
 """
 
-import numpy as np
-from typing import List, Dict, Any
 import logging
+from typing import Any
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class PageBoundaryAnalyzer:
@@ -22,7 +24,7 @@ class PageBoundaryAnalyzer:
         """
         pass
 
-    def analyze_boundary_adaptation(self, pages: Dict[str, List[List[str]]]) -> Dict[str, Any]:
+    def analyze_boundary_adaptation(self, pages: dict[str, list[list[str]]]) -> dict[str, Any]:
         """
         6.1 Page Boundary Adaptation Test
         Measures changes in line length and entropy as a function of distance from page bottom.
@@ -79,7 +81,7 @@ class PageBoundaryAnalyzer:
             "boundary_effect_detected": bool(abs(len_corr) > 0.2)
         }
 
-    def analyze_layout_obstruction(self, pages: Dict[str, List[List[str]]]) -> Dict[str, Any]:
+    def analyze_layout_obstruction(self, pages: dict[str, list[list[str]]]) -> dict[str, Any]:
         """
         6.4 Layout Obstruction Test (Proxy)
         In the absence of explicit layout masks, we look for line length variance.
@@ -98,7 +100,7 @@ class PageBoundaryAnalyzer:
             "status": "computed" if page_vars else "no_data",
         }
 
-    def _safe_correlation(self, x: List[float], y: List[float]) -> float:
+    def _safe_correlation(self, x: list[float], y: list[float]) -> float:
         """Avoid NaN correlation for underspecified or constant vectors."""
         if len(x) < 2 or len(y) < 2:
             return 0.0

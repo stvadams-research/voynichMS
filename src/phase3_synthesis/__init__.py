@@ -12,26 +12,26 @@ No semantic assumptions are permitted.
 Multiple non-unique continuations are required.
 """
 
-from phase3_synthesis.interface import (
-    SectionProfile,
-    PageProfile,
-    JarProfile,
-    GapDefinition,
-    GapStrength,
-    ContinuationConstraints,
-    SyntheticPage,
-    ContinuationResult,
-    IndistinguishabilityResult,
-    Phase3Findings,
-    GeneratorType,
-)
-from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
-from phase3_synthesis.text_generator import TextContinuationGenerator, ConstrainedMarkovGenerator
 from phase3_synthesis.gap_continuation import GapConditionedContinuation, MultiGapContinuation
 from phase3_synthesis.indistinguishability import (
-    IndistinguishabilityTester,
     FullIndistinguishabilityTest,
+    IndistinguishabilityTester,
 )
+from phase3_synthesis.interface import (
+    ContinuationConstraints,
+    ContinuationResult,
+    GapDefinition,
+    GapStrength,
+    GeneratorType,
+    IndistinguishabilityResult,
+    JarProfile,
+    PageProfile,
+    Phase3Findings,
+    SectionProfile,
+    SyntheticPage,
+)
+from phase3_synthesis.profile_extractor import PharmaceuticalProfileExtractor
+from phase3_synthesis.text_generator import ConstrainedMarkovGenerator, TextContinuationGenerator
 
 __all__ = [
     # Data structures

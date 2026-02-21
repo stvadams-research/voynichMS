@@ -5,12 +5,14 @@ Uses matrix factorization (SVD) on the token transition matrix to estimate
  the number of latent states required to explain successor constraints.
 """
 
+import logging
+from collections import Counter
+from typing import Any
+
 import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import svds
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
-import logging
+
 logger = logging.getLogger(__name__)
 
 class LatentStateAnalyzer:
@@ -20,7 +22,7 @@ class LatentStateAnalyzer:
     def __init__(self, top_n: int = 1000):
         self.top_n = top_n
 
-    def estimate_dimensionality(self, tokens: List[str]) -> Dict[str, Any]:
+    def estimate_dimensionality(self, tokens: list[str]) -> dict[str, Any]:
         """
         Builds transition matrix and performs SVD to find the effective rank.
         """

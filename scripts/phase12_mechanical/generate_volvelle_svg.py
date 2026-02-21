@@ -6,7 +6,6 @@ Generates concentric rings for a physical paper volvelle
 based on the reconstructed blueprint.
 """
 
-import sys
 import json
 import math
 from pathlib import Path
@@ -57,7 +56,7 @@ def main():
         print(f"Error: {INPUT_PATH} not found.")
         return
 
-    with open(INPUT_PATH, "r") as f:
+    with open(INPUT_PATH) as f:
         data = json.load(f)
     blueprint = data.get("results", data).get("blueprint", [])
     

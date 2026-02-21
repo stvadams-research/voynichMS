@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import time
 from collections import Counter, defaultdict
-from typing import Any, Dict, Iterable, List
+from collections.abc import Iterable
+from typing import Any
 
 import numpy as np
 from rich.console import Console

@@ -5,10 +5,12 @@ Tests whether different scribal hands alter execution behavior.
 Phase 7B implementation.
 """
 
-import numpy as np
-from collections import defaultdict
-from typing import List, Dict, Any, Tuple
 import logging
+from collections import defaultdict
+from typing import Any
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class ScribeAnalyzer:
@@ -42,7 +44,7 @@ class ScribeAnalyzer:
             logger.warning("Failed to parse scribal hand from folio_id=%r", folio_id, exc_info=True)
             return "Unknown"
 
-    def analyze_hand_coupling(self, pages: Dict[str, List[List[str]]]) -> Dict[str, Any]:
+    def analyze_hand_coupling(self, pages: dict[str, list[list[str]]]) -> dict[str, Any]:
         """
         6.3 Scribal Hand Coupling Test
         """

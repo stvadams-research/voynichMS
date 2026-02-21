@@ -9,28 +9,29 @@ import argparse
 import json
 import re
 import sys
-from datetime import datetime, timezone
+from collections.abc import Mapping, Sequence
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Mapping, Sequence
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs/core_skeptic/sk_h2_claim_language_policy.json"
 
 
-def _read_policy(path: Path) -> Dict[str, Any]:
+def _read_policy(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"Policy file not found: {path}")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _as_list(value: Any) -> List[str]:
+def _as_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [str(v) for v in value]
     return []
 
 
 def _is_allowlisted(
-    allowlist: Sequence[Dict[str, Any]], pattern_id: str, scope: str
+    allowlist: Sequence[dict[str, Any]], pattern_id: str, scope: str
 ) -> bool:
     for entry in allowlist:
         if entry.get("pattern_id") == pattern_id and entry.get("scope") == scope:
@@ -43,7 +44,7 @@ def _rule_applies_to_mode(rule: Mapping[str, Any], mode: str) -> bool:
     return not modes or mode in modes
 
 
-def _load_results_payload(path: Path) -> Dict[str, Any]:
+def _load_results_payload(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if isinstance(payload, dict) and isinstance(payload.get("results"), dict):
         return payload["results"]
@@ -63,14 +64,14 @@ def _parse_iso_timestamp(value: Any) -> datetime | None:
     except ValueError:
         return None
     if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+        dt = dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 
 def _gate_health_state(
-    policy: Dict[str, Any], *, root: Path, mode: str
-) -> tuple[Dict[str, Any], Dict[str, Any], str, datetime | None, List[str]]:
-    errors: List[str] = []
+    policy: dict[str, Any], *, root: Path, mode: str
+) -> tuple[dict[str, Any], dict[str, Any], str, datetime | None, list[str]]:
+    errors: list[str] = []
     gate_policy = dict(policy.get("gate_health_policy", {}))
     if not gate_policy:
         return gate_policy, {}, "", None, errors
@@ -118,7 +119,7 @@ def _gate_health_state(
         )
     max_age_seconds_raw = gate_policy.get("max_age_seconds")
     if isinstance(max_age_seconds_raw, (int, float)) and timestamp is not None:
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         age_seconds = (now - timestamp).total_seconds()
         if age_seconds > float(max_age_seconds_raw):
             errors.append(
@@ -134,8 +135,8 @@ def _gate_health_state(
     return gate_policy, results, status, timestamp, errors
 
 
-def run_checks(policy: Dict[str, Any], *, root: Path, mode: str = "ci") -> List[str]:
-    errors: List[str] = []
+def run_checks(policy: dict[str, Any], *, root: Path, mode: str = "ci") -> list[str]:
+    errors: list[str] = []
     allowlist = list(policy.get("allowlist", []))
 
     banned_patterns = list(policy.get("banned_patterns", []))

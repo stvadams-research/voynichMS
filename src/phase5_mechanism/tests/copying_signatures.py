@@ -5,10 +5,9 @@ Detects signatures of scribal copying by identifying local clusters of
 near-identical tokens (edit distance <= 1).
 """
 
-from typing import List, Dict, Any, Tuple
-from collections import Counter
-import Levenshtein # We might need to install this or use a simple implementation
 import logging
+from typing import Any
+
 logger = logging.getLogger(__name__)
 
 class CopyingSignatureTest:
@@ -19,7 +18,7 @@ class CopyingSignatureTest:
         self.window_size = window_size
         self.max_edit_dist = max_edit_dist
 
-    def calculate_variant_clustering(self, tokens: List[str]) -> Dict[str, Any]:
+    def calculate_variant_clustering(self, tokens: list[str]) -> dict[str, Any]:
         """
         Measure frequency of near-duplicate neighbors.
         """

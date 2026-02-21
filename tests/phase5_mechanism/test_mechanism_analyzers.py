@@ -7,9 +7,7 @@ and grammar file fixtures.
 """
 from __future__ import annotations
 
-import math
 import pytest
-import numpy as np
 
 pytestmark = pytest.mark.unit
 

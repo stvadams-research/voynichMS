@@ -7,9 +7,8 @@ Maps Lattice Dimensionality and Successor Consistency across major sections.
 
 import argparse
 import sys
-from pathlib import Path
-import json
 from collections import defaultdict
+from pathlib import Path
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -17,12 +16,16 @@ sys.path.insert(0, str(project_root / 'src'))
 sys.path.insert(0, str(project_root)) # For scripts.phase5_mechanism
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from phase1_foundation.core.provenance import ProvenanceWriter
 from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from phase1_foundation.storage.metadata import (
+    MetadataStore,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from phase5_mechanism.constraint_geometry.latent_state import LatentStateAnalyzer
 from phase5_mechanism.large_object.collision_testing import PathCollisionTester
 from scripts.phase5_mechanism.categorize_sections import get_section

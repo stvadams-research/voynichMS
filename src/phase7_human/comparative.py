@@ -5,10 +5,12 @@ Situates the Voynich Manuscript within a broader class of formal systems.
 Phase 7C implementation.
 """
 
-import numpy as np
-from collections import Counter, defaultdict
-from typing import List, Dict, Any, Tuple
 import logging
+from collections import Counter, defaultdict
+from typing import Any
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
 class ComparativeAnalyzer:
@@ -23,7 +25,7 @@ class ComparativeAnalyzer:
         """
         pass
 
-    def calculate_fingerprint(self, lines: List[List[str]]) -> Dict[str, Any]:
+    def calculate_fingerprint(self, lines: list[list[str]]) -> dict[str, Any]:
         """
         Calculates the structural fingerprint of a corpus.
         """
@@ -97,7 +99,7 @@ class ComparativeAnalyzer:
             "convergence": float(convergence)
         }
 
-    def compute_distance(self, f1: Dict[str, float], f2: Dict[str, float]) -> float:
+    def compute_distance(self, f1: dict[str, float], f2: dict[str, float]) -> float:
         """
         Euclidean distance between fingerprints.
         """

@@ -1,9 +1,9 @@
 import json
+import logging
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+
 import matplotlib.pyplot as plt
 import numpy as np
-import logging
 
 from support_visualization.base import BaseVisualizer
 from support_visualization.core.themes import apply_voynich_theme, get_color_palette
@@ -20,7 +20,7 @@ class SynthesisVisualizer(BaseVisualizer):
     def phase_name(self) -> str:
         return "phase3_synthesis"
 
-    def plot_gap_analysis(self, gap_json_path: Path) -> Optional[str]:
+    def plot_gap_analysis(self, gap_json_path: Path) -> str | None:
         """
         Visualize the gap between real and synthetic metrics.
         """
@@ -30,7 +30,7 @@ class SynthesisVisualizer(BaseVisualizer):
             logger.error(f"Gap Analysis JSON not found: {gap_json_path}")
             return None
             
-        with open(gap_json_path, "r") as f:
+        with open(gap_json_path) as f:
             # Note: ProvenanceWriter saves in a specific format {provenance: ..., results: ...}
             data = json.load(f)
             results = data.get("results", data) # Handle both raw and provenance-wrapped

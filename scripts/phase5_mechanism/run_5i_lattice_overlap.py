@@ -8,9 +8,8 @@ to determine if they traverse the same underlying object.
 
 import argparse
 import sys
+from collections import defaultdict
 from pathlib import Path
-import json
-from collections import defaultdict, Counter
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -18,12 +17,16 @@ sys.path.insert(0, str(project_root / 'src'))
 sys.path.insert(0, str(project_root))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from phase1_foundation.core.provenance import ProvenanceWriter
 from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore, TranscriptionTokenRecord, TranscriptionLineRecord
+from phase1_foundation.storage.metadata import (
+    MetadataStore,
+    TranscriptionLineRecord,
+    TranscriptionTokenRecord,
+)
 from scripts.phase5_mechanism.categorize_sections import get_section
 
 console = Console()

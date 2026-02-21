@@ -14,9 +14,10 @@ import copy
 import json
 import sys
 from collections import Counter
+from collections.abc import Sequence
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Sequence
+from typing import Any
 
 # Add src to path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -74,7 +75,7 @@ def _utc_now_iso() -> str:
     return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
 
-def _load_policy(path: Path) -> Dict[str, Any]:
+def _load_policy(path: Path) -> dict[str, Any]:
     policy = copy.deepcopy(DEFAULT_MULTIMODAL_POLICY)
     if not path.exists():
         return policy
@@ -87,7 +88,7 @@ def _load_policy(path: Path) -> Dict[str, Any]:
     return policy
 
 
-def _as_list(value: Any) -> List[Any]:
+def _as_list(value: Any) -> list[Any]:
     if isinstance(value, list):
         return list(value)
     return []
@@ -120,7 +121,7 @@ def _coerce_int(value: Any) -> int | None:
     return None
 
 
-def _lane_class(lane: Dict[str, Any]) -> str:
+def _lane_class(lane: dict[str, Any]) -> str:
     lane_class = str(lane.get("lane_class", "entitlement")).strip().lower()
     if lane_class in {"entitlement", "diagnostic", "stress"}:
         return lane_class
@@ -129,11 +130,11 @@ def _lane_class(lane: Dict[str, Any]) -> str:
 
 def _resolve_lane(
     *,
-    matrix_policy: Dict[str, Any],
+    matrix_policy: dict[str, Any],
     method_name: str,
     seed: int,
     max_lines_per_cohort: int,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     lane_registry = _as_list(matrix_policy.get("lane_registry"))
     for lane in lane_registry:
         if not isinstance(lane, dict):
@@ -160,17 +161,17 @@ def _resolve_lane(
 
 def _collect_lane_outcomes(
     *,
-    matrix_policy: Dict[str, Any],
+    matrix_policy: dict[str, Any],
     dataset_id: str,
     source_id: str,
     by_run_dir: Path,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     lane_registry = _as_list(matrix_policy.get("lane_registry"))
     if not lane_registry:
         return []
 
     by_run_paths = sorted(by_run_dir.glob("anchor_coupling_confirmatory.*.json"))
-    payloads: List[Dict[str, Any]] = []
+    payloads: list[dict[str, Any]] = []
     for path in by_run_paths:
         try:
             payload = json.loads(path.read_text(encoding="utf-8"))
@@ -180,7 +181,7 @@ def _collect_lane_outcomes(
             continue
         payloads.append(payload)
 
-    lane_outcomes: List[Dict[str, Any]] = []
+    lane_outcomes: list[dict[str, Any]] = []
     for lane in lane_registry:
         if not isinstance(lane, dict):
             continue
@@ -264,11 +265,11 @@ def _collect_lane_outcomes(
 
 def _build_robustness_summary(
     *,
-    matrix_policy: Dict[str, Any],
-    lane: Dict[str, Any],
-    lane_outcomes: List[Dict[str, Any]],
+    matrix_policy: dict[str, Any],
+    lane: dict[str, Any],
+    lane_outcomes: list[dict[str, Any]],
     current_status: str,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     allowed_classes = [
         str(item) for item in _as_list(matrix_policy.get("allowed_robustness_classes"))
     ]
@@ -538,7 +539,7 @@ def _resolve_anchor_method(
 
 
 def _token_is_anchored(
-    anchor_events: Sequence[Dict[str, Any]],
+    anchor_events: Sequence[dict[str, Any]],
     *,
     relation_types: Sequence[str],
     near_score_min: float,
@@ -556,11 +557,11 @@ def _token_is_anchored(
 
 
 def _sample_lines(
-    lines: Sequence[Dict[str, Any]],
+    lines: Sequence[dict[str, Any]],
     *,
     limit: int,
     seed: int,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     if limit <= 0:
         return []
     if len(lines) <= limit:
@@ -574,11 +575,11 @@ def _sample_lines(
     return [lines[i] for i in selected]
 
 
-def _line_payload(lines: Sequence[Dict[str, Any]]) -> List[List[str]]:
+def _line_payload(lines: Sequence[dict[str, Any]]) -> list[list[str]]:
     return [list(line["tokens"]) for line in lines]
 
 
-def _unique_page_count(lines: Sequence[Dict[str, Any]]) -> int:
+def _unique_page_count(lines: Sequence[dict[str, Any]]) -> int:
     return len({str(line["page_id"]) for line in lines})
 
 
@@ -645,7 +646,7 @@ def run_anchor_coupling(
     permutation_iterations_override: int | None,
     seed_override: int | None,
     max_lines_override: int | None,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     policy = _load_policy(policy_path)
     dataset_id = dataset_id_override or str(policy.get("dataset_id", "voynich_real"))
     source_id = source_id_override or str(
@@ -725,7 +726,7 @@ def run_anchor_coupling(
                 .filter(AnchorRecord.source_type == "word")
                 .all()
             )
-            anchors_by_word: Dict[str, List[Dict[str, Any]]] = {}
+            anchors_by_word: dict[str, list[dict[str, Any]]] = {}
             relation_counts: Counter[str] = Counter()
             for anchor_source_id, relation_type, score in anchor_rows:
                 key = str(anchor_source_id)
@@ -786,13 +787,13 @@ def run_anchor_coupling(
                 )
                 .all()
             )
-            token_to_word: Dict[str, str] = {}
+            token_to_word: dict[str, str] = {}
             for token_id, word_id in align_rows:
                 key = str(token_id)
                 if key not in token_to_word:
                     token_to_word[key] = str(word_id)
 
-            line_map: Dict[str, Dict[str, Any]] = {}
+            line_map: dict[str, dict[str, Any]] = {}
             for token_id, content, _token_idx, line_id, _line_idx, page_id in token_rows:
                 line_key = str(line_id)
                 if line_key not in line_map:
@@ -812,9 +813,9 @@ def run_anchor_coupling(
                 line_map[line_key]["tokens"].append(str(content))
                 line_map[line_key]["anchored_flags"].append(anchored)
 
-            anchored_lines: List[Dict[str, Any]] = []
-            unanchored_lines: List[Dict[str, Any]] = []
-            ambiguous_lines: List[Dict[str, Any]] = []
+            anchored_lines: list[dict[str, Any]] = []
+            unanchored_lines: list[dict[str, Any]] = []
+            ambiguous_lines: list[dict[str, Any]] = []
 
             for line in line_map.values():
                 cohort = classify_line_cohort(

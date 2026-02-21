@@ -9,7 +9,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
@@ -46,7 +46,7 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
-def run_correlation(word_scale: Dict[str, Any], stroke_scale: Dict[str, Any]) -> Dict[str, Any]:
+def run_correlation(word_scale: dict[str, Any], stroke_scale: dict[str, Any]) -> dict[str, Any]:
     """Task 4.2: Measure hierarchical transition correlation."""
     metrics = ["collision_rate", "gini_coefficient", "avg_successor_convergence"]
     correlations = {}

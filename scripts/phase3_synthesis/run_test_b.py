@@ -13,22 +13,19 @@ Directional Stability Checks:
 import argparse
 import sys
 from pathlib import Path
-import json
 
 # Add src to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
-
-from phase1_foundation.runs.manager import active_run
-from phase1_foundation.storage.metadata import MetadataStore
-from phase1_foundation.metrics.library import RepetitionRate
-from phase1_foundation.hypotheses.library import GlyphPositionHypothesis
+from rich.table import Table
 
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.metrics.library import RepetitionRate
+from phase1_foundation.runs.manager import active_run
+from phase1_foundation.storage.metadata import MetadataStore
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
@@ -73,7 +70,10 @@ def run_test_b(seed: int = 42, output_dir: str | None = None):
             
             session = store.Session()
             try:
-                from phase1_foundation.storage.metadata import TranscriptionTokenRecord, TranscriptionLineRecord
+                from phase1_foundation.storage.metadata import (
+                    TranscriptionLineRecord,
+                    TranscriptionTokenRecord,
+                )
                 tokens = (
                     session.query(TranscriptionTokenRecord.content)
                     .join(TranscriptionLineRecord, TranscriptionTokenRecord.line_id == TranscriptionLineRecord.id)

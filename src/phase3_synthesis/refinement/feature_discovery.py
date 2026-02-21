@@ -8,32 +8,32 @@ Feature computation methods may return ``float("nan")`` when data is
 unavailable. Downstream aggregation filters non-finite values.
 """
 
-from typing import Dict, List, Any, Tuple, Optional
-from dataclasses import dataclass
-from collections import Counter
-import random
-import math
-import statistics
 import hashlib
+import logging
+import math
+import random
+import statistics
+from collections import Counter
+from dataclasses import dataclass
+from typing import Any
 
-from phase3_synthesis.interface import SectionProfile, PageProfile, SyntheticPage
-from phase3_synthesis.refinement.interface import (
-    DiscriminativeFeature,
-    FeatureImportance,
-    FeatureCategory,
-)
 from phase1_foundation.storage.metadata import (
-    MetadataStore,
-    PageRecord,
-    WordRecord,
-    LineRecord,
-    RegionRecord,
     AnchorRecord,
     GlyphCandidateRecord,
+    LineRecord,
+    MetadataStore,
+    PageRecord,
+    RegionRecord,
     TranscriptionLineRecord,
     TranscriptionTokenRecord,
+    WordRecord,
 )
-import logging
+from phase3_synthesis.interface import PageProfile, SectionProfile, SyntheticPage
+from phase3_synthesis.refinement.interface import (
+    DiscriminativeFeature,
+    FeatureCategory,
+    FeatureImportance,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -50,23 +50,23 @@ class FeatureVector:
     page_id: str
     is_real: bool
     is_scrambled: bool
-    features: Dict[str, float]
+    features: dict[str, float]
 
 
 class FeatureComputer:
     """Registry of real feature computation functions."""
 
-    def __init__(self, store: Optional[MetadataStore] = None, seed: Optional[int] = None):
+    def __init__(self, store: MetadataStore | None = None, seed: int | None = None):
         from phase1_foundation.config import require_seed_if_strict
         require_seed_if_strict(seed, "FeatureComputer")
         self.store = store
         self.fallback_seed = seed
         self.fallback_rng = random.Random(seed)
-        self._active_seed: Optional[int] = None
+        self._active_seed: int | None = None
 
     def compute(self, feature_id: str, page: PageProfile = None,
                 synthetic: SyntheticPage = None, is_scrambled: bool = False,
-                seed: Optional[int] = None) -> float:
+                seed: int | None = None) -> float:
         """Compute a feature value from real data."""
         self._active_seed = seed
         if self.store is None and (page is not None or synthetic is not None):
@@ -81,7 +81,7 @@ class FeatureComputer:
 
     def _compute_real(self, feature_id: str, page: PageProfile = None,
                       synthetic: SyntheticPage = None, is_scrambled: bool = False,
-                      seed: Optional[int] = None) -> float:
+                      seed: int | None = None) -> float:
         """Compute feature from actual database records."""
         # Map feature_id to computation method
         compute_methods = {
@@ -126,7 +126,7 @@ class FeatureComputer:
         self,
         feature_id: str,
         is_scrambled: bool,
-        scrambled_range: Tuple[float, float],
+        scrambled_range: tuple[float, float],
         default_value: float,
     ) -> float:
         """
@@ -296,7 +296,7 @@ class FeatureComputer:
         finally:
             session.close()
 
-    def _count_alignment_groups(self, values: List[float], tolerance: float) -> Dict[int, int]:
+    def _count_alignment_groups(self, values: list[float], tolerance: float) -> dict[int, int]:
         """Count how many values fall into aligned groups."""
         if not values:
             return {}
@@ -704,7 +704,7 @@ class FeatureComputer:
                 return 0.0
 
             # Track positions of each token
-            token_positions: Dict[str, List[int]] = {}
+            token_positions: dict[str, list[int]] = {}
             for i, token in enumerate(all_tokens):
                 if token not in token_positions:
                     token_positions[token] = []
@@ -811,7 +811,7 @@ class FeatureComputer:
         finally:
             session.close()
 
-    def _compute_half_entropy(self, session, lines: List) -> float:
+    def _compute_half_entropy(self, session, lines: list) -> float:
         """Compute entropy for a set of lines."""
         tokens = []
         for line in lines:
@@ -853,18 +853,18 @@ class DiscriminativeFeatureDiscovery:
     """
 
     def __init__(self, section_profile: SectionProfile,
-                 store: Optional[MetadataStore] = None):
+                 store: MetadataStore | None = None):
         self.section_profile = section_profile
         self.store = store
         self.feature_computer = FeatureComputer(store)
-        self.real_vectors: List[FeatureVector] = []
-        self.synthetic_vectors: List[FeatureVector] = []
-        self.scrambled_vectors: List[FeatureVector] = []
-        self.discovered_features: List[DiscriminativeFeature] = []
+        self.real_vectors: list[FeatureVector] = []
+        self.synthetic_vectors: list[FeatureVector] = []
+        self.scrambled_vectors: list[FeatureVector] = []
+        self.discovered_features: list[DiscriminativeFeature] = []
 
-    def _sanitize_feature_map(self, features: Dict[str, float], page_id: str) -> Dict[str, float]:
+    def _sanitize_feature_map(self, features: dict[str, float], page_id: str) -> dict[str, float]:
         """Drop non-finite feature values before downstream aggregation."""
-        cleaned: Dict[str, float] = {}
+        cleaned: dict[str, float] = {}
         for feature_id, value in features.items():
             if isinstance(value, (int, float)) and math.isfinite(value):
                 cleaned[feature_id] = float(value)
@@ -877,11 +877,11 @@ class DiscriminativeFeatureDiscovery:
                 )
         return cleaned
 
-    def _finite_values(self, values: List[float]) -> List[float]:
+    def _finite_values(self, values: list[float]) -> list[float]:
         """Keep only finite numeric values."""
         return [v for v in values if isinstance(v, (int, float)) and math.isfinite(v)]
 
-    def define_candidate_features(self) -> List[DiscriminativeFeature]:
+    def define_candidate_features(self) -> list[DiscriminativeFeature]:
         """
         Define candidate features to test for discrimination.
 
@@ -991,13 +991,13 @@ class DiscriminativeFeatureDiscovery:
                         page: PageProfile = None,
                         synthetic: SyntheticPage = None,
                         is_scrambled: bool = False,
-                        seed: Optional[int] = None) -> float:
+                        seed: int | None = None) -> float:
         """Compute a feature value for a page."""
         return self.feature_computer.compute(
             feature.feature_id, page, synthetic, is_scrambled, seed
         )
 
-    def extract_features_real(self, seed: Optional[int] = None) -> None:
+    def extract_features_real(self, seed: int | None = None) -> None:
         """Extract features from real pharmaceutical pages."""
         candidates = self.define_candidate_features()
 
@@ -1017,8 +1017,8 @@ class DiscriminativeFeatureDiscovery:
 
     def extract_features_synthetic(
         self,
-        synthetic_pages: List[SyntheticPage],
-        seed: Optional[int] = None,
+        synthetic_pages: list[SyntheticPage],
+        seed: int | None = None,
     ) -> None:
         """Extract features from synthetic pages."""
         candidates = self.define_candidate_features()
@@ -1037,7 +1037,7 @@ class DiscriminativeFeatureDiscovery:
                 features=features,
             ))
 
-    def extract_features_scrambled(self, count: int = 10, seed: Optional[int] = None) -> None:
+    def extract_features_scrambled(self, count: int = 10, seed: int | None = None) -> None:
         """Extract features from scrambled controls."""
         candidates = self.define_candidate_features()
 
@@ -1057,7 +1057,7 @@ class DiscriminativeFeatureDiscovery:
                 features=features,
             ))
 
-    def train_discriminator(self) -> List[FeatureImportance]:
+    def train_discriminator(self) -> list[FeatureImportance]:
         """
         Train a simple discriminator and extract feature importances.
 
@@ -1127,7 +1127,7 @@ class DiscriminativeFeatureDiscovery:
 
         return importances
 
-    def analyze(self, synthetic_pages: List[SyntheticPage], seed: Optional[int] = None) -> Dict[str, Any]:
+    def analyze(self, synthetic_pages: list[SyntheticPage], seed: int | None = None) -> dict[str, Any]:
         """Run full discriminative feature discovery."""
         if seed is not None:
             self.feature_computer.fallback_seed = seed

@@ -5,14 +5,12 @@ execution, nesting prevention, thread isolation, and REQUIRE_COMPUTED guard.
 """
 
 import json
-import os
 import threading
 
 import pytest
 
 from phase1_foundation.runs.context import RunContext, get_git_revision_hash
 from phase1_foundation.runs.manager import RunManager, active_run
-
 
 # ---------------------------------------------------------------------------
 # RunContext model

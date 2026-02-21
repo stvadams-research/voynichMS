@@ -1,14 +1,15 @@
-from typing import Dict, Optional
+import logging
+
 from phase1_foundation.runs.manager import RunManager
 from phase1_foundation.storage.metadata import MetadataStore
-import logging
+
 logger = logging.getLogger(__name__)
 
 class AnomalyLogger:
     def __init__(self, metadata_store: MetadataStore):
         self.store = metadata_store
 
-    def log(self, severity: str, category: str, message: str, details: Optional[Dict] = None):
+    def log(self, severity: str, category: str, message: str, details: dict | None = None):
         """
         Log an anomaly to the active run.
         """

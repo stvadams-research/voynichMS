@@ -5,18 +5,19 @@ Analyzes the spatial distribution of 'noise' (failures) across the
 manuscript's quires and line positions.
 """
 
-import sys
 import json
+import sys
+from collections import Counter
 from pathlib import Path
+
 from rich.console import Console
 from rich.table import Table
-from collections import Counter, defaultdict
 
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from phase1_foundation.storage.metadata import MetadataStore, PageRecord, TranscriptionLineRecord, TranscriptionTokenRecord
 from phase1_foundation.core.provenance import ProvenanceWriter
+from phase1_foundation.storage.metadata import MetadataStore, PageRecord, TranscriptionLineRecord
 from phase7_human.quire_analysis import QuireAnalyzer
 
 DB_PATH = "sqlite:///data/voynich.db"
@@ -32,7 +33,7 @@ def main():
         return
 
     # 1. Load Noise Register
-    with open(NOISE_PATH, "r") as f:
+    with open(NOISE_PATH) as f:
         noise_data = json.load(f)
     failures = noise_data.get("results", {}).get("failures", [])
     

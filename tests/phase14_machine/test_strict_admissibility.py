@@ -1,6 +1,5 @@
 """Tests for strict vs drift admissibility and chance baselines."""
 
-import pytest
 from phase14_machine.evaluation_engine import EvaluationEngine
 
 

@@ -4,19 +4,20 @@ Large Object Simulators
 Implements traversal models for grids and DAGs.
 """
 
-import random
-from typing import List, Dict, Any, Tuple, Optional
-from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
-from phase1_foundation.config import require_seed_if_strict
-from pathlib import Path
 import logging
+import random
+from pathlib import Path
+
+from phase1_foundation.config import require_seed_if_strict
+from phase3_synthesis.generators.grammar_based import GrammarBasedGenerator
+
 logger = logging.getLogger(__name__)
 
 class LargeGridSimulator:
     """
     Family 1: A large M x N grid of Voynich tokens.
     """
-    def __init__(self, grammar_path: Path, rows: int = 50, cols: int = 50, seed: Optional[int] = None):
+    def __init__(self, grammar_path: Path, rows: int = 50, cols: int = 50, seed: int | None = None):
         require_seed_if_strict(seed, "LargeGridSimulator")
         # Intentional controller bypass: simulators keep local RNG state per run.
         self.rng = random.Random(seed)
@@ -25,13 +26,13 @@ class LargeGridSimulator:
         self.cols = cols
         self.grid = self._build_grid()
 
-    def _build_grid(self) -> List[List[str]]:
+    def _build_grid(self) -> list[list[str]]:
         grid = []
         for _ in range(self.rows):
             grid.append([self.generator.generate_word() for _ in range(self.cols)])
         return grid
 
-    def generate_line(self, length: int) -> List[str]:
+    def generate_line(self, length: int) -> list[str]:
         # Start at a random location
         r = self.rng.randint(0, self.rows - 1)
         c = self.rng.randint(0, self.cols - 1)
@@ -42,5 +43,5 @@ class LargeGridSimulator:
             line.append(self.grid[r][(c + i) % self.cols])
         return line
 
-    def generate_corpus(self, num_lines: int, line_len: int) -> List[List[str]]:
+    def generate_corpus(self, num_lines: int, line_len: int) -> list[list[str]]:
         return [self.generate_line(line_len) for _ in range(num_lines)]
