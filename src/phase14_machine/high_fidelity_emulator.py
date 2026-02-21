@@ -16,7 +16,7 @@ class HighFidelityVolvelle:
         lattice_map: Mapping from word to its predicted next window ID.
         window_contents: Mapping from window ID to the list of words in that window.
         num_windows: The total number of discrete windows in the physical model.
-        mask_state: The current rotation/shift of the mask disc (0-11).
+        mask_state: The current rotation/shift of the mask disc (0 to num_windows-1).
         current_scribe: The profile of the scribe agent (Hand 1 or Hand 2).
     """
     def __init__(self, 
@@ -55,8 +55,8 @@ class HighFidelityVolvelle:
             self.current_scribe = hand
 
     def set_mask(self, state: int) -> None:
-        """Sets the current mask rotation state (0 to 11)."""
-        self.mask_state = state % 12
+        """Sets the current mask rotation state (0 to num_windows-1)."""
+        self.mask_state = state % self.num_windows
 
     def generate_token(self, window_idx: int, prev_word: str | None = None, pos: int = 0) -> str:
         """
@@ -154,9 +154,9 @@ class HighFidelityVolvelle:
             # Simulate section-level scribe shifts
             if i % 5000 == 0:
                 self.set_scribe("Hand 1" if self.current_scribe == "Hand 2" else "Hand 2")
-            # Simulate frequent mask rotations (settings)
+            # Simulate frequent mask rotations (full-range disc rotation)
             if i % 20 == 0:
-                self.set_mask(self.rng.randint(0, 11))
+                self.set_mask(self.rng.randint(0, self.num_windows - 1))
             corpus.append(self.generate_line(length=self.rng.randint(4, 10)))
         return corpus
 

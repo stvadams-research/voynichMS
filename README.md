@@ -93,6 +93,10 @@ bash scripts/verify_reproduction.sh
 Results appear in `results/data/` (JSON artifacts) and `results/reports/` (Markdown).
 See [replicateResults.md](replicateResults.md) for detailed reproduction instructions.
 
+> **Transcription standard:** All analysis uses the Zandbergen-Landini (ZL)
+> transcription in EVA lowercase encoding. See [DATA_SOURCES.md](DATA_SOURCES.md)
+> for details.
+
 ---
 
 ## Data Sources

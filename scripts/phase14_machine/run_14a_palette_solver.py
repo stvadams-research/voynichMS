@@ -52,13 +52,20 @@ def main():
     
     pos_coords = solver.solve_grid(iterations=50 if args.full else 30)
     lattice_data = solver.cluster_lattice(pos_coords, num_windows=50)
-    
+
+    # 2b. Spectral reordering: renumber windows for optimal sequential access
+    reordered = solver.reorder_windows(
+        lattice_data["word_to_window"],
+        lattice_data["window_contents"],
+        lines,
+    )
+
     # 3. Save High-Fidelity Blueprint
     results = {
         "num_tokens_mapped": len(pos_coords),
         "is_full_vocabulary": args.full,
-        "lattice_map": lattice_data["word_to_window"],
-        "window_contents": lattice_data["window_contents"],
+        "lattice_map": reordered["word_to_window"],
+        "window_contents": reordered["window_contents"],
         "raw_coordinates": {w: list(c) for w, c in pos_coords.items()}
     }
     

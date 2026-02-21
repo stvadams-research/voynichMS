@@ -1,0 +1,40 @@
+{
+  "provenance": {
+    "run_id": "d8b02571-d3de-a03c-3af4-cbd82627116d",
+    "git_commit": "4f1150a0c3304905669674a2cf29cad4e29dd9ba",
+    "timestamp": "2026-02-21T16:21:47.677566+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771690907676873000,
+    "command": "run_14h_baseline_showdown"
+  },
+  "results": {
+    "total_tokens": 34605,
+    "models": {
+      "Lattice (Ours)": {
+        "l_model": 154340,
+        "l_data": 389950.2215106382,
+        "l_total": 544290.2215106383,
+        "bpt": 15.728658330028559
+      },
+      "Markov-O2": {
+        "l_model": 250400,
+        "l_data": 431675.5515892073,
+        "l_total": 682075.5515892073,
+        "bpt": 19.71031791906393
+      },
+      "Copy-Reset": {
+        "l_model": 20,
+        "l_data": 377228.6241130896,
+        "l_total": 377248.6241130896,
+        "bpt": 10.901564054705666
+      },
+      "Table-Grille": {
+        "l_model": 238090,
+        "l_data": 405146.16188413126,
+        "l_total": 643236.1618841313,
+        "bpt": 18.587954396304905
+      }
+    }
+  }
+}

@@ -204,3 +204,17 @@ and sensitivity sources.
 ## Environment Variables
 
 For environment variables that control runtime behavior, see `.env.example`.
+
+---
+
+## Transcription Source
+
+The canonical transcription source is set in
+`src/phase1_foundation/core/data_loading.py`:
+
+- `DEFAULT_SOURCE_ID = "zandbergen_landini"`
+
+This is not configurable via environment variable by design — changing the
+transcription source would invalidate all downstream results. The ZL
+transcription uses EVA lowercase encoding; see `governance/methods_reference.md`
+Section 0 for full details.

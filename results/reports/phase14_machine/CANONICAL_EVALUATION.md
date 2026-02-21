@@ -1,27 +1,31 @@
 # Phase 14: Canonical Evaluation Report
 
 **Data source:** Zandbergen-Landini transcription (5,145 lines, 34,605 tokens, IVTFF-sanitized)
+**Window ordering:** Spectral reordering via Fiedler vector of transition graph Laplacian
 
 ## 1. Model Definition
 - **Lexicon Clamp:** 7,717 unique tokens (full ZL clean vocabulary).
-- **Physical Complexity:** 50 windows, 15 vertical stacks.
+- **Physical Complexity:** 50 windows (spectrally ordered), 15 vertical stacks.
+- **Window ordering:** KMeans clustering + spectral reordering for optimal sequential access.
 
 ## 2. Headline Metrics
 | Metric | Value | Interpretation |
 | :--- | :--- | :--- |
 | **Token Coverage** | 94.93% | Percentage of manuscript tokens within lexicon clamp. |
-| **Admissibility (Drift ±1)** | 38.11% | Percentage of clamped tokens within current or adjacent window. |
-| **Extended Admissibility (±3)** | 40.97% | Including extended drift (distance 2-3). |
-| **Compression (MDL)** | 42.01 KB | Total description length (Model 5.33 KB + Data 36.68 KB). |
-| **Mirror Corpus Entropy Fit** | 87.57% | Synthetic 12.24 bits vs Real 10.88 bits. |
+| **Admissibility (Drift ±1)** | 43.44% | Percentage of clamped tokens within current or adjacent window. |
+| **Extended Admissibility (±3)** | 57.73% | Including extended drift (distance 2-3). |
+| **Compression (MDL)** | 66.6 KB | Total description length (Model 18.9 KB + Data 47.7 KB). |
+| **Mirror Corpus Entropy Fit** | 87.60% | Synthetic 12.23 bits vs Real 10.88 bits. |
 
 ## 3. Transition Category Distribution
 | Category | Count | Rate |
 | :--- | ---: | ---: |
-| Admissible (Dist 0-1) | 12,519 | 38.11% |
-| Extended Drift (Dist 2-3) | 940 | 2.86% |
-| Mechanical Slip (Dist 4-10) | 3,872 | 11.79% |
-| Extreme Jump (>10) | 15,521 | 47.25% |
+| Admissible (Dist 0-1) | 14,270 | 43.44% |
+| Extended Drift (Dist 2-3) | 4,696 | 14.29% |
+| Mechanical Slip (Dist 4-10) | 9,994 | 30.42% |
+| Extreme Jump (>10) | 3,892 | 11.85% |
+
+**Impact of spectral reordering:** Extreme jumps dropped from 47.25% to 11.85% (a 4x reduction). Most former "extreme jumps" were not actually random — they were systematic transitions that appeared distant only because KMeans assigned arbitrary window IDs.
 
 ## 4. Overgeneration Audit
 | N-gram | Real Count | Syn Count | Unattested Count | Unattested Rate |
@@ -35,11 +39,12 @@ The 0% word-level UWR is a byproduct of the lexicon clamp (full vocabulary mappe
 | Model | L(model) | L(data|model) | L(total) | BPT |
 | :--- | ---: | ---: | ---: | ---: |
 | **Copy-Reset** | **20** | **377,229** | **377,249** | **10.90** |
-| Lattice (Ours) | 126,410 | 426,478 | 552,888 | 15.98 |
-| Table-Grille | 100,990 | 542,246 | 643,236 | 18.59 |
-| Markov-O2 | 197,290 | 484,786 | 682,076 | 19.71 |
+| Hybrid (CR+Lattice) | 154,380 | 381,719 | 536,099 | 15.49 |
+| Lattice (Ours) | 154,340 | 389,950 | 544,290 | 15.73 |
+| Table-Grille | 238,090 | 405,146 | 643,236 | 18.59 |
+| Markov-O2 | 250,400 | 431,676 | 682,076 | 19.71 |
 
-Copy-Reset wins on full-corpus MDL. However, the holdout test (Section 6) shows the Lattice generalizes better.
+Copy-Reset wins on full-corpus MDL due to minimal model cost (2 parameters). The Hybrid mixture model (Copy-Reset + Lattice + Unigram) improves L(data|model) by 8K bits over the pure Lattice (381K vs 390K), confirming that Copy-Reset's within-line repetition signal and the Lattice's structural signal are complementary. However, the 154K model cost (encoding 7,717 window assignments) still dominates.
 
 ## 6. Holdout Validation (Herbal → Biological)
 | Metric | Lattice (Drift ±1) | Copy-Reset (k=5) |
@@ -70,15 +75,31 @@ The vertical-offset signal is statistically real (p < 0.0001), not an artifact o
 
 Layout efficiency is strong (transitions favor physical proximity), but effort-vs-frequency correlation is null — scribes did not preferentially select easier tokens.
 
-## 9. Failure Diagnosis
+## 9. Mask Offset Inference
+| Configuration | No Mask | Per-Line Mask | Top-12 Restricted |
+| :--- | ---: | ---: | ---: |
+| Original palette | 35.32% | 49.24% | 45.89% |
+| Reordered palette | 39.57% | 53.91% | 50.22% |
+
+Per-line mask inference adds ~14pp on top of the reordered palette. The optimal offsets use 48 of 50 possible values. The emulator now uses full-range mask rotation (0 to num_windows-1) to match this empirical finding.
+
+## 10. Failure Diagnosis (Post-Reordering)
 | Category | Rate | Interpretation |
 | :--- | ---: | :--- |
-| Admissible | 36.18% | Correctly predicted by lattice walk. |
-| Not in Palette | 5.07% | Rare tokens below top_n cutoff. |
-| Wrong Window (2-10) | 13.91% | Reachable but not adjacent — possible drift or slip. |
-| Extreme Jump (>10) | 44.85% | Primary failure mode — window tracking lost. |
+| Admissible | 41.24% | Correctly predicted by lattice walk. |
+| Not in Palette | 5.07% | Rare tokens (hapax or near-hapax). |
+| Wrong Window (2-10) | 42.45% | Reachable but not adjacent — possible mask rotation or extended drift. |
+| Extreme Jump (>10) | 11.25% | Residual tracking failures (down from 47.25%). |
 
-Per-section variation is significant: Biological (46.9% admissible) outperforms Astro (24.3%) and Herbal B (27.1%).
+Per-section variation: Biological (53.2% admissible), Cosmo (48.0%), Stars (41.8%), Pharma (40.8%), Herbal A (36.4%), Herbal B (31.7%), Astro (27.7%).
 
-## 10. Formal Conclusion
-The lattice model captures genuine cross-section structure (holdout 16.2σ, slip signal 9.5σ) that simpler models cannot reproduce. The 44.85% extreme-jump rate indicates the current 50-window model does not fully capture the scribe's production process — either the window count is wrong, or additional state variables (section, page position, scribe hand) are needed. The Lattice is not the most parsimonious full-corpus model (Copy-Reset wins MDL), but it is the only model that generalizes across sections and explains the physical slip signal.
+## 11. Section-Aware Routing (Null Result)
+
+Section-specific spectral reordering was tested: each of the 7 manuscript sections received its own Fiedler-vector ordering of the same 50 physical windows. Result: section-specific ordering **hurts** global admissibility (-8.0pp), and no individual section improved except Herbal B (+0.9pp, within noise).
+
+**Interpretation:** The scribe uses the same traversal pattern across all sections. The 25.5pp section gap (Biological 53.2% vs Astro 27.7%) is driven by vocabulary distribution — sections with more common tokens (concentrated in a few windows) score higher, not by different tool configurations per section. This rules out "section-specific tool settings" as an explanation for section variation.
+
+## 12. Formal Conclusion
+The spectrally-reordered lattice model achieves 43.4% drift-admissibility and 57.7% extended admissibility, with extreme jumps reduced to 11.9%. The model captures genuine cross-section structure (holdout 16.2σ, slip signal 9.5σ) that simpler models cannot reproduce. Per-line mask inference further pushes admissibility to 53.9%, suggesting physical disc rotation is a real production feature.
+
+The remaining 42% "wrong window" category (distance 2-10) likely represents mask rotations within lines and scribe hand changes. Section-specific tool configurations have been ruled out (Section 11). Copy-Reset remains the most parsimonious full-corpus model on MDL, but it cannot generalize across sections (3.71% vs Lattice's 10.81% holdout). The Hybrid mixture model (15.49 BPT) confirms that Copy-Reset's repetition signal and the Lattice's structural signal are complementary — both capture real aspects of the production mechanism.

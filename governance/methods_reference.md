@@ -3,6 +3,26 @@
 This document summarizes the quantitative methods used across all research phases and
 the key caveats needed for audit interpretation.
 
+## 0. Transcription Standard
+
+All token-level analysis uses the **Zandbergen-Landini (ZL)** transcription
+(`ZL3b-n.txt`, IVTFF 2.0 format) in the **EVA (Extensible Voynich Alphabet)**
+encoding — lowercase character set.
+
+- **Canonical loader:** `load_canonical_lines()` in
+  `src/phase1_foundation/core/data_loading.py`
+  (default `source_id="zandbergen_landini"`)
+- **Sanitization:** `sanitize_token()` strips IVTFF markup (`<%>`, `<!...>`,
+  `[...]`, punctuation) but performs no case conversion
+- **Source:** <https://www.voynich.nu/transcr/>
+- **Citation:** Zandbergen, R., & Landini, G. (2024). *The Voynich Manuscript
+  Transliteration Archive*.
+
+Six other transcription sources (RF, VT, IT, GC, FG, CD) are stored in the
+database for reference but are **not used** in any production analysis.
+The Currier/D'Imperio source (`CD2a-n.txt`) uses an uppercase alphabet
+unrelated to EVA — it is isolated from the canonical pipeline.
+
 ## 1. Foundation Metrics
 
 ### 1.1 Repetition Rate (`src/phase1_foundation/metrics/library.py`)

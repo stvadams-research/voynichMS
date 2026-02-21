@@ -205,6 +205,122 @@ def table_grille_mdl(all_tokens, lines, num_cells=50):
     return {"l_model": l_model, "l_data": l_data, "l_total": l_model + l_data}
 
 
+def hybrid_cr_lattice_mdl(all_tokens, lines, lattice_map, window_contents):
+    """
+    Hybrid Copy-Reset + Lattice MDL (probability mixture).
+
+    Each token's probability is a weighted mixture:
+        P(w) = p_copy * P_copy(w) + p_lattice * P_lattice(w) + p_emit * P_unigram(w)
+
+    where:
+        P_copy(w) = 1/|recent| if w in recent window, else 0
+        P_lattice(w) = 1/|window| if admissible (drift ±1), else 0
+        P_unigram(w) = frequency-based unigram
+
+    L(model) = lattice params + 3 mixing weights + copy_window.
+    This mixture always gives a probability >= p_emit * P_unigram, so it
+    can never be worse than pure unigram on any token.
+    """
+    num_windows = len(window_contents)
+    vocab_size = len(set(all_tokens))
+    counts = Counter(all_tokens)
+    total_count = len(all_tokens)
+    unigram_prob = {w: c / total_count for w, c in counts.items()}
+
+    copy_window = 5
+
+    # Estimate mixture weights from data
+    copy_hits = 0
+    lattice_hits = 0
+    total_eligible = 0
+    current_window = 0
+
+    for line in lines:
+        for i, word in enumerate(line):
+            total_eligible += 1
+            if i > 0:
+                recent = set(line[max(0, i - copy_window):i])
+                if word in recent:
+                    copy_hits += 1
+
+            if word in lattice_map:
+                for offset in [-1, 0, 1]:
+                    check_win = (current_window + offset) % num_windows
+                    if word in window_contents.get(check_win, []):
+                        lattice_hits += 1
+                        break
+                current_window = lattice_map.get(
+                    word, (current_window + 1) % num_windows
+                )
+
+    p_copy = max(copy_hits / total_eligible, 1e-10)
+    p_lattice = max(lattice_hits / total_eligible, 1e-10)
+    p_emit = max(1.0 - p_copy - p_lattice, 1e-10)
+
+    # Normalize
+    total_p = p_copy + p_lattice + p_emit
+    p_copy /= total_p
+    p_lattice /= total_p
+    p_emit /= total_p
+
+    # L(model): lattice params + 4 extra (p_copy, p_lattice, p_emit, k)
+    lattice_params = len(lattice_map) + sum(
+        len(v) for v in window_contents.values()
+    )
+    l_model = lattice_params * BITS_PER_PARAM + 4 * BITS_PER_PARAM
+
+    # L(data | model): -log2(P_mixture(word)) per token
+    l_data = 0.0
+    current_window = 0
+
+    for line in lines:
+        for i, word in enumerate(line):
+            # Component 1: Copy probability
+            p_word_copy = 0.0
+            if i > 0:
+                recent = set(line[max(0, i - copy_window):i])
+                if word in recent and len(recent) > 0:
+                    p_word_copy = 1.0 / len(recent)
+
+            # Component 2: Lattice probability
+            p_word_lattice = 0.0
+            if word in lattice_map:
+                for offset in [-1, 0, 1]:
+                    check_win = (current_window + offset) % num_windows
+                    col = window_contents.get(check_win, [])
+                    if word in col and len(col) > 0:
+                        p_word_lattice = 1.0 / len(col)
+                        break
+
+            # Component 3: Unigram probability
+            p_word_emit = unigram_prob.get(word, 1.0 / vocab_size)
+
+            # Mixture probability
+            p_mixture = (
+                p_copy * p_word_copy
+                + p_lattice * p_word_lattice
+                + p_emit * p_word_emit
+            )
+            p_mixture = max(p_mixture, 1e-15)
+
+            l_data += -math.log2(p_mixture)
+
+            # Advance lattice state
+            if word in lattice_map:
+                current_window = lattice_map.get(
+                    word, (current_window + 1) % num_windows
+                )
+
+    return {
+        "l_model": l_model,
+        "l_data": l_data,
+        "l_total": l_model + l_data,
+        "p_copy": p_copy,
+        "p_lattice": p_lattice,
+        "p_emit": p_emit,
+    }
+
+
 def main():
     console.print("[bold red]Phase 14H: Baseline Showdown (Adversarial Comparison)[/bold red]")
 
@@ -235,12 +351,16 @@ def main():
     console.print("Computing Table-Grille MDL...")
     tab = table_grille_mdl(all_tokens, real_lines)
 
+    console.print("Computing Hybrid (CR+Lattice) MDL...")
+    hyb = hybrid_cr_lattice_mdl(all_tokens, real_lines, lattice_map, window_contents)
+
     # 4. Report
     models = {
-        "Lattice (Ours)": lat,
-        "Markov-O2": mar,
         "Copy-Reset": cop,
-        "Table-Grille": tab
+        "Hybrid (CR+Lattice)": hyb,
+        "Lattice (Ours)": lat,
+        "Table-Grille": tab,
+        "Markov-O2": mar,
     }
 
     results = {

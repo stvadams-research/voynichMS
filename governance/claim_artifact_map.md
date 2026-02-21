@@ -146,16 +146,21 @@ raw float (e.g., 88.11% = 0.8811).
 
 | # | Claim | Value | Script | Output File | Key Path | Notes |
 |---|-------|-------|--------|-------------|----------|-------|
-| 53 | Drift admissibility (±1) | 38.11% | `run_14q_residual_analysis.py` | `results/data/phase14_machine/residual_analysis.json` | `results.categories.Admissible (Dist 0-1)` | 12,519 / 32,852 clamped tokens |
+| 53 | Drift admissibility (±1) | 43.44% | `run_14q_residual_analysis.py` | `results/data/phase14_machine/residual_analysis.json` | `results.categories.Admissible (Dist 0-1)` | Post spectral reordering; 14,270 / 32,852 clamped tokens |
 | 54 | Palette size | 7,717 | `run_14a_palette_solver.py --full` | `results/data/phase14_machine/full_palette_grid.json` | `results.num_tokens_mapped` | Full ZL clean vocabulary |
-| 55 | Mirror corpus entropy fit | 87.57% | `run_14c_mirror_corpus.py` | `results/data/phase14_machine/mirror_corpus_validation.json` | `results.fit_score` | Real 10.88 bits, Synthetic 12.24 bits |
+| 55 | Mirror corpus entropy fit | 87.60% | `run_14c_mirror_corpus.py` | `results/data/phase14_machine/mirror_corpus_validation.json` | `results.fit_score` | Real 10.88 bits, Synthetic 12.23 bits |
 | 56 | Holdout admissibility (Herbal→Bio) | 10.81% | `run_14g_holdout_validation.py` | `results/data/phase14_machine/holdout_performance.json` | `results.drift.admissibility_rate` | 16.2σ above chance |
 | 57 | Holdout z-score (drift) | 16.2σ | `run_14g_holdout_validation.py` | `results/data/phase14_machine/holdout_performance.json` | `results.drift.z_score` | Transition-only model |
-| 58 | MDL: Lattice BPT | 15.98 | `run_14h_baseline_showdown.py` | `results/data/phase14_machine/baseline_comparison.json` | `results.models.Lattice (Ours).bpt` | Copy-Reset wins at 10.90 BPT |
+| 58 | MDL: Lattice BPT | 15.73 | `run_14h_baseline_showdown.py` | `results/data/phase14_machine/baseline_comparison.json` | `results.models.Lattice (Ours).bpt` | Copy-Reset wins at 10.90 BPT |
 | 59 | MDL: Copy-Reset BPT | 10.90 | `run_14h_baseline_showdown.py` | `results/data/phase14_machine/baseline_comparison.json` | `results.models.Copy-Reset.bpt` | Best full-corpus MDL |
 | 60 | Copy-Reset holdout admissibility | 3.71% | `run_14u_copyreset_holdout.py` | `results/data/phase14_machine/copyreset_holdout.json` | `results.copy_reset.holdout_admissibility` | Lattice 2.9x better cross-section |
-| 61 | Extreme jump rate | 47.25% | `run_14q_residual_analysis.py` | `results/data/phase14_machine/residual_analysis.json` | `results.categories.Extreme Jump (>10)` | Primary failure mode |
+| 61 | Extreme jump rate | 11.85% | `run_14q_residual_analysis.py` | `results/data/phase14_machine/residual_analysis.json` | `results.categories.Extreme Jump (>10)` | Down from 47.25% pre-reordering (4x reduction via spectral reordering) |
 | 62 | Optimal window count | 50 | `run_14r_minimality_sweep.py` | `results/data/phase14_machine/minimality_sweep.json` | `results.optimal_k` | Complexity knee |
+| 62a | Extended admissibility (±3) | 57.73% | `run_14q_residual_analysis.py` | `results/data/phase14_machine/residual_analysis.json` | `results.categories` | Sum of Admissible + Extended Drift |
+| 62b | Per-line mask admissibility (reordered) | 53.91% | `run_14x_mask_inference.py` | `results/data/phase14_machine/mask_inference.json` | `results.reordered_palette.with_mask.admissibility` | +14pp over base reordered |
+| 62c | Spectral reordering extreme-jump reduction | 4x | `run_14w_window_reordering.py` | `results/data/phase14_machine/window_reordering.json` | `results.spectral` | 47.25% → 11.85% |
+| 62d | MDL: Hybrid BPT | 15.49 | `run_14h_baseline_showdown.py` | `results/data/phase14_machine/baseline_comparison.json` | `results.models.Hybrid (CR+Lattice).bpt` | Mixture model: CR + Lattice + Unigram |
+| 62e | Section-aware routing (null) | -8.0pp | `run_14y_section_lattice.py` | `results/data/phase14_machine/section_lattice.json` | `results.section_aware_global.delta_pp` | Section-specific reordering hurts; global ordering is optimal |
 
 ---
 
@@ -216,7 +221,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 63 | #1, #6-70 |
+| **Fully verifiable** (JSON key path exists) | 68 | #1, #6-70, #62a-e |
 | **Console-only** (requires script re-run) | 2 | #2, #3 |
 | **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
 | **Static config** (manually synchronized) | 1 | #1 (also in config) |

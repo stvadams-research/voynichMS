@@ -1,11 +1,11 @@
 {
   "provenance": {
-    "run_id": "ad0ee856-647a-7708-259d-54b2f4623ea0",
+    "run_id": "ca6ed4ee-82ef-e629-6bfd-49ecea0659ba",
     "git_commit": "4f1150a0c3304905669674a2cf29cad4e29dd9ba",
-    "timestamp": "2026-02-21T16:43:43.296280+00:00",
+    "timestamp": "2026-02-21T16:42:51.156118+00:00",
     "seed": 42,
     "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
-    "run_nonce": 1771692223295932000,
+    "run_nonce": 1771692171155816000,
     "command": "run_14h_baseline_showdown"
   },
   "results": {
@@ -18,10 +18,10 @@
         "bpt": 10.901564054705666
       },
       "Hybrid (CR+Lattice)": {
-        "l_model": 154380,
-        "l_data": 381719.451015194,
-        "l_total": 536099.451015194,
-        "bpt": 15.491965063291257
+        "l_model": 154370,
+        "l_data": 399224.420170103,
+        "l_total": 553594.420170103,
+        "bpt": 15.997526951888542
       },
       "Lattice (Ours)": {
         "l_model": 154340,

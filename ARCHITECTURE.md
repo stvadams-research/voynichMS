@@ -291,6 +291,12 @@ check_golden_outputs.py      (regression against known-good values)
 1. **Single tokenization path:** All text analysis flows through EVAParser
    using the `ZL3b-n.txt` transliteration. No alternative parsers exist.
 
+6. **Canonical transcription:** Zandbergen-Landini (`ZL3b-n.txt`) in EVA
+   lowercase alphabet. All Phase 1-17 analysis uses this single source via
+   `load_canonical_lines()`. No other transcription source is referenced by
+   production code. The Currier/D'Imperio source (`CD2a-n.txt`) uses an
+   unrelated uppercase alphabet and is isolated from the analysis pipeline.
+
 2. **Database as shared state:** All phases read from and write to the same
    SQLite database. This ensures consistency but means Phase 1 must complete
    before any other phase can run.

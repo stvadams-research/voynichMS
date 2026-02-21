@@ -129,6 +129,72 @@ class GlobalPaletteSolver:
             window_contents[wid].append(w)
             
         return {
-            "word_to_window": word_to_window, 
+            "word_to_window": word_to_window,
             "window_contents": dict(window_contents)
         }
+
+    @staticmethod
+    def reorder_windows(
+        word_to_window: Dict[str, int],
+        window_contents: Dict[int, List[str]],
+        lines: List[List[str]],
+    ) -> Dict[str, Any]:
+        """Reorder window IDs via spectral ordering on the transition graph.
+
+        KMeans assigns arbitrary window IDs that don't reflect sequential
+        access patterns.  This method builds a window-to-window transition
+        matrix from the real corpus and uses the Fiedler vector of its
+        graph Laplacian to find the optimal circular ordering.
+
+        Args:
+            word_to_window: Current word-to-window mapping.
+            window_contents: Current window-to-word-list mapping.
+            lines: Real manuscript lines (for building the transition matrix).
+
+        Returns:
+            A dictionary with reordered ``word_to_window`` and
+            ``window_contents``.
+        """
+        num_wins = len(window_contents)
+        if num_wins < 3:
+            return {
+                "word_to_window": word_to_window,
+                "window_contents": window_contents,
+            }
+
+        # 1. Build transition matrix
+        matrix = np.zeros((num_wins, num_wins), dtype=int)
+        for line in lines:
+            prev_win = None
+            for word in line:
+                if word in word_to_window:
+                    cur_win = word_to_window[word]
+                    if prev_win is not None:
+                        matrix[prev_win][cur_win] += 1
+                    prev_win = cur_win
+
+        # 2. Spectral ordering via Fiedler vector
+        sym = matrix + matrix.T
+        D = np.diag(sym.sum(axis=1).astype(float))
+        L = D - sym.astype(float)
+        eigenvalues, eigenvectors = np.linalg.eigh(L)
+        fiedler = eigenvectors[:, 1]
+        order = [int(x) for x in np.argsort(fiedler)]
+
+        # 3. Apply reordering
+        old_to_new = {old_id: new_id for new_id, old_id in enumerate(order)}
+
+        new_w2w = {
+            word: int(old_to_new[old_win])
+            for word, old_win in word_to_window.items()
+            if old_win in old_to_new
+        }
+
+        new_wc: Dict[int, List[str]] = {}
+        for old_id, words in window_contents.items():
+            new_id = old_to_new.get(old_id)
+            if new_id is not None:
+                new_wc[new_id] = words
+
+        print(f"Spectral reordering applied to {num_wins} windows.")
+        return {"word_to_window": new_w2w, "window_contents": new_wc}

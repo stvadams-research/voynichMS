@@ -1,0 +1,77 @@
+{
+  "provenance": {
+    "run_id": "b5ffb294-3ce3-8e65-68d8-d234502a87cc",
+    "git_commit": "4f1150a0c3304905669674a2cf29cad4e29dd9ba",
+    "timestamp": "2026-02-21T16:41:03.361980+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771692063361566000,
+    "command": "run_14y_section_lattice"
+  },
+  "results": {
+    "global_baseline": {
+      "admissibility": 0.4343723365396323,
+      "admissible": 14270,
+      "total": 32852
+    },
+    "section_aware_global": {
+      "admissibility": 0.35480336052599537,
+      "admissible": 11656,
+      "total": 32852,
+      "delta_pp": -7.956897601363694
+    },
+    "per_section": {
+      "Astro": {
+        "num_lines": 734,
+        "num_tokens": 2665,
+        "global_admissibility": 0.29831144465290804,
+        "section_admissibility": 0.20863039399624767,
+        "delta_pp": -8.968105065666037
+      },
+      "Biological": {
+        "num_lines": 917,
+        "num_tokens": 6012,
+        "global_admissibility": 0.5686959414504325,
+        "section_admissibility": 0.5681969394544245,
+        "delta_pp": -0.04990019960079417
+      },
+      "Cosmo": {
+        "num_lines": 188,
+        "num_tokens": 1422,
+        "global_admissibility": 0.5822784810126582,
+        "section_admissibility": 0.5189873417721519,
+        "delta_pp": -6.329113924050633
+      },
+      "Herbal A": {
+        "num_lines": 1413,
+        "num_tokens": 8664,
+        "global_admissibility": 0.37049861495844877,
+        "section_admissibility": 0.32917820867959374,
+        "delta_pp": -4.132040627885503
+      },
+      "Herbal B": {
+        "num_lines": 182,
+        "num_tokens": 1157,
+        "global_admissibility": 0.31892826274848746,
+        "section_admissibility": 0.32757130509939497,
+        "delta_pp": 0.8643042350907515
+      },
+      "Pharma": {
+        "num_lines": 626,
+        "num_tokens": 2836,
+        "global_admissibility": 0.5031734837799718,
+        "section_admissibility": 0.45169252468265164,
+        "delta_pp": -5.14809590973202
+      },
+      "Stars": {
+        "num_lines": 1085,
+        "num_tokens": 10096,
+        "global_admissibility": 0.41788827258320127,
+        "section_admissibility": 0.3515253565768621,
+        "delta_pp": -6.636291600633914
+      }
+    },
+    "num_windows": 50,
+    "num_sections": 7
+  }
+}
