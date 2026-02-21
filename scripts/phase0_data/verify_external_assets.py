@@ -54,8 +54,7 @@ def verify_assets() -> bool:
     missing_required = []
     
     # 1. Check IVTFF
-    print("
-[IVTFF Transliterations]")
+    print("\n[IVTFF Transliterations]")
     if not IVTFF_DIR.exists():
         print(f"  [MISSING] Directory: {IVTFF_DIR}")
         missing_required.append("data/raw/transliterations/ivtff2.0/")
@@ -69,8 +68,7 @@ def verify_assets() -> bool:
                 missing_required.append(f"IVTFF: {filename}")
 
     # 2. Check Gutenberg Corpora
-    print("
-[Project Gutenberg Corpora]")
+    print("\n[Project Gutenberg Corpora]")
     if not CORPORA_DIR.exists():
         print(f"  [MISSING] Directory: {CORPORA_DIR}")
         missing_required.append("data/external_corpora/")
@@ -92,8 +90,7 @@ def verify_assets() -> bool:
                 missing_required.append(f"Corpus: {filename}")
 
     # 3. Check Yale PDF
-    print("
-[Yale Beinecke MS 408 PDF]")
+    print("\n[Yale Beinecke MS 408 PDF]")
     if YALE_PDF.exists() and YALE_PDF.stat().st_size > 100_000_000: # ~115 MB
         print(f"  [OK]    {YALE_PDF.name} ({YALE_PDF.stat().st_size:,} bytes)")
     else:
@@ -106,22 +103,19 @@ def verify_assets() -> bool:
             missing_required.append("Yale PDF or Scans")
 
     # 4. Check Optional TIFF Scans
-    print("
-[High-Resolution TIFF Scans (Optional)]")
+    print("\n[High-Resolution TIFF Scans (Optional)]")
     if TIFF_DIR.exists() and any(TIFF_DIR.iterdir()):
         count = len(list(TIFF_DIR.glob("*.tif")))
         print(f"  [INFO]  {count} TIFF scans detected.")
     else:
         print("  [INFO]  No TIFF scans found (optional, recommended for full segmentation depth).")
 
-    print("
-" + "=" * 40)
+    print("\n" + "=" * 40)
     if missing_required:
         print(f"VERIFICATION FAILED: {len(missing_required)} required asset(s) missing.")
         for item in missing_required:
             print(f"  - {item}")
-        print("
-Please run: python3 scripts/phase0_data/download_external_data.py")
+        print("\nPlease run: python3 scripts/phase0_data/download_external_data.py")
         print("See DATA_SOURCES.md for manual download instructions.")
         return False
     else:

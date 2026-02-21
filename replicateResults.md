@@ -10,9 +10,9 @@
 
 This document provides a step-by-step path for an external party to reproduce
 every quantitative claim in the publication from source code and raw data. The
-project spans 11 research phases, with the publication covering Phases 1-10
-(Phase 11 Stroke Topology reached fast-kill termination and is documented
-separately).
+project spans 17 research phases, with the publication covering Phases 1-17
+(Phase 11 Stroke Topology reached fast-kill termination; Phase 13 Demonstration
+is a visualization-only phase).
 
 **Estimated wall-clock time:** 4-8 hours (single machine, Phase 10 permutation
 tests dominate).
@@ -303,6 +303,151 @@ as redundant. Outcome class: `STROKE_NULL`.
 
 ---
 
+### Phase 12: Mechanical Slip Detection
+
+Detects vertical slip artefacts in the manuscript, clusters them, and infers
+the columnar grid geometry of the physical production tool.
+
+```bash
+python3 scripts/phase12_mechanical/run_12a_slip_detection.py
+python3 scripts/phase12_mechanical/run_12b_cluster_analysis.py
+python3 scripts/phase12_mechanical/run_12c_geometry_inference.py
+python3 scripts/phase12_mechanical/run_12e_prototype_validation.py
+python3 scripts/phase12_mechanical/run_12i_blueprint_synthesis.py
+```
+
+**Verifies:** 202 mechanical slips detected (ZL canonical data), permutation
+z-score 9.47 sigma (10K permutations, p < 0.0001), section structural
+correlation 0.721 (Herbal vs Biological).
+
+**Key outputs:**
+- `results/data/phase12_mechanical/slip_detection_results.json`
+- `results/data/phase12_mechanical/slip_permutation_test.json`
+- `results/data/phase12_mechanical/matrix_alignment.json`
+
+---
+
+### Phase 13: Demonstration (Evidence Gallery)
+
+Visualization-only phase. Generates the evidence gallery and interactive
+slip visualizations for external review. No new quantitative claims.
+
+```bash
+python3 scripts/phase13_demonstration/generate_evidence_gallery.py
+python3 scripts/phase13_demonstration/run_final_fit_check.py
+python3 scripts/phase13_demonstration/export_slip_viz.py
+```
+
+**Key outputs:**
+- Evidence gallery HTML/images in `results/reports/phase13_demonstration/`
+
+---
+
+### Phase 14: Voynich Engine (Mechanical Reconstruction)
+
+Full-scale reconstruction of the physical production tool: palette solver,
+spectral reordering, MDL baseline comparison, mirror corpus generation,
+and mask inference.
+
+```bash
+# Reconstruction
+python3 scripts/phase14_machine/run_14a_palette_solver.py --full
+python3 scripts/phase14_machine/run_14b_state_discovery.py
+
+# Validation
+python3 scripts/phase14_machine/run_14c_mirror_corpus.py
+python3 scripts/phase14_machine/run_14d_overgeneration_audit.py
+python3 scripts/phase14_machine/run_14e_mdl_analysis.py
+python3 scripts/phase14_machine/run_14f_noise_register.py
+python3 scripts/phase14_machine/run_14g_holdout_validation.py
+python3 scripts/phase14_machine/run_14h_baseline_showdown.py
+python3 scripts/phase14_machine/run_14i_ablation_study.py
+python3 scripts/phase14_machine/run_14j_sequence_audit.py
+python3 scripts/phase14_machine/run_14k_failure_viz.py
+
+# Canonical Evaluation
+python3 scripts/phase14_machine/run_14l_canonical_metrics.py
+python3 scripts/phase14_machine/run_14m_refined_mdl.py
+python3 scripts/phase14_machine/run_14n_chance_calibration.py
+
+# Logic Export
+python3 scripts/phase14_machine/run_14o_export_logic.py
+```
+
+**Verifies:** Palette size 7,717 tokens, mirror corpus entropy fit 87.60%,
+holdout admissibility 10.81% (16.2 sigma above chance), MDL Lattice 15.73 BPT
+vs Copy-Reset 10.90 BPT, optimal window count 50.
+
+**Key outputs:**
+- `results/data/phase14_machine/full_palette_grid.json`
+- `results/data/phase14_machine/mirror_corpus_validation.json`
+- `results/data/phase14_machine/baseline_comparison.json`
+- `results/data/phase14_machine/holdout_performance.json`
+- `results/data/phase14_machine/residual_analysis.json`
+
+---
+
+### Phase 15: Selection & Rule Extraction
+
+Traces within-window selection decisions and extracts scribal bias rules,
+including positional preference, suffix affinity, and compressibility analysis.
+
+```bash
+python3 scripts/phase15_rule_extraction/run_15a_trace_instrumentation.py
+python3 scripts/phase15_rule_extraction/run_15b_extract_rules.py
+python3 scripts/phase15_rule_extraction/run_15c_bias_and_compressibility.py
+python3 scripts/phase15_rule_extraction/run_15d_selection_drivers.py
+```
+
+**Verifies:** 12,519 scribal decisions logged, average selection skew 21.49%,
+compressibility improvement 7.93%, top selection driver = bigram context
+(2.432 bits information gain).
+
+**Key outputs:**
+- `results/data/phase15_selection/choice_stream_trace.json`
+- `results/data/phase15_selection/bias_modeling.json`
+- `results/data/phase15_selection/selection_drivers.json`
+
+---
+
+### Phase 16: Physical Grounding
+
+Tests ergonomic coupling between production tool layout and scribal effort,
+and evaluates geometric layout optimization.
+
+```bash
+python3 scripts/phase16_physical_grounding/run_16a_ergonomic_costing.py
+python3 scripts/phase16_physical_grounding/run_16b_effort_correlation.py
+python3 scripts/phase16_physical_grounding/run_16c_layout_projection.py
+```
+
+**Verifies:** Effort correlation rho = -0.0003 (p=0.99, NULL result — no
+ergonomic optimization detected), grid layout efficiency 81.50%.
+
+**Key outputs:**
+- `results/data/phase16_physical/effort_correlation.json`
+- `results/data/phase16_physical/layout_projection.json`
+
+---
+
+### Phase 17: Physical Synthesis & Bandwidth Audit
+
+Final synthesis phase. Generates physical blueprints of the reconstructed tool
+and performs a steganographic bandwidth audit.
+
+```bash
+python3 scripts/phase17_finality/run_17a_generate_blueprints.py
+python3 scripts/phase17_finality/run_17b_bandwidth_audit.py
+```
+
+**Verifies:** Realized steganographic bandwidth 7.53 bpw, total capacity
+11.5 KB (~23K Latin chars equivalent), bandwidth judgment SUBSTANTIAL.
+
+**Key outputs:**
+- `results/data/phase17_finality/bandwidth_audit.json`
+
+---
+
 ## Verification
 
 After running all phases, execute the verification suite:
@@ -358,7 +503,7 @@ Regenerate the publication document from computed results:
 
 ```bash
 # Generate individual phase Word documents
-for phase in 1 2 3 4 5 6 7 8 9; do
+for phase in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17; do
   python3 scripts/support_preparation/generate_publication.py --phase $phase
 done
 
@@ -375,7 +520,7 @@ python3 scripts/support_preparation/assemble_draft.py
 
 ## Claim-to-Script Traceability
 
-For the complete mapping (47 claims with exact JSON key paths), see
+For the complete mapping (79 claims with exact JSON key paths), see
 [governance/claim_artifact_map.md](governance/claim_artifact_map.md).
 
 Summary:
@@ -394,6 +539,20 @@ Summary:
 | Phase 5K entropy reduction 88.11% | Phase 5 | `run_5k_pilot.py` | 5k pilot JSON |
 | Phase 10 method outcomes | Phase 10 | Stage 1-5b scripts | PHASE_10_RESULTS.md |
 | Stroke null determination | Phase 11 | `run_11a/b/c*.py` | fast_kill_termination.md |
+| Mechanical slips detected (202) | Phase 12 | `run_12a_slip_detection.py` | slip_detection_results.json |
+| Slip permutation z-score 9.47 sigma | Phase 12 | `run_12g_slip_permutation.py` | slip_permutation_test.json |
+| Section structural correlation 0.721 | Phase 12 | `run_12d_matrix_alignment.py` | matrix_alignment.json |
+| Palette size 7,717 | Phase 14 | `run_14a_palette_solver.py --full` | full_palette_grid.json |
+| Mirror corpus entropy fit 87.60% | Phase 14 | `run_14c_mirror_corpus.py` | mirror_corpus_validation.json |
+| Holdout admissibility 10.81% (16.2 sigma) | Phase 14 | `run_14g_holdout_validation.py` | holdout_performance.json |
+| MDL: Lattice 15.73 / Copy-Reset 10.90 BPT | Phase 14 | `run_14h_baseline_showdown.py` | baseline_comparison.json |
+| Scribal decisions logged (12,519) | Phase 15 | `run_15a_trace_instrumentation.py` | choice_stream_trace.json |
+| Average selection skew 21.49% | Phase 15 | `run_15c_bias_and_compressibility.py` | bias_modeling.json |
+| Top selection driver: bigram context | Phase 15 | `run_15d_selection_drivers.py` | selection_drivers.json |
+| Effort correlation rho = -0.0003 (NULL) | Phase 16 | `run_16b_effort_correlation.py` | effort_correlation.json |
+| Grid layout efficiency 81.50% | Phase 16 | `run_16c_layout_projection.py` | layout_projection.json |
+| Steganographic bandwidth 7.53 bpw | Phase 17 | `run_17b_bandwidth_audit.py` | bandwidth_audit.json |
+| Bandwidth judgment SUBSTANTIAL | Phase 17 | `run_17b_bandwidth_audit.py` | bandwidth_audit.json |
 
 ---
 

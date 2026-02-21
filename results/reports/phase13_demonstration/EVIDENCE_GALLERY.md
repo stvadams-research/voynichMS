@@ -21,4 +21,4 @@ This gallery documents high-confidence mechanical slips where the scribe's eye a
 | 1241 | 2 | **ODAM** | SCG |
 
 ## Analysis
-These 914 events collectively falsify the hypothesis of genuine linguistic composition. In a linguistic system, a slip-of-the-pen results in a typo or a semantic error. In the Voynich system, a slip results in a **valid token from an adjacent vertical window**, a uniquely mechanical failure mode.
+These 202 events (ZL-only canonical data) collectively falsify the hypothesis of genuine linguistic composition. In a linguistic system, a slip-of-the-pen results in a typo or a semantic error. In the Voynich system, a slip results in a **valid token from an adjacent vertical window**, a uniquely mechanical failure mode.

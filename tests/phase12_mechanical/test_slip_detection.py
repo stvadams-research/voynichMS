@@ -1,5 +1,5 @@
 import pytest
-from src.phase12_mechanical.slip_detection import MechanicalSlipDetector
+from phase12_mechanical.slip_detection import MechanicalSlipDetector
 
 def test_slip_detection():
     detector = MechanicalSlipDetector(min_transition_count=1)

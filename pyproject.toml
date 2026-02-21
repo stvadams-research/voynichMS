@@ -10,6 +10,11 @@ authors = [
 ]
 dependencies = [
   "numpy>=1.26",
+  "scipy>=1.12",
+  "pandas>=2.2",
+  "scikit-learn>=1.4",
+  "networkx>=3.2",
+  "python-Levenshtein>=0.25",
   "pydantic>=2.7",
   "pydantic-settings>=2.2",
   "PyYAML>=6.0.1",
@@ -66,6 +71,8 @@ include = [
     "phase8_comparative*",
     "phase10_admissibility*",
     "phase11_stroke*",
+    "phase12_mechanical*",
+    "phase14_machine*",
     "support_visualization*",
     "core_audit*"
 ]
@@ -109,6 +116,11 @@ testpaths = [
     "tests/phase8_comparative",
     "tests/phase10_admissibility",
     "tests/phase11_stroke",
+    "tests/phase12_mechanical",
+    "tests/phase14_machine",
+    "tests/phase15_selection",
+    "tests/phase16_physical",
+    "tests/phase17_finality",
     "tests/core_audit",
     "tests/core_skeptic",
     "tests/integration"

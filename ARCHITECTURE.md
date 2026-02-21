@@ -26,6 +26,9 @@ For reproduction instructions, see [replicateResults.md](replicateResults.md).
                                      │                Phase 12 (Mechanical Recon)
                                      │                Phase 13 (Demonstration)
                                      │                Phase 14 (Voynich Engine)
+                                     │                Phase 15 (Rule Extraction)
+                                     │                Phase 16 (Physical Grounding)
+                                     │                Phase 17 (Finality)
                                      │                    │
                                      │                    ▼
                                results/data/         results/reports/
@@ -43,7 +46,7 @@ manuscript scans, and Project Gutenberg comparison corpora.
 **Phase 1 (Foundation)** populates a SQLite database with parsed
 transcriptions, image segmentation, and structural metadata.
 
-**Phases 2-11** consume the database and prior phase outputs. Each phase
+**Phases 2-17** consume the database and prior phase outputs. Each phase
 produces JSON result artifacts (in `results/data/`) and Markdown reports
 (in `results/reports/`).
 
@@ -98,6 +101,9 @@ scripts/
 ├── phase12_mechanical/      Mechanical reconstruction runners
 ├── phase13_demonstration/   Evidence gallery and export runners
 ├── phase14_machine/         Voynich Engine reconstruction stages
+├── phase15_rule_extraction/ Rule extraction and selection analysis
+├── phase16_physical_grounding/ Physical grounding validation
+├── phase17_finality/        Final verification and closure
 ├── support_preparation/     replicate_all.py, publication generation
 ├── core_audit/              Verification, golden outputs, provenance checks
 └── core_skeptic/            Adversarial policy enforcement
@@ -265,6 +271,9 @@ replicate_all.py
   └── phase12/replicate.py   (mechanical reconstruction)
   └── phase13/replicate.py   (demonstration)
   └── phase14/replicate.py   (voynich engine)
+  └── phase15/replicate.py   (rule extraction)
+  └── phase16/replicate.py   (physical grounding)
+  └── phase17/replicate.py   (finality)
 ```
 
 ### Verification Chain

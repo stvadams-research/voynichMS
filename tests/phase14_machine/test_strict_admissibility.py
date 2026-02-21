@@ -1,7 +1,7 @@
 """Tests for strict vs drift admissibility and chance baselines."""
 
 import pytest
-from src.phase14_machine.evaluation_engine import EvaluationEngine
+from phase14_machine.evaluation_engine import EvaluationEngine
 
 
 def make_engine_and_lattice():

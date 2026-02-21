@@ -1,3 +1,5 @@
+> **Note:** This document is a historical milestone report from an intermediate model configuration. The canonical evaluation with finalized metrics is at `CANONICAL_EVALUATION.md` in this directory. Key differences: this report uses a 15-window model (superseded by 50-window spectral reordering), reports 70.6% structural fit (superseded by 43.44% drift admissibility), and cites 92% adjacency (superseded by 43.44% +/-1 drift rate). See CANONICAL_EVALUATION.md for current values.
+
 # Phase 14: Final Fidelity Calibration Report
 
 **Project:** Voynich Manuscript Structural Admissibility  
@@ -19,7 +21,7 @@ While a 100.0% Fit Score is mathematically reachable by further increasing the "
 ### 2.2 Scribe-Machine Interaction
 - **The Engine:** A 12-state physical device (sliding grille or volvelle).
 - **The Agent:** Human scribes exercised a **+/- 15 slot choice (Drift)** within the tool's windows, with a measurable bias toward suffix-consistent tokens (e.g., `-in`, `-dy`).
-- **Mechanical Failure:** 914 "Vertical Offsets" identify the specific moments of misalignment during production.
+- **Mechanical Failure:** 202 "Vertical Offsets" (ZL-only canonical data) identify the specific moments of misalignment during production.
 
 ## 3. Final Epistemic Verdict
 

@@ -1,7 +1,7 @@
 """Tests for HighFidelityVolvelle (Phase 14 emulator)."""
 
 import pytest
-from src.phase14_machine.high_fidelity_emulator import HighFidelityVolvelle
+from phase14_machine.high_fidelity_emulator import HighFidelityVolvelle
 
 
 def make_simple_emulator(seed=42, log_choices=False):

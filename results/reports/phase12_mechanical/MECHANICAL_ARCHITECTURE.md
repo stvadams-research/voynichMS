@@ -5,14 +5,14 @@
 **Status:** COMPLETE (Mechanical Reconstruction)
 
 ## 1. Executive Summary
-We have successfully transitioned the Voynich Manuscript from a "cryptographic mystery" to a **"mechanical artifact."** By analyzing 914 verified mechanical slips (vertical offsets), we have reverse-engineered the physical layout of the combinatorial tool used by the scribes.
+We have successfully transitioned the Voynich Manuscript from a "cryptographic mystery" to a **"mechanical artifact."** By analyzing 202 verified mechanical slips (vertical offsets; ZL-only canonical data), we have reverse-engineered the physical layout of the combinatorial tool used by the scribes.
 
 ## 2. Evidence for a Physical Tool
 
 ### 2.1 The "Smoking Gun" (Mechanical Slips)
-- **Verified Slips:** 914 instances where a token violation is resolved by the preceding line's context.
-- **Signal-to-Noise:** 19.87x (verified via shuffle control). This proves the slips are a real physical signal, not random noise.
-- **Sustained Events:** 89 clusters identified where the tool was misaligned for 3+ consecutive lines.
+- **Verified Slips:** 202 instances where a token violation is resolved by the preceding line's context (ZL-only canonical data).
+- **Statistical Significance:** z = 9.47σ (10K permutations, p < 0.0001; observed 202 vs null mean 106.86). This proves the slips are a real physical signal, not random noise.
+- **Sustained Events:** Clusters identified where the tool was misaligned for 3+ consecutive lines (see `slip_detection_results.json`).
 
 ### 2.2 Geometric Bias
 Slips are heavily concentrated at the **start of lines** (Mean Position: 3.64). This suggests a physical device that is manually anchored or aligned on the left, with stability decreasing across the horizontal sweep.
@@ -43,6 +43,6 @@ We have reconstructed the first 10 "windows" of the production tool.
 
 The Voynich Manuscript is the output of a **Context-Modulated Physical Combinatorial Machine**. 
 
-The scribes did not "write" in the linguistic sense. They operated a device (likely a **three-state rotating volvelle or sliding grille**) that provided a set of "legal" tokens for each position on the page. The "language" of the manuscript is the mathematical signature of this device's physical layout.
+The scribes did not "write" in the linguistic sense. They operated a device (a **Lattice-Modulated Window System** — likely a sliding grille or tabula recta with 50 windows and 12+ mask states) that provided a set of "legal" tokens for each position on the page. The "language" of the manuscript is the mathematical signature of this device's physical layout.
 
 **There is no plaintext. The mystery is solved.**

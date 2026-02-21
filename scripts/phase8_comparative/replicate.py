@@ -8,8 +8,7 @@ import subprocess
 import sys
 
 def run_command(cmd):
-    print(f"
->> Executing: {cmd}")
+    print(f"\n>> Executing: {cmd}")
     result = subprocess.run(cmd, shell=True)
     if result.returncode != 0:
         print(f"Error executing {cmd}")
@@ -22,12 +21,10 @@ def main():
     run_command("python3 scripts/phase8_comparative/run_proximity_uncertainty.py --iterations 100")
 
     # 2. Generate Word Report
-    print("
->> Generating Phase 8 Word Report...")
+    print("\n>> Generating Phase 8 Word Report...")
     run_command("python3 scripts/support_preparation/generate_publication.py --phase 8")
 
-    print("
-[SUCCESS] Phase 8 Replication Complete. Reports saved to results/publication/")
+    print("\n[SUCCESS] Phase 8 Replication Complete. Reports saved to results/publication/")
 
 if __name__ == "__main__":
     main()

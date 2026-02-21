@@ -4,13 +4,14 @@ MASTER REPLICATION SCRIPT
 Project: Voynich Manuscript Assumption-Resistant Foundation
 
 This script runs the entire project lifecycle from raw data to final publication draft.
-Covers all 14 research phases (Foundation through Voynich Engine).
+Covers 17 research phases (Foundation through Physical Synthesis).
 """
 
 import subprocess
 import sys
 import time
 from pathlib import Path
+
 
 def run_phase(phase_num, phase_path):
     print(f"\n{'='*60}")
@@ -34,7 +35,7 @@ def run_phase(phase_num, phase_path):
         return False
 
 def main():
-    print("!!! Voynich Project: FULL MASTER REPLICATION (14 PHASES) !!!")
+    print("!!! Voynich Project: FULL MASTER REPLICATION (17 PHASES) !!!")
     print(f"Starting at: {time.ctime()}")
 
     # 0. Asset Verification
@@ -49,7 +50,8 @@ def main():
         
     v_result = subprocess.run(f"python3 {verify_script}", shell=True)
     if v_result.returncode != 0:
-        print("\n!!! Master Replication Aborted: Missing External Assets !!!")
+        print("\n!!! Master Replication Aborted: Asset Verification Failed !!!")
+        print("This may indicate missing external data or a script error.")
         print("Please run: python3 scripts/phase0_data/download_external_data.py")
         sys.exit(1)
     
@@ -62,12 +64,15 @@ def main():
         (6, "phase6_functional"),
         (7, "phase7_human"),
         (8, "phase8_comparative"),
+        (9, "phase9_conjecture"),
         (10, "phase10_admissibility"),
         (11, "phase11_stroke"),
         (12, "phase12_mechanical"),
         (13, "phase13_demonstration"),
         (14, "phase14_machine"),
-        (17, "phase17_finality")
+        (15, "phase15_rule_extraction"),
+        (16, "phase16_physical_grounding"),
+        (17, "phase17_finality"),
     ]
 
     for num, path in phases:
@@ -81,13 +86,15 @@ def main():
     print(f"{'='*60}")
     
     # Generate the full master doc (no --phase flag)
-    subprocess.run("python3 scripts/support_preparation/generate_publication.py", shell=True)
-    # Also generate the master markdown
-    subprocess.run("python3 scripts/support_preparation/assemble_draft.py", shell=True)
-    
+    pub_result = subprocess.run(
+        "python3 scripts/support_preparation/generate_publication.py", shell=True
+    )
+    if pub_result.returncode != 0:
+        print("\n[WARN] Publication generation returned non-zero exit code.")
+
     print("\n" + "#"*60)
     print("!!! MASTER REPLICATION SUCCESSFUL !!!")
-    print("14 Phase Reports and Master Draft available in: results/publication/")
+    print("17 Phase Reports available in: results/publication/")
     print("#"*60 + "\n")
 
 if __name__ == "__main__":

@@ -17,7 +17,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | # | Claim | Value | Script | Output File | Key Path | Notes |
 |---|-------|-------|--------|-------------|----------|-------|
-| 1 | Token repetition rate | 0.9003 | `run_baseline_assessment.py` | `results/data/phase3_synthesis/test_a_results.json` | `results.voynich_real.repetition_rate` | Also in Phase 2 final report |
+| 1 | Token repetition rate | 0.9003 | `run_baseline_assessment.py` | `core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.json` | `repetition_rate.target` | Also in Phase 2 final report |
 | 2 | Glyph identity collapse at 5% perturbation | 37.5% | `run_phase_2_1.py` | Console output (line 259) | — | Hardcoded in script output string |
 | 3 | Word boundary cross-source agreement | 75% | `run_phase_2_1.py` | Console output (line 274) | — | Below 80% threshold → WEAKLY_SUPPORTED |
 
@@ -117,9 +117,9 @@ raw float (e.g., 88.11% = 0.8811).
 
 | # | Claim | Value | Script | Output File | Key Path | Notes |
 |---|-------|-------|--------|-------------|----------|-------|
-| 45 | Method K focal-depth correlation | 0.4114 | `run_stage5b_k_adjudication.py` | `results/data/phase10_admissibility/stage5b_k_adjudication.json` | `results.focal_depth.decision_correlation` | |
-| 46 | Method K seed-band pass rate | 0.875 | `run_stage5b_k_adjudication.py` | `results/data/phase10_admissibility/stage5b_k_adjudication.json` | `results.seed_band.pass_rate` | Threshold: 0.750 |
-| 47 | Method F confirmatory runs | 12 runs, 0 weakened | `run_stage5_high_roi.py` | `results/data/phase10_admissibility/stage5_high_roi_summary.json` | `results.method_f.confirmatory_runs` | |
+| 45 | Method K focal-depth correlation | 0.4114 | `run_stage5b_k_adjudication.py` | `results/data/phase10_admissibility/stage5b_k_adjudication_summary.json` | `results.focal_eval.seed77_runs300.correlation` | |
+| 46 | Method K seed-band pass rate | 0.875 | `run_stage5b_k_adjudication.py` | `results/data/phase10_admissibility/stage5b_k_adjudication_summary.json` | `results.seed_band_pass_rate` | Threshold: 0.750 |
+| 47 | Method F confirmatory runs | 12 runs, 0 weakened | `run_stage5_high_roi.py` | `results/data/phase10_admissibility/stage5_high_roi_summary.json` | `results.method_f_gate.run_count`, `results.method_f_gate.weakened_family_runs` | |
 
 ---
 
@@ -127,8 +127,8 @@ raw float (e.g., 88.11% = 0.8811).
 
 | # | Claim | Value | Script | Output File | Key Path | Notes |
 |---|-------|-------|--------|-------------|----------|-------|
-| 48 | Test A Spearman rho | 0.0157 | `run_11b_cluster.py` | `results/data/phase11_stroke/test_a_clustering.json` | `results.partial_rho` | Determination: NULL (p=0.307) |
-| 49 | Test B boundary MI | 0.1219 bits | `run_11c_transitions.py` | `results/data/phase11_stroke/test_b_transitions.json` | `results.boundary_mi` | Determination: NULL (p=0.711) |
+| 48 | Test A Spearman rho | 0.0157 | `run_11b_cluster.py` | `results/data/phase11_stroke/test_a_clustering.json` | `results.observed_partial_rho` | Determination: NULL (p=0.307) |
+| 49 | Test B boundary MI | 0.1219 bits | `run_11c_transitions.py` | `results/data/phase11_stroke/test_b_transitions.json` | `results.B1_boundary_mi` | Determination: NULL (p=0.711) |
 
 ---
 
@@ -138,7 +138,7 @@ raw float (e.g., 88.11% = 0.8811).
 |---|-------|-------|--------|-------------|----------|-------|
 | 50 | Mechanical slips detected | 202 | `run_12a_slip_detection.py` | `results/data/phase12_mechanical/slip_detection_results.json` | `results.total_slips_detected` | ZL-only canonical data; prior 914 included markup false positives |
 | 51 | Slip permutation z-score | 9.47σ | `run_12g_slip_permutation.py` | `results/data/phase12_mechanical/slip_permutation_test.json` | `results.z_score` | 10K permutations, p < 0.0001 |
-| 52 | Section structural correlation | 0.721 | `run_12d_matrix_alignment.py` | `results/data/phase12_mechanical/cross_section_analysis.json` | `results.structural_correlation` | Herbal vs Biological |
+| 52 | Section structural correlation | 0.721 | `run_12d_matrix_alignment.py` | `results/data/phase12_mechanical/matrix_alignment.json` | `results.structural_similarity.structural_correlation` | Herbal vs Biological |
 
 ---
 
@@ -158,7 +158,7 @@ raw float (e.g., 88.11% = 0.8811).
 | 62 | Optimal window count | 50 | `run_14r_minimality_sweep.py` | `results/data/phase14_machine/minimality_sweep.json` | `results.optimal_k` | Complexity knee |
 | 62a | Extended admissibility (±3) | 57.73% | `run_14q_residual_analysis.py` | `results/data/phase14_machine/residual_analysis.json` | `results.categories` | Sum of Admissible + Extended Drift |
 | 62b | Per-line mask admissibility (reordered) | 53.91% | `run_14x_mask_inference.py` | `results/data/phase14_machine/mask_inference.json` | `results.reordered_palette.with_mask.admissibility` | +14pp over base reordered |
-| 62c | Spectral reordering extreme-jump reduction | 4x | `run_14w_window_reordering.py` | `results/data/phase14_machine/window_reordering.json` | `results.spectral` | 47.25% → 11.85% |
+| 62c | Spectral reordering extreme-jump reduction | 4x | `run_14w_window_reordering.py` | `results/data/phase14_machine/reordered_palette.json` | `results.final_extreme_jump` | 47.25% → 11.85%; ratio is cross-file derived |
 | 62d | MDL: Hybrid BPT | 15.49 | `run_14h_baseline_showdown.py` | `results/data/phase14_machine/baseline_comparison.json` | `results.models.Hybrid (CR+Lattice).bpt` | Mixture model: CR + Lattice + Unigram |
 | 62e | Section-aware routing (null) | -8.0pp | `run_14y_section_lattice.py` | `results/data/phase14_machine/section_lattice.json` | `results.section_aware_global.delta_pp` | Section-specific reordering hurts; global ordering is optimal |
 
@@ -242,8 +242,9 @@ raw float (e.g., 88.11% = 0.8811).
 | **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
 | **Static config** (manually synchronized) | 1 | #1 (also in config) |
 
-All Phase 12-17 claims re-verified on 2026-02-21 using consistent ZL-only
-canonical data pipeline (`load_canonical_lines()` with IVTFF sanitization).
+All claims re-verified on 2026-02-21. File paths and JSON key paths corrected
+for claims #1, #45-49, #52, #62c during Cleanup 5 (path/key reconciliation).
+All Phase 12-17 claims use consistent ZL-only canonical data pipeline.
 
 ### Recommended Fixes (future sprint)
 

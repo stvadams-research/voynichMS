@@ -18,9 +18,9 @@ If it only adds structure, it does not belong here.
 
 ---
 
-## Current Status: PHASE-14-COMPLETE
+## Current Status: 17 RESEARCH PHASES COMPLETE
 
-The project has executable phase runners through **Phase 14**, an automated
+The project has executable phase runners through **Phase 17**, an automated
 **Visualization Layer**, and a **Publication Framework** for academic-grade reporting.
 
 ### Research Phases
@@ -39,7 +39,7 @@ The project has executable phase runners through **Phase 14**, an automated
     and transition analysis testing whether stroke patterns break the lattice model.
 12. **Phase 12 (Mechanical Reconstruction)**: Large-scale detection of vertical eye-slips and physical columnar reconstruction.
 13. **Phase 13 (Interactive Demonstration)**: Interactive "Mechanical Sandbox" and Evidence Gallery generation.
-14. **Phase 14 (Voynich Engine)**: Reconstructing the full physical device (grille/volvelle) with 100% statistical fit and formal parsimony proof.
+14. **Phase 14 (Voynich Engine)**: Reconstructing the full physical device (grille/volvelle) achieving 43.44% drift admissibility and 87.60% mirror corpus entropy fit.
 15. **Phase 15 (Rule Formalization)**: Extraction of the declarative rule table and choice stream instrumentation.
 16. **Phase 16 (Physical Grounding)**: Ergonomic and geometric verification of the 10x5 sliding grille.
 17. **Phase 17 (Finality)**: Physical synthesis (blueprints) and steganographic bandwidth boundary mapping.
@@ -48,8 +48,10 @@ The project has executable phase runners through **Phase 14**, an automated
 1.  **Natural-language/simple-cipher hypotheses are not supported:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic.
 2.  **Mechanism class identified:** The manuscript is identified as a Globally Stable, Deterministic Rule-Evaluated Constraint Lattice.
 3.  **Inference Admissibility defined:** Established a statistical "noise floor" proving that standard decipherment tools find "meaning" in random noise as easily as in the manuscript.
-4.  **The "Voynich Engine" Reconstructed:** Rebuilt the physical tool (LMWS) that generates the manuscript. Achieved 64.66% transition admissibility and 17.47% parsimony efficiency.
-5.  **Finality Achieved:** The manuscript is documented as a non-semantic mechanical artifact, with a formal specification for its reproduction.
+4.  **The "Voynich Engine" Reconstructed:** Rebuilt the physical tool (LMWS) that generates the manuscript. Achieved 43.44% drift admissibility (±1 window) with MDL: Lattice 12.37 BPT vs Copy-Reset 10.90 BPT.
+5.  **Selection Rules Extracted (Phase 15):** Bigram context is the top driver of token selection at 2.43 bits, explaining 21.49% selection skew within the lattice windows.
+6.  **Physical Grounding Tested (Phase 16):** Ergonomic coupling is null (rho approx. 0), ruling out motor-habit explanations; geometric layout efficiency is 81.50%.
+7.  **Finality Achieved:** The manuscript is documented as a non-semantic mechanical artifact, with a formal specification for its reproduction.
 
 ---
 
@@ -63,7 +65,7 @@ python3 scripts/support_preparation/replicate_all.py
 
 ### Manual Generation
 *   **Full Publication (Word)**: `python3 scripts/support_preparation/generate_publication.py`
-*   **Individual Phase Report**: `python3 scripts/support_preparation/generate_publication.py --phase [1-14]`
+*   **Individual Phase Report**: `python3 scripts/support_preparation/generate_publication.py --phase [1-17]`
 
 Outputs are saved to `results/publication/`.
 
@@ -83,7 +85,7 @@ python3 scripts/phase0_data/download_external_data.py
 # 3. Populate the database (~5-15 min)
 python3 scripts/phase1_foundation/populate_database.py
 
-# 4. Run full replication (all 11 phases, ~3-6 hours)
+# 4. Run full replication (all 17 phases, ~3-6 hours)
 python3 scripts/support_preparation/replicate_all.py
 
 # 5. Verify determinism (optional, re-runs key phases twice and compares)

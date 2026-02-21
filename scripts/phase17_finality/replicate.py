@@ -9,8 +9,7 @@ import sys
 from pathlib import Path
 
 def run_command(cmd):
-    print(f"
->> Executing: {cmd}")
+    print(f"\n>> Executing: {cmd}")
     result = subprocess.run(cmd, shell=True)
     if result.returncode != 0:
         print(f"Error executing {cmd}")
@@ -26,12 +25,10 @@ def main():
     run_command("python3 scripts/phase17_finality/run_17b_bandwidth_audit.py")
 
     # 3. Generate Word Report
-    print("
->> Generating Phase 17 Word Report...")
+    print("\n>> Generating Phase 17 Word Report...")
     run_command("python3 scripts/support_preparation/generate_publication.py --phase 17")
 
-    print("
-[SUCCESS] Phase 17 Replication Complete.")
+    print("\n[SUCCESS] Phase 17 Replication Complete.")
 
 if __name__ == "__main__":
     main()
