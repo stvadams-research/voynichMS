@@ -168,9 +168,9 @@ raw float (e.g., 88.11% = 0.8811).
 
 | # | Claim | Value | Script | Output File | Key Path | Notes |
 |---|-------|-------|--------|-------------|----------|-------|
-| 63 | Scribal decisions logged | 12,519 | `run_15a_trace_instrumentation.py` | `results/data/phase15_selection/choice_stream_trace.json` | `results.num_decisions` | ZL canonical data |
-| 64 | Average selection skew | 21.49% | `run_15c_bias_and_compressibility.py` | `results/data/phase15_selection/bias_modeling.json` | `results.avg_skew` | Per-window max entropy corrected |
-| 65 | Compressibility improvement | 7.93% | `run_15c_bias_and_compressibility.py` | `results/data/phase15_selection/bias_modeling.json` | `results.compression.improvement` | Real more compressible than uniform |
+| 63 | Scribal decisions logged | 12,519 | `run_15a_trace_instrumentation.py` | `results/data/phase15_rule_extraction/choice_stream_trace.json` | `results.num_decisions` | ZL canonical data |
+| 64 | Average selection skew | 21.49% | `run_15c_bias_and_compressibility.py` | `results/data/phase15_rule_extraction/bias_modeling.json` | `results.avg_skew` | Per-window max entropy corrected |
+| 65 | Compressibility improvement | 7.93% | `run_15c_bias_and_compressibility.py` | `results/data/phase15_rule_extraction/bias_modeling.json` | `results.compression.improvement` | Real more compressible than uniform |
 
 ---
 
@@ -178,8 +178,8 @@ raw float (e.g., 88.11% = 0.8811).
 
 | # | Claim | Value | Script | Output File | Key Path | Notes |
 |---|-------|-------|--------|-------------|----------|-------|
-| 66 | Effort correlation (Spearman rho) | -0.0003 | `run_16b_effort_correlation.py` | `results/data/phase16_physical/effort_correlation.json` | `results.correlation_rho` | p=0.99; NULL result |
-| 67 | Grid layout efficiency | 81.50% | `run_16c_layout_projection.py` | `results/data/phase16_physical/layout_projection.json` | `results.grid_efficiency` | vs random baseline |
+| 66 | Effort correlation (Spearman rho) | -0.0003 | `run_16b_effort_correlation.py` | `results/data/phase16_physical_grounding/effort_correlation.json` | `results.correlation_rho` | p=0.99; NULL result |
+| 67 | Grid layout efficiency | 81.50% | `run_16c_layout_projection.py` | `results/data/phase16_physical_grounding/layout_projection.json` | `results.grid_efficiency` | vs random baseline |
 
 ---
 
@@ -203,9 +203,9 @@ raw float (e.g., 88.11% = 0.8811).
 | 74 | Mask-predicted admissibility | 45.91% | `run_14z2_mask_prediction.py` | `results/data/phase14_machine/mask_prediction.json` | `results.rules.global_mode.admissibility` | +6.3pp over baseline with 1 parameter |
 | 75 | Cross-transcription mean adm ratio | 1.189 | `run_14z3_cross_transcription.py` | `results/data/phase14_machine/cross_transcription.json` | `results.mean_admissibility_ratio` | >1.0 = lattice transfers across transcriptions |
 | 76 | Cross-transcription significant sources | 3/5 | `run_14z3_cross_transcription.py` | `results/data/phase14_machine/cross_transcription.json` | `results.significant_sources` | VT, IT, RF all z > 86 |
-| 77 | Top selection driver | Bigram Context | `run_15d_selection_drivers.py` | `results/data/phase15_selection/selection_drivers.json` | `results.top_driver` | 2.432 bits information gain |
-| 78 | Positional bias (mean position) | 0.247 | `run_15d_selection_drivers.py` | `results/data/phase15_selection/selection_drivers.json` | `results.hypotheses.positional_bias.mean_relative_position` | Strong top-of-window preference (0.5 = unbiased) |
-| 79 | Suffix affinity excess | 2.62x | `run_15d_selection_drivers.py` | `results/data/phase15_selection/selection_drivers.json` | `results.hypotheses.suffix_affinity.excess_ratio` | Chosen word shares suffix with prev 2.62x more than expected |
+| 77 | Top selection driver | Bigram Context | `run_15d_selection_drivers.py` | `results/data/phase15_rule_extraction/selection_drivers.json` | `results.top_driver` | 2.432 bits information gain |
+| 78 | Positional bias (mean position) | 0.247 | `run_15d_selection_drivers.py` | `results/data/phase15_rule_extraction/selection_drivers.json` | `results.hypotheses.positional_bias.mean_relative_position` | Strong top-of-window preference (0.5 = unbiased) |
+| 79 | Suffix affinity excess | 2.62x | `run_15d_selection_drivers.py` | `results/data/phase15_rule_extraction/selection_drivers.json` | `results.hypotheses.suffix_affinity.excess_ratio` | Chosen word shares suffix with prev 2.62x more than expected |
 
 ---
 

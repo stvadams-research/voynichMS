@@ -168,7 +168,7 @@ def main() -> None:
         "seed": seed,
         "sources": {
             "folio_data": "tools/workbench/data/folio_data.js",
-            "page_schedule": "results/data/phase18_generate/folio_state_schedule.json",
+            "page_schedule": "results/data/phase18_comparative/folio_state_schedule.json",
         },
         "splits": {
             "train": train_ids,

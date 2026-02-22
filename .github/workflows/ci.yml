@@ -63,3 +63,10 @@ jobs:
           import phase5_mechanism.generators.pool_generator
           print('All critical modules imported successfully.')
           "
+
+      - name: Governance structural checks
+        run: |
+          PYTHONPATH=src python scripts/core_audit/check_phase_manifest.py
+        # Phase manifest validation (no data dependency).
+        # Full governance suite (claim map, skeptic policies, provenance)
+        # requires pipeline artifacts and runs via scripts/ci_check.sh.

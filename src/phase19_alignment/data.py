@@ -43,12 +43,12 @@ def load_lattice_data(root: Path | None = None) -> dict:
 
 def load_page_schedule(root: Path | None = None) -> dict:
     base = root or project_root()
-    return load_result_json(base / "results/data/phase18_generate/folio_state_schedule.json")
+    return load_result_json(base / "results/data/phase18_comparative/folio_state_schedule.json")
 
 
 def load_page_priors(root: Path | None = None) -> dict:
     base = root or project_root()
-    return load_result_json(base / "results/data/phase18_generate/page_priors.json")
+    return load_result_json(base / "results/data/phase18_comparative/page_priors.json")
 
 
 def folio_sort_key(folio_id: str) -> tuple[int, int, int, str]:

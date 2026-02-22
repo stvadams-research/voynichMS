@@ -492,7 +492,7 @@ phase.
 Phase 15 formalizes the implicit lattice into explicit, declarative production
 rules.
 
-### 13.1 Driver Analysis (`src/phase15_selection/`)
+### 13.1 Driver Analysis (`src/phase15_rule_extraction/`)
 
 - **Method:** For each word type, record its window assignment, next-window
   transition, and the contextual factors influencing its selection. Measure
@@ -501,14 +501,14 @@ rules.
   (dominant driver). Suffix bias contributes 1.2-1.8 bits (hand-dependent).
   Positional constraint contributes 0.5-0.8 bits.
 - **Runners:** `scripts/phase15_rule_extraction/` (4 scripts)
-- **Key output:** `results/data/phase15_selection/integrated_rules.json`
+- **Key output:** `results/data/phase15_rule_extraction/integrated_rules.json`
 
 ## 14. Phase 16: Physical Grounding
 
 Phase 16 tests whether the abstract lattice model is consistent with
 15th-century physical production constraints.
 
-### 14.1 Ergonomic Modeling (`src/phase16_physical/`)
+### 14.1 Ergonomic Modeling (`src/phase16_physical_grounding/`)
 
 - **Test design:** Compute per-folio scribal effort proxy (strokes per token ×
   tokens per line × lines per folio) and page complexity proxy (vocabulary

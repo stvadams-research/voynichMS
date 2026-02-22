@@ -103,7 +103,23 @@ def _extract_key_paths(cell: str) -> list[str]:
 
 
 def _split_key_path(path: str) -> list[str]:
-    return [segment for segment in path.split(".") if segment]
+    segments: list[str] = []
+    for raw in path.split("."):
+        if not raw:
+            continue
+        # Decompose bracket indices: "per_window[18]" → ["per_window", "18"]
+        while "[" in raw:
+            bracket_start = raw.index("[")
+            bracket_end = raw.index("]", bracket_start)
+            prefix = raw[:bracket_start]
+            index = raw[bracket_start + 1 : bracket_end]
+            if prefix:
+                segments.append(prefix)
+            segments.append(index)
+            raw = raw[bracket_end + 1 :]
+        if raw:
+            segments.append(raw)
+    return segments
 
 
 def _json_key_exists(payload: Any, key_path: str) -> bool:

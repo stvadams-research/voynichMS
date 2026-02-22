@@ -226,9 +226,9 @@ def _write_codebook_index_svg(
     svg = [
         f'<svg width="{cols_w}" height="{height}" xmlns="http://www.w3.org/2000/svg">',
         '<rect width="100%" height="100%" fill="white"/>',
-        f'<text x="20" y="24" font-family="sans-serif" font-size="16" font-weight="bold">'
+        '<text x="20" y="24" font-family="sans-serif" font-size="16" font-weight="bold">'
         'Voynich Codebook Index (154 pages, 10 quires)</text>',
-        f'<text x="20" y="42" font-family="sans-serif" font-size="11" fill="#666">'
+        '<text x="20" y="42" font-family="sans-serif" font-size="11" fill="#666">'
         'Organized by window number (W0-W49) | ~60 words per page (2 cols x 30 rows)</text>',
     ]
 
@@ -441,8 +441,8 @@ def main():
         f.write(f"\n\n{'=' * 100}\n")
         f.write(f"50 windows | {sum(w['word_count'] for w in window_stats)} total words "
                 f"| avg {avg_words:.0f} per window\n")
-        f.write(f"43 non-zero corrections | range: -20 to +13\n")
-        f.write(f"Architecture: flat tabula (170x160mm) + codebook (154pp)\n")
+        f.write("43 non-zero corrections | range: -20 to +13\n")
+        f.write("Architecture: flat tabula (170x160mm) + codebook (154pp)\n")
 
     # 3. Generate correction offsets reference
     offset_lines = [
@@ -516,11 +516,11 @@ def main():
     )
 
     console.print(f"\n[green]Success! Tabula + codebook blueprints generated in:[/green] {OUTPUT_DIR}")
-    console.print(f"  [cyan]tabula_card.svg[/cyan]     — physical state-tracker card (170x160mm)")
-    console.print(f"  [cyan]palette_plate.svg[/cyan]   — 10x5 vocabulary plate with offsets")
-    console.print(f"  [cyan]codebook_index.svg[/cyan]  — codebook section index (154 pages)")
-    console.print(f"  [cyan]correction_offsets.txt[/cyan] — per-window offset table")
-    console.print(f"  [dim]historical/[/dim]           — deprecated volvelle ring SVGs")
+    console.print("  [cyan]tabula_card.svg[/cyan]     — physical state-tracker card (170x160mm)")
+    console.print("  [cyan]palette_plate.svg[/cyan]   — 10x5 vocabulary plate with offsets")
+    console.print("  [cyan]codebook_index.svg[/cyan]  — codebook section index (154 pages)")
+    console.print("  [cyan]correction_offsets.txt[/cyan] — per-window offset table")
+    console.print("  [dim]historical/[/dim]           — deprecated volvelle ring SVGs")
     console.print(
         f"  Windows: {len(window_contents)}, "
         f"Total Words: {results['total_words']}, "

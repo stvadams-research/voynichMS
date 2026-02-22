@@ -4,8 +4,8 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SCHEDULE_PATH = ROOT / "results/data/phase18_generate/folio_state_schedule.json"
-PRIORS_PATH = ROOT / "results/data/phase18_generate/page_priors.json"
+SCHEDULE_PATH = ROOT / "results/data/phase18_comparative/folio_state_schedule.json"
+PRIORS_PATH = ROOT / "results/data/phase18_comparative/page_priors.json"
 WORKBENCH_FOLIO_DATA = ROOT / "tools/workbench/data/folio_data.js"
 WORKBENCH_SCHEDULE_DATA = ROOT / "tools/workbench/data/page_schedule_data.js"
 WORKBENCH_PRIORS_DATA = ROOT / "tools/workbench/data/page_priors_data.js"

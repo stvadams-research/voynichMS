@@ -140,6 +140,13 @@
       "aliases": [],
       "release_scope": "exploratory",
       "replicate_entry": "scripts/phase19_alignment/replicate.py"
+    },
+    {
+      "phase_id": 20,
+      "canonical_slug": "phase20_state_machine",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase20_state_machine/replicate.py"
     }
   ]
 }

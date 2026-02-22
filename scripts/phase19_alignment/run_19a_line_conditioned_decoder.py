@@ -62,7 +62,7 @@ def main() -> None:
             "benchmark": str(BENCHMARK_PATH.relative_to(PROJECT_ROOT)),
             "folio_data": "tools/workbench/data/folio_data.js",
             "lattice_data": "tools/workbench/data/lattice_data.js",
-            "page_schedule": "results/data/phase18_generate/folio_state_schedule.json",
+            "page_schedule": "results/data/phase18_comparative/folio_state_schedule.json",
         },
         "summary": {
             "train_folio_count": len(train_folios),

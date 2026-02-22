@@ -225,7 +225,7 @@ All 4 tasks finished: blueprints (tabula model), bandwidth audit, operator manua
 | Claim-artifact map (251 claims) | `governance/claim_artifact_map.md` |
 | Production model specification | `results/reports/phase20_state_machine/PRODUCTION_MODEL.md` |
 | Phase 20 execution plan | `planning/phase20_state_machine/phase_20_execution_plan.md` |
-| Opportunities execution plan (27 sprints) | `planning/opportunities_execution_plan.md` |
+| Opportunities execution plan (27 sprints) | `planning/opportunities/opportunities_execution_plan.md` |
 | Operator manual | `results/reports/phase17_finality/OPERATOR_MANUAL.md` |
 | Tabula card blueprint | `results/visuals/phase17_finality/tabula_card.svg` |
 | Codebook index | `results/visuals/phase17_finality/codebook_index.svg` |

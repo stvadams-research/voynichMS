@@ -18,10 +18,10 @@ SLIPS_PATH = PROJECT_ROOT / "results/data/phase13_demonstration/slip_viz_data.js
 LATTICE_PATH = PROJECT_ROOT / "results/data/phase14_machine/full_palette_grid.json"
 FOLIO_PATH = PROJECT_ROOT / "data/raw/transliterations/ivtff2.0/ZL3b-n.txt"
 PAGE_SCHEDULE_PATH = (
-    PROJECT_ROOT / "results/data/phase18_generate/folio_state_schedule.json"
+    PROJECT_ROOT / "results/data/phase18_comparative/folio_state_schedule.json"
 )
 PAGE_PRIORS_PATH = (
-    PROJECT_ROOT / "results/data/phase18_generate/page_priors.json"
+    PROJECT_ROOT / "results/data/phase18_comparative/page_priors.json"
 )
 SCAN_1000_DIR = PROJECT_ROOT / "data/raw/scans/jpg/folios_1000"
 SCAN_2000_DIR = PROJECT_ROOT / "data/raw/scans/jpg/folios_2000"
@@ -283,8 +283,8 @@ def main() -> None:
         page_schedule = {
             "available": False,
             "reason": (
-                "Missing results/data/phase18_generate/folio_state_schedule.json. "
-                "Run scripts/phase18_generate/build_page_generation_assets.py."
+                "Missing results/data/phase18_comparative/folio_state_schedule.json. "
+                "Run scripts/phase18_comparative/build_assets.py."
             ),
         }
 
@@ -295,8 +295,8 @@ def main() -> None:
         page_priors = {
             "available": False,
             "reason": (
-                "Missing results/data/phase18_generate/page_priors.json. "
-                "Run scripts/phase18_generate/build_page_generation_assets.py."
+                "Missing results/data/phase18_comparative/page_priors.json. "
+                "Run scripts/phase18_comparative/build_assets.py."
             ),
         }
 
