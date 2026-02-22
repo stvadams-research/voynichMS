@@ -3,6 +3,7 @@ import statistics
 from collections import Counter, defaultdict
 from datetime import UTC, datetime
 
+
 class FolioAssetBuilder:
     """Builds folio schedule and page priors for the Voynich analysis."""
 

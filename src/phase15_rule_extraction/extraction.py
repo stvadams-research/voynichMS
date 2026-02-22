@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 class RuleExtractor:
     """Extracts declarative rules from the implicit lattice-map and window-contents."""
 
@@ -15,7 +16,7 @@ class RuleExtractor:
     def extract_rules(self):
         """
         Extracts implicit grammar into a declarative list.
-        
+
         Returns:
             list: List of dicts with 'from_window', 'token', and 'to_window'.
         """
@@ -42,54 +43,42 @@ class RuleExtractor:
         """
         output_path = Path(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        
-        with open(output_path, "w") as f:
-            f.write("# Phase 15: Declarative Rule Table (Voynich Engine)
 
-")
+        with open(output_path, "w") as f:
+            f.write("# Phase 15: Declarative Rule Table (Voynich Engine)\n\n")
             f.write(
                 "This document defines the explicit transition logic "
                 "of the reconstructed mechanical generator. "
             )
             f.write(
                 "A third party can reproduce the manuscript's structure "
-                "by following these rules.
-
-"
+                "by following these rules.\n\n"
             )
 
-            f.write("## 1. Physical Transition Table
-")
-            f.write("| Current Window | Chosen Token | Next Window |
-")
-            f.write("| :--- | :--- | :--- |
-")
+            f.write("## 1. Physical Transition Table\n")
+            f.write("| Current Window | Chosen Token | Next Window |\n")
+            f.write("| :--- | :--- | :--- |\n")
 
             # Limit to top N rules for readability in report
             for r in rules[:limit]:
-                f.write(f"| {r['from_window']} | `{r['token']}` | {r['to_window']} |
-")
+                f.write(
+                    f"| {r['from_window']} | `{r['token']}` | {r['to_window']} |\n"
+                )
 
             if len(rules) > limit:
                 f.write(
-                    f"
-... [Table Truncated for Readability. "
+                    f"\n... [Table Truncated for Readability. "
                     f"Showing {limit} of {len(rules)} rules. "
-                    "Full CSV available in logic export] ...
-
-"
+                    "Full CSV available in logic export] ...\n\n"
                 )
 
-            f.write("## 2. Global State Invariants
-")
+            f.write("## 2. Global State Invariants\n")
             f.write(
                 "- **Deterministic Reset:** Every line returns the "
-                "carriage to a start position (Window 0).
-"
+                "carriage to a start position (Window 0).\n"
             )
             f.write(
                 "- **Window Adjacency:** Scribe selection is restricted "
                 "to the window exposed by the previous token's "
-                "transition rule.
-"
+                "transition rule.\n"
             )

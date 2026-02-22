@@ -1,5 +1,7 @@
 import math
+
 import numpy as np
+
 
 def dist(p1, p2):
     """Euclidean distance between two 2D points."""

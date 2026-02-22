@@ -1,6 +1,8 @@
 from collections import Counter, defaultdict
+
 import numpy as np
 from scipy.stats import spearmanr
+
 
 class EffortCorrelationAnalyzer:
     """Analyzes the correlation between physical effort (strokes) and selection bias."""

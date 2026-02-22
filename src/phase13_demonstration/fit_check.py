@@ -1,6 +1,7 @@
 import math
 from collections import Counter
 
+
 class StructuralFitAnalyzer:
     """Analyzes structural fit between real and simulated corpora using entropy."""
 

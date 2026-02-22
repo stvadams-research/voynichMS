@@ -14,6 +14,7 @@ sys.path.insert(0, str(project_root / "src"))
 from phase1_foundation.core.data_loading import load_canonical_lines  # noqa: E402
 from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
 from phase1_foundation.storage.metadata import MetadataStore  # noqa: E402
+
 # Assuming VolvelleSimulator exists in phase12_mechanical or similar
 try:
     from phase12_mechanical.volvelle_simulator import VolvelleSimulator  # noqa: E402

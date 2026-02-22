@@ -1,8 +1,11 @@
 """Tests for Phase 15C bias and compressibility calculations."""
 
 import math
+
 import pytest
-from phase15_rule_extraction.bias import calculate_entropy, BiasAnalyzer
+
+from phase15_rule_extraction.bias import BiasAnalyzer, calculate_entropy
+
 
 def test_entropy_uniform():
     """Uniform distribution over N items should give log2(N) bits."""

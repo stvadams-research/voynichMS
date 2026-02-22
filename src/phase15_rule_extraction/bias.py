@@ -1,7 +1,9 @@
 import math
 import zlib
 from collections import Counter, defaultdict
+
 import numpy as np
+
 
 def calculate_entropy(data):
     """Calculates the Shannon entropy of a dataset."""

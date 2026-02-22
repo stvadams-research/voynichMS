@@ -1,5 +1,6 @@
 import re
 
+
 def clean_token(t):
     """Removes transcription metadata and punctuation from a token."""
     t = re.sub(r'<!.*?>', '', t)

@@ -1,7 +1,9 @@
 import math
 from collections import Counter, defaultdict
+
 import numpy as np
 from scipy import stats
+
 
 def entropy(counts):
     """Shannon entropy of a count distribution in bits."""
