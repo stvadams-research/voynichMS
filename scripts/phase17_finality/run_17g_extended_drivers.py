@@ -27,7 +27,7 @@ from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
 from phase1_foundation.runs.manager import active_run  # noqa: E402
 
 CHOICE_STREAM_PATH = (
-    project_root / "results/data/phase15_selection/choice_stream_trace.json"
+    project_root / "results/data/phase15_rule_extraction/choice_stream_trace.json"
 )
 OUTPUT_PATH = project_root / "results/data/phase17_finality/extended_drivers.json"
 console = Console()

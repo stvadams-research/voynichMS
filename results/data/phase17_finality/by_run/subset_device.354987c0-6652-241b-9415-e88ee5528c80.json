@@ -1,0 +1,216 @@
+{
+  "provenance": {
+    "run_id": "354987c0-6652-241b-9415-e88ee5528c80",
+    "git_commit": "5502515685578c57f4164164388467a2e49299f9",
+    "timestamp": "2026-02-22T00:57:05.570511+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771721825570465000,
+    "command": "run_17i_subset_device"
+  },
+  "results": {
+    "f1_coverage_analysis": {
+      "token_coverage_curve": [
+        {
+          "vocab_size": 50,
+          "tokens_covered": 9819,
+          "coverage": 0.2989
+        },
+        {
+          "vocab_size": 100,
+          "tokens_covered": 13277,
+          "coverage": 0.4041
+        },
+        {
+          "vocab_size": 200,
+          "tokens_covered": 16771,
+          "coverage": 0.5105
+        },
+        {
+          "vocab_size": 500,
+          "tokens_covered": 21083,
+          "coverage": 0.6418
+        },
+        {
+          "vocab_size": 1000,
+          "tokens_covered": 24048,
+          "coverage": 0.732
+        },
+        {
+          "vocab_size": 2000,
+          "tokens_covered": 26700,
+          "coverage": 0.8127
+        },
+        {
+          "vocab_size": 7717,
+          "tokens_covered": 32852,
+          "coverage": 1.0
+        }
+      ],
+      "coverage_thresholds": {
+        "50": 188,
+        "80": 1791,
+        "90": 4432,
+        "95": 6075,
+        "99": 7389
+      },
+      "transition_coverage_curve": [
+        {
+          "vocab_size": 50,
+          "transitions_covered": 3239,
+          "total_transitions": 27496,
+          "coverage": 0.1178
+        },
+        {
+          "vocab_size": 100,
+          "transitions_covered": 5473,
+          "total_transitions": 27496,
+          "coverage": 0.199
+        },
+        {
+          "vocab_size": 200,
+          "transitions_covered": 8410,
+          "total_transitions": 27496,
+          "coverage": 0.3059
+        },
+        {
+          "vocab_size": 500,
+          "transitions_covered": 12506,
+          "total_transitions": 27496,
+          "coverage": 0.4548
+        },
+        {
+          "vocab_size": 1000,
+          "transitions_covered": 15724,
+          "total_transitions": 27496,
+          "coverage": 0.5719
+        },
+        {
+          "vocab_size": 2000,
+          "transitions_covered": 18931,
+          "total_transitions": 27496,
+          "coverage": 0.6885
+        }
+      ],
+      "window_coverage": [
+        {
+          "vocab_size": 50,
+          "windows_occupied": 3,
+          "windows_empty": 47,
+          "avg_words_per_window": 16.7,
+          "max_words_per_window": 45
+        },
+        {
+          "vocab_size": 100,
+          "windows_occupied": 5,
+          "windows_empty": 45,
+          "avg_words_per_window": 20.0,
+          "max_words_per_window": 85
+        },
+        {
+          "vocab_size": 200,
+          "windows_occupied": 6,
+          "windows_empty": 44,
+          "avg_words_per_window": 33.3,
+          "max_words_per_window": 155
+        },
+        {
+          "vocab_size": 500,
+          "windows_occupied": 12,
+          "windows_empty": 38,
+          "avg_words_per_window": 41.7,
+          "max_words_per_window": 242
+        },
+        {
+          "vocab_size": 1000,
+          "windows_occupied": 21,
+          "windows_empty": 29,
+          "avg_words_per_window": 47.6,
+          "max_words_per_window": 329
+        },
+        {
+          "vocab_size": 2000,
+          "windows_occupied": 39,
+          "windows_empty": 11,
+          "avg_words_per_window": 51.3,
+          "max_words_per_window": 362
+        }
+      ],
+      "breakpoint_vocab_size": null,
+      "total_lattice_vocab": 7717,
+      "total_tokens": 32852,
+      "total_transitions": 27496
+    },
+    "f2_device_dimensioning": {
+      "target_subset_size": 2000,
+      "volvelle": {
+        "diameter_mm": 678.0,
+        "diameter_cm": 67.8,
+        "n_rings": 3,
+        "ring_specs": [
+          {
+            "ring": 1,
+            "inner_radius_mm": 5.0,
+            "outer_radius_mm": 57.0,
+            "n_windows": 13
+          },
+          {
+            "ring": 2,
+            "inner_radius_mm": 62.0,
+            "outer_radius_mm": 198.0,
+            "n_windows": 13
+          },
+          {
+            "ring": 3,
+            "inner_radius_mm": 203.0,
+            "outer_radius_mm": 339.0,
+            "n_windows": 13
+          }
+        ],
+        "windows_used": 39,
+        "vs_alberti": 5.65,
+        "vs_apian": 1.94
+      },
+      "tabula": {
+        "grid": "8x5",
+        "width_mm": 2588.0,
+        "height_mm": 1098.0
+      },
+      "codebook": {
+        "entries": 5717,
+        "suffix_recoverable": 5372,
+        "suffix_coverage_pct": 94.0,
+        "consultation_rate": 0.1873,
+        "words_between_lookups": 5.3
+      },
+      "plausibility": "MARGINAL",
+      "fits_historical_range": false,
+      "practical_codebook": true
+    },
+    "f3_subset_admissibility": {
+      "transition_breakdown": {
+        "in_device": 18931,
+        "in_to_out": 3686,
+        "out_to_in": 4420,
+        "out_to_out": 1303,
+        "total": 28340
+      },
+      "in_device_admissibility": {
+        "strict": 0.0467,
+        "drift": 0.7723
+      },
+      "suffix_recovery": {
+        "recovered": 3477,
+        "admissible": 3309
+      },
+      "consolidated": {
+        "admissible": 17929,
+        "total": 28340,
+        "rate": 0.6326,
+        "vs_monolithic": -0.87,
+        "gate_pass": true
+      }
+    },
+    "overall_plausibility": "MARGINAL"
+  }
+}

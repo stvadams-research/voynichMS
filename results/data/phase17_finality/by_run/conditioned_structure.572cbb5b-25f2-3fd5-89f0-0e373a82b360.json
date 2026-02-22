@@ -1,0 +1,191 @@
+{
+  "provenance": {
+    "run_id": "572cbb5b-25f2-3fd5-89f0-0e373a82b360",
+    "git_commit": "5502515685578c57f4164164388467a2e49299f9",
+    "timestamp": "2026-02-22T00:57:30.067717+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771721850067204000,
+    "command": "run_17h_conditioned_structure"
+  },
+  "results": {
+    "residual_stats": {
+      "total_choices": 12519,
+      "non_singleton_8d": 3629,
+      "non_singleton_5d": 9726,
+      "mean_8d": 0.4782,
+      "std_8d": 0.43
+    },
+    "e2_structure_comparison": {
+      "raw_a3": {
+        "acf1_z": 6.95,
+        "spectral_z": 43.7,
+        "compression_z": 1.81,
+        "verdict": "STRUCTURED"
+      },
+      "after_5_drivers": {
+        "label": "After 5 drivers",
+        "n": 9726,
+        "acf1": {
+          "real": 0.0134,
+          "z_score": 1.33,
+          "significant": false
+        },
+        "compression": {
+          "real": 0.7677,
+          "z_score": -1.31,
+          "significant": false
+        },
+        "spectral_peak": {
+          "real": 0.004307,
+          "z_score": 9.1,
+          "significant": true
+        },
+        "n_significant": 1,
+        "verdict": "MARGINAL_STRUCTURE"
+      },
+      "after_8_drivers": {
+        "label": "After 8 drivers",
+        "n": 3629,
+        "acf1": {
+          "real": -0.0005,
+          "z_score": -0.0,
+          "significant": false
+        },
+        "compression": {
+          "real": 0.4825,
+          "z_score": -0.21,
+          "significant": false
+        },
+        "spectral_peak": {
+          "real": 0.004586,
+          "z_score": 0.18,
+          "significant": false
+        },
+        "n_significant": 0,
+        "verdict": "NO_STRUCTURE"
+      },
+      "gate_verdict": "EXPLAINED"
+    },
+    "e3_window36_deep_dive": {
+      "n_choices": 10096,
+      "n_unique_words": 377,
+      "structure_battery": {
+        "label": "Window 36 raw",
+        "n": 10096,
+        "acf1": {
+          "real": 0.0649,
+          "z_score": 6.86,
+          "significant": true
+        },
+        "compression": {
+          "real": 0.8698,
+          "z_score": 1.46,
+          "significant": false
+        },
+        "spectral_peak": {
+          "real": 0.005777,
+          "z_score": 16.26,
+          "significant": true
+        },
+        "n_significant": 2,
+        "verdict": "STRUCTURED"
+      },
+      "driver_saturation": {
+        "h_marginal": 7.3444,
+        "h_bigram": 4.538,
+        "h_trigram": 2.8264,
+        "h_4gram_proxy": 2.8264,
+        "plateau_reached": true,
+        "trigram_to_4gram_delta": 0.0
+      },
+      "mi_profile": {
+        "mi_by_lag": [
+          {
+            "lag": 1,
+            "mi": 0.005
+          },
+          {
+            "lag": 2,
+            "mi": 0.0031
+          },
+          {
+            "lag": 3,
+            "mi": 0.0046
+          },
+          {
+            "lag": 4,
+            "mi": 0.0027
+          },
+          {
+            "lag": 5,
+            "mi": 0.0033
+          },
+          {
+            "lag": 6,
+            "mi": 0.002
+          },
+          {
+            "lag": 7,
+            "mi": 0.0026
+          },
+          {
+            "lag": 8,
+            "mi": 0.0035
+          },
+          {
+            "lag": 9,
+            "mi": 0.0013
+          },
+          {
+            "lag": 10,
+            "mi": 0.0024
+          },
+          {
+            "lag": 11,
+            "mi": 0.0025
+          },
+          {
+            "lag": 12,
+            "mi": 0.0012
+          },
+          {
+            "lag": 13,
+            "mi": 0.0011
+          },
+          {
+            "lag": 14,
+            "mi": 0.0008
+          },
+          {
+            "lag": 15,
+            "mi": 0.0023
+          },
+          {
+            "lag": 16,
+            "mi": 0.003
+          },
+          {
+            "lag": 17,
+            "mi": 0.0014
+          },
+          {
+            "lag": 18,
+            "mi": 0.0022
+          },
+          {
+            "lag": 19,
+            "mi": 0.0025
+          },
+          {
+            "lag": 20,
+            "mi": 0.0012
+          }
+        ],
+        "slope": -0.000121,
+        "non_decaying": true
+      }
+    },
+    "overall_verdict": "EXPLAINED"
+  }
+}

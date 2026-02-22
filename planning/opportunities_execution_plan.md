@@ -1,7 +1,7 @@
 # Strategic Opportunities Execution Plan
 
 **Date:** 2026-02-21
-**Status:** IN PROGRESS (A-D complete, E-F planned)
+**Status:** COMPLETE (all 8 workstreams, 27 sprints)
 **Depends on:** All Phase 14 (COMPLETE), Phase 15 (COMPLETE), Phase 16 (COMPLETE), Phase 17 (partial)
 
 ## Execution Progress
@@ -20,13 +20,18 @@
 - [x] Sprint D3: Comparative Signature Analysis (2026-02-21)
 - [x] Sprint D4: Governance (2026-02-21)
 - [x] Sprint E1: Extended Driver Conditioning (2026-02-21)
-- [ ] Sprint E2: Conditioned Structure Detection
-- [ ] Sprint E3: Window 36 Deep Dive
-- [ ] Sprint E4: Governance (Workstream E)
-- [ ] Sprint F1: Cumulative Coverage Analysis
-- [ ] Sprint F2: Plausible Device Dimensioning
-- [ ] Sprint F3: Admissibility Under Subset Architecture
-- [ ] Sprint F4: Governance (Workstream F)
+- [x] Sprint E2: Conditioned Structure Detection (2026-02-21)
+- [x] Sprint E3: Window 36 Deep Dive (2026-02-21)
+- [x] Sprint E4: Governance (Workstream E) (2026-02-21)
+- [x] Sprint F1: Cumulative Coverage Analysis (2026-02-21)
+- [x] Sprint F2: Plausible Device Dimensioning (2026-02-21)
+- [x] Sprint F3: Admissibility Under Subset Architecture (2026-02-21)
+- [x] Sprint F4: Governance (Workstream F) (2026-02-21)
+- [x] Sprint G1: Per-Section Coverage and Device Dimensioning (2026-02-22)
+- [x] Sprint G2: Per-Section Admissibility Verification (2026-02-22)
+- [x] Sprint G3: Governance (Workstream G) (2026-02-22)
+- [x] Sprint H1: Canonical Admissibility Audit and Update (2026-02-22)
+- [x] Sprint H2: Governance (Workstream H) (2026-02-22)
 
 ### Phase 1 Results (A1, B1-B2, C1-C2)
 
@@ -113,7 +118,7 @@
 - claim_artifact_map.md: Added claims #147-154 (Opportunity D)
 - Execution plan updated with all results
 
-### Phase 4 Results (E1)
+### Phase 4 Results (E1–E3, F1–F3)
 
 **Sprint E1 — Extended Driver Conditioning:**
 - Added 3 new drivers: trigram context (prev_prev_word), section proxy (7-section line_no buckets), window persistence (same_window flag)
@@ -123,6 +128,79 @@
 - **Total residual capacity collapsed**: from ~3.4 KB to **0.7 KB** (~1,400 Latin characters) — barely enough for a single paragraph
 - Per-window RSB (8 drivers): only 6 of 50 windows have non-zero RSB; window 36 still dominates (0.57 bpw, 10,096 choices)
 - Full chain: window (7.17) → +prev_word (3.99, -3.18) → +position (2.79, -1.20) → +recency (2.21, -0.58) → +suffix (2.21, -0.00) → +trigram (1.22, -0.99) → +section (0.58, -0.64) → +persistence (0.48, -0.10)
+
+**Sprint E2 — Conditioned Structure Detection:**
+- **GATE: EXPLAINED** — Structure vanishes under 8-driver conditioning
+- Side-by-side: ACF(1) z dropped 6.95 → 1.33 → **-0.00**; spectral peak z dropped 43.70 → 9.10 → **0.18**
+- After 5 drivers: verdict MARGINAL_STRUCTURE (spectral z=9.10 still significant)
+- After 8 drivers: verdict **NO_STRUCTURE** (all z-scores below significance threshold)
+- Only 29% of choices are non-singleton under 8-driver keys (high conditioning granularity)
+- **Conclusion:** The A3 STRUCTURED signal was unmodeled mechanical correlation (trigram context + section identity), not hidden content
+
+**Sprint E3 — Window 36 Deep Dive:**
+- Window 36 raw (unconditioned): still STRUCTURED (ACF z=6.86, spectral z=16.26)
+- **Driver saturation plateau reached**: trigram→4-gram delta = 0.0000 bits — no further n-gram context reduces entropy
+- Bigram reduces 7.34 → 4.54 bpw, trigram reduces to 2.83 bpw, then no further reduction
+- Sequential MI is flat and near-zero (MI(1)=0.005 bits, slope=-0.00012) — non-decaying but negligible magnitude
+- **Conclusion:** Window 36's structure is fully explained by bigram+trigram context. The entropy plateau and negligible MI confirm there is no hidden periodic encoding
+
+**Sprint F1 — Cumulative Coverage Analysis:**
+- Token coverage: 188 words → 50%, 1,791 → 80%, 4,432 → 90%, 6,075 → 95%
+- Transition coverage (both words in subset): top-50 → 11.8%, top-500 → 45.5%, top-1000 → 57.2%, top-2000 → 68.8%
+- **No subset achieves 90% transition coverage** — even top-2000 words only cover 68.8% of transitions
+- Window occupancy: top-50 words span only 3 windows; top-2000 span 39 of 50
+- Extremely concentrated: top-50 words (0.6% of lattice vocab) handle 11.8% of all transitions
+
+**Sprint F2 — Plausible Device Dimensioning:**
+- Subset volvelle (top 2000 words): **678mm diameter** — 1.94× Apian, 5.65× Alberti
+- Still too large for a single disc, though substantially smaller than the full 1,410mm
+- Codebook: 5,717 tail entries, 94.0% suffix-recoverable
+- **Consultation rate: 18.7%** — scribe consults codebook every ~5.3 words (operationally feasible)
+- **Plausibility verdict: MARGINAL** — device exceeds historical range, but codebook consultation rate is practical
+
+**Sprint F3 — Admissibility Under Subset Architecture:**
+- In-device transitions (both on device): 66.8% of all transitions
+- **In-device drift admissibility: 77.2%** (substantially higher than monolithic 64.13%)
+- Suffix recovery: 3,477 of 3,686 in→out transitions recovered (94.3%), 3,309 admissible
+- **Consolidated admissibility: 63.3%** — only -0.87pp below monolithic baseline
+- **Gate PASS: ≥60%** — the subset architecture preserves admissibility within tolerance
+
+### Phase 6 Results (G1-G3)
+
+**Sprint G1 — Per-Section Coverage and Device Dimensioning:**
+- Corpus split into 7 manuscript sections (Herbal A/B, Astro, Biological, Cosmo, Pharma, Stars)
+- Per-section vocabularies range from 549 (Cosmo) to 3,396 (Stars) words
+- **Only Cosmo (368mm) fits within historical 120-350mm range** — all others 566-846mm
+- Full section vocabs needed for 80% transition coverage in most sections (long-tailed distributions persist)
+- Codebook union: 481 words across all sections (compact, single-folio feasible)
+- **Composite verdict: does NOT resolve C1 implausibility** (1/7 PLAUSIBLE)
+
+**Sprint G2 — Per-Section Admissibility Verification:**
+- **6/7 sections pass ≥55% gate** — only Astro (51.4%) fails
+- Biological (72.8%), Cosmo (73.8%), Pharma (69.6%) *exceed* monolithic 64.13% baseline
+- Within-section vocabulary distributions are more structured than global average
+- **Cross-section boundaries: 3 transitions (0.01% of corpus)** — NEGLIGIBLE impact
+- Sections are effectively independent from a transition-admissibility standpoint
+
+**Sprint G3 — Governance:**
+- CANONICAL_EVALUATION.md: Added Section 35 (per-section device analysis)
+- claim_artifact_map.md: Added claims #171-179 (Opportunity G)
+
+### Phase 6 Results (H1-H2)
+
+**Sprint H1 — Canonical Admissibility Audit and Update:**
+- **64.13% does NOT include suffix recovery** — base corrected rate is 63.99%
+- With OOV suffix recovery: **64.94%** (+0.96pp global impact)
+- Two computation paths verified:
+  - EvaluationEngine (uncorrected): 43.44% → 45.47% (+2.03pp)
+  - Manual correction path (corrected): 63.99% → 64.94% (+0.96pp)
+- B2's +3.04pp was hapax-specific; global dilution to +0.96pp because hapax OOV transitions are only 3.0% of the transition stream
+- Hapax pipeline: 7,009 hapax words, 1,727 OOV, 93.9% suffix-covered, 902 OOV transitions, 820 admissible
+- **Updated canonical admissibility: 64.94%**
+
+**Sprint H2 — Governance:**
+- CANONICAL_EVALUATION.md: Added Section 36 (hapax suffix integration, updated canonical number)
+- claim_artifact_map.md: Added claims #180-187 (Opportunity H, 187 total)
 
 ## Overview
 
@@ -527,6 +605,161 @@ Update execution plan, CANONICAL_EVALUATION.md, claim_artifact_map.md. If cross-
 
 ---
 
+## Workstream G: Per-Section Device Analysis
+
+**Motivation:** F2 found the monolithic subset device is MARGINAL (678mm, 1.94× Apian). But E1 showed section identity explains -1.05 bits — vocabulary distributions shift across sections. If each section used a *different* (smaller) device, per-section dimensions could fall within the historical 120–350mm range.
+
+**Goal:** Determine whether section-specific devices resolve the C1/F2 implausibility by splitting the corpus into 7 manuscript sections and running the F1-F3 analysis independently for each.
+
+**Key data:**
+- Per-section token counts vary widely: Stars 10,096, Herbal A 8,664, Biological 6,012, Pharma 2,836, Astro 2,665, Cosmo 1,422, Herbal B 1,157
+- Per-section admissibility varies: Biological 56.87%, Cosmo 58.23%, Pharma 50.32%, Stars 41.79%, Herbal A 37.05%, Herbal B 31.89%, Astro 29.83%
+- Section boundaries available as folio ranges in `run_17f_device_specification.py` (SECTIONS dict)
+
+### Sprint G1: Per-Section Coverage and Device Dimensioning
+
+**Script:** `scripts/phase17_finality/run_17j_section_devices.py`
+**Output:** `results/data/phase17_finality/section_devices.json`
+
+**G1.1 — Section corpus extraction**
+
+Split the full corpus into 7 sections using folio-based boundaries (same SECTIONS dict as `run_17f`). For each section, report:
+- Lines, tokens, vocabulary size
+- Fraction of the full lattice vocabulary used in this section
+- Number of windows occupied
+
+Reuse: `load_lines_with_folios()` from `run_17f_device_specification.py`, `load_palette()`, SECTIONS dict.
+
+**G1.2 — Per-section token and transition coverage**
+
+For each section, run the F1 coverage analysis:
+- Token coverage curve (at thresholds 50%, 80%, 90%, 95%)
+- Transition coverage curve (at subset sizes: top-50, 100, 200, 500)
+- Identify the minimum vocab subset achieving 80% transition coverage within the section
+
+Note: Sections with smaller vocabularies should need far fewer words on a device.
+
+**G1.3 — Per-section device dimensioning**
+
+For each section's optimal subset (from G1.2), compute:
+- Subset volvelle diameter (same methodology as F2: glyph sizing → sector geometry → ring layout)
+- Windows needed
+- Codebook entries (words not on the section device)
+- Codebook consultation rate
+
+**G1.4 — Historical plausibility per section**
+
+For each section, report:
+- Does the section-specific device fit within 120–350mm?
+- Codebook consultation rate
+- Per-section plausibility verdict: PLAUSIBLE / MARGINAL / IMPLAUSIBLE
+
+**G1.5 — Composite plausibility assessment**
+
+Aggregate across all 7 sections:
+- How many sections produce PLAUSIBLE devices?
+- What's the total codebook size (union of all section tails)?
+- Is a "7-device + shared codebook" system historically realistic?
+  - Compare against known multi-device systems (Trithemius polyalphabetic, Llull combinatorial wheels)
+  - A scribe carrying 7 small devices is plausible if each is ≤200mm and the codebook is a single folio
+
+**Acceptance:**
+- Per-section device dimensions with historical comparison
+- Composite plausibility verdict
+- Clear statement: does section-specific device architecture resolve C1 implausibility?
+
+### Sprint G2: Per-Section Admissibility Verification
+
+**Script:** Same as G1 (extended section)
+
+**G2.1 — In-device admissibility per section**
+
+For each section, compute corrected admissibility using only the section's subset vocabulary + per-window corrections. Compare against the monolithic 64.13% and the section-specific admissibility from `section_lattice.json`.
+
+**G2.2 — Cross-section transition handling**
+
+The 7-device model has a new edge case: transitions at section boundaries. When the scribe switches from one section's device to another:
+- How many transitions span section boundaries?
+- What happens to admissibility at these boundaries?
+- Is this a negligible fraction of the corpus?
+
+**Acceptance:**
+- Per-section admissibility rates
+- Cross-section boundary transition count and impact
+- Gate: each section's admissibility ≥55% (within 10pp of monolithic)
+
+### Sprint G3: Governance
+
+Update CANONICAL_EVALUATION.md (Section 35), claim_artifact_map.md, execution plan.
+
+---
+
+## Workstream H: Hapax Suffix Integration
+
+**Motivation:** B2 found hapax suffix grouping adds +3.04pp admissibility but this was never integrated into the canonical production evaluation. The EvaluationEngine already supports `suffix_window_map` as an optional parameter (Phase 14O integration), so integration is straightforward.
+
+**Goal:** Integrate B2's +3.04pp hapax suffix grouping into the canonical admissibility evaluation, establishing the updated production baseline.
+
+### Sprint H1: Canonical Admissibility Audit and Update
+
+**Script:** `scripts/phase17_finality/run_17k_hapax_integration.py`
+**Output:** `results/data/phase17_finality/hapax_integration.json`
+
+**H1.1 — Baseline verification**
+
+Determine whether the canonical 64.13% corrected admissibility already includes suffix recovery:
+- Run `EvaluationEngine.calculate_admissibility()` WITHOUT `suffix_window_map` → record baseline
+- Run WITH `suffix_window_map` → record suffix-enhanced rate
+- Report the delta
+
+If the delta is ~0 (suffix recovery already included), the B2 +3.04pp is already reflected and this workstream documents that fact. If the delta is >0, the canonical number needs updating.
+
+Reuse: `EvaluationEngine` from `src/phase14_machine/evaluation_engine.py`, `load_palette()`, `load_corrections()` from `run_17f`.
+
+**H1.2 — Hapax-specific analysis**
+
+Regardless of the above, document the hapax recovery pipeline:
+- Total hapax words in corpus
+- Suffix coverage rate (from B2: 93.9%)
+- Hapax transition admissibility with suffix recovery (from B2: 92.7%)
+- Effective contribution to overall admissibility
+
+**H1.3 — Updated canonical number**
+
+Report the definitive canonical admissibility rate with all integrations:
+- Base corrected admissibility (without suffix recovery)
+- + Phase 14O OOV recovery
+- + B2 hapax suffix grouping
+- = Final production admissibility
+
+If the rate changes from 64.13%, update CANONICAL_EVALUATION.md Section 1 with the new canonical number.
+
+**Acceptance:**
+- Clear statement: was 64.13% already suffix-inclusive?
+- Updated canonical admissibility with all integrations
+- If changed: updated CANONICAL_EVALUATION.md, updated claim_artifact_map.md
+
+### Sprint H2: Governance
+
+Update CANONICAL_EVALUATION.md (Section 36 if new findings), claim_artifact_map.md, execution plan.
+
+---
+
+## Dependency Graph
+
+```
+Phase 1:  A1, B1, C1           ← immediate, independent
+Phase 2:  A2, B2, C2           ← depends on Phase 1 within workstream
+Phase 3:  A3, B3, C3           ← depends on Phase 2 within workstream
+Phase 4:  D1, D2 (parallel) → D3 → D4
+Phase 5:  E1 → E2-E3 → E4     ← depends on A1/A3 for methodology
+          F1 → F2 → F3 → F4   ← depends on C1 for device geometry
+Phase 6:  G1 → G2 → G3        ← depends on E1/F1-F3 for methodology
+          H1 → H2             ← depends on B2 findings
+```
+
+G and H are independent workstreams. Can run in parallel.
+
 ## Execution Order
 
 The recommended execution order balances immediacy, independence, and information value:
@@ -580,6 +813,10 @@ Within each phase, the listed sprints can execute in parallel across workstreams
 | E2-E3 | `results/data/phase17_finality/conditioned_structure.json` | Artifact |
 | F1-F3 | `scripts/phase17_finality/run_17i_subset_device.py` | Script |
 | F1-F3 | `results/data/phase17_finality/subset_device.json` | Artifact |
+| G1-G2 | `scripts/phase17_finality/run_17j_section_devices.py` | Script |
+| G1-G2 | `results/data/phase17_finality/section_devices.json` | Artifact |
+| H1 | `scripts/phase17_finality/run_17k_hapax_integration.py` | Script |
+| H1 | `results/data/phase17_finality/hapax_integration.json` | Artifact |
 
 ## Modified Files
 
@@ -590,6 +827,8 @@ Within each phase, the listed sprints can execute in parallel across workstreams
 | D4 | `results/reports/phase14_machine/CANONICAL_EVALUATION.md` | Add cross-manuscript comparison section |
 | E4 | `results/reports/phase14_machine/CANONICAL_EVALUATION.md` | Add residual structure investigation section |
 | F4 | `results/reports/phase14_machine/CANONICAL_EVALUATION.md` | Add subset device architecture section |
-| B3, C3, D4, E4, F4 | `governance/claim_artifact_map.md` | Add new claims |
+| G3 | `results/reports/phase14_machine/CANONICAL_EVALUATION.md` | Add per-section device analysis section |
+| H2 | `results/reports/phase14_machine/CANONICAL_EVALUATION.md` | Add hapax integration section (if findings change canonical number) |
+| B3, C3, D4, E4, F4, G3, H2 | `governance/claim_artifact_map.md` | Add new claims |
 | Final | `STATUS.md` | Update Section 10 with results |
 | All | This file | Update sprint checkboxes as work completes |

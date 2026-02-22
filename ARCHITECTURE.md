@@ -29,6 +29,8 @@ For reproduction instructions, see [replicateResults.md](replicateResults.md).
                                      │                Phase 15 (Rule Extraction)
                                      │                Phase 16 (Physical Grounding)
                                      │                Phase 17 (Finality)
+                                     │                Phase 18 (Comparative)
+                                     │                Phase 19 (Alignment)
                                      │                    │
                                      │                    ▼
                                results/data/         results/reports/
@@ -274,6 +276,8 @@ replicate_all.py
   └── phase15/replicate.py   (rule extraction)
   └── phase16/replicate.py   (physical grounding)
   └── phase17/replicate.py   (finality)
+  └── phase18/replicate.py   (comparative)
+  └── phase19/replicate.py   (alignment)
 ```
 
 ### Verification Chain

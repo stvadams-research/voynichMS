@@ -1,0 +1,84 @@
+{
+  "provenance": {
+    "run_id": "4e4534e7-ea9a-ce82-e72c-42df2b5c59c1",
+    "git_commit": "5502515685578c57f4164164388467a2e49299f9",
+    "timestamp": "2026-02-22T01:35:49.880575+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771724149880224000,
+    "command": "run_17k_hapax_integration"
+  },
+  "results": {
+    "h1_1_baseline_verification": {
+      "evaluation_engine_path": {
+        "without_suffix": {
+          "drift_admissibility": 0.434372,
+          "total_transitions": 32852
+        },
+        "with_suffix": {
+          "consolidated_admissibility": 0.454659,
+          "oov_total": 1753,
+          "oov_recovered": 1642,
+          "oov_admissible": 1202
+        },
+        "delta_pp": 2.03
+      },
+      "corrected_path": {
+        "without_suffix": {
+          "rate": 0.639875,
+          "admissible": 17594,
+          "total": 27496
+        },
+        "with_suffix": {
+          "consolidated_rate": 0.649432,
+          "consolidated_admissible": 18414,
+          "consolidated_total": 28354,
+          "oov_total": 902,
+          "oov_recovered": 858,
+          "oov_admissible": 820
+        },
+        "delta_pp": 0.96
+      },
+      "canonical_ref": 0.6413,
+      "suffix_already_included": false
+    },
+    "h1_2_hapax_analysis": {
+      "total_hapax": 7009,
+      "hapax_in_lattice": 5282,
+      "hapax_oov": 1727,
+      "oov_suffix_covered": 1621,
+      "oov_suffix_coverage_rate": 0.9386,
+      "all_hapax_suffix_covered": 6578,
+      "all_hapax_suffix_coverage_rate": 0.9385,
+      "hapax_oov_transitions": 902,
+      "hapax_recoverable": 858,
+      "suffix_class_distribution": {
+        "y": 469,
+        "dy": 253,
+        "in": 165,
+        "ol": 110,
+        "ar": 107,
+        "s": 90,
+        "al": 83,
+        "or": 79,
+        "d": 62,
+        "am": 56,
+        "o": 46,
+        "r": 37,
+        "l": 26,
+        "m": 25,
+        "an": 13
+      }
+    },
+    "h1_3_canonical_update": {
+      "base_corrected_rate": 0.639875,
+      "suffix_consolidated_rate": 0.649432,
+      "suffix_delta_pp": 0.96,
+      "canonical_was_suffix_inclusive": false,
+      "updated_canonical_rate": 0.649432,
+      "canonical_changed": true,
+      "b2_hapax_impact_pp": 3.04,
+      "global_oov_impact_pp": 0.96
+    }
+  }
+}

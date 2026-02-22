@@ -336,6 +336,59 @@ raw float (e.g., 88.11% = 0.8811).
 | 153 | Latin Euclidean distance | 1,044 | `run_18c_comparative_analysis.py` | `results/data/phase18_comparative/comparative_signatures.json` | `results.comparison.latin.euclidean_distance_z` | VERY_DISTINCT |
 | 154 | Discrimination verdict (all texts) | VERY_DISTINCT | `run_18c_comparative_analysis.py` | `results/data/phase18_comparative/comparative_signatures.json` | `results.discrimination.*.verdict` | All comparison texts d > 5 |
 
+## Opportunity E — Residual Structure Investigation
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 155 | RSB after 8 drivers | 0.48 bpw | `run_17g_extended_drivers.py` | `results/data/phase17_finality/extended_drivers.json` | `results.chain_summary.rsb_8_drivers` | Down from 2.21 with 5 drivers |
+| 156 | Trigram marginal reduction | -0.99 bits | `run_17g_extended_drivers.py` | `results/data/phase17_finality/extended_drivers.json` | `results.marginal_reductions.trigram.marginal_reduction` | Largest new driver |
+| 157 | Section marginal reduction | -0.64 bits (seq) | `run_17g_extended_drivers.py` | `results/data/phase17_finality/extended_drivers.json` | `results.entropy_chain[6].h` | Sequential chain position |
+| 158 | New drivers % explained | 78.4% | `run_17g_extended_drivers.py` | `results/data/phase17_finality/extended_drivers.json` | `results.chain_summary.pct_remaining_explained` | Of 5-driver residual |
+| 159 | ACF(1) z after 8 drivers | -0.00 | `run_17h_conditioned_structure.py` | `results/data/phase17_finality/conditioned_structure.json` | `results.e2_structure_comparison.after_8_drivers.acf1.z_score` | Below significance |
+| 160 | Spectral z after 8 drivers | 0.18 | `run_17h_conditioned_structure.py` | `results/data/phase17_finality/conditioned_structure.json` | `results.e2_structure_comparison.after_8_drivers.spectral_peak.z_score` | Below significance |
+| 161 | Gate verdict | EXPLAINED | `run_17h_conditioned_structure.py` | `results/data/phase17_finality/conditioned_structure.json` | `results.e2_structure_comparison.gate_verdict` | Structure was unmodeled mechanics |
+| 162 | Window 36 driver plateau | trigram (0.00 delta) | `run_17h_conditioned_structure.py` | `results/data/phase17_finality/conditioned_structure.json` | `results.e3_window36_deep_dive.driver_saturation.trigram_to_4gram_delta` | No further n-gram context helps |
+| 163 | Window 36 MI(1) | 0.005 bits | `run_17h_conditioned_structure.py` | `results/data/phase17_finality/conditioned_structure.json` | `results.e3_window36_deep_dive.mi_profile.mi_by_lag[0].mi` | Negligible sequential dependency |
+
+## Opportunity F — Subset Device Architecture
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 164 | Words for 50% token coverage | 188 | `run_17i_subset_device.py` | `results/data/phase17_finality/subset_device.json` | `results.f1_coverage_analysis.coverage_thresholds.50` | Extreme concentration |
+| 165 | Top-2000 transition coverage | 68.8% | `run_17i_subset_device.py` | `results/data/phase17_finality/subset_device.json` | `results.f1_coverage_analysis.transition_coverage_curve[5].coverage` | No subset reaches 90% |
+| 166 | Subset volvelle diameter | 678mm | `run_17i_subset_device.py` | `results/data/phase17_finality/subset_device.json` | `results.f2_device_dimensioning.volvelle.diameter_mm` | 1.94× Apian |
+| 167 | Codebook consultation rate | 18.7% | `run_17i_subset_device.py` | `results/data/phase17_finality/subset_device.json` | `results.f2_device_dimensioning.codebook.consultation_rate` | Every ~5.3 words |
+| 168 | In-device drift admissibility | 77.2% | `run_17i_subset_device.py` | `results/data/phase17_finality/subset_device.json` | `results.f3_subset_admissibility.in_device_admissibility.drift` | Higher than monolithic |
+| 169 | Consolidated admissibility | 63.3% | `run_17i_subset_device.py` | `results/data/phase17_finality/subset_device.json` | `results.f3_subset_admissibility.consolidated.rate` | -0.87pp vs monolithic |
+| 170 | Plausibility verdict | MARGINAL | `run_17i_subset_device.py` | `results/data/phase17_finality/subset_device.json` | `results.f2_device_dimensioning.plausibility` | Device oversized, codebook practical |
+
+## Opportunity G — Per-Section Device Analysis
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 171 | PLAUSIBLE section count | 1/7 | `run_17j_section_devices.py` | `results/data/phase17_finality/section_devices.json` | `results.g1_composite.plausible_count` | Only Cosmo fits historical range |
+| 172 | Cosmo device diameter | 368mm | `run_17j_section_devices.py` | `results/data/phase17_finality/section_devices.json` | `results.g1_section_devices.Cosmo.device.diameter_mm` | Within 120-400mm range |
+| 173 | Stars device diameter | 846mm | `run_17j_section_devices.py` | `results/data/phase17_finality/section_devices.json` | `results.g1_section_devices.Stars.device.diameter_mm` | Largest section, largest device |
+| 174 | Codebook union size | 481 | `run_17j_section_devices.py` | `results/data/phase17_finality/section_devices.json` | `results.g1_composite.total_codebook_union` | Compact (single folio) |
+| 175 | Resolves C1 implausibility | NO | `run_17j_section_devices.py` | `results/data/phase17_finality/section_devices.json` | `results.resolves_c1_implausibility` | 6/7 sections still oversized |
+| 176 | G2 gate pass count | 6/7 | `run_17j_section_devices.py` | `results/data/phase17_finality/section_devices.json` | `results.g2_gate_pass_count` | Only Astro fails >=55% |
+| 177 | Biological consolidated admiss. | 72.8% | `run_17j_section_devices.py` | `results/data/phase17_finality/section_devices.json` | `results.g2_admissibility.Biological.consolidated.rate` | +8.6pp vs monolithic |
+| 178 | Cross-section boundary transitions | 3 | `run_17j_section_devices.py` | `results/data/phase17_finality/section_devices.json` | `results.g2_boundary.boundary_transitions` | 0.01% of corpus |
+| 179 | Cross-section boundary impact | NEGLIGIBLE | `run_17j_section_devices.py` | `results/data/phase17_finality/section_devices.json` | `results.g2_boundary.impact` | Sections effectively independent |
+
+## Opportunity H — Hapax Suffix Integration
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 180 | Canonical 64.13% suffix-inclusive? | NO | `run_17k_hapax_integration.py` | `results/data/phase17_finality/hapax_integration.json` | `results.h1_3_canonical_update.canonical_was_suffix_inclusive` | Base corrected = 63.99% |
+| 181 | Base corrected admissibility | 63.99% | `run_17k_hapax_integration.py` | `results/data/phase17_finality/hapax_integration.json` | `results.h1_1_baseline_verification.corrected_path.without_suffix.rate` | Without suffix recovery |
+| 182 | Suffix-consolidated admissibility | 64.94% | `run_17k_hapax_integration.py` | `results/data/phase17_finality/hapax_integration.json` | `results.h1_1_baseline_verification.corrected_path.with_suffix.consolidated_rate` | Updated canonical |
+| 183 | Suffix recovery delta | +0.96pp | `run_17k_hapax_integration.py` | `results/data/phase17_finality/hapax_integration.json` | `results.h1_1_baseline_verification.corrected_path.delta_pp` | Global impact |
+| 184 | OOV hapax suffix coverage | 93.9% | `run_17k_hapax_integration.py` | `results/data/phase17_finality/hapax_integration.json` | `results.h1_2_hapax_analysis.oov_suffix_coverage_rate` | 1,621/1,727 OOV hapax |
+| 185 | OOV hapax transitions | 902 | `run_17k_hapax_integration.py` | `results/data/phase17_finality/hapax_integration.json` | `results.h1_2_hapax_analysis.hapax_oov_transitions` | In-vocab → OOV hapax |
+| 186 | Suffix-admissible transitions | 820 | `run_17k_hapax_integration.py` | `results/data/phase17_finality/hapax_integration.json` | `results.h1_1_baseline_verification.corrected_path.with_suffix.oov_admissible` | 820/858 recoverable |
+| 187 | Updated canonical admissibility | 64.94% | `run_17k_hapax_integration.py` | `results/data/phase17_finality/hapax_integration.json` | `results.h1_3_canonical_update.updated_canonical_rate` | +0.96pp from 64.13% |
+
 ---
 
 ## Traceability Notes
@@ -364,7 +417,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 154 | #1-154 |
+| **Fully verifiable** (JSON key path exists) | 187 | #1-187 |
 | **Console-only** (requires script re-run) | 0 | — |
 | **Report-only** (value in Markdown report, not JSON) | 0 | — |
 | **Static config** (manually synchronized) | 0 | — |
@@ -384,6 +437,10 @@ Claims #133-136 added for Opportunity B: Frequency-Stratified Corrections (2026-
 Claims #137-140 added for Opportunity C: Device Specification (2026-02-21).
 Claims #141-146 added for Opportunity A: Steganographic Channel Analysis (2026-02-21).
 Claims #147-154 added for Opportunity D: Cross-Manuscript Comparison (2026-02-21).
+Claims #155-163 added for Opportunity E: Residual Structure Investigation (2026-02-21).
+Claims #164-170 added for Opportunity F: Subset Device Architecture (2026-02-21).
+Claims #171-179 added for Opportunity G: Per-Section Device Analysis (2026-02-22).
+Claims #180-187 added for Opportunity H: Hapax Suffix Integration (2026-02-22).
 Claims #2-5 converted to structured claim artifacts during Cleanup 6 (2026-02-22).
 
 ---

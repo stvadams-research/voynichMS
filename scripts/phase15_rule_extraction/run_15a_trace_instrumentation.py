@@ -22,7 +22,7 @@ from phase14_machine.high_fidelity_emulator import HighFidelityVolvelle  # noqa:
 
 DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
-OUTPUT_PATH = project_root / "results/data/phase15_selection/choice_stream_trace.json"
+OUTPUT_PATH = project_root / "results/data/phase15_rule_extraction/choice_stream_trace.json"
 console = Console()
 
 def main():
@@ -31,7 +31,7 @@ def main():
     )
 
     if not PALETTE_PATH.exists():
-        console.print("[red]Error: Palette grid not found.[/red]")
+        console.print(f"[red]Error: Palette grid not found at {PALETTE_PATH}[/red]")
         return
 
     # 1. Load Model

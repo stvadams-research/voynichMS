@@ -22,7 +22,7 @@ def run_command(*parts: str) -> None:
 def main() -> None:
     print("=== Replicating Phase 18: Comparative Signature Program ===")
 
-    run_command("scripts/phase18_generate/build_page_generation_assets.py")
+    run_command("scripts/phase18_comparative/build_assets.py")
     run_command("scripts/phase18_comparative/run_18a_signature_battery.py")
     run_command("scripts/phase18_comparative/run_18b_corpus_ingestion.py")
     run_command("scripts/phase18_comparative/run_18c_comparative_analysis.py")

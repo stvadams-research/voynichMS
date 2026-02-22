@@ -1,0 +1,904 @@
+{
+  "provenance": {
+    "run_id": "95ae071c-3cc1-4545-8146-bea84a8d4542",
+    "git_commit": "5502515685578c57f4164164388467a2e49299f9",
+    "timestamp": "2026-02-22T01:15:29.723622+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771722929723079000,
+    "command": "run_17j_section_devices"
+  },
+  "results": {
+    "g1_section_devices": {
+      "Herbal A": {
+        "corpus": {
+          "lines": 1413,
+          "tokens": 8664,
+          "vocab_size": 3240,
+          "lattice_fraction": 0.4199,
+          "windows_occupied": 50
+        },
+        "coverage": {
+          "token_thresholds": {
+            "50": 188,
+            "80": 1508,
+            "90": 2374,
+            "95": 2807
+          },
+          "transition_coverage": [
+            {
+              "vocab_size": 25,
+              "transitions_covered": 476,
+              "total_transitions": 7211,
+              "coverage": 0.066
+            },
+            {
+              "vocab_size": 50,
+              "transitions_covered": 833,
+              "total_transitions": 7211,
+              "coverage": 0.1155
+            },
+            {
+              "vocab_size": 100,
+              "transitions_covered": 1380,
+              "total_transitions": 7211,
+              "coverage": 0.1914
+            },
+            {
+              "vocab_size": 200,
+              "transitions_covered": 2103,
+              "total_transitions": 7211,
+              "coverage": 0.2916
+            },
+            {
+              "vocab_size": 500,
+              "transitions_covered": 3232,
+              "total_transitions": 7211,
+              "coverage": 0.4482
+            },
+            {
+              "vocab_size": 1000,
+              "transitions_covered": 4196,
+              "total_transitions": 7211,
+              "coverage": 0.5819
+            },
+            {
+              "vocab_size": 2000,
+              "transitions_covered": 5544,
+              "total_transitions": 7211,
+              "coverage": 0.7688
+            },
+            {
+              "vocab_size": 3240,
+              "transitions_covered": 7211,
+              "total_transitions": 7211,
+              "coverage": 1.0
+            }
+          ],
+          "min_80_transition_subset": 3240
+        },
+        "device": {
+          "vocab_size": 3240,
+          "diameter_mm": 846.0,
+          "diameter_cm": 84.6,
+          "windows_used": 50,
+          "n_rings": 3,
+          "ring_specs": [
+            {
+              "ring": 1,
+              "inner_radius_mm": 5.0,
+              "outer_radius_mm": 141.0,
+              "n_windows": 17
+            },
+            {
+              "ring": 2,
+              "inner_radius_mm": 146.0,
+              "outer_radius_mm": 282.0,
+              "n_windows": 17
+            },
+            {
+              "ring": 3,
+              "inner_radius_mm": 287.0,
+              "outer_radius_mm": 423.0,
+              "n_windows": 16
+            }
+          ],
+          "vs_alberti": 7.05,
+          "vs_apian": 2.42
+        },
+        "codebook": {
+          "entries": 0,
+          "suffix_recoverable": 0,
+          "consultation_rate": 0.0,
+          "words_between_lookups": Infinity
+        },
+        "plausibility": {
+          "fits_historical_range": false,
+          "practical_codebook": true,
+          "verdict": "MARGINAL"
+        }
+      },
+      "Herbal B": {
+        "corpus": {
+          "lines": 182,
+          "tokens": 1157,
+          "vocab_size": 735,
+          "lattice_fraction": 0.0952,
+          "windows_occupied": 49
+        },
+        "coverage": {
+          "token_thresholds": {
+            "50": 158,
+            "80": 504,
+            "90": 620,
+            "95": 678
+          },
+          "transition_coverage": [
+            {
+              "vocab_size": 25,
+              "transitions_covered": 40,
+              "total_transitions": 982,
+              "coverage": 0.0407
+            },
+            {
+              "vocab_size": 50,
+              "transitions_covered": 93,
+              "total_transitions": 982,
+              "coverage": 0.0947
+            },
+            {
+              "vocab_size": 100,
+              "transitions_covered": 172,
+              "total_transitions": 982,
+              "coverage": 0.1752
+            },
+            {
+              "vocab_size": 200,
+              "transitions_covered": 325,
+              "total_transitions": 982,
+              "coverage": 0.331
+            },
+            {
+              "vocab_size": 500,
+              "transitions_covered": 703,
+              "total_transitions": 982,
+              "coverage": 0.7159
+            },
+            {
+              "vocab_size": 735,
+              "transitions_covered": 982,
+              "total_transitions": 982,
+              "coverage": 1.0
+            }
+          ],
+          "min_80_transition_subset": 735
+        },
+        "device": {
+          "vocab_size": 735,
+          "diameter_mm": 566.0,
+          "diameter_cm": 56.6,
+          "windows_used": 49,
+          "n_rings": 3,
+          "ring_specs": [
+            {
+              "ring": 1,
+              "inner_radius_mm": 5.0,
+              "outer_radius_mm": 43.0,
+              "n_windows": 17
+            },
+            {
+              "ring": 2,
+              "inner_radius_mm": 48.0,
+              "outer_radius_mm": 142.0,
+              "n_windows": 17
+            },
+            {
+              "ring": 3,
+              "inner_radius_mm": 147.0,
+              "outer_radius_mm": 283.0,
+              "n_windows": 15
+            }
+          ],
+          "vs_alberti": 4.72,
+          "vs_apian": 1.62
+        },
+        "codebook": {
+          "entries": 0,
+          "suffix_recoverable": 0,
+          "consultation_rate": 0.0,
+          "words_between_lookups": Infinity
+        },
+        "plausibility": {
+          "fits_historical_range": false,
+          "practical_codebook": true,
+          "verdict": "MARGINAL"
+        }
+      },
+      "Astro": {
+        "corpus": {
+          "lines": 734,
+          "tokens": 2665,
+          "vocab_size": 1457,
+          "lattice_fraction": 0.1888,
+          "windows_occupied": 49
+        },
+        "coverage": {
+          "token_thresholds": {
+            "50": 235,
+            "80": 924,
+            "90": 1191,
+            "95": 1324
+          },
+          "transition_coverage": [
+            {
+              "vocab_size": 25,
+              "transitions_covered": 95,
+              "total_transitions": 2135,
+              "coverage": 0.0445
+            },
+            {
+              "vocab_size": 50,
+              "transitions_covered": 183,
+              "total_transitions": 2135,
+              "coverage": 0.0857
+            },
+            {
+              "vocab_size": 100,
+              "transitions_covered": 312,
+              "total_transitions": 2135,
+              "coverage": 0.1461
+            },
+            {
+              "vocab_size": 200,
+              "transitions_covered": 546,
+              "total_transitions": 2135,
+              "coverage": 0.2557
+            },
+            {
+              "vocab_size": 500,
+              "transitions_covered": 911,
+              "total_transitions": 2135,
+              "coverage": 0.4267
+            },
+            {
+              "vocab_size": 1000,
+              "transitions_covered": 1545,
+              "total_transitions": 2135,
+              "coverage": 0.7237
+            },
+            {
+              "vocab_size": 1457,
+              "transitions_covered": 2135,
+              "total_transitions": 2135,
+              "coverage": 1.0
+            }
+          ],
+          "min_80_transition_subset": 1457
+        },
+        "device": {
+          "vocab_size": 1457,
+          "diameter_mm": 790.0,
+          "diameter_cm": 79.0,
+          "windows_used": 49,
+          "n_rings": 3,
+          "ring_specs": [
+            {
+              "ring": 1,
+              "inner_radius_mm": 5.0,
+              "outer_radius_mm": 113.0,
+              "n_windows": 17
+            },
+            {
+              "ring": 2,
+              "inner_radius_mm": 118.0,
+              "outer_radius_mm": 254.0,
+              "n_windows": 17
+            },
+            {
+              "ring": 3,
+              "inner_radius_mm": 259.0,
+              "outer_radius_mm": 395.0,
+              "n_windows": 15
+            }
+          ],
+          "vs_alberti": 6.58,
+          "vs_apian": 2.26
+        },
+        "codebook": {
+          "entries": 0,
+          "suffix_recoverable": 0,
+          "consultation_rate": 0.0,
+          "words_between_lookups": Infinity
+        },
+        "plausibility": {
+          "fits_historical_range": false,
+          "practical_codebook": true,
+          "verdict": "MARGINAL"
+        }
+      },
+      "Biological": {
+        "corpus": {
+          "lines": 917,
+          "tokens": 6012,
+          "vocab_size": 1384,
+          "lattice_fraction": 0.1793,
+          "windows_occupied": 47
+        },
+        "coverage": {
+          "token_thresholds": {
+            "50": 57,
+            "80": 343,
+            "90": 783,
+            "95": 1084
+          },
+          "transition_coverage": [
+            {
+              "vocab_size": 25,
+              "transitions_covered": 789,
+              "total_transitions": 4947,
+              "coverage": 0.1595
+            },
+            {
+              "vocab_size": 50,
+              "transitions_covered": 1337,
+              "total_transitions": 4947,
+              "coverage": 0.2703
+            },
+            {
+              "vocab_size": 100,
+              "transitions_covered": 2061,
+              "total_transitions": 4947,
+              "coverage": 0.4166
+            },
+            {
+              "vocab_size": 200,
+              "transitions_covered": 2770,
+              "total_transitions": 4947,
+              "coverage": 0.5599
+            },
+            {
+              "vocab_size": 500,
+              "transitions_covered": 3704,
+              "total_transitions": 4947,
+              "coverage": 0.7487
+            },
+            {
+              "vocab_size": 1000,
+              "transitions_covered": 4424,
+              "total_transitions": 4947,
+              "coverage": 0.8943
+            },
+            {
+              "vocab_size": 1384,
+              "transitions_covered": 4947,
+              "total_transitions": 4947,
+              "coverage": 1.0
+            }
+          ],
+          "min_80_transition_subset": 1000
+        },
+        "device": {
+          "vocab_size": 1000,
+          "diameter_mm": 678.0,
+          "diameter_cm": 67.8,
+          "windows_used": 44,
+          "n_rings": 3,
+          "ring_specs": [
+            {
+              "ring": 1,
+              "inner_radius_mm": 5.0,
+              "outer_radius_mm": 64.0,
+              "n_windows": 15
+            },
+            {
+              "ring": 2,
+              "inner_radius_mm": 69.0,
+              "outer_radius_mm": 198.0,
+              "n_windows": 15
+            },
+            {
+              "ring": 3,
+              "inner_radius_mm": 203.0,
+              "outer_radius_mm": 339.0,
+              "n_windows": 14
+            }
+          ],
+          "vs_alberti": 5.65,
+          "vs_apian": 1.94
+        },
+        "codebook": {
+          "entries": 384,
+          "suffix_recoverable": 373,
+          "consultation_rate": 0.0639,
+          "words_between_lookups": 15.7
+        },
+        "plausibility": {
+          "fits_historical_range": false,
+          "practical_codebook": true,
+          "verdict": "MARGINAL"
+        }
+      },
+      "Cosmo": {
+        "corpus": {
+          "lines": 188,
+          "tokens": 1422,
+          "vocab_size": 549,
+          "lattice_fraction": 0.0711,
+          "windows_occupied": 26
+        },
+        "coverage": {
+          "token_thresholds": {
+            "50": 74,
+            "80": 265,
+            "90": 407,
+            "95": 478
+          },
+          "transition_coverage": [
+            {
+              "vocab_size": 25,
+              "transitions_covered": 105,
+              "total_transitions": 1082,
+              "coverage": 0.097
+            },
+            {
+              "vocab_size": 50,
+              "transitions_covered": 206,
+              "total_transitions": 1082,
+              "coverage": 0.1904
+            },
+            {
+              "vocab_size": 100,
+              "transitions_covered": 367,
+              "total_transitions": 1082,
+              "coverage": 0.3392
+            },
+            {
+              "vocab_size": 200,
+              "transitions_covered": 604,
+              "total_transitions": 1082,
+              "coverage": 0.5582
+            },
+            {
+              "vocab_size": 500,
+              "transitions_covered": 1024,
+              "total_transitions": 1082,
+              "coverage": 0.9464
+            },
+            {
+              "vocab_size": 549,
+              "transitions_covered": 1082,
+              "total_transitions": 1082,
+              "coverage": 1.0
+            }
+          ],
+          "min_80_transition_subset": 500
+        },
+        "device": {
+          "vocab_size": 500,
+          "diameter_mm": 368.0,
+          "diameter_cm": 36.8,
+          "windows_used": 25,
+          "n_rings": 2,
+          "ring_specs": [
+            {
+              "ring": 1,
+              "inner_radius_mm": 5.0,
+              "outer_radius_mm": 43.0,
+              "n_windows": 13
+            },
+            {
+              "ring": 2,
+              "inner_radius_mm": 48.0,
+              "outer_radius_mm": 184.0,
+              "n_windows": 12
+            }
+          ],
+          "vs_alberti": 3.07,
+          "vs_apian": 1.05
+        },
+        "codebook": {
+          "entries": 49,
+          "suffix_recoverable": 48,
+          "consultation_rate": 0.0345,
+          "words_between_lookups": 29.0
+        },
+        "plausibility": {
+          "fits_historical_range": true,
+          "practical_codebook": true,
+          "verdict": "PLAUSIBLE"
+        }
+      },
+      "Pharma": {
+        "corpus": {
+          "lines": 626,
+          "tokens": 2836,
+          "vocab_size": 1067,
+          "lattice_fraction": 0.1383,
+          "windows_occupied": 46
+        },
+        "coverage": {
+          "token_thresholds": {
+            "50": 103,
+            "80": 500,
+            "90": 784,
+            "95": 926
+          },
+          "transition_coverage": [
+            {
+              "vocab_size": 25,
+              "transitions_covered": 204,
+              "total_transitions": 2128,
+              "coverage": 0.0959
+            },
+            {
+              "vocab_size": 50,
+              "transitions_covered": 364,
+              "total_transitions": 2128,
+              "coverage": 0.1711
+            },
+            {
+              "vocab_size": 100,
+              "transitions_covered": 626,
+              "total_transitions": 2128,
+              "coverage": 0.2942
+            },
+            {
+              "vocab_size": 200,
+              "transitions_covered": 930,
+              "total_transitions": 2128,
+              "coverage": 0.437
+            },
+            {
+              "vocab_size": 500,
+              "transitions_covered": 1453,
+              "total_transitions": 2128,
+              "coverage": 0.6828
+            },
+            {
+              "vocab_size": 1000,
+              "transitions_covered": 2059,
+              "total_transitions": 2128,
+              "coverage": 0.9676
+            },
+            {
+              "vocab_size": 1067,
+              "transitions_covered": 2128,
+              "total_transitions": 2128,
+              "coverage": 1.0
+            }
+          ],
+          "min_80_transition_subset": 1000
+        },
+        "device": {
+          "vocab_size": 1000,
+          "diameter_mm": 650.0,
+          "diameter_cm": 65.0,
+          "windows_used": 46,
+          "n_rings": 3,
+          "ring_specs": [
+            {
+              "ring": 1,
+              "inner_radius_mm": 5.0,
+              "outer_radius_mm": 43.0,
+              "n_windows": 16
+            },
+            {
+              "ring": 2,
+              "inner_radius_mm": 48.0,
+              "outer_radius_mm": 184.0,
+              "n_windows": 16
+            },
+            {
+              "ring": 3,
+              "inner_radius_mm": 189.0,
+              "outer_radius_mm": 325.0,
+              "n_windows": 14
+            }
+          ],
+          "vs_alberti": 5.42,
+          "vs_apian": 1.86
+        },
+        "codebook": {
+          "entries": 67,
+          "suffix_recoverable": 66,
+          "consultation_rate": 0.0236,
+          "words_between_lookups": 42.3
+        },
+        "plausibility": {
+          "fits_historical_range": false,
+          "practical_codebook": true,
+          "verdict": "MARGINAL"
+        }
+      },
+      "Stars": {
+        "corpus": {
+          "lines": 1085,
+          "tokens": 10096,
+          "vocab_size": 3396,
+          "lattice_fraction": 0.4401,
+          "windows_occupied": 50
+        },
+        "coverage": {
+          "token_thresholds": {
+            "50": 167,
+            "80": 1377,
+            "90": 2387,
+            "95": 2892
+          },
+          "transition_coverage": [
+            {
+              "vocab_size": 25,
+              "transitions_covered": 602,
+              "total_transitions": 9011,
+              "coverage": 0.0668
+            },
+            {
+              "vocab_size": 50,
+              "transitions_covered": 1168,
+              "total_transitions": 9011,
+              "coverage": 0.1296
+            },
+            {
+              "vocab_size": 100,
+              "transitions_covered": 1955,
+              "total_transitions": 9011,
+              "coverage": 0.217
+            },
+            {
+              "vocab_size": 200,
+              "transitions_covered": 2934,
+              "total_transitions": 9011,
+              "coverage": 0.3256
+            },
+            {
+              "vocab_size": 500,
+              "transitions_covered": 4377,
+              "total_transitions": 9011,
+              "coverage": 0.4857
+            },
+            {
+              "vocab_size": 1000,
+              "transitions_covered": 5639,
+              "total_transitions": 9011,
+              "coverage": 0.6258
+            },
+            {
+              "vocab_size": 2000,
+              "transitions_covered": 7035,
+              "total_transitions": 9011,
+              "coverage": 0.7807
+            },
+            {
+              "vocab_size": 3396,
+              "transitions_covered": 9011,
+              "total_transitions": 9011,
+              "coverage": 1.0
+            }
+          ],
+          "min_80_transition_subset": 3396
+        },
+        "device": {
+          "vocab_size": 3396,
+          "diameter_mm": 846.0,
+          "diameter_cm": 84.6,
+          "windows_used": 50,
+          "n_rings": 3,
+          "ring_specs": [
+            {
+              "ring": 1,
+              "inner_radius_mm": 5.0,
+              "outer_radius_mm": 141.0,
+              "n_windows": 17
+            },
+            {
+              "ring": 2,
+              "inner_radius_mm": 146.0,
+              "outer_radius_mm": 282.0,
+              "n_windows": 17
+            },
+            {
+              "ring": 3,
+              "inner_radius_mm": 287.0,
+              "outer_radius_mm": 423.0,
+              "n_windows": 16
+            }
+          ],
+          "vs_alberti": 7.05,
+          "vs_apian": 2.42
+        },
+        "codebook": {
+          "entries": 0,
+          "suffix_recoverable": 0,
+          "consultation_rate": 0.0,
+          "words_between_lookups": Infinity
+        },
+        "plausibility": {
+          "fits_historical_range": false,
+          "practical_codebook": true,
+          "verdict": "MARGINAL"
+        }
+      }
+    },
+    "g1_composite": {
+      "per_section_verdicts": {
+        "Herbal A": "MARGINAL",
+        "Herbal B": "MARGINAL",
+        "Astro": "MARGINAL",
+        "Biological": "MARGINAL",
+        "Cosmo": "PLAUSIBLE",
+        "Pharma": "MARGINAL",
+        "Stars": "MARGINAL"
+      },
+      "plausible_count": 1,
+      "marginal_count": 6,
+      "implausible_count": 0,
+      "total_codebook_union": 481,
+      "resolves_c1_implausibility": false,
+      "historical_comparison": "Trithemius (1508) used 24 cipher alphabets on a single tabula; Llull (c.1305) used 4+ combinatorial wheels; multiple small devices per-section is within 15th-century precedent if each device <=350mm."
+    },
+    "g2_admissibility": {
+      "Herbal A": {
+        "transition_breakdown": {
+          "in_device": 7211,
+          "in_to_out": 0,
+          "out_to_in": 0,
+          "out_to_out": 0,
+          "total": 7211
+        },
+        "in_device_admissibility": 0.597,
+        "suffix_recovery": {
+          "recovered": 0,
+          "admissible": 0
+        },
+        "consolidated": {
+          "admissible": 4305,
+          "total": 7211,
+          "rate": 0.597,
+          "vs_monolithic_64pp": -4.43,
+          "gate_55_pass": true
+        }
+      },
+      "Herbal B": {
+        "transition_breakdown": {
+          "in_device": 982,
+          "in_to_out": 0,
+          "out_to_in": 0,
+          "out_to_out": 0,
+          "total": 982
+        },
+        "in_device_admissibility": 0.554,
+        "suffix_recovery": {
+          "recovered": 0,
+          "admissible": 0
+        },
+        "consolidated": {
+          "admissible": 544,
+          "total": 982,
+          "rate": 0.554,
+          "vs_monolithic_64pp": -8.73,
+          "gate_55_pass": true
+        }
+      },
+      "Astro": {
+        "transition_breakdown": {
+          "in_device": 2135,
+          "in_to_out": 0,
+          "out_to_in": 0,
+          "out_to_out": 0,
+          "total": 2135
+        },
+        "in_device_admissibility": 0.5138,
+        "suffix_recovery": {
+          "recovered": 0,
+          "admissible": 0
+        },
+        "consolidated": {
+          "admissible": 1097,
+          "total": 2135,
+          "rate": 0.5138,
+          "vs_monolithic_64pp": -12.75,
+          "gate_55_pass": false
+        }
+      },
+      "Biological": {
+        "transition_breakdown": {
+          "in_device": 4424,
+          "in_to_out": 242,
+          "out_to_in": 243,
+          "out_to_out": 38,
+          "total": 4947
+        },
+        "in_device_admissibility": 0.7608,
+        "suffix_recovery": {
+          "recovered": 237,
+          "admissible": 234
+        },
+        "consolidated": {
+          "admissible": 3600,
+          "total": 4947,
+          "rate": 0.7277,
+          "vs_monolithic_64pp": 8.64,
+          "gate_55_pass": true
+        }
+      },
+      "Cosmo": {
+        "transition_breakdown": {
+          "in_device": 1024,
+          "in_to_out": 26,
+          "out_to_in": 28,
+          "out_to_out": 4,
+          "total": 1082
+        },
+        "in_device_admissibility": 0.7559,
+        "suffix_recovery": {
+          "recovered": 26,
+          "admissible": 24
+        },
+        "consolidated": {
+          "admissible": 798,
+          "total": 1082,
+          "rate": 0.7375,
+          "vs_monolithic_64pp": 9.62,
+          "gate_55_pass": true
+        }
+      },
+      "Pharma": {
+        "transition_breakdown": {
+          "in_device": 2059,
+          "in_to_out": 28,
+          "out_to_in": 32,
+          "out_to_out": 9,
+          "total": 2128
+        },
+        "in_device_admissibility": 0.7062,
+        "suffix_recovery": {
+          "recovered": 27,
+          "admissible": 27
+        },
+        "consolidated": {
+          "admissible": 1481,
+          "total": 2128,
+          "rate": 0.696,
+          "vs_monolithic_64pp": 5.47,
+          "gate_55_pass": true
+        }
+      },
+      "Stars": {
+        "transition_breakdown": {
+          "in_device": 9011,
+          "in_to_out": 0,
+          "out_to_in": 0,
+          "out_to_out": 0,
+          "total": 9011
+        },
+        "in_device_admissibility": 0.6352,
+        "suffix_recovery": {
+          "recovered": 0,
+          "admissible": 0
+        },
+        "consolidated": {
+          "admissible": 5724,
+          "total": 9011,
+          "rate": 0.6352,
+          "vs_monolithic_64pp": -0.61,
+          "gate_55_pass": true
+        }
+      }
+    },
+    "g2_boundary": {
+      "boundary_transitions": 3,
+      "boundary_admissible": 0,
+      "boundary_admissibility": 0.0,
+      "total_transitions": 27496,
+      "boundary_fraction": 0.0001,
+      "impact": "NEGLIGIBLE"
+    },
+    "g2_gate_pass_count": 6,
+    "resolves_c1_implausibility": false,
+    "monolithic_baseline": {
+      "diameter_mm": 678,
+      "admissibility": 0.6413,
+      "plausibility": "MARGINAL"
+    }
+  }
+}
