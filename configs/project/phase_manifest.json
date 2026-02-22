@@ -1,0 +1,145 @@
+{
+  "schema_version": "phase_manifest_v1",
+  "updated_at": "2026-02-21",
+  "phases": [
+    {
+      "phase_id": 1,
+      "canonical_slug": "phase1_foundation",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase1_foundation/replicate.py"
+    },
+    {
+      "phase_id": 2,
+      "canonical_slug": "phase2_analysis",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase2_analysis/replicate.py"
+    },
+    {
+      "phase_id": 3,
+      "canonical_slug": "phase3_synthesis",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase3_synthesis/replicate.py"
+    },
+    {
+      "phase_id": 4,
+      "canonical_slug": "phase4_inference",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase4_inference/replicate.py"
+    },
+    {
+      "phase_id": 5,
+      "canonical_slug": "phase5_mechanism",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase5_mechanism/replicate.py"
+    },
+    {
+      "phase_id": 6,
+      "canonical_slug": "phase6_functional",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase6_functional/replicate.py"
+    },
+    {
+      "phase_id": 7,
+      "canonical_slug": "phase7_human",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase7_human/replicate.py"
+    },
+    {
+      "phase_id": 8,
+      "canonical_slug": "phase8_comparative",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase8_comparative/replicate.py"
+    },
+    {
+      "phase_id": 9,
+      "canonical_slug": "phase9_conjecture",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase9_conjecture/replicate.py"
+    },
+    {
+      "phase_id": 10,
+      "canonical_slug": "phase10_admissibility",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase10_admissibility/replicate.py"
+    },
+    {
+      "phase_id": 11,
+      "canonical_slug": "phase11_stroke",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase11_stroke/replicate.py"
+    },
+    {
+      "phase_id": 12,
+      "canonical_slug": "phase12_mechanical",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase12_mechanical/replicate.py"
+    },
+    {
+      "phase_id": 13,
+      "canonical_slug": "phase13_demonstration",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase13_demonstration/replicate.py"
+    },
+    {
+      "phase_id": 14,
+      "canonical_slug": "phase14_machine",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase14_machine/replicate.py"
+    },
+    {
+      "phase_id": 15,
+      "canonical_slug": "phase15_rule_extraction",
+      "aliases": [
+        "phase15_selection"
+      ],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase15_rule_extraction/replicate.py"
+    },
+    {
+      "phase_id": 16,
+      "canonical_slug": "phase16_physical_grounding",
+      "aliases": [
+        "phase16_physical"
+      ],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase16_physical_grounding/replicate.py"
+    },
+    {
+      "phase_id": 17,
+      "canonical_slug": "phase17_finality",
+      "aliases": [],
+      "release_scope": "release",
+      "replicate_entry": "scripts/phase17_finality/replicate.py"
+    },
+    {
+      "phase_id": 18,
+      "canonical_slug": "phase18_comparative",
+      "aliases": [
+        "phase18_generate"
+      ],
+      "release_scope": "exploratory",
+      "replicate_entry": "scripts/phase18_comparative/replicate.py"
+    },
+    {
+      "phase_id": 19,
+      "canonical_slug": "phase19_alignment",
+      "aliases": [],
+      "release_scope": "exploratory",
+      "replicate_entry": "scripts/phase19_alignment/replicate.py"
+    }
+  ]
+}

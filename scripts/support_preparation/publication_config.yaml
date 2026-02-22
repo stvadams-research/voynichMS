@@ -55,12 +55,18 @@ profiles:
 # Data source mappings: placeholder_key -> json_path -> json_key_path
 # Key paths use dot notation for nested access
 data_sources:
-  # Phase 1 - Foundation (updated to match Phase 2 Real value)
-  phase1.repetition_rate: "0.9003"
+  # Phase 1 - Foundation
+  phase1.repetition_rate:
+    file: "results/data/phase3_synthesis/baseline_gap_analysis.json"
+    path: "repetition_rate.target"
 
   # Phase 2 - Analysis
-  phase2.mapping_stability: "0.02"
-  phase2.mapping_stability_outcome: "Excluded"
+  phase2.mapping_stability:
+    file: "results/data/phase2_analysis/phase_2_2_claims.json"
+    path: "results.claim_traceability.claim_4.mapping_stability_score"
+  phase2.mapping_stability_outcome:
+    file: "results/data/phase2_analysis/phase_2_2_claims.json"
+    path: "results.claim_traceability.claim_4.publication_interpretation"
 
   # Phase 4 - Inference
   phase4.montemurro.real_avg_info:

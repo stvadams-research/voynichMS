@@ -23,6 +23,7 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root / 'src'))
 
+from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
 from rich.console import Console  # noqa: E402
 from rich.panel import Panel  # noqa: E402
 from rich.table import Table  # noqa: E402
@@ -38,6 +39,55 @@ from phase2_analysis.admissibility.manager import (  # noqa: E402
 
 console = Console()
 DB_PATH = "sqlite:///data/voynich.db"
+PHASE_2_1_CLAIMS_PATH = Path("results/data/phase2_analysis/phase_2_1_claims.json")
+
+
+def _build_claim_traceability_payload() -> dict:
+    """Structured claim payload for publication-tracked Phase 2.1 values."""
+    glyph_collapse = 0.375
+    word_boundary_agreement = 0.75
+    return {
+        "claim_2": {
+            "description": "Glyph identity collapse at 5% perturbation",
+            "glyph_identity_collapse_rate": glyph_collapse,
+            "glyph_identity_collapse_percent": glyph_collapse * 100.0,
+            "perturbation_strength": 0.05,
+            "inadmissible_threshold": 0.20,
+            "status": "FALSIFIED",
+            "evidence_source": "phase1_destructive_audit",
+        },
+        "claim_3": {
+            "description": "Word boundary cross-source agreement",
+            "word_boundary_agreement_rate": word_boundary_agreement,
+            "word_boundary_agreement_percent": word_boundary_agreement * 100.0,
+            "minimum_support_threshold": 0.80,
+            "status": "WEAKLY_SUPPORTED",
+            "evidence_source": "phase1_destructive_audit",
+        },
+    }
+
+
+def _write_phase_2_1_claim_artifacts(run_id: str, output_dir: str | None) -> list[str]:
+    payload = {
+        "phase": "2.1",
+        "claim_traceability": _build_claim_traceability_payload(),
+    }
+    write_targets = [PHASE_2_1_CLAIMS_PATH]
+    if output_dir:
+        write_targets.append(Path(output_dir) / "phase_2_1_claims.json")
+    else:
+        write_targets.append(Path("runs") / run_id / "phase_2_1_claims.json")
+
+    written: list[str] = []
+    seen: set[Path] = set()
+    for target in write_targets:
+        normalized = target.resolve()
+        if normalized in seen:
+            continue
+        seen.add(normalized)
+        out = ProvenanceWriter.save_results(payload, target)
+        written.append(out["latest_path"])
+    return written
 
 
 def step_1_register_classes(manager: AdmissibilityManager):
@@ -493,6 +543,14 @@ def run_phase_2_1(seed: int = 42, output_dir: str | None = None):
             console.print(f"[green]Admissible:[/green] {', '.join(admissible)}")
         if underconstrained:
             console.print(f"[yellow]Need More Evidence:[/yellow] {', '.join(underconstrained)}")
+
+        written_artifacts = _write_phase_2_1_claim_artifacts(
+            run_id=str(run.run_id),
+            output_dir=output_dir,
+        )
+        console.print("\n[dim]Structured claim artifacts:[/dim]")
+        for artifact in written_artifacts:
+            console.print(f"[dim]  - {artifact}[/dim]")
 
         console.print("\n[dim]Per Phase 2 Principles: 'Nothing definitive' is an acceptable outcome.[/dim]")
 

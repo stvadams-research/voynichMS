@@ -1,0 +1,2611 @@
+{
+  "schema_version": "threshold_registry_v1",
+  "rationale_doc": "governance/THRESHOLDS_RATIONALE.md",
+  "registered_constants": [
+    {
+      "id": "zipf_rank_limit_500",
+      "rationale_location": "network_features/analyzer.py:84",
+      "path": "src/phase4_inference/network_features/analyzer.py",
+      "expected_literals": [
+        "500"
+      ]
+    },
+    {
+      "id": "quire_size_proxy_8",
+      "rationale_location": "quire_analysis.py:30",
+      "path": "src/phase7_human/quire_analysis.py",
+      "expected_literals": [
+        "// 8 + 1"
+      ]
+    },
+    {
+      "id": "currier_boundaries",
+      "rationale_location": "scribe_coupling.py:30-33",
+      "path": "src/phase7_human/scribe_coupling.py",
+      "expected_literals": [
+        "if num <= 66",
+        "if 75 <= num <= 84",
+        "if 103 <= num <= 116"
+      ]
+    },
+    {
+      "id": "fallback_probability_03",
+      "rationale_location": "text_generator.py:187",
+      "path": "src/phase3_synthesis/text_generator.py",
+      "expected_literals": [
+        " < 0.3"
+      ]
+    },
+    {
+      "id": "anchor_coupling_alpha_005",
+      "rationale_location": "anchor_coupling.py:53",
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "expected_literals": [
+        "\"alpha\": 0.05"
+      ]
+    },
+    {
+      "id": "stage3_null_percentiles",
+      "rationale_location": "stage3_pipeline.py:541-542",
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "expected_literals": [
+        "0.01",
+        "0.95"
+      ]
+    },
+    {
+      "id": "stage2_bootstrap_confidence_080",
+      "rationale_location": "stage2_pipeline.py:1061",
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "expected_literals": [
+        ">= 0.80"
+      ]
+    }
+  ],
+  "baseline_candidates": [
+    {
+      "path": "scripts/core_audit/build_provenance_health_status.py",
+      "line_hash": "a6a23b2325f0bdbf"
+    },
+    {
+      "path": "scripts/core_audit/build_release_gate_health_status.py",
+      "line_hash": "286e8143cf5a779d"
+    },
+    {
+      "path": "scripts/core_audit/check_golden_outputs.py",
+      "line_hash": "870ecb1e75af4e65"
+    },
+    {
+      "path": "scripts/core_audit/check_golden_outputs.py",
+      "line_hash": "6db605bffd303fc4"
+    },
+    {
+      "path": "scripts/core_audit/check_golden_outputs.py",
+      "line_hash": "e7d090ad692f55c6"
+    },
+    {
+      "path": "scripts/core_audit/check_golden_outputs.py",
+      "line_hash": "c19004b4a2e90082"
+    },
+    {
+      "path": "scripts/core_audit/check_sensitivity_artifact_contract.py",
+      "line_hash": "2b70a0a49d80f0e2"
+    },
+    {
+      "path": "scripts/core_audit/check_sensitivity_artifact_contract.py",
+      "line_hash": "b98ece41577f5f51"
+    },
+    {
+      "path": "scripts/core_audit/check_threshold_registry.py",
+      "line_hash": "ae9ff36b28c141d2"
+    },
+    {
+      "path": "scripts/core_audit/repair_run_statuses.py",
+      "line_hash": "37bb2e4726b08d8e"
+    },
+    {
+      "path": "scripts/core_audit/sync_provenance_register.py",
+      "line_hash": "286e8143cf5a779d"
+    },
+    {
+      "path": "scripts/core_skeptic/check_claim_boundaries.py",
+      "line_hash": "9e684fbde55713ce"
+    },
+    {
+      "path": "scripts/core_skeptic/check_closure_conditionality.py",
+      "line_hash": "9e684fbde55713ce"
+    },
+    {
+      "path": "scripts/core_skeptic/check_control_comparability.py",
+      "line_hash": "20460c91ba46afae"
+    },
+    {
+      "path": "scripts/core_skeptic/check_control_comparability.py",
+      "line_hash": "685379412ff0fe55"
+    },
+    {
+      "path": "scripts/core_skeptic/check_control_comparability.py",
+      "line_hash": "4c89168d02135d40"
+    },
+    {
+      "path": "scripts/core_skeptic/check_control_data_availability.py",
+      "line_hash": "685379412ff0fe55"
+    },
+    {
+      "path": "scripts/core_skeptic/check_control_data_availability.py",
+      "line_hash": "4c89168d02135d40"
+    },
+    {
+      "path": "scripts/core_skeptic/check_provenance_uncertainty.py",
+      "line_hash": "0867489993882fbf"
+    },
+    {
+      "path": "scripts/core_skeptic/check_provenance_uncertainty.py",
+      "line_hash": "083eafca29e4bcee"
+    },
+    {
+      "path": "scripts/core_skeptic/check_provenance_uncertainty.py",
+      "line_hash": "303c13bd7860651a"
+    },
+    {
+      "path": "scripts/core_skeptic/check_provenance_uncertainty.py",
+      "line_hash": "a34873f59b341c3e"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_mask_anatomy.py",
+      "line_hash": "0f7c05919102d4e3"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage1b_jk_replication.py",
+      "line_hash": "46635b63ce4a8c25"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5_high_roi.py",
+      "line_hash": "e114aea62189b51f"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5_high_roi.py",
+      "line_hash": "6d53f9a0d96b8d8f"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5_high_roi.py",
+      "line_hash": "a40948d19de2888e"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5_high_roi.py",
+      "line_hash": "46635b63ce4a8c25"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5_high_roi.py",
+      "line_hash": "c655a4b97c76d733"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5_high_roi.py",
+      "line_hash": "29908f4c148b7e2a"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5b_k_adjudication.py",
+      "line_hash": "690e57739117508d"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5b_k_adjudication.py",
+      "line_hash": "debf5b5c3d8d3263"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5b_k_adjudication.py",
+      "line_hash": "c964fca380b1cf3f"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5b_k_adjudication.py",
+      "line_hash": "a34216c64ff7069e"
+    },
+    {
+      "path": "scripts/phase10_admissibility/run_stage5b_k_adjudication.py",
+      "line_hash": "5fb8a0872f75ab01"
+    },
+    {
+      "path": "scripts/phase11_stroke/run_11b_cluster.py",
+      "line_hash": "b194514843108f6a"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12a_slip_detection.py",
+      "line_hash": "34cfb2b44f713b8d"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12f_skeptics_gate.py",
+      "line_hash": "34cfb2b44f713b8d"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "34cfb2b44f713b8d"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "5db3b1ea0a5a84f5"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "d6d7f75dfb96b4d3"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "1b5b8bdaa01340b7"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "9bf4addf8ae77bb6"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "c9a39410d74786ed"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "79c6a2e7fce561dd"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "ba3daafda2d9742e"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "f68962d01c280405"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12g_slip_permutation.py",
+      "line_hash": "b0da52aec7fddd8a"
+    },
+    {
+      "path": "scripts/phase12_mechanical/run_12i_blueprint_synthesis.py",
+      "line_hash": "0232e911535ad00b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14g_holdout_validation.py",
+      "line_hash": "f065354573dcea17"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14n_chance_calibration.py",
+      "line_hash": "65637926f230b862"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14n_chance_calibration.py",
+      "line_hash": "2afbece46fb855f3"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14n_chance_calibration.py",
+      "line_hash": "8c489f9b26297d58"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14n_chance_calibration.py",
+      "line_hash": "599b8cf54b6dedcf"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14t_boundary_coupling.py",
+      "line_hash": "ef4ccae93a4b70f1"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14u_copyreset_holdout.py",
+      "line_hash": "66fee7315f9d60a4"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14u_copyreset_holdout.py",
+      "line_hash": "7c38690c7140b5a6"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "0103d887cef5bfae"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "40ee5c96915bef7c"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "8c70013750540a6f"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "051b065784537e27"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "9d42666328513b7f"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "2946d70ee3d8ae38"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "796139ad268d440e"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "92c64441b68d76bd"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "5c8b838b89755fb7"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "374e41450cfd6e50"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "576754265eaf1a36"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "3288acc87387890b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "4ac65397c2d47f2f"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z3_cross_transcription.py",
+      "line_hash": "ffc28cb46328877b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z4_failure_taxonomy.py",
+      "line_hash": "84028855b4923b8a"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z4_failure_taxonomy.py",
+      "line_hash": "756bd2841b104f61"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z4_failure_taxonomy.py",
+      "line_hash": "4b37d9dd25afecf2"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z4_failure_taxonomy.py",
+      "line_hash": "82e935d83d552c57"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z4_failure_taxonomy.py",
+      "line_hash": "fdc84dddd36d52e5"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z4_failure_taxonomy.py",
+      "line_hash": "8414c420308aaa95"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z4_failure_taxonomy.py",
+      "line_hash": "81f0cf67286d5d25"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z5_multisplit_holdout.py",
+      "line_hash": "9bd669dff765df58"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z5_multisplit_holdout.py",
+      "line_hash": "5240ea87deb3e551"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z5_multisplit_holdout.py",
+      "line_hash": "4d1e027df640613b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z5_multisplit_holdout.py",
+      "line_hash": "db6980858047572e"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z5_multisplit_holdout.py",
+      "line_hash": "e826cf759d9bf73a"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z5_multisplit_holdout.py",
+      "line_hash": "ce24ac0850f6d6a3"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z5_multisplit_holdout.py",
+      "line_hash": "4c7de9c8f775d0ca"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z5_multisplit_holdout.py",
+      "line_hash": "1d1bb92e6959d8ad"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z6_mdl_elbow.py",
+      "line_hash": "61e603e9ea814373"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z7_bigram_transitions.py",
+      "line_hash": "c195b74a9681f50b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z7_bigram_transitions.py",
+      "line_hash": "a6b548d4b036a9b2"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z8_bigram_conditioned.py",
+      "line_hash": "1dda62515e535e4d"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z8_bigram_conditioned.py",
+      "line_hash": "45b9e73adf729e9b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z8_bigram_conditioned.py",
+      "line_hash": "6c43cf881ef45d06"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z8_bigram_conditioned.py",
+      "line_hash": "940b33b9a92ba1d6"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z8_bigram_conditioned.py",
+      "line_hash": "4ec6891f61cda5d2"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z8_bigram_conditioned.py",
+      "line_hash": "fd9930798124b776"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z9_open_questions.py",
+      "line_hash": "4f88c332fc5acad0"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z9_open_questions.py",
+      "line_hash": "d4ab5617e3b764d3"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z9_open_questions.py",
+      "line_hash": "be3c888e0e819d12"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14z9_open_questions.py",
+      "line_hash": "42065d51d01c99a6"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14za_second_order_transitions.py",
+      "line_hash": "c517410d6f6cc7b2"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14za_second_order_transitions.py",
+      "line_hash": "1e2bd20e928fa364"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14za_second_order_transitions.py",
+      "line_hash": "6cbf8691f1b27f56"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14za_second_order_transitions.py",
+      "line_hash": "7f78e46d9f5be42a"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14za_second_order_transitions.py",
+      "line_hash": "173bd3b7f1ce66d9"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zc_emulator_calibration.py",
+      "line_hash": "f9392a01c05a4e8b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zc_emulator_calibration.py",
+      "line_hash": "c8b698514ada1b62"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zc_emulator_calibration.py",
+      "line_hash": "ce6b48fe75f5b102"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zc_emulator_calibration.py",
+      "line_hash": "be3c888e0e819d12"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zc_emulator_calibration.py",
+      "line_hash": "f01893df9598c4f6"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zc_emulator_calibration.py",
+      "line_hash": "5db47108512fb784"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zd_residual_characterization.py",
+      "line_hash": "b602313683d1de14"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zd_residual_characterization.py",
+      "line_hash": "3e2932f71ea205f7"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zd_residual_characterization.py",
+      "line_hash": "e1025d741b6722ad"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zd_residual_characterization.py",
+      "line_hash": "efd1eebb658143dc"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zd_residual_characterization.py",
+      "line_hash": "20107a903bd592e5"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zd_residual_characterization.py",
+      "line_hash": "742804f1bf84dc28"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zd_residual_characterization.py",
+      "line_hash": "cbf22435a590781b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zd_residual_characterization.py",
+      "line_hash": "c2fda910d9ad09db"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "f9392a01c05a4e8b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "156630a76587f13a"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "623d1cddc036aecc"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "552eb4d72103f1ca"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "5147edafa9c9d705"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "b933bae3ad723ea9"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "c04cd86f741b0064"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "14743ba04e8ab86d"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "5b0e2f99079dd525"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "4716d09fb7153028"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "c87ffbe9f51dff6f"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "f8d21ac16973fb7b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14ze_frequency_lattice.py",
+      "line_hash": "8f976d5e55a9ba51"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zf_physical_integration.py",
+      "line_hash": "2a275f9361168d1b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zf_physical_integration.py",
+      "line_hash": "b1d1f6e5d9fff27a"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zf_physical_integration.py",
+      "line_hash": "ae8a707aeef0a941"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zf_physical_integration.py",
+      "line_hash": "089e10ef12b390aa"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zf_physical_integration.py",
+      "line_hash": "f8894740ca68a67d"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zf_physical_integration.py",
+      "line_hash": "6993ca95c1770098"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zf_physical_integration.py",
+      "line_hash": "bfe2b81131c8db04"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zf_physical_integration.py",
+      "line_hash": "3ea3446fc2739714"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zg_oov_integration.py",
+      "line_hash": "552eb4d72103f1ca"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zg_oov_integration.py",
+      "line_hash": "f9392a01c05a4e8b"
+    },
+    {
+      "path": "scripts/phase14_machine/run_14zh_tiered_corrections.py",
+      "line_hash": "85a6cd51665db5ec"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15c_bias_and_compressibility.py",
+      "line_hash": "c533a99217d6dcf7"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15c_bias_and_compressibility.py",
+      "line_hash": "e8609384efb70260"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15c_bias_and_compressibility.py",
+      "line_hash": "bff96336a59a05d6"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "a0f4c0640df1da0d"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "864e8dc102825c43"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "412b98d1040d0d18"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "d432617208baeeea"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "582fca09bec79c81"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "92d16c4afa32fe44"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "931ec5497b472da0"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "92d16c4afa32fe44"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "e41bd10620155df7"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "f607010740f017c0"
+    },
+    {
+      "path": "scripts/phase15_rule_extraction/run_15d_selection_drivers.py",
+      "line_hash": "c12970f3a931f690"
+    },
+    {
+      "path": "scripts/phase16_physical_grounding/run_16b_effort_correlation.py",
+      "line_hash": "01e223bee0cb2101"
+    },
+    {
+      "path": "scripts/phase16_physical_grounding/run_16b_effort_correlation.py",
+      "line_hash": "e6b5af895ede4d05"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17a_generate_blueprints.py",
+      "line_hash": "4b7c8b332b119b32"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17a_generate_blueprints.py",
+      "line_hash": "487fbbad3ad5322b"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17a_generate_blueprints.py",
+      "line_hash": "d60ab62680f8428a"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17b_bandwidth_audit.py",
+      "line_hash": "79b2392862892d07"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17c_residual_bandwidth.py",
+      "line_hash": "1129b99ee4ab1d03"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17c_residual_bandwidth.py",
+      "line_hash": "b6e53c86c660e56a"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17c_residual_bandwidth.py",
+      "line_hash": "2d1bce41c3a1daf7"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17c_residual_bandwidth.py",
+      "line_hash": "f946c316b2137eaa"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "4698567ab39fa6c9"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "3e011a5e4e8e7e49"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "7d6f4b787faca3d3"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "f0e5406679648475"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "75ced6166679b1df"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "b25d74f39100a734"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "0c3c6b092245caae"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "e69587f515e80cb8"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "eef83afd89f53c6f"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "1735cfbafd2dc8cd"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "7fd384ade0293431"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "9d15098008ab3cfb"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "c7e98cc0f7388e11"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "129152b05c02f555"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "815169dbdb68c02c"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "878e3d9ffc15b0cc"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "48f95c5e51e280c2"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "1479b905e49f6834"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17e_choice_structure.py",
+      "line_hash": "43303f15c789d4fa"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17f_device_specification.py",
+      "line_hash": "66a41f51414ecdc4"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17f_device_specification.py",
+      "line_hash": "4cf4053bf3ac040a"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17f_device_specification.py",
+      "line_hash": "020b4162c6fd855c"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17f_device_specification.py",
+      "line_hash": "565823530030b6c7"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17f_device_specification.py",
+      "line_hash": "44c5bbfc62e5d5e1"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17f_device_specification.py",
+      "line_hash": "f602884eb87a7bf1"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17g_extended_drivers.py",
+      "line_hash": "68efcfdb53629fcd"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17g_extended_drivers.py",
+      "line_hash": "fa688cafaf03922d"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "3e011a5e4e8e7e49"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "e4ff175f5056e6f4"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "5be324dc20ec274a"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "3cbe4263f94be012"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "5a25da1c0100c86d"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "91152069386e9973"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "a41d2e9cd079bd86"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "c7b1146bf48e5e87"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "a5639a6ed99de490"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "6b29b115f606b6e1"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "7e6a29dfd2f50ad2"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "952840bfc2d9615e"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "a9d271f11fc02aa1"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "8ac6691ada19efff"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "98387f58210f46cd"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "0d560d7db7450726"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17h_conditioned_structure.py",
+      "line_hash": "3464b9eeb4406121"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17i_subset_device.py",
+      "line_hash": "e2ee0546e7c038cf"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17i_subset_device.py",
+      "line_hash": "1f91422280b20745"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17i_subset_device.py",
+      "line_hash": "d8eef9cf4f62be57"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17i_subset_device.py",
+      "line_hash": "71a52571b437c157"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17i_subset_device.py",
+      "line_hash": "76420025c2fec11d"
+    },
+    {
+      "path": "scripts/phase17_finality/run_17i_subset_device.py",
+      "line_hash": "44a594b30c152841"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18a_signature_battery.py",
+      "line_hash": "c1f0d8ae5813a6ef"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18a_signature_battery.py",
+      "line_hash": "9bcd409a6a54611c"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18a_signature_battery.py",
+      "line_hash": "d4e0cc6c76636ede"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18a_signature_battery.py",
+      "line_hash": "7c1fe0fc0698f5d2"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18a_signature_battery.py",
+      "line_hash": "08564b9dab22c5f6"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18a_signature_battery.py",
+      "line_hash": "ef8a6e86bc2bb3e7"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18b_corpus_ingestion.py",
+      "line_hash": "19068f8e4204c106"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18c_comparative_analysis.py",
+      "line_hash": "c1f0d8ae5813a6ef"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18c_comparative_analysis.py",
+      "line_hash": "45704fc01c2958ea"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18c_comparative_analysis.py",
+      "line_hash": "a68921ddc8bfcd8a"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18c_comparative_analysis.py",
+      "line_hash": "dd683bc1ea82b7d9"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18c_comparative_analysis.py",
+      "line_hash": "64d39f968dd627d2"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18c_comparative_analysis.py",
+      "line_hash": "2834c23a3b4592d1"
+    },
+    {
+      "path": "scripts/phase18_comparative/run_18c_comparative_analysis.py",
+      "line_hash": "c33b639b10689e87"
+    },
+    {
+      "path": "scripts/phase1_foundation/populate_database.py",
+      "line_hash": "940727ccd817e6e2"
+    },
+    {
+      "path": "scripts/phase1_foundation/populate_database.py",
+      "line_hash": "940727ccd817e6e2"
+    },
+    {
+      "path": "scripts/phase1_foundation/populate_glyphs.py",
+      "line_hash": "8a026e8b3be72b44"
+    },
+    {
+      "path": "scripts/phase1_foundation/run_destructive_audit.py",
+      "line_hash": "ea6debc2f3aaf088"
+    },
+    {
+      "path": "scripts/phase1_foundation/run_destructive_audit.py",
+      "line_hash": "f1715e24587d47f2"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_phase_2_1.py",
+      "line_hash": "c4aa00d000d928e2"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_phase_2_1.py",
+      "line_hash": "b6a76f4bad7bc79b"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_phase_2_2.py",
+      "line_hash": "b4cc4c21b3b45068"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_phase_2_3.py",
+      "line_hash": "02865a3c5b9329e6"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_phase_2_4.py",
+      "line_hash": "ce4063a63638596c"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_phase_2_4.py",
+      "line_hash": "81b8b118424a25cd"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_phase_2_4.py",
+      "line_hash": "b1d60bca915148b6"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_phase_2_4.py",
+      "line_hash": "258c9cd87202cab6"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_phase_2_4.py",
+      "line_hash": "9b842090fe110a53"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "aca9b283cab06f7f"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "ae53dd1f781607ff"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "0de0d9f45fd48c27"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "1ed3e4de6131d090"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "28be2ac90e12d6f7"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "c594cbd4ac774d57"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "d506b04b3840387e"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "7622d0a50523fd4d"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "2256f8b8ce6f144d"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "49b964ae44719fa4"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "1e8c9c94982a988a"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "5a9ac37f75da260d"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "717c0cfbe345fa61"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "5f30260f115d559f"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "dd0a19c6446e0859"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "f800e89557554e60"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "08a9a507346ecaa8"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "2becfa70d00b91eb"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "170913b2e0991ad6"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "ab3bc4aa0a702708"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "d2a26975f77c03da"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "e5bc219d226a30dd"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "60e419785606be7a"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "9400d3163d3dbaef"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "3e1b7c381ce7b300"
+    },
+    {
+      "path": "scripts/phase2_analysis/run_sensitivity_sweep.py",
+      "line_hash": "daf697460b99d722"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_baseline_assessment.py",
+      "line_hash": "ee207c0081dce5d6"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_baseline_assessment.py",
+      "line_hash": "549b5be3be392949"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_baseline_assessment.py",
+      "line_hash": "549b5be3be392949"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_control_matching_audit.py",
+      "line_hash": "7bc12662d3ed24f6"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_control_matching_audit.py",
+      "line_hash": "ba7ac33a1b33ad86"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_control_matching_audit.py",
+      "line_hash": "033961cc0946a8b3"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_control_matching_audit.py",
+      "line_hash": "44ca6e8724661d30"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_indistinguishability_test.py",
+      "line_hash": "63a84ec515d9f6da"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_indistinguishability_test.py",
+      "line_hash": "348ab97be9fd9454"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_indistinguishability_test.py",
+      "line_hash": "91ee319b4c11d41b"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_phase_3.py",
+      "line_hash": "589d1cd4a6bd2d74"
+    },
+    {
+      "path": "scripts/phase3_synthesis/run_test_b.py",
+      "line_hash": "9b107d07a1cbaf1a"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_holdout_check.py",
+      "line_hash": "acd158ebf23100e1"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_holdout_check.py",
+      "line_hash": "acd158ebf23100e1"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_section_holdout_check.py",
+      "line_hash": "acd158ebf23100e1"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_section_holdout_check.py",
+      "line_hash": "acd158ebf23100e1"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_sweep.py",
+      "line_hash": "35c107fb8abdb3e5"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_sweep.py",
+      "line_hash": "acd158ebf23100e1"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_sweep.py",
+      "line_hash": "acd158ebf23100e1"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_sweep.py",
+      "line_hash": "d7c255fc248dd3b1"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_sweep.py",
+      "line_hash": "236a316e19427ecc"
+    },
+    {
+      "path": "scripts/phase4_inference/run_boundary_persistence_sweep.py",
+      "line_hash": "d6c4bdebb34074be"
+    },
+    {
+      "path": "scripts/phase4_inference/run_discrimination_check.py",
+      "line_hash": "70b25d1d840ad91c"
+    },
+    {
+      "path": "scripts/phase4_inference/run_montemurro.py",
+      "line_hash": "7e00614a1f6a99a6"
+    },
+    {
+      "path": "scripts/phase4_inference/run_network.py",
+      "line_hash": "fb67dd6763822f98"
+    },
+    {
+      "path": "scripts/phase4_inference/run_network.py",
+      "line_hash": "3395be0dda903ab0"
+    },
+    {
+      "path": "scripts/phase4_inference/run_projection_bounded.py",
+      "line_hash": "70b25d1d840ad91c"
+    },
+    {
+      "path": "scripts/phase4_inference/run_projection_bounded.py",
+      "line_hash": "6970a4425bed97f2"
+    },
+    {
+      "path": "scripts/phase4_inference/run_reference_42_check.py",
+      "line_hash": "4d9e81d27d202019"
+    },
+    {
+      "path": "scripts/phase4_inference/run_reference_42_check.py",
+      "line_hash": "8ad545cd1947c424"
+    },
+    {
+      "path": "scripts/phase5_mechanism/audit_anchor_coverage.py",
+      "line_hash": "1e8c9c94982a988a"
+    },
+    {
+      "path": "scripts/phase5_mechanism/generate_all_anchors.py",
+      "line_hash": "b0bcb4a23259497c"
+    },
+    {
+      "path": "scripts/phase5_mechanism/replicate.py",
+      "line_hash": "55f3418fbe0fe737"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_5b_pilot.py",
+      "line_hash": "9c84888e3cdddfe3"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_5d_pilot.py",
+      "line_hash": "ded32a6e9830494c"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_5i_anchor_coupling.py",
+      "line_hash": "1e8c9c94982a988a"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_5i_anchor_coupling.py",
+      "line_hash": "b29b0ad2849ae0c8"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_5i_anchor_coupling.py",
+      "line_hash": "fbcf8f1f03f1b426"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_5i_anchor_coupling.py",
+      "line_hash": "10c6151ba708823b"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_5i_anchor_coupling.py",
+      "line_hash": "f4bccab752435d91"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_5i_anchor_coupling.py",
+      "line_hash": "d432617208baeeea"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_5i_anchor_coupling.py",
+      "line_hash": "ab5444dc9f68b639"
+    },
+    {
+      "path": "scripts/phase5_mechanism/run_pilot.py",
+      "line_hash": "3f80bd24a3dfdb59"
+    },
+    {
+      "path": "src/phase10_admissibility/mask_anatomy/mapper.py",
+      "line_hash": "ea41107f1025e9bf"
+    },
+    {
+      "path": "src/phase10_admissibility/mask_anatomy/mapper.py",
+      "line_hash": "165f31de990d8b05"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "d4227591a806a9ce"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "d4227591a806a9ce"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "0567e6854e6ba020"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "72c5587414ad5d40"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "084e6160de691793"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "18b343adabef6845"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "5985bb7f93bf8d99"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "ecb9dac13191ac08"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "aebe326e9e2f94be"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "ecb9dac13191ac08"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "a3c4b90bd03317e8"
+    },
+    {
+      "path": "src/phase10_admissibility/stage1_pipeline.py",
+      "line_hash": "8ab24092c31cbba1"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "679fcb27f7cb2ac7"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "d1f9b07f8d505d6c"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "3422f192addbf442"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "08f89ff6975ef3b9"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "6c57f555ced9bc6a"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "8551524465a2cda4"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "fed065b8951aede2"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "2e2a9cdebffd9c71"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "3f45e17e877e0d3f"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "e758cff8a095b791"
+    },
+    {
+      "path": "src/phase10_admissibility/stage2_pipeline.py",
+      "line_hash": "202b0d9217867765"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "e9f992822785a0ec"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "d4227591a806a9ce"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "6028f9eea890457f"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "ff197b3d85119737"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "5218f55e6b59d842"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "dda31dc5bc8a7c4a"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "3d53419e98503488"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "503b90594f08a3a6"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "ed57ab133ea57aa5"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "584371ee983d19b7"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "70cd332168cf1812"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "a1ef403677251aef"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "517f8e4bd7210b8c"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "b3eb7eed4583f646"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "14bc5dd6a10cb1f2"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "562c4f88f208db32"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "2fd04a83ae17346b"
+    },
+    {
+      "path": "src/phase10_admissibility/stage3_pipeline.py",
+      "line_hash": "20bf1c9be179d044"
+    },
+    {
+      "path": "src/phase11_stroke/analysis/topology.py",
+      "line_hash": "0359e8f33f9a792d"
+    },
+    {
+      "path": "src/phase11_stroke/analysis/topology.py",
+      "line_hash": "54c7b75010eefdad"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "4002bd688b73a401"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "8fc5c4886ea483b4"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "4b0c58494787af19"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "c5f8918f9aeda5f7"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "febc498e2840281d"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "df396b597609e4a9"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "2e11829645140518"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "910045d12aded5e4"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "6807db22a49dbd53"
+    },
+    {
+      "path": "src/phase11_stroke/clustering.py",
+      "line_hash": "f87c767985575795"
+    },
+    {
+      "path": "src/phase11_stroke/extractor.py",
+      "line_hash": "26f89e9b8e65adbc"
+    },
+    {
+      "path": "src/phase11_stroke/extractor.py",
+      "line_hash": "26f89e9b8e65adbc"
+    },
+    {
+      "path": "src/phase11_stroke/extractor.py",
+      "line_hash": "26f89e9b8e65adbc"
+    },
+    {
+      "path": "src/phase11_stroke/extractor.py",
+      "line_hash": "f07c5d0cad3adc45"
+    },
+    {
+      "path": "src/phase11_stroke/extractor.py",
+      "line_hash": "26f89e9b8e65adbc"
+    },
+    {
+      "path": "src/phase11_stroke/extractor.py",
+      "line_hash": "feb0719711e1f0e8"
+    },
+    {
+      "path": "src/phase11_stroke/extractor.py",
+      "line_hash": "62e6ded27b37148a"
+    },
+    {
+      "path": "src/phase11_stroke/schema.py",
+      "line_hash": "2b9d34904d48cda1"
+    },
+    {
+      "path": "src/phase11_stroke/schema.py",
+      "line_hash": "aeab8b813e3c9573"
+    },
+    {
+      "path": "src/phase11_stroke/schema.py",
+      "line_hash": "36637d35f33ab482"
+    },
+    {
+      "path": "src/phase11_stroke/schema.py",
+      "line_hash": "234a89d424543fba"
+    },
+    {
+      "path": "src/phase11_stroke/schema.py",
+      "line_hash": "91d3a721f6dd81f3"
+    },
+    {
+      "path": "src/phase11_stroke/transitions.py",
+      "line_hash": "e7c0860f1825267c"
+    },
+    {
+      "path": "src/phase11_stroke/transitions.py",
+      "line_hash": "b06239c5797d8ecf"
+    },
+    {
+      "path": "src/phase11_stroke/transitions.py",
+      "line_hash": "20136f6c2b0de028"
+    },
+    {
+      "path": "src/phase11_stroke/transitions.py",
+      "line_hash": "b7fba1371c8df99c"
+    },
+    {
+      "path": "src/phase11_stroke/transitions.py",
+      "line_hash": "39df45d8331036b6"
+    },
+    {
+      "path": "src/phase11_stroke/transitions.py",
+      "line_hash": "bde0fab503f77b62"
+    },
+    {
+      "path": "src/phase12_mechanical/jigsaw_solver.py",
+      "line_hash": "93fd186dd7854b5d"
+    },
+    {
+      "path": "src/phase12_mechanical/jigsaw_solver.py",
+      "line_hash": "df2631426b915e31"
+    },
+    {
+      "path": "src/phase12_mechanical/jigsaw_solver.py",
+      "line_hash": "6eb6bae8d5798167"
+    },
+    {
+      "path": "src/phase12_mechanical/slip_detection.py",
+      "line_hash": "761457158ebc34cf"
+    },
+    {
+      "path": "src/phase12_mechanical/slip_detection.py",
+      "line_hash": "5030483daf8271f8"
+    },
+    {
+      "path": "src/phase14_machine/state_discovery.py",
+      "line_hash": "ef4ccae93a4b70f1"
+    },
+    {
+      "path": "src/phase19_alignment/evaluation.py",
+      "line_hash": "8b2d4f1f5dc578d9"
+    },
+    {
+      "path": "src/phase19_alignment/evaluation.py",
+      "line_hash": "e26ba29cede1b6f5"
+    },
+    {
+      "path": "src/phase19_alignment/evaluation.py",
+      "line_hash": "e4055d976f7c08c0"
+    },
+    {
+      "path": "src/phase19_alignment/evaluation.py",
+      "line_hash": "33f251447b5ec446"
+    },
+    {
+      "path": "src/phase19_alignment/generator.py",
+      "line_hash": "23f2217f58fa9a0c"
+    },
+    {
+      "path": "src/phase19_alignment/generator.py",
+      "line_hash": "7e63d0a284484f2a"
+    },
+    {
+      "path": "src/phase19_alignment/generator.py",
+      "line_hash": "12459656371b11fd"
+    },
+    {
+      "path": "src/phase19_alignment/generator.py",
+      "line_hash": "af05cb8c65620ac2"
+    },
+    {
+      "path": "src/phase1_foundation/cli/main.py",
+      "line_hash": "d1d4afd5c593e430"
+    },
+    {
+      "path": "src/phase1_foundation/cli/main.py",
+      "line_hash": "9165e0cfbc8e97c1"
+    },
+    {
+      "path": "src/phase1_foundation/config.py",
+      "line_hash": "b1e952500d521563"
+    },
+    {
+      "path": "src/phase1_foundation/config.py",
+      "line_hash": "0e705668ca02afb2"
+    },
+    {
+      "path": "src/phase1_foundation/core/geometry.py",
+      "line_hash": "08155e782d02d6b3"
+    },
+    {
+      "path": "src/phase1_foundation/core/queries.py",
+      "line_hash": "3b57aad5805a94ed"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/destructive.py",
+      "line_hash": "492fe96292dee15b"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/destructive.py",
+      "line_hash": "7114db97cd056793"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/destructive.py",
+      "line_hash": "793f14a6d62812da"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/destructive.py",
+      "line_hash": "4befde5812a4eebe"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/destructive.py",
+      "line_hash": "1ad46b158857363e"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/destructive.py",
+      "line_hash": "ecfc0a05f630de46"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/library.py",
+      "line_hash": "70498a74066c94e5"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/library.py",
+      "line_hash": "60c7c58d05989773"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/library.py",
+      "line_hash": "608fa09960260de8"
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/library.py",
+      "line_hash": "740413bffcabb912"
+    },
+    {
+      "path": "src/phase1_foundation/regions/dummy.py",
+      "line_hash": "549b5be3be392949"
+    },
+    {
+      "path": "src/phase1_foundation/regions/dummy.py",
+      "line_hash": "79e70ade445ee92a"
+    },
+    {
+      "path": "src/phase1_foundation/regions/interface.py",
+      "line_hash": "68f6e8791fd9f6b6"
+    },
+    {
+      "path": "src/phase1_foundation/segmentation/dummy.py",
+      "line_hash": "940727ccd817e6e2"
+    },
+    {
+      "path": "src/phase1_foundation/segmentation/dummy.py",
+      "line_hash": "b30cfd030e3374a3"
+    },
+    {
+      "path": "src/phase1_foundation/segmentation/dummy.py",
+      "line_hash": "a3092a42c548ed73"
+    },
+    {
+      "path": "src/phase1_foundation/segmentation/interface.py",
+      "line_hash": "68f6e8791fd9f6b6"
+    },
+    {
+      "path": "src/phase1_foundation/segmentation/interface.py",
+      "line_hash": "68f6e8791fd9f6b6"
+    },
+    {
+      "path": "src/phase1_foundation/segmentation/interface.py",
+      "line_hash": "68f6e8791fd9f6b6"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/capacity_bounding.py",
+      "line_hash": "5cc41ce9e64c3426"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/constraint_analysis.py",
+      "line_hash": "8b024bbfbf80b57c"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/constraint_analysis.py",
+      "line_hash": "c3feead7603b3bf0"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/constraint_analysis.py",
+      "line_hash": "813c0c56ebd14a9d"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/constraint_analysis.py",
+      "line_hash": "61a4117573332eae"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/constraint_analysis.py",
+      "line_hash": "6076359f9e91e893"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/constraint_analysis.py",
+      "line_hash": "813c0c56ebd14a9d"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/constraint_analysis.py",
+      "line_hash": "c3feead7603b3bf0"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/constraint_analysis.py",
+      "line_hash": "6076359f9e91e893"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/interface.py",
+      "line_hash": "c4c040b5e920b96b"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/interface.py",
+      "line_hash": "fbf3976cda43440f"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/interface.py",
+      "line_hash": "fe3307cf2d9d8521"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/interface.py",
+      "line_hash": "bb42ae24999c7f8d"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "32114fe4cb140690"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "e392c0245262066d"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "d551532e89fcba89"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "ad8bb207d79a8e59"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "21cd88b2d296d6b9"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "856469766292a0d8"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "3ce726e7e831c279"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "8095857d84e24cd0"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "a608bdd3f6aed013"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "e2299df6ae3683d6"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "90d6a62b829e7757"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "856469766292a0d8"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "c37d55dccc1ab9c0"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "e392c0245262066d"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "d551532e89fcba89"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "b763509780fa35e4"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "21cd88b2d296d6b9"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "3ef8780fe0d44588"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "658fc214e2e597ca"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "cb590a4a17fb2f12"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "1eb28c3cd5ec8874"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "836ea2a376378dfa"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "fbf70a32b8d39496"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "76c3f00bb49a2c6d"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "5f6fb81301ec7b38"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "eb4dbb627365f70a"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "60fdbbc6e5930c54"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "a18ca265ca1e7009"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "fb482c3f435478fb"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "f1ba9c4a4c362236"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "9447cccb81a8435d"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "37de4346e6ebe52b"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/semantic_necessity.py",
+      "line_hash": "a813fd97544fcf86"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/stability_analysis.py",
+      "line_hash": "fdc237b17f253fdd"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/stability_analysis.py",
+      "line_hash": "1e12f658a13174cb"
+    },
+    {
+      "path": "src/phase2_analysis/anomaly/stability_analysis.py",
+      "line_hash": "aa56f89d4b1efd1e"
+    },
+    {
+      "path": "src/phase2_analysis/models/constructed_system.py",
+      "line_hash": "eeba198e00f6ddc6"
+    },
+    {
+      "path": "src/phase2_analysis/models/constructed_system.py",
+      "line_hash": "fc09c9cd77f060e4"
+    },
+    {
+      "path": "src/phase2_analysis/models/constructed_system.py",
+      "line_hash": "88dda5997ef4dcd9"
+    },
+    {
+      "path": "src/phase2_analysis/models/constructed_system.py",
+      "line_hash": "0237a58c7b0304d8"
+    },
+    {
+      "path": "src/phase2_analysis/models/constructed_system.py",
+      "line_hash": "dbf1d64e8ffcb7e7"
+    },
+    {
+      "path": "src/phase2_analysis/models/constructed_system.py",
+      "line_hash": "324ddd45da7c9684"
+    },
+    {
+      "path": "src/phase2_analysis/models/constructed_system.py",
+      "line_hash": "993e5a80c171b12d"
+    },
+    {
+      "path": "src/phase2_analysis/models/constructed_system.py",
+      "line_hash": "6de2ed220ec235d8"
+    },
+    {
+      "path": "src/phase2_analysis/models/constructed_system.py",
+      "line_hash": "dbf1d64e8ffcb7e7"
+    },
+    {
+      "path": "src/phase2_analysis/models/disconfirmation.py",
+      "line_hash": "9317b8c96b086678"
+    },
+    {
+      "path": "src/phase2_analysis/models/disconfirmation.py",
+      "line_hash": "e0f5b7fbfb8c16ac"
+    },
+    {
+      "path": "src/phase2_analysis/models/interface.py",
+      "line_hash": "bb42ae24999c7f8d"
+    },
+    {
+      "path": "src/phase2_analysis/models/visual_grammar.py",
+      "line_hash": "a21e7661f3592375"
+    },
+    {
+      "path": "src/phase2_analysis/models/visual_grammar.py",
+      "line_hash": "dbf1d64e8ffcb7e7"
+    },
+    {
+      "path": "src/phase2_analysis/models/visual_grammar.py",
+      "line_hash": "0237a58c7b0304d8"
+    },
+    {
+      "path": "src/phase2_analysis/models/visual_grammar.py",
+      "line_hash": "ba1debf7d8f952e2"
+    },
+    {
+      "path": "src/phase2_analysis/models/visual_grammar.py",
+      "line_hash": "780c72ea3edc5e5d"
+    },
+    {
+      "path": "src/phase2_analysis/models/visual_grammar.py",
+      "line_hash": "0237a58c7b0304d8"
+    },
+    {
+      "path": "src/phase2_analysis/models/visual_grammar.py",
+      "line_hash": "dbf1d64e8ffcb7e7"
+    },
+    {
+      "path": "src/phase2_analysis/models/visual_grammar.py",
+      "line_hash": "324ddd45da7c9684"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "ff49416d35ebf05b"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "5124f4279607a274"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "a19c1cd1f5e0e2e5"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "4b99c1dfd434d492"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "0c9362c159938c2e"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "38dcca28d1fa554a"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "6b20e8af1f699857"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "b16a3a1fcc35c770"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "b3b2ecb42c45ab83"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "822f0df5cf4abaf1"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "b16a3a1fcc35c770"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "1ad46b158857363e"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "8d48610a0940ea29"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "b16a3a1fcc35c770"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "3a5b8b5fdf801779"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "bc0c44a48e09c4ee"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/information_preservation.py",
+      "line_hash": "cbc859a5a0af1850"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/locality.py",
+      "line_hash": "ff49416d35ebf05b"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/locality.py",
+      "line_hash": "b4e07a0af2759f69"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/locality.py",
+      "line_hash": "fd9dd85fbc970a46"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/locality.py",
+      "line_hash": "740413bffcabb912"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/locality.py",
+      "line_hash": "346475488bf44da2"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/locality.py",
+      "line_hash": "01c46b9872736d9b"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/locality.py",
+      "line_hash": "380ca1a1a21066d4"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/mapping_stability.py",
+      "line_hash": "ff49416d35ebf05b"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/mapping_stability.py",
+      "line_hash": "b4e07a0af2759f69"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/mapping_stability.py",
+      "line_hash": "dcb88d73825241cb"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/mapping_stability.py",
+      "line_hash": "fdc578b544ce5bf6"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/mapping_stability.py",
+      "line_hash": "c662ddc6de796e3b"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/mapping_stability.py",
+      "line_hash": "1f30b042a7304cbe"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/mapping_stability.py",
+      "line_hash": "c45ea32534eaf7a0"
+    },
+    {
+      "path": "src/phase2_analysis/stress_tests/mapping_stability.py",
+      "line_hash": "67294f23def3d6a4"
+    },
+    {
+      "path": "src/phase3_synthesis/gap_continuation.py",
+      "line_hash": "006d2783a071392b"
+    },
+    {
+      "path": "src/phase3_synthesis/generators/grammar_based.py",
+      "line_hash": "7ea9ba245e1ec087"
+    },
+    {
+      "path": "src/phase3_synthesis/indistinguishability.py",
+      "line_hash": "06f38c641e308c6d"
+    },
+    {
+      "path": "src/phase3_synthesis/indistinguishability.py",
+      "line_hash": "63a84ec515d9f6da"
+    },
+    {
+      "path": "src/phase3_synthesis/indistinguishability.py",
+      "line_hash": "348ab97be9fd9454"
+    },
+    {
+      "path": "src/phase3_synthesis/interface.py",
+      "line_hash": "e4439fdba868eed6"
+    },
+    {
+      "path": "src/phase3_synthesis/interface.py",
+      "line_hash": "32e3cd934d8c7e7c"
+    },
+    {
+      "path": "src/phase3_synthesis/interface.py",
+      "line_hash": "272a401f3b10f66a"
+    },
+    {
+      "path": "src/phase3_synthesis/profile_extractor.py",
+      "line_hash": "4a3fe395bc4e1710"
+    },
+    {
+      "path": "src/phase3_synthesis/profile_extractor.py",
+      "line_hash": "9f7ae1f8f45c39f3"
+    },
+    {
+      "path": "src/phase3_synthesis/refinement/equivalence_testing.py",
+      "line_hash": "3154a91e0b86fff0"
+    },
+    {
+      "path": "src/phase3_synthesis/refinement/feature_discovery.py",
+      "line_hash": "0ba754a8aa8629fe"
+    },
+    {
+      "path": "src/phase3_synthesis/refinement/feature_discovery.py",
+      "line_hash": "163f6d2ebeec5cb1"
+    },
+    {
+      "path": "src/phase3_synthesis/refinement/feature_discovery.py",
+      "line_hash": "48ba18e1de1864cd"
+    },
+    {
+      "path": "src/phase3_synthesis/refinement/feature_discovery.py",
+      "line_hash": "5d642500276b921a"
+    },
+    {
+      "path": "src/phase3_synthesis/refinement/resynthesis.py",
+      "line_hash": "3aafa06b2f18fc3d"
+    },
+    {
+      "path": "src/phase3_synthesis/text_generator.py",
+      "line_hash": "722b51d73d291e0a"
+    },
+    {
+      "path": "src/phase3_synthesis/text_generator.py",
+      "line_hash": "a5f50090c6c7b7ad"
+    },
+    {
+      "path": "src/phase3_synthesis/text_generator.py",
+      "line_hash": "e7c7a754c6ed81d3"
+    },
+    {
+      "path": "src/phase4_inference/info_clustering/analyzer.py",
+      "line_hash": "2a7c0f905718dab3"
+    },
+    {
+      "path": "src/phase4_inference/info_clustering/analyzer.py",
+      "line_hash": "b9ce32c0a93bccc3"
+    },
+    {
+      "path": "src/phase4_inference/morph_induction/analyzer.py",
+      "line_hash": "3be3c145a9b0533b"
+    },
+    {
+      "path": "src/phase4_inference/morph_induction/analyzer.py",
+      "line_hash": "30e86adb8fd0e158"
+    },
+    {
+      "path": "src/phase4_inference/network_features/analyzer.py",
+      "line_hash": "3edde26762ddd2d2"
+    },
+    {
+      "path": "src/phase4_inference/network_features/analyzer.py",
+      "line_hash": "a6c90310c80246ee"
+    },
+    {
+      "path": "src/phase4_inference/network_features/analyzer.py",
+      "line_hash": "924c4542dc1c5076"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/analyzer.py",
+      "line_hash": "cffe4c3ba0fbd9ca"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/analyzer.py",
+      "line_hash": "009030bcc24b3eb1"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/analyzer.py",
+      "line_hash": "f0c9cf706095476a"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/analyzer.py",
+      "line_hash": "99a21b09f500fb5f"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/analyzer.py",
+      "line_hash": "bfb8c92ceb637809"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/discrimination.py",
+      "line_hash": "cffe4c3ba0fbd9ca"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/image_stream_controls.py",
+      "line_hash": "ffcf52e2da3e4c81"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/image_stream_controls.py",
+      "line_hash": "74f275aee1c7c7d3"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/kolmogorov_proxy.py",
+      "line_hash": "5b2ca72fbe484f8f"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/kolmogorov_proxy.py",
+      "line_hash": "cc118af81e3f190c"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/line_reset_backoff.py",
+      "line_hash": "73e49e670fe95d2f"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/line_reset_backoff.py",
+      "line_hash": "e083a3298cb3c470"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/line_reset_backoff.py",
+      "line_hash": "ae7dd7af0cdc8f91"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/line_reset_markov.py",
+      "line_hash": "976306d079fa6c2e"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/line_reset_persistence.py",
+      "line_hash": "73e49e670fe95d2f"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/line_reset_persistence.py",
+      "line_hash": "e083a3298cb3c470"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/line_reset_persistence.py",
+      "line_hash": "ae7dd7af0cdc8f91"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/line_reset_persistence.py",
+      "line_hash": "f304a154a5e8ed5a"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/ncd.py",
+      "line_hash": "16cce986a20a6f71"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/ncd.py",
+      "line_hash": "fcf9ef59782f199c"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/ncd.py",
+      "line_hash": "9c23a83997f87301"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/ncd.py",
+      "line_hash": "07fa40c222294652"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/ncd.py",
+      "line_hash": "cc118af81e3f190c"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/order_constraints.py",
+      "line_hash": "5b2ca72fbe484f8f"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/reference_number.py",
+      "line_hash": "fe1f5506c7fc5ff9"
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/reference_number.py",
+      "line_hash": "f931837f487205b9"
+    },
+    {
+      "path": "src/phase4_inference/topic_models/analyzer.py",
+      "line_hash": "5e35ac07d404ffca"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "44b0369c2d2c7032"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "677c01e96c0de50e"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "aa8c50c81749b4d2"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "0cfaf12a9da8aaa4"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "407c6afb27adfe40"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "88b2235dbe98b338"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "6eb72db951311281"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "a5d376cb4d4d7c3e"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "4dca8f6fe70426e8"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "b3444b13af978e12"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "42a88d151660764f"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "07e0503ded4704f0"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "16cd9bf24666b85f"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "16cd9bf24666b85f"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "d1705c9eb8408688"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "db12af1681b04521"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "5c29997cecec2132"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "2c9979a3529a5084"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "a9d41f9dfa2fd3a0"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "ab54ac7d28f224be"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "7ea2a67970c777fa"
+    },
+    {
+      "path": "src/phase5_mechanism/anchor_coupling.py",
+      "line_hash": "357e69569577575e"
+    },
+    {
+      "path": "src/phase5_mechanism/constraint_geometry/locality_resets.py",
+      "line_hash": "c16cf7cbf4dbd000"
+    },
+    {
+      "path": "src/phase5_mechanism/deterministic_grammar/boundary_detection.py",
+      "line_hash": "97431476df8555f7"
+    },
+    {
+      "path": "src/phase5_mechanism/entry_selection/prefix_analysis.py",
+      "line_hash": "45bb6346b9bbec50"
+    },
+    {
+      "path": "src/phase5_mechanism/large_object/collision_testing.py",
+      "line_hash": "2c3f32c180e30fdc"
+    },
+    {
+      "path": "src/phase5_mechanism/parsimony/simulators.py",
+      "line_hash": "79f4cc5927441cf3"
+    },
+    {
+      "path": "src/phase5_mechanism/tests/copying_signatures.py",
+      "line_hash": "6afabec2449644af"
+    },
+    {
+      "path": "src/phase5_mechanism/tests/table_signatures.py",
+      "line_hash": "68e08dfdf404576c"
+    },
+    {
+      "path": "src/phase5_mechanism/topology_collapse/signatures.py",
+      "line_hash": "0359e8f33f9a792d"
+    },
+    {
+      "path": "src/phase5_mechanism/topology_collapse/signatures.py",
+      "line_hash": "54c7b75010eefdad"
+    },
+    {
+      "path": "src/phase6_functional/adversarial/metrics.py",
+      "line_hash": "cb277b94a1581803"
+    },
+    {
+      "path": "src/phase6_functional/efficiency/metrics.py",
+      "line_hash": "63a60c6d9f915023"
+    },
+    {
+      "path": "src/phase6_functional/efficiency/metrics.py",
+      "line_hash": "cc977a6c76f643b5"
+    },
+    {
+      "path": "src/phase6_functional/formal_system/simulators.py",
+      "line_hash": "c708dd6013c61711"
+    },
+    {
+      "path": "src/phase6_functional/formal_system/simulators.py",
+      "line_hash": "6e9c74db0109942e"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "bfa700f3f347f3cc"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "a14a0b8ce8f64089"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "9ffb894bdb39d23e"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "74c70b047a56bc0d"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "97192b04a4bea20c"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "460789fe8bd2461d"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "42d775713532bb43"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "3fb380faadae3605"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "250985d6f21a9814"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "533afa167a41f6de"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "7f12896ed3584521"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "bc4ea67242926b94"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "cea655b0fe1c2c58"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "4eda9a3e8beb959d"
+    },
+    {
+      "path": "src/phase8_comparative/mapping.py",
+      "line_hash": "756ac4e818885193"
+    },
+    {
+      "path": "src/support_visualization/core/themes.py",
+      "line_hash": "b08b41105f3d817b"
+    },
+    {
+      "path": "src/support_visualization/layers/layer_1_foundation.py",
+      "line_hash": "4cea3d599661a38e"
+    },
+    {
+      "path": "src/support_visualization/layers/layer_2_analysis.py",
+      "line_hash": "8f48a3676ead8577"
+    },
+    {
+      "path": "src/support_visualization/layers/layer_2_analysis.py",
+      "line_hash": "07ed8e39b96b79c7"
+    },
+    {
+      "path": "src/support_visualization/layers/layer_4_inference.py",
+      "line_hash": "bf64aa172c6d48bc"
+    },
+    {
+      "path": "src/tools/cryptolinguistic_toolkit/auditor.py",
+      "line_hash": "1b399a92d329a9b3"
+    }
+  ]
+}

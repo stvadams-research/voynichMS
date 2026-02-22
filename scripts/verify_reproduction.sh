@@ -4,7 +4,7 @@ set -euo pipefail
 echo "--- Voynich MS Reproduction Verification ---"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 SENSITIVITY_RELEASE_STATUS_PATH="${SENSITIVITY_RELEASE_STATUS_PATH:-core_status/core_audit/sensitivity_sweep_release.json}"
-SENSITIVITY_RELEASE_REPORT_PATH="${SENSITIVITY_RELEASE_REPORT_PATH:-reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md}"
+SENSITIVITY_RELEASE_REPORT_PATH="${SENSITIVITY_RELEASE_REPORT_PATH:-results/reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md}"
 SENSITIVITY_RELEASE_PREFLIGHT_PATH="${SENSITIVITY_RELEASE_PREFLIGHT_PATH:-core_status/core_audit/sensitivity_release_preflight.json}"
 SENSITIVITY_RELEASE_RUN_STATUS_PATH="${SENSITIVITY_RELEASE_RUN_STATUS_PATH:-core_status/core_audit/sensitivity_release_run_status.json}"
 SENSITIVITY_RELEASE_DATASET_ID="${SENSITIVITY_RELEASE_DATASET_ID:-voynich_real}"
@@ -45,6 +45,8 @@ if [ -z "${VIRTUAL_ENV:-}" ]; then
     echo "WARNING: Virtual environment not active; using ${PYTHON_BIN} from PATH."
 fi
 "${PYTHON_BIN}" --version
+echo "1a. Runtime dependency preflight..."
+"${PYTHON_BIN}" scripts/core_audit/check_runtime_dependencies.py --mode verify
 
 # 2. Data Check
 echo "2. Checking data initialization..."

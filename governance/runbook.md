@@ -1,8 +1,14 @@
 # Engineering Runbook
 
 > **Single-command replication:** `python3 scripts/support_preparation/replicate_all.py`
-> covers all 11 phases end-to-end. For full external reproduction guide
-> (including data acquisition and claim traceability), see `replicateResults.md`.
+> covers all 17 release-canonical phases (Phases 1-17) end-to-end. For full
+> external reproduction guide (including data acquisition and claim traceability),
+> see `replicateResults.md`. For release-canonical vs exploratory scope,
+> see `governance/RELEASE_SCOPE.md`.
+>
+> **Exploratory opt-in:** `python3 scripts/support_preparation/replicate_all.py --include-exploratory`
+> appends exploratory phases (18-19). Orchestration order and aliases are
+> defined in `configs/project/phase_manifest.json`.
 
 ## 1. Environment Setup
 
@@ -128,7 +134,6 @@ python3 -m support_visualization.cli.main analysis sensitivity-sweep core_status
 python3 -m support_visualization.cli.main synthesis gap-analysis core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.json
 python3 -m support_visualization.cli.main inference lang-id results/data/phase4_inference/lang_id_results.json
 python3 scripts/support_preparation/generate_publication.py
-python3 scripts/support_preparation/assemble_draft.py
 ```
 
 ## 14. Verification and Tests
@@ -205,10 +210,10 @@ python3 scripts/core_skeptic/check_multimodal_coupling.py --mode release
 
 Claims must be bounded by:
 
-- `results/phase5_mechanism/anchor_coupling_confirmatory.json` -> `results.status`
-- `results/phase5_mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`
-- `results/phase5_mechanism/anchor_coupling_confirmatory.json` -> `results.h1_4_closure_lane`
-- `results/phase5_mechanism/anchor_coupling_confirmatory.json` -> `results.robustness.robustness_class`
+- `results/data/phase5_mechanism/anchor_coupling_confirmatory.json` -> `results.status`
+- `results/data/phase5_mechanism/anchor_coupling_confirmatory.json` -> `results.allowed_claim`
+- `results/data/phase5_mechanism/anchor_coupling_confirmatory.json` -> `results.h1_4_closure_lane`
+- `results/data/phase5_mechanism/anchor_coupling_confirmatory.json` -> `results.robustness.robustness_class`
 
 SK-H1.4 minimum semantic checks before release claims:
 

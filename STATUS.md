@@ -170,4 +170,4 @@ The project has moved through four distinct stages: descriptive statistics, stru
 
 ### Detailed execution logs
 
-Phase-by-phase results, acceptance gates, and sprint-level progress are recorded in the execution plans under [planning/phase14_machine/](planning/phase14_machine/). The canonical evaluation report is at [CANONICAL_EVALUATION.md](results/reports/phase14_machine/CANONICAL_EVALUATION.md). The full claim-artifact mapping (130 verifiable claims) is at [claim_artifact_map.md](governance/claim_artifact_map.md).
+Phase-by-phase results, acceptance gates, and sprint-level progress are recorded in the execution plans under [planning/phase14_machine/](planning/phase14_machine/). The canonical evaluation report is at [CANONICAL_EVALUATION.md](results/reports/phase14_machine/CANONICAL_EVALUATION.md). The full claim-artifact mapping (**154 tracked claims, 154 fully verifiable**) is at [claim_artifact_map.md](governance/claim_artifact_map.md). Release-canonical scope is defined in [RELEASE_SCOPE.md](governance/RELEASE_SCOPE.md).

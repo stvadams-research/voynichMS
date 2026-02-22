@@ -17,9 +17,9 @@ raw float (e.g., 88.11% = 0.8811).
 
 | # | Claim | Value | Script | Output File | Key Path | Notes |
 |---|-------|-------|--------|-------------|----------|-------|
-| 1 | Token repetition rate | 0.9003 | `run_baseline_assessment.py` | `core_status/phase3_synthesis/BASELINE_GAP_ANALYSIS.json` | `repetition_rate.target` | Also in Phase 2 final report |
-| 2 | Glyph identity collapse at 5% perturbation | 37.5% | `run_phase_2_1.py` | Console output (line 259) | — | Hardcoded in script output string |
-| 3 | Word boundary cross-source agreement | 75% | `run_phase_2_1.py` | Console output (line 274) | — | Below 80% threshold → WEAKLY_SUPPORTED |
+| 1 | Token repetition rate | 0.9003 | `run_baseline_assessment.py` | `results/data/phase3_synthesis/baseline_gap_analysis.json` | `repetition_rate.target` | Also in Phase 2 final report |
+| 2 | Glyph identity collapse at 5% perturbation | 37.5% | `run_phase_2_1.py` | `results/data/phase2_analysis/phase_2_1_claims.json` | `results.claim_traceability.claim_2.glyph_identity_collapse_percent` | Structured claim artifact emitted by Phase 2.1 runner |
+| 3 | Word boundary cross-source agreement | 75% | `run_phase_2_1.py` | `results/data/phase2_analysis/phase_2_1_claims.json` | `results.claim_traceability.claim_3.word_boundary_agreement_percent` | Below 80% threshold → WEAKLY_SUPPORTED |
 
 ---
 
@@ -27,8 +27,8 @@ raw float (e.g., 88.11% = 0.8811).
 
 | # | Claim | Value | Script | Output File | Key Path | Notes |
 |---|-------|-------|--------|-------------|----------|-------|
-| 4 | Mapping stability score | 0.02 | `run_phase_2_2.py` | Phase 2 stress test output | `mapping_stability` | Outcome: COLLAPSED / Excluded |
-| 5 | Information density z-score | 5.68 | `run_phase_2_2.py` | `results/reports/phase2_analysis/final_report_phase_2.md` | Section 2.2 | Relative to scrambled controls |
+| 4 | Mapping stability score | 0.02 | `run_phase_2_2.py` | `results/data/phase2_analysis/phase_2_2_claims.json` | `results.claim_traceability.claim_4.mapping_stability_score` | Outcome: COLLAPSED / Excluded |
+| 5 | Information density z-score | 5.68 | `run_phase_2_2.py` | `results/data/phase2_analysis/phase_2_2_claims.json` | `results.claim_traceability.claim_5.information_density_z_score` | Relative to scrambled controls |
 
 ---
 
@@ -43,7 +43,7 @@ raw float (e.g., 88.11% = 0.8811).
 | 10 | Language ID similarity to English | 0.1602 | `run_lang_id.py` | `results/data/phase4_inference/lang_id_results.json` | `voynich_real.english` | |
 | 11 | Self-citation / mech reuse avg info | 3.58–3.62 bits | `run_montemurro.py` | `results/data/phase4_inference/montemurro_results.json` | `self_citation.avg_info`, `mechanical_reuse.avg_info` | |
 | 12 | Unique dominant topics (Voynich) | 5 | `run_topics.py` | `results/data/phase4_inference/topic_results.json` | `voynich_real.unique_dominant_topics` | Latin: KL 2.91; Voynich KL: 3.07 |
-| 13 | Morphological consistency (Voynich) | 0.0711 | `run_morph.py` | `results/data/phase4_inference/morph_results.json` | `voynich_real.consistency` | Latin: 0.0846 |
+| 13 | Morphological consistency (Voynich) | 0.0711 | `run_morph.py` | `results/data/phase4_inference/morph_results.json` | `voynich_real.morph_consistency` | Latin: 0.0846 |
 
 ---
 
@@ -70,11 +70,11 @@ raw float (e.g., 88.11% = 0.8811).
 | 27d | Sectional consistency — Pharmaceutical | 0.8897 | `run_5i_anchor_coupling.py` | `results/data/phase5_mechanism/sectional_profiles.json` | `pharmaceutical.consistency` | 11,095 tokens |
 | 27e | Sectional consistency — Stars | 0.8730 | `run_5i_anchor_coupling.py` | `results/data/phase5_mechanism/sectional_profiles.json` | `stars.consistency` | 63,534 tokens |
 | 28 | Position predictive lift | 65.61% | `run_5j_pilot.py` | `results/data/phase5_mechanism/dependency_scope/pilot_5j_results.json` | `Voynich (Real).position_lift.pos_rel_lift` | Raw: 0.6561 |
-| 29a | H(S\|Node) | 2.2720 bits | `run_5j_pilot.py` | `results/data/phase5_mechanism/dependency_scope/pilot_5j_results.json` | `Voynich (Real).h_node` | |
-| 29b | H(S\|Node,Pos) | 0.7814 bits | `run_5j_pilot.py` | `results/data/phase5_mechanism/dependency_scope/pilot_5j_results.json` | `Voynich (Real).h_node_pos` | |
+| 29a | H(S\|Node) | 2.2720 bits | `run_5j_pilot.py` | `results/data/phase5_mechanism/dependency_scope/pilot_5j_results.json` | `Voynich (Real).predictive_lift.h_node` | |
+| 29b | H(S\|Node,Pos) | 0.7814 bits | `run_5j_pilot.py` | `results/data/phase5_mechanism/dependency_scope/pilot_5j_results.json` | `Voynich (Real).position_lift.h_node_pos` | |
 | 30 | Entropy reduction (5K) | 88.11% | `run_5k_pilot.py` | `results/data/phase5_mechanism/parsimony/pilot_5k_results.json` | `Voynich (Real).residual.rel_reduction` | Raw: 0.8811 |
-| 31a | H(S\|W,P) | 0.7869 bits | `run_5k_pilot.py` | `results/data/phase5_mechanism/parsimony/pilot_5k_results.json` | `Voynich (Real).h_word_pos` | |
-| 31b | H(S\|W,P,History) | 0.0936 bits | `run_5k_pilot.py` | `results/data/phase5_mechanism/parsimony/pilot_5k_results.json` | `Voynich (Real).h_word_pos_hist` | |
+| 31a | H(S\|W,P) | 0.7869 bits | `run_5k_pilot.py` | `results/data/phase5_mechanism/parsimony/pilot_5k_results.json` | `Voynich (Real).residual.h_word_pos` | |
+| 31b | H(S\|W,P,History) | 0.0936 bits | `run_5k_pilot.py` | `results/data/phase5_mechanism/parsimony/pilot_5k_results.json` | `Voynich (Real).residual.h_word_pos_hist` | |
 | 32a | Vocab size (5K) | 5,214 | `run_5k_pilot.py` | `results/data/phase5_mechanism/parsimony/pilot_5k_results.json` | `Voynich (Real).parsimony.vocab_size` | Integer |
 | 32b | Explosion factor | 1.86x | `run_5k_pilot.py` | `results/data/phase5_mechanism/parsimony/pilot_5k_results.json` | `Voynich (Real).parsimony.explosion_factor` | |
 
@@ -155,9 +155,9 @@ raw float (e.g., 88.11% = 0.8811).
 | 59 | MDL: Copy-Reset BPT | 10.90 | `run_14h_baseline_showdown.py` | `results/data/phase14_machine/baseline_comparison.json` | `results.models.Copy-Reset.bpt` | Best full-corpus MDL |
 | 60 | Copy-Reset holdout admissibility | 3.71% | `run_14u_copyreset_holdout.py` | `results/data/phase14_machine/copyreset_holdout.json` | `results.copy_reset.holdout_admissibility` | Lattice 2.9x better cross-section |
 | 61 | Extreme jump rate | 11.85% | `run_14q_residual_analysis.py` | `results/data/phase14_machine/residual_analysis.json` | `results.categories.Extreme Jump (>10)` | Down from 47.25% pre-reordering (4x reduction via spectral reordering) |
-| 62 | Optimal window count | 50 | `run_14r_minimality_sweep.py` | `results/data/phase14_machine/minimality_sweep.json` | `results.optimal_k` | Complexity knee |
+| 62 | Optimal window count | 50 | `run_14r_minimality_sweep.py` | `results/data/phase14_machine/minimality_sweep.json` | `results.sweep.4.num_windows` | Complexity knee |
 | 62a | Extended admissibility (±3) | 57.73% | `run_14q_residual_analysis.py` | `results/data/phase14_machine/residual_analysis.json` | `results.categories` | Sum of Admissible + Extended Drift |
-| 62b | Per-line mask admissibility (reordered) | 53.91% | `run_14x_mask_inference.py` | `results/data/phase14_machine/mask_inference.json` | `results.reordered_palette.with_mask.admissibility` | +14pp over base reordered |
+| 62b | Per-line mask admissibility (reordered) | 53.91% | `run_14x_mask_inference.py` | `results/data/phase14_machine/mask_inference.json` | `results.Reordered.mask_admissibility` | +14pp over base reordered |
 | 62c | Spectral reordering extreme-jump reduction | 4x | `run_14w_window_reordering.py` | `results/data/phase14_machine/reordered_palette.json` | `results.final_extreme_jump` | 47.25% → 11.85%; ratio is cross-file derived |
 | 62d | MDL: Hybrid BPT | 15.49 | `run_14h_baseline_showdown.py` | `results/data/phase14_machine/baseline_comparison.json` | `results.models.Hybrid (CR+Lattice).bpt` | Mixture model: CR + Lattice + Unigram |
 | 62e | Section-aware routing (null) | -8.0pp | `run_14y_section_lattice.py` | `results/data/phase14_machine/section_lattice.json` | `results.section_aware_global.delta_pp` | Section-specific reordering hurts; global ordering is optimal |
@@ -284,7 +284,7 @@ raw float (e.g., 88.11% = 0.8811).
 | 121 | Medium-tier FW-Uni delta | +18.3pp | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.sprint1_frequency_lattice.per_tier.medium` | Largest tier improvement |
 | 122 | OOV suffix recovery rate | 72.2% | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.sprint3_oov_recovery.suffix.recovery_rate` | 1,418/1,964 transitions |
 | 123 | OOV recovery contribution | +4.81pp | `run_14ze_frequency_lattice.py` | `results/data/phase14_machine/frequency_lattice.json` | `results.diminishing_returns.oov_recovery_pp` | Added to consolidated rate |
-| 124 | Integrated OOV recovery rate | 95.2% | `run_14zg_oov_integration.py` | `results/data/phase14_machine/suffix_window_map.json` | `results.corrected_comparison.with_oov.oov_recovered` / `oov_total` | 1,870/1,964 transitions |
+| 124 | Integrated OOV recovery rate | 95.2% | `run_14zg_oov_integration.py` | `results/data/phase14_machine/suffix_window_map.json` | `results.with_oov_recovery.oov_recovered`, `results.with_oov_recovery.oov_total` | 1,870/1,964 transitions |
 | 125 | Integrated consolidated admissibility (uncorrected) | 45.47% | `run_14zg_oov_integration.py` | `results/data/phase14_machine/suffix_window_map.json` | `results.with_oov_recovery.consolidated_admissibility` | +2.03pp over baseline |
 | 126 | Integrated consolidated admissibility (corrected) | 65.75% | `run_14zg_oov_integration.py` | `results/data/phase14_machine/suffix_window_map.json` | `results.corrected_comparison.with_oov.corrected_admissibility` | +1.37pp over corrected baseline |
 | 127 | Moran's I spatial autocorrelation | 0.915 | `run_14zf_physical_integration.py` | `results/data/phase14_machine/physical_integration.json` | `results.sprint1_offset_topology.morans_i` | p < 0.0001 (10K permutations) |
@@ -340,10 +340,9 @@ raw float (e.g., 88.11% = 0.8811).
 
 ## Traceability Notes
 
-1. **Static config values:** Repetition rate (0.9003) and mapping stability (0.02)
-   are stored as static strings in `publication_config.yaml`, not dynamically
-   resolved from JSON. The config comment says "updated to match Phase 2 Real
-   value" — manually synchronized.
+1. **Publication config values:** Repetition rate and mapping stability are now
+   resolved from structured JSON artifacts via `publication_config.yaml`
+   data-source mappings (no static-string synchronization for Claims #1/#4).
 
 2. **Hardcoded chapter values:** Phase 6 and most Phase 5 table values are
    hardcoded in publication chapter markdown files, bypassing the placeholder
@@ -355,10 +354,9 @@ raw float (e.g., 88.11% = 0.8811).
    `results/reports/phase10_admissibility/PHASE_10_RESULTS.md` and
    `replicateResults.md`, not in the main publication chapters.
 
-4. **Console-only claims:** Claims #2 (37.5% collapse) and #3 (75% agreement)
-   are printed to console by `run_phase_2_1.py` but not stored in a JSON
-   artifact. These cannot be programmatically verified without re-running the
-   script and parsing stdout.
+4. **Phase 2 claim artifacts:** Claims #2-5 are now emitted as structured JSON
+   by Phase 2.1/2.2 runners (`phase_2_1_claims.json`, `phase_2_2_claims.json`)
+   for programmatic verification.
 
 ---
 
@@ -366,10 +364,10 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 152 | #1, #6-70, #62a-e, #71-154 |
-| **Console-only** (requires script re-run) | 2 | #2, #3 |
-| **Report-only** (value in Markdown report, not JSON) | 2 | #4, #5 |
-| **Static config** (manually synchronized) | 1 | #1 (also in config) |
+| **Fully verifiable** (JSON key path exists) | 154 | #1-154 |
+| **Console-only** (requires script re-run) | 0 | — |
+| **Report-only** (value in Markdown report, not JSON) | 0 | — |
+| **Static config** (manually synchronized) | 0 | — |
 
 All claims re-verified on 2026-02-21. File paths and JSON key paths corrected
 for claims #1, #45-49, #52, #62c during Cleanup 5 (path/key reconciliation).
@@ -386,13 +384,7 @@ Claims #133-136 added for Opportunity B: Frequency-Stratified Corrections (2026-
 Claims #137-140 added for Opportunity C: Device Specification (2026-02-21).
 Claims #141-146 added for Opportunity A: Steganographic Channel Analysis (2026-02-21).
 Claims #147-154 added for Opportunity D: Cross-Manuscript Comparison (2026-02-21).
-
-### Recommended Fixes (future sprint)
-
-- **Claims #2-3:** Modify `run_phase_2_1.py` to write glyph collapse and word
-  boundary agreement values to a JSON output file alongside console output.
-- **Claims #4-5:** Modify `run_phase_2_2.py` to include mapping stability score
-  and information density z-score in a structured JSON output.
+Claims #2-5 converted to structured claim artifacts during Cleanup 6 (2026-02-22).
 
 ---
 

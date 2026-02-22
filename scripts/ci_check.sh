@@ -3,12 +3,32 @@ set -euo pipefail
 
 echo "--- Starting CI Check ---"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
+SENSITIVITY_RELEASE_STATUS_PATH="${SENSITIVITY_RELEASE_STATUS_PATH:-core_status/core_audit/sensitivity_sweep_release.json}"
+SENSITIVITY_RELEASE_REPORT_PATH="${SENSITIVITY_RELEASE_REPORT_PATH:-results/reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md}"
+SENSITIVITY_RELEASE_PREFLIGHT_PATH="${SENSITIVITY_RELEASE_PREFLIGHT_PATH:-core_status/core_audit/sensitivity_release_preflight.json}"
 SENSITIVITY_RELEASE_DATASET_ID="${SENSITIVITY_RELEASE_DATASET_ID:-voynich_real}"
 SENSITIVITY_RELEASE_RUN_STATUS_PATH="${SENSITIVITY_RELEASE_RUN_STATUS_PATH:-core_status/core_audit/sensitivity_release_run_status.json}"
+export SENSITIVITY_RELEASE_STATUS_PATH
+export SENSITIVITY_RELEASE_REPORT_PATH
+export SENSITIVITY_RELEASE_PREFLIGHT_PATH
+export SENSITIVITY_RELEASE_DATASET_ID
+export SENSITIVITY_RELEASE_RUN_STATUS_PATH
 
 # 1. Environment Setup (Check dependencies)
 echo "1. Checking environment..."
 "${PYTHON_BIN}" --version
+echo "1a. Runtime dependency preflight..."
+"${PYTHON_BIN}" scripts/core_audit/check_runtime_dependencies.py --mode ci
+echo "1b. Phase manifest + naming preflight..."
+"${PYTHON_BIN}" scripts/core_audit/check_phase_manifest.py
+echo "1c. Claim artifact map preflight..."
+"${PYTHON_BIN}" scripts/core_audit/check_claim_artifact_map.py
+echo "1d. Threshold registry preflight..."
+"${PYTHON_BIN}" scripts/core_audit/check_threshold_registry.py
+echo "1e. Unreferenced-module tier preflight..."
+"${PYTHON_BIN}" scripts/core_audit/check_unreferenced_module_tiers.py
+echo "1f. Script interface contract preflight..."
+"${PYTHON_BIN}" scripts/core_audit/check_script_interface_contract.py
 
 # 2. Linting
 echo "2. Linting..."

@@ -11,7 +11,7 @@ fi
 echo "[OK] AUDIT_LOG.md present"
 
 SENSITIVITY_RELEASE_STATUS_PATH="${SENSITIVITY_RELEASE_STATUS_PATH:-core_status/core_audit/sensitivity_sweep_release.json}"
-SENSITIVITY_RELEASE_REPORT_PATH="${SENSITIVITY_RELEASE_REPORT_PATH:-reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md}"
+SENSITIVITY_RELEASE_REPORT_PATH="${SENSITIVITY_RELEASE_REPORT_PATH:-results/reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md}"
 SENSITIVITY_RELEASE_PREFLIGHT_PATH="${SENSITIVITY_RELEASE_PREFLIGHT_PATH:-core_status/core_audit/sensitivity_release_preflight.json}"
 SENSITIVITY_RELEASE_RUN_STATUS_PATH="${SENSITIVITY_RELEASE_RUN_STATUS_PATH:-core_status/core_audit/sensitivity_release_run_status.json}"
 SENSITIVITY_RELEASE_DATASET_ID="${SENSITIVITY_RELEASE_DATASET_ID:-voynich_real}"
@@ -20,6 +20,9 @@ export SENSITIVITY_RELEASE_REPORT_PATH
 export SENSITIVITY_RELEASE_PREFLIGHT_PATH
 export SENSITIVITY_RELEASE_RUN_STATUS_PATH
 export SENSITIVITY_RELEASE_DATASET_ID
+
+echo "[P0] Runtime dependency preflight..."
+python3 scripts/core_audit/check_runtime_dependencies.py --mode release
 
 echo "[SK-C1.4] Running release sensitivity preflight..."
 python3 scripts/phase2_analysis/run_sensitivity_sweep.py \

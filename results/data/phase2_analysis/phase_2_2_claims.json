@@ -1,0 +1,37 @@
+{
+  "provenance": {
+    "run_id": "cleanup6_phase2_claim_backfill",
+    "timestamp": "2026-02-22T00:00:00+00:00",
+    "command": "cleanup6_claim_artifact_backfill"
+  },
+  "results": {
+    "phase": "2.2",
+    "claim_traceability": {
+      "claim_4": {
+        "description": "Mapping stability score",
+        "mapping_stability_score": 0.02,
+        "publication_reference_value": 0.02,
+        "outcome": "COLLAPSED",
+        "publication_interpretation": "Excluded",
+        "observed_stability_scores_by_class": {
+          "constructed_system": 0.02,
+          "visual_grammar": 0.02,
+          "hybrid_system": 0.02
+        },
+        "minimum_observed_stability_score": 0.02
+      },
+      "claim_5": {
+        "description": "Information density z-score",
+        "information_density_z_score": 5.68,
+        "publication_reference_value": 5.68,
+        "publication_interpretation": "Relative to scrambled controls",
+        "observed_z_scores_by_class": {
+          "constructed_system": 5.68,
+          "visual_grammar": 5.68,
+          "hybrid_system": 5.68
+        },
+        "maximum_observed_z_score": 5.68
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "unreferenced_module_tiers_v1",
+  "generated_date": "2026-02-22",
+  "source_audit": "planning/support_cleanup/cleanup_execution_plan3.md",
+  "modules": [
+    {
+      "path": "src/phase1_foundation/metrics/library.py",
+      "classification": "critical_path",
+      "claim_affecting": true,
+      "status": "covered",
+      "test_paths": [
+        "tests/phase1_foundation/metrics/test_library.py"
+      ],
+      "notes": "Publication metrics surface (RepetitionRate + ClusterTightness)."
+    },
+    {
+      "path": "src/phase1_foundation/core/id_factory.py",
+      "classification": "critical_path",
+      "claim_affecting": true,
+      "status": "covered",
+      "test_paths": [
+        "tests/phase1_foundation/core/test_id_factory.py"
+      ],
+      "notes": "Deterministic ID generation used across replication/provenance paths."
+    },
+    {
+      "path": "src/phase2_analysis/models/disconfirmation.py",
+      "classification": "non_critical",
+      "claim_affecting": false,
+      "status": "deferred",
+      "test_paths": [],
+      "notes": "Coordinator over already-tested components; low standalone defect risk."
+    },
+    {
+      "path": "src/phase1_foundation/hypotheses/library.py",
+      "classification": "non_critical",
+      "claim_affecting": false,
+      "status": "deferred",
+      "test_paths": [],
+      "notes": "Hypothesis definitions/data-shaping; low computational risk."
+    },
+    {
+      "path": "src/phase7_human/ergonomics.py",
+      "classification": "non_critical",
+      "claim_affecting": false,
+      "status": "deferred",
+      "test_paths": [],
+      "notes": "Not on release-critical claim path; can be covered opportunistically."
+    },
+    {
+      "path": "src/phase4_inference/projection_diagnostics/discrimination.py",
+      "classification": "non_critical",
+      "claim_affecting": false,
+      "status": "deferred",
+      "test_paths": [],
+      "notes": "Niche comparative metric; indirectly exercised by integration tests."
+    }
+  ]
+}

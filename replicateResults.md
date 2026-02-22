@@ -2,7 +2,7 @@
 
 **Target Publication:** `Voynich_Structural_Identification_Final_021526` (February 15, 2026)
 **Repository:** Zenodo DOI v1.0.1 (archived)
-**Last Verified:** 2026-02-20
+**Last Verified:** 2026-02-21
 
 ---
 
@@ -10,9 +10,13 @@
 
 This document provides a step-by-step path for an external party to reproduce
 every quantitative claim in the publication from source code and raw data. The
-project spans 17 research phases, with the publication covering Phases 1-17
+project spans 17 release-canonical research phases, with the publication covering Phases 1-17
 (Phase 11 Stroke Topology reached fast-kill termination; Phase 13 Demonstration
 is a visualization-only phase).
+
+Exploratory/post-publication phases (18-19) are tracked separately and are not
+part of the default release-canonical replication path. See
+[governance/RELEASE_SCOPE.md](governance/RELEASE_SCOPE.md).
 
 **Estimated wall-clock time:** 4-8 hours (single machine, Phase 10 permutation
 tests dominate).
@@ -408,6 +412,9 @@ compressibility improvement 7.93%, top selection driver = bigram context
 - `results/data/phase15_selection/bias_modeling.json`
 - `results/data/phase15_selection/selection_drivers.json`
 
+Alias note: execution slug is `phase15_rule_extraction`; historical output
+directory alias is `phase15_selection`.
+
 ---
 
 ### Phase 16: Physical Grounding
@@ -428,6 +435,9 @@ ergonomic optimization detected), grid layout efficiency 81.50%.
 - `results/data/phase16_physical/effort_correlation.json`
 - `results/data/phase16_physical/layout_projection.json`
 
+Alias note: execution slug is `phase16_physical_grounding`; historical output
+directory alias is `phase16_physical`.
+
 ---
 
 ### Phase 17: Physical Synthesis & Bandwidth Audit
@@ -445,6 +455,24 @@ python3 scripts/phase17_finality/run_17b_bandwidth_audit.py
 
 **Key outputs:**
 - `results/data/phase17_finality/bandwidth_audit.json`
+
+---
+
+## Exploratory Phases (18-19, Optional)
+
+Phases 18-19 are outside the release-canonical claim surface, but their
+claim-bearing outputs are reproducible through documented entrypoints.
+
+```bash
+# Full exploratory extension path (after release phases)
+python3 scripts/support_preparation/replicate_all.py --include-exploratory
+
+# Per-phase exploratory entrypoints
+python3 scripts/phase18_comparative/replicate.py
+python3 scripts/phase19_alignment/replicate.py
+```
+
+Manifest source of truth: `configs/project/phase_manifest.json`
 
 ---
 
@@ -493,7 +521,8 @@ SK-M2 policy checks.
 **If verification fails with "Missing artifact" errors**, the most likely cause
 is that the required phase scripts have not been run yet. Run
 `python3 scripts/support_preparation/replicate_all.py` to populate all
-artifacts, then retry verification.
+artifacts, then retry verification. To include exploratory phases (18-19), run
+`python3 scripts/support_preparation/replicate_all.py --include-exploratory`.
 
 ---
 
@@ -509,9 +538,6 @@ done
 
 # Generate the master composite document
 python3 scripts/support_preparation/generate_publication.py
-
-# Generate master markdown draft
-python3 scripts/support_preparation/assemble_draft.py
 ```
 
 **Output:** `results/publication/`
@@ -520,7 +546,8 @@ python3 scripts/support_preparation/assemble_draft.py
 
 ## Claim-to-Script Traceability
 
-For the complete mapping (79 claims with exact JSON key paths), see
+For the complete mapping (**154 tracked claims**, including **154 fully
+verifiable JSON-key claims**), see
 [governance/claim_artifact_map.md](governance/claim_artifact_map.md).
 
 Summary:

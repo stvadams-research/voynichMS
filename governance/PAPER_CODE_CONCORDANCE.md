@@ -31,13 +31,12 @@ Mapping stability, perturbation analysis, and exclusion of linguistic/cipher mod
 
 | Section | Topic | Script | Source Module | Result File |
 |---|---|---|---|---|
-| 4.1 | Glyph identity collapse | `phase2_analysis/run_phase_2_1.py` | `phase2_analysis/stress_tests/mapping_stability.py` | Console output (Claims #2-3) |
-| 4.2 | Mapping stability score | `phase2_analysis/run_phase_2_2.py` | `phase2_analysis/stress_tests/mapping_stability.py` | Phase 2 stress test JSON |
-| 4.3 | Information density z-score | `phase2_analysis/run_phase_2_2.py` | `phase2_analysis/stress_tests/information_preservation.py` | `results/reports/phase2_analysis/final_report_phase_2.md` |
+| 4.1 | Glyph identity collapse | `phase2_analysis/run_phase_2_1.py` | `phase2_analysis/stress_tests/mapping_stability.py` | `results/data/phase2_analysis/phase_2_1_claims.json` |
+| 4.2 | Mapping stability score | `phase2_analysis/run_phase_2_2.py` | `phase2_analysis/stress_tests/mapping_stability.py` | `results/data/phase2_analysis/phase_2_2_claims.json` |
+| 4.3 | Information density z-score | `phase2_analysis/run_phase_2_2.py` | `phase2_analysis/stress_tests/information_preservation.py` | `results/data/phase2_analysis/phase_2_2_claims.json` |
 | 4.4 | Sensitivity analysis | `phase2_analysis/run_sensitivity_sweep.py` | `phase2_analysis/stress_tests/` (all) | `results/data/phase2_analysis/sensitivity_sweep/` |
 
 **Figures:** `results/visuals/phase2_analysis/*_sensitivity_*.png`
-**Note:** Claims #2-3 (glyph collapse 37.5%, word boundary 75%) are console-only output from `run_phase_2_1.py`.
 
 ---
 
@@ -166,13 +165,11 @@ Result: STROKE_NULL (fast-kill triggered, partial rho = 0.016, p = 0.307).
 
 ## Known Data Availability Gaps
 
-### Console-Only Claims (no JSON artifact)
-- **Claim #2:** Glyph identity collapse (37.5%) — `run_phase_2_1.py` line 259
-- **Claim #3:** Word boundary agreement (75%) — `run_phase_2_1.py` line 274
-
-### Hardcoded in Publication Config
-- `phase1.repetition_rate = "0.9003"` — static string in `publication_config.yaml`
-- `phase2.mapping_stability = "0.02"` — static string in `publication_config.yaml`
+### Structured Claim Artifacts (Phase 2)
+- **Claim #2:** `results/data/phase2_analysis/phase_2_1_claims.json` → `results.claim_traceability.claim_2.glyph_identity_collapse_percent`
+- **Claim #3:** `results/data/phase2_analysis/phase_2_1_claims.json` → `results.claim_traceability.claim_3.word_boundary_agreement_percent`
+- **Claim #4:** `results/data/phase2_analysis/phase_2_2_claims.json` → `results.claim_traceability.claim_4.mapping_stability_score`
+- **Claim #5:** `results/data/phase2_analysis/phase_2_2_claims.json` → `results.claim_traceability.claim_5.information_density_z_score`
 
 ### Hardcoded in Chapter Markdown
 Phase 5 and Phase 6 table values are embedded as markdown tables in chapter

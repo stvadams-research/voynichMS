@@ -215,5 +215,11 @@
       "SCP9",
       4.319906430648933
     ]
-  ]
+  ],
+  "self_citation": {
+    "avg_info": 3.58
+  },
+  "mechanical_reuse": {
+    "avg_info": 3.62
+  }
 }

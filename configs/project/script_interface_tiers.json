@@ -1,0 +1,106 @@
+{
+  "schema_version": "script_interface_tiers_v1",
+  "tiers": {
+    "tier1_user_facing": {
+      "description": "Documented public entrypoints that external researchers are expected to run directly.",
+      "must_support_help": true,
+      "enforce_invalid_arg_nonzero": true
+    },
+    "tier2_operator": {
+      "description": "Operational wrappers mostly called by orchestrators; stable behavior expected but strict CLI contract is optional."
+    },
+    "tier3_internal": {
+      "description": "Internal helpers; no public CLI compatibility guarantees."
+    }
+  },
+  "scripts": [
+    {
+      "path": "scripts/support_preparation/replicate_all.py",
+      "tier": "tier1_user_facing",
+      "expected_flags": [
+        "--include-exploratory",
+        "--manifest"
+      ],
+      "required_args": []
+    },
+    {
+      "path": "scripts/core_audit/check_runtime_dependencies.py",
+      "tier": "tier1_user_facing",
+      "expected_flags": [
+        "--mode"
+      ],
+      "required_args": []
+    },
+    {
+      "path": "scripts/core_audit/check_phase_manifest.py",
+      "tier": "tier1_user_facing",
+      "expected_flags": [
+        "--manifest",
+        "--claim-map"
+      ],
+      "required_args": []
+    },
+    {
+      "path": "scripts/core_audit/check_claim_artifact_map.py",
+      "tier": "tier1_user_facing",
+      "expected_flags": [
+        "--claim-map"
+      ],
+      "required_args": []
+    },
+    {
+      "path": "scripts/core_audit/check_threshold_registry.py",
+      "tier": "tier1_user_facing",
+      "expected_flags": [
+        "--registry",
+        "--rationale",
+        "--write-baseline"
+      ],
+      "required_args": []
+    },
+    {
+      "path": "scripts/phase19_alignment/score_alignment.py",
+      "tier": "tier1_user_facing",
+      "expected_flags": [
+        "--generated-file",
+        "--actual-file",
+        "--folio-id",
+        "--format",
+        "--output"
+      ],
+      "required_args": [
+        "--generated-file"
+      ]
+    },
+    {
+      "path": "scripts/phase1_foundation/replicate.py",
+      "tier": "tier2_operator",
+      "expected_flags": [],
+      "required_args": []
+    },
+    {
+      "path": "scripts/phase18_comparative/replicate.py",
+      "tier": "tier2_operator",
+      "expected_flags": [],
+      "required_args": []
+    },
+    {
+      "path": "scripts/phase19_alignment/replicate.py",
+      "tier": "tier2_operator",
+      "expected_flags": [],
+      "required_args": []
+    },
+    {
+      "path": "scripts/core_audit/check_sensitivity_artifact_contract.py",
+      "tier": "tier3_internal",
+      "expected_flags": [],
+      "required_args": []
+    },
+    {
+      "path": "scripts/core_audit/check_provenance_runner_contract.py",
+      "tier": "tier3_internal",
+      "expected_flags": [],
+      "required_args": []
+    }
+  ]
+}

@@ -130,7 +130,7 @@ def _render_register_markdown(
     return f"""# SK-M4 Provenance Register
 
 **Date:** {generated_utc[:10]}  
-**Source finding:** `reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_5.md` (`SK-M4` pass-5 residual)  
+**Source finding:** `results/reports/core_skeptic/ADVERSARIAL_SKEPTIC_ASSESSMENT_2026-02-10_5.md` (`SK-M4` pass-5 residual)  
 **Plan:** `planning/core_skeptic/SKEPTIC_M4_5_EXECUTION_PLAN.md`
 
 ---

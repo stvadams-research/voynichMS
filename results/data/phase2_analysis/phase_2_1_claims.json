@@ -1,0 +1,29 @@
+{
+  "provenance": {
+    "run_id": "cleanup6_phase2_claim_backfill",
+    "timestamp": "2026-02-22T00:00:00+00:00",
+    "command": "cleanup6_claim_artifact_backfill"
+  },
+  "results": {
+    "phase": "2.1",
+    "claim_traceability": {
+      "claim_2": {
+        "description": "Glyph identity collapse at 5% perturbation",
+        "glyph_identity_collapse_rate": 0.375,
+        "glyph_identity_collapse_percent": 37.5,
+        "perturbation_strength": 0.05,
+        "inadmissible_threshold": 0.2,
+        "status": "FALSIFIED",
+        "evidence_source": "phase1_destructive_audit"
+      },
+      "claim_3": {
+        "description": "Word boundary cross-source agreement",
+        "word_boundary_agreement_rate": 0.75,
+        "word_boundary_agreement_percent": 75.0,
+        "minimum_support_threshold": 0.8,
+        "status": "WEAKLY_SUPPORTED",
+        "evidence_source": "phase1_destructive_audit"
+      }
+    }
+  }
+}

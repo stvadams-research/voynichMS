@@ -5,8 +5,8 @@ Sensitivity sweep runner for parameter robustness checks.
 Outputs:
 - core_status/core_audit/sensitivity_sweep.json (latest local/iterative snapshot)
 - core_status/core_audit/sensitivity_sweep_release.json (release-candidate snapshot)
-- reports/core_audit/SENSITIVITY_RESULTS.md (latest local/iterative report)
-- reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md (release-candidate report)
+- results/reports/core_audit/SENSITIVITY_RESULTS.md (latest local/iterative report)
+- results/reports/core_audit/SENSITIVITY_RESULTS_RELEASE.md (release-candidate report)
 - core_status/core_audit/sensitivity_quality_diagnostics.json
 - core_status/core_audit/sensitivity_quality_diagnostics_release.json
 - core_status/core_audit/sensitivity_progress.json
