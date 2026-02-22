@@ -1,11 +1,11 @@
 {
   "provenance": {
-    "run_id": "53293a7c-96ee-aad0-604d-470a803c24ca",
-    "git_commit": "4835fe81250d1c07c9ce629fb7032e338573306f",
-    "timestamp": "2026-02-21T23:00:52.211959+00:00",
+    "run_id": "3478f0e3-28af-a148-65af-9dc56e7883dd",
+    "git_commit": "1f77d40430b2d94b8f76223787b5e62ee15b4430",
+    "timestamp": "2026-02-22T03:34:45.136241+00:00",
     "seed": 42,
     "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
-    "run_nonce": 1771714852211680000,
+    "run_nonce": 1771731285136186000,
     "command": "run_18a_signature_battery"
   },
   "results": {

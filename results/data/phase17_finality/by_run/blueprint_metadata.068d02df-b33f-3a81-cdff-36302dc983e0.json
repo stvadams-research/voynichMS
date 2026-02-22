@@ -1,0 +1,288 @@
+{
+  "provenance": {
+    "run_id": "068d02df-b33f-3a81-cdff-36302dc983e0",
+    "git_commit": "1f77d40430b2d94b8f76223787b5e62ee15b4430",
+    "timestamp": "2026-02-22T03:32:44.051035+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771731164050715000,
+    "command": "run_17a_generate_blueprints"
+  },
+  "results": {
+    "model": "tabula_codebook",
+    "num_windows": 50,
+    "total_words": 7717,
+    "avg_words_per_window": 154.34,
+    "nonzero_corrections": 43,
+    "correction_range": [
+      -20,
+      13
+    ],
+    "window_sizes": [
+      {
+        "window_id": 0,
+        "word_count": 18
+      },
+      {
+        "window_id": 1,
+        "word_count": 54
+      },
+      {
+        "window_id": 2,
+        "word_count": 21
+      },
+      {
+        "window_id": 3,
+        "word_count": 54
+      },
+      {
+        "window_id": 4,
+        "word_count": 68
+      },
+      {
+        "window_id": 5,
+        "word_count": 167
+      },
+      {
+        "window_id": 6,
+        "word_count": 149
+      },
+      {
+        "window_id": 7,
+        "word_count": 163
+      },
+      {
+        "window_id": 8,
+        "word_count": 223
+      },
+      {
+        "window_id": 9,
+        "word_count": 276
+      },
+      {
+        "window_id": 10,
+        "word_count": 148
+      },
+      {
+        "window_id": 11,
+        "word_count": 291
+      },
+      {
+        "window_id": 12,
+        "word_count": 54
+      },
+      {
+        "window_id": 13,
+        "word_count": 164
+      },
+      {
+        "window_id": 14,
+        "word_count": 256
+      },
+      {
+        "window_id": 15,
+        "word_count": 52
+      },
+      {
+        "window_id": 16,
+        "word_count": 210
+      },
+      {
+        "window_id": 17,
+        "word_count": 312
+      },
+      {
+        "window_id": 18,
+        "word_count": 396
+      },
+      {
+        "window_id": 19,
+        "word_count": 297
+      },
+      {
+        "window_id": 20,
+        "word_count": 327
+      },
+      {
+        "window_id": 21,
+        "word_count": 182
+      },
+      {
+        "window_id": 22,
+        "word_count": 341
+      },
+      {
+        "window_id": 23,
+        "word_count": 301
+      },
+      {
+        "window_id": 24,
+        "word_count": 261
+      },
+      {
+        "window_id": 25,
+        "word_count": 266
+      },
+      {
+        "window_id": 26,
+        "word_count": 219
+      },
+      {
+        "window_id": 27,
+        "word_count": 232
+      },
+      {
+        "window_id": 28,
+        "word_count": 209
+      },
+      {
+        "window_id": 29,
+        "word_count": 202
+      },
+      {
+        "window_id": 30,
+        "word_count": 163
+      },
+      {
+        "window_id": 31,
+        "word_count": 163
+      },
+      {
+        "window_id": 32,
+        "word_count": 187
+      },
+      {
+        "window_id": 33,
+        "word_count": 135
+      },
+      {
+        "window_id": 34,
+        "word_count": 158
+      },
+      {
+        "window_id": 35,
+        "word_count": 190
+      },
+      {
+        "window_id": 36,
+        "word_count": 138
+      },
+      {
+        "window_id": 37,
+        "word_count": 97
+      },
+      {
+        "window_id": 38,
+        "word_count": 120
+      },
+      {
+        "window_id": 39,
+        "word_count": 65
+      },
+      {
+        "window_id": 40,
+        "word_count": 60
+      },
+      {
+        "window_id": 41,
+        "word_count": 76
+      },
+      {
+        "window_id": 42,
+        "word_count": 58
+      },
+      {
+        "window_id": 43,
+        "word_count": 29
+      },
+      {
+        "window_id": 44,
+        "word_count": 35
+      },
+      {
+        "window_id": 45,
+        "word_count": 36
+      },
+      {
+        "window_id": 46,
+        "word_count": 24
+      },
+      {
+        "window_id": 47,
+        "word_count": 23
+      },
+      {
+        "window_id": 48,
+        "word_count": 23
+      },
+      {
+        "window_id": 49,
+        "word_count": 24
+      }
+    ],
+    "corrections": {
+      "0": 0,
+      "1": 4,
+      "2": 2,
+      "3": 3,
+      "4": 5,
+      "5": 13,
+      "6": 12,
+      "7": 11,
+      "8": 10,
+      "9": 9,
+      "10": 8,
+      "11": 7,
+      "12": 9,
+      "13": 5,
+      "14": 4,
+      "15": -8,
+      "16": 2,
+      "17": 1,
+      "18": 0,
+      "19": -1,
+      "20": -2,
+      "21": -3,
+      "22": -4,
+      "23": -5,
+      "24": -6,
+      "25": -7,
+      "26": -8,
+      "27": -9,
+      "28": -10,
+      "29": -11,
+      "30": -12,
+      "31": -13,
+      "32": -14,
+      "33": -15,
+      "34": -16,
+      "35": -17,
+      "36": -18,
+      "37": -14,
+      "38": -20,
+      "39": -17,
+      "40": -20,
+      "41": -16,
+      "42": -7,
+      "43": -3,
+      "44": 0,
+      "45": 0,
+      "46": -8,
+      "47": 0,
+      "48": 0,
+      "49": 0
+    },
+    "artifacts": [
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/palette_layout.txt",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/correction_offsets.txt",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/tabula_card.svg",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/palette_plate.svg",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/codebook_index.svg",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/historical/volvelle_canonical_ring_1.svg",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/historical/volvelle_canonical_ring_2.svg",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/historical/volvelle_canonical_ring_3.svg",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/historical/volvelle_canonical_ring_4.svg",
+      "/Users/steve/Projects/voynichMS/results/visuals/phase17_finality/historical/volvelle_canonical_ring_5.svg"
+    ]
+  }
+}

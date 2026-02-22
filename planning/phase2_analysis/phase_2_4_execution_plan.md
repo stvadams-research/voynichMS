@@ -1,3 +1,10 @@
+---
+name: "Phase 2.4 – Anomaly Characterization and Constraint Closure"
+overview: "Characterize the unresolved anomaly as a formal object of study"
+status: COMPLETE
+executed: 2026-02-06
+---
+
 # PHASE_2_4_EXECUTION_PLAN.md
 ## Phase 2.4 – Anomaly Characterization and Constraint Closure
 

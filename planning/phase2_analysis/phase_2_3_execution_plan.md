@@ -1,3 +1,10 @@
+---
+name: "Phase 2.3 – Explicit Model Instantiation and Disconfirmation"
+overview: "Move from admissible explanation classes to explicit, falsifiable models"
+status: COMPLETE
+executed: 2026-02-06
+---
+
 # PHASE_2_3_EXECUTION_PLAN.md
 ## Phase 2.3 – Explicit Model Instantiation and Disconfirmation
 

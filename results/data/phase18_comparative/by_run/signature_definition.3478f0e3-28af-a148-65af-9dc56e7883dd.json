@@ -1,0 +1,99 @@
+{
+  "provenance": {
+    "run_id": "3478f0e3-28af-a148-65af-9dc56e7883dd",
+    "git_commit": "1f77d40430b2d94b8f76223787b5e62ee15b4430",
+    "timestamp": "2026-02-22T03:34:45.136241+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771731285136186000,
+    "command": "run_18a_signature_battery"
+  },
+  "results": {
+    "voynich_signature": {
+      "corrected_admissibility": 0.6413,
+      "bur": 0.9992,
+      "tur": 1.0,
+      "mean_branching_factor": 154.3,
+      "effective_bits": 7.27,
+      "morans_i": 0.8559,
+      "fft_dominant_power": 0.815,
+      "bic_volvelle": 265.0,
+      "bic_grille": 200.2,
+      "selection_entropy_bpw": 10.1344,
+      "cross_section_transfer": 1.0
+    },
+    "null_distributions": {
+      "corrected_admissibility": {
+        "mean": 0.6422,
+        "std": 0.0002,
+        "ci_95_lo": 0.6417,
+        "ci_95_hi": 0.6425
+      },
+      "morans_i": {
+        "mean": 0.8209,
+        "std": 0.0908,
+        "ci_95_lo": 0.5861,
+        "ci_95_hi": 0.9387
+      },
+      "fft_dominant_power": {
+        "mean": 0.6064,
+        "std": 0.0339,
+        "ci_95_lo": 0.5237,
+        "ci_95_hi": 0.6581
+      },
+      "selection_entropy_bpw": {
+        "mean": 10.1344,
+        "std": 0.0,
+        "ci_95_lo": 10.1344,
+        "ci_95_hi": 10.1344
+      }
+    },
+    "signature_card": {
+      "corrected_admissibility": {
+        "voynich_value": 0.6413,
+        "null_mean": 0.6422,
+        "null_std": 0.0002,
+        "z_score": -4.5
+      },
+      "morans_i": {
+        "voynich_value": 0.8559,
+        "null_mean": 0.8209,
+        "null_std": 0.0908,
+        "z_score": 0.39
+      },
+      "fft_dominant_power": {
+        "voynich_value": 0.815,
+        "null_mean": 0.6064,
+        "null_std": 0.0339,
+        "z_score": 6.15
+      },
+      "selection_entropy_bpw": {
+        "voynich_value": 10.1344,
+        "null_mean": 10.1344,
+        "null_std": 0.0,
+        "z_score": 0
+      },
+      "bur": {
+        "voynich_value": 0.9992
+      },
+      "tur": {
+        "voynich_value": 1.0
+      },
+      "mean_branching_factor": {
+        "voynich_value": 154.3
+      },
+      "effective_bits": {
+        "voynich_value": 7.27
+      },
+      "bic_volvelle": {
+        "voynich_value": 265.0
+      },
+      "bic_grille": {
+        "voynich_value": 200.2
+      },
+      "cross_section_transfer": {
+        "voynich_value": 1.0
+      }
+    }
+  }
+}

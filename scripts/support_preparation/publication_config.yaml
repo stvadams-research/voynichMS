@@ -15,6 +15,9 @@ profiles:
       - 08_functional_characterization
       - 09_scribal_hand_analysis
       - 10_comparative_classification
+      - 10a_lattice_constraint
+      - 10b_mechanical_reconstruction
+      - 10c_production_model
       - 11_discussion
       - 12_conclusion
       - 13_references
@@ -30,6 +33,8 @@ profiles:
       - 02_methodology
       - 07_mechanism_identification
       - 10_comparative_classification
+      - 10b_mechanical_reconstruction
+      - 10c_production_model
       - 12_conclusion
     include_figures: true
     output: "Voynich_Research_Summary.docx"
@@ -46,6 +51,9 @@ profiles:
       - 08_functional_characterization
       - 09_scribal_hand_analysis
       - 10_comparative_classification
+      - 10a_lattice_constraint
+      - 10b_mechanical_reconstruction
+      - 10c_production_model
       - 13_references
       - appendix_a_sectional_data
       - appendix_b_artifact_library

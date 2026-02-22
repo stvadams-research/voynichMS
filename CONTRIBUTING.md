@@ -37,7 +37,7 @@ This codebase is maintained in an **Audit-Ready** state. Any contribution that b
 
 Work proceeds level by level. Do not implement future-level work “because it will be useful later”.
 
-**Current Phase:** Phase 8 (Visualization and Publication) - Active.
+**Current Status:** All 20 analytical phases are complete. Only the publication pipeline (replication validation, Zenodo, arXiv) remains open. See `STATUS.md` for details.
 
 Allowed directories:
 - `src/`

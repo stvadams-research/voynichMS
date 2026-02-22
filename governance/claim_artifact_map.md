@@ -480,6 +480,37 @@ raw float (e.g., 88.11% = 0.8811).
 
 ---
 
+## Phase 20 — 15-State Merged Volvelle Characterization (Sprint 10)
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 235 | Surviving states | 15 | `run_20g_merged_volvelle_characterization.py` | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | `results.merge_reconstruction.surviving_states` | Size-based merge |
+| 236 | W18 merged token share | 54.2% | `run_20g_merged_volvelle_characterization.py` | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | `results.per_state_profiles.w18_analysis.token_share` | Still dominant |
+| 237 | Largest merged state vocab | 715 | `run_20g_merged_volvelle_characterization.py` | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | `results.historical_defensibility.vocabulary_stats.max` | State 9 (W9-11) |
+| 238 | State 44 absorbs | 9 windows | `run_20g_merged_volvelle_characterization.py` | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | `results.merge_reconstruction.reverse_map.44` | 41-49, 1.0% tokens |
+| 239 | Mean Jaccard (multi-window) | 0.0000 | `run_20g_merged_volvelle_characterization.py` | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | `results.vocabulary_coherence.summary.mean_jaccard_multi_window` | Disjoint by construction |
+| 240 | Coherent states | 0/15 | `run_20g_merged_volvelle_characterization.py` | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | `results.vocabulary_coherence.summary.n_coherent` | All incoherent |
+| 241 | Historical defensibility score | 0.700 | `run_20g_merged_volvelle_characterization.py` | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | `results.historical_defensibility.scores.combined` | PLAUSIBLE with caveats |
+| 242 | Tabula vs volvelle | 8-0-2 | `run_20g_merged_volvelle_characterization.py` | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | `results.comparison.score` | Tabula dominates |
+| 243 | Merged volvelle verdict | MATHEMATICAL CURIOSITY | `run_20g_merged_volvelle_characterization.py` | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | `results.comparison.verdict` | Not a viable alternative |
+
+---
+
+## Phase 20 — Production Workflow Synthesis (Sprint 11)
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 244 | Protocol steps | 8 | `run_20h_production_synthesis.py` | `results/data/phase20_state_machine/production_synthesis.json` | `results.workflow_model.protocol_steps` | Complete operator cycle |
+| 245 | Sections profiled | 7 | `run_20h_production_synthesis.py` | `results/data/phase20_state_machine/production_synthesis.json` | `results.section_profiles` | All manuscript sections |
+| 246 | Biological drift adm | 56.88% | `run_20h_production_synthesis.py` | `results/data/phase20_state_machine/production_synthesis.json` | `results.section_profiles.Biological.drift_admissibility` | Highest section rate |
+| 247 | Astro drift adm | 29.84% | `run_20h_production_synthesis.py` | `results/data/phase20_state_machine/production_synthesis.json` | `results.section_profiles.Astro.drift_admissibility` | Lowest section rate |
+| 248 | Top failure window | W18 (5,565) | `run_20h_production_synthesis.py` | `results/data/phase20_state_machine/production_synthesis.json` | `results.error_model.top_failure_windows[0]` | 34.2% failure rate |
+| 249 | Hapax fraction | 68.4% | `run_20h_production_synthesis.py` | `results/data/phase20_state_machine/production_synthesis.json` | `results.error_model.vocabulary_frequency.hapax_pct` | 5,282 of 7,717 types |
+| 250 | Rare word fraction | 93.8% | `run_20h_production_synthesis.py` | `results/data/phase20_state_machine/production_synthesis.json` | `results.error_model.vocabulary_frequency.rare_pct` | <10 occurrences |
+| 251 | PRODUCTION_MODEL.md generated | YES | `run_20h_production_synthesis.py` | `results/reports/phase20_state_machine/PRODUCTION_MODEL.md` | N/A | Standalone report |
+
+---
+
 ## Traceability Notes
 
 1. **Publication config values:** Repetition rate and mapping stability are now
@@ -506,7 +537,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 234 | #1-234 |
+| **Fully verifiable** (JSON key path exists) | 251 | #1-251 |
 | **Console-only** (requires script re-run) | 0 | — |
 | **Report-only** (value in Markdown report, not JSON) | 0 | — |
 | **Static config** (manually synchronized) | 0 | — |
@@ -537,6 +568,8 @@ Claims #206-213 added for Phase 20 Sprint 4: Non-Circular Device Forms (2026-02-
 Claims #214-220 added for Phase 20 Sprint 6: Manuscript Layout vs Codebook Structure (2026-02-22).
 Claims #221-226 added for Phase 20 Sprint 7: Per-Window Annotated Device Coverage (2026-02-22).
 Claims #227-234 added for Phase 20 Sprint 8: Scribal Hand × Device Correspondence (2026-02-22).
+Claims #235-243 added for Phase 20 Sprint 10: 15-State Merged Volvelle Characterization (2026-02-22).
+Claims #244-251 added for Phase 20 Sprint 11: Production Workflow Synthesis (2026-02-22).
 
 ---
 

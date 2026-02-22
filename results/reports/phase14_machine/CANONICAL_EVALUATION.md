@@ -1416,3 +1416,158 @@ Difference: -8.5pp (z=-13.60, p≈0). **SIGNIFICANTLY DIFFERENT.** Hand 2 achiev
 | Suffix preference | DIFFERENT | H1: -dy, H2: -in |
 
 **Verdict: SPECIALIST PROFILES.** The two hands use the same device with the same window distribution, but they have distinct vocabulary repertoires, different drift behaviors, and different suffix preferences. This is consistent with two scribes operating the same physical tool but with individual "fluency" profiles — different familiarity with the codebook sections, different motor habits producing different drift rates.
+
+---
+
+## Phase 20 Synthesis: Reconciling the Volvelle Hypothesis
+
+### The apparent contradiction
+
+Phase 14N established strong evidence for a circular device: sinusoidal offset correction topology (Moran's I = 0.915, FFT k=1 captures 85.4% of power), mechanical slips concentrated at the zero-correction anchor (window 18, 92.6%), and BIC model selection favoring a volvelle (2 parameters) over a tabula (15 parameters). Phase 20 then proved that all disc-based device forms are physically **implausible** — 50 angular sectors at 7.2° each require minimum 549mm diameter even for a state-only indicator.
+
+### The resolution
+
+The sinusoidal topology is evidence of a **circular organizational principle**, not necessarily a circular physical device. The 50 windows are numbered in an order that produces sinusoidal offset corrections — this means the lattice has a natural circular structure. A flat tabula card with windows laid out in this circular order would produce identical topological signatures (autocorrelation, FFT periodicity, slip concentration) without requiring physical rotation.
+
+The BIC comparison between volvelle and tabula models tested the *correction topology*, not the device *form factor*. A flat reference card organized in circular window order is topologically equivalent to a volvelle for the purposes of correction modeling.
+
+### The recommended device architecture
+
+| Component | Form | Dimensions | Historical Parallel |
+|:---|:---|:---|:---|
+| State tracker | Flat tabula card | 170×160mm (10×5 grid) | Trithemius tabula recta (1508) |
+| Vocabulary reference | Bound codebook | 154 pages, ~10 quires | Alberti De Cifris (1467) |
+| Production workflow | Read card → consult codebook → select word → write | 100% consultation rate | Alberti disc + external alphabet |
+
+### What the merged volvelle tells us
+
+The 15-state merged volvelle (193mm, 56.84% admissibility) is the only viable disc-based form. Its existence demonstrates that the lattice *could* be simplified to fit a small volvelle, but at the cost of merging 35 of 50 windows. Whether the original device had 50 states (requiring a tabula) or 15 states (permitting a small volvelle) depends on the precision of the production system — a question that may be answerable through further slip analysis or comparative study of historical production tools.
+
+### Conclusion
+
+The Voynich production system used a **flat reference card + vocabulary codebook**, operated by two scribes with specialist profiles, producing text through a 50-window sequential lattice with per-window corrections. The sinusoidal offset topology reflects the lattice's circular mathematical structure, not the device's physical shape. The recommended physical specification is a 170×160mm tabula card paired with a 154-page codebook organized by window number.
+
+---
+
+## Section 43: 15-State Merged Volvelle Deep Characterization (Sprint 10)
+
+**Data:** `results/data/phase20_state_machine/merged_volvelle_characterization.json`
+
+Sprint 3 found that size-based merging to 15 states produces a 193mm volvelle (56.84% admissibility) — the only disc-based form passing both size and admissibility thresholds. This section fully characterizes the merged device.
+
+### 43.1 — Merge Map
+
+The size-based merge absorbs 35 of 50 windows into 15 surviving states:
+
+| Surviving State | Original Windows | # Merged | Union Vocab | Correction Range |
+|---:|:---|---:|---:|:---|
+| 3 | 0, 1, 2, 3, 4, 5 | 5 | 382 | +0..+13 |
+| 7 | 6, 7, 8 | 2 | 535 | +10..+12 |
+| 9 | 9, 10, 11 | 2 | 715 | +7..+9 |
+| 14 | 12, 13, 14 | 2 | 474 | +4..+9 |
+| 17 | 15, 16, 17 | 2 | 574 | -8..+2 |
+| 18 | 18, 19 | 1 | 693 | -1..+0 |
+| 20 | 20, 21 | 1 | 509 | -3..-2 |
+| 22 | 22, 23 | 1 | 642 | -5..-4 |
+| 25 | 24, 25 | 1 | 527 | -7..-6 |
+| 27 | 26, 27 | 1 | 451 | -9..-8 |
+| 28 | 28, 29 | 1 | 411 | -11..-10 |
+| 31 | 30, 31, 32 | 2 | 513 | -14..-12 |
+| 35 | 33, 34, 35, 36 | 3 | 621 | -18..-15 |
+| 38 | 37, 38, 39, 40 | 3 | 342 | -20..-14 |
+| 44 | 41-49 | 8 | 328 | -16..+0 |
+
+The merge is heavily asymmetric. State 44 absorbs 9 windows (41-49) but contains only 1.0% of corpus tokens. State 18 (hub) absorbs only W19 and still dominates at 54.2% of tokens.
+
+### 43.2 — Vocabulary Coherence
+
+All 15 merged states have **zero vocabulary overlap** between their constituent windows (Jaccard = 0.000 for all states). This is expected because the original 50 windows have disjoint vocabularies by construction.
+
+**Consequence:** The merged states are not linguistically coherent units. Each merged state is an arbitrary amalgamation of unrelated vocabulary sets. A scribe consulting a "merged codebook" would see words from multiple unrelated lexical domains grouped together.
+
+### 43.3 — Historical Defensibility
+
+| Dimension | Score | Weight | Notes |
+|:---|---:|---:|:---|
+| State count (9-30 range) | 1.00 | 0.20 | 15 states — within Llull range |
+| Vocabulary density | 0.30 | 0.25 | Max 715 words/state — codebook required |
+| Operational complexity | 0.50 | 0.20 | 15 states simpler, but still needs codebook |
+| Physical inscription | 1.00 | 0.15 | 193mm — within Llull/Apian range |
+| Admissibility retention | 0.88 | 0.20 | 56.84% vs 64.94% baseline (-8.1pp) |
+| **Combined** | **0.700** | **1.00** | **PLAUSIBLE (with caveats)** |
+
+The 15-state device falls within the Llull tradition (9-16 positions, 200-300mm) by state count and size. However, the vocabulary density (mean 514 words per state, max 715) requires a codebook regardless — the disc cannot display its content. The 35-window merge optimization has **no historical precedent**.
+
+### 43.4 — Head-to-Head Comparison
+
+| Dimension | Tabula + Codebook | 15-State Volvelle | Winner |
+|:---|:---|:---|:---|
+| Device size | 170x160mm | 193mm | TABULA |
+| State count | 50 (full) | 15 (35 merged) | TABULA |
+| Admissibility | 64.94% | 56.84% (-8.1pp) | TABULA |
+| Information loss | None | 35 windows merged | TABULA |
+| Vocabulary access | 154pp codebook | 154pp codebook | TIE |
+| Portability | Card + booklet | Disc + booklet | TABULA |
+| Historical parallel | Alberti + Trithemius | Llull (no codebook) | TABULA |
+| Construction | Flat card (trivial) | Rotating disc (moderate) | TABULA |
+| Coherence | N/A | 0/15 states coherent | TABULA |
+
+**Result: Tabula wins 8/10 dimensions, volvelle wins 0, 2 ties.**
+
+### 43.5 — Verdict
+
+The 15-state merged volvelle is a **mathematical curiosity**, not a plausible historical alternative. It loses 8.1pp admissibility, requires the same codebook as the tabula, adds construction complexity, produces incoherent vocabulary groupings, and has no historical precedent for state-merging optimization.
+
+---
+
+## Section 44: Production Workflow Synthesis (Sprint 11)
+
+**Data:** `results/data/phase20_state_machine/production_synthesis.json`
+**Report:** `results/reports/phase20_state_machine/PRODUCTION_MODEL.md`
+
+This section consolidates the complete production model from Phases 14-20 into an integrated specification.
+
+### 44.1 — Complete Production Architecture
+
+| Component | Specification |
+|:---|:---|
+| State tracker | Flat tabula card, 170x160mm, 10x5 grid |
+| Vocabulary reference | Codebook, 154 pages, ~10 quires |
+| Lattice | 50 windows, 7,717 words, first-order Markov |
+| Corrections | Per-window offset, range -20 to +13 |
+| Canonical admissibility | 64.94% (corrected + suffix recovery) |
+| Overgeneration | ~20x at all n-gram orders |
+| Branching factor | 761.7 candidates/position (9.57 bits) |
+| Steganographic bandwidth | 7.53 bpw (total: 11.5 KB) |
+| Scribal hands | 2 (specialist profiles, same device) |
+| Mechanical slips | 202 detected (z=9.47) |
+| Consultation rate | 100% (codebook always needed) |
+
+### 44.2 — Per-Section Production Profiles
+
+| Section | Folios | Tokens | Words/Line | Lines/Folio | Drift Adm | Top Window |
+|:---|---:|---:|---:|---:|---:|:---|
+| Herbal A | 55 | 8,826 | 6.2 | 25.7 | 37.05% | W18 (46%) |
+| Herbal B | 3 | 1,164 | 6.4 | 60.7 | 31.92% | W18 (39%) |
+| Astro | 7 | 2,869 | 3.9 | 104.9 | 29.84% | W18 (36%) |
+| Biological | 10 | 6,422 | 7.0 | 91.7 | 56.88% | W18 (60%) |
+| Cosmo | 2 | 1,727 | 9.2 | 94.0 | 58.27% | W18 (61%) |
+| Pharma | 12 | 3,501 | 5.6 | 52.2 | 50.34% | W18 (54%) |
+| Stars | 12 | 10,096 | 9.3 | 90.4 | 41.79% | W18 (49%) |
+
+All sections use the same device. W18 dominates every section (36-61%). Admissibility varies significantly: Hand 2 sections (Biological, Stars) achieve higher rates than Hand 1 sections (Herbal A/B, Astro), consistent with the specialist profile finding.
+
+### 44.3 — Error Model
+
+**Mechanical slips:** 202 vertical offset errors (z=9.47, p<0.0001), concentrated at W18 (92.6%) due to the codebook's largest section (396 words, 7+ pages). Slips are consistent with codebook-indexing errors.
+
+**Drift violations:** ~35% of transitions violate the +/-1 window drift constraint. Failures are frequency-dominated:
+- Common words (>100 occ.): 6.9% failure rate
+- Rare words (<10 occ.): 84.5% failure rate
+- Hapax: 97.8% failure rate
+
+**Vocabulary frequency:** 68.4% of word types are hapax (frequency=1), 93.8% are rare (<10 occurrences).
+
+### 44.4 — Standalone Report
+
+The complete production model is documented in `PRODUCTION_MODEL.md` — a standalone specification sufficient for a third party to understand the tool, the workflow, the scribal variation, and the error signatures.

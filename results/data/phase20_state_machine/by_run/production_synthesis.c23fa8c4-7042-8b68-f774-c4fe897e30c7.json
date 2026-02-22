@@ -1,0 +1,811 @@
+{
+  "provenance": {
+    "run_id": "c23fa8c4-7042-8b68-f774-c4fe897e30c7",
+    "git_commit": "1f77d40430b2d94b8f76223787b5e62ee15b4430",
+    "timestamp": "2026-02-22T03:14:35.651806+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771730075651751000,
+    "command": "run_20h_production_synthesis"
+  },
+  "results": {
+    "component_specs": {
+      "lattice": {
+        "vocabulary_size": 7717,
+        "num_windows": 50,
+        "window_sizes": {
+          "0": 18,
+          "1": 54,
+          "2": 21,
+          "3": 54,
+          "4": 68,
+          "5": 167,
+          "6": 149,
+          "7": 163,
+          "8": 223,
+          "9": 276,
+          "10": 148,
+          "11": 291,
+          "12": 54,
+          "13": 164,
+          "14": 256,
+          "15": 52,
+          "16": 210,
+          "17": 312,
+          "18": 396,
+          "19": 297,
+          "20": 327,
+          "21": 182,
+          "22": 341,
+          "23": 301,
+          "24": 261,
+          "25": 266,
+          "26": 219,
+          "27": 232,
+          "28": 209,
+          "29": 202,
+          "30": 163,
+          "31": 163,
+          "32": 187,
+          "33": 135,
+          "34": 158,
+          "35": 190,
+          "36": 138,
+          "37": 97,
+          "38": 120,
+          "39": 65,
+          "40": 60,
+          "41": 76,
+          "42": 58,
+          "43": 29,
+          "44": 35,
+          "45": 36,
+          "46": 24,
+          "47": 23,
+          "48": 23,
+          "49": 24
+        },
+        "max_window_size": 396,
+        "min_window_size": 18,
+        "hub_window": 18,
+        "hub_window_size": 396
+      },
+      "corrections": {
+        "num_corrections": 50,
+        "range": [
+          -20,
+          13
+        ],
+        "nonzero_count": 43,
+        "zero_windows": [
+          0,
+          18,
+          44,
+          45,
+          47,
+          48,
+          49
+        ]
+      },
+      "physical_device": {
+        "recommended_device": "Tabula + codebook",
+        "tabula_dimensions": "170 x 160mm",
+        "tabula_grid": "10 x 5 (50 windows)",
+        "codebook_pages": 154,
+        "codebook_quires": 10,
+        "combined_score": 0.865
+      },
+      "scribal_hands": {
+        "Hand 1": {
+          "token_count": 9821,
+          "vocab_size": 3664,
+          "window_entropy": 3.588,
+          "admissibility": 0.561
+        },
+        "Hand 2": {
+          "token_count": 16108,
+          "vocab_size": 4084,
+          "window_entropy": 3.016,
+          "admissibility": 0.645
+        }
+      },
+      "bandwidth": {
+        "realized_bpw": 7.53,
+        "total_capacity_kb": 11.5,
+        "latin_chars": 22979,
+        "num_decisions": 12519
+      },
+      "slips": {
+        "detected": 202,
+        "density_pct": 3.93
+      }
+    },
+    "workflow_model": {
+      "protocol_steps": [
+        {
+          "step": 1,
+          "action": "INITIALIZE",
+          "description": "Begin a new line. Set current_window to the window of the previous line's last word, or W18 if starting a new page."
+        },
+        {
+          "step": 2,
+          "action": "READ STATE",
+          "description": "Consult the tabula card to read the current window number and its correction offset."
+        },
+        {
+          "step": 3,
+          "action": "LOOK UP VOCABULARY",
+          "description": "Open the codebook to the section for the current window. All admissible words for this position are listed there."
+        },
+        {
+          "step": 4,
+          "action": "SELECT WORD",
+          "description": "Choose a word from the current window's vocabulary list. Selection is influenced by scribal preference (hand-specific suffix bias and frequency habits)."
+        },
+        {
+          "step": 5,
+          "action": "WRITE WORD",
+          "description": "Inscribe the chosen word on the manuscript page."
+        },
+        {
+          "step": 6,
+          "action": "ADVANCE STATE",
+          "description": "Look up the written word in the lattice map to determine the raw next window number."
+        },
+        {
+          "step": 7,
+          "action": "APPLY CORRECTION",
+          "description": "Add the per-window correction offset to the raw window number (modulo 50) to get the corrected next window. This accounts for the device's systematic drift."
+        },
+        {
+          "step": 8,
+          "action": "REPEAT",
+          "description": "Return to step 2 with the new current_window. Continue until the line is complete."
+        }
+      ],
+      "interruptions": [
+        {
+          "event": "LINE BREAK",
+          "behavior": "The current window carries over to the next line. No state reset occurs."
+        },
+        {
+          "event": "PAGE BREAK",
+          "behavior": "The current window MAY reset to W18 (the hub) or carry over. Empirically, W18 dominates all folio starts (100% of 101 folios)."
+        },
+        {
+          "event": "SECTION TRANSITION",
+          "behavior": "No device reconfiguration. All sections use the same 50-window lattice and codebook. Thematic variation arises from vocabulary selection within windows, not different device states."
+        },
+        {
+          "event": "SCRIBAL ERROR (SLIP)",
+          "behavior": "The scribe mis-indexes the codebook or misreads the tabula, producing a word from the wrong window. Slips concentrate at W18 (92.6% of observed slips) because W18 has the largest codebook section (396 words across 7+ pages)."
+        }
+      ],
+      "state_machine": {
+        "states": 50,
+        "transitions": "word-level (each word determines next window)",
+        "correction": "per-window offset (range -20 to +13)",
+        "reset": "W18 at page boundaries (empirical)"
+      }
+    },
+    "section_profiles": {
+      "Herbal A": {
+        "folios": 55,
+        "folio_range": "f1-f57",
+        "total_tokens": 8826,
+        "total_lines": 1413,
+        "words_per_line": 6.2,
+        "lines_per_folio": 25.7,
+        "mapped_tokens": 8664,
+        "top_5_windows": [
+          {
+            "window": 18,
+            "count": 3948,
+            "share": 0.456
+          },
+          {
+            "window": 17,
+            "count": 560,
+            "share": 0.065
+          },
+          {
+            "window": 20,
+            "count": 554,
+            "share": 0.064
+          },
+          {
+            "window": 22,
+            "count": 446,
+            "share": 0.051
+          },
+          {
+            "window": 19,
+            "count": 417,
+            "share": 0.048
+          }
+        ],
+        "drift_admissibility": 0.3705,
+        "transitions": 8663,
+        "consultation_rate": 1.0
+      },
+      "Herbal B": {
+        "folios": 3,
+        "folio_range": "f58-f66",
+        "total_tokens": 1164,
+        "total_lines": 182,
+        "words_per_line": 6.4,
+        "lines_per_folio": 60.7,
+        "mapped_tokens": 1157,
+        "top_5_windows": [
+          {
+            "window": 18,
+            "count": 450,
+            "share": 0.389
+          },
+          {
+            "window": 17,
+            "count": 91,
+            "share": 0.079
+          },
+          {
+            "window": 20,
+            "count": 85,
+            "share": 0.073
+          },
+          {
+            "window": 22,
+            "count": 83,
+            "share": 0.072
+          },
+          {
+            "window": 11,
+            "count": 51,
+            "share": 0.044
+          }
+        ],
+        "drift_admissibility": 0.3192,
+        "transitions": 1156,
+        "consultation_rate": 1.0
+      },
+      "Astro": {
+        "folios": 7,
+        "folio_range": "f67-f74",
+        "total_tokens": 2869,
+        "total_lines": 734,
+        "words_per_line": 3.9,
+        "lines_per_folio": 104.9,
+        "mapped_tokens": 2665,
+        "top_5_windows": [
+          {
+            "window": 18,
+            "count": 966,
+            "share": 0.362
+          },
+          {
+            "window": 20,
+            "count": 193,
+            "share": 0.072
+          },
+          {
+            "window": 17,
+            "count": 182,
+            "share": 0.068
+          },
+          {
+            "window": 22,
+            "count": 144,
+            "share": 0.054
+          },
+          {
+            "window": 19,
+            "count": 138,
+            "share": 0.052
+          }
+        ],
+        "drift_admissibility": 0.2984,
+        "transitions": 2664,
+        "consultation_rate": 1.0
+      },
+      "Biological": {
+        "folios": 10,
+        "folio_range": "f75-f84",
+        "total_tokens": 6422,
+        "total_lines": 917,
+        "words_per_line": 7.0,
+        "lines_per_folio": 91.7,
+        "mapped_tokens": 6012,
+        "top_5_windows": [
+          {
+            "window": 18,
+            "count": 3580,
+            "share": 0.595
+          },
+          {
+            "window": 17,
+            "count": 618,
+            "share": 0.103
+          },
+          {
+            "window": 20,
+            "count": 482,
+            "share": 0.08
+          },
+          {
+            "window": 22,
+            "count": 289,
+            "share": 0.048
+          },
+          {
+            "window": 19,
+            "count": 227,
+            "share": 0.038
+          }
+        ],
+        "drift_admissibility": 0.5688,
+        "transitions": 6011,
+        "consultation_rate": 1.0
+      },
+      "Cosmo": {
+        "folios": 2,
+        "folio_range": "f85-f86",
+        "total_tokens": 1727,
+        "total_lines": 188,
+        "words_per_line": 9.2,
+        "lines_per_folio": 94.0,
+        "mapped_tokens": 1422,
+        "top_5_windows": [
+          {
+            "window": 18,
+            "count": 873,
+            "share": 0.614
+          },
+          {
+            "window": 17,
+            "count": 130,
+            "share": 0.091
+          },
+          {
+            "window": 22,
+            "count": 100,
+            "share": 0.07
+          },
+          {
+            "window": 20,
+            "count": 85,
+            "share": 0.06
+          },
+          {
+            "window": 19,
+            "count": 70,
+            "share": 0.049
+          }
+        ],
+        "drift_admissibility": 0.5827,
+        "transitions": 1421,
+        "consultation_rate": 1.0
+      },
+      "Pharma": {
+        "folios": 12,
+        "folio_range": "f87-f102",
+        "total_tokens": 3501,
+        "total_lines": 626,
+        "words_per_line": 5.6,
+        "lines_per_folio": 52.2,
+        "mapped_tokens": 2836,
+        "top_5_windows": [
+          {
+            "window": 18,
+            "count": 1528,
+            "share": 0.539
+          },
+          {
+            "window": 20,
+            "count": 219,
+            "share": 0.077
+          },
+          {
+            "window": 17,
+            "count": 212,
+            "share": 0.075
+          },
+          {
+            "window": 19,
+            "count": 173,
+            "share": 0.061
+          },
+          {
+            "window": 22,
+            "count": 152,
+            "share": 0.054
+          }
+        ],
+        "drift_admissibility": 0.5034,
+        "transitions": 2835,
+        "consultation_rate": 1.0
+      },
+      "Stars": {
+        "folios": 12,
+        "folio_range": "f103-f116",
+        "total_tokens": 10096,
+        "total_lines": 1085,
+        "words_per_line": 9.3,
+        "lines_per_folio": 90.4,
+        "mapped_tokens": 10096,
+        "top_5_windows": [
+          {
+            "window": 18,
+            "count": 4950,
+            "share": 0.49
+          },
+          {
+            "window": 17,
+            "count": 736,
+            "share": 0.073
+          },
+          {
+            "window": 20,
+            "count": 713,
+            "share": 0.071
+          },
+          {
+            "window": 22,
+            "count": 539,
+            "share": 0.053
+          },
+          {
+            "window": 19,
+            "count": 440,
+            "share": 0.044
+          }
+        ],
+        "drift_admissibility": 0.4179,
+        "transitions": 10095,
+        "consultation_rate": 1.0
+      }
+    },
+    "error_model": {
+      "per_window_failures": {
+        "0": {
+          "transitions": 18,
+          "failures": 10,
+          "rate": 0.5556
+        },
+        "1": {
+          "transitions": 55,
+          "failures": 51,
+          "rate": 0.9273
+        },
+        "2": {
+          "transitions": 23,
+          "failures": 20,
+          "rate": 0.8696
+        },
+        "3": {
+          "transitions": 56,
+          "failures": 54,
+          "rate": 0.9643
+        },
+        "4": {
+          "transitions": 68,
+          "failures": 61,
+          "rate": 0.8971
+        },
+        "5": {
+          "transitions": 181,
+          "failures": 165,
+          "rate": 0.9116
+        },
+        "6": {
+          "transitions": 157,
+          "failures": 150,
+          "rate": 0.9554
+        },
+        "7": {
+          "transitions": 183,
+          "failures": 165,
+          "rate": 0.9016
+        },
+        "8": {
+          "transitions": 288,
+          "failures": 255,
+          "rate": 0.8854
+        },
+        "9": {
+          "transitions": 405,
+          "failures": 380,
+          "rate": 0.9383
+        },
+        "10": {
+          "transitions": 164,
+          "failures": 142,
+          "rate": 0.8659
+        },
+        "11": {
+          "transitions": 1194,
+          "failures": 1129,
+          "rate": 0.9456
+        },
+        "12": {
+          "transitions": 55,
+          "failures": 51,
+          "rate": 0.9273
+        },
+        "13": {
+          "transitions": 175,
+          "failures": 158,
+          "rate": 0.9029
+        },
+        "14": {
+          "transitions": 367,
+          "failures": 350,
+          "rate": 0.9537
+        },
+        "15": {
+          "transitions": 55,
+          "failures": 48,
+          "rate": 0.8727
+        },
+        "16": {
+          "transitions": 353,
+          "failures": 303,
+          "rate": 0.8584
+        },
+        "17": {
+          "transitions": 2529,
+          "failures": 932,
+          "rate": 0.3685
+        },
+        "18": {
+          "transitions": 16294,
+          "failures": 5565,
+          "rate": 0.3415
+        },
+        "19": {
+          "transitions": 1513,
+          "failures": 568,
+          "rate": 0.3754
+        },
+        "20": {
+          "transitions": 2331,
+          "failures": 2039,
+          "rate": 0.8747
+        },
+        "21": {
+          "transitions": 212,
+          "failures": 180,
+          "rate": 0.8491
+        },
+        "22": {
+          "transitions": 1753,
+          "failures": 1612,
+          "rate": 0.9196
+        },
+        "23": {
+          "transitions": 457,
+          "failures": 433,
+          "rate": 0.9475
+        },
+        "24": {
+          "transitions": 342,
+          "failures": 332,
+          "rate": 0.9708
+        },
+        "25": {
+          "transitions": 462,
+          "failures": 441,
+          "rate": 0.9545
+        },
+        "26": {
+          "transitions": 290,
+          "failures": 275,
+          "rate": 0.9483
+        },
+        "27": {
+          "transitions": 357,
+          "failures": 340,
+          "rate": 0.9524
+        },
+        "28": {
+          "transitions": 292,
+          "failures": 285,
+          "rate": 0.976
+        },
+        "29": {
+          "transitions": 271,
+          "failures": 268,
+          "rate": 0.9889
+        },
+        "30": {
+          "transitions": 184,
+          "failures": 176,
+          "rate": 0.9565
+        },
+        "31": {
+          "transitions": 181,
+          "failures": 173,
+          "rate": 0.9558
+        },
+        "32": {
+          "transitions": 201,
+          "failures": 184,
+          "rate": 0.9154
+        },
+        "33": {
+          "transitions": 155,
+          "failures": 147,
+          "rate": 0.9484
+        },
+        "34": {
+          "transitions": 165,
+          "failures": 154,
+          "rate": 0.9333
+        },
+        "35": {
+          "transitions": 203,
+          "failures": 189,
+          "rate": 0.931
+        },
+        "36": {
+          "transitions": 149,
+          "failures": 148,
+          "rate": 0.9933
+        },
+        "37": {
+          "transitions": 103,
+          "failures": 98,
+          "rate": 0.9515
+        },
+        "38": {
+          "transitions": 141,
+          "failures": 135,
+          "rate": 0.9574
+        },
+        "39": {
+          "transitions": 69,
+          "failures": 68,
+          "rate": 0.9855
+        },
+        "40": {
+          "transitions": 65,
+          "failures": 59,
+          "rate": 0.9077
+        },
+        "41": {
+          "transitions": 80,
+          "failures": 76,
+          "rate": 0.95
+        },
+        "42": {
+          "transitions": 58,
+          "failures": 55,
+          "rate": 0.9483
+        },
+        "43": {
+          "transitions": 30,
+          "failures": 28,
+          "rate": 0.9333
+        },
+        "44": {
+          "transitions": 35,
+          "failures": 29,
+          "rate": 0.8286
+        },
+        "45": {
+          "transitions": 37,
+          "failures": 28,
+          "rate": 0.7568
+        },
+        "46": {
+          "transitions": 25,
+          "failures": 20,
+          "rate": 0.8
+        },
+        "47": {
+          "transitions": 23,
+          "failures": 17,
+          "rate": 0.7391
+        },
+        "48": {
+          "transitions": 23,
+          "failures": 19,
+          "rate": 0.8261
+        },
+        "49": {
+          "transitions": 24,
+          "failures": 18,
+          "rate": 0.75
+        }
+      },
+      "top_failure_windows": [
+        {
+          "window": 18,
+          "transitions": 16294,
+          "failures": 5565,
+          "rate": 0.3415
+        },
+        {
+          "window": 20,
+          "transitions": 2331,
+          "failures": 2039,
+          "rate": 0.8747
+        },
+        {
+          "window": 22,
+          "transitions": 1753,
+          "failures": 1612,
+          "rate": 0.9196
+        },
+        {
+          "window": 11,
+          "transitions": 1194,
+          "failures": 1129,
+          "rate": 0.9456
+        },
+        {
+          "window": 17,
+          "transitions": 2529,
+          "failures": 932,
+          "rate": 0.3685
+        },
+        {
+          "window": 19,
+          "transitions": 1513,
+          "failures": 568,
+          "rate": 0.3754
+        },
+        {
+          "window": 25,
+          "transitions": 462,
+          "failures": 441,
+          "rate": 0.9545
+        },
+        {
+          "window": 23,
+          "transitions": 457,
+          "failures": 433,
+          "rate": 0.9475
+        },
+        {
+          "window": 9,
+          "transitions": 405,
+          "failures": 380,
+          "rate": 0.9383
+        },
+        {
+          "window": 14,
+          "transitions": 367,
+          "failures": 350,
+          "rate": 0.9537
+        }
+      ],
+      "vocabulary_frequency": {
+        "total_types": 7717,
+        "hapax_count": 5282,
+        "hapax_pct": 68.4,
+        "rare_count": 7237,
+        "rare_pct": 93.8
+      },
+      "mechanical_slips": {
+        "total_detected": 202,
+        "density_pct": 3.93,
+        "w18_concentration": "92.6% of observed slips"
+      },
+      "hand_specific": {
+        "Hand 1": {
+          "admissibility": 0.561,
+          "drift_param": 15,
+          "dominant_suffix": "-dy"
+        },
+        "Hand 2": {
+          "admissibility": 0.645,
+          "drift_param": 25,
+          "dominant_suffix": "-in"
+        }
+      }
+    },
+    "report": {
+      "report_path": "/Users/steve/Projects/voynichMS/results/reports/phase20_state_machine/PRODUCTION_MODEL.md",
+      "line_count": 182
+    }
+  }
+}

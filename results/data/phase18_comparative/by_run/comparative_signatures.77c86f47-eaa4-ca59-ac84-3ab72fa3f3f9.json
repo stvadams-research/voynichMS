@@ -1,0 +1,175 @@
+{
+  "provenance": {
+    "run_id": "77c86f47-eaa4-ca59-ac84-3ab72fa3f3f9",
+    "git_commit": "1f77d40430b2d94b8f76223787b5e62ee15b4430",
+    "timestamp": "2026-02-22T03:35:03.406178+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771731303406121000,
+    "command": "run_18c_comparative_analysis"
+  },
+  "results": {
+    "corpus_signatures": {
+      "shuffled_voynich": {
+        "corrected_admissibility": 0.4437,
+        "bur": 0.9994,
+        "tur": 1.0,
+        "mean_branching_factor": 160.0,
+        "effective_bits": 7.32,
+        "morans_i": 0.8732,
+        "fft_dominant_power": 0.5939,
+        "bic_volvelle": 301.0,
+        "bic_grille": 273.5,
+        "selection_entropy_bpw": 10.7608,
+        "cross_section_transfer": 1.0,
+        "num_windows": 50,
+        "vocab_in_lattice": 8000
+      },
+      "reversed_voynich": {
+        "corrected_admissibility": 0.4825,
+        "bur": 0.9996,
+        "tur": 1.0,
+        "mean_branching_factor": 159.9,
+        "effective_bits": 7.32,
+        "morans_i": 0.8864,
+        "fft_dominant_power": 0.608,
+        "bic_volvelle": 300.2,
+        "bic_grille": 270.5,
+        "selection_entropy_bpw": 10.76,
+        "cross_section_transfer": 1.0,
+        "num_windows": 50,
+        "vocab_in_lattice": 7997
+      },
+      "latin": {
+        "corrected_admissibility": 0.4326,
+        "bur": 0.9993,
+        "tur": 1.0,
+        "mean_branching_factor": 159.9,
+        "effective_bits": 7.32,
+        "morans_i": 0.8824,
+        "fft_dominant_power": 0.6082,
+        "bic_volvelle": 302.5,
+        "bic_grille": 271.2,
+        "selection_entropy_bpw": 10.9069,
+        "cross_section_transfer": 1.0,
+        "num_windows": 50,
+        "vocab_in_lattice": 7997
+      }
+    },
+    "comparison": {
+      "shuffled_voynich": {
+        "per_metric": {
+          "corrected_admissibility": {
+            "corpus_value": 0.4437,
+            "voynich_value": 0.6413,
+            "corpus_z": -992.5,
+            "voynich_z": -4.5,
+            "delta_z": 988.0
+          },
+          "morans_i": {
+            "corpus_value": 0.8732,
+            "voynich_value": 0.8559,
+            "corpus_z": 0.58,
+            "voynich_z": 0.39,
+            "delta_z": 0.19
+          },
+          "fft_dominant_power": {
+            "corpus_value": 0.5939,
+            "voynich_value": 0.815,
+            "corpus_z": -0.37,
+            "voynich_z": 6.15,
+            "delta_z": 6.52
+          },
+          "selection_entropy_bpw": {
+            "corpus_value": 10.7608,
+            "voynich_value": 10.1344,
+            "corpus_z": 0,
+            "voynich_z": 0,
+            "delta_z": 0
+          }
+        },
+        "euclidean_distance_z": 988.02
+      },
+      "reversed_voynich": {
+        "per_metric": {
+          "corrected_admissibility": {
+            "corpus_value": 0.4825,
+            "voynich_value": 0.6413,
+            "corpus_z": -798.5,
+            "voynich_z": -4.5,
+            "delta_z": 794.0
+          },
+          "morans_i": {
+            "corpus_value": 0.8864,
+            "voynich_value": 0.8559,
+            "corpus_z": 0.72,
+            "voynich_z": 0.39,
+            "delta_z": 0.33
+          },
+          "fft_dominant_power": {
+            "corpus_value": 0.608,
+            "voynich_value": 0.815,
+            "corpus_z": 0.05,
+            "voynich_z": 6.15,
+            "delta_z": 6.1
+          },
+          "selection_entropy_bpw": {
+            "corpus_value": 10.76,
+            "voynich_value": 10.1344,
+            "corpus_z": 0,
+            "voynich_z": 0,
+            "delta_z": 0
+          }
+        },
+        "euclidean_distance_z": 794.02
+      },
+      "latin": {
+        "per_metric": {
+          "corrected_admissibility": {
+            "corpus_value": 0.4326,
+            "voynich_value": 0.6413,
+            "corpus_z": -1048.0,
+            "voynich_z": -4.5,
+            "delta_z": 1043.5
+          },
+          "morans_i": {
+            "corpus_value": 0.8824,
+            "voynich_value": 0.8559,
+            "corpus_z": 0.68,
+            "voynich_z": 0.39,
+            "delta_z": 0.29
+          },
+          "fft_dominant_power": {
+            "corpus_value": 0.6082,
+            "voynich_value": 0.815,
+            "corpus_z": 0.05,
+            "voynich_z": 6.15,
+            "delta_z": 6.1
+          },
+          "selection_entropy_bpw": {
+            "corpus_value": 10.9069,
+            "voynich_value": 10.1344,
+            "corpus_z": 0,
+            "voynich_z": 0,
+            "delta_z": 0
+          }
+        },
+        "euclidean_distance_z": 1043.52
+      }
+    },
+    "discrimination": {
+      "shuffled_voynich": {
+        "distance": 988.02,
+        "verdict": "VERY_DISTINCT"
+      },
+      "reversed_voynich": {
+        "distance": 794.02,
+        "verdict": "VERY_DISTINCT"
+      },
+      "latin": {
+        "distance": 1043.52,
+        "verdict": "VERY_DISTINCT"
+      }
+    }
+  }
+}

@@ -1,0 +1,1412 @@
+{
+  "provenance": {
+    "run_id": "1e64f7f4-bd7a-31ab-f8f4-a3289a1b0297",
+    "git_commit": "1f77d40430b2d94b8f76223787b5e62ee15b4430",
+    "timestamp": "2026-02-22T03:08:49.073999+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771729729073370000,
+    "command": "run_20g_merged_volvelle_characterization"
+  },
+  "results": {
+    "merge_reconstruction": {
+      "merge_map": {
+        "0": 3,
+        "1": 3,
+        "2": 3,
+        "3": 3,
+        "4": 3,
+        "5": 3,
+        "6": 7,
+        "7": 7,
+        "8": 7,
+        "9": 9,
+        "10": 9,
+        "11": 9,
+        "12": 14,
+        "13": 14,
+        "14": 14,
+        "15": 17,
+        "16": 17,
+        "17": 17,
+        "18": 18,
+        "19": 18,
+        "20": 20,
+        "21": 20,
+        "22": 22,
+        "23": 22,
+        "24": 25,
+        "25": 25,
+        "26": 27,
+        "27": 27,
+        "28": 28,
+        "29": 28,
+        "30": 31,
+        "31": 31,
+        "32": 31,
+        "33": 35,
+        "34": 35,
+        "35": 35,
+        "36": 35,
+        "37": 38,
+        "38": 38,
+        "39": 38,
+        "40": 38,
+        "41": 44,
+        "42": 44,
+        "43": 44,
+        "44": 44,
+        "45": 44,
+        "46": 44,
+        "47": 44,
+        "48": 44,
+        "49": 44
+      },
+      "reverse_map": {
+        "3": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "7": [
+          6,
+          7,
+          8
+        ],
+        "9": [
+          9,
+          10,
+          11
+        ],
+        "14": [
+          12,
+          13,
+          14
+        ],
+        "17": [
+          15,
+          16,
+          17
+        ],
+        "18": [
+          18,
+          19
+        ],
+        "20": [
+          20,
+          21
+        ],
+        "22": [
+          22,
+          23
+        ],
+        "25": [
+          24,
+          25
+        ],
+        "27": [
+          26,
+          27
+        ],
+        "28": [
+          28,
+          29
+        ],
+        "31": [
+          30,
+          31,
+          32
+        ],
+        "35": [
+          33,
+          34,
+          35,
+          36
+        ],
+        "38": [
+          37,
+          38,
+          39,
+          40
+        ],
+        "44": [
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49
+        ]
+      },
+      "surviving_states": [
+        3,
+        7,
+        9,
+        14,
+        17,
+        18,
+        20,
+        22,
+        25,
+        27,
+        28,
+        31,
+        35,
+        38,
+        44
+      ],
+      "admissibility": {
+        "strict": 0.3532,
+        "drift": 0.5684,
+        "total_transitions": 32851
+      }
+    },
+    "per_state_profiles": {
+      "state_profiles": [
+        {
+          "state": 3,
+          "original_windows": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "num_merged": 5,
+          "vocabulary_size": 382,
+          "corpus_tokens": 401,
+          "token_share": 0.0122,
+          "correction_survivor": 3,
+          "correction_range": [
+            0,
+            13
+          ],
+          "top_10_words": [
+            {
+              "word": "orsheey",
+              "freq": 3
+            },
+            {
+              "word": "darary",
+              "freq": 3
+            },
+            {
+              "word": "otory",
+              "freq": 3
+            },
+            {
+              "word": "word",
+              "freq": 3
+            },
+            {
+              "word": "lchl",
+              "freq": 2
+            },
+            {
+              "word": "sheekar",
+              "freq": 2
+            },
+            {
+              "word": "dcheeos",
+              "freq": 2
+            },
+            {
+              "word": "qotcheaiin",
+              "freq": 2
+            },
+            {
+              "word": "toees",
+              "freq": 2
+            },
+            {
+              "word": "qokom",
+              "freq": 2
+            }
+          ],
+          "original_window_sizes": {
+            "0": 18,
+            "1": 54,
+            "2": 21,
+            "3": 54,
+            "4": 68,
+            "5": 167
+          }
+        },
+        {
+          "state": 7,
+          "original_windows": [
+            6,
+            7,
+            8
+          ],
+          "num_merged": 2,
+          "vocabulary_size": 535,
+          "corpus_tokens": 628,
+          "token_share": 0.0191,
+          "correction_survivor": 11,
+          "correction_range": [
+            10,
+            12
+          ],
+          "top_10_words": [
+            {
+              "word": "chodar",
+              "freq": 11
+            },
+            {
+              "word": "shekchy",
+              "freq": 5
+            },
+            {
+              "word": "cthom",
+              "freq": 5
+            },
+            {
+              "word": "kshey",
+              "freq": 4
+            },
+            {
+              "word": "poraiin",
+              "freq": 3
+            },
+            {
+              "word": "qodeedy",
+              "freq": 3
+            },
+            {
+              "word": "qokcheody",
+              "freq": 3
+            },
+            {
+              "word": "qoto",
+              "freq": 3
+            },
+            {
+              "word": "toy",
+              "freq": 3
+            },
+            {
+              "word": "chokeody",
+              "freq": 3
+            }
+          ],
+          "original_window_sizes": {
+            "6": 149,
+            "7": 163,
+            "8": 223
+          }
+        },
+        {
+          "state": 9,
+          "original_windows": [
+            9,
+            10,
+            11
+          ],
+          "num_merged": 2,
+          "vocabulary_size": 715,
+          "corpus_tokens": 1763,
+          "token_share": 0.0537,
+          "correction_survivor": 9,
+          "correction_range": [
+            7,
+            9
+          ],
+          "top_10_words": [
+            {
+              "word": "yteedy",
+              "freq": 28
+            },
+            {
+              "word": "otchdy",
+              "freq": 26
+            },
+            {
+              "word": "dchy",
+              "freq": 23
+            },
+            {
+              "word": "ycheey",
+              "freq": 22
+            },
+            {
+              "word": "okaly",
+              "freq": 21
+            },
+            {
+              "word": "qotchdy",
+              "freq": 21
+            },
+            {
+              "word": "kchey",
+              "freq": 19
+            },
+            {
+              "word": "okchdy",
+              "freq": 19
+            },
+            {
+              "word": "shaiin",
+              "freq": 17
+            },
+            {
+              "word": "olshey",
+              "freq": 16
+            }
+          ],
+          "original_window_sizes": {
+            "9": 276,
+            "10": 148,
+            "11": 291
+          }
+        },
+        {
+          "state": 14,
+          "original_windows": [
+            12,
+            13,
+            14
+          ],
+          "num_merged": 2,
+          "vocabulary_size": 474,
+          "corpus_tokens": 597,
+          "token_share": 0.0182,
+          "correction_survivor": 4,
+          "correction_range": [
+            4,
+            9
+          ],
+          "top_10_words": [
+            {
+              "word": "tshedy",
+              "freq": 9
+            },
+            {
+              "word": "shokchy",
+              "freq": 8
+            },
+            {
+              "word": "lchal",
+              "freq": 5
+            },
+            {
+              "word": "olal",
+              "freq": 5
+            },
+            {
+              "word": "ykchey",
+              "freq": 5
+            },
+            {
+              "word": "pchody",
+              "freq": 5
+            },
+            {
+              "word": "chykchy",
+              "freq": 5
+            },
+            {
+              "word": "sary",
+              "freq": 5
+            },
+            {
+              "word": "otoy",
+              "freq": 4
+            },
+            {
+              "word": "dyky",
+              "freq": 4
+            }
+          ],
+          "original_window_sizes": {
+            "12": 54,
+            "13": 164,
+            "14": 256
+          }
+        },
+        {
+          "state": 17,
+          "original_windows": [
+            15,
+            16,
+            17
+          ],
+          "num_merged": 2,
+          "vocabulary_size": 574,
+          "corpus_tokens": 2937,
+          "token_share": 0.0894,
+          "correction_survivor": 1,
+          "correction_range": [
+            -8,
+            2
+          ],
+          "top_10_words": [
+            {
+              "word": "qokain",
+              "freq": 275
+            },
+            {
+              "word": "qokar",
+              "freq": 141
+            },
+            {
+              "word": "okeedy",
+              "freq": 102
+            },
+            {
+              "word": "cheody",
+              "freq": 83
+            },
+            {
+              "word": "sheedy",
+              "freq": 74
+            },
+            {
+              "word": "l",
+              "freq": 60
+            },
+            {
+              "word": "oly",
+              "freq": 46
+            },
+            {
+              "word": "otor",
+              "freq": 35
+            },
+            {
+              "word": "dshedy",
+              "freq": 33
+            },
+            {
+              "word": "tchedy",
+              "freq": 31
+            }
+          ],
+          "original_window_sizes": {
+            "15": 52,
+            "16": 210,
+            "17": 312
+          }
+        },
+        {
+          "state": 18,
+          "original_windows": [
+            18,
+            19
+          ],
+          "num_merged": 1,
+          "vocabulary_size": 693,
+          "corpus_tokens": 17808,
+          "token_share": 0.5421,
+          "correction_survivor": 0,
+          "correction_range": [
+            -1,
+            0
+          ],
+          "top_10_words": [
+            {
+              "word": "daiin",
+              "freq": 724
+            },
+            {
+              "word": "chedy",
+              "freq": 444
+            },
+            {
+              "word": "shedy",
+              "freq": 377
+            },
+            {
+              "word": "ol",
+              "freq": 367
+            },
+            {
+              "word": "aiin",
+              "freq": 309
+            },
+            {
+              "word": "chol",
+              "freq": 302
+            },
+            {
+              "word": "qokeey",
+              "freq": 301
+            },
+            {
+              "word": "qokeedy",
+              "freq": 299
+            },
+            {
+              "word": "chey",
+              "freq": 285
+            },
+            {
+              "word": "qokaiin",
+              "freq": 263
+            }
+          ],
+          "original_window_sizes": {
+            "18": 396,
+            "19": 297
+          }
+        },
+        {
+          "state": 20,
+          "original_windows": [
+            20,
+            21
+          ],
+          "num_merged": 1,
+          "vocabulary_size": 509,
+          "corpus_tokens": 2543,
+          "token_share": 0.0774,
+          "correction_survivor": -2,
+          "correction_range": [
+            -3,
+            -2
+          ],
+          "top_10_words": [
+            {
+              "word": "saiin",
+              "freq": 136
+            },
+            {
+              "word": "lchedy",
+              "freq": 109
+            },
+            {
+              "word": "qotedy",
+              "freq": 87
+            },
+            {
+              "word": "r",
+              "freq": 85
+            },
+            {
+              "word": "sar",
+              "freq": 63
+            },
+            {
+              "word": "am",
+              "freq": 53
+            },
+            {
+              "word": "qokchedy",
+              "freq": 40
+            },
+            {
+              "word": "cthey",
+              "freq": 39
+            },
+            {
+              "word": "lshedy",
+              "freq": 38
+            },
+            {
+              "word": "okam",
+              "freq": 32
+            }
+          ],
+          "original_window_sizes": {
+            "20": 327,
+            "21": 182
+          }
+        },
+        {
+          "state": 22,
+          "original_windows": [
+            22,
+            23
+          ],
+          "num_merged": 1,
+          "vocabulary_size": 642,
+          "corpus_tokens": 2210,
+          "token_share": 0.0673,
+          "correction_survivor": -4,
+          "correction_range": [
+            -5,
+            -4
+          ],
+          "top_10_words": [
+            {
+              "word": "y",
+              "freq": 94
+            },
+            {
+              "word": "dor",
+              "freq": 52
+            },
+            {
+              "word": "ykaiin",
+              "freq": 43
+            },
+            {
+              "word": "lkaiin",
+              "freq": 43
+            },
+            {
+              "word": "chear",
+              "freq": 39
+            },
+            {
+              "word": "olkeey",
+              "freq": 39
+            },
+            {
+              "word": "lkar",
+              "freq": 30
+            },
+            {
+              "word": "olkedy",
+              "freq": 28
+            },
+            {
+              "word": "ytar",
+              "freq": 23
+            },
+            {
+              "word": "oldy",
+              "freq": 22
+            }
+          ],
+          "original_window_sizes": {
+            "22": 341,
+            "23": 301
+          }
+        },
+        {
+          "state": 25,
+          "original_windows": [
+            24,
+            25
+          ],
+          "num_merged": 1,
+          "vocabulary_size": 527,
+          "corpus_tokens": 804,
+          "token_share": 0.0245,
+          "correction_survivor": -7,
+          "correction_range": [
+            -7,
+            -6
+          ],
+          "top_10_words": [
+            {
+              "word": "dchol",
+              "freq": 17
+            },
+            {
+              "word": "qotam",
+              "freq": 11
+            },
+            {
+              "word": "ychol",
+              "freq": 11
+            },
+            {
+              "word": "ytchey",
+              "freq": 10
+            },
+            {
+              "word": "okoiin",
+              "freq": 9
+            },
+            {
+              "word": "lkeeey",
+              "freq": 8
+            },
+            {
+              "word": "doly",
+              "freq": 7
+            },
+            {
+              "word": "solchedy",
+              "freq": 7
+            },
+            {
+              "word": "ykaly",
+              "freq": 7
+            },
+            {
+              "word": "okedar",
+              "freq": 6
+            }
+          ],
+          "original_window_sizes": {
+            "24": 261,
+            "25": 266
+          }
+        },
+        {
+          "state": 27,
+          "original_windows": [
+            26,
+            27
+          ],
+          "num_merged": 1,
+          "vocabulary_size": 451,
+          "corpus_tokens": 647,
+          "token_share": 0.0197,
+          "correction_survivor": -9,
+          "correction_range": [
+            -9,
+            -8
+          ],
+          "top_10_words": [
+            {
+              "word": "dshor",
+              "freq": 11
+            },
+            {
+              "word": "doiin",
+              "freq": 9
+            },
+            {
+              "word": "f",
+              "freq": 9
+            },
+            {
+              "word": "osaiin",
+              "freq": 8
+            },
+            {
+              "word": "opal",
+              "freq": 8
+            },
+            {
+              "word": "qokchor",
+              "freq": 8
+            },
+            {
+              "word": "oy",
+              "freq": 6
+            },
+            {
+              "word": "odam",
+              "freq": 6
+            },
+            {
+              "word": "qopchol",
+              "freq": 6
+            },
+            {
+              "word": "chd",
+              "freq": 5
+            }
+          ],
+          "original_window_sizes": {
+            "26": 219,
+            "27": 232
+          }
+        },
+        {
+          "state": 28,
+          "original_windows": [
+            28,
+            29
+          ],
+          "num_merged": 1,
+          "vocabulary_size": 411,
+          "corpus_tokens": 563,
+          "token_share": 0.0171,
+          "correction_survivor": -10,
+          "correction_range": [
+            -11,
+            -10
+          ],
+          "top_10_words": [
+            {
+              "word": "opchy",
+              "freq": 9
+            },
+            {
+              "word": "qokody",
+              "freq": 7
+            },
+            {
+              "word": "dom",
+              "freq": 7
+            },
+            {
+              "word": "qopar",
+              "freq": 5
+            },
+            {
+              "word": "p",
+              "freq": 5
+            },
+            {
+              "word": "oraiiin",
+              "freq": 4
+            },
+            {
+              "word": "qocthey",
+              "freq": 4
+            },
+            {
+              "word": "okeed",
+              "freq": 4
+            },
+            {
+              "word": "chekeedy",
+              "freq": 4
+            },
+            {
+              "word": "chols",
+              "freq": 4
+            }
+          ],
+          "original_window_sizes": {
+            "28": 209,
+            "29": 202
+          }
+        },
+        {
+          "state": 31,
+          "original_windows": [
+            30,
+            31,
+            32
+          ],
+          "num_merged": 2,
+          "vocabulary_size": 513,
+          "corpus_tokens": 566,
+          "token_share": 0.0172,
+          "correction_survivor": -13,
+          "correction_range": [
+            -14,
+            -12
+          ],
+          "top_10_words": [
+            {
+              "word": "@171",
+              "freq": 4
+            },
+            {
+              "word": "yaiin",
+              "freq": 4
+            },
+            {
+              "word": "okedam",
+              "freq": 3
+            },
+            {
+              "word": "n",
+              "freq": 3
+            },
+            {
+              "word": "pchocthy",
+              "freq": 3
+            },
+            {
+              "word": "opary",
+              "freq": 3
+            },
+            {
+              "word": "chorain",
+              "freq": 3
+            },
+            {
+              "word": "cheokal",
+              "freq": 2
+            },
+            {
+              "word": "pshodaiin",
+              "freq": 2
+            },
+            {
+              "word": "chalal",
+              "freq": 2
+            }
+          ],
+          "original_window_sizes": {
+            "30": 163,
+            "31": 163,
+            "32": 187
+          }
+        },
+        {
+          "state": 35,
+          "original_windows": [
+            33,
+            34,
+            35,
+            36
+          ],
+          "num_merged": 3,
+          "vocabulary_size": 621,
+          "corpus_tokens": 672,
+          "token_share": 0.0205,
+          "correction_survivor": -17,
+          "correction_range": [
+            -18,
+            -15
+          ],
+          "top_10_words": [
+            {
+              "word": "tchodaiin",
+              "freq": 4
+            },
+            {
+              "word": "okeom",
+              "freq": 4
+            },
+            {
+              "word": "ykeeos",
+              "freq": 3
+            },
+            {
+              "word": "okaram",
+              "freq": 3
+            },
+            {
+              "word": "dly",
+              "freq": 3
+            },
+            {
+              "word": "oksho",
+              "freq": 3
+            },
+            {
+              "word": "ykody",
+              "freq": 2
+            },
+            {
+              "word": "chdaly",
+              "freq": 2
+            },
+            {
+              "word": "qocheol",
+              "freq": 2
+            },
+            {
+              "word": "oteoy",
+              "freq": 2
+            }
+          ],
+          "original_window_sizes": {
+            "33": 135,
+            "34": 158,
+            "35": 190,
+            "36": 138
+          }
+        },
+        {
+          "state": 38,
+          "original_windows": [
+            37,
+            38,
+            39,
+            40
+          ],
+          "num_merged": 3,
+          "vocabulary_size": 342,
+          "corpus_tokens": 378,
+          "token_share": 0.0115,
+          "correction_survivor": -20,
+          "correction_range": [
+            -20,
+            -14
+          ],
+          "top_10_words": [
+            {
+              "word": "otaldy",
+              "freq": 8
+            },
+            {
+              "word": "@169v",
+              "freq": 4
+            },
+            {
+              "word": "ydar",
+              "freq": 3
+            },
+            {
+              "word": "otorchy",
+              "freq": 3
+            },
+            {
+              "word": "ckhos",
+              "freq": 3
+            },
+            {
+              "word": "sairy",
+              "freq": 3
+            },
+            {
+              "word": "cheokeol",
+              "freq": 2
+            },
+            {
+              "word": "polairy",
+              "freq": 2
+            },
+            {
+              "word": "qotarain",
+              "freq": 2
+            },
+            {
+              "word": "oekey",
+              "freq": 2
+            }
+          ],
+          "original_window_sizes": {
+            "37": 97,
+            "38": 120,
+            "39": 65,
+            "40": 60
+          }
+        },
+        {
+          "state": 44,
+          "original_windows": [
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49
+          ],
+          "num_merged": 8,
+          "vocabulary_size": 328,
+          "corpus_tokens": 335,
+          "token_share": 0.0102,
+          "correction_survivor": 0,
+          "correction_range": [
+            -16,
+            0
+          ],
+          "top_10_words": [
+            {
+              "word": "oltydy",
+              "freq": 2
+            },
+            {
+              "word": "lty",
+              "freq": 2
+            },
+            {
+              "word": "tshed",
+              "freq": 2
+            },
+            {
+              "word": "ytedar",
+              "freq": 2
+            },
+            {
+              "word": "orary",
+              "freq": 2
+            },
+            {
+              "word": "okyd",
+              "freq": 2
+            },
+            {
+              "word": "ypaiin",
+              "freq": 2
+            },
+            {
+              "word": "solcthy",
+              "freq": 1
+            },
+            {
+              "word": "@183olc@133heol",
+              "freq": 1
+            },
+            {
+              "word": "sydorarokoraiin",
+              "freq": 1
+            }
+          ],
+          "original_window_sizes": {
+            "41": 76,
+            "42": 58,
+            "43": 29,
+            "44": 35,
+            "45": 36,
+            "46": 24,
+            "47": 23,
+            "48": 23,
+            "49": 24
+          }
+        }
+      ],
+      "total_corpus_tokens": 32852,
+      "w18_analysis": {
+        "w18_merged_state": 18,
+        "merged_vocab_size": 693,
+        "token_share": 0.5421,
+        "still_dominant": true
+      }
+    },
+    "vocabulary_coherence": {
+      "per_state": [
+        {
+          "state": 3,
+          "num_original_windows": 6,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.937,
+          "dominant_suffix": "-other",
+          "dominant_suffix_fraction": 0.233,
+          "is_coherent": false
+        },
+        {
+          "state": 7,
+          "num_original_windows": 3,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.911,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.256,
+          "is_coherent": false
+        },
+        {
+          "state": 9,
+          "num_original_windows": 3,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.865,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.252,
+          "is_coherent": false
+        },
+        {
+          "state": 14,
+          "num_original_windows": 3,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.881,
+          "dominant_suffix": "-other",
+          "dominant_suffix_fraction": 0.257,
+          "is_coherent": false
+        },
+        {
+          "state": 17,
+          "num_original_windows": 3,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.929,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.233,
+          "is_coherent": false
+        },
+        {
+          "state": 18,
+          "num_original_windows": 2,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.945,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.251,
+          "is_coherent": false
+        },
+        {
+          "state": 20,
+          "num_original_windows": 2,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.941,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.238,
+          "is_coherent": false
+        },
+        {
+          "state": 22,
+          "num_original_windows": 2,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.947,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.212,
+          "is_coherent": false
+        },
+        {
+          "state": 25,
+          "num_original_windows": 2,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.878,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.29,
+          "is_coherent": false
+        },
+        {
+          "state": 27,
+          "num_original_windows": 2,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.89,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.266,
+          "is_coherent": false
+        },
+        {
+          "state": 28,
+          "num_original_windows": 2,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.861,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.234,
+          "is_coherent": false
+        },
+        {
+          "state": 31,
+          "num_original_windows": 3,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.866,
+          "dominant_suffix": "-other",
+          "dominant_suffix_fraction": 0.265,
+          "is_coherent": false
+        },
+        {
+          "state": 35,
+          "num_original_windows": 4,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.917,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.258,
+          "is_coherent": false
+        },
+        {
+          "state": 38,
+          "num_original_windows": 4,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.868,
+          "dominant_suffix": "-y",
+          "dominant_suffix_fraction": 0.251,
+          "is_coherent": false
+        },
+        {
+          "state": 44,
+          "num_original_windows": 9,
+          "mean_jaccard": 0.0,
+          "suffix_entropy_bits": 2.869,
+          "dominant_suffix": "-other",
+          "dominant_suffix_fraction": 0.296,
+          "is_coherent": false
+        }
+      ],
+      "summary": {
+        "n_coherent": 0,
+        "n_incoherent": 15,
+        "mean_jaccard_multi_window": 0.0,
+        "note": "Window vocabularies are disjoint by construction. Jaccard measures overlap of constituent windows, not linguistic similarity."
+      }
+    },
+    "historical_defensibility": {
+      "volvelle_diameter_mm": 193,
+      "sector_angle_deg": 24.0,
+      "vocabulary_stats": {
+        "mean": 514.5,
+        "max": 715,
+        "min": 328
+      },
+      "scores": {
+        "state_count": 1.0,
+        "vocabulary_density": 0.3,
+        "operational_complexity": 0.5,
+        "physical_inscription": 1.0,
+        "admissibility_retention": 0.8753,
+        "combined": 0.7001
+      },
+      "historical_comparison": {
+        "Llull Ars Magna (c.1305)": {
+          "positions": 16,
+          "diameter_mm": 200,
+          "vocab_per_position": 9,
+          "type": "combinatorial"
+        },
+        "Alberti cipher disc (1467)": {
+          "positions": 24,
+          "diameter_mm": 120,
+          "vocab_per_position": 1,
+          "type": "substitution"
+        },
+        "Apian Astronomicum (1540)": {
+          "positions": 30,
+          "diameter_mm": 350,
+          "vocab_per_position": 0,
+          "type": "astronomical"
+        }
+      },
+      "verdict": "PLAUSIBLE (with caveats)",
+      "caveats": [
+        "Merging 35 of 50 windows has no historical precedent",
+        "Codebook still required (max state has 715 words)",
+        "Admissibility drops 8.1pp from baseline",
+        "Merged states contain disjoint vocabularies from different windows"
+      ]
+    },
+    "comparison": {
+      "comparison": [
+        {
+          "dimension": "Device size",
+          "tabula": "170 x 160mm (flat card)",
+          "volvelle": "193mm diameter (disc)",
+          "winner": "TABULA"
+        },
+        {
+          "dimension": "State count",
+          "tabula": "50 (full resolution)",
+          "volvelle": "15 (35 merged)",
+          "winner": "TABULA"
+        },
+        {
+          "dimension": "Admissibility",
+          "tabula": "64.94% (corrected)",
+          "volvelle": "56.84% (drift, -8.1pp)",
+          "winner": "TABULA"
+        },
+        {
+          "dimension": "Information loss",
+          "tabula": "None",
+          "volvelle": "35 windows merged into 15",
+          "winner": "TABULA"
+        },
+        {
+          "dimension": "Vocabulary access",
+          "tabula": "154pp codebook",
+          "volvelle": "154pp codebook (still needed)",
+          "winner": "TIE"
+        },
+        {
+          "dimension": "Portability",
+          "tabula": "Card + booklet",
+          "volvelle": "Disc + booklet",
+          "winner": "TABULA"
+        },
+        {
+          "dimension": "Historical parallel",
+          "tabula": "Alberti + Trithemius",
+          "volvelle": "Llull (but no codebook precedent)",
+          "winner": "TABULA"
+        },
+        {
+          "dimension": "Construction complexity",
+          "tabula": "Flat card (trivial)",
+          "volvelle": "Rotating disc (moderate)",
+          "winner": "TABULA"
+        },
+        {
+          "dimension": "W18 dominance",
+          "tabula": "W18 = 54% of tokens",
+          "volvelle": "W18 state = 715 words",
+          "winner": "TIE"
+        },
+        {
+          "dimension": "Coherence",
+          "tabula": "N/A (no merging)",
+          "volvelle": "0/15 coherent states",
+          "winner": "TABULA"
+        }
+      ],
+      "score": {
+        "tabula_wins": 8,
+        "volvelle_wins": 0,
+        "ties": 2
+      },
+      "recommendation": "The 15-state merged volvelle is a MATHEMATICAL CURIOSITY, not a plausible historical alternative. It loses 8.1pp admissibility, requires the same codebook as the tabula, adds construction complexity (rotating disc vs flat card), and has no historical precedent for state-merging optimization. The tabula + codebook dominates on every dimension except none.",
+      "verdict": "TABULA + CODEBOOK remains the recommended architecture. The 15-state merged volvelle is not a viable alternative."
+    }
+  }
+}

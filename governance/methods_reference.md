@@ -406,3 +406,189 @@ informationally poor — yet MI is not higher than random reassignment produces.
 - **Randomness:** FORBIDDEN for extraction (deterministic), SEEDED (42) for
   permutation tests. All use `numpy.random.default_rng(42)`.
 - **Permutations:** 10,000 per test.
+
+## 10. Phase 12: Mechanical Slip Detection
+
+Phase 12 searches for vertical offset errors — words selected from adjacent
+windows rather than the correct one — as evidence that a physical device with
+manual indexing was used during production.
+
+### 10.1 Vertical Offset Detection (`src/phase12_mechanical/`)
+
+- **Test design:** For each bigram in the corpus, check whether the second
+  token belongs to the expected next window (per the lattice model) or to an
+  adjacent window (±1 offset). Count deviations as "vertical slips." Compare
+  the observed slip count against a shuffle-control baseline (randomized corpus
+  with preserved unigram frequencies).
+- **Test statistic:** Observed slip count vs. shuffle-control mean.
+- **Signal-to-noise ratio:** 20× above shuffle control (914 detected slips).
+- **Decision:** The 914 slips are mechanically diagnostic — consistent with
+  a physical reference device where the operator mis-indexes a page.
+- **Runners:** `scripts/phase12_mechanical/` (6 scripts: run_12a through run_12f)
+- **Key caveat:** Slip detection depends on the accuracy of the window
+  assignment model. False positives can arise from rare-word window ambiguity.
+
+## 11. Phase 13: Grand Blueprint Synthesis
+
+Phase 13 reverse-engineers the physical layout of the production device by
+analyzing transition patterns between windows and identifying "physical anchors"
+(high-frequency words whose positions are mechanically constrained).
+
+### 11.1 Context Masking (`src/phase13_closure/`)
+
+- **Test design:** Introduce a persistent context mask — a non-semantic
+  modulation parameter that varies across lines and pages — to the lattice
+  model. Measure whether linguistic-ward anomalies (identified in Phase 10
+  Method K) collapse under context masking.
+- **Test statistic:** ANOVA F-test on residual z-scores with and without
+  context mask.
+- **Result:** p = 4.24 × 10⁻⁴⁷. Context masking reduces linguistic-ward
+  anomalies by over 70%.
+- **Runners:** `scripts/phase13_demonstration/` (3 scripts)
+
+## 12. Phase 14: High-Fidelity Emulation
+
+Phase 14 (15 sub-phases, A-O) constructs and calibrates a complete emulator
+of the Voynich production tool. This is the core mechanical reconstruction
+phase.
+
+### 12.1 50-Window Lattice (`scripts/phase14_machine/run_14a_*.py` through `run_14o_*.py`)
+
+- **Architecture:** Each of 7,717 word types is assigned to exactly one of 50
+  windows. Each word encodes a deterministic next-window transition. Per-window
+  correction offsets (range -20 to +13, 43 non-zero) account for systematic
+  drift.
+- **Calibration method:** Per-window offsets are computed as the mode of
+  `(observed_next_window - raw_next_window)` across all transitions with ≥5
+  observations per window. Cross-validated via leave-one-section-out splits
+  (7/7 significant, mean z = 29.1σ).
+- **Structural fit:** 93.72% of observed transitions are reproduced by the
+  emulator (126σ above null).
+- **Entropy comparison:** Emulator entropy = 11.49 bits; manuscript entropy =
+  12.26 bits (0.77-bit gap, consistent with scribal selection variance).
+- **Runners:** 15 scripts in `scripts/phase14_machine/` (run_14a through run_14o)
+- **Randomness:** SEEDED (42). All use `numpy.random.default_rng(42)`.
+- **Key output:** `results/data/phase14_machine/canonical_offsets.json`
+
+### 12.2 Residual Diagnosis (`scripts/phase14_machine/run_14l_*.py`)
+
+- **Method:** Stratify all token transitions by frequency tier (common >100,
+  medium 10-100, rare <10, hapax =1). Compute per-tier failure rate.
+- **Result:** Common words obey the lattice at 93.1%. Rare words fail at 84.5%.
+  The residual is frequency-dominated, not structurally anomalous.
+- **Key output:** `results/data/phase14_machine/failure_taxonomy.json`
+
+### 12.3 Scribal Hand Modeling (`scripts/phase14_machine/run_14n_*.py`)
+
+- **Method:** Gaussian drift profiles with suffix-biased selection. Hand 1
+  (drift=15, suffix=-dy) and Hand 2 (drift=25, suffix=-in) are calibrated
+  via per-hand admissibility maximization.
+- **Window distribution test:** JSD = 0.012, cosine = 0.998 between hands —
+  both traverse the same lattice.
+- **Vocabulary overlap:** 15.6% shared types, 66-72% shared token coverage.
+
+## 13. Phase 15: Rule Extraction
+
+Phase 15 formalizes the implicit lattice into explicit, declarative production
+rules.
+
+### 13.1 Driver Analysis (`src/phase15_selection/`)
+
+- **Method:** For each word type, record its window assignment, next-window
+  transition, and the contextual factors influencing its selection. Measure
+  information contribution of each driver via conditional entropy decomposition.
+- **Result:** 7,717 rules extracted. Bigram context contributes 2.43 bits/word
+  (dominant driver). Suffix bias contributes 1.2-1.8 bits (hand-dependent).
+  Positional constraint contributes 0.5-0.8 bits.
+- **Runners:** `scripts/phase15_rule_extraction/` (4 scripts)
+- **Key output:** `results/data/phase15_selection/integrated_rules.json`
+
+## 14. Phase 16: Physical Grounding
+
+Phase 16 tests whether the abstract lattice model is consistent with
+15th-century physical production constraints.
+
+### 14.1 Ergonomic Modeling (`src/phase16_physical/`)
+
+- **Test design:** Compute per-folio scribal effort proxy (strokes per token ×
+  tokens per line × lines per folio) and page complexity proxy (vocabulary
+  diversity × mean word length). Measure Spearman correlation.
+- **Null hypothesis:** Scribal effort is independent of page complexity
+  (consistent with mechanical process).
+- **Result:** ρ = -0.0003, p = 0.9926. **Null correlation confirmed.**
+- **Runners:** `scripts/phase16_physical_grounding/` (3 scripts)
+
+### 14.2 Grid Layout Efficiency
+
+- **Method:** Compute mean transition distance on the 10×5 physical grid
+  versus random grid layouts (10,000 permutations).
+- **Result:** 81.50% improvement over random layout. The window arrangement
+  is geometrically optimized for short transition distances.
+
+## 15. Phase 17: Steganographic Bandwidth
+
+Phase 17 bounds the maximum information capacity of the lattice's choice
+freedom.
+
+### 15.1 Bandwidth Calculation (`src/phase17_finality/bandwidth.py`)
+
+- **Method:** For each admissible choice (word selection within a window),
+  compute log₂(window_size) bits. Sum over all 12,519 admissible decisions.
+- **Result:** 7.53 bits/word realized bandwidth. Total capacity = 11.5 KB
+  (~23,000 Latin characters).
+- **Runner:** `scripts/phase17_finality/run_17b_bandwidth_audit.py`
+
+### 15.2 Latin Encoding Test (`scripts/phase17_finality/run_17d_latin_test.py`)
+
+- **Test design:** Encode a Latin Vulgate passage (Genesis 1:1-5, 339 chars)
+  into the lattice constraint space by mapping character bits to word-selection
+  choices.
+- **Result:** Encoding succeeded. 342 of 12,519 choices consumed. Residual
+  steganographic bandwidth = 2.21 bits/word.
+- **Verdict:** Sparse encoding is feasible; high-density natural language is
+  structurally unlikely.
+
+## 16. Phase 20: State Machine Architecture
+
+Phase 20 (12 sprints) systematically evaluates physical device candidates
+for the 50-window lattice.
+
+### 16.1 Codebook Architecture (`scripts/phase20_state_machine/run_20a_*.py`)
+
+- **Method:** Compute vocabulary per window, estimate codebook page count
+  at 60 words/page (2 columns × 30 rows), compute total pages and quires.
+- **Result:** 154 pages, 10 quires. W18 alone = 396 words (~7 pages).
+  Consultation rate = 100% (annotation impractical).
+
+### 16.2 State Merging (`scripts/phase20_state_machine/run_20b_*.py`)
+
+- **Method:** Iteratively merge smallest-vocabulary windows into nearest
+  neighbor until target state count reached. Evaluate admissibility loss at
+  each reduction step.
+- **Result:** 15-state merge at 193mm diameter achieves 56.84% admissibility
+  (viable but incoherent — Jaccard similarity = 0.000 for all merged states).
+
+### 16.3 Angular Sector Analysis (`scripts/phase20_state_machine/run_20c_*.py`)
+
+- **Method:** Compute minimum disc diameter for N angular sectors using
+  D = N × W / π, where W = minimum sector width for readability (6mm label +
+  2×3mm margins × 1/sin(π/N) for angled text).
+- **Result:** 50-state volvelle requires 549mm minimum diameter. All
+  configurations exceed the Apian range (350mm). **Volvelle ruled out.**
+
+### 16.4 Non-Circular Device Ranking (`scripts/phase20_state_machine/run_20d_*.py`)
+
+- **Method:** Score 5 device candidates on weighted criteria (physical size,
+  state capacity, vocabulary access, historical plausibility, construction
+  complexity).
+- **Result:** Tabula + codebook scores 0.865 (rank 1). All 5 candidates are
+  physically plausible (≤170mm), but tabula + codebook wins on vocabulary
+  access and historical precedent.
+
+### 16.5 Production Workflow Synthesis (`scripts/phase20_state_machine/run_20h_*.py`)
+
+- **Method:** Integrate all findings into a complete production model with
+  per-section profiles, error model, and scribal variation characterization.
+- **Result:** `PRODUCTION_MODEL.md` — standalone specification sufficient for
+  third-party reproduction.
+- **Key output:** `results/reports/phase20_state_machine/PRODUCTION_MODEL.md`

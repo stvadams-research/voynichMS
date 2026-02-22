@@ -1,7 +1,7 @@
 # Phase 20: State Machine Codebook Architecture
 
 **Date:** 2026-02-22
-**Status:** COMPLETE (All 9 sprints finished 2026-02-22)
+**Status:** COMPLETE (All 12 sprints finished 2026-02-22)
 **Depends on:** Phase 14 (COMPLETE), Phase 17 Finality (COMPLETE), Opportunities A-H (COMPLETE)
 
 ## Motivation
@@ -36,6 +36,9 @@ This mirrors known 15th-century systems: Alberti's cipher disc (120mm state indi
 - [x] Sprint 7: Per-Window Annotated Device Coverage (2026-02-22)
 - [x] Sprint 8: Scribal Hand × Device Correspondence (2026-02-22)
 - [x] Sprint 9: Governance (Sprints 6-8) (2026-02-22)
+- [x] Sprint 10: 15-State Merged Volvelle Deep Characterization (2026-02-22)
+- [x] Sprint 11: Production Workflow Synthesis (2026-02-22)
+- [x] Sprint 12: Governance (Sprints 10-11) (2026-02-22)
 
 ---
 
@@ -272,6 +275,11 @@ Tests whether scribal hands (Hand 1 vs Hand 2) use the device differently.
 | 7 | `results/data/phase20_state_machine/annotated_device.json` | Artifact |
 | 8 | `scripts/phase20_state_machine/run_20f_hand_analysis.py` | Script |
 | 8 | `results/data/phase20_state_machine/hand_analysis.json` | Artifact |
+| 10 | `scripts/phase20_state_machine/run_20g_merged_volvelle_characterization.py` | Script |
+| 10 | `results/data/phase20_state_machine/merged_volvelle_characterization.json` | Artifact |
+| 11 | `scripts/phase20_state_machine/run_20h_production_synthesis.py` | Script |
+| 11 | `results/data/phase20_state_machine/production_synthesis.json` | Artifact |
+| 11 | `results/reports/phase20_state_machine/PRODUCTION_MODEL.md` | Report |
 
 ## Modified Files
 
@@ -282,7 +290,9 @@ Tests whether scribal hands (Hand 1 vs Hand 2) use the device differently.
 | 5 | `results/reports/phase14_machine/CANONICAL_EVALUATION.md` | Add Sections 38-39 |
 | 5 | `governance/claim_artifact_map.md` | Add claims #198-213 |
 | 9 | `results/reports/phase14_machine/CANONICAL_EVALUATION.md` | Add Sections 40-42 |
-| 9 | `governance/claim_artifact_map.md` | Add claims #214+ |
+| 9 | `governance/claim_artifact_map.md` | Add claims #214-234 |
+| 12 | `results/reports/phase14_machine/CANONICAL_EVALUATION.md` | Add Sections 43-44 |
+| 12 | `governance/claim_artifact_map.md` | Add claims #235+ |
 
 ## Reuse
 
@@ -406,4 +416,214 @@ Both hands use the same device with the same window distribution, but with disti
 
 - CANONICAL_EVALUATION.md: Sections 40-42 added
 - claim_artifact_map.md: Claims #214-234 added (234 total)
-- Phase 20 execution plan: marked COMPLETE
+- Phase 20 execution plan: marked COMPLETE (core sprints)
+
+---
+
+## Sprint 10: 15-State Merged Volvelle Deep Characterization
+
+**Script:** `scripts/phase20_state_machine/run_20g_merged_volvelle_characterization.py`
+**Output:** `results/data/phase20_state_machine/merged_volvelle_characterization.json`
+
+### Motivation
+
+Sprint 3 found that size-based merging to 15 states produces a viable 193mm volvelle (56.84% admissibility) — the ONLY disc-based form that passes both size and admissibility thresholds. But Sprint 3 only reported aggregate metrics. The merged device was never characterized: which 15 states survive, what vocabulary each contains, and whether the simplification is historically defensible.
+
+This sprint completes the characterization so the 15-state alternative can be properly evaluated alongside the recommended tabula + codebook.
+
+### 10.1 — Reconstruct Merge Map
+
+Re-execute the size-based merge to K=15 and capture the full merge plan:
+- Which 35 windows were absorbed, and into which 15 surviving windows?
+- Build a `{surviving_window: [list of original windows]}` mapping
+- For each merged state: compute union vocabulary size, list top-20 words by corpus frequency
+
+### 10.2 — Per-State Characterization
+
+For each of the 15 merged states:
+- **Vocabulary size** (union of constituent windows)
+- **Corpus token share** (what fraction of the 32,852 corpus tokens fall in this state?)
+- **Top-10 words** by frequency
+- **Constituent windows** and their individual sizes
+- **Correction value range** (min/max of original window corrections within the merged state)
+
+Identify the "W18 problem" under merging: does W18 still dominate, or does merging redistribute?
+
+### 10.3 — Vocabulary Coherence
+
+Assess whether merged windows are linguistically plausible as a single codebook section:
+- **Vocabulary overlap** between constituent windows (Jaccard similarity)
+- **Suffix distribution** — do merged windows share suffix patterns, or does merging create incoherent mixtures?
+- **Frequency distribution** — KL divergence between the merged state's frequency profile and a uniform distribution
+
+Low coherence suggests the merge is mathematically convenient but practically unusable.
+
+### 10.4 — Historical Defensibility Assessment
+
+Compare the 15-state merged volvelle to known historical devices:
+- **Llull's Ars Magna** (~1305): 9-16 combinatorial positions, 200-300mm. Does the 15-state device fall within this tradition?
+- **Alberti's cipher disc** (1467): 24 positions, 120mm. More states but simpler vocabulary.
+- **Apian astronomical volvelle** (1540): up to 350mm, complex multi-ring. Comparable?
+
+Score on: state count plausibility (0-1), vocabulary density per state, operational complexity (consultation burden), physical inscription feasibility.
+
+### 10.5 — Tabula vs Merged Volvelle Comparison
+
+Head-to-head comparison of the two viable architectures:
+
+| Dimension | Tabula + Codebook | 15-State Merged Volvelle |
+|:---|:---|:---|
+| Device size | 170×160mm | 193mm diameter |
+| States | 50 | 15 |
+| Vocabulary access | Codebook (154pp) | On-disc + reduced codebook? |
+| Admissibility | 64.94% (corrected) | 56.84% (drift) |
+| Information loss | None | 35 windows merged |
+| Historical parallel | Alberti + Trithemius | Llull |
+| Operational complexity | ? | ? |
+
+### Acceptance Criteria
+
+- Complete merge map (15 surviving states, 35 absorbed windows)
+- Per-state vocabulary profile for all 15 states
+- Coherence metric for each merged state
+- Historical defensibility score
+- Clear recommendation: does the 15-state volvelle represent a plausible ALTERNATIVE, or is it merely a mathematical curiosity?
+
+---
+
+## Sprint 11: Production Workflow Synthesis
+
+**Script:** `scripts/phase20_state_machine/run_20h_production_synthesis.py`
+**Output:** `results/data/phase20_state_machine/production_synthesis.json`
+**Report:** `results/reports/phase20_state_machine/PRODUCTION_MODEL.md`
+
+### Motivation
+
+Phases 14-20 collectively define a complete production model for the Voynich manuscript, but the specification is distributed across dozens of JSON files and report sections. No single artifact presents the complete, integrated production model. This sprint consolidates everything into a definitive specification.
+
+### 11.1 — Collect Component Specifications
+
+Gather from existing artifacts:
+- **Lattice structure** (Phase 14): 50 windows, 7,717 words, transition map
+- **Correction model** (Phase 14I): per-window offsets, canonical 64.94%
+- **Physical device** (Phase 20, Sprint 4): tabula 170×160mm, codebook 154pp
+- **Scribal profiles** (Phase 20, Sprint 8): Hand 1 vs Hand 2 parameters
+- **Error model** (Phase 14/16): slip concentration at W18, mechanical slip signatures
+- **Overgeneration** (Phase 14H): ~20× at all n-gram orders, 761.7 branching factor
+
+### 11.2 — Integrated Workflow Model
+
+Define the complete scribe production protocol as a state machine:
+
+1. **Initialize:** Set current window to W0 (or section-specific start)
+2. **Read state:** Consult tabula for current window number + correction offset
+3. **Look up vocabulary:** Open codebook to current window's section
+4. **Select word:** Choose from available vocabulary (scribe's preference / hand profile)
+5. **Write word:** Inscribe on manuscript page
+6. **Advance state:** Look up word's transition → next window
+7. **Apply correction:** Add per-window offset to get corrected next window
+8. **Repeat from step 2**
+
+Model interruptions: line breaks, page breaks, section transitions, scribal errors.
+
+### 11.3 — Per-Section Production Profiles
+
+For each manuscript section (Herbal A/B, Pharma, Astro, Bio, Cosmo, Stars):
+- Mean words per line, lines per page
+- Dominant windows and vocabulary preferences
+- Section-specific admissibility rate
+- Estimated production time (words per hour, codebook consultations per page)
+
+### 11.4 — Error Model Formalization
+
+Consolidate all known error signatures:
+- **Mechanical slips:** 914 vertical offsets, W18 concentration (92.6%)
+- **Drift violations:** which windows show highest failure rates
+- **Hapax generation:** how rare words arise from the production process
+- **Hand-specific error rates:** H1=56.1% vs H2=64.5% admissibility
+
+### 11.5 — Generate PRODUCTION_MODEL.md
+
+A standalone report that a third party can use to understand the complete production model:
+- Tool specification (dimensions, layout, materials)
+- Codebook organization (structure, page count, lookup method)
+- Step-by-step operator protocol
+- Scribal variation parameters
+- Error taxonomy and expected rates
+- Historical context and parallels
+
+### Acceptance Criteria
+
+- All component specifications collected and cross-referenced
+- Integrated workflow model with all states and transitions
+- Per-section production profiles for all 7 sections
+- Error model with quantified rates
+- PRODUCTION_MODEL.md generated as a standalone document
+- No contradictions with existing CANONICAL_EVALUATION claims
+
+---
+
+## Sprint 12: Governance (Sprints 10-11)
+
+- CANONICAL_EVALUATION.md: Add Section 43 (Merged Volvelle Characterization) and Section 44 (Production Workflow Synthesis)
+- claim_artifact_map.md: Add claims #235+
+- Phase 20 execution plan: update checkboxes + results
+- Update STATUS.md open paths to reflect completion
+- Update NEXT_STEPS.md to remove completed Phase 20 loose ends
+
+---
+
+### Sprint 10 Findings (2026-02-22)
+
+**15-state merged volvelle is a MATHEMATICAL CURIOSITY:**
+
+| Metric | Value |
+|---|---|
+| Surviving states | 15 (35 absorbed) |
+| W18 token share | 54.2% (still dominant) |
+| Largest merged state | 715 words (State 9) |
+| State 44 (tail) | 9 absorbed windows, 1.0% tokens |
+| Vocabulary coherence | 0/15 states coherent (Jaccard = 0.000) |
+| Historical score | 0.700 (PLAUSIBLE with caveats) |
+| Tabula vs volvelle | Tabula wins 8-0-2 |
+
+**Acceptance criteria:**
+- Complete merge map: PASS (15 surviving, 35 absorbed)
+- Per-state vocabulary profiles: PASS (all 15 characterized)
+- Coherence metric: PASS (all zero — disjoint by construction)
+- Historical defensibility: PASS (score 0.700, MARGINAL-PLAUSIBLE)
+- Recommendation: **MATHEMATICAL CURIOSITY**, not a viable alternative
+
+### Sprint 11 Findings (2026-02-22)
+
+**Complete production model consolidated:**
+
+| Section | Tokens | Drift Adm | Top Window |
+|---|---|---|---|
+| Herbal A | 8,826 | 37.05% | W18 (46%) |
+| Herbal B | 1,164 | 31.92% | W18 (39%) |
+| Astro | 2,869 | 29.84% | W18 (36%) |
+| Biological | 6,422 | 56.88% | W18 (60%) |
+| Cosmo | 1,727 | 58.27% | W18 (61%) |
+| Pharma | 3,501 | 50.34% | W18 (54%) |
+| Stars | 10,096 | 41.79% | W18 (49%) |
+
+Key findings:
+- Hapax fraction: 68.4% (5,282 of 7,717 types)
+- Rare word fraction: 93.8%
+- PRODUCTION_MODEL.md generated as standalone specification
+- Error model: W18 top failure window (5,565 failures, 34.2% rate)
+
+**Acceptance criteria:**
+- Component specs collected: PASS
+- Integrated workflow model: PASS (8-step protocol)
+- Per-section profiles: PASS (all 7 sections)
+- Error model: PASS (quantified rates)
+- PRODUCTION_MODEL.md: PASS (182 lines)
+- No contradictions: PASS
+
+### Sprint 12 Governance (2026-02-22)
+
+- CANONICAL_EVALUATION.md: Sections 43-44 added
+- claim_artifact_map.md: Claims #235-251 added (251 total)
+- Phase 20 execution plan: marked COMPLETE (all 12 sprints)

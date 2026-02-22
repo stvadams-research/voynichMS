@@ -201,6 +201,18 @@ and sensitivity sources.
 
 ---
 
+## Phases 11-20: No External Configs
+
+Phases 11-20 (stroke topology, mechanical reconstruction, high-fidelity emulation,
+rule extraction, physical grounding, finality, state machine) do not use external
+JSON configuration files. Their parameters are passed inline via `active_run(config={...})`
+and recorded in per-run provenance envelopes. This design decision was made because
+these phases have few tunable parameters (primarily `seed` and script-specific flags)
+and the inline approach ensures parameter values are always co-located with the
+run provenance record.
+
+---
+
 ## Environment Variables
 
 For environment variables that control runtime behavior, see `.env.example`.
