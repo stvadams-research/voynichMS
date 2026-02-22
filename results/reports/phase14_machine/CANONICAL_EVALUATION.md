@@ -1106,3 +1106,313 @@ B2's hapax-specific impact was +3.04pp on hapax transitions alone; the global di
 ### Note on Canonical Number Provenance
 
 The prior canonical 64.13% was established in Sprint D1 (structural signature definition) using the EvaluationEngine with per-window corrections applied externally. The H1 corrected-path baseline of 63.99% differs by 0.14pp, likely due to window-tracking state management differences between the two computation paths. Both values are within expected rounding tolerance. The +0.96pp suffix delta is robust across both computation paths.
+
+---
+
+## Section 37: State Machine + Codebook Architecture (Phase 20)
+
+**Sprint:** 20a — State Machine + Codebook Architecture
+**Script:** `scripts/phase20_state_machine/run_20a_codebook_architecture.py`
+**Artifact:** `results/data/phase20_state_machine/codebook_architecture.json`
+
+### Hypothesis
+
+The device was a *state tracker* (encoding only the 50 window transition rules), not a vocabulary display. Vocabulary was stored in a separate *codebook* organized by window number. This mirrors known 15th-century systems: Alberti's cipher disc (state indicator + external alphabet), Trithemius's steganography (key table + word codebook).
+
+### 1.1 — State Indicator Device
+
+| Configuration | Dimensions | vs Alberti | vs Apian | Verdict |
+|---|---|---|---|---|
+| Volvelle (50 positions) | 549mm diameter | 4.58× | 1.57× | IMPLAUSIBLE |
+| Tabula (10×5 grid) | 170 × 160 mm | — | — | PLAUSIBLE |
+
+The volvelle form exceeds even the Apian range (350mm) because 50 sectors at 7.2° each still require substantial radius for legible position labels. The tabula form factor (a flat reference card) is physically feasible.
+
+### 1.2 — Codebook Estimation
+
+| Metric | Value |
+|---|---|
+| Total vocabulary | 7,717 words |
+| Total pages | 154 |
+| Total folios | 77 |
+| Quire structure | 10 quires of 8 leaves |
+| Largest window (W18) | 396 words (7 pages) |
+| vs Voynich MS (232pp) | 0.66× |
+| vs Trithemius tables (50pp) | 3.08× |
+| vs Typical vade mecum (80pp) | 1.93× |
+
+**Verdict: MARGINAL** — exceeds the vade mecum range (20-100pp) but smaller than the Voynich manuscript itself.
+
+### 1.3 — Hybrid Device Analysis
+
+| Words/Window | Total Inscribed | Device Hit Rate | Consultation Rate | Diameter | Fits Apian? |
+|---|---|---|---|---|---|
+| 1 | 50 | 4.7% | 95.3% | 874mm | NO |
+| 3 | 150 | 10.0% | 90.0% | 923mm | NO |
+| 5 | 250 | 14.2% | 85.8% | 962mm | NO |
+| 10 | 500 | 22.3% | 77.7% | 1,052mm | NO |
+| 20 | 998 | 34.1% | 66.0% | 1,631mm | NO |
+
+**No hybrid configuration fits within Apian range.** Even inscribing a single word per window produces an 874mm device. The fundamental constraint is not vocabulary volume but the 50 angular sectors on the volvelle.
+
+### 1.4 — Workflow Analysis
+
+- Slip concentration at window 18 (92.6% of slips) is consistent with a codebook-indexing error model: W18 has the largest codebook section (396 entries, 49.6% of production).
+- Consistency verdict: **HIGH** — the codebook model correctly predicts slip concentration at the most-consulted section.
+
+### 1.5 — Combined Plausibility
+
+| Architecture | Device Size | Codebook | Consult Rate | Verdict |
+|---|---|---|---|---|
+| Monolithic volvelle (C1) | 1,410mm | — | 0% | IMPLAUSIBLE |
+| Subset-2000 (F2) | 678mm | 5,717 words | 18.7% | MARGINAL |
+| State machine only | 549mm | 154pp | 100% | IMPLAUSIBLE |
+
+**Combined verdict: IMPLAUSIBLE.** The state machine + codebook architecture does not resolve the C1 physical dimensioning problem for volvelle-type devices. The tabula form (170×160mm card) is physically feasible as a state indicator, but the codebook at 154 pages exceeds typical portable reference sizes.
+
+### Interpretation
+
+The persistent implausibility of all volvelle-based architectures (monolithic, subset, per-section, state machine, hybrid) points to a fundamental constraint: **50 angular sectors are too many for any disc-based device at legible glyph sizes.** Future investigation should consider:
+1. Non-circular device forms (tabula, sliding rule, folding device) — **see Section 39**
+2. Fewer than 50 active states (state merging/grouping) — **see Section 38**
+3. Multi-device systems (multiple small devices rather than one large one)
+
+---
+
+## Section 38: Window State Merging (Phase 20, Sprint 3)
+
+**Sprint:** 20b — Window State Merging Analysis
+**Script:** `scripts/phase20_state_machine/run_20b_state_merging.py`
+**Artifact:** `results/data/phase20_state_machine/state_merging.json`
+
+### Hypothesis
+
+If the 50 windows can be merged into fewer states, the angular sector constraint relaxes: fewer sectors → wider sectors → smaller radius. Three merge strategies were tested.
+
+### Merge Strategies
+
+| Strategy | Method | Key Merge Targets |
+|---|---|---|
+| Size-based | Merge smallest-vocabulary windows into nearest neighbor | 9 windows with <50 words |
+| Correction-based | Merge windows sharing same correction value | 12 groups with 2+ members (18 mergeable) |
+| Usage-based | Merge least-used windows into nearest more-used neighbor | Bottom 20 windows by token count |
+
+### Results
+
+| Strategy | Target | Actual States | Volvelle | Fits Apian? | Drift Adm | Delta from Baseline |
+|---|---|---|---|---|---|---|
+| size_based | 40 | 40 | 447mm | NO | 0.4361 | +0.17pp |
+| size_based | 30 | 30 | 346mm | YES | 0.4433 | +0.89pp |
+| size_based | 25 | 25 | 295mm | YES | 0.4560 | +2.16pp |
+| size_based | 20 | 20 | 244mm | YES | 0.4621 | +2.77pp |
+| **size_based** | **15** | **15** | **193mm** | **YES** | **0.5684** | **+13.40pp** |
+| correction_based | 15 | 15 | 193mm | YES | 0.5593 | +12.49pp |
+| usage_based | 15 | 15 | 193mm | YES | 0.4830 | +4.86pp |
+
+**Note:** Baseline drift admissibility at 50 states is 0.4344 (raw ±1 adjacency without per-window corrections, different from canonical 64.94% which uses correction-adjusted evaluation). All comparisons in this table use the same evaluation method.
+
+### Sweet Spot
+
+**2 viable configurations** meet both constraints (≤350mm AND ≥55% admissibility):
+
+| Rank | Strategy | States | Diameter | Admissibility | Score |
+|---|---|---|---|---|---|
+| 1 | size_based | 15 | 193mm | 56.84% | 0.8753 |
+| 2 | correction_based | 15 | 193mm | 55.93% | 0.8613 |
+
+The best configuration (15 states, size-based merge) produces a **193mm volvelle** — within the Llull Ars Magna range (200mm). Drift admissibility is 56.84%, exceeding the 55% threshold.
+
+### Interpretation
+
+State merging from 50 to 15 windows makes a volvelle physically viable, but at a steep cost: 35 merged windows, with the largest merged vocabulary reaching 715 words. The admissibility improvement from merging (larger windows catch more tokens) partially compensates, but the merged system is fundamentally different from the original 50-state lattice. Whether this degree of simplification is historically defensible depends on the production requirements.
+
+---
+
+## Section 39: Non-Circular Device Forms (Phase 20, Sprint 4)
+
+**Sprint:** 20c — Non-Circular Device Forms
+**Script:** `scripts/phase20_state_machine/run_20c_linear_devices.py`
+**Artifact:** `results/data/phase20_state_machine/linear_devices.json`
+
+### Motivation
+
+Sprint 1 proved the bottleneck is angular sectors, not information content. Linear and flat device forms sidestep the angular constraint entirely.
+
+### Device Architectures Evaluated
+
+**4.1 — Sliding Strip:**
+- Dual-strip device: fixed strip (50 positions) + sliding cursor
+- Unfolded: 1,600 × 45 mm (OVERSIZED)
+- Best fold: 10-fold → 160 × 45 mm (PORTABLE)
+- Historical parallel: Rebatello cipher strip (c.1470)
+- **Verdict: PLAUSIBLE**
+
+**4.2 — Folding Tabula:**
+- Accordion-fold card with N panels
+- State-only: best = 2-panel, 170 × 85 mm folded (PORTABLE)
+- Annotated (+3 words): best = 4-panel, 170 × 118 mm folded (PORTABLE)
+- Historical parallel: portolan chart foldouts, astronomical tables
+- **Verdict: PLAUSIBLE**
+
+**4.3 — Cipher Grille:**
+- Aperture card over 10×5 master grid, 170 × 160 mm
+- 2 or 4 positions to address all 50 windows
+- Historical parallel: Cardano grille (1550)
+- Over-engineered for state tracking; adds complexity without benefit
+- **Verdict: MARGINAL**
+
+**4.4 — Tabula + Codebook:**
+- 170 × 160 mm flat card + 154-page codebook
+- Historical parallel: Alberti disc + external alphabet (1467), Trithemius key + codebook (1499)
+- **Verdict: PLAUSIBLE**
+
+### Comparative Ranking
+
+| Rank | Device | Max Dim | Size | Practicality | Precedent | Durability | Combined | Verdict |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Tabula + codebook | 170mm | 1.00 | 0.65 | 1.00 | 0.80 | 0.8650 | PLAUSIBLE |
+| 2 | Folding tabula (annotated) | 170mm | 1.00 | 0.85 | 0.75 | 0.65 | 0.8400 | PLAUSIBLE |
+| 3 | Folding tabula (state-only) | 170mm | 1.00 | 0.80 | 0.75 | 0.70 | 0.8325 | PLAUSIBLE |
+| 4 | Sliding strip | 160mm | 1.00 | 0.50 | 0.75 | 0.50 | 0.7125 | PLAUSIBLE |
+| 5 | Cipher grille | 170mm | 1.00 | 0.30 | 0.50 | 0.50 | 0.5900 | MARGINAL |
+
+Scoring weights: Size 0.30, Practicality 0.30, Precedent 0.25, Durability 0.15.
+
+### Interpretation
+
+**4 out of 5 non-circular device forms are PLAUSIBLE.** The recommended architecture is the **tabula + codebook** system, which has the strongest historical precedent (direct parallels in Alberti and Trithemius) and highest combined score. All devices fit within the PORTABLE range (≤200mm). The persistent failure of volvelle-based architectures and the success of flat/linear forms strongly suggests the Voynich production tool was **not a rotating disc** but rather a **flat reference card or folding table** paired with a separate vocabulary codebook.
+
+---
+
+## Section 40: Manuscript Layout vs Codebook Structure (Phase 20, Sprint 6)
+
+**Sprint:** 20d — Manuscript Layout Analysis
+**Script:** `scripts/phase20_state_machine/run_20d_layout_analysis.py`
+**Artifact:** `results/data/phase20_state_machine/layout_analysis.json`
+
+### Hypothesis
+
+If the manuscript has codebook-like organization, folios within a section should cluster tightly by window usage profile, and the manuscript's folio ordering should mirror the device's window traversal order.
+
+### 6.1 — Per-Folio Window Usage Profiles
+
+101 folios analyzed. All 101 have W18 as their dominant window (100%). Mean dominant fraction: 47.8%. Mean window entropy: 3.15 (range 1.81–4.19).
+
+### 6.2 — Folio Clustering by Window Profile
+
+| Metric | Value |
+|---|---|
+| Within-section similarity | 0.9767 (n=1,687 pairs) |
+| Between-section similarity | 0.9771 (n=3,363 pairs) |
+| Difference | -0.0004 |
+| Mann-Whitney U p-value | 1.00 |
+| Verdict | **NOT SIGNIFICANT** |
+
+Sections do not exhibit distinct window profiles. Within-section similarity actually *slightly trails* between-section similarity, meaning folios are no more alike within a section than across sections.
+
+### 6.3 — Window Ordering vs Folio Sequence
+
+| Metric | Value |
+|---|---|
+| Spearman ρ | -0.0131 |
+| p-value | 1.73e-02 |
+| Verdict | **NO CORRELATION** |
+
+The manuscript's folio ordering is independent of the device's window ordering. Per-section correlations are all near zero (max |ρ| = 0.091 in Pharma).
+
+### Interpretation
+
+**The manuscript has no codebook-like organization.** All folios draw from the same W18-dominated window distribution regardless of section, and folio sequence does not mirror device traversal. This confirms the production model: every folio is produced by the same device traversal process, with thematic variation arising from section-specific vocabulary selection within windows rather than from different device configurations.
+
+---
+
+## Section 41: Per-Window Annotated Device Coverage (Phase 20, Sprint 7)
+
+**Sprint:** 20e — Annotated Device Analysis
+**Script:** `scripts/phase20_state_machine/run_20e_annotated_device.py`
+**Artifact:** `results/data/phase20_state_machine/annotated_device.json`
+
+### Motivation
+
+Sprint 1 computed only global hit rates for inscribed words. This sprint computes per-window coverage and tests whether an optimally-annotated device can reduce codebook consultations below 80%.
+
+### 7.1 — Per-Window Top-N Coverage
+
+W18 analysis (49.6% of corpus): Top-1 covers 4.4% of W18, top-3 covers 9.5%, top-10 covers 22.5%, top-20 covers 35.8%. Production is highly dispersed within W18 — no small set of words dominates.
+
+| N/Window | Words Inscribed | Coverage | Consultation Rate |
+|---|---|---|---|
+| 1 | 50 | 4.7% | 95.3% |
+| 3 | 150 | 10.0% | 90.0% |
+| 10 | 500 | 22.3% | 77.7% |
+| 20 | 998 | 34.0% | 66.0% |
+
+### 7.2 — Optimal Greedy Allocation
+
+Greedy allocation (inscribing highest-frequency words across all windows regardless of window):
+
+| Budget | Coverage | Consultation Rate |
+|---|---|---|
+| 50 | 29.9% | 70.1% |
+| 100 | 40.4% | 59.6% |
+| 200 | 51.0% | 48.9% |
+| 500 | 64.2% | 35.8% |
+
+The first budget to drop below 80% consultation is B=50. However, the greedy allocation is **extremely concentrated on W18**: at B=200, 155/200 words (77.5%) go to W18 because it produces half the corpus.
+
+### 7.3 — Annotated Folding Tabula
+
+At B=200: the W18 cell requires 155 inscribed words, producing a cell 55×1,102mm — **OVERSIZED**. The annotated tabula concept fails because W18's extreme dominance means any annotation scheme is effectively a W18 word list. Codebook reduction is minimal (2.3%).
+
+**Verdict: MARGINAL.** The annotation strategy works numerically (51% coverage at 200 words) but fails physically because the annotations are too concentrated in one window.
+
+### Interpretation
+
+The per-window analysis reveals a structural asymmetry: W18 alone produces 49.6% of tokens with 396 vocabulary items, making any annotation strategy devolve into "a W18 word list." Uniform allocation (N per window) is wasteful on sparse windows; greedy allocation produces unphysical W18-dominated devices. The practical conclusion is that **the codebook is irreplaceable** — no annotation scheme can eliminate the need for a substantial W18 reference section.
+
+---
+
+## Section 42: Scribal Hand × Device Correspondence (Phase 20, Sprint 8)
+
+**Sprint:** 20f — Hand Analysis
+**Script:** `scripts/phase20_state_machine/run_20f_hand_analysis.py`
+**Artifact:** `results/data/phase20_state_machine/hand_analysis.json`
+
+### 8.1 — Per-Hand Window Usage
+
+| Hand | Tokens | Vocab | Windows | Entropy | W18 % |
+|---|---|---|---|---|---|
+| Hand 1 | 9,821 | 3,664 | 50 | 3.59 | 44.8% |
+| Hand 2 | 16,108 | 4,084 | 50 | 3.02 | 53.0% |
+| Unknown | 6,923 | 2,362 | 50 | 3.26 | 48.6% |
+
+Window profiles are **SIMILAR** (JSD=0.012, cosine similarity=0.998). Both hands use the same top-3 windows (W18, W17, W20) in the same rank order. Hand 2 is more concentrated on W18 (53% vs 45%).
+
+### 8.2 — Vocabulary Overlap
+
+- Shared vocabulary: 1,045 words (15.6% of union)
+- Hand 1 only: 2,619 words; Hand 2 only: 3,039 words
+- Despite low type overlap, shared words cover 66.3% (H1) and 71.8% (H2) of tokens
+- Mean per-window Jaccard: 0.074 (very low)
+
+**Low vocabulary overlap with high token overlap** = the hands share the common/frequent words but diverge on rare/hapax vocabulary.
+
+### 8.3 — Drift Admissibility
+
+| Hand | Transitions | Admissible | Rate |
+|---|---|---|---|
+| Hand 1 | 9,820 | 5,505 | 56.1% |
+| Hand 2 | 16,107 | 10,395 | 64.5% |
+
+Difference: -8.5pp (z=-13.60, p≈0). **SIGNIFICANTLY DIFFERENT.** Hand 2 achieves higher admissibility than Hand 1, consistent with Hand 2's higher emulator drift parameter (25 vs 15).
+
+### 8.4 — Synthesis
+
+| Dimension | Finding | Detail |
+|---|---|---|
+| Window profiles | SIMILAR | JSD=0.012 |
+| Vocabulary overlap | LOW | 15.6% shared |
+| Admissibility | SIGNIFICANTLY DIFFERENT | Δ=-8.5pp |
+| Suffix preference | DIFFERENT | H1: -dy, H2: -in |
+
+**Verdict: SPECIALIST PROFILES.** The two hands use the same device with the same window distribution, but they have distinct vocabulary repertoires, different drift behaviors, and different suffix preferences. This is consistent with two scribes operating the same physical tool but with individual "fluency" profiles — different familiarity with the codebook sections, different motor habits producing different drift rates.

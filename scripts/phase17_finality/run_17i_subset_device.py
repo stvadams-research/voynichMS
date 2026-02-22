@@ -609,8 +609,8 @@ def sprint_f3(lines, lattice_map, window_contents, corrections,
 
     console.print(f"  Consolidated admissible: {consolidated_admissible} / {total_transitions}")
     console.print(f"  Consolidated rate: {consolidated_rate:.1%}")
-    console.print("  Monolithic baseline: 64.13%")
-    console.print(f"  Delta: {(consolidated_rate - 0.6413) * 100:+.2f}pp")
+    console.print("  Monolithic baseline: 64.94%")
+    console.print(f"  Delta: {(consolidated_rate - 0.6494) * 100:+.2f}pp")
 
     gate_pass = consolidated_rate >= 0.60
     if gate_pass:
@@ -638,7 +638,7 @@ def sprint_f3(lines, lattice_map, window_contents, corrections,
             "admissible": consolidated_admissible,
             "total": total_transitions,
             "rate": round(consolidated_rate, 4),
-            "vs_monolithic": round((consolidated_rate - 0.6413) * 100, 2),
+            "vs_monolithic": round((consolidated_rate - 0.6494) * 100, 2),
             "gate_pass": gate_pass,
         },
     }

@@ -1,0 +1,2730 @@
+{
+  "provenance": {
+    "run_id": "1b75390a-f827-64ae-1a7f-e24de488bb5c",
+    "git_commit": "cb2269f4e41448a14b47d617e9890d29702d6152",
+    "timestamp": "2026-02-22T02:37:29.077414+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771727849076744000,
+    "command": "run_20e_annotated_device"
+  },
+  "results": {
+    "per_window_coverage": {
+      "per_window": {
+        "0": {
+          "total_tokens": 18,
+          "corpus_fraction": 0.0005,
+          "vocab_size": 18,
+          "coverage": {
+            "1": {
+              "tokens_covered": 1,
+              "fraction_of_window": 0.0556,
+              "fraction_of_corpus": 0.0,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.1111,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.1667,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.2778,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.5556,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.8333,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 18,
+              "fraction_of_window": 1.0,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 18
+            }
+          }
+        },
+        "1": {
+          "total_tokens": 55,
+          "corpus_fraction": 0.0017,
+          "vocab_size": 54,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0364,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0545,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0727,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.1091,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.2,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 16,
+              "fraction_of_window": 0.2909,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 21,
+              "fraction_of_window": 0.3818,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "2": {
+          "total_tokens": 23,
+          "corpus_fraction": 0.0007,
+          "vocab_size": 21,
+          "coverage": {
+            "1": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.1304,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.1739,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.2174,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 7,
+              "fraction_of_window": 0.3043,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 12,
+              "fraction_of_window": 0.5217,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 17,
+              "fraction_of_window": 0.7391,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 22,
+              "fraction_of_window": 0.9565,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "3": {
+          "total_tokens": 56,
+          "corpus_fraction": 0.0017,
+          "vocab_size": 54,
+          "coverage": {
+            "1": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0536,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0714,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.0893,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 7,
+              "fraction_of_window": 0.125,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 12,
+              "fraction_of_window": 0.2143,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 17,
+              "fraction_of_window": 0.3036,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 22,
+              "fraction_of_window": 0.3929,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "4": {
+          "total_tokens": 68,
+          "corpus_fraction": 0.0021,
+          "vocab_size": 68,
+          "coverage": {
+            "1": {
+              "tokens_covered": 1,
+              "fraction_of_window": 0.0147,
+              "fraction_of_corpus": 0.0,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0294,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0441,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.0735,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.1471,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.2206,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.2941,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "5": {
+          "total_tokens": 181,
+          "corpus_fraction": 0.0055,
+          "vocab_size": 167,
+          "coverage": {
+            "1": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0166,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.0331,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 8,
+              "fraction_of_window": 0.0442,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 12,
+              "fraction_of_window": 0.0663,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 22,
+              "fraction_of_window": 0.1215,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 29,
+              "fraction_of_window": 0.1602,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 34,
+              "fraction_of_window": 0.1878,
+              "fraction_of_corpus": 0.001,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "6": {
+          "total_tokens": 157,
+          "corpus_fraction": 0.0048,
+          "vocab_size": 149,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0127,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0255,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.0382,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.0637,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 18,
+              "fraction_of_window": 0.1146,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 23,
+              "fraction_of_window": 0.1465,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 28,
+              "fraction_of_window": 0.1783,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "7": {
+          "total_tokens": 183,
+          "corpus_fraction": 0.0056,
+          "vocab_size": 163,
+          "coverage": {
+            "1": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0164,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.0328,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 9,
+              "fraction_of_window": 0.0492,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 13,
+              "fraction_of_window": 0.071,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 23,
+              "fraction_of_window": 0.1257,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 33,
+              "fraction_of_window": 0.1803,
+              "fraction_of_corpus": 0.001,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 40,
+              "fraction_of_window": 0.2186,
+              "fraction_of_corpus": 0.0012,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "8": {
+          "total_tokens": 288,
+          "corpus_fraction": 0.0088,
+          "vocab_size": 223,
+          "coverage": {
+            "1": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.0382,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 16,
+              "fraction_of_window": 0.0556,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 21,
+              "fraction_of_window": 0.0729,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 28,
+              "fraction_of_window": 0.0972,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 43,
+              "fraction_of_window": 0.1493,
+              "fraction_of_corpus": 0.0013,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 53,
+              "fraction_of_window": 0.184,
+              "fraction_of_corpus": 0.0016,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 63,
+              "fraction_of_window": 0.2188,
+              "fraction_of_corpus": 0.0019,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "9": {
+          "total_tokens": 405,
+          "corpus_fraction": 0.0123,
+          "vocab_size": 276,
+          "coverage": {
+            "1": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.0247,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 18,
+              "fraction_of_window": 0.0444,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 26,
+              "fraction_of_window": 0.0642,
+              "fraction_of_corpus": 0.0008,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 37,
+              "fraction_of_window": 0.0914,
+              "fraction_of_corpus": 0.0011,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 60,
+              "fraction_of_window": 0.1481,
+              "fraction_of_corpus": 0.0018,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 79,
+              "fraction_of_window": 0.1951,
+              "fraction_of_corpus": 0.0024,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 94,
+              "fraction_of_window": 0.2321,
+              "fraction_of_corpus": 0.0029,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "10": {
+          "total_tokens": 164,
+          "corpus_fraction": 0.005,
+          "vocab_size": 148,
+          "coverage": {
+            "1": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0183,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.0366,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 8,
+              "fraction_of_window": 0.0488,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 12,
+              "fraction_of_window": 0.0732,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 22,
+              "fraction_of_window": 0.1341,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 31,
+              "fraction_of_window": 0.189,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 36,
+              "fraction_of_window": 0.2195,
+              "fraction_of_corpus": 0.0011,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "11": {
+          "total_tokens": 1194,
+          "corpus_fraction": 0.0363,
+          "vocab_size": 291,
+          "coverage": {
+            "1": {
+              "tokens_covered": 28,
+              "fraction_of_window": 0.0235,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 54,
+              "fraction_of_window": 0.0452,
+              "fraction_of_corpus": 0.0016,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 77,
+              "fraction_of_window": 0.0645,
+              "fraction_of_corpus": 0.0023,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 120,
+              "fraction_of_window": 0.1005,
+              "fraction_of_corpus": 0.0037,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 212,
+              "fraction_of_window": 0.1776,
+              "fraction_of_corpus": 0.0065,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 286,
+              "fraction_of_window": 0.2395,
+              "fraction_of_corpus": 0.0087,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 351,
+              "fraction_of_window": 0.294,
+              "fraction_of_corpus": 0.0107,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "12": {
+          "total_tokens": 55,
+          "corpus_fraction": 0.0017,
+          "vocab_size": 54,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0364,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0545,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0727,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.1091,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.2,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 16,
+              "fraction_of_window": 0.2909,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 21,
+              "fraction_of_window": 0.3818,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "13": {
+          "total_tokens": 175,
+          "corpus_fraction": 0.0053,
+          "vocab_size": 164,
+          "coverage": {
+            "1": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0229,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.0343,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 8,
+              "fraction_of_window": 0.0457,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 12,
+              "fraction_of_window": 0.0686,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 21,
+              "fraction_of_window": 0.12,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 26,
+              "fraction_of_window": 0.1486,
+              "fraction_of_corpus": 0.0008,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 31,
+              "fraction_of_window": 0.1771,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "14": {
+          "total_tokens": 367,
+          "corpus_fraction": 0.0112,
+          "vocab_size": 256,
+          "coverage": {
+            "1": {
+              "tokens_covered": 9,
+              "fraction_of_window": 0.0245,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 17,
+              "fraction_of_window": 0.0463,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 22,
+              "fraction_of_window": 0.0599,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 32,
+              "fraction_of_window": 0.0872,
+              "fraction_of_corpus": 0.001,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 55,
+              "fraction_of_window": 0.1499,
+              "fraction_of_corpus": 0.0017,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 71,
+              "fraction_of_window": 0.1935,
+              "fraction_of_corpus": 0.0022,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 86,
+              "fraction_of_window": 0.2343,
+              "fraction_of_corpus": 0.0026,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "15": {
+          "total_tokens": 55,
+          "corpus_fraction": 0.0017,
+          "vocab_size": 52,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0364,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0727,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.1091,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 8,
+              "fraction_of_window": 0.1455,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 13,
+              "fraction_of_window": 0.2364,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 18,
+              "fraction_of_window": 0.3273,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 23,
+              "fraction_of_window": 0.4182,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "16": {
+          "total_tokens": 353,
+          "corpus_fraction": 0.0107,
+          "vocab_size": 210,
+          "coverage": {
+            "1": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.0312,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.0567,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 28,
+              "fraction_of_window": 0.0793,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 43,
+              "fraction_of_window": 0.1218,
+              "fraction_of_corpus": 0.0013,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 72,
+              "fraction_of_window": 0.204,
+              "fraction_of_corpus": 0.0022,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 90,
+              "fraction_of_window": 0.255,
+              "fraction_of_corpus": 0.0027,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 105,
+              "fraction_of_window": 0.2975,
+              "fraction_of_corpus": 0.0032,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "17": {
+          "total_tokens": 2529,
+          "corpus_fraction": 0.077,
+          "vocab_size": 312,
+          "coverage": {
+            "1": {
+              "tokens_covered": 275,
+              "fraction_of_window": 0.1087,
+              "fraction_of_corpus": 0.0084,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 416,
+              "fraction_of_window": 0.1645,
+              "fraction_of_corpus": 0.0127,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 518,
+              "fraction_of_window": 0.2048,
+              "fraction_of_corpus": 0.0158,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 675,
+              "fraction_of_window": 0.2669,
+              "fraction_of_corpus": 0.0205,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 880,
+              "fraction_of_window": 0.348,
+              "fraction_of_corpus": 0.0268,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 1020,
+              "fraction_of_window": 0.4033,
+              "fraction_of_corpus": 0.031,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 1145,
+              "fraction_of_window": 0.4527,
+              "fraction_of_corpus": 0.0349,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "18": {
+          "total_tokens": 16295,
+          "corpus_fraction": 0.496,
+          "vocab_size": 396,
+          "coverage": {
+            "1": {
+              "tokens_covered": 724,
+              "fraction_of_window": 0.0444,
+              "fraction_of_corpus": 0.022,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 1168,
+              "fraction_of_window": 0.0717,
+              "fraction_of_corpus": 0.0356,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 1545,
+              "fraction_of_window": 0.0948,
+              "fraction_of_corpus": 0.047,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 2221,
+              "fraction_of_window": 0.1363,
+              "fraction_of_corpus": 0.0676,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 3671,
+              "fraction_of_window": 0.2253,
+              "fraction_of_corpus": 0.1117,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 4914,
+              "fraction_of_window": 0.3016,
+              "fraction_of_corpus": 0.1496,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 5825,
+              "fraction_of_window": 0.3575,
+              "fraction_of_corpus": 0.1773,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "19": {
+          "total_tokens": 1513,
+          "corpus_fraction": 0.0461,
+          "vocab_size": 297,
+          "coverage": {
+            "1": {
+              "tokens_covered": 80,
+              "fraction_of_window": 0.0529,
+              "fraction_of_corpus": 0.0024,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 116,
+              "fraction_of_window": 0.0767,
+              "fraction_of_corpus": 0.0035,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 146,
+              "fraction_of_window": 0.0965,
+              "fraction_of_corpus": 0.0044,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 201,
+              "fraction_of_window": 0.1328,
+              "fraction_of_corpus": 0.0061,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 314,
+              "fraction_of_window": 0.2075,
+              "fraction_of_corpus": 0.0096,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 400,
+              "fraction_of_window": 0.2644,
+              "fraction_of_corpus": 0.0122,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 483,
+              "fraction_of_window": 0.3192,
+              "fraction_of_corpus": 0.0147,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "20": {
+          "total_tokens": 2331,
+          "corpus_fraction": 0.071,
+          "vocab_size": 327,
+          "coverage": {
+            "1": {
+              "tokens_covered": 136,
+              "fraction_of_window": 0.0583,
+              "fraction_of_corpus": 0.0041,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 245,
+              "fraction_of_window": 0.1051,
+              "fraction_of_corpus": 0.0075,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 332,
+              "fraction_of_window": 0.1424,
+              "fraction_of_corpus": 0.0101,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 480,
+              "fraction_of_window": 0.2059,
+              "fraction_of_corpus": 0.0146,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 682,
+              "fraction_of_window": 0.2926,
+              "fraction_of_corpus": 0.0208,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 818,
+              "fraction_of_window": 0.3509,
+              "fraction_of_corpus": 0.0249,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 922,
+              "fraction_of_window": 0.3955,
+              "fraction_of_corpus": 0.0281,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "21": {
+          "total_tokens": 212,
+          "corpus_fraction": 0.0065,
+          "vocab_size": 182,
+          "coverage": {
+            "1": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.0236,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 9,
+              "fraction_of_window": 0.0425,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 13,
+              "fraction_of_window": 0.0613,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 19,
+              "fraction_of_window": 0.0896,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 29,
+              "fraction_of_window": 0.1368,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 39,
+              "fraction_of_window": 0.184,
+              "fraction_of_corpus": 0.0012,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 49,
+              "fraction_of_window": 0.2311,
+              "fraction_of_corpus": 0.0015,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "22": {
+          "total_tokens": 1753,
+          "corpus_fraction": 0.0534,
+          "vocab_size": 341,
+          "coverage": {
+            "1": {
+              "tokens_covered": 94,
+              "fraction_of_window": 0.0536,
+              "fraction_of_corpus": 0.0029,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 146,
+              "fraction_of_window": 0.0833,
+              "fraction_of_corpus": 0.0044,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 189,
+              "fraction_of_window": 0.1078,
+              "fraction_of_corpus": 0.0058,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 271,
+              "fraction_of_window": 0.1546,
+              "fraction_of_corpus": 0.0082,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 413,
+              "fraction_of_window": 0.2356,
+              "fraction_of_corpus": 0.0126,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 508,
+              "fraction_of_window": 0.2898,
+              "fraction_of_corpus": 0.0155,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 593,
+              "fraction_of_window": 0.3383,
+              "fraction_of_corpus": 0.0181,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "23": {
+          "total_tokens": 457,
+          "corpus_fraction": 0.0139,
+          "vocab_size": 301,
+          "coverage": {
+            "1": {
+              "tokens_covered": 8,
+              "fraction_of_window": 0.0175,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 14,
+              "fraction_of_window": 0.0306,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.0438,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 32,
+              "fraction_of_window": 0.07,
+              "fraction_of_corpus": 0.001,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 57,
+              "fraction_of_window": 0.1247,
+              "fraction_of_corpus": 0.0017,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 79,
+              "fraction_of_window": 0.1729,
+              "fraction_of_corpus": 0.0024,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 96,
+              "fraction_of_window": 0.2101,
+              "fraction_of_corpus": 0.0029,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "24": {
+          "total_tokens": 342,
+          "corpus_fraction": 0.0104,
+          "vocab_size": 261,
+          "coverage": {
+            "1": {
+              "tokens_covered": 9,
+              "fraction_of_window": 0.0263,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 16,
+              "fraction_of_window": 0.0468,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.0585,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 28,
+              "fraction_of_window": 0.0819,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 46,
+              "fraction_of_window": 0.1345,
+              "fraction_of_corpus": 0.0014,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 59,
+              "fraction_of_window": 0.1725,
+              "fraction_of_corpus": 0.0018,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 69,
+              "fraction_of_window": 0.2018,
+              "fraction_of_corpus": 0.0021,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "25": {
+          "total_tokens": 462,
+          "corpus_fraction": 0.0141,
+          "vocab_size": 266,
+          "coverage": {
+            "1": {
+              "tokens_covered": 17,
+              "fraction_of_window": 0.0368,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 28,
+              "fraction_of_window": 0.0606,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 39,
+              "fraction_of_window": 0.0844,
+              "fraction_of_corpus": 0.0012,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 57,
+              "fraction_of_window": 0.1234,
+              "fraction_of_corpus": 0.0017,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 89,
+              "fraction_of_window": 0.1926,
+              "fraction_of_corpus": 0.0027,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 111,
+              "fraction_of_window": 0.2403,
+              "fraction_of_corpus": 0.0034,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 131,
+              "fraction_of_window": 0.2835,
+              "fraction_of_corpus": 0.004,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "26": {
+          "total_tokens": 290,
+          "corpus_fraction": 0.0088,
+          "vocab_size": 219,
+          "coverage": {
+            "1": {
+              "tokens_covered": 8,
+              "fraction_of_window": 0.0276,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 14,
+              "fraction_of_window": 0.0483,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 19,
+              "fraction_of_window": 0.0655,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 28,
+              "fraction_of_window": 0.0966,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 43,
+              "fraction_of_window": 0.1483,
+              "fraction_of_corpus": 0.0013,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 56,
+              "fraction_of_window": 0.1931,
+              "fraction_of_corpus": 0.0017,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 66,
+              "fraction_of_window": 0.2276,
+              "fraction_of_corpus": 0.002,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "27": {
+          "total_tokens": 357,
+          "corpus_fraction": 0.0109,
+          "vocab_size": 232,
+          "coverage": {
+            "1": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.0308,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.056,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 29,
+              "fraction_of_window": 0.0812,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 45,
+              "fraction_of_window": 0.1261,
+              "fraction_of_corpus": 0.0014,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 70,
+              "fraction_of_window": 0.1961,
+              "fraction_of_corpus": 0.0021,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 89,
+              "fraction_of_window": 0.2493,
+              "fraction_of_corpus": 0.0027,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 104,
+              "fraction_of_window": 0.2913,
+              "fraction_of_corpus": 0.0032,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "28": {
+          "total_tokens": 292,
+          "corpus_fraction": 0.0089,
+          "vocab_size": 209,
+          "coverage": {
+            "1": {
+              "tokens_covered": 7,
+              "fraction_of_window": 0.024,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.0377,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.0514,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 23,
+              "fraction_of_window": 0.0788,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 41,
+              "fraction_of_window": 0.1404,
+              "fraction_of_corpus": 0.0012,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 56,
+              "fraction_of_window": 0.1918,
+              "fraction_of_corpus": 0.0017,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 71,
+              "fraction_of_window": 0.2432,
+              "fraction_of_corpus": 0.0022,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "29": {
+          "total_tokens": 271,
+          "corpus_fraction": 0.0082,
+          "vocab_size": 202,
+          "coverage": {
+            "1": {
+              "tokens_covered": 9,
+              "fraction_of_window": 0.0332,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 16,
+              "fraction_of_window": 0.059,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 21,
+              "fraction_of_window": 0.0775,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 30,
+              "fraction_of_window": 0.1107,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 46,
+              "fraction_of_window": 0.1697,
+              "fraction_of_corpus": 0.0014,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 59,
+              "fraction_of_window": 0.2177,
+              "fraction_of_corpus": 0.0018,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 69,
+              "fraction_of_window": 0.2546,
+              "fraction_of_corpus": 0.0021,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "30": {
+          "total_tokens": 184,
+          "corpus_fraction": 0.0056,
+          "vocab_size": 163,
+          "coverage": {
+            "1": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0217,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 7,
+              "fraction_of_window": 0.038,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.0543,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.0815,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 25,
+              "fraction_of_window": 0.1359,
+              "fraction_of_corpus": 0.0008,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 35,
+              "fraction_of_window": 0.1902,
+              "fraction_of_corpus": 0.0011,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 41,
+              "fraction_of_window": 0.2228,
+              "fraction_of_corpus": 0.0012,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "31": {
+          "total_tokens": 181,
+          "corpus_fraction": 0.0055,
+          "vocab_size": 163,
+          "coverage": {
+            "1": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0221,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 7,
+              "fraction_of_window": 0.0387,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.0552,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 14,
+              "fraction_of_window": 0.0773,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 24,
+              "fraction_of_window": 0.1326,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 33,
+              "fraction_of_window": 0.1823,
+              "fraction_of_corpus": 0.001,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 38,
+              "fraction_of_window": 0.2099,
+              "fraction_of_corpus": 0.0012,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "32": {
+          "total_tokens": 201,
+          "corpus_fraction": 0.0061,
+          "vocab_size": 187,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.01,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0199,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.0299,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.0498,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.0995,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 29,
+              "fraction_of_window": 0.1443,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 34,
+              "fraction_of_window": 0.1692,
+              "fraction_of_corpus": 0.001,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "33": {
+          "total_tokens": 155,
+          "corpus_fraction": 0.0047,
+          "vocab_size": 135,
+          "coverage": {
+            "1": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0258,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 7,
+              "fraction_of_window": 0.0452,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.0645,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.0968,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 25,
+              "fraction_of_window": 0.1613,
+              "fraction_of_corpus": 0.0008,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 35,
+              "fraction_of_window": 0.2258,
+              "fraction_of_corpus": 0.0011,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 40,
+              "fraction_of_window": 0.2581,
+              "fraction_of_corpus": 0.0012,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "34": {
+          "total_tokens": 165,
+          "corpus_fraction": 0.005,
+          "vocab_size": 158,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0121,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0242,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.0364,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.0606,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 17,
+              "fraction_of_window": 0.103,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 22,
+              "fraction_of_window": 0.1333,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 27,
+              "fraction_of_window": 0.1636,
+              "fraction_of_corpus": 0.0008,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "35": {
+          "total_tokens": 203,
+          "corpus_fraction": 0.0062,
+          "vocab_size": 190,
+          "coverage": {
+            "1": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0197,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 7,
+              "fraction_of_window": 0.0345,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 9,
+              "fraction_of_window": 0.0443,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 13,
+              "fraction_of_window": 0.064,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 23,
+              "fraction_of_window": 0.1133,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 28,
+              "fraction_of_window": 0.1379,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 33,
+              "fraction_of_window": 0.1626,
+              "fraction_of_corpus": 0.001,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "36": {
+          "total_tokens": 149,
+          "corpus_fraction": 0.0045,
+          "vocab_size": 138,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0134,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.0268,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.0403,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.0671,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.1342,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 26,
+              "fraction_of_window": 0.1745,
+              "fraction_of_corpus": 0.0008,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 31,
+              "fraction_of_window": 0.2081,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "37": {
+          "total_tokens": 103,
+          "corpus_fraction": 0.0031,
+          "vocab_size": 97,
+          "coverage": {
+            "1": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0291,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.0485,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 7,
+              "fraction_of_window": 0.068,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.1068,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 16,
+              "fraction_of_window": 0.1553,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 21,
+              "fraction_of_window": 0.2039,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 26,
+              "fraction_of_window": 0.2524,
+              "fraction_of_corpus": 0.0008,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "38": {
+          "total_tokens": 141,
+          "corpus_fraction": 0.0043,
+          "vocab_size": 120,
+          "coverage": {
+            "1": {
+              "tokens_covered": 8,
+              "fraction_of_window": 0.0567,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 12,
+              "fraction_of_window": 0.0851,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.1064,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.1418,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 30,
+              "fraction_of_window": 0.2128,
+              "fraction_of_corpus": 0.0009,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 36,
+              "fraction_of_window": 0.2553,
+              "fraction_of_corpus": 0.0011,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 41,
+              "fraction_of_window": 0.2908,
+              "fraction_of_corpus": 0.0012,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "39": {
+          "total_tokens": 69,
+          "corpus_fraction": 0.0021,
+          "vocab_size": 65,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.029,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.058,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.087,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 9,
+              "fraction_of_window": 0.1304,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 14,
+              "fraction_of_window": 0.2029,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 19,
+              "fraction_of_window": 0.2754,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 24,
+              "fraction_of_window": 0.3478,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "40": {
+          "total_tokens": 65,
+          "corpus_fraction": 0.002,
+          "vocab_size": 60,
+          "coverage": {
+            "1": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0462,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.0769,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 7,
+              "fraction_of_window": 0.1077,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.1538,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.2308,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.3077,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 25,
+              "fraction_of_window": 0.3846,
+              "fraction_of_corpus": 0.0008,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "41": {
+          "total_tokens": 80,
+          "corpus_fraction": 0.0024,
+          "vocab_size": 76,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.025,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.05,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.075,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 9,
+              "fraction_of_window": 0.1125,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 14,
+              "fraction_of_window": 0.175,
+              "fraction_of_corpus": 0.0004,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 19,
+              "fraction_of_window": 0.2375,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 24,
+              "fraction_of_window": 0.3,
+              "fraction_of_corpus": 0.0007,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "42": {
+          "total_tokens": 58,
+          "corpus_fraction": 0.0018,
+          "vocab_size": 58,
+          "coverage": {
+            "1": {
+              "tokens_covered": 1,
+              "fraction_of_window": 0.0172,
+              "fraction_of_corpus": 0.0,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0345,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0517,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.0862,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.1724,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.2586,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.3448,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "43": {
+          "total_tokens": 30,
+          "corpus_fraction": 0.0009,
+          "vocab_size": 29,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0667,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.1,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.1333,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.2,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.3667,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 16,
+              "fraction_of_window": 0.5333,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 21,
+              "fraction_of_window": 0.7,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "44": {
+          "total_tokens": 35,
+          "corpus_fraction": 0.0011,
+          "vocab_size": 35,
+          "coverage": {
+            "1": {
+              "tokens_covered": 1,
+              "fraction_of_window": 0.0286,
+              "fraction_of_corpus": 0.0,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0571,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0857,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.1429,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.2857,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.4286,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.5714,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "45": {
+          "total_tokens": 37,
+          "corpus_fraction": 0.0011,
+          "vocab_size": 36,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0541,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.0811,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.1081,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.1622,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.2973,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 16,
+              "fraction_of_window": 0.4324,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 21,
+              "fraction_of_window": 0.5676,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "46": {
+          "total_tokens": 25,
+          "corpus_fraction": 0.0008,
+          "vocab_size": 24,
+          "coverage": {
+            "1": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.08,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.12,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 4,
+              "fraction_of_window": 0.16,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 6,
+              "fraction_of_window": 0.24,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 11,
+              "fraction_of_window": 0.44,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 16,
+              "fraction_of_window": 0.64,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 21,
+              "fraction_of_window": 0.84,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "47": {
+          "total_tokens": 23,
+          "corpus_fraction": 0.0007,
+          "vocab_size": 23,
+          "coverage": {
+            "1": {
+              "tokens_covered": 1,
+              "fraction_of_window": 0.0435,
+              "fraction_of_corpus": 0.0,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.087,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.1304,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.2174,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.4348,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.6522,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.8696,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "48": {
+          "total_tokens": 23,
+          "corpus_fraction": 0.0007,
+          "vocab_size": 23,
+          "coverage": {
+            "1": {
+              "tokens_covered": 1,
+              "fraction_of_window": 0.0435,
+              "fraction_of_corpus": 0.0,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.087,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.1304,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.2174,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.4348,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.6522,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.8696,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        },
+        "49": {
+          "total_tokens": 24,
+          "corpus_fraction": 0.0007,
+          "vocab_size": 24,
+          "coverage": {
+            "1": {
+              "tokens_covered": 1,
+              "fraction_of_window": 0.0417,
+              "fraction_of_corpus": 0.0,
+              "words_inscribed": 1
+            },
+            "2": {
+              "tokens_covered": 2,
+              "fraction_of_window": 0.0833,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 2
+            },
+            "3": {
+              "tokens_covered": 3,
+              "fraction_of_window": 0.125,
+              "fraction_of_corpus": 0.0001,
+              "words_inscribed": 3
+            },
+            "5": {
+              "tokens_covered": 5,
+              "fraction_of_window": 0.2083,
+              "fraction_of_corpus": 0.0002,
+              "words_inscribed": 5
+            },
+            "10": {
+              "tokens_covered": 10,
+              "fraction_of_window": 0.4167,
+              "fraction_of_corpus": 0.0003,
+              "words_inscribed": 10
+            },
+            "15": {
+              "tokens_covered": 15,
+              "fraction_of_window": 0.625,
+              "fraction_of_corpus": 0.0005,
+              "words_inscribed": 15
+            },
+            "20": {
+              "tokens_covered": 20,
+              "fraction_of_window": 0.8333,
+              "fraction_of_corpus": 0.0006,
+              "words_inscribed": 20
+            }
+          }
+        }
+      },
+      "global_uniform": {
+        "1": {
+          "words_inscribed": 50,
+          "tokens_covered": 1532,
+          "coverage": 0.0466,
+          "consultation_rate": 0.9534
+        },
+        "2": {
+          "words_inscribed": 100,
+          "tokens_covered": 2483,
+          "coverage": 0.0756,
+          "consultation_rate": 0.9244
+        },
+        "3": {
+          "words_inscribed": 150,
+          "tokens_covered": 3274,
+          "coverage": 0.0997,
+          "consultation_rate": 0.9003
+        },
+        "5": {
+          "words_inscribed": 250,
+          "tokens_covered": 4662,
+          "coverage": 0.1419,
+          "consultation_rate": 0.8581
+        },
+        "10": {
+          "words_inscribed": 500,
+          "tokens_covered": 7334,
+          "coverage": 0.2232,
+          "consultation_rate": 0.7768
+        },
+        "15": {
+          "words_inscribed": 750,
+          "tokens_covered": 9489,
+          "coverage": 0.2888,
+          "consultation_rate": 0.7112
+        },
+        "20": {
+          "words_inscribed": 998,
+          "tokens_covered": 11185,
+          "coverage": 0.3405,
+          "consultation_rate": 0.6595
+        }
+      },
+      "w18_detail": {
+        "total_tokens": 16295,
+        "corpus_fraction": 0.496,
+        "vocab_size": 396,
+        "top3_coverage_of_window": 0.0948,
+        "top3_coverage_of_corpus": 0.047
+      }
+    },
+    "optimal_allocation": {
+      "budget_results": [
+        {
+          "budget": 50,
+          "words_inscribed": 50,
+          "tokens_covered": 9819,
+          "coverage": 0.2989,
+          "consultation_rate": 0.7011,
+          "max_per_window": 45,
+          "min_per_window": 0,
+          "windows_with_words": 3
+        },
+        {
+          "budget": 100,
+          "words_inscribed": 100,
+          "tokens_covered": 13277,
+          "coverage": 0.4041,
+          "consultation_rate": 0.5959,
+          "max_per_window": 85,
+          "min_per_window": 0,
+          "windows_with_words": 5
+        },
+        {
+          "budget": 150,
+          "words_inscribed": 150,
+          "tokens_covered": 15291,
+          "coverage": 0.4655,
+          "consultation_rate": 0.5345,
+          "max_per_window": 125,
+          "min_per_window": 0,
+          "windows_with_words": 5
+        },
+        {
+          "budget": 200,
+          "words_inscribed": 200,
+          "tokens_covered": 16771,
+          "coverage": 0.5105,
+          "consultation_rate": 0.4895,
+          "max_per_window": 155,
+          "min_per_window": 0,
+          "windows_with_words": 6
+        },
+        {
+          "budget": 300,
+          "words_inscribed": 300,
+          "tokens_covered": 18727,
+          "coverage": 0.57,
+          "consultation_rate": 0.43,
+          "max_per_window": 182,
+          "min_per_window": 0,
+          "windows_with_words": 7
+        },
+        {
+          "budget": 500,
+          "words_inscribed": 500,
+          "tokens_covered": 21083,
+          "coverage": 0.6418,
+          "consultation_rate": 0.3582,
+          "max_per_window": 247,
+          "min_per_window": 0,
+          "windows_with_words": 12
+        }
+      ],
+      "target_below_80pct": {
+        "budget": 50,
+        "words_inscribed": 50,
+        "tokens_covered": 9819,
+        "coverage": 0.2989,
+        "consultation_rate": 0.7011,
+        "max_per_window": 45,
+        "min_per_window": 0,
+        "windows_with_words": 3
+      },
+      "greedy_order_top10": [
+        {
+          "word": "daiin",
+          "window": 18,
+          "corpus_count": 724
+        },
+        {
+          "word": "chedy",
+          "window": 18,
+          "corpus_count": 444
+        },
+        {
+          "word": "shedy",
+          "window": 18,
+          "corpus_count": 377
+        },
+        {
+          "word": "ol",
+          "window": 18,
+          "corpus_count": 367
+        },
+        {
+          "word": "aiin",
+          "window": 18,
+          "corpus_count": 309
+        },
+        {
+          "word": "chol",
+          "window": 18,
+          "corpus_count": 302
+        },
+        {
+          "word": "qokeey",
+          "window": 18,
+          "corpus_count": 301
+        },
+        {
+          "word": "qokeedy",
+          "window": 18,
+          "corpus_count": 299
+        },
+        {
+          "word": "chey",
+          "window": 18,
+          "corpus_count": 285
+        },
+        {
+          "word": "qokain",
+          "window": 17,
+          "corpus_count": 275
+        }
+      ]
+    },
+    "annotated_tabula": {
+      "budget": 200,
+      "coverage": 0.5105,
+      "consultation_rate": 0.4895,
+      "design": {
+        "n_panels": 10,
+        "windows_per_panel": 5,
+        "max_words_per_cell": 155,
+        "cell_dims_mm": {
+          "width": 55,
+          "height": 1102
+        },
+        "panel_dims_mm": {
+          "width": 65,
+          "height": 5520
+        },
+        "folded_max_dim_mm": 5520,
+        "size_category": "OVERSIZED"
+      },
+      "codebook_reduction": {
+        "original_vocab": 7717,
+        "original_pages": 129,
+        "remaining_vocab": 7517,
+        "remaining_pages": 126,
+        "reduction_fraction": 0.0233
+      },
+      "per_window_allocation": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 2,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 17,
+        "18": 155,
+        "19": 5,
+        "20": 13,
+        "21": 0,
+        "22": 8,
+        "23": 0,
+        "24": 0,
+        "25": 0,
+        "26": 0,
+        "27": 0,
+        "28": 0,
+        "29": 0,
+        "30": 0,
+        "31": 0,
+        "32": 0,
+        "33": 0,
+        "34": 0,
+        "35": 0,
+        "36": 0,
+        "37": 0,
+        "38": 0,
+        "39": 0,
+        "40": 0,
+        "41": 0,
+        "42": 0,
+        "43": 0,
+        "44": 0,
+        "45": 0,
+        "46": 0,
+        "47": 0,
+        "48": 0,
+        "49": 0
+      },
+      "verdict": "MARGINAL"
+    },
+    "summary": {
+      "w18_top3_coverage": 0.0948,
+      "best_uniform_n10_coverage": 0.2232,
+      "greedy_200_consultation": 0.7011,
+      "tabula_verdict": "MARGINAL"
+    }
+  }
+}

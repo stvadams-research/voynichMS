@@ -1,0 +1,881 @@
+{
+  "provenance": {
+    "run_id": "61c8c055-2282-0bfa-5120-a4336a8db026",
+    "git_commit": "cb2269f4e41448a14b47d617e9890d29702d6152",
+    "timestamp": "2026-02-22T02:35:12.430042+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771727712429701000,
+    "command": "run_20d_layout_analysis"
+  },
+  "results": {
+    "folio_profiles": {
+      "2": {
+        "token_count": 50,
+        "n_windows_used": 20,
+        "dominant_window": 18,
+        "dominant_fraction": 0.44,
+        "entropy": 3.234,
+        "section": "Herbal A"
+      },
+      "3": {
+        "token_count": 186,
+        "n_windows_used": 31,
+        "dominant_window": 18,
+        "dominant_fraction": 0.3978494623655914,
+        "entropy": 3.534,
+        "section": "Herbal A"
+      },
+      "4": {
+        "token_count": 127,
+        "n_windows_used": 29,
+        "dominant_window": 18,
+        "dominant_fraction": 0.47244094488188976,
+        "entropy": 3.397,
+        "section": "Herbal A"
+      },
+      "5": {
+        "token_count": 91,
+        "n_windows_used": 21,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4725274725274725,
+        "entropy": 3.181,
+        "section": "Herbal A"
+      },
+      "6": {
+        "token_count": 183,
+        "n_windows_used": 37,
+        "dominant_window": 18,
+        "dominant_fraction": 0.46994535519125685,
+        "entropy": 3.518,
+        "section": "Herbal A"
+      },
+      "7": {
+        "token_count": 84,
+        "n_windows_used": 14,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5595238095238095,
+        "entropy": 2.385,
+        "section": "Herbal A"
+      },
+      "8": {
+        "token_count": 158,
+        "n_windows_used": 16,
+        "dominant_window": 18,
+        "dominant_fraction": 0.6139240506329114,
+        "entropy": 2.254,
+        "section": "Herbal A"
+      },
+      "9": {
+        "token_count": 97,
+        "n_windows_used": 13,
+        "dominant_window": 18,
+        "dominant_fraction": 0.6494845360824743,
+        "entropy": 2.021,
+        "section": "Herbal A"
+      },
+      "10": {
+        "token_count": 130,
+        "n_windows_used": 24,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5615384615384615,
+        "entropy": 2.837,
+        "section": "Herbal A"
+      },
+      "11": {
+        "token_count": 94,
+        "n_windows_used": 29,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4787234042553192,
+        "entropy": 3.373,
+        "section": "Herbal A"
+      },
+      "13": {
+        "token_count": 123,
+        "n_windows_used": 27,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4065040650406504,
+        "entropy": 3.5,
+        "section": "Herbal A"
+      },
+      "14": {
+        "token_count": 125,
+        "n_windows_used": 33,
+        "dominant_window": 18,
+        "dominant_fraction": 0.36,
+        "entropy": 3.815,
+        "section": "Herbal A"
+      },
+      "15": {
+        "token_count": 137,
+        "n_windows_used": 26,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5182481751824818,
+        "entropy": 3.059,
+        "section": "Herbal A"
+      },
+      "16": {
+        "token_count": 140,
+        "n_windows_used": 31,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4,
+        "entropy": 3.627,
+        "section": "Herbal A"
+      },
+      "17": {
+        "token_count": 204,
+        "n_windows_used": 36,
+        "dominant_window": 18,
+        "dominant_fraction": 0.47058823529411764,
+        "entropy": 3.397,
+        "section": "Herbal A"
+      },
+      "18": {
+        "token_count": 145,
+        "n_windows_used": 29,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4068965517241379,
+        "entropy": 3.534,
+        "section": "Herbal A"
+      },
+      "19": {
+        "token_count": 147,
+        "n_windows_used": 28,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4897959183673469,
+        "entropy": 3.102,
+        "section": "Herbal A"
+      },
+      "20": {
+        "token_count": 165,
+        "n_windows_used": 23,
+        "dominant_window": 18,
+        "dominant_fraction": 0.47878787878787876,
+        "entropy": 3.073,
+        "section": "Herbal A"
+      },
+      "21": {
+        "token_count": 147,
+        "n_windows_used": 25,
+        "dominant_window": 18,
+        "dominant_fraction": 0.54421768707483,
+        "entropy": 2.914,
+        "section": "Herbal A"
+      },
+      "22": {
+        "token_count": 164,
+        "n_windows_used": 29,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4695121951219512,
+        "entropy": 3.301,
+        "section": "Herbal A"
+      },
+      "23": {
+        "token_count": 169,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.40236686390532544,
+        "entropy": 3.679,
+        "section": "Herbal A"
+      },
+      "24": {
+        "token_count": 192,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4427083333333333,
+        "entropy": 3.388,
+        "section": "Herbal A"
+      },
+      "25": {
+        "token_count": 98,
+        "n_windows_used": 23,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4489795918367347,
+        "entropy": 3.274,
+        "section": "Herbal A"
+      },
+      "26": {
+        "token_count": 152,
+        "n_windows_used": 29,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4276315789473684,
+        "entropy": 3.371,
+        "section": "Herbal A"
+      },
+      "27": {
+        "token_count": 125,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.416,
+        "entropy": 3.661,
+        "section": "Herbal A"
+      },
+      "28": {
+        "token_count": 117,
+        "n_windows_used": 23,
+        "dominant_window": 18,
+        "dominant_fraction": 0.41025641025641024,
+        "entropy": 3.304,
+        "section": "Herbal A"
+      },
+      "29": {
+        "token_count": 125,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.464,
+        "entropy": 3.434,
+        "section": "Herbal A"
+      },
+      "30": {
+        "token_count": 142,
+        "n_windows_used": 30,
+        "dominant_window": 18,
+        "dominant_fraction": 0.38028169014084506,
+        "entropy": 3.593,
+        "section": "Herbal A"
+      },
+      "31": {
+        "token_count": 194,
+        "n_windows_used": 29,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4948453608247423,
+        "entropy": 3.107,
+        "section": "Herbal A"
+      },
+      "32": {
+        "token_count": 134,
+        "n_windows_used": 34,
+        "dominant_window": 18,
+        "dominant_fraction": 0.44029850746268656,
+        "entropy": 3.635,
+        "section": "Herbal A"
+      },
+      "33": {
+        "token_count": 153,
+        "n_windows_used": 28,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5228758169934641,
+        "entropy": 3.003,
+        "section": "Herbal A"
+      },
+      "34": {
+        "token_count": 224,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.48214285714285715,
+        "entropy": 3.239,
+        "section": "Herbal A"
+      },
+      "35": {
+        "token_count": 162,
+        "n_windows_used": 28,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4876543209876543,
+        "entropy": 3.079,
+        "section": "Herbal A"
+      },
+      "36": {
+        "token_count": 112,
+        "n_windows_used": 28,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4107142857142857,
+        "entropy": 3.475,
+        "section": "Herbal A"
+      },
+      "37": {
+        "token_count": 149,
+        "n_windows_used": 34,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4429530201342282,
+        "entropy": 3.559,
+        "section": "Herbal A"
+      },
+      "38": {
+        "token_count": 91,
+        "n_windows_used": 21,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4945054945054945,
+        "entropy": 2.961,
+        "section": "Herbal A"
+      },
+      "39": {
+        "token_count": 275,
+        "n_windows_used": 30,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5236363636363637,
+        "entropy": 2.949,
+        "section": "Herbal A"
+      },
+      "40": {
+        "token_count": 180,
+        "n_windows_used": 29,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5055555555555555,
+        "entropy": 3.107,
+        "section": "Herbal A"
+      },
+      "41": {
+        "token_count": 138,
+        "n_windows_used": 35,
+        "dominant_window": 18,
+        "dominant_fraction": 0.42028985507246375,
+        "entropy": 3.686,
+        "section": "Herbal A"
+      },
+      "42": {
+        "token_count": 215,
+        "n_windows_used": 38,
+        "dominant_window": 18,
+        "dominant_fraction": 0.413953488372093,
+        "entropy": 3.747,
+        "section": "Herbal A"
+      },
+      "43": {
+        "token_count": 287,
+        "n_windows_used": 34,
+        "dominant_window": 18,
+        "dominant_fraction": 0.43902439024390244,
+        "entropy": 3.325,
+        "section": "Herbal A"
+      },
+      "44": {
+        "token_count": 161,
+        "n_windows_used": 26,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4658385093167702,
+        "entropy": 3.276,
+        "section": "Herbal A"
+      },
+      "45": {
+        "token_count": 151,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.47019867549668876,
+        "entropy": 3.325,
+        "section": "Herbal A"
+      },
+      "46": {
+        "token_count": 261,
+        "n_windows_used": 30,
+        "dominant_window": 18,
+        "dominant_fraction": 0.47509578544061304,
+        "entropy": 3.091,
+        "section": "Herbal A"
+      },
+      "47": {
+        "token_count": 141,
+        "n_windows_used": 28,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5177304964539007,
+        "entropy": 3.133,
+        "section": "Herbal A"
+      },
+      "48": {
+        "token_count": 187,
+        "n_windows_used": 33,
+        "dominant_window": 18,
+        "dominant_fraction": 0.3582887700534759,
+        "entropy": 3.692,
+        "section": "Herbal A"
+      },
+      "49": {
+        "token_count": 246,
+        "n_windows_used": 37,
+        "dominant_window": 18,
+        "dominant_fraction": 0.3780487804878049,
+        "entropy": 3.857,
+        "section": "Herbal A"
+      },
+      "50": {
+        "token_count": 180,
+        "n_windows_used": 25,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5444444444444444,
+        "entropy": 2.875,
+        "section": "Herbal A"
+      },
+      "51": {
+        "token_count": 151,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4105960264900662,
+        "entropy": 3.579,
+        "section": "Herbal A"
+      },
+      "52": {
+        "token_count": 130,
+        "n_windows_used": 28,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4230769230769231,
+        "entropy": 3.435,
+        "section": "Herbal A"
+      },
+      "53": {
+        "token_count": 121,
+        "n_windows_used": 31,
+        "dominant_window": 18,
+        "dominant_fraction": 0.38016528925619836,
+        "entropy": 3.695,
+        "section": "Herbal A"
+      },
+      "54": {
+        "token_count": 179,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4748603351955307,
+        "entropy": 3.286,
+        "section": "Herbal A"
+      },
+      "55": {
+        "token_count": 204,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5049019607843137,
+        "entropy": 3.164,
+        "section": "Herbal A"
+      },
+      "56": {
+        "token_count": 168,
+        "n_windows_used": 30,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4642857142857143,
+        "entropy": 3.256,
+        "section": "Herbal A"
+      },
+      "57": {
+        "token_count": 253,
+        "n_windows_used": 31,
+        "dominant_window": 18,
+        "dominant_fraction": 0.2450592885375494,
+        "entropy": 3.874,
+        "section": "Herbal A"
+      },
+      "58": {
+        "token_count": 695,
+        "n_windows_used": 48,
+        "dominant_window": 18,
+        "dominant_fraction": 0.37841726618705035,
+        "entropy": 3.855,
+        "section": "Herbal B"
+      },
+      "65": {
+        "token_count": 38,
+        "n_windows_used": 17,
+        "dominant_window": 18,
+        "dominant_fraction": 0.23684210526315788,
+        "entropy": 3.733,
+        "section": "Herbal B"
+      },
+      "66": {
+        "token_count": 424,
+        "n_windows_used": 39,
+        "dominant_window": 18,
+        "dominant_fraction": 0.419811320754717,
+        "entropy": 3.494,
+        "section": "Herbal B"
+      },
+      "67": {
+        "token_count": 441,
+        "n_windows_used": 46,
+        "dominant_window": 18,
+        "dominant_fraction": 0.3469387755102041,
+        "entropy": 4.065,
+        "section": "Astro"
+      },
+      "68": {
+        "token_count": 562,
+        "n_windows_used": 46,
+        "dominant_window": 18,
+        "dominant_fraction": 0.3736654804270463,
+        "entropy": 3.907,
+        "section": "Astro"
+      },
+      "69": {
+        "token_count": 258,
+        "n_windows_used": 37,
+        "dominant_window": 18,
+        "dominant_fraction": 0.3875968992248062,
+        "entropy": 3.679,
+        "section": "Astro"
+      },
+      "70": {
+        "token_count": 509,
+        "n_windows_used": 41,
+        "dominant_window": 18,
+        "dominant_fraction": 0.38703339882121807,
+        "entropy": 3.743,
+        "section": "Astro"
+      },
+      "71": {
+        "token_count": 161,
+        "n_windows_used": 25,
+        "dominant_window": 18,
+        "dominant_fraction": 0.39751552795031053,
+        "entropy": 3.484,
+        "section": "Astro"
+      },
+      "72": {
+        "token_count": 572,
+        "n_windows_used": 48,
+        "dominant_window": 18,
+        "dominant_fraction": 0.3356643356643357,
+        "entropy": 4.187,
+        "section": "Astro"
+      },
+      "73": {
+        "token_count": 162,
+        "n_windows_used": 36,
+        "dominant_window": 18,
+        "dominant_fraction": 0.30864197530864196,
+        "entropy": 4.108,
+        "section": "Astro"
+      },
+      "75": {
+        "token_count": 675,
+        "n_windows_used": 38,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5125925925925926,
+        "entropy": 2.931,
+        "section": "Biological"
+      },
+      "76": {
+        "token_count": 896,
+        "n_windows_used": 37,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5524553571428571,
+        "entropy": 2.803,
+        "section": "Biological"
+      },
+      "77": {
+        "token_count": 613,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.6068515497553018,
+        "entropy": 2.465,
+        "section": "Biological"
+      },
+      "78": {
+        "token_count": 536,
+        "n_windows_used": 32,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5615671641791045,
+        "entropy": 2.597,
+        "section": "Biological"
+      },
+      "79": {
+        "token_count": 661,
+        "n_windows_used": 41,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5658093797276853,
+        "entropy": 2.716,
+        "section": "Biological"
+      },
+      "80": {
+        "token_count": 677,
+        "n_windows_used": 21,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5997045790251108,
+        "entropy": 2.118,
+        "section": "Biological"
+      },
+      "81": {
+        "token_count": 391,
+        "n_windows_used": 18,
+        "dominant_window": 18,
+        "dominant_fraction": 0.680306905370844,
+        "entropy": 1.878,
+        "section": "Biological"
+      },
+      "82": {
+        "token_count": 495,
+        "n_windows_used": 18,
+        "dominant_window": 18,
+        "dominant_fraction": 0.6545454545454545,
+        "entropy": 1.92,
+        "section": "Biological"
+      },
+      "83": {
+        "token_count": 493,
+        "n_windows_used": 15,
+        "dominant_window": 18,
+        "dominant_fraction": 0.6490872210953347,
+        "entropy": 1.812,
+        "section": "Biological"
+      },
+      "84": {
+        "token_count": 575,
+        "n_windows_used": 17,
+        "dominant_window": 18,
+        "dominant_fraction": 0.6539130434782608,
+        "entropy": 1.982,
+        "section": "Biological"
+      },
+      "85": {
+        "token_count": 377,
+        "n_windows_used": 17,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5915119363395226,
+        "entropy": 2.225,
+        "section": "Cosmo"
+      },
+      "86": {
+        "token_count": 1045,
+        "n_windows_used": 25,
+        "dominant_window": 18,
+        "dominant_fraction": 0.6220095693779905,
+        "entropy": 2.194,
+        "section": "Cosmo"
+      },
+      "87": {
+        "token_count": 102,
+        "n_windows_used": 15,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4117647058823529,
+        "entropy": 2.814,
+        "section": "Pharma"
+      },
+      "88": {
+        "token_count": 212,
+        "n_windows_used": 19,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5707547169811321,
+        "entropy": 2.36,
+        "section": "Pharma"
+      },
+      "89": {
+        "token_count": 509,
+        "n_windows_used": 25,
+        "dominant_window": 18,
+        "dominant_fraction": 0.6011787819253438,
+        "entropy": 2.349,
+        "section": "Pharma"
+      },
+      "90": {
+        "token_count": 156,
+        "n_windows_used": 18,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5448717948717948,
+        "entropy": 2.598,
+        "section": "Pharma"
+      },
+      "93": {
+        "token_count": 149,
+        "n_windows_used": 20,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5771812080536913,
+        "entropy": 2.491,
+        "section": "Pharma"
+      },
+      "94": {
+        "token_count": 127,
+        "n_windows_used": 17,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5511811023622047,
+        "entropy": 2.411,
+        "section": "Pharma"
+      },
+      "95": {
+        "token_count": 276,
+        "n_windows_used": 20,
+        "dominant_window": 18,
+        "dominant_fraction": 0.6702898550724637,
+        "entropy": 1.988,
+        "section": "Pharma"
+      },
+      "96": {
+        "token_count": 89,
+        "n_windows_used": 13,
+        "dominant_window": 18,
+        "dominant_fraction": 0.43820224719101125,
+        "entropy": 2.728,
+        "section": "Pharma"
+      },
+      "99": {
+        "token_count": 242,
+        "n_windows_used": 21,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5785123966942148,
+        "entropy": 2.448,
+        "section": "Pharma"
+      },
+      "100": {
+        "token_count": 85,
+        "n_windows_used": 26,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4470588235294118,
+        "entropy": 3.348,
+        "section": "Pharma"
+      },
+      "101": {
+        "token_count": 392,
+        "n_windows_used": 36,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5,
+        "entropy": 3.198,
+        "section": "Pharma"
+      },
+      "102": {
+        "token_count": 497,
+        "n_windows_used": 45,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4426559356136821,
+        "entropy": 3.519,
+        "section": "Pharma"
+      },
+      "103": {
+        "token_count": 920,
+        "n_windows_used": 42,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5739130434782609,
+        "entropy": 2.845,
+        "section": "Stars"
+      },
+      "104": {
+        "token_count": 854,
+        "n_windows_used": 45,
+        "dominant_window": 18,
+        "dominant_fraction": 0.45081967213114754,
+        "entropy": 3.473,
+        "section": "Stars"
+      },
+      "105": {
+        "token_count": 729,
+        "n_windows_used": 40,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4224965706447188,
+        "entropy": 3.583,
+        "section": "Stars"
+      },
+      "106": {
+        "token_count": 806,
+        "n_windows_used": 47,
+        "dominant_window": 18,
+        "dominant_fraction": 0.46029776674937967,
+        "entropy": 3.512,
+        "section": "Stars"
+      },
+      "107": {
+        "token_count": 883,
+        "n_windows_used": 44,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5141562853907135,
+        "entropy": 3.14,
+        "section": "Stars"
+      },
+      "108": {
+        "token_count": 1002,
+        "n_windows_used": 35,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5568862275449101,
+        "entropy": 2.829,
+        "section": "Stars"
+      },
+      "111": {
+        "token_count": 1094,
+        "n_windows_used": 44,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4963436928702011,
+        "entropy": 3.193,
+        "section": "Stars"
+      },
+      "112": {
+        "token_count": 755,
+        "n_windows_used": 40,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5205298013245033,
+        "entropy": 3.103,
+        "section": "Stars"
+      },
+      "113": {
+        "token_count": 945,
+        "n_windows_used": 41,
+        "dominant_window": 18,
+        "dominant_fraction": 0.44761904761904764,
+        "entropy": 3.422,
+        "section": "Stars"
+      },
+      "114": {
+        "token_count": 770,
+        "n_windows_used": 45,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4649350649350649,
+        "entropy": 3.502,
+        "section": "Stars"
+      },
+      "115": {
+        "token_count": 811,
+        "n_windows_used": 43,
+        "dominant_window": 18,
+        "dominant_fraction": 0.4081381011097411,
+        "entropy": 3.617,
+        "section": "Stars"
+      },
+      "116": {
+        "token_count": 527,
+        "n_windows_used": 37,
+        "dominant_window": 18,
+        "dominant_fraction": 0.5654648956356736,
+        "entropy": 2.764,
+        "section": "Stars"
+      }
+    },
+    "clustering": {
+      "within_section_mean": 0.9767,
+      "between_section_mean": 0.9771,
+      "difference": -0.0004,
+      "mann_whitney_u": 2507439,
+      "p_value": 0.9999999999919523,
+      "verdict": "NOT SIGNIFICANT",
+      "n_within_pairs": 1687,
+      "n_between_pairs": 3363
+    },
+    "folio_window_correlation": {
+      "spearman_r": -0.0131,
+      "p_value": 0.017306312292423832,
+      "n_tokens": 32852,
+      "verdict": "NO CORRELATION",
+      "per_section": {
+        "Herbal A": {
+          "rho": 0.0055,
+          "p_value": 0.6088534460095402,
+          "n": 8664
+        },
+        "Herbal B": {
+          "rho": 0.0154,
+          "p_value": 0.6003604259389641,
+          "n": 1157
+        },
+        "Astro": {
+          "rho": 0.0082,
+          "p_value": 0.6717575467311102,
+          "n": 2665
+        },
+        "Biological": {
+          "rho": -0.0119,
+          "p_value": 0.3574050347634085,
+          "n": 6012
+        },
+        "Cosmo": {
+          "rho": 0.0324,
+          "p_value": 0.2216559049000876,
+          "n": 1422
+        },
+        "Pharma": {
+          "rho": 0.0912,
+          "p_value": 1.1611439272584236e-06,
+          "n": 2836
+        },
+        "Stars": {
+          "rho": 0.0094,
+          "p_value": 0.34363276056434144,
+          "n": 10096
+        }
+      }
+    },
+    "summary": {
+      "n_folios": 101,
+      "codebook_like_organization": false,
+      "layout_mirrors_device": false
+    }
+  }
+}

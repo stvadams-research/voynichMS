@@ -1,0 +1,350 @@
+{
+  "provenance": {
+    "run_id": "e7fa0e71-9100-4678-9a8a-212018fa6def",
+    "git_commit": "cb2269f4e41448a14b47d617e9890d29702d6152",
+    "timestamp": "2026-02-22T02:21:36.799782+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771726896799257000,
+    "command": "run_20c_linear_devices"
+  },
+  "results": {
+    "sliding_strip": {
+      "unfolded_length_mm": 1600,
+      "unfolded_height_mm": 45,
+      "strip_height_mm": 15,
+      "cursor_dims_mm": {
+        "width": 42,
+        "height": 25
+      },
+      "fold_variants": [
+        {
+          "folds": 2,
+          "panels": 2,
+          "folded_length_mm": 800,
+          "folded_width_mm": 45,
+          "max_dim_mm": 800,
+          "category": "OVERSIZED"
+        },
+        {
+          "folds": 4,
+          "panels": 4,
+          "folded_length_mm": 400,
+          "folded_width_mm": 45,
+          "max_dim_mm": 400,
+          "category": "DESKTOP"
+        },
+        {
+          "folds": 5,
+          "panels": 5,
+          "folded_length_mm": 320,
+          "folded_width_mm": 45,
+          "max_dim_mm": 320,
+          "category": "DESKTOP"
+        },
+        {
+          "folds": 8,
+          "panels": 8,
+          "folded_length_mm": 200,
+          "folded_width_mm": 45,
+          "max_dim_mm": 200,
+          "category": "PORTABLE"
+        },
+        {
+          "folds": 10,
+          "panels": 10,
+          "folded_length_mm": 160,
+          "folded_width_mm": 45,
+          "max_dim_mm": 160,
+          "category": "PORTABLE"
+        }
+      ],
+      "best_fold": {
+        "folds": 10,
+        "panels": 10,
+        "folded_length_mm": 160,
+        "folded_width_mm": 45,
+        "max_dim_mm": 160,
+        "category": "PORTABLE"
+      },
+      "historical_parallel": "Rebatello cipher strip (c.1470), slide rules",
+      "verdict": "PLAUSIBLE"
+    },
+    "folding_tabula": {
+      "configurations": [
+        {
+          "panels": 2,
+          "windows_per_panel": 25,
+          "panel_grid": "5x5",
+          "state_only": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 85,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 340,
+            "category": "PORTABLE"
+          },
+          "annotated": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 190,
+            "folded_max_dim_mm": 190,
+            "unfolded_width_mm": 340,
+            "category": "PORTABLE"
+          }
+        },
+        {
+          "panels": 4,
+          "windows_per_panel": 13,
+          "panel_grid": "3x5",
+          "state_only": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 55,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 680,
+            "category": "PORTABLE"
+          },
+          "annotated": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 118,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 680,
+            "category": "PORTABLE"
+          }
+        },
+        {
+          "panels": 5,
+          "windows_per_panel": 10,
+          "panel_grid": "2x5",
+          "state_only": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 40,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 850,
+            "category": "PORTABLE"
+          },
+          "annotated": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 82,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 850,
+            "category": "PORTABLE"
+          }
+        },
+        {
+          "panels": 6,
+          "windows_per_panel": 9,
+          "panel_grid": "2x5",
+          "state_only": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 40,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 1020,
+            "category": "PORTABLE"
+          },
+          "annotated": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 82,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 1020,
+            "category": "PORTABLE"
+          }
+        },
+        {
+          "panels": 8,
+          "windows_per_panel": 7,
+          "panel_grid": "2x5",
+          "state_only": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 40,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 1360,
+            "category": "PORTABLE"
+          },
+          "annotated": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 82,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 1360,
+            "category": "PORTABLE"
+          }
+        },
+        {
+          "panels": 10,
+          "windows_per_panel": 5,
+          "panel_grid": "1x5",
+          "state_only": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 25,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 1700,
+            "category": "PORTABLE"
+          },
+          "annotated": {
+            "panel_width_mm": 170,
+            "panel_height_mm": 46,
+            "folded_max_dim_mm": 170,
+            "unfolded_width_mm": 1700,
+            "category": "PORTABLE"
+          }
+        }
+      ],
+      "best_state_only": {
+        "panels": 2,
+        "folded_dims_mm": {
+          "width": 170,
+          "height": 85
+        },
+        "max_dim_mm": 170
+      },
+      "best_annotated": {
+        "panels": 4,
+        "folded_dims_mm": {
+          "width": 170,
+          "height": 118
+        },
+        "max_dim_mm": 170
+      },
+      "historical_parallel": "Portolan chart foldouts, astronomical tables",
+      "verdict": "PLAUSIBLE"
+    },
+    "cipher_grille": {
+      "master_grid": {
+        "rows": 10,
+        "cols": 5,
+        "width_mm": 170,
+        "height_mm": 160
+      },
+      "aperture_configs": [
+        {
+          "name": "2-position (5\u00d75 aperture)",
+          "aperture_rows": 5,
+          "aperture_cols": 5,
+          "positions": 2,
+          "windows_per_position": 25,
+          "total_addressable": 50
+        },
+        {
+          "name": "4-position (5\u00d73 aperture)",
+          "aperture_rows": 5,
+          "aperture_cols": 3,
+          "positions": 4,
+          "windows_per_position": 15,
+          "total_addressable": 60
+        }
+      ],
+      "max_dim_mm": 170,
+      "components": 2,
+      "category": "PORTABLE",
+      "historical_parallel": "Cardano grille (1550)",
+      "verdict": "MARGINAL",
+      "note": "Over-engineered for state tracking; adds complexity without benefit vs simple tabula"
+    },
+    "tabula_codebook": {
+      "tabula_dims_mm": {
+        "width": 170.0,
+        "height": 160.0
+      },
+      "tabula_grid": "10x5",
+      "tabula_max_dim_mm": 170.0,
+      "codebook_pages": 154,
+      "codebook_folios": 77,
+      "components": 2,
+      "consultation_rate": 1.0,
+      "category": "PORTABLE",
+      "historical_parallel": "Alberti disc + external alphabet, Trithemius key table + word codebook",
+      "verdict": "PLAUSIBLE"
+    },
+    "ranking": {
+      "scores": [
+        {
+          "device": "Tabula + codebook",
+          "form": "tabula",
+          "max_dim_mm": 170.0,
+          "components": 2,
+          "size_score": 1.0,
+          "practicality_score": 0.65,
+          "precedent_score": 1.0,
+          "durability_score": 0.8,
+          "combined_score": 0.865,
+          "verdict": "PLAUSIBLE",
+          "size_note": "Tabula: 170.0mm; codebook: 154pp separate",
+          "practicality_note": "Two objects but workflow is natural: read card, consult book. 100% consultation rate.",
+          "precedent_note": "Direct parallel: Alberti disc + external alphabet (1467), Trithemius key + codebook (1499)",
+          "durability_note": "Rigid card + bound booklet; highly durable"
+        },
+        {
+          "device": "Folding tabula (annotated)",
+          "form": "fold",
+          "max_dim_mm": 170,
+          "components": 1,
+          "size_score": 1.0,
+          "practicality_score": 0.85,
+          "precedent_score": 0.75,
+          "durability_score": 0.65,
+          "combined_score": 0.84,
+          "verdict": "PLAUSIBLE",
+          "size_note": "Best: 4-panel, 170mm folded",
+          "practicality_note": "Top-3 words on device reduces codebook consultations; direct read for common words",
+          "precedent_note": "Annotated reference tables common in period",
+          "durability_note": "Taller panels; more fold wear"
+        },
+        {
+          "device": "Folding tabula (state-only)",
+          "form": "fold",
+          "max_dim_mm": 170,
+          "components": 1,
+          "size_score": 1.0,
+          "practicality_score": 0.8,
+          "precedent_score": 0.75,
+          "durability_score": 0.7,
+          "combined_score": 0.8325,
+          "verdict": "PLAUSIBLE",
+          "size_note": "Best: 2-panel, 170mm folded",
+          "practicality_note": "Single object; unfold to locate window; direct read; no moving parts except folds",
+          "precedent_note": "Portolan chart foldouts, astronomical tables (15c)",
+          "durability_note": "Folds wear but no loose parts; single sheet"
+        },
+        {
+          "device": "Sliding strip",
+          "form": "strip",
+          "max_dim_mm": 160,
+          "components": 2,
+          "size_score": 1.0,
+          "practicality_score": 0.5,
+          "precedent_score": 0.75,
+          "durability_score": 0.5,
+          "combined_score": 0.7125,
+          "verdict": "PLAUSIBLE",
+          "size_note": "Best fold: 10-fold, 160mm",
+          "practicality_note": "Requires sliding action; cursor can slip; fold adds bulk but stays compact",
+          "precedent_note": "Direct parallel: Rebatello cipher strip (c.1470)",
+          "durability_note": "Moving cursor part; folds wear over time"
+        },
+        {
+          "device": "Cipher grille",
+          "form": "grille",
+          "max_dim_mm": 170,
+          "components": 2,
+          "size_score": 1.0,
+          "practicality_score": 0.3,
+          "precedent_score": 0.5,
+          "durability_score": 0.5,
+          "combined_score": 0.59,
+          "verdict": "MARGINAL",
+          "size_note": "Grid: 170mm",
+          "practicality_note": "Two-piece system; alignment critical; no advantage over simple tabula for state tracking",
+          "precedent_note": "Cardano grille (1550); slightly post-Voynich date",
+          "durability_note": "Two loose pieces; aperture alignment wears"
+        }
+      ],
+      "recommended": "Tabula + codebook",
+      "recommended_score": 0.865,
+      "n_plausible": 4,
+      "weights": {
+        "size": 0.3,
+        "practicality": 0.3,
+        "precedent": 0.25,
+        "durability": 0.15
+      }
+    }
+  }
+}

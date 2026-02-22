@@ -564,7 +564,7 @@ def sprint_g2(section_data, lattice_map, window_contents, corrections,
                 "admissible": consolidated,
                 "total": total,
                 "rate": round(consolidated_rate, 4),
-                "vs_monolithic_64pp": round((consolidated_rate - 0.6413) * 100, 2),
+                "vs_monolithic_65pp": round((consolidated_rate - 0.6494) * 100, 2),
                 "gate_55_pass": consolidated_rate >= 0.55,
             },
         }
@@ -742,7 +742,7 @@ def main():
         "resolves_c1_implausibility": resolves,
         "monolithic_baseline": {
             "diameter_mm": 678,
-            "admissibility": 0.6413,
+            "admissibility": 0.6494,
             "plausibility": "MARGINAL",
         },
     }

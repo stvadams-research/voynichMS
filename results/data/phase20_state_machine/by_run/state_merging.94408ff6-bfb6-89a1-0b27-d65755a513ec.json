@@ -1,0 +1,520 @@
+{
+  "provenance": {
+    "run_id": "94408ff6-bfb6-89a1-0b27-d65755a513ec",
+    "git_commit": "cb2269f4e41448a14b47d617e9890d29702d6152",
+    "timestamp": "2026-02-22T02:18:25.053428+00:00",
+    "seed": 42,
+    "experiment_id": "701f3378-d37c-9c13-acd8-b1040a72761e",
+    "run_nonce": 1771726705053143000,
+    "command": "run_20b_state_merging"
+  },
+  "results": {
+    "baseline": {
+      "num_windows": 50,
+      "drift_admissibility": 0.4344,
+      "volvelle_diameter_mm": 549,
+      "tabula_dims_mm": {
+        "grid": "8x7",
+        "width_mm": 234,
+        "height_mm": 130
+      }
+    },
+    "merge_candidates": {
+      "size_candidates": 9,
+      "correction_groups": {
+        "0": [
+          0,
+          18,
+          44,
+          45,
+          47,
+          48,
+          49
+        ],
+        "4": [
+          1,
+          14
+        ],
+        "2": [
+          2,
+          16
+        ],
+        "5": [
+          4,
+          13
+        ],
+        "9": [
+          9,
+          12
+        ],
+        "-8": [
+          15,
+          26,
+          46
+        ],
+        "-3": [
+          21,
+          43
+        ],
+        "-7": [
+          25,
+          42
+        ],
+        "-14": [
+          32,
+          37
+        ],
+        "-16": [
+          34,
+          41
+        ],
+        "-17": [
+          35,
+          39
+        ],
+        "-20": [
+          38,
+          40
+        ]
+      },
+      "correction_mergeable": 18,
+      "usage_bottom_20_tokens": 1043
+    },
+    "merge_results": {
+      "size_based": [
+        {
+          "target_states": 40,
+          "actual_states": 40,
+          "windows_merged": 10,
+          "largest_merged_vocab": 396,
+          "volvelle": {
+            "diameter_mm": 447,
+            "sector_angle_deg": 9.0,
+            "fits_apian": false
+          },
+          "tabula": {
+            "grid": "7x6",
+            "width_mm": 202,
+            "height_mm": 115
+          },
+          "admissibility": {
+            "strict": 0.2919,
+            "drift": 0.4361,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -21.33
+          }
+        },
+        {
+          "target_states": 35,
+          "actual_states": 35,
+          "windows_merged": 15,
+          "largest_merged_vocab": 396,
+          "volvelle": {
+            "diameter_mm": 397,
+            "sector_angle_deg": 10.3,
+            "fits_apian": false
+          },
+          "tabula": {
+            "grid": "6x6",
+            "width_mm": 202,
+            "height_mm": 100
+          },
+          "admissibility": {
+            "strict": 0.2927,
+            "drift": 0.4382,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -21.12
+          }
+        },
+        {
+          "target_states": 30,
+          "actual_states": 30,
+          "windows_merged": 20,
+          "largest_merged_vocab": 424,
+          "volvelle": {
+            "diameter_mm": 346,
+            "sector_angle_deg": 12.0,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "6x5",
+            "width_mm": 170,
+            "height_mm": 100
+          },
+          "admissibility": {
+            "strict": 0.2946,
+            "drift": 0.4433,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -20.61
+          }
+        },
+        {
+          "target_states": 25,
+          "actual_states": 25,
+          "windows_merged": 25,
+          "largest_merged_vocab": 513,
+          "volvelle": {
+            "diameter_mm": 295,
+            "sector_angle_deg": 14.4,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "5x5",
+            "width_mm": 170,
+            "height_mm": 85
+          },
+          "admissibility": {
+            "strict": 0.2973,
+            "drift": 0.456,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -19.34
+          }
+        },
+        {
+          "target_states": 20,
+          "actual_states": 20,
+          "windows_merged": 30,
+          "largest_merged_vocab": 535,
+          "volvelle": {
+            "diameter_mm": 244,
+            "sector_angle_deg": 18.0,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "5x4",
+            "width_mm": 138,
+            "height_mm": 85
+          },
+          "admissibility": {
+            "strict": 0.2996,
+            "drift": 0.4621,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -18.73
+          }
+        },
+        {
+          "target_states": 15,
+          "actual_states": 15,
+          "windows_merged": 35,
+          "largest_merged_vocab": 715,
+          "volvelle": {
+            "diameter_mm": 193,
+            "sector_angle_deg": 24.0,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "4x4",
+            "width_mm": 138,
+            "height_mm": 70
+          },
+          "admissibility": {
+            "strict": 0.3532,
+            "drift": 0.5684,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -8.1
+          }
+        }
+      ],
+      "correction_based": [
+        {
+          "target_states": 40,
+          "actual_states": 40,
+          "windows_merged": 10,
+          "largest_merged_vocab": 449,
+          "volvelle": {
+            "diameter_mm": 447,
+            "sector_angle_deg": 9.0,
+            "fits_apian": false
+          },
+          "tabula": {
+            "grid": "7x6",
+            "width_mm": 202,
+            "height_mm": 115
+          },
+          "admissibility": {
+            "strict": 0.2921,
+            "drift": 0.4365,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -21.29
+          }
+        },
+        {
+          "target_states": 35,
+          "actual_states": 35,
+          "windows_merged": 15,
+          "largest_merged_vocab": 555,
+          "volvelle": {
+            "diameter_mm": 397,
+            "sector_angle_deg": 10.3,
+            "fits_apian": false
+          },
+          "tabula": {
+            "grid": "6x6",
+            "width_mm": 202,
+            "height_mm": 100
+          },
+          "admissibility": {
+            "strict": 0.2929,
+            "drift": 0.4376,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -21.18
+          }
+        },
+        {
+          "target_states": 30,
+          "actual_states": 30,
+          "windows_merged": 20,
+          "largest_merged_vocab": 555,
+          "volvelle": {
+            "diameter_mm": 346,
+            "sector_angle_deg": 12.0,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "6x5",
+            "width_mm": 170,
+            "height_mm": 100
+          },
+          "admissibility": {
+            "strict": 0.2933,
+            "drift": 0.4396,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -20.98
+          }
+        },
+        {
+          "target_states": 25,
+          "actual_states": 25,
+          "windows_merged": 25,
+          "largest_merged_vocab": 573,
+          "volvelle": {
+            "diameter_mm": 295,
+            "sector_angle_deg": 14.4,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "5x5",
+            "width_mm": 170,
+            "height_mm": 85
+          },
+          "admissibility": {
+            "strict": 0.2952,
+            "drift": 0.4449,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -20.45
+          }
+        },
+        {
+          "target_states": 20,
+          "actual_states": 20,
+          "windows_merged": 30,
+          "largest_merged_vocab": 573,
+          "volvelle": {
+            "diameter_mm": 244,
+            "sector_angle_deg": 18.0,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "5x4",
+            "width_mm": 138,
+            "height_mm": 85
+          },
+          "admissibility": {
+            "strict": 0.301,
+            "drift": 0.4698,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -17.96
+          }
+        },
+        {
+          "target_states": 15,
+          "actual_states": 15,
+          "windows_merged": 35,
+          "largest_merged_vocab": 835,
+          "volvelle": {
+            "diameter_mm": 193,
+            "sector_angle_deg": 24.0,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "4x4",
+            "width_mm": 138,
+            "height_mm": 70
+          },
+          "admissibility": {
+            "strict": 0.3092,
+            "drift": 0.5593,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -9.01
+          }
+        }
+      ],
+      "usage_based": [
+        {
+          "target_states": 40,
+          "actual_states": 40,
+          "windows_merged": 10,
+          "largest_merged_vocab": 396,
+          "volvelle": {
+            "diameter_mm": 447,
+            "sector_angle_deg": 9.0,
+            "fits_apian": false
+          },
+          "tabula": {
+            "grid": "7x6",
+            "width_mm": 202,
+            "height_mm": 115
+          },
+          "admissibility": {
+            "strict": 0.292,
+            "drift": 0.4364,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -21.3
+          }
+        },
+        {
+          "target_states": 35,
+          "actual_states": 35,
+          "windows_merged": 15,
+          "largest_merged_vocab": 396,
+          "volvelle": {
+            "diameter_mm": 397,
+            "sector_angle_deg": 10.3,
+            "fits_apian": false
+          },
+          "tabula": {
+            "grid": "6x6",
+            "width_mm": 202,
+            "height_mm": 100
+          },
+          "admissibility": {
+            "strict": 0.2933,
+            "drift": 0.4388,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -21.06
+          }
+        },
+        {
+          "target_states": 30,
+          "actual_states": 30,
+          "windows_merged": 20,
+          "largest_merged_vocab": 493,
+          "volvelle": {
+            "diameter_mm": 346,
+            "sector_angle_deg": 12.0,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "6x5",
+            "width_mm": 170,
+            "height_mm": 100
+          },
+          "admissibility": {
+            "strict": 0.2945,
+            "drift": 0.4435,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -20.59
+          }
+        },
+        {
+          "target_states": 25,
+          "actual_states": 25,
+          "windows_merged": 25,
+          "largest_merged_vocab": 493,
+          "volvelle": {
+            "diameter_mm": 295,
+            "sector_angle_deg": 14.4,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "5x5",
+            "width_mm": 170,
+            "height_mm": 85
+          },
+          "admissibility": {
+            "strict": 0.2987,
+            "drift": 0.4491,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -20.03
+          }
+        },
+        {
+          "target_states": 20,
+          "actual_states": 20,
+          "windows_merged": 30,
+          "largest_merged_vocab": 574,
+          "volvelle": {
+            "diameter_mm": 244,
+            "sector_angle_deg": 18.0,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "5x4",
+            "width_mm": 138,
+            "height_mm": 85
+          },
+          "admissibility": {
+            "strict": 0.301,
+            "drift": 0.4621,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -18.73
+          }
+        },
+        {
+          "target_states": 15,
+          "actual_states": 15,
+          "windows_merged": 35,
+          "largest_merged_vocab": 978,
+          "volvelle": {
+            "diameter_mm": 193,
+            "sector_angle_deg": 24.0,
+            "fits_apian": true
+          },
+          "tabula": {
+            "grid": "4x4",
+            "width_mm": 138,
+            "height_mm": 70
+          },
+          "admissibility": {
+            "strict": 0.3074,
+            "drift": 0.483,
+            "total_transitions": 32851,
+            "delta_from_baseline_pp": -16.64
+          }
+        }
+      ]
+    },
+    "sweet_spot": {
+      "found": true,
+      "best_config": {
+        "strategy": "size_based",
+        "target_states": 15,
+        "actual_states": 15,
+        "volvelle_diameter_mm": 193,
+        "drift_admissibility": 0.5684,
+        "delta_pp": -8.1,
+        "combined_score": 0.8753
+      },
+      "all_viable": [
+        {
+          "strategy": "size_based",
+          "target_states": 15,
+          "actual_states": 15,
+          "volvelle_diameter_mm": 193,
+          "drift_admissibility": 0.5684,
+          "delta_pp": -8.1,
+          "combined_score": 0.8753
+        },
+        {
+          "strategy": "correction_based",
+          "target_states": 15,
+          "actual_states": 15,
+          "volvelle_diameter_mm": 193,
+          "drift_admissibility": 0.5593,
+          "delta_pp": -9.01,
+          "combined_score": 0.8613
+        }
+      ]
+    }
+  }
+}

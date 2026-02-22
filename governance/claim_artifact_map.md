@@ -391,6 +391,95 @@ raw float (e.g., 88.11% = 0.8811).
 
 ---
 
+## Phase 20 — State Machine + Codebook Architecture
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 188 | State indicator volvelle diameter | 549mm | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.state_indicator_device.volvelle.diameter_mm` | 4.58× Alberti |
+| 189 | Volvelle fits Apian range | NO | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.state_indicator_device.volvelle.fits_apian` | 1.57× Apian |
+| 190 | Tabula dimensions | 170×160mm | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.state_indicator_device.tabula.width_mm` | 10×5 grid |
+| 191 | Codebook total pages | 154 | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.codebook_estimation.total_pages` | 77 folios, 10 quires |
+| 192 | Largest window (W18) words | 396 | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.codebook_estimation.per_window[18].words` | 7 codebook pages |
+| 193 | Best hybrid device hit rate (N=20) | 34.1% | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.hybrid_analysis.configurations[6].device_hit_rate` | 998 words inscribed |
+| 194 | Any hybrid fits Apian? | NO | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.hybrid_analysis.best_apian_fit` | null = none fit |
+| 195 | Slip consistency with codebook model | HIGH | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.workflow_analysis.slip_consistency.consistency` | W18: 92.6% of slips |
+| 196 | Combined system verdict | IMPLAUSIBLE | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.plausibility_assessment.combined_verdict` | Volvelle form fails |
+| 197 | Resolves C1? | NO | `run_20a_codebook_architecture.py` | `results/data/phase20_state_machine/codebook_architecture.json` | `results.plausibility_assessment.resolves_c1` | 50 sectors too many for disc |
+
+---
+
+## Phase 20 — Window State Merging (Sprint 3)
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 198 | Baseline drift admissibility (50 states) | 0.4344 | `run_20b_state_merging.py` | `results/data/phase20_state_machine/state_merging.json` | `results.baseline.drift_admissibility` | Raw ±1, no corrections |
+| 199 | Viable configs found? | YES | `run_20b_state_merging.py` | `results/data/phase20_state_machine/state_merging.json` | `results.sweet_spot.found` | 2 configs meet thresholds |
+| 200 | Best sweet spot states | 15 | `run_20b_state_merging.py` | `results/data/phase20_state_machine/state_merging.json` | `results.sweet_spot.best_config.actual_states` | size_based strategy |
+| 201 | Best sweet spot volvelle diameter | 193mm | `run_20b_state_merging.py` | `results/data/phase20_state_machine/state_merging.json` | `results.sweet_spot.best_config.volvelle_diameter_mm` | Fits Llull range |
+| 202 | Best sweet spot drift admissibility | 0.5684 | `run_20b_state_merging.py` | `results/data/phase20_state_machine/state_merging.json` | `results.sweet_spot.best_config.drift_admissibility` | ≥55% threshold |
+| 203 | Best sweet spot combined score | 0.8753 | `run_20b_state_merging.py` | `results/data/phase20_state_machine/state_merging.json` | `results.sweet_spot.best_config.combined_score` | Retention × size |
+| 204 | Size-based 30-state fits Apian? | YES | `run_20b_state_merging.py` | `results/data/phase20_state_machine/state_merging.json` | `results.merge_results.size_based[2].volvelle.fits_apian` | 346mm at 30 states |
+| 205 | Correction-based mergeable windows | 18 | `run_20b_state_merging.py` | `results/data/phase20_state_machine/state_merging.json` | `results.merge_candidates.correction_mergeable` | 12 groups with 2+ members |
+
+---
+
+## Phase 20 — Non-Circular Device Forms (Sprint 4)
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 206 | Sliding strip unfolded length | 1600mm | `run_20c_linear_devices.py` | `results/data/phase20_state_machine/linear_devices.json` | `results.sliding_strip.unfolded_length_mm` | 50 × 32mm positions |
+| 207 | Sliding strip best fold | 10-fold, 160mm | `run_20c_linear_devices.py` | `results/data/phase20_state_machine/linear_devices.json` | `results.sliding_strip.best_fold.max_dim_mm` | PORTABLE |
+| 208 | Folding tabula best state-only panels | 2 | `run_20c_linear_devices.py` | `results/data/phase20_state_machine/linear_devices.json` | `results.folding_tabula.best_state_only.panels` | 170×85mm folded |
+| 209 | Folding tabula best annotated panels | 4 | `run_20c_linear_devices.py` | `results/data/phase20_state_machine/linear_devices.json` | `results.folding_tabula.best_annotated.panels` | 170×118mm folded |
+| 210 | Cipher grille verdict | MARGINAL | `run_20c_linear_devices.py` | `results/data/phase20_state_machine/linear_devices.json` | `results.cipher_grille.verdict` | Over-engineered |
+| 211 | Recommended device form | Tabula + codebook | `run_20c_linear_devices.py` | `results/data/phase20_state_machine/linear_devices.json` | `results.ranking.recommended` | Score 0.8650 |
+| 212 | PLAUSIBLE device count | 4/5 | `run_20c_linear_devices.py` | `results/data/phase20_state_machine/linear_devices.json` | `results.ranking.n_plausible` | All except grille |
+| 213 | Tabula + codebook combined score | 0.8650 | `run_20c_linear_devices.py` | `results/data/phase20_state_machine/linear_devices.json` | `results.ranking.recommended_score` | Highest historical precedent |
+
+---
+
+## Phase 20 — Manuscript Layout vs Codebook Structure (Sprint 6)
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 214 | Folios analyzed | 101 | `run_20d_layout_analysis.py` | `results/data/phase20_state_machine/layout_analysis.json` | `results.summary.n_folios` | All folios with mapped tokens |
+| 215 | Folios with W18 dominant | 101/101 | `run_20d_layout_analysis.py` | `results/data/phase20_state_machine/layout_analysis.json` | `results.folio_profiles` | 100% W18 dominance |
+| 216 | Within-section similarity | 0.9767 | `run_20d_layout_analysis.py` | `results/data/phase20_state_machine/layout_analysis.json` | `results.clustering.within_section_mean` | Cosine similarity |
+| 217 | Between-section similarity | 0.9771 | `run_20d_layout_analysis.py` | `results/data/phase20_state_machine/layout_analysis.json` | `results.clustering.between_section_mean` | Within ≤ between |
+| 218 | Clustering verdict | NOT SIGNIFICANT | `run_20d_layout_analysis.py` | `results/data/phase20_state_machine/layout_analysis.json` | `results.clustering.verdict` | p=1.00 |
+| 219 | Folio-window Spearman ρ | -0.0131 | `run_20d_layout_analysis.py` | `results/data/phase20_state_machine/layout_analysis.json` | `results.folio_window_correlation.spearman_r` | No correlation |
+| 220 | Codebook-like organization? | NO | `run_20d_layout_analysis.py` | `results/data/phase20_state_machine/layout_analysis.json` | `results.summary.codebook_like_organization` | Sections not distinct |
+
+---
+
+## Phase 20 — Per-Window Annotated Device Coverage (Sprint 7)
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 221 | W18 top-3 coverage of W18 | 9.5% | `run_20e_annotated_device.py` | `results/data/phase20_state_machine/annotated_device.json` | `results.per_window_coverage.w18_detail.top3_coverage_of_window` | Highly dispersed |
+| 222 | Uniform top-10 global coverage | 22.3% | `run_20e_annotated_device.py` | `results/data/phase20_state_machine/annotated_device.json` | `results.per_window_coverage.global_uniform.10.coverage` | 500 words inscribed |
+| 223 | Greedy B=50 consultation rate | 70.1% | `run_20e_annotated_device.py` | `results/data/phase20_state_machine/annotated_device.json` | `results.optimal_allocation.budget_results[0].consultation_rate` | First below 80% |
+| 224 | Greedy B=200 coverage | 51.0% | `run_20e_annotated_device.py` | `results/data/phase20_state_machine/annotated_device.json` | `results.optimal_allocation.budget_results[3].coverage` | 155/200 words go to W18 |
+| 225 | Annotated tabula verdict | MARGINAL | `run_20e_annotated_device.py` | `results/data/phase20_state_machine/annotated_device.json` | `results.annotated_tabula.verdict` | OVERSIZED physically |
+| 226 | Codebook reduction | 2.3% | `run_20e_annotated_device.py` | `results/data/phase20_state_machine/annotated_device.json` | `results.annotated_tabula.codebook_reduction.reduction_fraction` | Minimal impact |
+
+---
+
+## Phase 20 — Scribal Hand × Device Correspondence (Sprint 8)
+
+| # | Claim | Value | Script | Output File | Key Path | Notes |
+|---|-------|-------|--------|-------------|----------|-------|
+| 227 | Hand 1 tokens | 9,821 | `run_20f_hand_analysis.py` | `results/data/phase20_state_machine/hand_analysis.json` | `results.summary.hand1_tokens` | f1-f66 |
+| 228 | Hand 2 tokens | 16,108 | `run_20f_hand_analysis.py` | `results/data/phase20_state_machine/hand_analysis.json` | `results.summary.hand2_tokens` | f75-84, f103-116 |
+| 229 | Window profile similarity (JSD) | 0.012 | `run_20f_hand_analysis.py` | `results/data/phase20_state_machine/hand_analysis.json` | `results.profiles.comparison.jsd` | SIMILAR profiles |
+| 230 | Shared vocabulary fraction | 15.6% | `run_20f_hand_analysis.py` | `results/data/phase20_state_machine/hand_analysis.json` | `results.summary.shared_vocab_fraction` | Low type overlap |
+| 231 | Hand 1 drift admissibility | 56.1% | `run_20f_hand_analysis.py` | `results/data/phase20_state_machine/hand_analysis.json` | `results.admissibility.Hand 1.rate` | Lower than Hand 2 |
+| 232 | Hand 2 drift admissibility | 64.5% | `run_20f_hand_analysis.py` | `results/data/phase20_state_machine/hand_analysis.json` | `results.admissibility.Hand 2.rate` | z=-13.60, p≈0 |
+| 233 | Admissibility comparison | SIGNIFICANTLY DIFFERENT | `run_20f_hand_analysis.py` | `results/data/phase20_state_machine/hand_analysis.json` | `results.admissibility.comparison.verdict` | Δ=-8.5pp |
+| 234 | Hand × device verdict | SPECIALIST PROFILES | `run_20f_hand_analysis.py` | `results/data/phase20_state_machine/hand_analysis.json` | `results.synthesis.verdict` | Same device, different fluency |
+
+---
+
 ## Traceability Notes
 
 1. **Publication config values:** Repetition rate and mapping stability are now
@@ -417,7 +506,7 @@ raw float (e.g., 88.11% = 0.8811).
 
 | Status | Count | Claims |
 |---|---|---|
-| **Fully verifiable** (JSON key path exists) | 187 | #1-187 |
+| **Fully verifiable** (JSON key path exists) | 234 | #1-234 |
 | **Console-only** (requires script re-run) | 0 | — |
 | **Report-only** (value in Markdown report, not JSON) | 0 | — |
 | **Static config** (manually synchronized) | 0 | — |
@@ -442,6 +531,12 @@ Claims #164-170 added for Opportunity F: Subset Device Architecture (2026-02-21)
 Claims #171-179 added for Opportunity G: Per-Section Device Analysis (2026-02-22).
 Claims #180-187 added for Opportunity H: Hapax Suffix Integration (2026-02-22).
 Claims #2-5 converted to structured claim artifacts during Cleanup 6 (2026-02-22).
+Claims #188-197 added for Phase 20: State Machine + Codebook Architecture (2026-02-22).
+Claims #198-205 added for Phase 20 Sprint 3: Window State Merging (2026-02-22).
+Claims #206-213 added for Phase 20 Sprint 4: Non-Circular Device Forms (2026-02-22).
+Claims #214-220 added for Phase 20 Sprint 6: Manuscript Layout vs Codebook Structure (2026-02-22).
+Claims #221-226 added for Phase 20 Sprint 7: Per-Window Annotated Device Coverage (2026-02-22).
+Claims #227-234 added for Phase 20 Sprint 8: Scribal Hand × Device Correspondence (2026-02-22).
 
 ---
 
