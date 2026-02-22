@@ -10,9 +10,9 @@
 
 This document provides a step-by-step path for an external party to reproduce
 every quantitative claim in the publication from source code and raw data. The
-project spans 17 release-canonical research phases, with the publication covering Phases 1-17
-(Phase 11 Stroke Topology reached fast-kill termination; Phase 13 Demonstration
-is a visualization-only phase).
+project spans 18 release-canonical research phases (Phases 1-17 and 20).
+Phase 11 Stroke Topology reached fast-kill termination; Phase 13 Demonstration
+is a visualization-only phase.
 
 Exploratory/post-publication phases (18-19) are tracked separately and are not
 part of the default release-canonical replication path. See

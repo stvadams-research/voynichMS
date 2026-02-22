@@ -1,7 +1,7 @@
 # Engineering Runbook
 
 > **Single-command replication:** `python3 scripts/support_preparation/replicate_all.py`
-> covers all 17 release-canonical phases (Phases 1-17) end-to-end. For full
+> covers all 18 release-canonical phases (Phases 1-17 and 20) end-to-end. For full
 > external reproduction guide (including data acquisition and claim traceability),
 > see `replicateResults.md`. For release-canonical vs exploratory scope,
 > see `governance/RELEASE_SCOPE.md`.

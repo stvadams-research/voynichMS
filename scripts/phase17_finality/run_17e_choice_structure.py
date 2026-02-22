@@ -47,6 +47,9 @@ def sanitize(obj):
     return obj
 
 CHOICE_STREAM_PATH = (
+    project_root / "results/data/phase15_rule_extraction/choice_stream_trace.json"
+)
+LEGACY_CHOICE_STREAM_PATH = (
     project_root / "results/data/phase15_selection/choice_stream_trace.json"
 )
 OUTPUT_PATH = project_root / "results/data/phase17_finality/choice_structure.json"
@@ -54,6 +57,17 @@ console = Console()
 
 MAX_LAG = 50
 N_PERMUTATIONS = 1000
+
+
+def resolve_choice_stream_path() -> Path:
+    if CHOICE_STREAM_PATH.exists():
+        return CHOICE_STREAM_PATH
+    if LEGACY_CHOICE_STREAM_PATH.exists():
+        return LEGACY_CHOICE_STREAM_PATH
+    raise FileNotFoundError(
+        "Choice stream trace missing. Checked "
+        f"{CHOICE_STREAM_PATH} and {LEGACY_CHOICE_STREAM_PATH}."
+    )
 
 
 # ── A3.1: Residual Choice-Index Stream ───────────────────────────────
@@ -377,10 +391,9 @@ def main():
     console.rule("[bold magenta]Sprint A3: Structure Detection in the Choice Stream")
 
     # Load
-    if not CHOICE_STREAM_PATH.exists():
-        console.print("[red]Error: Choice stream trace missing.[/red]")
-        return
-    with open(CHOICE_STREAM_PATH) as f:
+    choice_stream_path = resolve_choice_stream_path()
+    console.print(f"Using choice stream: {choice_stream_path}")
+    with open(choice_stream_path) as f:
         trace = json.load(f)
     choices = trace.get("results", trace).get("choices", [])
     console.print(f"Loaded {len(choices)} choice records.")

@@ -40,7 +40,8 @@ DB_PATH = "sqlite:///data/voynich.db"
 PALETTE_PATH = project_root / "results/data/phase14_machine/full_palette_grid.json"
 OFFSETS_PATH = project_root / "results/data/phase14_machine/canonical_offsets.json"
 PHYS_PATH = project_root / "results/data/phase14_machine/physical_integration.json"
-CHOICE_PATH = project_root / "results/data/phase15_selection/choice_stream_trace.json"
+CHOICE_PATH = project_root / "results/data/phase15_rule_extraction/choice_stream_trace.json"
+LEGACY_CHOICE_PATH = project_root / "results/data/phase15_selection/choice_stream_trace.json"
 OUTPUT_PATH = project_root / "results/data/phase17_finality/device_specification.json"
 
 # 15th-century physical constraints
@@ -539,14 +540,19 @@ def main():
     lines, folios = load_lines_with_folios(store)
 
     # Load choices
-    choices = []
-    if CHOICE_PATH.exists():
-        with open(CHOICE_PATH) as f:
-            cdata = json.load(f)
-        choices = cdata.get("results", cdata).get("choices", [])
+    choice_path = CHOICE_PATH if CHOICE_PATH.exists() else LEGACY_CHOICE_PATH
+    if not choice_path.exists():
+        raise FileNotFoundError(
+            "Choice stream trace missing. Checked "
+            f"{CHOICE_PATH} and {LEGACY_CHOICE_PATH}."
+        )
+    with open(choice_path) as f:
+        cdata = json.load(f)
+    choices = cdata.get("results", cdata).get("choices", [])
 
     console.print(f"  Palette: {len(lattice_map)} words, {NUM_WINDOWS} windows")
     console.print(f"  Corpus: {len(lines)} lines")
+    console.print(f"  Choice stream: {choice_path}")
     console.print(f"  Choices: {len(choices)} decisions")
 
     # Sprint C1

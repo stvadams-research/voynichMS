@@ -10,13 +10,16 @@ work so external researchers can reproduce claims without ambiguity.
 
 ## 1. Release-Canonical Scope
 
-The current release-canonical replication surface is **Phases 1-17**.
+The current release-canonical replication surface is **Phases 1-17 and 20**
+(18 phases total).
 
 Primary entrypoint:
 
 ```bash
 python3 scripts/support_preparation/replicate_all.py
 ```
+
+Default orchestration runs release-canonical phases only (1-17, 20).
 
 Canonical phase definitions are sourced from:
 

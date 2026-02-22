@@ -18,13 +18,14 @@ If it only adds structure, it does not belong here.
 
 ---
 
-## Current Status: 17 Release-Canonical Phases Complete
+## Current Status: 18 Release-Canonical Phases Complete
 
-The project has executable phase runners through **Phase 17**, an automated
+The project has executable phase runners through **Phase 20**, an automated
 **Visualization Layer**, and a **Publication Framework** for academic-grade reporting.
 
-Exploratory extensions (Phases 18-19) are implemented but are currently outside
-the default release-canonical replication contract. See
+Release-canonical replication currently includes **Phases 1-17 and Phase 20**.
+Exploratory extensions (Phases 18-19) are implemented but remain outside the
+default release-canonical replication contract. See
 [governance/RELEASE_SCOPE.md](governance/RELEASE_SCOPE.md).
 
 ### Research Phases
@@ -47,6 +48,9 @@ the default release-canonical replication contract. See
 15. **Phase 15 (Rule Formalization)**: Extraction of the declarative rule table and choice stream instrumentation.
 16. **Phase 16 (Physical Grounding)**: Ergonomic and geometric verification of the 10x5 sliding grille.
 17. **Phase 17 (Finality)**: Physical synthesis (blueprints) and steganographic bandwidth boundary mapping.
+18. **Phase 18 (Comparative Signature Program)**: Cross-corpus structural signature definition and discrimination.
+19. **Phase 19 (Alignment Evaluation)**: Line-conditioned and retrieval-edit baselines against held-out folios.
+20. **Phase 20 (State Machine Architecture)**: Tabula+codebook production model synthesis and physical plausibility ranking.
 
 ### Key Findings
 1.  **Natural-language/simple-cipher hypotheses are not supported:** Mapping stability tests (0.02) and control comparisons do not isolate the manuscript as linguistic.
@@ -68,7 +72,7 @@ python3 scripts/support_preparation/replicate_all.py
 ```
 
 The runner is manifest-driven (`configs/project/phase_manifest.json`) and
-defaults to release-canonical phases (1-17). To include exploratory phases
+defaults to release-canonical phases (1-17, 20). To include exploratory phases
 (18-19), run:
 
 ```bash
@@ -76,8 +80,9 @@ python3 scripts/support_preparation/replicate_all.py --include-exploratory
 ```
 
 ### Manual Generation
-*   **Full Publication (Word)**: `python3 scripts/support_preparation/generate_publication.py`
-*   **Individual Phase Report**: `python3 scripts/support_preparation/generate_publication.py --phase [1-17]`
+*   **Full Publication (Word)**: `python3 scripts/support_preparation/generate_publication.py --profile full`
+*   **Research Summary (Word)**: `python3 scripts/support_preparation/generate_publication.py --profile summary`
+*   **Technical Publication (Word)**: `python3 scripts/support_preparation/generate_publication.py --profile technical`
 
 Outputs are saved to `results/publication/`.
 
@@ -97,7 +102,7 @@ python3 scripts/phase0_data/download_external_data.py
 # 3. Populate the database (~5-15 min)
 python3 scripts/phase1_foundation/populate_database.py
 
-# 4. Run full replication (all 17 phases, ~3-6 hours)
+# 4. Run full replication (18 release-canonical phases, ~4-8 hours)
 python3 scripts/support_preparation/replicate_all.py
 
 # 5. Verify determinism (optional, re-runs key phases twice and compares)
@@ -135,7 +140,7 @@ directory layout.
 | [governance/methods_reference.md](governance/methods_reference.md) | Statistical methods and formal test designs |
 | [governance/runbook.md](governance/runbook.md) | Operational procedures for running the pipeline |
 | [governance/claim_artifact_map.md](governance/claim_artifact_map.md) | Maps 154 tracked claims (154 fully verifiable) to artifact paths |
-| [governance/RELEASE_SCOPE.md](governance/RELEASE_SCOPE.md) | Defines release-canonical (Phases 1-17) vs exploratory scope |
+| [governance/RELEASE_SCOPE.md](governance/RELEASE_SCOPE.md) | Defines release-canonical (Phases 1-17 and 20) vs exploratory scope |
 | [governance/THRESHOLDS_RATIONALE.md](governance/THRESHOLDS_RATIONALE.md) | Why each threshold/parameter has its value |
 | [governance/PAPER_CODE_CONCORDANCE.md](governance/PAPER_CODE_CONCORDANCE.md) | Paper sections mapped to code and scripts |
 | [governance/PHASE_10_METHODS_SUMMARY.md](governance/PHASE_10_METHODS_SUMMARY.md) | Phase 10 adversarial methods: designs, outcomes |

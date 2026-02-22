@@ -25,6 +25,9 @@ from phase1_foundation.core.provenance import ProvenanceWriter  # noqa: E402
 from phase1_foundation.runs.manager import active_run  # noqa: E402
 
 CHOICE_STREAM_PATH = (
+    project_root / "results/data/phase15_rule_extraction/choice_stream_trace.json"
+)
+LEGACY_CHOICE_STREAM_PATH = (
     project_root / "results/data/phase15_selection/choice_stream_trace.json"
 )
 RSB_PATH = project_root / "results/data/phase17_finality/residual_bandwidth.json"
@@ -113,6 +116,17 @@ def bits_to_text(bits):
             byte = (byte << 1) | bits[i + j]
         chars.append(chr(byte))
     return "".join(chars)
+
+
+def resolve_choice_stream_path() -> Path:
+    if CHOICE_STREAM_PATH.exists():
+        return CHOICE_STREAM_PATH
+    if LEGACY_CHOICE_STREAM_PATH.exists():
+        return LEGACY_CHOICE_STREAM_PATH
+    raise FileNotFoundError(
+        "Choice stream trace missing. Checked "
+        f"{CHOICE_STREAM_PATH} and {LEGACY_CHOICE_STREAM_PATH}."
+    )
 
 
 def encode_into_choices(message_bits, alphabet_sizes):
@@ -252,10 +266,9 @@ def main():
     console.rule("[bold magenta]Sprint A2: The Latin Test")
 
     # Load choice stream
-    if not CHOICE_STREAM_PATH.exists():
-        console.print("[red]Error: Choice stream trace missing.[/red]")
-        return
-    with open(CHOICE_STREAM_PATH) as f:
+    choice_stream_path = resolve_choice_stream_path()
+    console.print(f"Using choice stream: {choice_stream_path}")
+    with open(choice_stream_path) as f:
         trace = json.load(f)
     choices = trace.get("results", trace).get("choices", [])
     console.print(f"Loaded {len(choices)} choice records.")
